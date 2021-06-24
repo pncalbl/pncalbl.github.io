@@ -191,7 +191,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      15.8k 字
+      20.7k 字
     </span>
   
 
@@ -201,7 +201,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      204
+      275
        分钟
     </span>
   
@@ -235,7 +235,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：3 小时前
+                  本文最后更新于：14 分钟前
                 
               </p>
             
@@ -1867,16 +1867,13 @@ NettyClientHandler.java
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//绑定一个端口并且同步,生成了一个ChannelFuture对象</span>
 <span class="hljs-comment">//启动服务器(并绑定端口)</span>
 ChannelFuture cf = bootstrap.bind(<span class="hljs-number">6668</span>).sync();
-<span class="hljs-comment">//给cf注册监听器，监控我们关心的事件</span>
-cf.addListener(<span class="hljs-keyword">new</span> ChannelFutureListener() &#123;
-   <span class="hljs-meta">@Override</span>
-   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">operationComplete</span> <span class="hljs-params">(ChannelFuture future)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
-      <span class="hljs-keyword">if</span> (cf.isSuccess()) &#123;
-         System.out.println(<span class="hljs-string">&quot;监听端口6668成功&quot;</span>);
-      &#125; <span class="hljs-keyword">else</span> &#123;
-         System.out.println(<span class="hljs-string">&quot;监听端口6668失败&quot;</span>);
-      &#125;
-   &#125;
+<span class="hljs-comment">//给cf 注册监听器，监控我们关心的事件</span>
+cf.addListener((ChannelFutureListener) future -&gt; &#123;
+    <span class="hljs-keyword">if</span> (cf.isSuccess()) &#123;
+        System.out.println(<span class="hljs-string">&quot;监听端口 6668 成功&quot;</span>);
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        System.out.println(<span class="hljs-string">&quot;监听端口 6668 失败&quot;</span>);
+    &#125;
 &#125;);</code></pre></div>
 
 <h3 id="5-10-快速入门实例-HTTP服务"><a href="#5-10-快速入门实例-HTTP服务" class="headerlink" title="5.10 快速入门实例 - HTTP服务"></a>5.10 快速入门实例 - HTTP服务</h3><ol>
@@ -2012,6 +2009,746 @@ TestHttpServerHandler.java
         &#125;
     &#125;
 &#125;</code></pre></div>
+
+<h2 id="6-Netty-核心模块组件"><a href="#6-Netty-核心模块组件" class="headerlink" title="6 Netty 核心模块组件"></a>6 Netty 核心模块组件</h2><h3 id="6-1-Bootstrap、ServerBootstrap"><a href="#6-1-Bootstrap、ServerBootstrap" class="headerlink" title="6.1 Bootstrap、ServerBootstrap"></a>6.1 Bootstrap、ServerBootstrap</h3><ol>
+<li><code>Bootstrap</code> 意思是引导，一个 <code>Netty</code> 应用通常由一个 <code>Bootstrap</code> 开始，主要作用是配置整个 <code>Netty</code> 程序，串联各个组件，<code>Netty</code> 中 <code>Bootstrap</code> 类是客户端程序的启动引导类，<code>ServerBootstrap</code> 是服务端启动引导类。</li>
+<li>常见的方法有<ul>
+<li><code>public ServerBootstrap group(EventLoopGroup parentGroup, EventLoopGroup childGroup)</code>，该方法用于服务器端，用来设置两个 <code>EventLoop</code></li>
+<li><code>public B group(EventLoopGroup group)</code>，该方法用于客户端，用来设置一个 <code>EventLoop</code></li>
+<li><code>public B channel(Class&lt;? extends C&gt; channelClass)</code>，该方法用来设置一个服务器端的通道实现</li>
+<li><code>public &lt;T&gt; B option(ChannelOption&lt;T&gt; option, T value)</code>，用来给 <code>ServerChannel</code> 添加配置</li>
+<li><code>public &lt;T&gt; ServerBootstrap childOption(ChannelOption&lt;T&gt; childOption, T value)</code>，用来给接收到的通道添加配置</li>
+<li><code>public ServerBootstrap childHandler(ChannelHandler childHandler)</code>，该方法用来设置业务处理类（自定义的<code>handler</code>）</li>
+<li><code>public ChannelFuture bind(int inetPort)</code>，该方法用于服务器端，用来设置占用的端口号</li>
+<li><code>public ChannelFuture connect(String inetHost, int inetPort)</code>，该方法用于客户端，用来连接服务器端</li>
+</ul>
+</li>
+</ol>
+<h3 id="6-2-Future、ChannelFuture"><a href="#6-2-Future、ChannelFuture" class="headerlink" title="6.2 Future、ChannelFuture"></a>6.2 Future、ChannelFuture</h3><p><code>Netty</code> 中所有的 <code>IO</code> 操作都是异步的，不能立刻得知消息是否被正确处理。但是可以过一会等它执行完成或者直接注册一个监听，具体的实现就是通过 <code>Future</code> 和 <code>ChannelFutures</code>，他们可以注册一个监听，当操作执行成功或失败时监听会自动触发注册的监听事件</p>
+<p>常见的方法有</p>
+<ul>
+<li><code>Channel channel()</code>，返回当前正在进行 <code>IO</code> 操作的通道</li>
+<li><code>ChannelFuture sync()</code>，等待异步操作执行完毕</li>
+</ul>
+<h3 id="6-3-Channel"><a href="#6-3-Channel" class="headerlink" title="6.3 Channel"></a>6.3 Channel</h3><ol>
+<li><p><code>Netty</code> 网络通信的组件，能够用于执行网络 <code>I/O</code> 操作。</p>
+</li>
+<li><p>通过 <code>Channel</code> 可获得当前网络连接的通道的状态</p>
+</li>
+<li><p>通过 <code>Channel</code> 可获得网络连接的配置参数（例如接收缓冲区大小）</p>
+</li>
+<li><p><code>Channel</code> 提供异步的网络 <code>I/O</code> 操作(如建立连接，读写，绑定端口)，异步调用意味着任何 <code>I/O</code> 调用都将立即返回，并且不保证在调用结束时所请求的 <code>I/O</code> 操作已完成</p>
+</li>
+<li><p>调用立即返回一个 <code>ChannelFuture</code> 实例，通过注册监听器到 <code>ChannelFuture</code> 上，可以 <code>I/O</code> 操作成功、失败或取消时回调通知调用方</p>
+</li>
+<li><p>支持关联 <code>I/O</code> 操作与对应的处理程序</p>
+</li>
+<li><p>不同协议、不同的阻塞类型的连接都有不同的 <code>Channel</code>类型与之对应，常用的<code>Channel</code>类型：</p>
+<ul>
+<li><code>NioSocketChannel</code>，异步的客户端 <code>TCP</code> <code>Socket</code> 连接。</li>
+<li><code>NioServerSocketChannel</code>，异步的服务器端 <code>TCP</code> <code>Socket</code> 连接。</li>
+<li><code>NioDatagramChannel</code>，异步的 <code>UDP</code> 连接。</li>
+<li><code>NioSctpChannel</code>，异步的客户端 <code>Sctp</code> 连接。</li>
+<li><code>NioSctpServerChannel</code>，异步的 <code>Sctp</code> 服务器端连接，这些通道涵盖了 <code>UDP</code> 和 <code>TCP</code> 网络 <code>IO</code> 以及文件 <code>IO</code>。</li>
+</ul>
+</li>
+</ol>
+<h3 id="6-4-Selector"><a href="#6-4-Selector" class="headerlink" title="6.4 Selector"></a>6.4 Selector</h3><ol>
+<li><code>Netty</code> 基于 <code>Selector</code> 对象实现 <code>I/O</code> 多路复用，通过 <code>Selector</code> 一个线程可以监听多个连接的 <code>Channel</code> 事件。</li>
+<li>当向一个 <code>Selector</code> 中注册 <code>Channel</code> 后，<code>Selector</code> 内部的机制就可以自动不断地查询（<code>Select</code>）这些注册的 <code>Channel</code> 是否有已就绪的 <code>I/O</code> 事件（例如可读，可写，网络连接完成等），这样程序就可以很简单地使用一个线程高效地管理多个 <code>Channel</code></li>
+</ol>
+<h3 id="6-5-ChannelHandler-及其实现类"><a href="#6-5-ChannelHandler-及其实现类" class="headerlink" title="6.5 ChannelHandler 及其实现类"></a>6.5 ChannelHandler 及其实现类</h3><ol>
+<li><code>ChannelHandler</code> 是一个接口，处理 <code>I/O</code> 事件或拦截 <code>I/O</code> 操作，并将其转发到其 <code>ChannelPipeline</code>（业务处理链）中的下一个处理程序。</li>
+<li><code>ChannelHandler</code> 本身并没有提供很多方法，因为这个接口有许多的方法需要实现，方便使用期间，可以继承它的子类</li>
+<li><code>ChannelHandler</code> 及其实现类一览图（后）</li>
+</ol>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/22/Netty%E5%AD%A6%E4%B9%A0/chapter06_01.png" alt="img"></p>
+<ol>
+<li>我们经常需要自定义一个 <code>Handler</code> 类去继承 <code>ChannelInboundHandlerAdapter</code>，然后通过重写相应方法实现业务逻辑，我们接下来看看一般都需要重写哪些方法</li>
+</ol>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/22/Netty%E5%AD%A6%E4%B9%A0/chapter06_02.png" alt="img"></p>
+<h3 id="6-6-Pipeline-和-ChannelPipelin"><a href="#6-6-Pipeline-和-ChannelPipelin" class="headerlink" title="6.6 Pipeline 和 ChannelPipelin"></a>6.6 Pipeline 和 ChannelPipelin</h3><p><code>ChannelPipeline</code> 是一个重点：</p>
+<ol>
+<li><code>ChannelPipeline</code> 是一个 <code>Handler</code> 的集合，它负责处理和拦截 <code>inbound</code> 或者 <code>outbound</code> 的事件和操作，相当于一个贯穿 <code>Netty</code> 的链。（也可以这样理解：<code>ChannelPipeline</code> 是保存 <code>ChannelHandler</code> 的 <code>List</code>，用于处理或拦截 <code>Channel</code> 的入站事件和出站操作）</li>
+<li><code>ChannelPipeline</code> 实现了一种高级形式的拦截过滤器模式，使用户可以完全控制事件的处理方式，以及 <code>Channel</code> 中各个的 <code>ChannelHandler</code> 如何相互交互</li>
+<li>在 <code>Netty</code> 中每个 <code>Channel</code> 都有且仅有一个 <code>ChannelPipeline</code> 与之对应，它们的组成关系如下</li>
+</ol>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/22/Netty%E5%AD%A6%E4%B9%A0/chapter06_03.png" alt="img"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/22/Netty%E5%AD%A6%E4%B9%A0/chapter06_04.png" alt="img"></p>
+<ol>
+<li>常用方法 <code>ChannelPipeline addFirst(ChannelHandler... handlers)</code>，把一个业务处理类（<code>handler</code>）添加到链中的第一个位置<code>ChannelPipeline addLast(ChannelHandler... handlers)</code>，把一个业务处理类（<code>handler</code>）添加到链中的最后一个位置</li>
+</ol>
+<h3 id="6-7-ChannelHandlerContext"><a href="#6-7-ChannelHandlerContext" class="headerlink" title="6.7 ChannelHandlerContext"></a>6.7 ChannelHandlerContext</h3><ol>
+<li>保存 <code>Channel</code> 相关的所有上下文信息，同时关联一个 <code>ChannelHandler</code> 对象</li>
+<li>即 <code>ChannelHandlerContext</code> 中包含一个具体的事件处理器 <code>ChannelHandler</code>，同时 <code>ChannelHandlerContext</code> 中也绑定了对应的 <code>pipeline</code> 和 <code>Channel</code> 的信息，方便对 <code>ChannelHandler</code> 进行调用。</li>
+<li>常用方法<ul>
+<li><code>ChannelFuture close()</code>，关闭通道</li>
+<li><code>ChannelOutboundInvoker flush()</code>，刷新</li>
+<li><code>ChannelFuture writeAndFlush(Object msg)</code>，将数据写到</li>
+<li><code>ChannelPipeline</code> 中当前 <code>ChannelHandler</code> 的下一个 <code>ChannelHandler</code> 开始处理（出站）</li>
+</ul>
+</li>
+</ol>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/22/Netty%E5%AD%A6%E4%B9%A0/chapter06_05.png" alt="img"></p>
+<h3 id="6-8-ChannelOption"><a href="#6-8-ChannelOption" class="headerlink" title="6.8 ChannelOption"></a>6.8 ChannelOption</h3><ol>
+<li><code>Netty</code> 在创建 <code>Channel</code> 实例后，一般都需要设置 <code>ChannelOption</code> 参数。</li>
+<li><code>ChannelOption</code> 参数如下：</li>
+</ol>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/22/Netty%E5%AD%A6%E4%B9%A0/chapter06_06.png" alt="img"></p>
+<h3 id="6-9-EventLoopGroup-和其实现类-NioEventLoopGroup"><a href="#6-9-EventLoopGroup-和其实现类-NioEventLoopGroup" class="headerlink" title="6.9 EventLoopGroup 和其实现类 NioEventLoopGroup"></a>6.9 EventLoopGroup 和其实现类 NioEventLoopGroup</h3><ol>
+<li><code>EventLoopGroup</code> 是一组 <code>EventLoop</code> 的抽象，<code>Netty</code> 为了更好的利用多核 <code>CPU</code> 资源，一般会有多个 <code>EventLoop</code> 同时工作，每个 <code>EventLoop</code> 维护着一个 <code>Selector</code> 实例。</li>
+<li><code>EventLoopGroup</code> 提供 <code>next</code> 接口，可以从组里面按照一定规则获取其中一个 <code>EventLoop</code> 来处理任务。在 <code>Netty</code> 服务器端编程中，我们一般都需要提供两个 <code>EventLoopGroup</code>，例如：<code>BossEventLoopGroup</code> 和 <code>WorkerEventLoopGroup</code>。</li>
+<li>通常一个服务端口即一个 <code>ServerSocketChannel</code> 对应一个 <code>Selector</code> 和一个 <code>EventLoop</code> 线程。<code>BossEventLoop</code> 负责接收客户端的连接并将 <code>SocketChannel</code> 交给 <code>WorkerEventLoopGroup</code> 来进行 <code>IO</code> 处理，如下图所示</li>
+</ol>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/22/Netty%E5%AD%A6%E4%B9%A0/chapter06_07.png" alt="img"></p>
+<ol>
+<li>常用方法 <code>public NioEventLoopGroup()</code>，构造方法 <code>public Future&lt;?&gt; shutdownGracefully()</code>，断开连接，关闭线程</li>
+</ol>
+<h3 id="6-10-Unpooled-类"><a href="#6-10-Unpooled-类" class="headerlink" title="6.10 Unpooled 类"></a>6.10 Unpooled 类</h3><ol>
+<li><code>Netty</code> 提供一个专门用来操作缓冲区（即 <code>Netty</code> 的数据容器）的工具类</li>
+<li>常用方法如下所示</li>
+</ol>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/22/Netty%E5%AD%A6%E4%B9%A0/chapter06_08.png" alt="img"></p>
+<ol>
+<li>举例说明 <code>Unpooled</code> 获取 <code>Netty</code> 的数据容器 <code>ByteBuf</code> 的基本使用【案例演示】</li>
+</ol>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/22/Netty%E5%AD%A6%E4%B9%A0/chapter06_09.png" alt="img"></p>
+<p>案例 1</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.atguigu.netty.buf;
+
+<span class="hljs-keyword">import</span> io.netty.buffer.ByteBuf;
+<span class="hljs-keyword">import</span> io.netty.buffer.Unpooled;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NettyByteBuf01</span> </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        
+        <span class="hljs-comment">//创建一个ByteBuf</span>
+        <span class="hljs-comment">//说明</span>
+        <span class="hljs-comment">//1. 创建 对象，该对象包含一个数组arr , 是一个byte[10]</span>
+        <span class="hljs-comment">//2. 在netty 的buffer中，不需要使用flip 进行反转</span>
+        <span class="hljs-comment">//   底层维护了 readerindex 和 writerIndex</span>
+        <span class="hljs-comment">//3. 通过 readerindex 和  writerIndex 和  capacity， 将buffer分成三个区域</span>
+        <span class="hljs-comment">// 0---readerindex 已经读取的区域</span>
+        <span class="hljs-comment">// readerindex---writerIndex ， 可读的区域</span>
+        <span class="hljs-comment">// writerIndex -- capacity, 可写的区域</span>
+        ByteBuf buffer = Unpooled.buffer(<span class="hljs-number">10</span>);
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) &#123;
+            buffer.writeByte(i);
+        &#125;
+
+        System.out.println(<span class="hljs-string">&quot;capacity=&quot;</span> + buffer.capacity());<span class="hljs-comment">//10</span>
+        <span class="hljs-comment">//输出</span>
+<span class="hljs-comment">//        for(int i = 0; i&lt;buffer.capacity(); i++) &#123;</span>
+<span class="hljs-comment">//            System.out.println(buffer.getByte(i));</span>
+<span class="hljs-comment">//        &#125;</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; buffer.capacity(); i++) &#123;
+            System.out.println(buffer.readByte());
+        &#125;
+        System.out.println(<span class="hljs-string">&quot;执行完毕&quot;</span>);
+    &#125;
+&#125;Copy to clipboardErrorCopied</code></pre></div>
+
+<p>案例 2</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.atguigu.netty.buf;
+
+<span class="hljs-keyword">import</span> io.netty.buffer.ByteBuf;
+<span class="hljs-keyword">import</span> io.netty.buffer.Unpooled;
+
+<span class="hljs-keyword">import</span> java.nio.charset.Charset;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NettyByteBuf02</span> </span>&#123;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+
+        <span class="hljs-comment">//创建ByteBuf</span>
+        ByteBuf byteBuf = Unpooled.copiedBuffer(<span class="hljs-string">&quot;hello,world!&quot;</span>, Charset.forName(<span class="hljs-string">&quot;utf-8&quot;</span>));
+
+        <span class="hljs-comment">//使用相关的方法</span>
+        <span class="hljs-keyword">if</span> (byteBuf.hasArray()) &#123; <span class="hljs-comment">// true</span>
+
+            <span class="hljs-keyword">byte</span>[] content = byteBuf.array();
+
+            <span class="hljs-comment">//将 content 转成字符串</span>
+            System.out.println(<span class="hljs-keyword">new</span> String(content, Charset.forName(<span class="hljs-string">&quot;utf-8&quot;</span>)));
+
+            System.out.println(<span class="hljs-string">&quot;byteBuf=&quot;</span> + byteBuf);
+
+            System.out.println(byteBuf.arrayOffset()); <span class="hljs-comment">// 0</span>
+            System.out.println(byteBuf.readerIndex()); <span class="hljs-comment">// 0</span>
+            System.out.println(byteBuf.writerIndex()); <span class="hljs-comment">// 12</span>
+            System.out.println(byteBuf.capacity()); <span class="hljs-comment">// 36</span>
+
+            <span class="hljs-comment">//System.out.println(byteBuf.readByte()); //</span>
+            System.out.println(byteBuf.getByte(<span class="hljs-number">0</span>)); <span class="hljs-comment">// 104</span>
+
+            <span class="hljs-keyword">int</span> len = byteBuf.readableBytes(); <span class="hljs-comment">//可读的字节数  12</span>
+            System.out.println(<span class="hljs-string">&quot;len=&quot;</span> + len);
+
+            <span class="hljs-comment">//使用for取出各个字节</span>
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) &#123;
+                System.out.println((<span class="hljs-keyword">char</span>) byteBuf.getByte(i));
+            &#125;
+
+            <span class="hljs-comment">//按照某个范围读取</span>
+            System.out.println(byteBuf.getCharSequence(<span class="hljs-number">0</span>, <span class="hljs-number">4</span>, Charset.forName(<span class="hljs-string">&quot;utf-8&quot;</span>)));
+            System.out.println(byteBuf.getCharSequence(<span class="hljs-number">4</span>, <span class="hljs-number">6</span>, Charset.forName(<span class="hljs-string">&quot;utf-8&quot;</span>)));
+        &#125;
+    &#125;
+&#125;Copy to clipboardErrorCopied</code></pre></div>
+
+<h3 id="6-11-Netty-应用实例-群聊系统"><a href="#6-11-Netty-应用实例-群聊系统" class="headerlink" title="6.11 Netty 应用实例-群聊系统"></a>6.11 Netty 应用实例-群聊系统</h3><p>实例要求：</p>
+<ol>
+<li>编写一个 <code>Netty</code> 群聊系统，实现服务器端和客户端之间的数据简单通讯（非阻塞）</li>
+<li>实现多人群聊</li>
+<li>服务器端：可以监测用户上线，离线，并实现消息转发功能</li>
+<li>客户端：通过 <code>channel</code> 可以无阻塞发送消息给其它所有用户，同时可以接受其它用户发送的消息（有服务器转发得到）</li>
+<li>目的：进一步理解 <code>Netty</code> 非阻塞网络编程机制</li>
+<li>看老师代码演示</li>
+</ol>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/22/Netty%E5%AD%A6%E4%B9%A0/chapter06_10.png" alt="img"></p>
+<p>代码如下：</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.atguigu.netty.groupchat;
+
+<span class="hljs-keyword">import</span> io.netty.bootstrap.ServerBootstrap;
+<span class="hljs-keyword">import</span> io.netty.channel.*;
+<span class="hljs-keyword">import</span> io.netty.channel.nio.NioEventLoopGroup;
+<span class="hljs-keyword">import</span> io.netty.channel.socket.SocketChannel;
+<span class="hljs-keyword">import</span> io.netty.channel.socket.nio.NioServerSocketChannel;
+<span class="hljs-keyword">import</span> io.netty.handler.codec.string.StringDecoder;
+<span class="hljs-keyword">import</span> io.netty.handler.codec.string.StringEncoder;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GroupChatServer</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> port; <span class="hljs-comment">//监听端口</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">GroupChatServer</span><span class="hljs-params">(<span class="hljs-keyword">int</span> port)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.port = port;
+    &#125;
+
+    <span class="hljs-comment">//编写run方法，处理客户端的请求</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+
+        <span class="hljs-comment">//创建两个线程组</span>
+        EventLoopGroup bossGroup = <span class="hljs-keyword">new</span> NioEventLoopGroup(<span class="hljs-number">1</span>);
+        EventLoopGroup workerGroup = <span class="hljs-keyword">new</span> NioEventLoopGroup(); <span class="hljs-comment">//8个NioEventLoop</span>
+
+        <span class="hljs-keyword">try</span> &#123;
+            ServerBootstrap b = <span class="hljs-keyword">new</span> ServerBootstrap();
+
+            b.group(bossGroup, workerGroup)
+                    .channel(NioServerSocketChannel.class)
+                    .option(ChannelOption.SO_BACKLOG, <span class="hljs-number">128</span>)
+                    .childOption(ChannelOption.SO_KEEPALIVE, <span class="hljs-keyword">true</span>)
+                    .childHandler(<span class="hljs-keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;
+
+                        <span class="hljs-meta">@Override</span>
+                        <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initChannel</span><span class="hljs-params">(SocketChannel ch)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+
+                            <span class="hljs-comment">//获取到pipeline</span>
+                            ChannelPipeline pipeline = ch.pipeline();
+                            <span class="hljs-comment">//向pipeline加入解码器</span>
+                            pipeline.addLast(<span class="hljs-string">&quot;decoder&quot;</span>, <span class="hljs-keyword">new</span> StringDecoder());
+                            <span class="hljs-comment">//向pipeline加入编码器</span>
+                            pipeline.addLast(<span class="hljs-string">&quot;encoder&quot;</span>, <span class="hljs-keyword">new</span> StringEncoder());
+                            <span class="hljs-comment">//加入自己的业务处理handler</span>
+                            pipeline.addLast(<span class="hljs-keyword">new</span> GroupChatServerHandler());
+
+                        &#125;
+                    &#125;);
+
+            System.out.println(<span class="hljs-string">&quot;netty 服务器启动&quot;</span>);
+            ChannelFuture channelFuture = b.bind(port).sync();
+
+            <span class="hljs-comment">//监听关闭</span>
+            channelFuture.channel().closeFuture().sync();
+        &#125; <span class="hljs-keyword">finally</span> &#123;
+            bossGroup.shutdownGracefully();
+            workerGroup.shutdownGracefully();
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+
+        <span class="hljs-keyword">new</span> GroupChatServer(<span class="hljs-number">7000</span>).run();
+    &#125;
+&#125;
+
+
+<span class="hljs-keyword">package</span> com.atguigu.netty.groupchat;
+
+<span class="hljs-keyword">import</span> io.netty.channel.Channel;
+<span class="hljs-keyword">import</span> io.netty.channel.ChannelHandlerContext;
+<span class="hljs-keyword">import</span> io.netty.channel.SimpleChannelInboundHandler;
+<span class="hljs-keyword">import</span> io.netty.channel.group.ChannelGroup;
+<span class="hljs-keyword">import</span> io.netty.channel.group.DefaultChannelGroup;
+<span class="hljs-keyword">import</span> io.netty.util.concurrent.GlobalEventExecutor;
+
+<span class="hljs-keyword">import</span> java.text.SimpleDateFormat;
+<span class="hljs-keyword">import</span> java.util.ArrayList;
+<span class="hljs-keyword">import</span> java.util.HashMap;
+<span class="hljs-keyword">import</span> java.util.List;
+<span class="hljs-keyword">import</span> java.util.Map;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GroupChatServerHandler</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">SimpleChannelInboundHandler</span>&lt;<span class="hljs-title">String</span>&gt; </span>&#123;
+
+    <span class="hljs-comment">//public static List&lt;Channel&gt; channels = new ArrayList&lt;Channel&gt;();</span>
+
+    <span class="hljs-comment">//使用一个hashmap 管理</span>
+    <span class="hljs-comment">//public static Map&lt;String, Channel&gt; channels = new HashMap&lt;String,Channel&gt;();</span>
+
+    <span class="hljs-comment">//定义一个channle 组，管理所有的channel</span>
+    <span class="hljs-comment">//GlobalEventExecutor.INSTANCE) 是全局的事件执行器，是一个单例</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ChannelGroup channelGroup = <span class="hljs-keyword">new</span> DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+    SimpleDateFormat sdf = <span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>);
+
+
+    <span class="hljs-comment">//handlerAdded 表示连接建立，一旦连接，第一个被执行</span>
+    <span class="hljs-comment">//将当前channel 加入到  channelGroup</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handlerAdded</span><span class="hljs-params">(ChannelHandlerContext ctx)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        Channel channel = ctx.channel();
+        <span class="hljs-comment">//将该客户加入聊天的信息推送给其它在线的客户端</span>
+        <span class="hljs-comment">/*</span>
+<span class="hljs-comment">        该方法会将 channelGroup 中所有的channel 遍历，并发送 消息，</span>
+<span class="hljs-comment">        我们不需要自己遍历</span>
+<span class="hljs-comment">         */</span>
+        channelGroup.writeAndFlush(<span class="hljs-string">&quot;[客户端]&quot;</span> + channel.remoteAddress() + <span class="hljs-string">&quot; 加入聊天&quot;</span> + sdf.format(<span class="hljs-keyword">new</span> java.util.Date()) + <span class="hljs-string">&quot; \n&quot;</span>);
+        channelGroup.add(channel);
+
+
+    &#125;
+
+    <span class="hljs-comment">//断开连接, 将xx客户离开信息推送给当前在线的客户</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handlerRemoved</span><span class="hljs-params">(ChannelHandlerContext ctx)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+
+        Channel channel = ctx.channel();
+        channelGroup.writeAndFlush(<span class="hljs-string">&quot;[客户端]&quot;</span> + channel.remoteAddress() + <span class="hljs-string">&quot; 离开了\n&quot;</span>);
+        System.out.println(<span class="hljs-string">&quot;channelGroup size&quot;</span> + channelGroup.size());
+
+    &#125;
+
+    <span class="hljs-comment">//表示channel 处于活动状态, 提示 xx上线</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">channelActive</span><span class="hljs-params">(ChannelHandlerContext ctx)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+
+        System.out.println(ctx.channel().remoteAddress() + <span class="hljs-string">&quot; 上线了~&quot;</span>);
+    &#125;
+
+    <span class="hljs-comment">//表示channel 处于不活动状态, 提示 xx离线了</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">channelInactive</span><span class="hljs-params">(ChannelHandlerContext ctx)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+
+        System.out.println(ctx.channel().remoteAddress() + <span class="hljs-string">&quot; 离线了~&quot;</span>);
+    &#125;
+
+    <span class="hljs-comment">//读取数据</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">channelRead0</span><span class="hljs-params">(ChannelHandlerContext ctx, String msg)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+
+        <span class="hljs-comment">//获取到当前channel</span>
+        Channel channel = ctx.channel();
+        <span class="hljs-comment">//这时我们遍历channelGroup, 根据不同的情况，回送不同的消息</span>
+
+        channelGroup.forEach(ch -&gt; &#123;
+            <span class="hljs-keyword">if</span> (channel != ch) &#123; <span class="hljs-comment">//不是当前的channel,转发消息</span>
+                ch.writeAndFlush(<span class="hljs-string">&quot;[客户]&quot;</span> + channel.remoteAddress() + <span class="hljs-string">&quot; 发送了消息&quot;</span> + msg + <span class="hljs-string">&quot;\n&quot;</span>);
+            &#125; <span class="hljs-keyword">else</span> &#123;<span class="hljs-comment">//回显自己发送的消息给自己</span>
+                ch.writeAndFlush(<span class="hljs-string">&quot;[自己]发送了消息&quot;</span> + msg + <span class="hljs-string">&quot;\n&quot;</span>);
+            &#125;
+        &#125;);
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">exceptionCaught</span><span class="hljs-params">(ChannelHandlerContext ctx, Throwable cause)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        <span class="hljs-comment">//关闭通道</span>
+        ctx.close();
+    &#125;
+&#125;
+
+<span class="hljs-keyword">package</span> com.atguigu.netty.groupchat;
+
+<span class="hljs-keyword">import</span> io.netty.bootstrap.Bootstrap;
+<span class="hljs-keyword">import</span> io.netty.channel.*;
+<span class="hljs-keyword">import</span> io.netty.channel.nio.NioEventLoopGroup;
+<span class="hljs-keyword">import</span> io.netty.channel.socket.SocketChannel;
+<span class="hljs-keyword">import</span> io.netty.channel.socket.nio.NioSocketChannel;
+<span class="hljs-keyword">import</span> io.netty.handler.codec.string.StringDecoder;
+<span class="hljs-keyword">import</span> io.netty.handler.codec.string.StringEncoder;
+
+<span class="hljs-keyword">import</span> java.util.Scanner;
+
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GroupChatClient</span> </span>&#123;
+    
+    <span class="hljs-comment">//属性</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String host;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> port;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">GroupChatClient</span><span class="hljs-params">(String host, <span class="hljs-keyword">int</span> port)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.host = host;
+        <span class="hljs-keyword">this</span>.port = port;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        EventLoopGroup group = <span class="hljs-keyword">new</span> NioEventLoopGroup();
+
+        <span class="hljs-keyword">try</span> &#123;
+            
+            Bootstrap bootstrap = <span class="hljs-keyword">new</span> Bootstrap()
+                    .group(group)
+                    .channel(NioSocketChannel.class)
+                    .handler(<span class="hljs-keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;
+
+                        <span class="hljs-meta">@Override</span>
+                        <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initChannel</span><span class="hljs-params">(SocketChannel ch)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+
+                            <span class="hljs-comment">//得到pipeline</span>
+                            ChannelPipeline pipeline = ch.pipeline();
+                            <span class="hljs-comment">//加入相关handler</span>
+                            pipeline.addLast(<span class="hljs-string">&quot;decoder&quot;</span>, <span class="hljs-keyword">new</span> StringDecoder());
+                            pipeline.addLast(<span class="hljs-string">&quot;encoder&quot;</span>, <span class="hljs-keyword">new</span> StringEncoder());
+                            <span class="hljs-comment">//加入自定义的handler</span>
+                            pipeline.addLast(<span class="hljs-keyword">new</span> GroupChatClientHandler());
+                        &#125;
+                    &#125;);
+
+            ChannelFuture channelFuture = bootstrap.connect(host, port).sync();
+            <span class="hljs-comment">//得到channel</span>
+            Channel channel = channelFuture.channel();
+            System.out.println(<span class="hljs-string">&quot;-------&quot;</span> + channel.localAddress() + <span class="hljs-string">&quot;--------&quot;</span>);
+            <span class="hljs-comment">//客户端需要输入信息，创建一个扫描器</span>
+            Scanner scanner = <span class="hljs-keyword">new</span> Scanner(System.in);
+            <span class="hljs-keyword">while</span> (scanner.hasNextLine()) &#123;
+                String msg = scanner.nextLine();
+                <span class="hljs-comment">//通过channel 发送到服务器端</span>
+                channel.writeAndFlush(msg + <span class="hljs-string">&quot;\r\n&quot;</span>);
+            &#125;
+        &#125; <span class="hljs-keyword">finally</span> &#123;
+            group.shutdownGracefully();
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        <span class="hljs-keyword">new</span> GroupChatClient(<span class="hljs-string">&quot;127.0.0.1&quot;</span>, <span class="hljs-number">7000</span>).run();
+    &#125;
+&#125;
+
+
+<span class="hljs-keyword">package</span> com.atguigu.netty.groupchat;
+
+<span class="hljs-keyword">import</span> io.netty.channel.ChannelHandlerContext;
+<span class="hljs-keyword">import</span> io.netty.channel.SimpleChannelInboundHandler;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GroupChatClientHandler</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">SimpleChannelInboundHandler</span>&lt;<span class="hljs-title">String</span>&gt; </span>&#123;
+    
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">channelRead0</span><span class="hljs-params">(ChannelHandlerContext ctx, String msg)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        System.out.println(msg.trim());
+    &#125;
+&#125;Copy to clipboardErrorCopied</code></pre></div>
+
+<h3 id="6-12-Netty-心跳检测机制案例"><a href="#6-12-Netty-心跳检测机制案例" class="headerlink" title="6.12 Netty 心跳检测机制案例"></a>6.12 Netty 心跳检测机制案例</h3><p>实例要求：</p>
+<ol>
+<li>编写一个 <code>Netty</code> 心跳检测机制案例,当服务器超过 <code>3</code> 秒没有读时，就提示读空闲</li>
+<li>当服务器超过 <code>5</code> 秒没有写操作时，就提示写空闲</li>
+<li>实现当服务器超过 <code>7</code> 秒没有读或者写操作时，就提示读写空闲</li>
+<li>代码如下：</li>
+</ol>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.atguigu.netty.heartbeat;
+
+<span class="hljs-keyword">import</span> io.netty.bootstrap.ServerBootstrap;
+<span class="hljs-keyword">import</span> io.netty.channel.ChannelFuture;
+<span class="hljs-keyword">import</span> io.netty.channel.ChannelInitializer;
+<span class="hljs-keyword">import</span> io.netty.channel.ChannelPipeline;
+<span class="hljs-keyword">import</span> io.netty.channel.EventLoopGroup;
+<span class="hljs-keyword">import</span> io.netty.channel.nio.NioEventLoopGroup;
+<span class="hljs-keyword">import</span> io.netty.channel.socket.SocketChannel;
+<span class="hljs-keyword">import</span> io.netty.channel.socket.nio.NioServerSocketChannel;
+<span class="hljs-keyword">import</span> io.netty.handler.logging.LogLevel;
+<span class="hljs-keyword">import</span> io.netty.handler.logging.LoggingHandler;
+<span class="hljs-keyword">import</span> io.netty.handler.timeout.IdleStateHandler;
+
+<span class="hljs-keyword">import</span> java.util.concurrent.TimeUnit;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyServer</span> </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        
+        <span class="hljs-comment">//创建两个线程组</span>
+        EventLoopGroup bossGroup = <span class="hljs-keyword">new</span> NioEventLoopGroup(<span class="hljs-number">1</span>);
+        EventLoopGroup workerGroup = <span class="hljs-keyword">new</span> NioEventLoopGroup(); <span class="hljs-comment">//8个NioEventLoop</span>
+        <span class="hljs-keyword">try</span> &#123;
+
+            ServerBootstrap serverBootstrap = <span class="hljs-keyword">new</span> ServerBootstrap();
+
+            serverBootstrap.group(bossGroup, workerGroup);
+            serverBootstrap.channel(NioServerSocketChannel.class);
+            serverBootstrap.handler(<span class="hljs-keyword">new</span> LoggingHandler(LogLevel.INFO));
+            serverBootstrap.childHandler(<span class="hljs-keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;
+
+                <span class="hljs-meta">@Override</span>
+                <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initChannel</span><span class="hljs-params">(SocketChannel ch)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+                    ChannelPipeline pipeline = ch.pipeline();
+                    <span class="hljs-comment">//加入一个netty 提供 IdleStateHandler</span>
+                    <span class="hljs-comment">/*</span>
+<span class="hljs-comment">                    说明</span>
+<span class="hljs-comment">                    1. IdleStateHandler 是netty 提供的处理空闲状态的处理器</span>
+<span class="hljs-comment">                    2. long readerIdleTime : 表示多长时间没有读, 就会发送一个心跳检测包检测是否连接</span>
+<span class="hljs-comment">                    3. long writerIdleTime : 表示多长时间没有写, 就会发送一个心跳检测包检测是否连接</span>
+<span class="hljs-comment">                    4. long allIdleTime : 表示多长时间没有读写, 就会发送一个心跳检测包检测是否连接</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">                    5. 文档说明</span>
+<span class="hljs-comment">                    triggers an &#123;@link IdleStateEvent&#125; when a &#123;@link Channel&#125; has not performed</span>
+<span class="hljs-comment"> * read, write, or both operation for a while.</span>
+<span class="hljs-comment"> *                  6. 当 IdleStateEvent 触发后 , 就会传递给管道 的下一个handler去处理</span>
+<span class="hljs-comment"> *                  通过调用(触发)下一个handler 的 userEventTiggered , 在该方法中去处理 IdleStateEvent(读空闲，写空闲，读写空闲)</span>
+<span class="hljs-comment">                     */</span>
+                    pipeline.addLast(<span class="hljs-keyword">new</span> IdleStateHandler(<span class="hljs-number">7000</span>, <span class="hljs-number">7000</span>, <span class="hljs-number">10</span>, TimeUnit.SECONDS));
+                    <span class="hljs-comment">//加入一个对空闲检测进一步处理的handler(自定义)</span>
+                    pipeline.addLast(<span class="hljs-keyword">new</span> MyServerHandler());
+                &#125;
+            &#125;);
+
+            <span class="hljs-comment">//启动服务器</span>
+            ChannelFuture channelFuture = serverBootstrap.bind(<span class="hljs-number">7000</span>).sync();
+            channelFuture.channel().closeFuture().sync();
+
+        &#125; <span class="hljs-keyword">finally</span> &#123;
+            bossGroup.shutdownGracefully();
+            workerGroup.shutdownGracefully();
+        &#125;
+    &#125;
+&#125;
+
+
+<span class="hljs-keyword">package</span> com.atguigu.netty.heartbeat;
+
+<span class="hljs-keyword">import</span> io.netty.channel.ChannelHandlerContext;
+<span class="hljs-keyword">import</span> io.netty.channel.ChannelInboundHandlerAdapter;
+<span class="hljs-keyword">import</span> io.netty.handler.timeout.IdleStateEvent;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyServerHandler</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ChannelInboundHandlerAdapter</span> </span>&#123;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> ctx 上下文</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> evt 事件</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> Exception</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">userEventTriggered</span><span class="hljs-params">(ChannelHandlerContext ctx, Object evt)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+
+        <span class="hljs-keyword">if</span> (evt <span class="hljs-keyword">instanceof</span> IdleStateEvent) &#123;
+
+            <span class="hljs-comment">//将  evt 向下转型 IdleStateEvent</span>
+            IdleStateEvent event = (IdleStateEvent) evt;
+            String eventType = <span class="hljs-keyword">null</span>;
+            <span class="hljs-keyword">switch</span> (event.state()) &#123;
+                <span class="hljs-keyword">case</span> READER_IDLE:
+                    eventType = <span class="hljs-string">&quot;读空闲&quot;</span>;
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> WRITER_IDLE:
+                    eventType = <span class="hljs-string">&quot;写空闲&quot;</span>;
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> ALL_IDLE:
+                    eventType = <span class="hljs-string">&quot;读写空闲&quot;</span>;
+                    <span class="hljs-keyword">break</span>;
+            &#125;
+            System.out.println(ctx.channel().remoteAddress() + <span class="hljs-string">&quot;--超时时间--&quot;</span> + eventType);
+            System.out.println(<span class="hljs-string">&quot;服务器做相应处理..&quot;</span>);
+
+            <span class="hljs-comment">//如果发生空闲，我们关闭通道</span>
+            <span class="hljs-comment">// ctx.channel().close();</span>
+        &#125;
+    &#125;
+&#125;Copy to clipboardErrorCopied</code></pre></div>
+
+<h3 id="6-13-Netty-通过-WebSocket-编程实现服务器和客户端长连接"><a href="#6-13-Netty-通过-WebSocket-编程实现服务器和客户端长连接" class="headerlink" title="6.13 Netty 通过 WebSocket 编程实现服务器和客户端长连接"></a>6.13 Netty 通过 WebSocket 编程实现服务器和客户端长连接</h3><p>实例要求：</p>
+<ol>
+<li><code>Http</code> 协议是无状态的，浏览器和服务器间的请求响应一次，下一次会重新创建连接。</li>
+<li>要求：实现基于 <code>WebSocket</code> 的长连接的全双工的交互</li>
+<li>改变 <code>Http</code> 协议多次请求的约束，实现长连接了，服务器可以发送消息给浏览器</li>
+<li>客户端浏览器和服务器端会相互感知，比如服务器关闭了，浏览器会感知，同样浏览器关闭了，服务器会感知</li>
+<li>运行界面</li>
+</ol>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/22/Netty%E5%AD%A6%E4%B9%A0/chapter06_11.png" alt="img"></p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.atguigu.netty.websocket;
+
+<span class="hljs-keyword">import</span> io.netty.bootstrap.ServerBootstrap;
+<span class="hljs-keyword">import</span> io.netty.channel.ChannelFuture;
+<span class="hljs-keyword">import</span> io.netty.channel.ChannelInitializer;
+<span class="hljs-keyword">import</span> io.netty.channel.ChannelPipeline;
+<span class="hljs-keyword">import</span> io.netty.channel.EventLoopGroup;
+<span class="hljs-keyword">import</span> io.netty.channel.nio.NioEventLoopGroup;
+<span class="hljs-keyword">import</span> io.netty.channel.socket.SocketChannel;
+<span class="hljs-keyword">import</span> io.netty.channel.socket.nio.NioServerSocketChannel;
+<span class="hljs-keyword">import</span> io.netty.handler.codec.http.HttpObjectAggregator;
+<span class="hljs-keyword">import</span> io.netty.handler.codec.http.HttpServerCodec;
+<span class="hljs-keyword">import</span> io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
+<span class="hljs-keyword">import</span> io.netty.handler.logging.LogLevel;
+<span class="hljs-keyword">import</span> io.netty.handler.logging.LoggingHandler;
+<span class="hljs-keyword">import</span> io.netty.handler.stream.ChunkedWriteHandler;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyServer</span> </span>&#123;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+
+        <span class="hljs-comment">//创建两个线程组</span>
+        EventLoopGroup bossGroup = <span class="hljs-keyword">new</span> NioEventLoopGroup(<span class="hljs-number">1</span>);
+        EventLoopGroup workerGroup = <span class="hljs-keyword">new</span> NioEventLoopGroup(); <span class="hljs-comment">//8个NioEventLoop</span>
+        <span class="hljs-keyword">try</span> &#123;
+
+            ServerBootstrap serverBootstrap = <span class="hljs-keyword">new</span> ServerBootstrap();
+
+            serverBootstrap.group(bossGroup, workerGroup);
+            serverBootstrap.channel(NioServerSocketChannel.class);
+            serverBootstrap.handler(<span class="hljs-keyword">new</span> LoggingHandler(LogLevel.INFO));
+            serverBootstrap.childHandler(<span class="hljs-keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;
+
+                <span class="hljs-meta">@Override</span>
+                <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initChannel</span><span class="hljs-params">(SocketChannel ch)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+                    ChannelPipeline pipeline = ch.pipeline();
+
+                    <span class="hljs-comment">//因为基于http协议，使用http的编码和解码器</span>
+                    pipeline.addLast(<span class="hljs-keyword">new</span> HttpServerCodec());
+                    <span class="hljs-comment">//是以块方式写，添加ChunkedWriteHandler处理器</span>
+                    pipeline.addLast(<span class="hljs-keyword">new</span> ChunkedWriteHandler());
+
+                    <span class="hljs-comment">/*</span>
+<span class="hljs-comment">                    说明</span>
+<span class="hljs-comment">                    1. http数据在传输过程中是分段, HttpObjectAggregator ，就是可以将多个段聚合</span>
+<span class="hljs-comment">                    2. 这就就是为什么，当浏览器发送大量数据时，就会发出多次http请求</span>
+<span class="hljs-comment">                     */</span>
+                    pipeline.addLast(<span class="hljs-keyword">new</span> HttpObjectAggregator(<span class="hljs-number">8192</span>));
+                    <span class="hljs-comment">/*</span>
+<span class="hljs-comment">                    说明</span>
+<span class="hljs-comment">                    1. 对应websocket ，它的数据是以 帧(frame) 形式传递</span>
+<span class="hljs-comment">                    2. 可以看到WebSocketFrame 下面有六个子类</span>
+<span class="hljs-comment">                    3. 浏览器请求时 ws://localhost:7000/hello 表示请求的uri</span>
+<span class="hljs-comment">                    4. WebSocketServerProtocolHandler 核心功能是将 http协议升级为 ws协议 , 保持长连接</span>
+<span class="hljs-comment">                    5. 是通过一个 状态码 101</span>
+<span class="hljs-comment">                     */</span>
+                    pipeline.addLast(<span class="hljs-keyword">new</span> WebSocketServerProtocolHandler(<span class="hljs-string">&quot;/hello2&quot;</span>));
+
+                    <span class="hljs-comment">//自定义的handler ，处理业务逻辑</span>
+                    pipeline.addLast(<span class="hljs-keyword">new</span> MyTextWebSocketFrameHandler());
+                &#125;
+            &#125;);
+
+            <span class="hljs-comment">//启动服务器</span>
+            ChannelFuture channelFuture = serverBootstrap.bind(<span class="hljs-number">7000</span>).sync();
+            channelFuture.channel().closeFuture().sync();
+
+        &#125; <span class="hljs-keyword">finally</span> &#123;
+            bossGroup.shutdownGracefully();
+            workerGroup.shutdownGracefully();
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-keyword">package</span> com.atguigu.netty.websocket;
+
+<span class="hljs-keyword">import</span> io.netty.channel.ChannelHandlerContext;
+<span class="hljs-keyword">import</span> io.netty.channel.SimpleChannelInboundHandler;
+<span class="hljs-keyword">import</span> io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+
+<span class="hljs-keyword">import</span> java.time.LocalDateTime;
+
+<span class="hljs-comment">//这里 TextWebSocketFrame 类型，表示一个文本帧(frame)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyTextWebSocketFrameHandler</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">SimpleChannelInboundHandler</span>&lt;<span class="hljs-title">TextWebSocketFrame</span>&gt; </span>&#123;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">channelRead0</span><span class="hljs-params">(ChannelHandlerContext ctx, TextWebSocketFrame msg)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+
+        System.out.println(<span class="hljs-string">&quot;服务器收到消息 &quot;</span> + msg.text());
+
+        <span class="hljs-comment">//回复消息</span>
+        ctx.channel().writeAndFlush(<span class="hljs-keyword">new</span> TextWebSocketFrame(<span class="hljs-string">&quot;服务器时间&quot;</span> + LocalDateTime.now() + <span class="hljs-string">&quot; &quot;</span> + msg.text()));
+    &#125;
+
+    <span class="hljs-comment">//当web客户端连接后， 触发方法</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handlerAdded</span><span class="hljs-params">(ChannelHandlerContext ctx)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        <span class="hljs-comment">//id 表示唯一的值，LongText 是唯一的 ShortText 不是唯一</span>
+        System.out.println(<span class="hljs-string">&quot;handlerAdded 被调用&quot;</span> + ctx.channel().id().asLongText());
+        System.out.println(<span class="hljs-string">&quot;handlerAdded 被调用&quot;</span> + ctx.channel().id().asShortText());
+    &#125;
+
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handlerRemoved</span><span class="hljs-params">(ChannelHandlerContext ctx)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+
+        System.out.println(<span class="hljs-string">&quot;handlerRemoved 被调用&quot;</span> + ctx.channel().id().asLongText());
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">exceptionCaught</span><span class="hljs-params">(ChannelHandlerContext ctx, Throwable cause)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        System.out.println(<span class="hljs-string">&quot;异常发生 &quot;</span> + cause.getMessage());
+        ctx.close(); <span class="hljs-comment">//关闭连接</span>
+    &#125;
+&#125;
+
+hello.html
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang=<span class="hljs-string">&quot;en&quot;</span>&gt;
+&lt;head&gt;
+    &lt;meta charset=<span class="hljs-string">&quot;UTF-8&quot;</span>&gt;
+    &lt;title&gt;Title&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;script&gt;
+    <span class="hljs-keyword">var</span> socket;
+    <span class="hljs-comment">//判断当前浏览器是否支持websocket</span>
+    <span class="hljs-keyword">if</span>(window.WebSocket) &#123;
+        <span class="hljs-comment">//go on</span>
+        socket = <span class="hljs-keyword">new</span> WebSocket(<span class="hljs-string">&quot;ws://localhost:7000/hello2&quot;</span>);
+        <span class="hljs-comment">//相当于channelReado, ev 收到服务器端回送的消息</span>
+        socket.onmessage = function (ev) &#123;
+            <span class="hljs-keyword">var</span> rt = document.getElementById(<span class="hljs-string">&quot;responseText&quot;</span>);
+            rt.value = rt.value + <span class="hljs-string">&quot;\n&quot;</span> + ev.data;
+        &#125;
+
+        <span class="hljs-comment">//相当于连接开启(感知到连接开启)</span>
+        socket.onopen = function (ev) &#123;
+            <span class="hljs-keyword">var</span> rt = document.getElementById(<span class="hljs-string">&quot;responseText&quot;</span>);
+            rt.value = <span class="hljs-string">&quot;连接开启了..&quot;</span>
+        &#125;
+
+        <span class="hljs-comment">//相当于连接关闭(感知到连接关闭)</span>
+        socket.onclose = function (ev) &#123;
+
+            <span class="hljs-keyword">var</span> rt = document.getElementById(<span class="hljs-string">&quot;responseText&quot;</span>);
+            rt.value = rt.value + <span class="hljs-string">&quot;\n&quot;</span> + <span class="hljs-string">&quot;连接关闭了..&quot;</span>
+        &#125;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        alert(<span class="hljs-string">&quot;当前浏览器不支持websocket&quot;</span>)
+    &#125;
+
+    <span class="hljs-comment">//发送消息到服务器</span>
+    <span class="hljs-function">function <span class="hljs-title">send</span><span class="hljs-params">(message)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(!window.socket) &#123; <span class="hljs-comment">//先判断socket是否创建好</span>
+            <span class="hljs-keyword">return</span>;
+        &#125;
+        <span class="hljs-keyword">if</span>(socket.readyState == WebSocket.OPEN) &#123;
+            <span class="hljs-comment">//通过socket 发送消息</span>
+            socket.send(message)
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            alert(<span class="hljs-string">&quot;连接没有开启&quot;</span>);
+        &#125;
+    &#125;
+&lt;/script&gt;
+    &lt;form onsubmit=<span class="hljs-string">&quot;return false&quot;</span>&gt;
+        &lt;textarea name=&quot;message&quot; style=&quot;height: 300px; width: 300px&quot;&gt;&lt;/textarea&gt;
+        &lt;input type=<span class="hljs-string">&quot;button&quot;</span> value=<span class="hljs-string">&quot;发生消息&quot;</span> onclick=<span class="hljs-string">&quot;send(this.form.message.value)&quot;</span>&gt;
+        &lt;textarea id=&quot;responseText&quot; style=&quot;height: 300px; width: 300px&quot;&gt;&lt;/textarea&gt;
+        &lt;input type=<span class="hljs-string">&quot;button&quot;</span> value=<span class="hljs-string">&quot;清空内容&quot;</span> onclick=<span class="hljs-string">&quot;document.getElementById(&#x27;responseText&#x27;).value=&#x27;&#x27;&quot;</span>&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;Copy to clipboardErrorCopied[ 上一章节](https://dongzl.github.io/netty-handbook/#/_content/chapter05)</code></pre></div>
+
 
             </div>
             <hr>
