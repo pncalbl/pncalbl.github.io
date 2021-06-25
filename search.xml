@@ -1,67 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>C 语言学习笔记</title>
-    <url>/2020/04/04/C%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="C-语言学习笔记"><a href="#C-语言学习笔记" class="headerlink" title="C 语言学习笔记"></a>C 语言学习笔记</h1><ol>
-<li>for 语句比较适合初始化和增加步长都是单条语句并且逻辑相关的情形，因为它将循环控制语句集中放在一起, 且比  while 语句更紧凑。</li>
-<li>EOF（end of file）是文件结束指示符。</li>
-<li>在该程序段中，for 循环语句的循环体是空的，这是因为所有工作都在测试（条件）部分与增加步长部分完成了。</li>
-<li>但 C 语言的语法规则要求 for 循环语句必须有一个循环体，因此用单独的分号代替。单独的分号称为空语句，它正好能满足 for 语句的这一要求。把它单独放在一行是为了更加醒目。</li>
-<li>单引号中的字符表示一个整型值，该值等于此字符在机器字符集中对应的数值，我们称之为字符常量。</li>
-<li>我们通常把函数定义中圆括号内列表中出现的变量称为形式参数，而把函数调用中与形式参数对应的值称为实际参数。</li>
-<li>函数不一定都有返回值。不带表达式的 return 语句将把控制权返回给调用者，但不返回有用的值。这等同于在到达函数的右终结花括号时，函数就“到达了尽头”。主调函数也可以忽 略函数返回的值。    </li>
-<li>对数组而言，const 限定符指定数组所有元素的值都不能被修改。</li>
-<li>C 语言提供了6 个位操作运算符。这些运算符只能作用于整型操作数，即只能作用于带符号或无符号 char、short、int、long 类型。</li>
-<li>栈是一种限定仅在表尾进行插入和删除操作的线性表。</li>
-<li><input disabled type="checkbox"> 的优先级高于按位&amp;，&amp;a[0] 等价于 a+0 (其中a是数组名)指的是a[0]的地址，*&amp;a[0] 等价于 a[0] 等价于 *a。</li>
-<li>int p 是指 p 是指向 int 类型的指针变量。</li>
-<li>数组传递一定是传指针。</li>
-<li>continue 语句只用于循环语句，不用于 switch 语句。</li>
-<li>作为一种良好的程序设计风格，在 switch 语句最后一个分支（即 default 分支）的后 面也加上一个 break 语句。这样做在逻辑上没有必要，但当我们需要向该 switch 语句后添加其它分支时，这种防范措施会降低犯错误的可能性。</li>
-<li>因此，如果两个函数必须共享某些数据，而这两个函数互不调用对方，这种情况下最方便的方式便是把这些共享数据定义为外部变量，而不是作为函数参数传递。</li>
-<li>名字的作用域指的是程序中可以使用该名字的部分。对于在函数开头声明的自动变量来说，其作用域是声明该变量名的函数。不同函数中声明的具有相同名字的各个局部变量之间没有任何关系。</li>
-<li>函数的参数也是这样的，实际上可以将它看作是局部变量。外部变量或函数的作用域从声明它的地方开始，到其所在的（待编译的）文件的末尾结束。</li>
-<li>在一个源程序的所有源文件中，一个外部变量只能在某个文件中定义一次，而其它文件可以通过 extern 声明来访问它（定义外部变量的源文件中也可以包含对该外部变量的extern 声明）。</li>
-<li>外部变量的定义中必须指定数组的长度，但 extern 声明则不一定要指定数组的长度。 外部变量的初始化只能出现在其定义中。</li>
-<li>在不进行显式初始化的情况下，外部变量和静态变量都将被初始化为 0，register 声明只适用于自动变量以及函数的形式参数，而自动变量和寄存器变量的初值则没有定义（即初值为无用的信息）。</li>
-<li>对于外部变量与静态变量来说，初始化表达式必须是常量表达式，且只初始化一次。</li>
-<li>对于自动变量与寄存器变量来说，初始化表达式可以不是常量表达式，表达式中可以包含任意在此表达式之前已经定义的值，包括函数调用。</li>
-<li>int days[ ] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};</li>
-<li>C++中，全局阈只能声明、初始化变量； 不能用于赋值、运算、调用函数等！</li>
-<li>.如果要在外部变量的定义之前使用该变量，或者外部变量的定义与变量的使用不在同一个源文件中，则必须在相应的变量声明中强制性地使用关键字 extern。</li>
-<li>我们可以得出这样一个结论：对于某些中等规模的程序，最好只用一个头文件存放程序中各部分共享的对象。较大的程序需要使用更多的头文件，我们需要精心地组织它们。</li>
-<li>变量的声明（包括初始化）除了可以紧跟在函数开始的花括号之后，还可以紧跟在任何其它标识复合语句开始的左花括号之后。以这 种方式声明的变量可以隐藏程序块外与之同名的变量，它们之间没有任何关系，并在与左花 括号匹配的右花括号出现之前一直存在。</li>
-<li>在不进行显式初始化的情况下，外部变量和静态变量都将被初始化为 0，而自动变量和寄存器变量的初值则没有定义（即初值为无用的信息）。</li>
-<li>如果文件名用引号引起来，则在源文件所在位置查找该文件；如果在该位置没有找到文件，或者如果文件名是用尖括号&lt;&gt;括起来的，则将根据相应的规则查找该文件，这个规则同具体的实现有关。</li>
-<li>宏替换只对记号进行，对括在引号中的字符串不起作用。</li>
-<li>在#if 语句中可以使用表达式defined(名字)，该表达式的值遵循下列规则：当名字已经定义时，其值为 1；否则，其值为 0。</li>
-<li>指向 void 类型的指针可以存放指向任何类型的指针，但它不能间接引用其自身。</li>
-<li>类似于和++这样的一元运算符遵循从右至左的结合顺序。</li>
-<li>gets（）是在stdio.h中是输入函数，使用类型：gets（str）。可以从标准输入类中读取一行字符到指定的字符串中，它在遇到EOF和回车换行键才会接受。但是由于功能强大，gets（）和scanf（）混合使用会导致gets（）无法接受字符串，因为scanf回车结束的时，回车键留在了缓冲区，这时gets就无法区分这个空格是否属于gets的输入。gets会接受到这个信号，无法直接接受后续的字符串。</li>
-<li>解决办法:(1)：先gets后scanf，不让那gets读取回车；(2)：利用getchar判断，获取\n，后执行gets.</li>
-<li>%g用来输出实数，它根据数值的大小，自动选f格式或e格式（选择输出时占宽度较小的一种），且不输出无意义的0。</li>
-<li>C 语言保证，0 永远不是有效的数据地址。</li>
-<li>指针与整数之间不能相互转换，但 0 是惟一的例外：常量 0 可以赋值给指针，指针也可以和常量 0 进行比较。程序中经常用符号常量 NULL 代替常量 0，这样便于更清晰地说明常量 0 是指针的一个特殊值。符号常量 NULL 定义在标准头文件&lt;stddef.h&gt;中。</li>
-<li>任何指针与 0 进行相等或不等的比较运算都有意义。但是，指向不同数组的元素的指针之间的算术或比较运算没有定义。（这里有一个特例：指针的算术运算中可使用数组最 后一个元素的下一个元素的地址。）</li>
-<li>字符串常量是一个字符数组。</li>
-<li>数组形字符串(例：char a[ ]=”hhhh”) 存放在全局数据区或栈区，可读可写。指针字符串(char  <em>p=”hhh” )存放在常量区，只读不能写。</em></li>
-<li>UNIX 系统中的 C 语言程序有一个公共的约定：以负号开头的参数表示一个可选标志或参数。</li>
-<li>因为[]与操作数的结合优先级比 * 和 ++ 高，* 和 ++ 优先级一样，但从右至左结合；* 是一个前缀运算符，其优先级低于()。</li>
-<li>运算符 . 和 -&gt; 都是从左至右结合的。</li>
-<li>在所有运算符中，下面 4 个运算符的优先级最高：结构运算符 “.” 和 “-&gt;” 、用于函数调用的 “()” 以及用于下标的 “[]” ，因此，它们同操作数之间的结合也最紧密。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Technical</category>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>C</tag>
-        <tag>Note</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Clion搭建Gtest单元测试框架</title>
     <url>/2021/05/22/Clion%E6%90%AD%E5%BB%BAGtest%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/</url>
     <content><![CDATA[<h1 id="Clion搭建Gtest单元测试框架"><a href="#Clion搭建Gtest单元测试框架" class="headerlink" title="Clion搭建Gtest单元测试框架"></a>Clion搭建Gtest单元测试框架</h1><h2 id="1-下载GTest源码"><a href="#1-下载GTest源码" class="headerlink" title="1 下载GTest源码"></a>1 下载GTest源码</h2><div class="code-wrapper"><pre><code class="hljs shell">git clone https://github.com/google/googletest.git</code></pre></div>
@@ -146,6 +85,67 @@
       </tags>
   </entry>
   <entry>
+    <title>C 语言学习笔记</title>
+    <url>/2020/04/04/C%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="C-语言学习笔记"><a href="#C-语言学习笔记" class="headerlink" title="C 语言学习笔记"></a>C 语言学习笔记</h1><ol>
+<li>for 语句比较适合初始化和增加步长都是单条语句并且逻辑相关的情形，因为它将循环控制语句集中放在一起, 且比  while 语句更紧凑。</li>
+<li>EOF（end of file）是文件结束指示符。</li>
+<li>在该程序段中，for 循环语句的循环体是空的，这是因为所有工作都在测试（条件）部分与增加步长部分完成了。</li>
+<li>但 C 语言的语法规则要求 for 循环语句必须有一个循环体，因此用单独的分号代替。单独的分号称为空语句，它正好能满足 for 语句的这一要求。把它单独放在一行是为了更加醒目。</li>
+<li>单引号中的字符表示一个整型值，该值等于此字符在机器字符集中对应的数值，我们称之为字符常量。</li>
+<li>我们通常把函数定义中圆括号内列表中出现的变量称为形式参数，而把函数调用中与形式参数对应的值称为实际参数。</li>
+<li>函数不一定都有返回值。不带表达式的 return 语句将把控制权返回给调用者，但不返回有用的值。这等同于在到达函数的右终结花括号时，函数就“到达了尽头”。主调函数也可以忽 略函数返回的值。    </li>
+<li>对数组而言，const 限定符指定数组所有元素的值都不能被修改。</li>
+<li>C 语言提供了6 个位操作运算符。这些运算符只能作用于整型操作数，即只能作用于带符号或无符号 char、short、int、long 类型。</li>
+<li>栈是一种限定仅在表尾进行插入和删除操作的线性表。</li>
+<li><input disabled type="checkbox"> 的优先级高于按位&amp;，&amp;a[0] 等价于 a+0 (其中a是数组名)指的是a[0]的地址，*&amp;a[0] 等价于 a[0] 等价于 *a。</li>
+<li>int p 是指 p 是指向 int 类型的指针变量。</li>
+<li>数组传递一定是传指针。</li>
+<li>continue 语句只用于循环语句，不用于 switch 语句。</li>
+<li>作为一种良好的程序设计风格，在 switch 语句最后一个分支（即 default 分支）的后 面也加上一个 break 语句。这样做在逻辑上没有必要，但当我们需要向该 switch 语句后添加其它分支时，这种防范措施会降低犯错误的可能性。</li>
+<li>因此，如果两个函数必须共享某些数据，而这两个函数互不调用对方，这种情况下最方便的方式便是把这些共享数据定义为外部变量，而不是作为函数参数传递。</li>
+<li>名字的作用域指的是程序中可以使用该名字的部分。对于在函数开头声明的自动变量来说，其作用域是声明该变量名的函数。不同函数中声明的具有相同名字的各个局部变量之间没有任何关系。</li>
+<li>函数的参数也是这样的，实际上可以将它看作是局部变量。外部变量或函数的作用域从声明它的地方开始，到其所在的（待编译的）文件的末尾结束。</li>
+<li>在一个源程序的所有源文件中，一个外部变量只能在某个文件中定义一次，而其它文件可以通过 extern 声明来访问它（定义外部变量的源文件中也可以包含对该外部变量的extern 声明）。</li>
+<li>外部变量的定义中必须指定数组的长度，但 extern 声明则不一定要指定数组的长度。 外部变量的初始化只能出现在其定义中。</li>
+<li>在不进行显式初始化的情况下，外部变量和静态变量都将被初始化为 0，register 声明只适用于自动变量以及函数的形式参数，而自动变量和寄存器变量的初值则没有定义（即初值为无用的信息）。</li>
+<li>对于外部变量与静态变量来说，初始化表达式必须是常量表达式，且只初始化一次。</li>
+<li>对于自动变量与寄存器变量来说，初始化表达式可以不是常量表达式，表达式中可以包含任意在此表达式之前已经定义的值，包括函数调用。</li>
+<li>int days[ ] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};</li>
+<li>C++中，全局阈只能声明、初始化变量； 不能用于赋值、运算、调用函数等！</li>
+<li>.如果要在外部变量的定义之前使用该变量，或者外部变量的定义与变量的使用不在同一个源文件中，则必须在相应的变量声明中强制性地使用关键字 extern。</li>
+<li>我们可以得出这样一个结论：对于某些中等规模的程序，最好只用一个头文件存放程序中各部分共享的对象。较大的程序需要使用更多的头文件，我们需要精心地组织它们。</li>
+<li>变量的声明（包括初始化）除了可以紧跟在函数开始的花括号之后，还可以紧跟在任何其它标识复合语句开始的左花括号之后。以这 种方式声明的变量可以隐藏程序块外与之同名的变量，它们之间没有任何关系，并在与左花 括号匹配的右花括号出现之前一直存在。</li>
+<li>在不进行显式初始化的情况下，外部变量和静态变量都将被初始化为 0，而自动变量和寄存器变量的初值则没有定义（即初值为无用的信息）。</li>
+<li>如果文件名用引号引起来，则在源文件所在位置查找该文件；如果在该位置没有找到文件，或者如果文件名是用尖括号&lt;&gt;括起来的，则将根据相应的规则查找该文件，这个规则同具体的实现有关。</li>
+<li>宏替换只对记号进行，对括在引号中的字符串不起作用。</li>
+<li>在#if 语句中可以使用表达式defined(名字)，该表达式的值遵循下列规则：当名字已经定义时，其值为 1；否则，其值为 0。</li>
+<li>指向 void 类型的指针可以存放指向任何类型的指针，但它不能间接引用其自身。</li>
+<li>类似于和++这样的一元运算符遵循从右至左的结合顺序。</li>
+<li>gets（）是在stdio.h中是输入函数，使用类型：gets（str）。可以从标准输入类中读取一行字符到指定的字符串中，它在遇到EOF和回车换行键才会接受。但是由于功能强大，gets（）和scanf（）混合使用会导致gets（）无法接受字符串，因为scanf回车结束的时，回车键留在了缓冲区，这时gets就无法区分这个空格是否属于gets的输入。gets会接受到这个信号，无法直接接受后续的字符串。</li>
+<li>解决办法:(1)：先gets后scanf，不让那gets读取回车；(2)：利用getchar判断，获取\n，后执行gets.</li>
+<li>%g用来输出实数，它根据数值的大小，自动选f格式或e格式（选择输出时占宽度较小的一种），且不输出无意义的0。</li>
+<li>C 语言保证，0 永远不是有效的数据地址。</li>
+<li>指针与整数之间不能相互转换，但 0 是惟一的例外：常量 0 可以赋值给指针，指针也可以和常量 0 进行比较。程序中经常用符号常量 NULL 代替常量 0，这样便于更清晰地说明常量 0 是指针的一个特殊值。符号常量 NULL 定义在标准头文件&lt;stddef.h&gt;中。</li>
+<li>任何指针与 0 进行相等或不等的比较运算都有意义。但是，指向不同数组的元素的指针之间的算术或比较运算没有定义。（这里有一个特例：指针的算术运算中可使用数组最 后一个元素的下一个元素的地址。）</li>
+<li>字符串常量是一个字符数组。</li>
+<li>数组形字符串(例：char a[ ]=”hhhh”) 存放在全局数据区或栈区，可读可写。指针字符串(char  <em>p=”hhh” )存放在常量区，只读不能写。</em></li>
+<li>UNIX 系统中的 C 语言程序有一个公共的约定：以负号开头的参数表示一个可选标志或参数。</li>
+<li>因为[]与操作数的结合优先级比 * 和 ++ 高，* 和 ++ 优先级一样，但从右至左结合；* 是一个前缀运算符，其优先级低于()。</li>
+<li>运算符 . 和 -&gt; 都是从左至右结合的。</li>
+<li>在所有运算符中，下面 4 个运算符的优先级最高：结构运算符 “.” 和 “-&gt;” 、用于函数调用的 “()” 以及用于下标的 “[]” ，因此，它们同操作数之间的结合也最紧密。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Technical</category>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>Note</tag>
+        <tag>C</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Github 使用的基本操作</title>
     <url>/2020/08/03/Github%E4%BD%BF%E7%94%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<p>#Github 使用的基本操作</p>
@@ -175,65 +175,6 @@
         <category>Help</category>
         <category>Git</category>
       </categories>
-  </entry>
-  <entry>
-    <title>Java-I/O操作中管道流的使用</title>
-    <url>/2020/08/14/Java-IO%E6%93%8D%E4%BD%9C%E4%B8%AD%E7%AE%A1%E9%81%93%E6%B5%81%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="1-首先需要导入三个包"><a href="#1-首先需要导入三个包" class="headerlink" title="1-首先需要导入三个包"></a>1-首先需要导入三个包</h2><div class="code-wrapper"><pre><code>import java.io.IOException;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;</code></pre></div><h2 id="2-我们需要编写两个进行对话的线程类"><a href="#2-我们需要编写两个进行对话的线程类" class="headerlink" title="2- 我们需要编写两个进行对话的线程类"></a>2- 我们需要编写两个进行对话的线程类</h2><h3 id="2-1-发送消息的线程类-Sender"><a href="#2-1-发送消息的线程类-Sender" class="headerlink" title="2.1 - 发送消息的线程类 Sender"></a>2.1 - 发送消息的线程类 Sender</h3><div class="code-wrapper"><pre><code>class Sender extends Thread&#123;
-    private PipedOutputStream out = new PipedOutputStream();
-    public PipedOutputStream getOutputStream()&#123;return out;&#125;
-
-    @Override
-    public void run()&#123;
-        String s = new String(&quot;Receiver, 你好!&quot;);
-        try &#123;
-            out.write(s.getBytes()); // 写入(发送)
-            out.close();
-        &#125;catch (IOException e)&#123;
-            System.out.println(e.getMessage());
-        &#125;
-    &#125;
-&#125;</code></pre></div><h3 id="2-2-接收消息的线程类-Receiver"><a href="#2-2-接收消息的线程类-Receiver" class="headerlink" title="2.2 - 接收消息的线程类 Receiver"></a>2.2 - 接收消息的线程类 Receiver</h3><div class="code-wrapper"><pre><code>class Receiver extends Thread&#123;
-    private PipedInputStream in = new PipedInputStream();
-    public PipedInputStream getInputStream()&#123;return in;&#125;
-    @Override
-    public void run()&#123;
-        String s = null;
-        byte[] buf = new byte[1024];
-        try &#123;
-            int len = in.read(buf); // 读出信息
-            s = new String(buf, 0, len);
-            System.out.println(&quot;收到了以下信息: &quot; + s);
-            in.close();
-        &#125;catch (IOException e)&#123;
-            System.out.println(e.getMessage());
-        &#125;
-    &#125;
-&#125;</code></pre></div><p>声明的字节数组大小为1024原因是:类PipedInputStream运用的是一个1024字节固定大小的循环缓冲区。实际上，写入PipedOutputStream的数据保存到对应的PipedInputStream的内部缓冲区。</p>
-<h2 id="3-进行管道流测试的主类-管道流的使用"><a href="#3-进行管道流测试的主类-管道流的使用" class="headerlink" title="3 - 进行管道流测试的主类(管道流的使用)"></a>3 - 进行管道流测试的主类(管道流的使用)</h2><div class="code-wrapper"><pre><code>public class PipeStreamDemo &#123;
-    public static void main(String[] args) &#123;
-        try &#123;
-            Sender sender = new Sender();   // 创建线程对象sender
-            Receiver receiver = new Receiver(); // 创建线程对象receiver
-            PipedOutputStream out = sender.getOutputStream(); // 写入
-            PipedInputStream in = receiver.getInputStream(); // 读出
-            out.connect(in); // 将输出发送到输入
-            sender.start(); // 启动线程
-            receiver.start();
-        &#125;catch (IOException e)&#123;
-            System.out.println(e.getMessage());
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="4-输出示例"><a href="#4-输出示例" class="headerlink" title="4 - 输出示例"></a>4 - 输出示例</h2><div class="code-wrapper"><pre><code>收到了以下信息: Receiver, 你好!</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>IO流</tag>
-      </tags>
   </entry>
   <entry>
     <title>JavaAbstractFactory模式</title>
@@ -474,6 +415,170 @@ Yahoo!
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr&gt;&lt;address&gt;杨文轩&lt;/address&gt;&lt;/body&gt;&lt;/html&gt;</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Java-I/O操作中管道流的使用</title>
+    <url>/2020/08/14/Java-IO%E6%93%8D%E4%BD%9C%E4%B8%AD%E7%AE%A1%E9%81%93%E6%B5%81%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="1-首先需要导入三个包"><a href="#1-首先需要导入三个包" class="headerlink" title="1-首先需要导入三个包"></a>1-首先需要导入三个包</h2><div class="code-wrapper"><pre><code>import java.io.IOException;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;</code></pre></div><h2 id="2-我们需要编写两个进行对话的线程类"><a href="#2-我们需要编写两个进行对话的线程类" class="headerlink" title="2- 我们需要编写两个进行对话的线程类"></a>2- 我们需要编写两个进行对话的线程类</h2><h3 id="2-1-发送消息的线程类-Sender"><a href="#2-1-发送消息的线程类-Sender" class="headerlink" title="2.1 - 发送消息的线程类 Sender"></a>2.1 - 发送消息的线程类 Sender</h3><div class="code-wrapper"><pre><code>class Sender extends Thread&#123;
+    private PipedOutputStream out = new PipedOutputStream();
+    public PipedOutputStream getOutputStream()&#123;return out;&#125;
+
+    @Override
+    public void run()&#123;
+        String s = new String(&quot;Receiver, 你好!&quot;);
+        try &#123;
+            out.write(s.getBytes()); // 写入(发送)
+            out.close();
+        &#125;catch (IOException e)&#123;
+            System.out.println(e.getMessage());
+        &#125;
+    &#125;
+&#125;</code></pre></div><h3 id="2-2-接收消息的线程类-Receiver"><a href="#2-2-接收消息的线程类-Receiver" class="headerlink" title="2.2 - 接收消息的线程类 Receiver"></a>2.2 - 接收消息的线程类 Receiver</h3><div class="code-wrapper"><pre><code>class Receiver extends Thread&#123;
+    private PipedInputStream in = new PipedInputStream();
+    public PipedInputStream getInputStream()&#123;return in;&#125;
+    @Override
+    public void run()&#123;
+        String s = null;
+        byte[] buf = new byte[1024];
+        try &#123;
+            int len = in.read(buf); // 读出信息
+            s = new String(buf, 0, len);
+            System.out.println(&quot;收到了以下信息: &quot; + s);
+            in.close();
+        &#125;catch (IOException e)&#123;
+            System.out.println(e.getMessage());
+        &#125;
+    &#125;
+&#125;</code></pre></div><p>声明的字节数组大小为1024原因是:类PipedInputStream运用的是一个1024字节固定大小的循环缓冲区。实际上，写入PipedOutputStream的数据保存到对应的PipedInputStream的内部缓冲区。</p>
+<h2 id="3-进行管道流测试的主类-管道流的使用"><a href="#3-进行管道流测试的主类-管道流的使用" class="headerlink" title="3 - 进行管道流测试的主类(管道流的使用)"></a>3 - 进行管道流测试的主类(管道流的使用)</h2><div class="code-wrapper"><pre><code>public class PipeStreamDemo &#123;
+    public static void main(String[] args) &#123;
+        try &#123;
+            Sender sender = new Sender();   // 创建线程对象sender
+            Receiver receiver = new Receiver(); // 创建线程对象receiver
+            PipedOutputStream out = sender.getOutputStream(); // 写入
+            PipedInputStream in = receiver.getInputStream(); // 读出
+            out.connect(in); // 将输出发送到输入
+            sender.start(); // 启动线程
+            receiver.start();
+        &#125;catch (IOException e)&#123;
+            System.out.println(e.getMessage());
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="4-输出示例"><a href="#4-输出示例" class="headerlink" title="4 - 输出示例"></a>4 - 输出示例</h2><div class="code-wrapper"><pre><code>收到了以下信息: Receiver, 你好!</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Tool</category>
+      </categories>
+      <tags>
+        <tag>IO流</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaBridge模式</title>
+    <url>/2020/09/18/JavaBridge%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  类的功能层次结构和实现层次结构的分离</p>
+</blockquote>
+<h2 id="1-负责”显示”的类"><a href="#1-负责”显示”的类" class="headerlink" title="1 - 负责”显示”的类"></a>1 - 负责”显示”的类</h2><div class="code-wrapper"><pre><code>public class Display &#123;
+    private DisplayImpl impl;
+    public Display(DisplayImpl impl)&#123;
+        this.impl = impl;
+    &#125;
+
+    public void open()&#123;
+        impl.rawOpen();
+    &#125;
+
+    public void print()&#123;
+        impl.rawPrint();
+    &#125;
+
+    public void close()&#123;
+        impl.rawClose();
+    &#125;
+
+    public final void display()&#123;
+        open();
+        print();
+        close();
+    &#125;
+&#125;</code></pre></div><h2 id="2-增加了”只显示规定次数”这一功能的类"><a href="#2-增加了”只显示规定次数”这一功能的类" class="headerlink" title="2 - 增加了”只显示规定次数”这一功能的类"></a>2 - 增加了”只显示规定次数”这一功能的类</h2><div class="code-wrapper"><pre><code>public class CountDisplay extends Display&#123;
+    public CountDisplay(DisplayImpl impl) &#123;
+        super(impl);
+    &#125;
+
+    public void multiDisplay(int times)&#123;
+        open();
+        for (int i = 0; i &lt; times; i++) &#123;
+            print();
+        &#125;
+        close();
+    &#125;
+&#125;</code></pre></div><h2 id="3-负责”显示”的类"><a href="#3-负责”显示”的类" class="headerlink" title="3 - 负责”显示”的类"></a>3 - 负责”显示”的类</h2><div class="code-wrapper"><pre><code>public abstract class DisplayImpl &#123;
+    public abstract void rawOpen();
+    public abstract void rawPrint();
+    public abstract void rawClose();
+&#125;</code></pre></div><h2 id="4-“用字符串显示”的类"><a href="#4-“用字符串显示”的类" class="headerlink" title="4 -  “用字符串显示”的类"></a>4 -  “用字符串显示”的类</h2><div class="code-wrapper"><pre><code>public class StringDisplayImpl extends DisplayImpl&#123;
+    private String string;
+    private int width;
+
+    public StringDisplayImpl(String string)&#123;
+        this.string = string;
+        this.width = string.getBytes().length;
+    &#125;
+    @Override
+    public void rawOpen() &#123;
+        printLine();
+    &#125;
+
+    @Override
+    public void rawPrint() &#123;
+        System.out.println(&quot;|&quot; + string + &quot;|&quot;);
+    &#125;
+
+    @Override
+    public void rawClose() &#123;
+        printLine();
+    &#125;
+
+    private void printLine()&#123;
+        System.out.print(&quot;+&quot;);
+        for (int i = 0; i &lt; width; i++) &#123;
+            System.out.print(&quot;-&quot;);
+        &#125;
+        System.out.println(&quot;+&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="5-测试程序的类"><a href="#5-测试程序的类" class="headerlink" title="5 - 测试程序的类"></a>5 - 测试程序的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        Display d1 = new Display(new StringDisplayImpl(&quot;Hello, China.&quot;));
+        Display d2 = new CountDisplay(new StringDisplayImpl(&quot;Hello, World.&quot;));
+        CountDisplay d3 = new CountDisplay(new StringDisplayImpl(&quot;Hello, Universe.&quot;));
+
+        d1.display();
+        d2.display();
+        d3.display();
+        d3.multiDisplay(3);
+    &#125;
+&#125;</code></pre></div><h2 id="6-输出示例"><a href="#6-输出示例" class="headerlink" title="6 - 输出示例"></a>6 - 输出示例</h2><div class="code-wrapper"><pre><code>+-------------+
+|Hello, China.|
++-------------+
++-------------+
+|Hello, World.|
++-------------+
++----------------+
+|Hello, Universe.|
++----------------+
++----------------+
+|Hello, Universe.|
+|Hello, Universe.|
+|Hello, Universe.|
++----------------+</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -880,111 +985,6 @@ public class Main5 &#123;
 &lt;/ul&gt;
 &lt;/body&gt;&lt;/html&gt;</code></pre></div><p>在进行一些复杂实例的组装中我们经常用到如下模式</p>
 ]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>JavaBridge模式</title>
-    <url>/2020/09/18/JavaBridge%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  类的功能层次结构和实现层次结构的分离</p>
-</blockquote>
-<h2 id="1-负责”显示”的类"><a href="#1-负责”显示”的类" class="headerlink" title="1 - 负责”显示”的类"></a>1 - 负责”显示”的类</h2><div class="code-wrapper"><pre><code>public class Display &#123;
-    private DisplayImpl impl;
-    public Display(DisplayImpl impl)&#123;
-        this.impl = impl;
-    &#125;
-
-    public void open()&#123;
-        impl.rawOpen();
-    &#125;
-
-    public void print()&#123;
-        impl.rawPrint();
-    &#125;
-
-    public void close()&#123;
-        impl.rawClose();
-    &#125;
-
-    public final void display()&#123;
-        open();
-        print();
-        close();
-    &#125;
-&#125;</code></pre></div><h2 id="2-增加了”只显示规定次数”这一功能的类"><a href="#2-增加了”只显示规定次数”这一功能的类" class="headerlink" title="2 - 增加了”只显示规定次数”这一功能的类"></a>2 - 增加了”只显示规定次数”这一功能的类</h2><div class="code-wrapper"><pre><code>public class CountDisplay extends Display&#123;
-    public CountDisplay(DisplayImpl impl) &#123;
-        super(impl);
-    &#125;
-
-    public void multiDisplay(int times)&#123;
-        open();
-        for (int i = 0; i &lt; times; i++) &#123;
-            print();
-        &#125;
-        close();
-    &#125;
-&#125;</code></pre></div><h2 id="3-负责”显示”的类"><a href="#3-负责”显示”的类" class="headerlink" title="3 - 负责”显示”的类"></a>3 - 负责”显示”的类</h2><div class="code-wrapper"><pre><code>public abstract class DisplayImpl &#123;
-    public abstract void rawOpen();
-    public abstract void rawPrint();
-    public abstract void rawClose();
-&#125;</code></pre></div><h2 id="4-“用字符串显示”的类"><a href="#4-“用字符串显示”的类" class="headerlink" title="4 -  “用字符串显示”的类"></a>4 -  “用字符串显示”的类</h2><div class="code-wrapper"><pre><code>public class StringDisplayImpl extends DisplayImpl&#123;
-    private String string;
-    private int width;
-
-    public StringDisplayImpl(String string)&#123;
-        this.string = string;
-        this.width = string.getBytes().length;
-    &#125;
-    @Override
-    public void rawOpen() &#123;
-        printLine();
-    &#125;
-
-    @Override
-    public void rawPrint() &#123;
-        System.out.println(&quot;|&quot; + string + &quot;|&quot;);
-    &#125;
-
-    @Override
-    public void rawClose() &#123;
-        printLine();
-    &#125;
-
-    private void printLine()&#123;
-        System.out.print(&quot;+&quot;);
-        for (int i = 0; i &lt; width; i++) &#123;
-            System.out.print(&quot;-&quot;);
-        &#125;
-        System.out.println(&quot;+&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="5-测试程序的类"><a href="#5-测试程序的类" class="headerlink" title="5 - 测试程序的类"></a>5 - 测试程序的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        Display d1 = new Display(new StringDisplayImpl(&quot;Hello, China.&quot;));
-        Display d2 = new CountDisplay(new StringDisplayImpl(&quot;Hello, World.&quot;));
-        CountDisplay d3 = new CountDisplay(new StringDisplayImpl(&quot;Hello, Universe.&quot;));
-
-        d1.display();
-        d2.display();
-        d3.display();
-        d3.multiDisplay(3);
-    &#125;
-&#125;</code></pre></div><h2 id="6-输出示例"><a href="#6-输出示例" class="headerlink" title="6 - 输出示例"></a>6 - 输出示例</h2><div class="code-wrapper"><pre><code>+-------------+
-|Hello, China.|
-+-------------+
-+-------------+
-|Hello, World.|
-+-------------+
-+----------------+
-|Hello, Universe.|
-+----------------+
-+----------------+
-|Hello, Universe.|
-|Hello, Universe.|
-|Hello, Universe.|
-+----------------+</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -1747,6 +1747,129 @@ public class Database &#123;
       </categories>
   </entry>
   <entry>
+    <title>JavaObserver模式</title>
+    <url>/2020/09/28/JavaObserver%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  发送状态变化通知</p>
+</blockquote>
+<h2 id="1-表示观察者的接口"><a href="#1-表示观察者的接口" class="headerlink" title="1 - 表示观察者的接口"></a>1 - 表示观察者的接口</h2><div class="code-wrapper"><pre><code>public interface Observer &#123;
+    public abstract void update(NumberGenerator generator);
+&#125;</code></pre></div><h2 id="2-表示生成数值的对象的抽象类"><a href="#2-表示生成数值的对象的抽象类" class="headerlink" title="2 - 表示生成数值的对象的抽象类"></a>2 - 表示生成数值的对象的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class NumberGenerator &#123;
+    private ArrayList observers = new ArrayList();  // 保存Observer们
+
+    public void addObserver(Observer observer) &#123;    // 注册Observer
+        observers.add(observer);
+    &#125;
+
+    public void deleteObserver(Observer observer) &#123;    // 删除Observer
+        observers.remove(observer);
+    &#125;
+
+    public void notifyObservers() &#123;    // 向Observer发送通知
+        for (Object value : observers) &#123;
+            Observer o = (Observer) value;
+            o.update(this);
+        &#125;
+    &#125;
+
+    public abstract int getNumber();    // 获取数值
+    public abstract void execute();     // 生成数值
+&#125;</code></pre></div><h2 id="3-表示生成随机数的类"><a href="#3-表示生成随机数的类" class="headerlink" title="3 - 表示生成随机数的类"></a>3 - 表示生成随机数的类</h2><div class="code-wrapper"><pre><code>public class RandomNumberGenerator extends NumberGenerator&#123;
+    private Random random = new Random();   // 随机数生成器
+    private int number;     // 当前数值
+
+    @Override
+    public int getNumber() &#123;
+        return number;
+    &#125;
+
+    @Override
+    public void execute() &#123;
+        for (int i = 0; i &lt; 20; i++) &#123;
+            number = random.nextInt(50);
+            notifyObservers();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="4-表示以数字形式显示数值的类"><a href="#4-表示以数字形式显示数值的类" class="headerlink" title="4 - 表示以数字形式显示数值的类"></a>4 - 表示以数字形式显示数值的类</h2><div class="code-wrapper"><pre><code>public class DigitObserver implements Observer&#123;
+    @Override
+    public void update(NumberGenerator generator) &#123;
+        System.out.println(&quot;DigitObserver: &quot; + generator.getNumber());
+        try &#123;
+            Thread.sleep(100);
+        &#125;catch (InterruptedException e)&#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="5-表示以简单的图形显示数值的类"><a href="#5-表示以简单的图形显示数值的类" class="headerlink" title="5 - 表示以简单的图形显示数值的类"></a>5 - 表示以简单的图形显示数值的类</h2><div class="code-wrapper"><pre><code>public class GraphObserver implements Observer&#123;
+    @Override
+    public void update(NumberGenerator generator) &#123;
+        System.out.print(&quot;GraphObserver: &quot;);
+        int count = generator.getNumber();
+        for (int i = 0; i &lt; count; i++) &#123;
+            System.out.print(&apos;*&apos;);
+        &#125;
+        System.out.println();
+        try &#123;
+            Thread.sleep(100);
+        &#125;catch (InterruptedException e)&#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="6-测试程序行为的类"><a href="#6-测试程序行为的类" class="headerlink" title="6 - 测试程序行为的类"></a>6 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        NumberGenerator generator = new RandomNumberGenerator();
+        Observer observer1 = new DigitObserver();
+        Observer observer2 = new GraphObserver();
+        generator.addObserver(observer1);
+        generator.addObserver(observer2);
+        generator.execute();
+    &#125;
+&#125;</code></pre></div><h2 id="7-输出示例"><a href="#7-输出示例" class="headerlink" title="7 - 输出示例"></a>7 - 输出示例</h2><div class="code-wrapper"><pre><code>DigitObserver: 9
+GraphObserver: *********
+DigitObserver: 16
+GraphObserver: ****************
+DigitObserver: 40
+GraphObserver: ****************************************
+DigitObserver: 34
+GraphObserver: **********************************
+DigitObserver: 18
+GraphObserver: ******************
+DigitObserver: 6
+GraphObserver: ******
+DigitObserver: 34
+GraphObserver: **********************************
+DigitObserver: 31
+GraphObserver: *******************************
+DigitObserver: 17
+GraphObserver: *****************
+DigitObserver: 47
+GraphObserver: ***********************************************
+DigitObserver: 21
+GraphObserver: *********************
+DigitObserver: 34
+GraphObserver: **********************************
+DigitObserver: 18
+GraphObserver: ******************
+DigitObserver: 25
+GraphObserver: *************************
+DigitObserver: 39
+GraphObserver: ***************************************
+DigitObserver: 20
+GraphObserver: ********************
+DigitObserver: 9
+GraphObserver: *********
+DigitObserver: 4
+GraphObserver: ****
+DigitObserver: 8
+GraphObserver: ********
+DigitObserver: 26
+GraphObserver: **************************</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
     <title>JavaInterpreter模式</title>
     <url>/2020/10/16/JavaInterpreter%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -2296,129 +2419,6 @@ when=1601126737494,modifiers=] on button0</code></pre></div>]]></content>
       </categories>
   </entry>
   <entry>
-    <title>JavaObserver模式</title>
-    <url>/2020/09/28/JavaObserver%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  发送状态变化通知</p>
-</blockquote>
-<h2 id="1-表示观察者的接口"><a href="#1-表示观察者的接口" class="headerlink" title="1 - 表示观察者的接口"></a>1 - 表示观察者的接口</h2><div class="code-wrapper"><pre><code>public interface Observer &#123;
-    public abstract void update(NumberGenerator generator);
-&#125;</code></pre></div><h2 id="2-表示生成数值的对象的抽象类"><a href="#2-表示生成数值的对象的抽象类" class="headerlink" title="2 - 表示生成数值的对象的抽象类"></a>2 - 表示生成数值的对象的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class NumberGenerator &#123;
-    private ArrayList observers = new ArrayList();  // 保存Observer们
-
-    public void addObserver(Observer observer) &#123;    // 注册Observer
-        observers.add(observer);
-    &#125;
-
-    public void deleteObserver(Observer observer) &#123;    // 删除Observer
-        observers.remove(observer);
-    &#125;
-
-    public void notifyObservers() &#123;    // 向Observer发送通知
-        for (Object value : observers) &#123;
-            Observer o = (Observer) value;
-            o.update(this);
-        &#125;
-    &#125;
-
-    public abstract int getNumber();    // 获取数值
-    public abstract void execute();     // 生成数值
-&#125;</code></pre></div><h2 id="3-表示生成随机数的类"><a href="#3-表示生成随机数的类" class="headerlink" title="3 - 表示生成随机数的类"></a>3 - 表示生成随机数的类</h2><div class="code-wrapper"><pre><code>public class RandomNumberGenerator extends NumberGenerator&#123;
-    private Random random = new Random();   // 随机数生成器
-    private int number;     // 当前数值
-
-    @Override
-    public int getNumber() &#123;
-        return number;
-    &#125;
-
-    @Override
-    public void execute() &#123;
-        for (int i = 0; i &lt; 20; i++) &#123;
-            number = random.nextInt(50);
-            notifyObservers();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="4-表示以数字形式显示数值的类"><a href="#4-表示以数字形式显示数值的类" class="headerlink" title="4 - 表示以数字形式显示数值的类"></a>4 - 表示以数字形式显示数值的类</h2><div class="code-wrapper"><pre><code>public class DigitObserver implements Observer&#123;
-    @Override
-    public void update(NumberGenerator generator) &#123;
-        System.out.println(&quot;DigitObserver: &quot; + generator.getNumber());
-        try &#123;
-            Thread.sleep(100);
-        &#125;catch (InterruptedException e)&#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="5-表示以简单的图形显示数值的类"><a href="#5-表示以简单的图形显示数值的类" class="headerlink" title="5 - 表示以简单的图形显示数值的类"></a>5 - 表示以简单的图形显示数值的类</h2><div class="code-wrapper"><pre><code>public class GraphObserver implements Observer&#123;
-    @Override
-    public void update(NumberGenerator generator) &#123;
-        System.out.print(&quot;GraphObserver: &quot;);
-        int count = generator.getNumber();
-        for (int i = 0; i &lt; count; i++) &#123;
-            System.out.print(&apos;*&apos;);
-        &#125;
-        System.out.println();
-        try &#123;
-            Thread.sleep(100);
-        &#125;catch (InterruptedException e)&#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="6-测试程序行为的类"><a href="#6-测试程序行为的类" class="headerlink" title="6 - 测试程序行为的类"></a>6 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        NumberGenerator generator = new RandomNumberGenerator();
-        Observer observer1 = new DigitObserver();
-        Observer observer2 = new GraphObserver();
-        generator.addObserver(observer1);
-        generator.addObserver(observer2);
-        generator.execute();
-    &#125;
-&#125;</code></pre></div><h2 id="7-输出示例"><a href="#7-输出示例" class="headerlink" title="7 - 输出示例"></a>7 - 输出示例</h2><div class="code-wrapper"><pre><code>DigitObserver: 9
-GraphObserver: *********
-DigitObserver: 16
-GraphObserver: ****************
-DigitObserver: 40
-GraphObserver: ****************************************
-DigitObserver: 34
-GraphObserver: **********************************
-DigitObserver: 18
-GraphObserver: ******************
-DigitObserver: 6
-GraphObserver: ******
-DigitObserver: 34
-GraphObserver: **********************************
-DigitObserver: 31
-GraphObserver: *******************************
-DigitObserver: 17
-GraphObserver: *****************
-DigitObserver: 47
-GraphObserver: ***********************************************
-DigitObserver: 21
-GraphObserver: *********************
-DigitObserver: 34
-GraphObserver: **********************************
-DigitObserver: 18
-GraphObserver: ******************
-DigitObserver: 25
-GraphObserver: *************************
-DigitObserver: 39
-GraphObserver: ***************************************
-DigitObserver: 20
-GraphObserver: ********************
-DigitObserver: 9
-GraphObserver: *********
-DigitObserver: 4
-GraphObserver: ****
-DigitObserver: 8
-GraphObserver: ********
-DigitObserver: 26
-GraphObserver: **************************</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
     <title>JavaPrototype模式</title>
     <url>/2020/09/12/JavaPrototype%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -2528,103 +2528,6 @@ public class Manager &#123;
 / Hello, world. /
 /////////////////</code></pre></div><p>在一些情况下,我们很难将种类繁多的对象整合到一个类中或者根据一个类来生成它的的实例,这个时候我们就可以以复制的方式,来根据实例生成新的实例.</p>
 ]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>JavaProxy模式</title>
-    <url>/2020/10/11/JavaProxy%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="1-Printer和PrinterProxy的共同接口"><a href="#1-Printer和PrinterProxy的共同接口" class="headerlink" title="1 - Printer和PrinterProxy的共同接口"></a>1 - Printer和PrinterProxy的共同接口</h2><div class="code-wrapper"><pre><code>public interface Printable &#123;
-    public abstract void setPrinterName(String name);
-    public abstract String getPrinterName();
-    public abstract void print(String string);
-&#125;</code></pre></div><h2 id="2-表示带名字的打印机类-本人"><a href="#2-表示带名字的打印机类-本人" class="headerlink" title="2 - 表示带名字的打印机类(本人)"></a>2 - 表示带名字的打印机类(本人)</h2><div class="code-wrapper"><pre><code>public class Printer implements Printable &#123;
-    private String name;
-    public Printer() &#123;
-        heavyJob(&quot;正在生成Printer的实例&quot;);
-    &#125;
-
-    public Printer(String name) &#123;
-        this.name = name;
-        heavyJob(&quot;正在生成Printer的实例(&quot; + name + &quot;)&quot;);
-    &#125;
-
-    @Override
-    public void setPrinterName(String name) &#123;
-        this.name = name;
-    &#125;
-
-    @Override
-    public String getPrinterName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public void print(String string) &#123;
-        System.out.println(&quot;===&quot; + name + &quot;===&quot;);
-        System.out.println(string);
-    &#125;
-
-    private void heavyJob(String msg) &#123;
-        System.out.print(msg);
-        for (int i = 0; i &lt; 5; i++) &#123;
-            try &#123;
-                Thread.sleep(1000);
-            &#125;catch (InterruptedException ignored) &#123;
-            &#125;
-            System.out.print(&apos;.&apos;);
-        &#125;
-        System.out.println(&quot;结束!&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="3-表示带名字的打印机类-代理人"><a href="#3-表示带名字的打印机类-代理人" class="headerlink" title="3 - 表示带名字的打印机类(代理人)"></a>3 - 表示带名字的打印机类(代理人)</h2><div class="code-wrapper"><pre><code>public class PrinterProxy implements Printable&#123;
-    private String name;
-    private Printer real;
-
-    public PrinterProxy()&#123;&#125;
-
-    public PrinterProxy(String name) &#123;
-        this.name = name;
-    &#125;
-
-    @Override
-    public synchronized void setPrinterName(String name) &#123;
-        if (real != null) &#123;
-            real.setPrinterName(name);
-        &#125;
-        this.name = name;
-    &#125;
-
-    @Override
-    public String getPrinterName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public void print(String string) &#123;
-        realize();
-        real.print(string);
-    &#125;
-
-    private synchronized void realize() &#123;
-        if (real == null) &#123;
-            real = new Printer(name);
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        Printable p = new PrinterProxy(&quot;Alice&quot;);
-        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
-        p.setPrinterName(&quot;Bob&quot;);
-        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
-        p.print(&quot;Hello, world.&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>现在名字是Alice.
-现在名字是Bob.
-正在生成Printer的实例(Bob).....结束!
-===Bob===
-Hello, world.</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -3061,6 +2964,103 @@ Total result:
       </categories>
   </entry>
   <entry>
+    <title>JavaProxy模式</title>
+    <url>/2020/10/11/JavaProxy%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="1-Printer和PrinterProxy的共同接口"><a href="#1-Printer和PrinterProxy的共同接口" class="headerlink" title="1 - Printer和PrinterProxy的共同接口"></a>1 - Printer和PrinterProxy的共同接口</h2><div class="code-wrapper"><pre><code>public interface Printable &#123;
+    public abstract void setPrinterName(String name);
+    public abstract String getPrinterName();
+    public abstract void print(String string);
+&#125;</code></pre></div><h2 id="2-表示带名字的打印机类-本人"><a href="#2-表示带名字的打印机类-本人" class="headerlink" title="2 - 表示带名字的打印机类(本人)"></a>2 - 表示带名字的打印机类(本人)</h2><div class="code-wrapper"><pre><code>public class Printer implements Printable &#123;
+    private String name;
+    public Printer() &#123;
+        heavyJob(&quot;正在生成Printer的实例&quot;);
+    &#125;
+
+    public Printer(String name) &#123;
+        this.name = name;
+        heavyJob(&quot;正在生成Printer的实例(&quot; + name + &quot;)&quot;);
+    &#125;
+
+    @Override
+    public void setPrinterName(String name) &#123;
+        this.name = name;
+    &#125;
+
+    @Override
+    public String getPrinterName() &#123;
+        return name;
+    &#125;
+
+    @Override
+    public void print(String string) &#123;
+        System.out.println(&quot;===&quot; + name + &quot;===&quot;);
+        System.out.println(string);
+    &#125;
+
+    private void heavyJob(String msg) &#123;
+        System.out.print(msg);
+        for (int i = 0; i &lt; 5; i++) &#123;
+            try &#123;
+                Thread.sleep(1000);
+            &#125;catch (InterruptedException ignored) &#123;
+            &#125;
+            System.out.print(&apos;.&apos;);
+        &#125;
+        System.out.println(&quot;结束!&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="3-表示带名字的打印机类-代理人"><a href="#3-表示带名字的打印机类-代理人" class="headerlink" title="3 - 表示带名字的打印机类(代理人)"></a>3 - 表示带名字的打印机类(代理人)</h2><div class="code-wrapper"><pre><code>public class PrinterProxy implements Printable&#123;
+    private String name;
+    private Printer real;
+
+    public PrinterProxy()&#123;&#125;
+
+    public PrinterProxy(String name) &#123;
+        this.name = name;
+    &#125;
+
+    @Override
+    public synchronized void setPrinterName(String name) &#123;
+        if (real != null) &#123;
+            real.setPrinterName(name);
+        &#125;
+        this.name = name;
+    &#125;
+
+    @Override
+    public String getPrinterName() &#123;
+        return name;
+    &#125;
+
+    @Override
+    public void print(String string) &#123;
+        realize();
+        real.print(string);
+    &#125;
+
+    private synchronized void realize() &#123;
+        if (real == null) &#123;
+            real = new Printer(name);
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        Printable p = new PrinterProxy(&quot;Alice&quot;);
+        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
+        p.setPrinterName(&quot;Bob&quot;);
+        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
+        p.print(&quot;Hello, world.&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>现在名字是Alice.
+现在名字是Bob.
+正在生成Printer的实例(Bob).....结束!
+===Bob===
+Hello, world.</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
     <title>JavaVisitor模式</title>
     <url>/2020/09/22/JavaVisitor%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -3484,6 +3484,55 @@ class Person implements Serializable&#123;
       </tags>
   </entry>
   <entry>
+    <title>Java的注释接口</title>
+    <url>/2020/08/07/Java%E7%9A%84%E6%B3%A8%E9%87%8A%E6%8E%A5%E5%8F%A3/</url>
+    <content><![CDATA[<blockquote>
+</blockquote>
+<blockquote>
+<p>  注解 - 给编译器看的注释</p>
+</blockquote>
+<h2 id="1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的"><a href="#1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的" class="headerlink" title="1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的"></a>1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的</h2><div class="code-wrapper"><pre><code>class Message&#123;
+    @Override
+    public String toString()&#123;
+        return &quot;Hello world!&quot;;
+    &#125;
+&#125;</code></pre></div><p>如果改写的方法名，参数，类型有错误编译器会报错，可以给程序员提示。</p>
+<h2 id="2-Deprecated注释表示这个方法已经过时，不建议使用"><a href="#2-Deprecated注释表示这个方法已经过时，不建议使用" class="headerlink" title="2. @Deprecated注释表示这个方法已经过时，不建议使用"></a>2. @Deprecated注释表示这个方法已经过时，不建议使用</h2><div class="code-wrapper"><pre><code>class Info&#123;
+    @Deprecated
+    public String getInfo()&#123;
+        return &quot;Hello world.&quot;;
+    &#125;
+&#125;</code></pre></div><p>被注释的方法仍然可以使用，只是编译器不推荐而已</p>
+<h2 id="3-SuppressWarnings注释用来压制”某些”的警告信息"><a href="#3-SuppressWarnings注释用来压制”某些”的警告信息" class="headerlink" title="3. @SuppressWarnings注释用来压制”某些”的警告信息"></a>3. @SuppressWarnings注释用来压制”某些”的警告信息</h2><div class="code-wrapper"><pre><code>public class SuppressWarningsAnnotation &#123;
+    public static void main(String[] args) &#123;
+        // 用来压制&quot;未使用&quot;的警告信息
+        @SuppressWarnings(&quot;unused&quot;)
+        int i;
+        System.out.println(&quot;Hello world.&quot;);
+    &#125;
+&#125;</code></pre></div><p>在这个例子中我们通过往注释中添加“unused”参数，来压制变量未使用这一警告信息</p>
+<h2 id="4-实现我们自己自定义的注释，必须使用-interface接口来修饰"><a href="#4-实现我们自己自定义的注释，必须使用-interface接口来修饰" class="headerlink" title="4. 实现我们自己自定义的注释，必须使用@interface接口来修饰"></a>4. 实现我们自己自定义的注释，必须使用@interface接口来修饰</h2><div class="code-wrapper"><pre><code>@interface Anno&#123;
+    public String key();
+    public String value();
+&#125;
+
+public class TestAnno &#123;
+    @Anno(key = &quot;var1&quot;, value = &quot;test&quot;)
+    public static void main(String[] args) &#123;
+        System.out.println(&quot;Hello world!&quot;);
+    &#125;
+&#125;</code></pre></div><p>我们可以在自己实现的注释里添加属性或方法</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Tool</category>
+      </categories>
+      <tags>
+        <tag>注解</tag>
+        <tag>给编译器看的注释</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java操作MySQL数据库</title>
     <url>/2020/08/22/Java%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
     <content><![CDATA[<h2 id="1-首先-Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8-0-16-jar-并导入此包"><a href="#1-首先-Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8-0-16-jar-并导入此包" class="headerlink" title="1 - 首先, Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8.0.16.jar, 并导入此包"></a>1 - 首先, Java要连接MySQL数据库需要安装驱动包<a href="https://static.runoob.com/download/mysql-connector-java-8.0.16.jar">mysql-connector-java-8.0.16.jar</a>, 并导入此包</h2><h2 id="2-准备相应的数据"><a href="#2-准备相应的数据" class="headerlink" title="2 - 准备相应的数据"></a>2 - 准备相应的数据</h2><div class="code-wrapper"><pre><code>static final String USER = &quot;用户名&quot;;
@@ -3575,55 +3624,6 @@ public static void main(String[] args) &#123;
       <tags>
         <tag>Database</tag>
         <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java的注释接口</title>
-    <url>/2020/08/07/Java%E7%9A%84%E6%B3%A8%E9%87%8A%E6%8E%A5%E5%8F%A3/</url>
-    <content><![CDATA[<blockquote>
-</blockquote>
-<blockquote>
-<p>  注解 - 给编译器看的注释</p>
-</blockquote>
-<h2 id="1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的"><a href="#1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的" class="headerlink" title="1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的"></a>1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的</h2><div class="code-wrapper"><pre><code>class Message&#123;
-    @Override
-    public String toString()&#123;
-        return &quot;Hello world!&quot;;
-    &#125;
-&#125;</code></pre></div><p>如果改写的方法名，参数，类型有错误编译器会报错，可以给程序员提示。</p>
-<h2 id="2-Deprecated注释表示这个方法已经过时，不建议使用"><a href="#2-Deprecated注释表示这个方法已经过时，不建议使用" class="headerlink" title="2. @Deprecated注释表示这个方法已经过时，不建议使用"></a>2. @Deprecated注释表示这个方法已经过时，不建议使用</h2><div class="code-wrapper"><pre><code>class Info&#123;
-    @Deprecated
-    public String getInfo()&#123;
-        return &quot;Hello world.&quot;;
-    &#125;
-&#125;</code></pre></div><p>被注释的方法仍然可以使用，只是编译器不推荐而已</p>
-<h2 id="3-SuppressWarnings注释用来压制”某些”的警告信息"><a href="#3-SuppressWarnings注释用来压制”某些”的警告信息" class="headerlink" title="3. @SuppressWarnings注释用来压制”某些”的警告信息"></a>3. @SuppressWarnings注释用来压制”某些”的警告信息</h2><div class="code-wrapper"><pre><code>public class SuppressWarningsAnnotation &#123;
-    public static void main(String[] args) &#123;
-        // 用来压制&quot;未使用&quot;的警告信息
-        @SuppressWarnings(&quot;unused&quot;)
-        int i;
-        System.out.println(&quot;Hello world.&quot;);
-    &#125;
-&#125;</code></pre></div><p>在这个例子中我们通过往注释中添加“unused”参数，来压制变量未使用这一警告信息</p>
-<h2 id="4-实现我们自己自定义的注释，必须使用-interface接口来修饰"><a href="#4-实现我们自己自定义的注释，必须使用-interface接口来修饰" class="headerlink" title="4. 实现我们自己自定义的注释，必须使用@interface接口来修饰"></a>4. 实现我们自己自定义的注释，必须使用@interface接口来修饰</h2><div class="code-wrapper"><pre><code>@interface Anno&#123;
-    public String key();
-    public String value();
-&#125;
-
-public class TestAnno &#123;
-    @Anno(key = &quot;var1&quot;, value = &quot;test&quot;)
-    public static void main(String[] args) &#123;
-        System.out.println(&quot;Hello world!&quot;);
-    &#125;
-&#125;</code></pre></div><p>我们可以在自己实现的注释里添加属性或方法</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>注解</tag>
-        <tag>给编译器看的注释</tag>
       </tags>
   </entry>
   <entry>
@@ -3940,6 +3940,59 @@ class TestThread implements Runnable&#123;
       </tags>
   </entry>
   <entry>
+    <title>Node.js的安装和环境变量的配置</title>
+    <url>/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="1-下载安装包"><a href="#1-下载安装包" class="headerlink" title="1, 下载安装包"></a>1, 下载安装包</h2><p>去 <a href="https://nodejs.org/en/">nodejs官网</a> 下载 找到 <a href="https://nodejs.org/dist/latest-v12.x/">node-v12</a> 的下载清单，找到 node-v12.22.1-x64.msi，下载即可。</p>
+<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413131804825.png" alt="image-20210413131804825"></p>
+<h2 id="2，安装"><a href="#2，安装" class="headerlink" title="2，安装"></a>2，安装</h2><p>除了要修改安装路径之外， 其他一切默认即可。</p>
+<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/20200224001033440.png" alt="img"></p>
+<h2 id="3，环境配置"><a href="#3，环境配置" class="headerlink" title="3，环境配置"></a>3，环境配置</h2><ul>
+<li>一般默认安装，都会将路径添加系统变量的path里，所以可以通过，node -v 和 npm -v 查看版本号。</li>
+</ul>
+<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413132613848.png" alt="image-20210413132613848"></p>
+<ul>
+<li><p>一般开始安装的npm 都是6.x 版本， 我们之后可以通过 npm install -g npm 来做npm的全局升级。</p>
+</li>
+<li><p>之后我们需要在 D:\PNCA\environment\nodejs\node-v12.22.0\ 新建两个包</p>
+<ul>
+<li><strong>node_cache</strong></li>
+<li><strong>node_global</strong></li>
+<li>因为开始默认是在 C:\Users\Administrator\AppData\Roaming\npm\node_modules 下，安装全局包的，所以我们修改到D盘下。</li>
+<li>可以通过 <strong>npm root -g</strong> 来查看全局包的路径</li>
+</ul>
+</li>
+<li><p>然后在命令行里运行两条命令</p>
+<ul>
+<li>npm config set prefix “D:\PNCA\environment\nodejs\node-v12.22.0\node_global”</li>
+<li>npm config set cache “D:\PNCA\environment\nodejs\node-v12.22.0\node_cache”</li>
+</ul>
+</li>
+<li><p>找到 D:\PNCA\environment\nodejs\node-v12.22.0\node_modules\npm\ 下的 .npmrc。</p>
+<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413133432356.png" alt="image-20210413133432356"></p>
+<ul>
+<li>修改其内容为：</li>
+<li>prefix=D:\PNCA\environment\nodejs\node-v12.22.0\node_global</li>
+<li>cache=D:\PNCA\environment\nodejs\node-v12.22.0\node_cache</li>
+</ul>
+</li>
+<li><p>修改用户变量</p>
+<p>D:\PNCA\environment\nodejs\node-v12.22.0\node_global</p>
+</li>
+<li><p>在系统变量里</p>
+<p>添加 NODE_HOME: D:\PNCA\environment\nodejs\node-v12.22.0\node_modules\</p>
+</li>
+</ul>
+<h2 id="4，测试"><a href="#4，测试" class="headerlink" title="4，测试"></a>4，测试</h2><p>npm install express -g</p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Win</category>
+      </categories>
+      <tags>
+        <tag>Node</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python使用协程做离散事件仿真</title>
     <url>/2020/08/28/Python%E4%BD%BF%E7%94%A8%E5%8D%8F%E7%A8%8B%E5%81%9A%E7%A6%BB%E6%95%A3%E4%BA%8B%E4%BB%B6%E4%BB%BF%E7%9C%9F/</url>
     <content><![CDATA[<h2 id="1-需要导入的库"><a href="#1-需要导入的库" class="headerlink" title="1 - 需要导入的库"></a>1 - 需要导入的库</h2><div class="code-wrapper"><pre><code>import collections
@@ -4029,59 +4082,6 @@ def run(self, end_time):
       <tags>
         <tag>装饰器</tag>
         <tag>可读性</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Node.js的安装和环境变量的配置</title>
-    <url>/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h2 id="1-下载安装包"><a href="#1-下载安装包" class="headerlink" title="1, 下载安装包"></a>1, 下载安装包</h2><p>去 <a href="https://nodejs.org/en/">nodejs官网</a> 下载 找到 <a href="https://nodejs.org/dist/latest-v12.x/">node-v12</a> 的下载清单，找到 node-v12.22.1-x64.msi，下载即可。</p>
-<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413131804825.png" alt="image-20210413131804825"></p>
-<h2 id="2，安装"><a href="#2，安装" class="headerlink" title="2，安装"></a>2，安装</h2><p>除了要修改安装路径之外， 其他一切默认即可。</p>
-<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/20200224001033440.png" alt="img"></p>
-<h2 id="3，环境配置"><a href="#3，环境配置" class="headerlink" title="3，环境配置"></a>3，环境配置</h2><ul>
-<li>一般默认安装，都会将路径添加系统变量的path里，所以可以通过，node -v 和 npm -v 查看版本号。</li>
-</ul>
-<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413132613848.png" alt="image-20210413132613848"></p>
-<ul>
-<li><p>一般开始安装的npm 都是6.x 版本， 我们之后可以通过 npm install -g npm 来做npm的全局升级。</p>
-</li>
-<li><p>之后我们需要在 D:\PNCA\environment\nodejs\node-v12.22.0\ 新建两个包</p>
-<ul>
-<li><strong>node_cache</strong></li>
-<li><strong>node_global</strong></li>
-<li>因为开始默认是在 C:\Users\Administrator\AppData\Roaming\npm\node_modules 下，安装全局包的，所以我们修改到D盘下。</li>
-<li>可以通过 <strong>npm root -g</strong> 来查看全局包的路径</li>
-</ul>
-</li>
-<li><p>然后在命令行里运行两条命令</p>
-<ul>
-<li>npm config set prefix “D:\PNCA\environment\nodejs\node-v12.22.0\node_global”</li>
-<li>npm config set cache “D:\PNCA\environment\nodejs\node-v12.22.0\node_cache”</li>
-</ul>
-</li>
-<li><p>找到 D:\PNCA\environment\nodejs\node-v12.22.0\node_modules\npm\ 下的 .npmrc。</p>
-<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413133432356.png" alt="image-20210413133432356"></p>
-<ul>
-<li>修改其内容为：</li>
-<li>prefix=D:\PNCA\environment\nodejs\node-v12.22.0\node_global</li>
-<li>cache=D:\PNCA\environment\nodejs\node-v12.22.0\node_cache</li>
-</ul>
-</li>
-<li><p>修改用户变量</p>
-<p>D:\PNCA\environment\nodejs\node-v12.22.0\node_global</p>
-</li>
-<li><p>在系统变量里</p>
-<p>添加 NODE_HOME: D:\PNCA\environment\nodejs\node-v12.22.0\node_modules\</p>
-</li>
-</ul>
-<h2 id="4，测试"><a href="#4，测试" class="headerlink" title="4，测试"></a>4，测试</h2><p>npm install express -g</p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Win</category>
-      </categories>
-      <tags>
-        <tag>Node</tag>
       </tags>
   </entry>
   <entry>
@@ -5098,6 +5098,55 @@ source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
       </tags>
   </entry>
   <entry>
+    <title>如何高效的在Github 上寻找项目</title>
+    <url>/2021/03/29/%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E7%9A%84Github%E4%B8%8A%E5%AF%BB%E6%89%BE%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>in:name 爬虫</td>
+<td>搜索名字中带有”爬虫”的</td>
+</tr>
+<tr>
+<td>in:readme 爬虫</td>
+<td>搜索readme中带有”爬虫”的</td>
+</tr>
+<tr>
+<td>in:description 爬虫</td>
+<td>搜索描述中带有”爬虫”的</td>
+</tr>
+<tr>
+<td>stars:&gt;1000</td>
+<td>搜索stars&gt;1000的</td>
+</tr>
+<tr>
+<td>forks:&gt;1000</td>
+<td>搜索forks&gt;1000的</td>
+</tr>
+<tr>
+<td>pushed:&gt;2019-09-01</td>
+<td>搜索最近更新于2019年9月1日之后的</td>
+</tr>
+<tr>
+<td>language:Python</td>
+<td>搜索Python的项目</td>
+</tr>
+</tbody></table>
+<p><strong>以上条件可以组合使用, 每个条件以空格区分</strong></p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Git</category>
+      </categories>
+      <tags>
+        <tag>Github</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>常见的压缩文件压缩和解压缩</title>
     <url>/2021/04/23/%E5%B8%B8%E8%A7%81%E7%9A%84%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E5%92%8C%E8%A7%A3%E5%8E%8B%E7%BC%A9/</url>
     <content><![CDATA[<h2 id="常见的压缩文件压缩和解压缩"><a href="#常见的压缩文件压缩和解压缩" class="headerlink" title="常见的压缩文件压缩和解压缩"></a>常见的压缩文件压缩和解压缩</h2><table>
@@ -5175,55 +5224,6 @@ source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
         <category>Help</category>
         <category>Linux</category>
       </categories>
-  </entry>
-  <entry>
-    <title>如何高效的在Github 上寻找项目</title>
-    <url>/2021/03/29/%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E7%9A%84Github%E4%B8%8A%E5%AF%BB%E6%89%BE%E9%A1%B9%E7%9B%AE/</url>
-    <content><![CDATA[<table>
-<thead>
-<tr>
-<th>条件</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>in:name 爬虫</td>
-<td>搜索名字中带有”爬虫”的</td>
-</tr>
-<tr>
-<td>in:readme 爬虫</td>
-<td>搜索readme中带有”爬虫”的</td>
-</tr>
-<tr>
-<td>in:description 爬虫</td>
-<td>搜索描述中带有”爬虫”的</td>
-</tr>
-<tr>
-<td>stars:&gt;1000</td>
-<td>搜索stars&gt;1000的</td>
-</tr>
-<tr>
-<td>forks:&gt;1000</td>
-<td>搜索forks&gt;1000的</td>
-</tr>
-<tr>
-<td>pushed:&gt;2019-09-01</td>
-<td>搜索最近更新于2019年9月1日之后的</td>
-</tr>
-<tr>
-<td>language:Python</td>
-<td>搜索Python的项目</td>
-</tr>
-</tbody></table>
-<p><strong>以上条件可以组合使用, 每个条件以空格区分</strong></p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Git</category>
-      </categories>
-      <tags>
-        <tag>Github</tag>
-      </tags>
   </entry>
   <entry>
     <title>我的第一篇博客文章</title>
@@ -30112,7 +30112,286 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <li>多次调用 - <a href="http://localhost:8401/rateLimit/byUrl">http://localhost:8401/rateLimit/byUrl</a></li>
 <li>重新配置出现了，持久化验证通过</li>
 </ul>
-]]></content>
+<h2 id="11-Seata"><a href="#11-Seata" class="headerlink" title="11 Seata"></a>11 Seata</h2><h3 id="11-1-分布式事务问题由来"><a href="#11-1-分布式事务问题由来" class="headerlink" title="11.1 分布式事务问题由来"></a>11.1 分布式事务问题由来</h3><p>分布式前</p>
+<ul>
+<li>单机单库没这个问题</li>
+<li>从1:1 -&gt; 1:N -&gt; N:N</li>
+</ul>
+<p>单体应用被拆分成微服务应用，原来的三个模块被拆分成三个独立的应用,分别使用三个独立的数据源，业务操作需要调用三三 个服务来完成。此时<strong>每个服务内部的数据一致性由本地事务来保证， 但是全局的数据一致性问题没法保证</strong>。</p>
+<p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/9a619fb6a635ac96f2f17734bcda7967.png" alt></p>
+<p>一句话：<strong>一次业务操作需要跨多个数据源或需要跨多个系统进行远程调用，就会产生分布式事务问题</strong>。</p>
+<h3 id="11-2-Seata术语"><a href="#11-2-Seata术语" class="headerlink" title="11.2 Seata术语"></a>11.2 Seata术语</h3><p><strong>是什么</strong></p>
+<p>Seata是一款开源的分布式事务解决方案，致力于在微服务架构下提供高性能和简单易用的分布式事务服务。</p>
+<p><a href="http://seata.io/zh-cn/">官方网址</a></p>
+<p><strong>能干嘛</strong></p>
+<p>一个典型的分布式事务过程</p>
+<p>分布式事务处理过程的一ID+三组件模型：</p>
+<ul>
+<li>Transaction ID XID 全局唯一的事务ID</li>
+<li>三组件概念<ul>
+<li>TC (Transaction Coordinator) - 事务协调者：维护全局和分支事务的状态，驱动全局事务提交或回滚。</li>
+<li>TM (Transaction Manager) - 事务管理器：定义全局事务的范围：开始全局事务、提交或回滚全局事务。</li>
+<li>RM (Resource Manager) - 资源管理器：管理分支事务处理的资源，与TC交谈以注册分支事务和报告分支事务的状态，并驱动分支事务提交或回滚。</li>
+</ul>
+</li>
+</ul>
+<p>处理过程：</p>
+<ol>
+<li>TM向TC申请开启一个全局事务，全局事务创建成功并生成一个全局唯一的XID；</li>
+<li>XID在微服务调用链路的上下文中传播；</li>
+<li>RM向TC注册分支事务，将其纳入XID对应全局事务的管辖；</li>
+<li>TM向TC发起针对XID的全局提交或回滚决议；</li>
+<li>TC调度XID下管辖的全部分支事务完成提交或回滚请求。</li>
+</ol>
+<p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/2d2c6aa29c3158413f66d4ef8c1000dc.png" alt></p>
+<h3 id="11-3-Seata-Server安装"><a href="#11-3-Seata-Server安装" class="headerlink" title="11.3 Seata-Server安装"></a>11.3 Seata-Server安装</h3><p><strong>去哪下</strong></p>
+<p>发布说明: <a href="https://github.com/seata/seata/releases">https://github.com/seata/seata/releases</a></p>
+<p><strong>怎么玩</strong></p>
+<p>本地@Transactional</p>
+<p>全局@GlobalTransactional</p>
+<p><strong>SEATA 的分布式交易解决方案</strong></p>
+<p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/302377d33ddcd708e20b996bd9f2c7b8.png" alt></p>
+<p>我们只需要使用一个 <code>@GlobalTransactional</code> 注解在业务方法上:</p>
+<p><strong>Seata-Server安装</strong></p>
+<p>官网地址 - <a href="http://seata.io/zh-cn/">http://seata.io/zh-cn/</a></p>
+<p>下载版本 - 0.9.0</p>
+<p>seata-server-0.9.0.zip解压到指定目录并修改conf目录下的file.conf配置文件</p>
+<p>先备份原始file.conf文件</p>
+<p>主要修改:自定义事务组名称+事务日志存储模式为db +数据库连接信息</p>
+<p>file.conf</p>
+<p>service模块</p>
+<div class="code-wrapper"><pre><code class="hljs nix">service &#123;
+    <span class="hljs-comment">##fsp_tx_group是自定义的</span>
+    vgroup_mapping.my.test.<span class="hljs-attr">tx_group=&quot;fsp_tx_group&quot;</span> 
+    default.<span class="hljs-attr">grouplist</span> = <span class="hljs-string">&quot;127.0.0.1:8091&quot;</span>
+    <span class="hljs-attr">enableDegrade</span> = <span class="hljs-literal">false</span>
+    <span class="hljs-attr">disable</span> = <span class="hljs-literal">false</span>
+    max.commitretry.<span class="hljs-attr">timeout=</span> <span class="hljs-string">&quot;-1&quot;</span>
+    max.ollbackretry.<span class="hljs-attr">timeout=</span> <span class="hljs-string">&quot;-1&quot;</span>
+&#125;
+</code></pre></div>
+
+<p>store模块</p>
+<div class="code-wrapper"><pre><code class="hljs nix"><span class="hljs-comment">## transaction log store</span>
+store &#123;
+	<span class="hljs-comment">## store mode: file, db</span>
+	<span class="hljs-comment">## 改成db</span>
+	<span class="hljs-attr">mode</span> = <span class="hljs-string">&quot;db&quot;</span>
+	
+	<span class="hljs-comment">## file store</span>
+	file &#123;
+		<span class="hljs-attr">dir</span> = <span class="hljs-string">&quot;sessionStore&quot;</span>
+		
+		<span class="hljs-comment"># branch session size, if exceeded first try compress lockkey, still exceeded throws exceptions</span>
+		<span class="hljs-attr">max-branch-session-size</span> = <span class="hljs-number">16384</span>
+		<span class="hljs-comment"># globe session size, if exceeded throws exceptions</span>
+		<span class="hljs-attr">max-global-session-size</span> = <span class="hljs-number">512</span>
+		<span class="hljs-comment"># file buffer size, if exceeded allocate new buffer</span>
+		<span class="hljs-attr">file-write-buffer-cache-size</span> = <span class="hljs-number">16384</span>
+		<span class="hljs-comment"># when recover batch read size</span>
+		session.reload.<span class="hljs-attr">read_size=</span> <span class="hljs-number">100</span>
+		<span class="hljs-comment"># async, sync</span>
+		<span class="hljs-attr">flush-disk-mode</span> = async
+	&#125;
+
+	<span class="hljs-comment"># database store</span>
+	db &#123;
+		<span class="hljs-comment">## the implement of javax.sql.DataSource, such as DruidDataSource(druid)/BasicDataSource(dbcp) etc.</span>
+		<span class="hljs-attr">datasource</span> = <span class="hljs-string">&quot;dbcp&quot;</span>
+		<span class="hljs-comment">## mysql/oracle/h2/oceanbase etc.</span>
+		<span class="hljs-comment">## 配置数据源</span>
+		<span class="hljs-attr">db-type</span> = <span class="hljs-string">&quot;mysql&quot;</span>
+		<span class="hljs-attr">driver-class-name</span> = <span class="hljs-string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>
+		<span class="hljs-attr">url</span> = <span class="hljs-string">&quot;jdbc:mysql://localhost:3306/seata?serverTimezone=GMT&quot;</span>
+		<span class="hljs-attr">user</span> = <span class="hljs-string">&quot;root&quot;</span>
+		<span class="hljs-attr">password</span> = <span class="hljs-string">&quot;你自己密码&quot;</span>
+		<span class="hljs-attr">min-conn=</span> <span class="hljs-number">1</span>
+		<span class="hljs-attr">max-conn</span> = <span class="hljs-number">3</span>
+		global.<span class="hljs-attr">table</span> = <span class="hljs-string">&quot;global_table&quot;</span>
+		branch.<span class="hljs-attr">table</span> = <span class="hljs-string">&quot;branch_table&quot;</span>
+		<span class="hljs-attr">lock-table</span> = <span class="hljs-string">&quot;lock_table&quot;</span>
+		<span class="hljs-attr">query-limit</span> = <span class="hljs-number">100</span>
+	&#125;
+&#125;</code></pre></div>
+
+<p>mysql5.7数据库新建库seata，在seata库里建表</p>
+<p>建表db_store.sql在\seata-server-0.9.0\seata\conf目录里面</p>
+<div class="code-wrapper"><pre><code class="hljs sql"><span class="hljs-comment">-- the table to store GlobalSession data</span>
+<span class="hljs-keyword">drop</span> <span class="hljs-keyword">table</span> if <span class="hljs-keyword">exists</span> `global_table`;
+<span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> `global_table` (
+  `xid` <span class="hljs-type">varchar</span>(<span class="hljs-number">128</span>)  <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span>,
+  `transaction_id` <span class="hljs-type">bigint</span>,
+  `status` tinyint <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span>,
+  `application_id` <span class="hljs-type">varchar</span>(<span class="hljs-number">32</span>),
+  `transaction_service_group` <span class="hljs-type">varchar</span>(<span class="hljs-number">32</span>),
+  `transaction_name` <span class="hljs-type">varchar</span>(<span class="hljs-number">128</span>),
+  `timeout` <span class="hljs-type">int</span>,
+  `begin_time` <span class="hljs-type">bigint</span>,
+  `application_data` <span class="hljs-type">varchar</span>(<span class="hljs-number">2000</span>),
+  `gmt_create` datetime,
+  `gmt_modified` datetime,
+  <span class="hljs-keyword">primary</span> key (`xid`),
+  key `idx_gmt_modified_status` (`gmt_modified`, `status`),
+  key `idx_transaction_id` (`transaction_id`)
+);
+
+<span class="hljs-comment">-- the table to store BranchSession data</span>
+<span class="hljs-keyword">drop</span> <span class="hljs-keyword">table</span> if <span class="hljs-keyword">exists</span> `branch_table`;
+<span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> `branch_table` (
+  `branch_id` <span class="hljs-type">bigint</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span>,
+  `xid` <span class="hljs-type">varchar</span>(<span class="hljs-number">128</span>) <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span>,
+  `transaction_id` <span class="hljs-type">bigint</span> ,
+  `resource_group_id` <span class="hljs-type">varchar</span>(<span class="hljs-number">32</span>),
+  `resource_id` <span class="hljs-type">varchar</span>(<span class="hljs-number">256</span>) ,
+  `lock_key` <span class="hljs-type">varchar</span>(<span class="hljs-number">128</span>) ,
+  `branch_type` <span class="hljs-type">varchar</span>(<span class="hljs-number">8</span>) ,
+  `status` tinyint,
+  `client_id` <span class="hljs-type">varchar</span>(<span class="hljs-number">64</span>),
+  `application_data` <span class="hljs-type">varchar</span>(<span class="hljs-number">2000</span>),
+  `gmt_create` datetime,
+  `gmt_modified` datetime,
+  <span class="hljs-keyword">primary</span> key (`branch_id`),
+  key `idx_xid` (`xid`)
+);
+
+<span class="hljs-comment">-- the table to store lock data</span>
+<span class="hljs-keyword">drop</span> <span class="hljs-keyword">table</span> if <span class="hljs-keyword">exists</span> `lock_table`;
+<span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> `lock_table` (
+  `row_key` <span class="hljs-type">varchar</span>(<span class="hljs-number">128</span>) <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span>,
+  `xid` <span class="hljs-type">varchar</span>(<span class="hljs-number">96</span>),
+  `transaction_id` long ,
+  `branch_id` long,
+  `resource_id` <span class="hljs-type">varchar</span>(<span class="hljs-number">256</span>) ,
+  `table_name` <span class="hljs-type">varchar</span>(<span class="hljs-number">32</span>) ,
+  `pk` <span class="hljs-type">varchar</span>(<span class="hljs-number">36</span>) ,
+  `gmt_create` datetime ,
+  `gmt_modified` datetime,
+  <span class="hljs-keyword">primary</span> key(`row_key`)
+);</code></pre></div>
+
+<p>修改seata-server-0.9.0\seata\conf目录下的registry.conf配置文件</p>
+<div class="code-wrapper"><pre><code class="hljs nix">registry &#123;
+  <span class="hljs-comment"># file 、nacos 、eureka、redis、zk、consul、etcd3、sofa</span>
+  <span class="hljs-comment"># 改用为nacos</span>
+  <span class="hljs-attr">type</span> = <span class="hljs-string">&quot;nacos&quot;</span>
+
+  nacos &#123;
+  	<span class="hljs-comment">## 加端口号</span>
+    <span class="hljs-attr">serverAddr</span> = <span class="hljs-string">&quot;localhost:8848&quot;</span>
+    <span class="hljs-attr">namespace</span> = <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-attr">cluster</span> = <span class="hljs-string">&quot;default&quot;</span>
+  &#125;
+  ...
+&#125;</code></pre></div>
+
+<p>目的是：指明注册中心为nacos，及修改nacos连接信息</p>
+<p>先启动Nacos端口号8848 nacos\bin\startup.cmd</p>
+<p>再启动seata-server - seata-server-0.9.0\seata\bin\seata-server.bat</p>
+<h3 id="11-4-Seata业务数据库准备"><a href="#11-4-Seata业务数据库准备" class="headerlink" title="11.4 Seata业务数据库准备"></a>11.4 Seata业务数据库准备</h3><p>以下演示都需要先启动Nacos后启动Seata,保证两个都OK。</p>
+<p>分布式事务业务说明</p>
+<p>这里我们会创建三个服务，一个订单服务，一个库存服务，一个账户服务。</p>
+<p>当用户下单时,会在订单服务中创建一个订单, 然后通过远程调用库存服务来扣减下单商品的库存，再通过远程调用账户服务来扣减用户账户里面的余额，最后在订单服务中修改订单状态为已完成。</p>
+<p>该操作跨越三个数据库，有两次远程调用，很明显会有分布式事务问题。</p>
+<p><strong>一言蔽之</strong>，下订单—&gt;扣库存—&gt;减账户(余额)。</p>
+<p>创建业务数据库</p>
+<ul>
+<li>seata_ order：存储订单的数据库;</li>
+<li>seata_ storage：存储库存的数据库;</li>
+<li>seata_ account：存储账户信息的数据库。</li>
+</ul>
+<p>建库SQL</p>
+<div class="code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> DATABASE seata_order;
+<span class="hljs-keyword">CREATE</span> DATABASE seata_storage;
+<span class="hljs-keyword">CREATE</span> DATABASE seata_account;</code></pre></div>
+
+<p>按照上述3库分别建对应业务表</p>
+<ul>
+<li><p>seata_order库下建t_order表</p>
+<div class="code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> t_order
+(
+    `id`         <span class="hljs-type">BIGINT</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> AUTO_INCREMENT <span class="hljs-keyword">PRIMARY</span> KEY,
+    `user_id`    <span class="hljs-type">BIGINT</span>(<span class="hljs-number">11</span>)     <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;用户id&#x27;</span>,
+    `product_id` <span class="hljs-type">BIGINT</span>(<span class="hljs-number">11</span>)     <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;产品id&#x27;</span>,
+    `count`      <span class="hljs-type">INT</span>(<span class="hljs-number">11</span>)        <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;数量&#x27;</span>,
+    `money`      <span class="hljs-type">DECIMAL</span>(<span class="hljs-number">11</span>, <span class="hljs-number">0</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;金额&#x27;</span>,
+    `status`     <span class="hljs-type">INT</span>(<span class="hljs-number">1</span>)         <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;订单状态: 0:创建中; 1:已完结&#x27;</span>
+) ENGINE <span class="hljs-operator">=</span> INNODB
+  AUTO_INCREMENT <span class="hljs-operator">=</span> <span class="hljs-number">7</span>
+  <span class="hljs-keyword">DEFAULT</span> CHARSET <span class="hljs-operator">=</span> utf8;
+
+<span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span>
+<span class="hljs-keyword">FROM</span> t_order;</code></pre></div>
+</li>
+<li><p>seata_storage库下建t_storage表</p>
+<div class="code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> t_storage
+(
+    `id`         <span class="hljs-type">BIGINT</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> AUTO_INCREMENT <span class="hljs-keyword">PRIMARY</span> KEY,
+    `product_id` <span class="hljs-type">BIGINT</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;产品id&#x27;</span>,
+    `total`      <span class="hljs-type">INT</span>(<span class="hljs-number">11</span>)    <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;总库存&#x27;</span>,
+    `used`       <span class="hljs-type">INT</span>(<span class="hljs-number">11</span>)    <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;已用库存&#x27;</span>,
+    `residue`    <span class="hljs-type">INT</span>(<span class="hljs-number">11</span>)    <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;剩余库存&#x27;</span>
+) ENGINE <span class="hljs-operator">=</span> INNODB
+  AUTO_INCREMENT <span class="hljs-operator">=</span> <span class="hljs-number">2</span>
+  <span class="hljs-keyword">DEFAULT</span> CHARSET <span class="hljs-operator">=</span> utf8;
+
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> seata_storage.t_storage(`id`, `product_id`, `total`, `used`, `residue`)
+<span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;1&#x27;</span>, <span class="hljs-string">&#x27;1&#x27;</span>, <span class="hljs-string">&#x27;100&#x27;</span>, <span class="hljs-string">&#x27;0&#x27;</span>, <span class="hljs-string">&#x27;100&#x27;</span>);
+
+<span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span>
+<span class="hljs-keyword">FROM</span> t_storage;</code></pre></div>
+</li>
+<li><p>seata_account库下建t_account表</p>
+<div class="code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> t_account
+(
+    `id`      <span class="hljs-type">BIGINT</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> AUTO_INCREMENT <span class="hljs-keyword">PRIMARY</span> KEY COMMENT <span class="hljs-string">&#x27;id&#x27;</span>,
+    `user_id` <span class="hljs-type">BIGINT</span>(<span class="hljs-number">11</span>)     <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;用户id&#x27;</span>,
+    `total`   <span class="hljs-type">DECIMAL</span>(<span class="hljs-number">10</span>, <span class="hljs-number">0</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;总额度&#x27;</span>,
+    `used`    <span class="hljs-type">DECIMAL</span>(<span class="hljs-number">10</span>, <span class="hljs-number">0</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;已用余额&#x27;</span>,
+    `residue` <span class="hljs-type">DECIMAL</span>(<span class="hljs-number">10</span>, <span class="hljs-number">0</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">&#x27;0&#x27;</span> COMMENT <span class="hljs-string">&#x27;剩余可用额度&#x27;</span>
+) ENGINE <span class="hljs-operator">=</span> INNODB
+  AUTO_INCREMENT <span class="hljs-operator">=</span> <span class="hljs-number">2</span>
+  <span class="hljs-keyword">DEFAULT</span> CHARSET <span class="hljs-operator">=</span> utf8;
+
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> seata_account.t_account(`id`, `user_id`, `total`, `used`, `residue`)
+<span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;1&#x27;</span>, <span class="hljs-string">&#x27;1&#x27;</span>, <span class="hljs-string">&#x27;1000&#x27;</span>, <span class="hljs-string">&#x27;0&#x27;</span>, <span class="hljs-string">&#x27;1000&#x27;</span>);
+
+<span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span>
+<span class="hljs-keyword">FROM</span> t_account;</code></pre></div>
+
+</li>
+</ul>
+<p>按照上述3库分别建对应的回滚日志表</p>
+<ul>
+<li><p>订单-库存-账户3个库下<strong>都需要建各自的回滚日志表</strong></p>
+</li>
+<li><p>\seata-server-0.9.0\seata\conf目录下的db_ undo_ log.sql</p>
+</li>
+<li><p>建表SQL</p>
+<div class="code-wrapper"><pre><code class="hljs sql"><span class="hljs-comment">-- the table to store seata xid data</span>
+<span class="hljs-comment">-- 0.7.0+ add context</span>
+<span class="hljs-comment">-- you must to init this sql for you business databese. the seata server not need it.</span>
+<span class="hljs-comment">-- 此脚本必须初始化在你当前的业务数据库中，用于AT 模式XID记录。与server端无关（注：业务数据库）</span>
+<span class="hljs-comment">-- 注意此处0.3.0+ 增加唯一索引 ux_undo_log</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `undo_log`
+(
+    `id`            <span class="hljs-type">bigint</span>(<span class="hljs-number">20</span>)   <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> AUTO_INCREMENT,
+    `branch_id`     <span class="hljs-type">bigint</span>(<span class="hljs-number">20</span>)   <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+    `xid`           <span class="hljs-type">varchar</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+    `context`       <span class="hljs-type">varchar</span>(<span class="hljs-number">128</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+    `rollback_info` longblob     <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+    `log_status`    <span class="hljs-type">int</span>(<span class="hljs-number">11</span>)      <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+    `log_created`   datetime     <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+    `log_modified`  datetime     <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+    `ext`           <span class="hljs-type">varchar</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,
+    <span class="hljs-keyword">PRIMARY</span> KEY (`id`),
+    <span class="hljs-keyword">UNIQUE</span> KEY `ux_undo_log` (`xid`, `branch_id`)
+) ENGINE <span class="hljs-operator">=</span> InnoDB
+  AUTO_INCREMENT <span class="hljs-operator">=</span> <span class="hljs-number">1</span>
+  <span class="hljs-keyword">DEFAULT</span> CHARSET <span class="hljs-operator">=</span> utf8;</code></pre></div>
+
+</li>
+</ul>
+<h3 id="11-5-Seata之Order-Module配置搭建"><a href="#11-5-Seata之Order-Module配置搭建" class="headerlink" title="11.5 Seata之Order-Module配置搭建"></a>11.5 Seata之Order-Module配置搭建</h3>]]></content>
       <categories>
         <category>Java</category>
         <category>Spring</category>
