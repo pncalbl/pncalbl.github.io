@@ -191,7 +191,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      45.9k 字
+      50.1k 字
     </span>
   
 
@@ -201,7 +201,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      655
+      730
        分钟
     </span>
   
@@ -235,7 +235,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2 分钟前
+                  本文最后更新于：1 小时前
                 
               </p>
             
@@ -6544,7 +6544,987 @@ store &#123;
 
 </li>
 </ul>
-<h3 id="11-5-Seata之Order-Module配置搭建"><a href="#11-5-Seata之Order-Module配置搭建" class="headerlink" title="11.5 Seata之Order-Module配置搭建"></a>11.5 Seata之Order-Module配置搭建</h3>
+<h3 id="11-5-Seata之Order-Module配置搭建"><a href="#11-5-Seata之Order-Module配置搭建" class="headerlink" title="11.5 Seata之Order-Module配置搭建"></a>11.5 Seata之Order-Module配置搭建</h3><p>下订单 -&gt; 减库存 -&gt; 扣余额 -&gt; 改（订单）状态</p>
+<p>seata-order-service2001</p>
+<p>POM</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>cloud2020<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.atguigu.springcloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>seata-order-service2001<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+        <span class="hljs-comment">&lt;!--nacos--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-alibaba-nacos-discovery<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-comment">&lt;!--seata--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-alibaba-seata<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">exclusions</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">exclusion</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>seata-all<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.seata<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">exclusion</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">exclusions</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.seata<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>seata-all<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.9.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-comment">&lt;!--feign--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-comment">&lt;!--web-actuator--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-comment">&lt;!--mysql-druid--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>mysql<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mysql-connector-java<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>5.1.37<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>druid-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.1.10<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.projectlombok<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>lombok<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">optional</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">optional</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span></code></pre></div>
+
+<p>配置文件</p>
+<p>YML</p>
+<div class="code-wrapper"><pre><code class="hljs yml"><span class="hljs-attr">server:</span>
+  <span class="hljs-attr">port:</span> <span class="hljs-number">2001</span>
+
+<span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">application:</span>
+    <span class="hljs-attr">name:</span> <span class="hljs-string">seata-order-service</span>
+  <span class="hljs-attr">cloud:</span>
+    <span class="hljs-attr">alibaba:</span>
+      <span class="hljs-attr">seata:</span>
+        <span class="hljs-comment">#自定义事务组名称需要与seata-server中的对应</span>
+        <span class="hljs-attr">tx-service-group:</span> <span class="hljs-string">fsp_tx_group</span>
+    <span class="hljs-attr">nacos:</span>
+      <span class="hljs-attr">discovery:</span>
+        <span class="hljs-attr">server-addr:</span> <span class="hljs-string">localhost:8848</span>
+  <span class="hljs-attr">datasource:</span>
+    <span class="hljs-attr">driver-class-name:</span> <span class="hljs-string">com.mysql.jdbc.Driver</span>
+    <span class="hljs-attr">url:</span> <span class="hljs-string">jdbc:mysql://localhost:3306/seata_order</span>
+    <span class="hljs-attr">username:</span> <span class="hljs-string">root</span>
+    <span class="hljs-attr">password:</span> <span class="hljs-number">123456</span>
+
+<span class="hljs-attr">feign:</span>
+  <span class="hljs-attr">hystrix:</span>
+    <span class="hljs-attr">enabled:</span> <span class="hljs-literal">false</span>
+
+<span class="hljs-attr">logging:</span>
+  <span class="hljs-attr">level:</span>
+    <span class="hljs-attr">io:</span>
+      <span class="hljs-attr">seata:</span> <span class="hljs-string">info</span>
+
+<span class="hljs-attr">mybatis:</span>
+  <span class="hljs-attr">mapperLocations:</span> <span class="hljs-string">classpath:mapper/*.xml</span></code></pre></div>
+
+<p>file.conf</p>
+<div class="code-wrapper"><pre><code class="hljs nix"><span class="hljs-comment">## transaction log store, only used in seata-server</span>
+store &#123;
+  <span class="hljs-comment">## store mode: file、db、redis</span>
+  <span class="hljs-attr">mode</span> = <span class="hljs-string">&quot;db&quot;</span>
+  <span class="hljs-comment">## rsa decryption public key</span>
+  <span class="hljs-attr">publicKey</span> = <span class="hljs-string">&quot;&quot;</span>
+  <span class="hljs-comment">## file store property</span>
+  file &#123;
+    <span class="hljs-comment">## store location dir</span>
+    <span class="hljs-attr">dir</span> = <span class="hljs-string">&quot;sessionStore&quot;</span>
+    <span class="hljs-comment"># branch session size , if exceeded first try compress lockkey, still exceeded throws exceptions</span>
+    <span class="hljs-attr">maxBranchSessionSize</span> = <span class="hljs-number">16384</span>
+    <span class="hljs-comment"># globe session size , if exceeded throws exceptions</span>
+    <span class="hljs-attr">maxGlobalSessionSize</span> = <span class="hljs-number">512</span>
+    <span class="hljs-comment"># file buffer size , if exceeded allocate new buffer</span>
+    <span class="hljs-attr">fileWriteBufferCacheSize</span> = <span class="hljs-number">16384</span>
+    <span class="hljs-comment"># when recover batch read size</span>
+    <span class="hljs-attr">sessionReloadReadSize</span> = <span class="hljs-number">100</span>
+    <span class="hljs-comment"># async, sync</span>
+    <span class="hljs-attr">flushDiskMode</span> = async
+  &#125;
+
+  <span class="hljs-comment">## database store property</span>
+  db &#123;
+    <span class="hljs-comment">## the implement of javax.sql.DataSource, such as DruidDataSource(druid)/BasicDataSource(dbcp)/HikariDataSource(hikari) etc.</span>
+    <span class="hljs-attr">datasource</span> = <span class="hljs-string">&quot;druid&quot;</span>
+    <span class="hljs-comment">## mysql/oracle/postgresql/h2/oceanbase etc.</span>
+    <span class="hljs-attr">dbType</span> = <span class="hljs-string">&quot;mysql&quot;</span>
+    <span class="hljs-attr">driverClassName</span> = <span class="hljs-string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>
+    <span class="hljs-comment">## if using mysql to store the data, recommend add rewriteBatchedStatements=true in jdbc connection param</span>
+    <span class="hljs-attr">url</span> = <span class="hljs-string">&quot;jdbc:mysql://localhost:3306/seata?serverTimezone=GMT&quot;</span>
+    <span class="hljs-attr">user</span> = <span class="hljs-string">&quot;root&quot;</span>
+    <span class="hljs-attr">password</span> = <span class="hljs-string">&quot;root&quot;</span>
+    <span class="hljs-attr">minConn</span> = <span class="hljs-number">5</span>
+    <span class="hljs-attr">maxConn</span> = <span class="hljs-number">100</span>
+    <span class="hljs-attr">globalTable</span> = <span class="hljs-string">&quot;global_table&quot;</span>
+    <span class="hljs-attr">branchTable</span> = <span class="hljs-string">&quot;branch_table&quot;</span>
+    <span class="hljs-attr">lockTable</span> = <span class="hljs-string">&quot;lock_table&quot;</span>
+    <span class="hljs-attr">queryLimit</span> = <span class="hljs-number">100</span>
+    <span class="hljs-attr">maxWait</span> = <span class="hljs-number">5000</span>
+  &#125;
+
+  <span class="hljs-comment">## redis store property</span>
+  redis &#123;
+    <span class="hljs-comment">## redis mode: single、sentinel</span>
+    <span class="hljs-attr">mode</span> = <span class="hljs-string">&quot;single&quot;</span>
+    <span class="hljs-comment">## single mode property</span>
+    single &#123;
+      <span class="hljs-attr">host</span> = <span class="hljs-string">&quot;127.0.0.1&quot;</span>
+      <span class="hljs-attr">port</span> = <span class="hljs-string">&quot;6379&quot;</span>
+    &#125;
+    <span class="hljs-comment">## sentinel mode property</span>
+    sentinel &#123;
+      <span class="hljs-attr">masterName</span> = <span class="hljs-string">&quot;&quot;</span>
+      <span class="hljs-comment">## such as &quot;10.28.235.65:26379,10.28.235.65:26380,10.28.235.65:26381&quot;</span>
+      <span class="hljs-attr">sentinelHosts</span> = <span class="hljs-string">&quot;&quot;</span>
+    &#125;
+    <span class="hljs-attr">password</span> = <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-attr">database</span> = <span class="hljs-string">&quot;0&quot;</span>
+    <span class="hljs-attr">minConn</span> = <span class="hljs-number">1</span>
+    <span class="hljs-attr">maxConn</span> = <span class="hljs-number">10</span>
+    <span class="hljs-attr">maxTotal</span> = <span class="hljs-number">100</span>
+    <span class="hljs-attr">queryLimit</span> = <span class="hljs-number">100</span>
+  &#125;
+&#125;</code></pre></div>
+
+<p>registry.conf</p>
+<div class="code-wrapper"><pre><code class="hljs nix">registry &#123;
+  <span class="hljs-comment"># file 、nacos 、eureka、redis、zk、consul、etcd3、sofa</span>
+  <span class="hljs-attr">type</span> = <span class="hljs-string">&quot;nacos&quot;</span>
+
+  nacos &#123;
+    <span class="hljs-attr">application</span> = <span class="hljs-string">&quot;seata-server&quot;</span>
+    <span class="hljs-attr">serverAddr</span> = <span class="hljs-string">&quot;127.0.0.1:8848&quot;</span>
+    <span class="hljs-attr">group</span> = <span class="hljs-string">&quot;SEATA_GROUP&quot;</span>
+    <span class="hljs-attr">namespace</span> = <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-attr">cluster</span> = <span class="hljs-string">&quot;default&quot;</span>
+    <span class="hljs-attr">username</span> = <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-attr">password</span> = <span class="hljs-string">&quot;&quot;</span>
+  &#125;
+  eureka &#123;
+    <span class="hljs-attr">serviceUrl</span> = <span class="hljs-string">&quot;http://localhost:8761/eureka&quot;</span>
+    <span class="hljs-attr">application</span> = <span class="hljs-string">&quot;default&quot;</span>
+    <span class="hljs-attr">weight</span> = <span class="hljs-string">&quot;1&quot;</span>
+  &#125;
+  redis &#123;
+    <span class="hljs-attr">serverAddr</span> = <span class="hljs-string">&quot;localhost:6379&quot;</span>
+    <span class="hljs-attr">db</span> = <span class="hljs-number">0</span>
+    <span class="hljs-attr">password</span> = <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-attr">cluster</span> = <span class="hljs-string">&quot;default&quot;</span>
+    <span class="hljs-attr">timeout</span> = <span class="hljs-number">0</span>
+  &#125;
+  zk &#123;
+    <span class="hljs-attr">cluster</span> = <span class="hljs-string">&quot;default&quot;</span>
+    <span class="hljs-attr">serverAddr</span> = <span class="hljs-string">&quot;127.0.0.1:2181&quot;</span>
+    <span class="hljs-attr">sessionTimeout</span> = <span class="hljs-number">6000</span>
+    <span class="hljs-attr">connectTimeout</span> = <span class="hljs-number">2000</span>
+    <span class="hljs-attr">username</span> = <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-attr">password</span> = <span class="hljs-string">&quot;&quot;</span>
+  &#125;
+  consul &#123;
+    <span class="hljs-attr">cluster</span> = <span class="hljs-string">&quot;default&quot;</span>
+    <span class="hljs-attr">serverAddr</span> = <span class="hljs-string">&quot;127.0.0.1:8500&quot;</span>
+    <span class="hljs-attr">aclToken</span> = <span class="hljs-string">&quot;&quot;</span>
+  &#125;
+  etcd3 &#123;
+    <span class="hljs-attr">cluster</span> = <span class="hljs-string">&quot;default&quot;</span>
+    <span class="hljs-attr">serverAddr</span> = <span class="hljs-string">&quot;http://localhost:2379&quot;</span>
+  &#125;
+  sofa &#123;
+    <span class="hljs-attr">serverAddr</span> = <span class="hljs-string">&quot;127.0.0.1:9603&quot;</span>
+    <span class="hljs-attr">application</span> = <span class="hljs-string">&quot;default&quot;</span>
+    <span class="hljs-attr">region</span> = <span class="hljs-string">&quot;DEFAULT_ZONE&quot;</span>
+    <span class="hljs-attr">datacenter</span> = <span class="hljs-string">&quot;DefaultDataCenter&quot;</span>
+    <span class="hljs-attr">cluster</span> = <span class="hljs-string">&quot;default&quot;</span>
+    <span class="hljs-attr">group</span> = <span class="hljs-string">&quot;SEATA_GROUP&quot;</span>
+    <span class="hljs-attr">addressWaitTime</span> = <span class="hljs-string">&quot;3000&quot;</span>
+  &#125;
+  file &#123;
+    <span class="hljs-attr">name</span> = <span class="hljs-string">&quot;file.conf&quot;</span>
+  &#125;
+&#125;
+
+config &#123;
+  <span class="hljs-comment"># file、nacos 、apollo、zk、consul、etcd3</span>
+  <span class="hljs-attr">type</span> = <span class="hljs-string">&quot;file&quot;</span>
+
+  nacos &#123;
+    <span class="hljs-attr">serverAddr</span> = <span class="hljs-string">&quot;127.0.0.1:8848&quot;</span>
+    <span class="hljs-attr">namespace</span> = <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-attr">group</span> = <span class="hljs-string">&quot;SEATA_GROUP&quot;</span>
+    <span class="hljs-attr">username</span> = <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-attr">password</span> = <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-attr">dataId</span> = <span class="hljs-string">&quot;seataServer.properties&quot;</span>
+  &#125;
+  consul &#123;
+    <span class="hljs-attr">serverAddr</span> = <span class="hljs-string">&quot;127.0.0.1:8500&quot;</span>
+    <span class="hljs-attr">aclToken</span> = <span class="hljs-string">&quot;&quot;</span>
+  &#125;
+  apollo &#123;
+    <span class="hljs-attr">appId</span> = <span class="hljs-string">&quot;seata-server&quot;</span>
+    <span class="hljs-comment">## apolloConfigService will cover apolloMeta</span>
+    <span class="hljs-attr">apolloMeta</span> = <span class="hljs-string">&quot;http://192.168.1.204:8801&quot;</span>
+    <span class="hljs-attr">apolloConfigService</span> = <span class="hljs-string">&quot;http://192.168.1.204:8080&quot;</span>
+    <span class="hljs-attr">namespace</span> = <span class="hljs-string">&quot;application&quot;</span>
+    <span class="hljs-attr">apolloAccesskeySecret</span> = <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-attr">cluster</span> = <span class="hljs-string">&quot;seata&quot;</span>
+  &#125;
+  zk &#123;
+    <span class="hljs-attr">serverAddr</span> = <span class="hljs-string">&quot;127.0.0.1:2181&quot;</span>
+    <span class="hljs-attr">sessionTimeout</span> = <span class="hljs-number">6000</span>
+    <span class="hljs-attr">connectTimeout</span> = <span class="hljs-number">2000</span>
+    <span class="hljs-attr">username</span> = <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-attr">password</span> = <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-attr">nodePath</span> = <span class="hljs-string">&quot;/seata/seata.properties&quot;</span>
+  &#125;
+  etcd3 &#123;
+    <span class="hljs-attr">serverAddr</span> = <span class="hljs-string">&quot;http://localhost:2379&quot;</span>
+  &#125;
+  file &#123;
+    <span class="hljs-attr">name</span> = <span class="hljs-string">&quot;file.conf&quot;</span>
+  &#125;
+&#125;</code></pre></div>
+
+<p>domain</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> lombok.AllArgsConstructor;
+<span class="hljs-keyword">import</span> lombok.Data;
+<span class="hljs-keyword">import</span> lombok.NoArgsConstructor;
+
+<span class="hljs-meta">@Data</span>
+<span class="hljs-meta">@AllArgsConstructor</span>
+<span class="hljs-meta">@NoArgsConstructor</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CommonResult</span>&lt;<span class="hljs-title">T</span>&gt;</span>
+<span class="hljs-class"></span>&#123;
+    <span class="hljs-keyword">private</span> Integer code;
+    <span class="hljs-keyword">private</span> String  message;
+    <span class="hljs-keyword">private</span> T       data;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">CommonResult</span><span class="hljs-params">(Integer code, String message)</span></span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">this</span>(code,message,<span class="hljs-keyword">null</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.atguigu.springcloud.alibaba.domain;
+
+<span class="hljs-keyword">import</span> lombok.AllArgsConstructor;
+<span class="hljs-keyword">import</span> lombok.Data;
+<span class="hljs-keyword">import</span> lombok.NoArgsConstructor;
+
+<span class="hljs-keyword">import</span> java.math.BigDecimal;
+
+<span class="hljs-meta">@Data</span>
+<span class="hljs-meta">@AllArgsConstructor</span>
+<span class="hljs-meta">@NoArgsConstructor</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Order</span></span>
+<span class="hljs-class"></span>&#123;
+    <span class="hljs-keyword">private</span> Long id;
+
+    <span class="hljs-keyword">private</span> Long userId;
+
+    <span class="hljs-keyword">private</span> Long productId;
+
+    <span class="hljs-keyword">private</span> Integer count;
+
+    <span class="hljs-keyword">private</span> BigDecimal money;
+
+    <span class="hljs-keyword">private</span> Integer status; <span class="hljs-comment">//订单状态：0：创建中；1：已完结</span>
+&#125;</code></pre></div>
+
+<h3 id="11-6-Seata之Order-Module撸码-上"><a href="#11-6-Seata之Order-Module撸码-上" class="headerlink" title="11.6 Seata之Order-Module撸码(上)"></a>11.6 Seata之Order-Module撸码(上)</h3><p>Dao接口及实现</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.atguigu.springcloud.alibaba.domain.Order;
+<span class="hljs-keyword">import</span> org.apache.ibatis.annotations.Mapper;
+<span class="hljs-keyword">import</span> org.apache.ibatis.annotations.Param;
+
+<span class="hljs-meta">@Mapper</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">OrderDao</span></span>
+<span class="hljs-class"></span>&#123;
+    <span class="hljs-comment">//1 新建订单</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">create</span><span class="hljs-params">(Order order)</span></span>;
+
+    <span class="hljs-comment">//2 修改订单状态，从零改为1</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-meta">@Param(&quot;userId&quot;)</span> Long userId,<span class="hljs-meta">@Param(&quot;status&quot;)</span> Integer status)</span></span>;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">mapper</span> <span class="hljs-meta-keyword">PUBLIC</span> <span class="hljs-meta-string">&quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span> <span class="hljs-meta-string">&quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;</span> &gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">mapper</span> <span class="hljs-attr">namespace</span>=<span class="hljs-string">&quot;com.atguigu.springcloud.alibaba.dao.OrderDao&quot;</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">resultMap</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;BaseResultMap&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;com.atguigu.springcloud.alibaba.domain.Order&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">id</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;id&quot;</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;id&quot;</span> <span class="hljs-attr">jdbcType</span>=<span class="hljs-string">&quot;BIGINT&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;user_id&quot;</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;userId&quot;</span> <span class="hljs-attr">jdbcType</span>=<span class="hljs-string">&quot;BIGINT&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;product_id&quot;</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;productId&quot;</span> <span class="hljs-attr">jdbcType</span>=<span class="hljs-string">&quot;BIGINT&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;count&quot;</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;count&quot;</span> <span class="hljs-attr">jdbcType</span>=<span class="hljs-string">&quot;INTEGER&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;money&quot;</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;money&quot;</span> <span class="hljs-attr">jdbcType</span>=<span class="hljs-string">&quot;DECIMAL&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;status&quot;</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;status&quot;</span> <span class="hljs-attr">jdbcType</span>=<span class="hljs-string">&quot;INTEGER&quot;</span>/&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">resultMap</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">insert</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;create&quot;</span>&gt;</span>
+        insert into t_order (id,user_id,product_id,count,money,status)
+        values (null,#&#123;userId&#125;,#&#123;productId&#125;,#&#123;count&#125;,#&#123;money&#125;,0);
+    <span class="hljs-tag">&lt;/<span class="hljs-name">insert</span>&gt;</span>
+
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">update</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;update&quot;</span>&gt;</span>
+        update t_order set status = 1
+        where user_id=#&#123;userId&#125; and status = #&#123;status&#125;;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">update</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">mapper</span>&gt;</span></code></pre></div>
+
+<p>Service接口及实现</p>
+<ul>
+<li>OrderService<ul>
+<li>OrderServiceImpl</li>
+</ul>
+</li>
+<li>StorageService</li>
+<li>AccountService</li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.atguigu.springcloud.alibaba.domain.Order;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">OrderService</span></span>
+<span class="hljs-class"></span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">create</span><span class="hljs-params">(Order order)</span></span>;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.atguigu.springcloud.alibaba.domain.CommonResult;
+<span class="hljs-keyword">import</span> org.springframework.cloud.openfeign.FeignClient;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.PostMapping;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RequestParam;
+
+<span class="hljs-keyword">import</span> java.math.BigDecimal;
+
+<span class="hljs-meta">@FeignClient(value = &quot;seata-storage-service&quot;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">StorageService</span></span>
+<span class="hljs-class"></span>&#123;
+    <span class="hljs-meta">@PostMapping(value = &quot;/storage/decrease&quot;)</span>
+    <span class="hljs-function">CommonResult <span class="hljs-title">decrease</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam(&quot;productId&quot;)</span> Long productId, <span class="hljs-meta">@RequestParam(&quot;count&quot;)</span> Integer count)</span></span>;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.atguigu.springcloud.alibaba.domain.CommonResult;
+<span class="hljs-keyword">import</span> org.springframework.cloud.openfeign.FeignClient;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.PostMapping;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RequestParam;
+
+<span class="hljs-keyword">import</span> java.math.BigDecimal;
+
+<span class="hljs-meta">@FeignClient(value = &quot;seata-account-service&quot;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">AccountService</span></span>
+<span class="hljs-class"></span>&#123;
+    <span class="hljs-meta">@PostMapping(value = &quot;/account/decrease&quot;)</span>
+    <span class="hljs-function">CommonResult <span class="hljs-title">decrease</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam(&quot;userId&quot;)</span> Long userId, <span class="hljs-meta">@RequestParam(&quot;money&quot;)</span> BigDecimal money)</span></span>;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.atguigu.springcloud.alibaba.dao.OrderDao;
+<span class="hljs-keyword">import</span> com.atguigu.springcloud.alibaba.domain.Order;
+<span class="hljs-keyword">import</span> com.atguigu.springcloud.alibaba.service.AccountService;
+<span class="hljs-keyword">import</span> com.atguigu.springcloud.alibaba.service.OrderService;
+<span class="hljs-keyword">import</span> com.atguigu.springcloud.alibaba.service.StorageService;
+<span class="hljs-keyword">import</span> io.seata.spring.annotation.GlobalTransactional;
+<span class="hljs-keyword">import</span> lombok.extern.slf4j.Slf4j;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Service;
+
+<span class="hljs-keyword">import</span> javax.annotation.Resource;
+
+<span class="hljs-meta">@Service</span>
+<span class="hljs-meta">@Slf4j</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">OrderService</span></span>
+<span class="hljs-class"></span>&#123;
+    <span class="hljs-meta">@Resource</span>
+    <span class="hljs-keyword">private</span> OrderDao orderDao;
+    <span class="hljs-meta">@Resource</span>
+    <span class="hljs-keyword">private</span> StorageService storageService;
+    <span class="hljs-meta">@Resource</span>
+    <span class="hljs-keyword">private</span> AccountService accountService;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 创建订单-&gt;调用库存服务扣减库存-&gt;调用账户服务扣减账户余额-&gt;修改订单状态</span>
+<span class="hljs-comment">     * 简单说：下订单-&gt;扣库存-&gt;减余额-&gt;改状态</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-comment">//@GlobalTransactional(name = &quot;fsp-create-order&quot;,rollbackFor = Exception.class)</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">create</span><span class="hljs-params">(Order order)</span></span>
+<span class="hljs-function">    </span>&#123;
+        log.info(<span class="hljs-string">&quot;-----&gt;开始新建订单&quot;</span>);
+        <span class="hljs-comment">//1 新建订单</span>
+        orderDao.create(order);
+
+        <span class="hljs-comment">//2 扣减库存</span>
+        log.info(<span class="hljs-string">&quot;-----&gt;订单微服务开始调用库存，做扣减Count&quot;</span>);
+        storageService.decrease(order.getProductId(),order.getCount());
+        log.info(<span class="hljs-string">&quot;-----&gt;订单微服务开始调用库存，做扣减end&quot;</span>);
+
+        <span class="hljs-comment">//3 扣减账户</span>
+        log.info(<span class="hljs-string">&quot;-----&gt;订单微服务开始调用账户，做扣减Money&quot;</span>);
+        accountService.decrease(order.getUserId(),order.getMoney());
+        log.info(<span class="hljs-string">&quot;-----&gt;订单微服务开始调用账户，做扣减end&quot;</span>);
+
+        <span class="hljs-comment">//4 修改订单状态，从零到1,1代表已经完成</span>
+        log.info(<span class="hljs-string">&quot;-----&gt;修改订单状态开始&quot;</span>);
+        orderDao.update(order.getUserId(),<span class="hljs-number">0</span>);
+        log.info(<span class="hljs-string">&quot;-----&gt;修改订单状态结束&quot;</span>);
+
+        log.info(<span class="hljs-string">&quot;-----&gt;下订单结束了，O(∩_∩)O哈哈~&quot;</span>);
+
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="11-7-Seata之Order-Module撸码-下"><a href="#11-7-Seata之Order-Module撸码-下" class="headerlink" title="11.7 Seata之Order-Module撸码(下)"></a>11.7 Seata之Order-Module撸码(下)</h3><p>controller</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.atguigu.springcloud.alibaba.domain.CommonResult;
+<span class="hljs-keyword">import</span> com.atguigu.springcloud.alibaba.domain.Order;
+<span class="hljs-keyword">import</span> com.atguigu.springcloud.alibaba.service.OrderService;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.GetMapping;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RestController;
+
+<span class="hljs-keyword">import</span> javax.annotation.Resource;
+
+<span class="hljs-meta">@RestController</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderController</span></span>
+<span class="hljs-class"></span>&#123;
+    <span class="hljs-meta">@Resource</span>
+    <span class="hljs-keyword">private</span> OrderService orderService;
+
+
+    <span class="hljs-meta">@GetMapping(&quot;/order/create&quot;)</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> CommonResult <span class="hljs-title">create</span><span class="hljs-params">(Order order)</span></span>
+<span class="hljs-function">    </span>&#123;
+        orderService.create(order);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> CommonResult(<span class="hljs-number">200</span>,<span class="hljs-string">&quot;订单创建成功&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<p>Config配置</p>
+<ul>
+<li>MyBatisConfig</li>
+<li>DataSourceProxyConfig</li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.mybatis.spring.annotation.MapperScan;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;
+
+<span class="hljs-meta">@Configuration</span>
+<span class="hljs-meta">@MapperScan(&#123;&quot;com.atguigu.springcloud.alibaba.dao&quot;&#125;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBatisConfig</span> </span>&#123;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java">主启动<span class="hljs-keyword">import</span> com.alibaba.druid.pool.DruidDataSource;
+<span class="hljs-keyword">import</span> io.seata.rm.datasource.DataSourceProxy;
+<span class="hljs-keyword">import</span> org.apache.ibatis.session.SqlSessionFactory;
+<span class="hljs-keyword">import</span> org.mybatis.spring.SqlSessionFactoryBean;
+<span class="hljs-keyword">import</span> org.mybatis.spring.transaction.SpringManagedTransactionFactory;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Value;
+<span class="hljs-keyword">import</span> org.springframework.boot.context.properties.ConfigurationProperties;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Bean;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;
+<span class="hljs-keyword">import</span> org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+<span class="hljs-keyword">import</span> javax.sql.DataSource;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 使用Seata对数据源进行代理</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Configuration</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DataSourceProxyConfig</span> </span>&#123;
+
+    <span class="hljs-meta">@Value(&quot;$&#123;mybatis.mapperLocations&#125;&quot;)</span>
+    <span class="hljs-keyword">private</span> String mapperLocations;
+
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-meta">@ConfigurationProperties(prefix = &quot;spring.datasource&quot;)</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> DataSource <span class="hljs-title">druidDataSource</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> DruidDataSource();
+    &#125;
+
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> DataSourceProxy <span class="hljs-title">dataSourceProxy</span><span class="hljs-params">(DataSource dataSource)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> DataSourceProxy(dataSource);
+    &#125;
+
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> SqlSessionFactory <span class="hljs-title">sqlSessionFactoryBean</span><span class="hljs-params">(DataSourceProxy dataSourceProxy)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        SqlSessionFactoryBean sqlSessionFactoryBean = <span class="hljs-keyword">new</span> SqlSessionFactoryBean();
+        sqlSessionFactoryBean.setDataSource(dataSourceProxy);
+        sqlSessionFactoryBean.setMapperLocations(<span class="hljs-keyword">new</span> PathMatchingResourcePatternResolver().getResources(mapperLocations));
+        sqlSessionFactoryBean.setTransactionFactory(<span class="hljs-keyword">new</span> SpringManagedTransactionFactory());
+        <span class="hljs-keyword">return</span> sqlSessionFactoryBean.getObject();
+    &#125;
+
+&#125;</code></pre></div>
+
+<p>主启动</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.boot.SpringApplication;
+<span class="hljs-keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;
+<span class="hljs-keyword">import</span> org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+<span class="hljs-keyword">import</span> org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+<span class="hljs-keyword">import</span> org.springframework.cloud.openfeign.EnableFeignClients;
+
+<span class="hljs-meta">@EnableDiscoveryClient</span>
+<span class="hljs-meta">@EnableFeignClients</span>
+<span class="hljs-comment">//取消数据源的自动创建，而是使用自己定义的</span>
+<span class="hljs-meta">@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SeataOrderMainApp2001</span></span>
+<span class="hljs-class"></span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>
+<span class="hljs-function">    </span>&#123;
+        SpringApplication.run(SeataOrderMainApp2001.class, args);
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="11-8-Seata之Storage-Module说明"><a href="#11-8-Seata之Storage-Module说明" class="headerlink" title="11.8 Seata之Storage-Module说明"></a>11.8 Seata之Storage-Module说明</h3><p>与seata-order-service2001模块大致相同</p>
+<p>seata-storage-service2002</p>
+<p>POM（与seata-order-service2001模块大致相同）</p>
+<p>YML</p>
+<div class="code-wrapper"><pre><code class="hljs yml"><span class="hljs-attr">server:</span>
+  <span class="hljs-attr">port:</span> <span class="hljs-number">2002</span>
+
+<span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">application:</span>
+    <span class="hljs-attr">name:</span> <span class="hljs-string">seata-storage-service</span>
+  <span class="hljs-attr">cloud:</span>
+    <span class="hljs-attr">alibaba:</span>
+      <span class="hljs-attr">seata:</span>
+        <span class="hljs-attr">tx-service-group:</span> <span class="hljs-string">fsp_tx_group</span>
+    <span class="hljs-attr">nacos:</span>
+      <span class="hljs-attr">discovery:</span>
+        <span class="hljs-attr">server-addr:</span> <span class="hljs-string">localhost:8848</span>
+  <span class="hljs-attr">datasource:</span>
+    <span class="hljs-attr">driver-class-name:</span> <span class="hljs-string">com.mysql.jdbc.Driver</span>
+    <span class="hljs-attr">url:</span> <span class="hljs-string">jdbc:mysql://localhost:3306/seata_storage</span>
+    <span class="hljs-attr">username:</span> <span class="hljs-string">root</span>
+    <span class="hljs-attr">password:</span> <span class="hljs-number">123456</span>
+
+<span class="hljs-attr">logging:</span>
+  <span class="hljs-attr">level:</span>
+    <span class="hljs-attr">io:</span>
+      <span class="hljs-attr">seata:</span> <span class="hljs-string">info</span>
+
+<span class="hljs-attr">mybatis:</span>
+  <span class="hljs-attr">mapperLocations:</span> <span class="hljs-string">classpath:mapper/*.xml</span></code></pre></div>
+
+<p>file.conf（与seata-order-service2001模块大致相同）</p>
+<p>registry.conf（与seata-order-service2001模块大致相同）</p>
+<p>domain</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> lombok.Data;
+
+<span class="hljs-meta">@Data</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Storage</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> Long id;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 产品id</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-keyword">private</span> Long productId;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 总库存</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-keyword">private</span> Integer total;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 已用库存</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-keyword">private</span> Integer used;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 剩余库存</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-keyword">private</span> Integer residue;
+&#125;</code></pre></div>
+
+<p>CommonResult（与seata-order-service2001模块大致相同）</p>
+<p>Dao接口及实现</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.apache.ibatis.annotations.Mapper;
+<span class="hljs-keyword">import</span> org.apache.ibatis.annotations.Param;
+
+<span class="hljs-meta">@Mapper</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">StorageDao</span> </span>&#123;
+
+    <span class="hljs-comment">//扣减库存</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">decrease</span><span class="hljs-params">(<span class="hljs-meta">@Param(&quot;productId&quot;)</span> Long productId, <span class="hljs-meta">@Param(&quot;count&quot;)</span> Integer count)</span></span>;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">mapper</span> <span class="hljs-meta-keyword">PUBLIC</span> <span class="hljs-meta-string">&quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span> <span class="hljs-meta-string">&quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;</span> &gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">mapper</span> <span class="hljs-attr">namespace</span>=<span class="hljs-string">&quot;com.atguigu.springcloud.alibaba.dao.StorageDao&quot;</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">resultMap</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;BaseResultMap&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;com.atguigu.springcloud.alibaba.domain.Storage&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">id</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;id&quot;</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;id&quot;</span> <span class="hljs-attr">jdbcType</span>=<span class="hljs-string">&quot;BIGINT&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;product_id&quot;</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;productId&quot;</span> <span class="hljs-attr">jdbcType</span>=<span class="hljs-string">&quot;BIGINT&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;total&quot;</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;total&quot;</span> <span class="hljs-attr">jdbcType</span>=<span class="hljs-string">&quot;INTEGER&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;used&quot;</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;used&quot;</span> <span class="hljs-attr">jdbcType</span>=<span class="hljs-string">&quot;INTEGER&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;residue&quot;</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;residue&quot;</span> <span class="hljs-attr">jdbcType</span>=<span class="hljs-string">&quot;INTEGER&quot;</span>/&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">resultMap</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">update</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;decrease&quot;</span>&gt;</span>
+        UPDATE
+            t_storage
+        SET
+            used = used + #&#123;count&#125;,residue = residue - #&#123;count&#125;
+        WHERE
+            product_id = #&#123;productId&#125;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">update</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">mapper</span>&gt;</span></code></pre></div>
+
+<p>Service接口及实现</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">StorageService</span> </span>&#123;
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 扣减库存</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">decrease</span><span class="hljs-params">(Long productId, Integer count)</span></span>;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.atguigu.springcloud.alibaba.dao.StorageDao;
+<span class="hljs-keyword">import</span> com.atguigu.springcloud.alibaba.service.StorageService ;
+<span class="hljs-keyword">import</span> org.slf4j.Logger;
+<span class="hljs-keyword">import</span> org.slf4j.LoggerFactory;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Service;
+
+<span class="hljs-keyword">import</span> javax.annotation.Resource;
+
+
+<span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StorageServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">StorageService</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(StorageServiceImpl.class);
+
+    <span class="hljs-meta">@Resource</span>
+    <span class="hljs-keyword">private</span> StorageDao storageDao;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 扣减库存</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">decrease</span><span class="hljs-params">(Long productId, Integer count)</span> </span>&#123;
+        LOGGER.info(<span class="hljs-string">&quot;-------&gt;storage-service中扣减库存开始&quot;</span>);
+        storageDao.decrease(productId,count);
+        LOGGER.info(<span class="hljs-string">&quot;-------&gt;storage-service中扣减库存结束&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<p>Controller</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.atguigu.springcloud.alibaba.domain.CommonResult ;
+<span class="hljs-keyword">import</span> com.atguigu.springcloud.alibaba.service.StorageService ;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RestController;
+
+<span class="hljs-meta">@RestController</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StorageController</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> StorageService storageService;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 扣减库存</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@RequestMapping(&quot;/storage/decrease&quot;)</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> CommonResult <span class="hljs-title">decrease</span><span class="hljs-params">(Long productId, Integer count)</span> </span>&#123;
+        storageService.decrease(productId, count);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> CommonResult(<span class="hljs-number">200</span>,<span class="hljs-string">&quot;扣减库存成功！&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<p>Config配置（与seata-order-service2001模块大致相同）</p>
+<p>主启动（与seata-order-service2001模块大致相同）</p>
+<h3 id="11-9-Seata之Account-Module说明"><a href="#11-9-Seata之Account-Module说明" class="headerlink" title="11.9 Seata之Account-Module说明"></a>11.9 Seata之Account-Module说明</h3><p>与seata-order-service2001模块大致相同</p>
+<p>seata-account-service2003</p>
+<p>POM（与seata-order-service2001模块大致相同）</p>
+<p>YML</p>
+<div class="code-wrapper"><pre><code class="hljs yml"><span class="hljs-attr">server:</span>
+  <span class="hljs-attr">port:</span> <span class="hljs-number">2003</span>
+
+<span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">application:</span>
+    <span class="hljs-attr">name:</span> <span class="hljs-string">seata-account-service</span>
+  <span class="hljs-attr">cloud:</span>
+    <span class="hljs-attr">alibaba:</span>
+      <span class="hljs-attr">seata:</span>
+        <span class="hljs-attr">tx-service-group:</span> <span class="hljs-string">fsp_tx_group</span>
+    <span class="hljs-attr">nacos:</span>
+      <span class="hljs-attr">discovery:</span>
+        <span class="hljs-attr">server-addr:</span> <span class="hljs-string">localhost:8848</span>
+  <span class="hljs-attr">datasource:</span>
+    <span class="hljs-attr">driver-class-name:</span> <span class="hljs-string">com.mysql.jdbc.Driver</span>
+    <span class="hljs-attr">url:</span> <span class="hljs-string">jdbc:mysql://localhost:3306/seata_account</span>
+    <span class="hljs-attr">username:</span> <span class="hljs-string">root</span>
+    <span class="hljs-attr">password:</span> <span class="hljs-number">123456</span>
+
+<span class="hljs-attr">feign:</span>
+  <span class="hljs-attr">hystrix:</span>
+    <span class="hljs-attr">enabled:</span> <span class="hljs-literal">false</span>
+
+<span class="hljs-attr">logging:</span>
+  <span class="hljs-attr">level:</span>
+    <span class="hljs-attr">io:</span>
+      <span class="hljs-attr">seata:</span> <span class="hljs-string">info</span>
+
+<span class="hljs-attr">mybatis:</span>
+  <span class="hljs-attr">mapperLocations:</span> <span class="hljs-string">classpath:mapper/*.xml</span></code></pre></div>
+
+<p>file.conf（与seata-order-service2001模块大致相同）</p>
+<p>registry.conf（与seata-order-service2001模块大致相同）</p>
+<p>domain</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> lombok.AllArgsConstructor;
+<span class="hljs-keyword">import</span> lombok.Data;
+<span class="hljs-keyword">import</span> lombok.NoArgsConstructor;
+
+<span class="hljs-keyword">import</span> java.math.BigDecimal;
+
+<span class="hljs-meta">@Data</span>
+<span class="hljs-meta">@AllArgsConstructor</span>
+<span class="hljs-meta">@NoArgsConstructor</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Account</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> Long id;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 用户id</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-keyword">private</span> Long userId;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 总额度</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-keyword">private</span> BigDecimal total;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 已用额度</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-keyword">private</span> BigDecimal used;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 剩余额度</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-keyword">private</span> BigDecimal residue;
+&#125;</code></pre></div>
+
+<p>CommonResult（与seata-order-service2001模块大致相同）</p>
+<p>Dao接口及实现</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.apache.ibatis.annotations.Mapper;
+<span class="hljs-keyword">import</span> org.apache.ibatis.annotations.Param;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Component;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Repository;
+
+<span class="hljs-keyword">import</span> java.math.BigDecimal;
+
+<span class="hljs-meta">@Mapper</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">AccountDao</span> </span>&#123;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 扣减账户余额</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">decrease</span><span class="hljs-params">(<span class="hljs-meta">@Param(&quot;userId&quot;)</span> Long userId, <span class="hljs-meta">@Param(&quot;money&quot;)</span> BigDecimal money)</span></span>;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">mapper</span> <span class="hljs-meta-keyword">PUBLIC</span> <span class="hljs-meta-string">&quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span> <span class="hljs-meta-string">&quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;</span> &gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">mapper</span> <span class="hljs-attr">namespace</span>=<span class="hljs-string">&quot;com.atguigu.springcloud.alibaba.dao.AccountDao&quot;</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">resultMap</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;BaseResultMap&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;com.atguigu.springcloud.alibaba.domain.Account&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">id</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;id&quot;</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;id&quot;</span> <span class="hljs-attr">jdbcType</span>=<span class="hljs-string">&quot;BIGINT&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;user_id&quot;</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;userId&quot;</span> <span class="hljs-attr">jdbcType</span>=<span class="hljs-string">&quot;BIGINT&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;total&quot;</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;total&quot;</span> <span class="hljs-attr">jdbcType</span>=<span class="hljs-string">&quot;DECIMAL&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;used&quot;</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;used&quot;</span> <span class="hljs-attr">jdbcType</span>=<span class="hljs-string">&quot;DECIMAL&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;residue&quot;</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;residue&quot;</span> <span class="hljs-attr">jdbcType</span>=<span class="hljs-string">&quot;DECIMAL&quot;</span>/&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">resultMap</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">update</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;decrease&quot;</span>&gt;</span>
+        UPDATE t_account
+        SET
+          residue = residue - #&#123;money&#125;,used = used + #&#123;money&#125;
+        WHERE
+          user_id = #&#123;userId&#125;;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">update</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">mapper</span>&gt;</span></code></pre></div>
+
+<p>Service接口及实现</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RequestParam;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.ResponseBody;
+
+<span class="hljs-keyword">import</span> java.math.BigDecimal;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">AccountService</span> </span>&#123;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 扣减账户余额</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> userId 用户id</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> money 金额</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">decrease</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam(&quot;userId&quot;)</span> Long userId, <span class="hljs-meta">@RequestParam(&quot;money&quot;)</span> BigDecimal money)</span></span>;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.atguigu.springcloud.alibaba.dao.AccountDao;
+<span class="hljs-keyword">import</span> com.atguigu.springcloud.alibaba.service.AccountService ;
+<span class="hljs-keyword">import</span> org.slf4j.Logger;
+<span class="hljs-keyword">import</span> org.slf4j.LoggerFactory;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Service;
+
+<span class="hljs-keyword">import</span> javax.annotation.Resource;
+<span class="hljs-keyword">import</span> java.math.BigDecimal;
+<span class="hljs-keyword">import</span> java.util.concurrent.TimeUnit;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AccountServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">AccountService</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(AccountServiceImpl.class);
+
+
+    <span class="hljs-meta">@Resource</span>
+    AccountDao accountDao;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 扣减账户余额</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">decrease</span><span class="hljs-params">(Long userId, BigDecimal money)</span> </span>&#123;
+        LOGGER.info(<span class="hljs-string">&quot;-------&gt;account-service中扣减账户余额开始&quot;</span>);
+        accountDao.decrease(userId,money);
+        LOGGER.info(<span class="hljs-string">&quot;-------&gt;account-service中扣减账户余额结束&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<p>Controller</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.atguigu.springcloud.alibaba.domain.CommonResult ;
+<span class="hljs-keyword">import</span> com.atguigu.springcloud.alibaba.service.AccountService ;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.PostMapping;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RequestParam;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RestController;
+
+<span class="hljs-keyword">import</span> javax.annotation.Resource;
+<span class="hljs-keyword">import</span> java.math.BigDecimal;
+
+<span class="hljs-meta">@RestController</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AccountController</span> </span>&#123;
+
+    <span class="hljs-meta">@Resource</span>
+    AccountService accountService;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 扣减账户余额</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@RequestMapping(&quot;/account/decrease&quot;)</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> CommonResult <span class="hljs-title">decrease</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam(&quot;userId&quot;)</span> Long userId, <span class="hljs-meta">@RequestParam(&quot;money&quot;)</span> BigDecimal money)</span></span>&#123;
+        accountService.decrease(userId,money);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> CommonResult(<span class="hljs-number">200</span>,<span class="hljs-string">&quot;扣减账户余额成功！&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<p>Config配置（与seata-order-service2001模块大致相同）</p>
+<p>主启动（与seata-order-service2001模块大致相同）</p>
+<h3 id="11-10-Seata之-GlobalTransactional验证"><a href="#11-10-Seata之-GlobalTransactional验证" class="headerlink" title="11.10 Seata之@GlobalTransactional验证"></a>11.10 Seata之@GlobalTransactional验证</h3><p>下订单 -&gt; 减库存 -&gt; 扣余额 -&gt; 改（订单）状态</p>
+<p>数据库初始情况：</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/e639c859e870eebd847d579347ed8755.png" alt></p>
+<p>正常下单 - <a target="_blank" rel="noopener" href="http://localhost:2001/order/create?userId=1&amp;productId=1&amp;count=10&amp;money=100">http://localhost:2001/order/create?userId=1&amp;productId=1&amp;count=10&amp;money=100</a></p>
+<p>数据库正常下单后状况：</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/32401b689cf9a7d624fd0f2aea7ce414.png" alt></p>
+<p><strong>超时异常，没加@GlobalTransactional</strong></p>
+<p>模拟AccountServiceImpl添加超时</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AccountServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">AccountService</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(AccountServiceImpl.class);
+
+
+    <span class="hljs-meta">@Resource</span>
+    AccountDao accountDao;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 扣减账户余额</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">decrease</span><span class="hljs-params">(Long userId, BigDecimal money)</span> </span>&#123;
+        LOGGER.info(<span class="hljs-string">&quot;-------&gt;account-service中扣减账户余额开始&quot;</span>);
+        <span class="hljs-comment">//模拟超时异常，全局事务回滚</span>
+        <span class="hljs-comment">//暂停几秒钟线程</span>
+        <span class="hljs-keyword">try</span> &#123; TimeUnit.SECONDS.sleep(<span class="hljs-number">20</span>); &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123; e.printStackTrace(); &#125;
+        accountDao.decrease(userId,money);
+        LOGGER.info(<span class="hljs-string">&quot;-------&gt;account-service中扣减账户余额结束&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<p>另外，OpenFeign的调用默认时间是1s以内，所以最后会抛异常。</p>
+<p>数据库情况</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/af40cc3756cef7179e58c813ed404db3.png" alt></p>
+<p><strong>故障情况</strong></p>
+<ul>
+<li>当库存和账户金额扣减后，订单状态并没有设置为已经完成，没有从零改为1</li>
+<li>而且由于feign的重试机制，账户余额还有可能被多次扣减</li>
+</ul>
+<p><strong>超时异常，加了@GlobalTransactional</strong></p>
+<p>用@GlobalTransactional标注OrderServiceImpl的create()方法。</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>
+<span class="hljs-meta">@Slf4j</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">OrderService</span> </span>&#123;
+    
+    ...
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 创建订单-&gt;调用库存服务扣减库存-&gt;调用账户服务扣减账户余额-&gt;修改订单状态</span>
+<span class="hljs-comment">     * 简单说：下订单-&gt;扣库存-&gt;减余额-&gt;改状态</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-comment">//rollbackFor = Exception.class表示对任意异常都进行回滚</span>
+    <span class="hljs-meta">@GlobalTransactional(name = &quot;fsp-create-order&quot;,rollbackFor = Exception.class)</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">create</span><span class="hljs-params">(Order order)</span></span>
+<span class="hljs-function">    </span>&#123;
+		...
+    &#125;
+&#125;</code></pre></div>
+
+<p>还是模拟AccountServiceImpl添加超时，下单后数据库数据并没有任何改变，记录都添加不进来，<strong>达到出异常，数据库回滚的效果</strong>。</p>
+
             </div>
             <hr>
             <div>
