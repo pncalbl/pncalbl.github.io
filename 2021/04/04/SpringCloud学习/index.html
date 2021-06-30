@@ -191,7 +191,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      50.1k 字
+      55k 字
     </span>
   
 
@@ -201,7 +201,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      730
+      791
        分钟
     </span>
   
@@ -235,7 +235,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 小时前
+                  本文最后更新于：1 天前
                 
               </p>
             
@@ -7524,6 +7524,514 @@ config &#123;
 &#125;</code></pre></div>
 
 <p>还是模拟AccountServiceImpl添加超时，下单后数据库数据并没有任何改变，记录都添加不进来，<strong>达到出异常，数据库回滚的效果</strong>。</p>
+<h3 id="11-11-Seata之原理简介"><a href="#11-11-Seata之原理简介" class="headerlink" title="11.11 Seata之原理简介"></a>11.11 Seata之原理简介</h3><p>2019年1月份蚂蚁金服和阿里巴巴共同开源的分布式事务解决方案。</p>
+<p>Simple Extensible Autonomous Transaction Architecture，简单可扩展自治事务框架。</p>
+<p>2020起始，用1.0以后的版本。Alina Gingertail</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/2d2c6aa29c3158413f66d4ef8c1000dc.png" alt></p>
+<p><strong>分布式事务的执行流程</strong></p>
+<ul>
+<li>TM开启分布式事务(TM向TC注册全局事务记录) ;</li>
+<li>按业务场景，编排数据库、服务等事务内资源(RM向TC汇报资源准备状态) ;</li>
+<li>TM结束分布式事务，事务一阶段结束(TM通知TC提交/回滚分布式事务) ;</li>
+<li>TC汇总事务信息，决定分布式事务是提交还是回滚；</li>
+<li>TC通知所有RM提交/回滚资源，事务二阶段结束。</li>
+</ul>
+<p><strong>AT模式如何做到对业务的无侵入</strong></p>
+<ul>
+<li><p>是什么</p>
+<blockquote>
+<p>  <strong>前提</strong></p>
+<ul>
+<li>基于支持本地 ACID 事务的关系型数据库。</li>
+<li>Java 应用，通过 JDBC 访问数据库。</li>
+</ul>
+<p>  <strong>整体机制</strong></p>
+<p>  两阶段提交协议的演变：</p>
+<ul>
+<li><p>一阶段：业务数据和回滚日志记录在同一个本地事务中提交，释放本地锁和连接资源。</p>
+</li>
+<li><p>二阶段：</p>
+<ul>
+<li>提交异步化，非常快速地完成。</li>
+<li></li>
+<li><ul>
+<li>回滚通过一阶段的回滚日志进行反向补偿。</li>
+</ul>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="http://seata.io/zh-cn/docs/overview/what-is-seata.html">link</a></p>
+</li>
+</ul>
+</blockquote>
+</li>
+<li><p>一阶段加载</p>
+</li>
+</ul>
+<p>在一阶段，Seata会拦截“业务SQL”</p>
+<ol>
+<li>解析SQL语义，找到“业务SQL” 要更新的业务数据，在业务数据被更新前，将其保存成”before image”</li>
+<li>执行“业务SQL” 更新业务数据，在业务数据更新之后,</li>
+<li>其保存成”after image”，最后生成行锁。</li>
+</ol>
+<p>以上操作全部在一个数据库事务内完成, 这样保证了一阶段操作的原子性。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/80a7bd6cacef78392b278af04d446562.png" alt></p>
+<ul>
+<li>二阶段提交</li>
+</ul>
+<p>二阶段如果顺利提交的话，因为”业务SQL”在一阶段已经提交至数据库，所以Seata框架只需将一阶段保存的快照数据和行锁删掉，完成数据清理即可。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/a16483118166481bd7f9d06f91a28146.png" alt></p>
+<ul>
+<li>二阶段回滚</li>
+</ul>
+<p>二阶段如果是回滚的话，Seata 就需要回滚一阶段已经执行的 “业务SQL”，还原业务数据。</p>
+<p>回滚方式便是用”before image”还原业务数据；但在还原前要首先要校验脏写，对比“数据库当前业务数据”和”after image”。</p>
+<p>如果两份数据完全一致就说明没有脏写， 可以还原业务数据，如果不一致就说明有脏写, 出现脏写就需要转人工处理。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/828b79e4c7679ce5f09069e551c2a717.png" alt></p>
+<p>补充</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/21da4fdc4260008c3324574abc33f0ae.png" alt></p>
+<h2 id="12-面试补充"><a href="#12-面试补充" class="headerlink" title="12 面试补充"></a>12 面试补充</h2><h3 id="12-1-雪花算法-上"><a href="#12-1-雪花算法-上" class="headerlink" title="12.1 雪花算法(上)"></a>12.1 雪花算法(上)</h3><p><strong>为什么需要分布式全局唯一ID以及分布式ID的业务需求？集群高并发情况下如何保证分布式唯一全局Id生成？</strong></p>
+<p>在复杂分布式系统中，往往需要对大量的数据和消息进行唯一标识，如在美团点评的金融、支付、餐饮、酒店，猫眼电影等产品的系统中数据日渐增长，对数据分库分表后需要有一个唯一ID来标识一条数据或消息。特别一点的如订单、骑手、优惠券也都雷要有唯一ID做标识。此时一个能够生成全局唯一ID的系统是非常必要的。</p>
+<p><strong>ID生成规则部分硬性要求</strong></p>
+<ul>
+<li><p><em>全局唯一</em>：不能出现重复的ID号，既然是唯一-标识，这是最基本的要求</p>
+</li>
+<li><p><em>趋势递增</em>：在MySQL的InnoDB引擎中使用的是聚集索引，由于多数RDBMS使用Btree的数据结构来存储索引数据，在主键的选择上面我们应该尽量使用有序的主键保证写入性能。</p>
+</li>
+<li><p><em>单调递增</em>：保证下一个ID一定大于上一个ID，例如事务版本号、IM增量消息、排序等特殊需求</p>
+</li>
+<li><p><em>信息安全</em>：如果ID是连续的，恶意用户的扒取工作就非常容易做了，直接按照顺序下载指定URL即可。如果是订单号就更危险了，竞对可以直接知道我们一天的单量。所以在一些应用场景下，需要ID无规则不规则，让竞争对手否好猜。</p>
+</li>
+<li><p><em>含时间戳</em>：这样就能够在开发中快速了解这个分布式id的生成时间。</p>
+</li>
+</ul>
+<p><strong>ID号生成系统的可用性要求</strong></p>
+<ul>
+<li><em>高可用</em>：发一个获取分布式ID的请求，服务器就要保证99.999%的情况下给我创建一个唯一分布式ID。</li>
+<li><em>低延迟</em>：发一个获取分布式ID的请求，服务器就要快，极速。</li>
+<li><em>高QPS</em>：假如并发一口气10万个创建分布式ID请求同时杀过来，服务器要顶的住且一下子成功创建10万个分布式ID。</li>
+</ul>
+<p><strong>一般通用方案</strong></p>
+<p><em>UUID</em></p>
+<p>UUID(Universally Unique ldentifer)的标准型式包含32个16进制数字，以连了号分为五段，形式为8-4-4-4-12的36个字符， 示例：550e8400-e29b-41d4-a716-446655440000</p>
+<p>性能非常高：本地生成，没有网络消耗</p>
+<p>如果只是考虑唯一性，那就选用它吧</p>
+<p>但是，入数据库性能差</p>
+<p><strong>为什么无序的UUID会导致入库性能变差呢？</strong></p>
+<ol>
+<li>无序，无法预测他的生成顺序，不能生成递增有序的数字。首先分布式ID一般都会作为主键， 但是安装MySQL官方推荐主键要尽量越短越好，UUID每一个都很长，所以不是很推荐。</li>
+<li>主键，ID作为主键时在特定的环境会存在一些问题。比如做DB主键的场景下，UUID就非常不适用MySQL官方有明确的建议主键要尽量越短越好36个字符长度的UUID不符合要求。</li>
+<li>索引，既然分布式ID是主键，然后主键是包含索引的，然后MySQL的索引是通过B+树来实现的，每一次新的UUID数据的插入，为了查询的优化，都会对索引底层的B+树进行修改，因为UUID数据是无序的，所以每一次UUID数据的插入都会对主键的的B+树进行很大的修改，这一点很不好。 插入完全无序，不但会导致一-些中间节点产生分裂，也会白白创造出很多不饱和的节点，这样大大降低了数据库插入的性能。</li>
+</ol>
+<blockquote>
+<p>  All indexes other than the clustered index are known as <a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_secondary_index">secondary indexes</a>. In InnoDB, each record in a secondary index contains the primary key columns for the row, as well as the columns specified for the secondary index. InnoDB uses this primary key value to search for the row in the clustered index.</p>
+<p>  If the primary key is long, the secondary indexes use more space, so it is advantageous to have a short primary key.</p>
+<p>  <a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-index-types.html">link</a></p>
+</blockquote>
+<p><strong>数据库自增主键</strong></p>
+<p><em>单机</em></p>
+<p>在单机里面，数据库的自增ID机制的主要原理是：数据库自增ID和MySQL数据库的replace into实现的。</p>
+<p>REPLACE INTO的含义是插入一条记录，如果表中唯一索引的值遇到冲突，则替换老数据。</p>
+<p>这里的replace into跟inset功能类似，不同点在于：replace into首先尝试插入数据列表中，如果发现表中已经有此行数据（根据主键或唯一索引判断）则先删除，再插入。否则直接插入新数据。</p>
+<div class="code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> t_test(
+	id <span class="hljs-type">BIGINT</span>(<span class="hljs-number">20</span>) UNSIGNED <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> AUTO_INCREMENT <span class="hljs-keyword">PRIMARY</span> KEY,
+	stub <span class="hljs-type">CHAR</span>(<span class="hljs-number">1</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">&#x27;&#x27;</span>,
+	<span class="hljs-keyword">UNIQUE</span> KEY stub(stub)
+)
+
+<span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> FROMt_ test;
+
+REPLACE <span class="hljs-keyword">INTO</span> t_test (stub) <span class="hljs-keyword">VALUES</span>(<span class="hljs-string">&#x27;b&#x27;</span>);
+
+<span class="hljs-keyword">SELECT</span> LAST_INSERT_ID();</code></pre></div>
+
+<p><em>集群分布式</em></p>
+<p>那数据库自增ID机制适合作分布式ID吗？答案是不太适合</p>
+<ol>
+<li><p>系统水平扩展比较困难，比如定义好了步长和机器台数之后，如果要添加机器该怎么做？假设现在只有一台机器发号是1，2，3，4，5（步长是1），这<br>个时候需要扩容机器一台。可以这样做：把第二台机器的初始值设置得比第一台超过很多，貌似还好，现在想象一下如果我们线上有100台机器，这<br>个时候要扩容该怎么做？简直是噩梦，所以系统水平扩展方案复杂难以实现。</p>
+</li>
+<li><p>数据库压力还是很大，每次获取ID都得读写一次数据库， 非常影响性能，不符合分布式ID里面的延迟低和要高QPS的规则（在高并发下，如果都去数据库里面获取id，那是非常影响性能的）</p>
+<p>基于Redis生成全局ID策略</p>
+<p>因为Redis是单线的天生保证原子性，可以使用原子操作INCR和INCRBY来实现</p>
+</li>
+</ol>
+<p>注意：在Redis集群情况下，同样和MySQL一样需要设置不同的增长步长，同时key一定要设置有效期可以使用Redis集群来获取更高的吞吐量。</p>
+<p>假如一个集群中有5台Redis。可以初始化每台Redis的值分别是1,2,3,4,5，然后步长都是5。</p>
+<p>各个Redis生成的ID为:</p>
+<p>A：1, 6, 11, 16, 21<br>B：2, 7 , 12, 17, 22<br>C：3, 8, 13, 18, 23<br>D：4, 9, 14, 19, 24<br>E：5, 10, 15, 20, 25</p>
+<h3 id="12-2-雪花算法-下"><a href="#12-2-雪花算法-下" class="headerlink" title="12.2 雪花算法(下)"></a>12.2 雪花算法(下)</h3><p>Twitter的分布式自增ID算法snowflake</p>
+<p><strong>概述</strong></p>
+<p>Twitter的snowflake解决了这种需求，最初Twitter把存储系统从MySQL迁移到Cassandra（由Facebook开发一套开源分布式NoSQL数据库系统）。因为Cassandra没有顺序ID生成机制，所以开发了这样一套全局唯一生成服务。</p>
+<p>Twitter的分布式雪花算法SnowFlake ，经测试snowflake 每秒能够产生26万个自增可排序的ID</p>
+<ol>
+<li>Twitter的SnowFlake生成ID能够按照时间有序生成。</li>
+<li>SnowFlake算法生成ID的结果是一个64bit大小的整数， 为一个Long型（转换成字符串后长度最多19）。</li>
+<li>分布式系统内不会产生ID碰撞（由datacenter和workerld作区分）并且效率较高。</li>
+</ol>
+<p>分布式系统中，有一些需要使用全局唯一ID的场景， 生成ID的基本要求：</p>
+<ol>
+<li>在分布式的环境下必须全局且唯一 。</li>
+<li>一般都需要单调递增，因为一般唯一ID都会存到数据库，而Innodb的特性就是将内容存储在主键索引树上的叶子节点而且是从左往右，递增的，所以考<br>虑到数据库性能，一般生成的ID也最好是单调递增。 为了防止ID冲突可以使用36位的UUID，但是UUID有一些缺点， 首先他相对比较长， 另外UUID一般是无序的。</li>
+<li>可能还会需要无规则，因为如果使用唯一ID作为订单号这种，为了不然别人知道一天的订单量是多少，就需要这个规则。</li>
+</ol>
+<p><strong>结构</strong></p>
+<p>雪花算法的几个核心组成部分：</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/795b3d1fa01bbd15d8b7b85c2724bf42.png" alt></p>
+<p>号段解析：</p>
+<p>1bit：</p>
+<p>不用，因为二进制中最高位是符号位，1表示负数，0表示正数。生成的id一般都是用整数，所以最高位固定为0。</p>
+<p>41bit - 时间戳，用来记录时间戳，毫秒级：</p>
+<ul>
+<li>41位可以表示2^41 − 1个数字。</li>
+<li>如果只用来表示正整数（计算机中正数包含0），可以表示的数值范围是：0到2^41-1, <strong>减1是因为可表示的数值范围是从0开始算的，而不是1。</strong></li>
+<li>也就是说41位可以表示2^41 − 1 个毫秒的值，转化成单位年则是( 2^41 − 1 ) / ( 1000 ∗ 60 ∗ 60 ∗ 24 ∗ 365 ) = 69 年。</li>
+</ul>
+<p>10bit - 工作机器ID，用来记录工作机器ID：</p>
+<ul>
+<li><p>可以部署在2^10 = 1024 包括5位DataCenterId和5位Workerld。</p>
+</li>
+<li><p>5位(bit) 可以表示的最大正整数是2^5 − 1=31,即可以用0、1、2、3、…31这32个数字，来表示不同的DataCenterld或Workerld。</p>
+</li>
+</ul>
+<p>12bit - 序列号，用来记录同毫秒内产生的不同id。</p>
+<ul>
+<li>12位(bit) 可以表示的最大正整数是2^12 − 1 = 4095 , 即可以用0、1、2、 3、…4094这4095个数字，来表示同一机器同一时间截(毫秒)内产生的4095个ID序号。</li>
+</ul>
+<p>SnowFlake可以保证：</p>
+<ul>
+<li>所有生成的ID按时间趋势递增。</li>
+<li>整个分布式系统内不会产生重复id（因为有DataCenterId和Workerld来做区分)</li>
+</ul>
+<p><strong>源码</strong></p>
+<p>以下代码仅供学习：</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Twitter_Snowflake</span>
+<span class="hljs-comment"> * SnowFlake的结构如下(每部分用-分开):</span>
+<span class="hljs-comment"> * 0 - 0000000000 0000000000 0000000000 0000000000 0 - 00000 - 00000 - 000000000000</span>
+<span class="hljs-comment"> * 1位标识，由于long基本类型在Java中是带符号的，最高位是符号位，正数是0，负数是1，所以id一般是正数，最高位是0</span>
+<span class="hljs-comment"> * 41位时间戳(毫秒级)，注意，41位时间戳不是存储当前时间的时间戳，而是存储时间戳的差值（当前时间戳 - 开始时间戳)</span>
+<span class="hljs-comment"> * 得到的值），这里的的开始时间戳，一般是我们的id生成器开始使用的时间，由我们程序来指定的（如下面程序SnowflakeIdWorker类的startTime属性）。41位的时间戳，可以使用69年，年T = (1L &lt;&lt; 41) / (1000L * 60 * 60 * 24 * 365) = 69</span>
+<span class="hljs-comment"> * 10位的数据机器位，可以部署在1024个节点，包括5位datacenterId和5位workerId</span>
+<span class="hljs-comment"> * 12位序列，毫秒内的计数，12位的计数顺序号支持每个节点每毫秒(同一机器，同一时间戳)产生4096个ID序号</span>
+<span class="hljs-comment"> * 加起来刚好64位，为一个Long型。</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SnowflakeIdWorker</span> </span>&#123;
+    <span class="hljs-comment">/** 开始时间戳 (2015-01-01) */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> twepoch = <span class="hljs-number">1420041600000L</span>;
+
+    <span class="hljs-comment">/** 机器id所占的位数 */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> workerIdBits = <span class="hljs-number">5L</span>;
+
+    <span class="hljs-comment">/** 数据标识id所占的位数 */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> datacenterIdBits = <span class="hljs-number">5L</span>;
+
+    <span class="hljs-comment">/** 支持的最大机器id，结果是31 (这个移位算法可以很快的计算出几位二进制数所能表示的最大十进制数) */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> maxWorkerId = -<span class="hljs-number">1L</span> ^ (-<span class="hljs-number">1L</span> &lt;&lt; workerIdBits);
+
+    <span class="hljs-comment">/** 支持的最大数据标识id，结果是31 */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> maxDatacenterId = -<span class="hljs-number">1L</span> ^ (-<span class="hljs-number">1L</span> &lt;&lt; datacenterIdBits);
+
+    <span class="hljs-comment">/** 序列在id中占的位数 */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> sequenceBits = <span class="hljs-number">12L</span>;
+
+    <span class="hljs-comment">/** 机器ID向左移12位 */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> workerIdShift = sequenceBits;
+
+    <span class="hljs-comment">/** 数据标识id向左移17位(12+5) */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> datacenterIdShift = sequenceBits + workerIdBits;
+
+    <span class="hljs-comment">/** 时间戳向左移22位(5+5+12) */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
+
+    <span class="hljs-comment">/** 生成序列的掩码，这里为4095 (0b111111111111=0xfff=4095) */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> sequenceMask = -<span class="hljs-number">1L</span> ^ (-<span class="hljs-number">1L</span> &lt;&lt; sequenceBits);
+
+    <span class="hljs-comment">/** 工作机器ID(0~31) */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> workerId;
+
+    <span class="hljs-comment">/** 数据中心ID(0~31) */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> datacenterId;
+
+    <span class="hljs-comment">/** 毫秒内序列(0~4095) */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> sequence = <span class="hljs-number">0L</span>;
+
+    <span class="hljs-comment">/** 上次生成ID的时间戳 */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> lastTimestamp = -<span class="hljs-number">1L</span>;
+
+    <span class="hljs-comment">//==============================Constructors=====================================</span>
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 构造函数</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> workerId 工作ID (0~31)</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> datacenterId 数据中心ID (0~31)</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SnowflakeIdWorker</span><span class="hljs-params">(<span class="hljs-keyword">long</span> workerId, <span class="hljs-keyword">long</span> datacenterId)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (workerId &gt; maxWorkerId || workerId &lt; <span class="hljs-number">0</span>) &#123;
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(String.format(<span class="hljs-string">&quot;worker Id can&#x27;t be greater than %d or less than 0&quot;</span>, maxWorkerId));
+        &#125;
+        <span class="hljs-keyword">if</span> (datacenterId &gt; maxDatacenterId || datacenterId &lt; <span class="hljs-number">0</span>) &#123;
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(String.format(<span class="hljs-string">&quot;datacenter Id can&#x27;t be greater than %d or less than 0&quot;</span>, maxDatacenterId));
+        &#125;
+        <span class="hljs-keyword">this</span>.workerId = workerId;
+        <span class="hljs-keyword">this</span>.datacenterId = datacenterId;
+    &#125;
+
+    <span class="hljs-comment">// ==============================Methods==========================================</span>
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 获得下一个ID (该方法是线程安全的)</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> SnowflakeId</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">long</span> <span class="hljs-title">nextId</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">long</span> timestamp = timeGen();
+
+        <span class="hljs-comment">//如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过这个时候应当抛出异常</span>
+        <span class="hljs-keyword">if</span> (timestamp &lt; lastTimestamp) &#123;
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(
+                    String.format(<span class="hljs-string">&quot;Clock moved backwards.  Refusing to generate id for %d milliseconds&quot;</span>, lastTimestamp - timestamp));
+        &#125;
+
+        <span class="hljs-comment">//如果是同一时间生成的，则进行毫秒内序列</span>
+        <span class="hljs-keyword">if</span> (lastTimestamp == timestamp) &#123;
+            sequence = (sequence + <span class="hljs-number">1</span>) &amp; sequenceMask;
+            <span class="hljs-comment">//毫秒内序列溢出</span>
+            <span class="hljs-keyword">if</span> (sequence == <span class="hljs-number">0</span>) &#123;
+                <span class="hljs-comment">//阻塞到下一个毫秒,获得新的时间戳</span>
+                timestamp = tilNextMillis(lastTimestamp);
+            &#125;
+        &#125;
+        <span class="hljs-comment">//时间戳改变，毫秒内序列重置</span>
+        <span class="hljs-keyword">else</span> &#123;
+            sequence = <span class="hljs-number">0L</span>;
+        &#125;
+
+        <span class="hljs-comment">//上次生成ID的时间戳</span>
+        lastTimestamp = timestamp;
+
+        <span class="hljs-comment">//移位并通过或运算拼到一起组成64位的ID</span>
+        <span class="hljs-keyword">return</span> ((timestamp - twepoch) &lt;&lt; timestampLeftShift) <span class="hljs-comment">//</span>
+                | (datacenterId &lt;&lt; datacenterIdShift) <span class="hljs-comment">//</span>
+                | (workerId &lt;&lt; workerIdShift) <span class="hljs-comment">//</span>
+                | sequence;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 阻塞到下一个毫秒，直到获得新的时间戳</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> lastTimestamp 上次生成ID的时间戳</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 当前时间戳</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">long</span> <span class="hljs-title">tilNextMillis</span><span class="hljs-params">(<span class="hljs-keyword">long</span> lastTimestamp)</span> </span>&#123;
+        <span class="hljs-keyword">long</span> timestamp = timeGen();
+        <span class="hljs-keyword">while</span> (timestamp &lt;= lastTimestamp) &#123;
+            timestamp = timeGen();
+        &#125;
+        <span class="hljs-keyword">return</span> timestamp;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 返回以毫秒为单位的当前时间</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 当前时间(毫秒)</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">long</span> <span class="hljs-title">timeGen</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> System.currentTimeMillis();
+    &#125;
+
+    <span class="hljs-comment">/** 测试 */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        System.out.println(<span class="hljs-string">&quot;开始：&quot;</span>+System.currentTimeMillis());
+        SnowflakeIdWorker idWorker = <span class="hljs-keyword">new</span> SnowflakeIdWorker(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">50</span>; i++) &#123;
+            <span class="hljs-keyword">long</span> id = idWorker.nextId();
+            System.out.println(id);
+<span class="hljs-comment">//            System.out.println(Long.toBinaryString(id));</span>
+        &#125;
+        System.out.println(<span class="hljs-string">&quot;结束：&quot;</span>+System.currentTimeMillis());
+    &#125;
+&#125;</code></pre></div>
+
+<p><strong>工程落地经验</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.hutool.cn/docs/#/core/工具类/唯一ID工具-IdUtil?id=snowflake">Hutool的Snowflake文档</a></p>
+<p>添加依赖</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>cn.hutool<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>hutool-captcha<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>4.6.8<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>示例程序：</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> cn.hutool.core.lang.Snowflake;
+<span class="hljs-keyword">import</span> cn.hutool.core.net.NetUtil;
+<span class="hljs-keyword">import</span> cn.hutool.core.util.IdUtil; 
+<span class="hljs-keyword">import</span> lombok.extern.slf4j.Slf4j;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Component;
+
+<span class="hljs-keyword">import</span> javax.annotation.PostConstruct;
+
+<span class="hljs-meta">@Slf4j</span>
+<span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">IdGeneratorSnowflake</span></span>&#123;
+	<span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> workerId = <span class="hljs-number">0</span>;
+	<span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> datacenterId = <span class="hljs-number">1</span>;
+	<span class="hljs-keyword">private</span> Snowflake snowflake = IdUtil.createSnowflake(workerId, datacenterId);
+
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">long</span> <span class="hljs-title">snowflakeId</span><span class="hljs-params">()</span></span>&#123;
+		<span class="hljs-keyword">return</span> snowflake.nextId();
+	&#125;
+
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">long</span> <span class="hljs-title">snowflakeId</span><span class="hljs-params">(<span class="hljs-keyword">long</span> workerId, <span class="hljs-keyword">long</span> datacenterId)</span></span>&#123;
+		Snowflake snowflake = IdUtil.createSnowflake(workerId, datacenterId);
+		<span class="hljs-keyword">return</span> snowflake.nextId();
+	&#125;
+
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>&#123;
+	    IdGeneratorSnowflake idGenerator = <span class="hljs-keyword">new</span> IdGeneratorSnowflake();
+		System.out.println(idGenerator.snowflakeId());
+        
+        ExecutorService threadPool = Executors.newFixedThreadPool(<span class="hljs-number">5</span>);
+		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">20</span>; i++)&#123;
+			threadPool.submit(() -&gt; &#123;
+				System.out.print1n(idGenerator.snowflakeId());
+			&#125;);
+		&#125;
+        
+		threadPool.shutdown();
+
+	&#125;
+&#125;</code></pre></div>
+
+<p><strong>优缺点</strong></p>
+<p>优点：</p>
+<p>毫秒数在高位，自增序列在低位，整个ID都是趋势递增的。</p>
+<p>不依赖数据库等第三方系统，以服务的方式部署，稳定性更高，生成ID的性能也是非常高的。</p>
+<p>可以根据自身业务特性分配bit位，非常灵活。</p>
+<p>缺点：</p>
+<p>依赖机器时钟，如果机器时钟回拨，会导致重复ID生成。</p>
+<p>在单机上是递增的，但是由于设计到分布式环境，每台机器上的时钟不可能完全同步，有时候会出现不是全局递增的情况。</p>
+<p>此缺点可以认为无所谓，一般分布式ID只要求趋势递增，并不会严格要求递增，90%的需求都只要求趋势递增）</p>
+<p><strong>其他补充</strong></p>
+<p>百度开源的分布式唯一ID生成器UidGenerator</p>
+<p>美团点评分布式ID生成系统Leaf</p>
+<h2 id="Spring-Cloud组件总结"><a href="#Spring-Cloud组件总结" class="headerlink" title="Spring Cloud组件总结"></a>Spring Cloud组件总结</h2><table>
+<thead>
+<tr>
+<th>组件</th>
+<th>简介</th>
+<th>分类</th>
+<th>官网</th>
+<th>笔记</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Eureka</td>
+<td>Eureka is the Netflix Service Discovery Server and Client.</td>
+<td>服务注册中心</td>
+<td><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-cloud-netflix/docs/2.2.7.RELEASE/reference/html/#service-discovery-eureka-clients">link</a></td>
+<td><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011863024/article/details/114298270#15_Eureka_1148">link</a></td>
+<td>eureka中文解释：int.(因找到某物，尤指问题的答案而高兴)我发现了，我找到了</td>
+</tr>
+<tr>
+<td>Zookeeper</td>
+<td>ZooKeeper is a centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services.</td>
+<td>服务注册中心</td>
+<td><a target="_blank" rel="noopener" href="https://zookeeper.apache.org/">link</a></td>
+<td><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011863024/article/details/107434932">link</a></td>
+<td>zookeeper中文解释：n.动物园管理员</td>
+</tr>
+<tr>
+<td>Consul</td>
+<td>Consul is a service mesh solution providing a full featured control plane with service discovery, configuration, and segmentation functionality.</td>
+<td>服务注册中心</td>
+<td><a target="_blank" rel="noopener" href="https://www.consul.io/">link</a></td>
+<td><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011863024/article/details/114298270#31_Consul_2333">link</a></td>
+<td>consul中文解释：n.领事</td>
+</tr>
+<tr>
+<td>Ribbon</td>
+<td>Ribbon is a client-side load balancer that gives you a lot of control over the behavior of HTTP and TCP clients.</td>
+<td>服务调用</td>
+<td><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-cloud-netflix/docs/2.2.7.RELEASE/reference/html/#spring-cloud-ribbon">link</a></td>
+<td><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011863024/article/details/114298270#36_Ribbon_2780">link</a></td>
+<td>ribbon中文解释：n.(用于捆绑或装饰的)带子;丝带;带状物;</td>
+</tr>
+<tr>
+<td>OpenFeign</td>
+<td>Feign is a declarative web service client. It makes writing web service clients easier.</td>
+<td>服务调用</td>
+<td><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-cloud-openfeign/docs/2.2.7.RELEASE/reference/html/">link</a></td>
+<td><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011863024/article/details/114298270#43_OpenFeign_3304">link</a></td>
+<td>feign中文意思：v.假装，装作，佯装(有某种感觉或生病、疲倦等)</td>
+</tr>
+<tr>
+<td>Hystrix</td>
+<td>Netflix has created a library called Hystrix that implements the circuit breaker pattern.</td>
+<td>服务降级</td>
+<td><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-cloud-netflix/docs/2.2.7.RELEASE/reference/html/#circuit-breaker-spring-cloud-circuit-breaker-with-hystrix">link</a></td>
+<td><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011863024/article/details/114298270#47_Hystrix_3696">link</a></td>
+<td>hystrix中文意思：n.豪猪属;猬草属;豪猪;豪猪亚属</td>
+</tr>
+<tr>
+<td>GateWay</td>
+<td>Spring Cloud Gateway aims to provide a simple, yet effective way to route to APIs and provide cross cutting concerns to them such as: security, monitoring/metrics, and resiliency.</td>
+<td>服务网关</td>
+<td><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-cloud-gateway/docs/2.2.7.RELEASE/reference/html/">link</a></td>
+<td><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011863024/article/details/114298282#66_GateWay_771">link</a></td>
+<td>gateway中文意思：n.网关;途径;门道;手段</td>
+</tr>
+<tr>
+<td>Config</td>
+<td>Spring Cloud Config provides server-side and client-side support for externalized configuration in a distributed system.</td>
+<td>服务配置</td>
+<td><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-cloud-config/docs/2.2.7.RELEASE/reference/html/">link</a></td>
+<td><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011863024/article/details/114298282#74_Config_1524">link</a></td>
+<td>-</td>
+</tr>
+<tr>
+<td>Bus</td>
+<td>Spring Cloud Bus links nodes of a distributed system with a lightweight message broker.</td>
+<td>服务总线</td>
+<td><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-cloud-bus/docs/2.2.3.RELEASE/reference/html/">link</a></td>
+<td><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011863024/article/details/114298282#78_Bus_2078">link</a></td>
+<td>-</td>
+</tr>
+<tr>
+<td>Stream</td>
+<td>Spring Cloud Stream is a framework for building message-driven microservice applications.</td>
+<td>消息队列</td>
+<td><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-cloud-stream/docs/3.0.10.RELEASE/reference/html/spring-cloud-stream.html#spring-cloud-stream-overview-introducing">link</a></td>
+<td><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011863024/article/details/114298282#83_Stream_2576">link</a></td>
+<td>-</td>
+</tr>
+<tr>
+<td>Sleuth</td>
+<td>Spring Cloud Sleuth implements a distributed tracing solution for Spring Cloud.</td>
+<td>服务跟踪</td>
+<td><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-cloud-sleuth/docs/2.2.7.RELEASE/reference/html/">link</a></td>
+<td><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011863024/article/details/114298282#92_Sleuth_3191">link</a></td>
+<td>sleuth中文意思：n.侦探</td>
+</tr>
+<tr>
+<td>Nacos</td>
+<td>Nacos致力于帮助您发现、配置和管理微服务。</td>
+<td>服务注册中心、服务配置、服务总线</td>
+<td><a target="_blank" rel="noopener" href="https://nacos.io/zh-cn/docs/what-is-nacos.html">link</a></td>
+<td><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011863024/article/details/114298282#96_Nacos_3488">link</a></td>
+<td>NAme + COnfiguration + Service</td>
+</tr>
+<tr>
+<td>Sentinel</td>
+<td>Sentinel是面向分布式服务架构的流量控制组件，主要以流量为切入点，从流量控制、熔断降级、系统自适应保护等多个维度来帮助您保障微服务的稳定性。</td>
+<td>服务降级</td>
+<td><a target="_blank" rel="noopener" href="https://sentinelguard.io/zh-cn/docs/introduction.html">link</a></td>
+<td><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011863024/article/details/114298288#111_Sentinel_240">link</a></td>
+<td>sentinel中文意思：n.哨兵</td>
+</tr>
+<tr>
+<td>Seata</td>
+<td>Seata 是一款开源的分布式事务解决方案，致力于在微服务架构下提供高性能和简单易用的分布式事务服务。</td>
+<td>分布式事务</td>
+<td><a target="_blank" rel="noopener" href="https://seata.io/zh-cn/">link</a></td>
+<td><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011863024/article/details/114298288#139_Seata_2287">link</a></td>
+<td>-</td>
+</tr>
+</tbody></table>
 
             </div>
             <hr>

@@ -191,7 +191,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      20.7k 字
+      22.9k 字
     </span>
   
 
@@ -201,7 +201,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      275
+      303
        分钟
     </span>
   
@@ -235,7 +235,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：18 分钟前
+                  本文最后更新于：1 分钟前
                 
               </p>
             
@@ -2688,68 +2688,269 @@ TestHttpServerHandler.java
         System.out.println(<span class="hljs-string">&quot;异常发生 &quot;</span> + cause.getMessage());
         ctx.close(); <span class="hljs-comment">//关闭连接</span>
     &#125;
+&#125;</code></pre></div>
+
+<p>hello.html</p>
+<div class="code-wrapper"><pre><code class="hljs html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Title<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>
+<span class="javascript">    <span class="hljs-keyword">var</span> socket;</span>
+<span class="javascript">    <span class="hljs-comment">//判断当前浏览器是否支持websocket</span></span>
+<span class="javascript">    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">window</span>.WebSocket) &#123;</span>
+<span class="javascript">        <span class="hljs-comment">//go on</span></span>
+<span class="javascript">        socket = <span class="hljs-keyword">new</span> WebSocket(<span class="hljs-string">&quot;ws://localhost:7000/hello2&quot;</span>);</span>
+<span class="javascript">        <span class="hljs-comment">//相当于channelRead, ev 收到服务器端回送的消息</span></span>
+<span class="javascript">        socket.onmessage = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ev</span>) </span>&#123;</span>
+<span class="javascript">            <span class="hljs-keyword">const</span> rt = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;responseText&quot;</span>);</span>
+<span class="javascript">            rt.value = rt.value + <span class="hljs-string">&quot;\n&quot;</span> + ev.data;</span>
+        &#125;
+
+<span class="javascript">        <span class="hljs-comment">//相当于连接开启(感知到连接开启)</span></span>
+<span class="javascript">        socket.onopen = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ev</span>) </span>&#123;</span>
+<span class="javascript">            <span class="hljs-keyword">const</span> rt = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;responseText&quot;</span>);</span>
+<span class="javascript">            rt.value = <span class="hljs-string">&quot;连接开启了..&quot;</span></span>
+        &#125;
+
+<span class="javascript">        <span class="hljs-comment">//相当于连接关闭(感知到连接关闭)</span></span>
+<span class="javascript">        socket.onclose = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ev</span>) </span>&#123;</span>
+
+<span class="javascript">            <span class="hljs-keyword">const</span> rt = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;responseText&quot;</span>);</span>
+<span class="javascript">            rt.value = rt.value + <span class="hljs-string">&quot;\n&quot;</span> + <span class="hljs-string">&quot;连接关闭了..&quot;</span></span>
+        &#125;
+<span class="javascript">    &#125; <span class="hljs-keyword">else</span> &#123;</span>
+<span class="javascript">        alert(<span class="hljs-string">&quot;当前浏览器不支持websocket&quot;</span>)</span>
+    &#125;
+
+<span class="javascript">    <span class="hljs-comment">//发送消息到服务器</span></span>
+<span class="javascript">    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">send</span>(<span class="hljs-params">message</span>) </span>&#123;</span>
+<span class="javascript">        <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">window</span>.socket) &#123; <span class="hljs-comment">//先判断socket是否创建好</span></span>
+<span class="javascript">            <span class="hljs-keyword">return</span>;</span>
+        &#125;
+        if (socket.readyState === WebSocket.OPEN) &#123;
+<span class="javascript">            <span class="hljs-comment">//通过socket 发送消息</span></span>
+            socket.send(message)
+<span class="javascript">        &#125; <span class="hljs-keyword">else</span> &#123;</span>
+<span class="javascript">            alert(<span class="hljs-string">&quot;连接没有开启&quot;</span>);</span>
+        &#125;
+    &#125;
+<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">onsubmit</span>=<span class="hljs-string">&quot;return false&quot;</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">textarea</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;message&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height: 300px; width: 300px&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">textarea</span>&gt;</span>
+	<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;发生消息&quot;</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&quot;send(this.form.message.value)&quot;</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;responseText&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">textarea</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;responseText&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height: 300px; width: 300px&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">textarea</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;清空内容&quot;</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&quot;document.getElementById(&#x27;responseText&#x27;).value=&#x27;&#x27;&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre></div>
+
+<h2 id="7-Google-Protobuf"><a href="#7-Google-Protobuf" class="headerlink" title="7 Google Protobuf"></a>7 Google Protobuf</h2><h3 id="7-1-编码和解码的基本介绍"><a href="#7-1-编码和解码的基本介绍" class="headerlink" title="7.1 编码和解码的基本介绍"></a>7.1 编码和解码的基本介绍</h3><ol>
+<li>编写网络应用程序时，因为数据在网络中传输的都是二进制字节码数据，在发送数据时就需要编码，接收数据时就需要解码[示意图]</li>
+<li><code>codec</code>（编解码器）的组成部分有两个：<code>decoder</code>（解码器）和 <code>encoder</code>（编码器）。<code>encoder</code> 负责把业务数据转换成字节码数据，<code>decoder</code> 负责把字节码数据转换成业务数据</li>
+</ol>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://dongzl.github.io/netty-handbook/_media/chapter07/chapter07_01.png" alt="img"></p>
+<h3 id="7-2-Netty-本身的编码解码的机制和问题分析"><a href="#7-2-Netty-本身的编码解码的机制和问题分析" class="headerlink" title="7.2 Netty 本身的编码解码的机制和问题分析"></a>7.2 Netty 本身的编码解码的机制和问题分析</h3><ol>
+<li><code>Netty</code> 自身提供了一些 <code>codec</code>(编解码器)</li>
+<li><code>Netty</code> 提供的编码器 <code>StringEncoder</code>，对字符串数据进行编码 <code>ObjectEncoder</code>，对Java对象进行编码…</li>
+<li><code>Netty</code> 提供的解码器 <code>StringDecoder</code>,对字符串数据进行解码 <code>ObjectDecoder</code>，对 <code>Java</code> 对象进行解码…</li>
+<li><code>Netty</code> 本身自带的 <code>ObjectDecoder</code> 和 <code>ObjectEncoder</code> 可以用来实现 <code>POJO</code> 对象或各种业务对象的编码和解码，底层使用的仍是Java序列化技术,而Java序列化技术本身效率就不高，存在如下问题<ul>
+<li>无法跨语言</li>
+<li>序列化后的体积太大，是二进制编码的5倍多。</li>
+<li>序列化性能太低</li>
+</ul>
+</li>
+<li>=&gt;引出新的解决方案[<code>Google</code> 的 <code>Protobuf</code>]</li>
+</ol>
+<h3 id="7-3-Protobuf"><a href="#7-3-Protobuf" class="headerlink" title="7.3 Protobuf"></a>7.3 Protobuf</h3><ol>
+<li><code>Protobuf</code> 基本介绍和使用示意图</li>
+<li><code>Protobuf</code> 是 <code>Google</code> 发布的开源项目，全称 <code>Google Protocol Buffers</code>，是一种轻便高效的结构化数据存储格式，可以用于结构化数据串行化，或者说序列化。它很适合做数据存储或 <code>RPC</code> [远程过程调用 <code>remote procedure call</code> ]数据交换格式。目前很多公司 <code>http + json tcp + protobuf</code></li>
+<li>参考文档：<a target="_blank" rel="noopener" href="https://developers.google.com/protocol-buffers/docs/proto">https://developers.google.com/protocol-buffers/docs/proto</a> 语言指南</li>
+<li><code>Protobuf</code> 是以 <code>message</code> 的方式来管理数据的.</li>
+<li>支持跨平台、跨语言，即[客户端和服务器端可以是不同的语言编写的]（支持目前绝大多数语言，例如 <code>C++</code>、<code>C#</code>、<code>Java</code>、<code>python</code> 等）</li>
+<li>高性能，高可靠性</li>
+<li>使用 <code>protobuf</code> 编译器能自动生成代码，<code>Protobuf</code> 是将类的定义使用 <code>.proto</code> 文件进行描述。说明，在 <code>idea</code> 中编写 <code>.proto</code> 文件时，会自动提示是否下载 <code>.ptoto</code> 编写插件.可以让语法高亮。</li>
+<li>然后通过 <code>protoc.exe</code> 编译器根据 <code>.proto</code> 自动生成 <code>.java</code> 文件</li>
+<li><code>protobuf</code> 使用示意图</li>
+</ol>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://dongzl.github.io/netty-handbook/_media/chapter07/chapter07_02.png" alt="img"></p>
+<h3 id="7-4-Protobuf-快速入门实例"><a href="#7-4-Protobuf-快速入门实例" class="headerlink" title="7.4 Protobuf 快速入门实例"></a>7.4 Protobuf 快速入门实例</h3><p>编写程序，使用 <code>Protobuf</code> 完成如下功能</p>
+<ol>
+<li>客户端可以发送一个 <code>StudentPoJo</code> 对象到服务器(通过 <code>Protobuf</code> 编码)</li>
+<li>服务端能接收 <code>StudentPoJo</code> 对象，并显示信息(通过 <code>Protobuf</code> 解码)</li>
+<li>具体看老师演示步骤</li>
+</ol>
+<div class="code-wrapper"><pre><code class="hljs java">Student.proto
+
+syntax = <span class="hljs-string">&quot;proto3&quot;</span>; <span class="hljs-comment">//版本</span>
+option java_outer_classname = <span class="hljs-string">&quot;StudentPOJO&quot;</span>;<span class="hljs-comment">//生成的外部类名，同时也是文件名</span>
+<span class="hljs-comment">//protobuf 使用message 管理数据</span>
+message Student &#123; <span class="hljs-comment">//会在 StudentPOJO 外部类生成一个内部类 Student， 他是真正发送的POJO对象</span>
+    int32 id = <span class="hljs-number">1</span>; <span class="hljs-comment">// Student 类中有 一个属性 名字为 id 类型为int32(protobuf类型) 1表示属性序号，不是值</span>
+    string name = <span class="hljs-number">2</span>;
 &#125;
 
-hello.html
+编译
+protoc.exe--java_out=.Student.proto
+将生成的 StudentPOJO 放入到项目使用</code></pre></div>
 
-&lt;!DOCTYPE html&gt;
-&lt;html lang=<span class="hljs-string">&quot;en&quot;</span>&gt;
-&lt;head&gt;
-    &lt;meta charset=<span class="hljs-string">&quot;UTF-8&quot;</span>&gt;
-    &lt;title&gt;Title&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;script&gt;
-    <span class="hljs-keyword">var</span> socket;
-    <span class="hljs-comment">//判断当前浏览器是否支持websocket</span>
-    <span class="hljs-keyword">if</span>(window.WebSocket) &#123;
-        <span class="hljs-comment">//go on</span>
-        socket = <span class="hljs-keyword">new</span> WebSocket(<span class="hljs-string">&quot;ws://localhost:7000/hello2&quot;</span>);
-        <span class="hljs-comment">//相当于channelReado, ev 收到服务器端回送的消息</span>
-        socket.onmessage = function (ev) &#123;
-            <span class="hljs-keyword">var</span> rt = document.getElementById(<span class="hljs-string">&quot;responseText&quot;</span>);
-            rt.value = rt.value + <span class="hljs-string">&quot;\n&quot;</span> + ev.data;
-        &#125;
+<h3 id="7-5-Protobuf-快速入门实例-2"><a href="#7-5-Protobuf-快速入门实例-2" class="headerlink" title="7.5 Protobuf 快速入门实例 2"></a>7.5 Protobuf 快速入门实例 2</h3><ol>
+<li>编写程序，使用 <code>Protobuf</code> 完成如下功能</li>
+<li>客户端可以随机发送 <code>StudentPoJo</code> / <code>WorkerPoJo</code> 对象到服务器(通过 <code>Protobuf</code> 编码)</li>
+<li>服务端能接收 <code>StudentPoJo</code> / <code>WorkerPoJo</code> 对象(需要判断是哪种类型)，并显示信息(通过 <code>Protobuf</code> 解码)</li>
+<li>具体看老师演示步骤</li>
+</ol>
+<div class="code-wrapper"><pre><code class="hljs java">Student.proto
 
-        <span class="hljs-comment">//相当于连接开启(感知到连接开启)</span>
-        socket.onopen = function (ev) &#123;
-            <span class="hljs-keyword">var</span> rt = document.getElementById(<span class="hljs-string">&quot;responseText&quot;</span>);
-            rt.value = <span class="hljs-string">&quot;连接开启了..&quot;</span>
-        &#125;
+syntax = <span class="hljs-string">&quot;proto3&quot;</span>;
+option optimize_for = SPEED; <span class="hljs-comment">// 加快解析</span>
+option java_package=<span class="hljs-string">&quot;com.atguigu.netty.codec2&quot;</span>;   <span class="hljs-comment">//指定生成到哪个包下</span>
+option java_outer_classname=<span class="hljs-string">&quot;MyDataInfo&quot;</span>; <span class="hljs-comment">// 外部类名, 文件名</span>
 
-        <span class="hljs-comment">//相当于连接关闭(感知到连接关闭)</span>
-        socket.onclose = function (ev) &#123;
+<span class="hljs-comment">//protobuf 可以使用message 管理其他的message</span>
+message MyMessage &#123;
 
-            <span class="hljs-keyword">var</span> rt = document.getElementById(<span class="hljs-string">&quot;responseText&quot;</span>);
-            rt.value = rt.value + <span class="hljs-string">&quot;\n&quot;</span> + <span class="hljs-string">&quot;连接关闭了..&quot;</span>
-        &#125;
-    &#125; <span class="hljs-keyword">else</span> &#123;
-        alert(<span class="hljs-string">&quot;当前浏览器不支持websocket&quot;</span>)
+    <span class="hljs-comment">//定义一个枚举类型</span>
+    <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">DataType</span> </span>&#123;
+        StudentType = <span class="hljs-number">0</span>; <span class="hljs-comment">//在proto3 要求enum的编号从0开始</span>
+        WorkerType = <span class="hljs-number">1</span>;
     &#125;
 
-    <span class="hljs-comment">//发送消息到服务器</span>
-    <span class="hljs-function">function <span class="hljs-title">send</span><span class="hljs-params">(message)</span> </span>&#123;
-        <span class="hljs-keyword">if</span>(!window.socket) &#123; <span class="hljs-comment">//先判断socket是否创建好</span>
-            <span class="hljs-keyword">return</span>;
-        &#125;
-        <span class="hljs-keyword">if</span>(socket.readyState == WebSocket.OPEN) &#123;
-            <span class="hljs-comment">//通过socket 发送消息</span>
-            socket.send(message)
-        &#125; <span class="hljs-keyword">else</span> &#123;
-            alert(<span class="hljs-string">&quot;连接没有开启&quot;</span>);
-        &#125;
+    <span class="hljs-comment">//用data_type 来标识传的是哪一个枚举类型</span>
+    DataType data_type = <span class="hljs-number">1</span>;
+
+    <span class="hljs-comment">//表示每次枚举类型最多只能出现其中的一个, 节省空间</span>
+    oneof dataBody &#123;
+        Student student = <span class="hljs-number">2</span>;
+        Worker worker = <span class="hljs-number">3</span>;
     &#125;
-&lt;/script&gt;
-    &lt;form onsubmit=<span class="hljs-string">&quot;return false&quot;</span>&gt;
-        &lt;textarea name=&quot;message&quot; style=&quot;height: 300px; width: 300px&quot;&gt;&lt;/textarea&gt;
-        &lt;input type=<span class="hljs-string">&quot;button&quot;</span> value=<span class="hljs-string">&quot;发生消息&quot;</span> onclick=<span class="hljs-string">&quot;send(this.form.message.value)&quot;</span>&gt;
-        &lt;textarea id=&quot;responseText&quot; style=&quot;height: 300px; width: 300px&quot;&gt;&lt;/textarea&gt;
-        &lt;input type=<span class="hljs-string">&quot;button&quot;</span> value=<span class="hljs-string">&quot;清空内容&quot;</span> onclick=<span class="hljs-string">&quot;document.getElementById(&#x27;responseText&#x27;).value=&#x27;&#x27;&quot;</span>&gt;
-    &lt;/form&gt;
-&lt;/body&gt;
-&lt;/html&gt;Copy to clipboardErrorCopied[ 上一章节](https://dongzl.github.io/netty-handbook/#/_content/chapter05)</code></pre></div>
+
+&#125;
 
 
+message Student &#123;
+    int32 id = <span class="hljs-number">1</span>;<span class="hljs-comment">//Student类的属性</span>
+    string name = <span class="hljs-number">2</span>; <span class="hljs-comment">//</span>
+&#125;
+message Worker &#123;
+    string name=<span class="hljs-number">1</span>;
+    int32 age=<span class="hljs-number">2</span>;
+&#125;</code></pre></div>
+
+<h2 id="8-Netty-编解码器和-Handler-调用机制"><a href="#8-Netty-编解码器和-Handler-调用机制" class="headerlink" title="8 Netty 编解码器和 Handler 调用机制"></a>8 Netty 编解码器和 Handler 调用机制</h2><h3 id="8-1-基本说明"><a href="#8-1-基本说明" class="headerlink" title="8.1 基本说明"></a>8.1 基本说明</h3><ol>
+<li><code>Netty</code> 的组件设计：<code>Netty</code> 的主要组件有 <code>Channel</code>、<code>EventLoop</code>、<code>ChannelFuture</code>、<code>ChannelHandler</code>、<code>ChannelPipe</code> 等</li>
+<li><code>ChannelHandler</code> 充当了处理入站和出站数据的应用程序逻辑的容器。例如，实现 <code>ChannelInboundHandler</code> 接口（或 <code>ChannelInboundHandlerAdapter</code>），你就可以接收入站事件和数据，这些数据会被业务逻辑处理。当要给客户端发送响应时，也可以从 <code>ChannelInboundHandler</code> 冲刷数据。业务逻辑通常写在一个或者多个 <code>ChannelInboundHandler</code> 中。<code>ChannelOutboundHandler</code> 原理一样，只不过它是用来处理出站数据的</li>
+<li><code>ChannelPipeline</code> 提供了 <code>ChannelHandler</code> 链的容器。以客户端应用程序为例，如果事件的运动方向是从客户端到服务端的，那么我们称这些事件为出站的，即客户端发送给服务端的数据会通过 <code>pipeline</code> 中的一系列 <code>ChannelOutboundHandler</code>，并被这些 <code>Handler</code> 处理，反之则称为入站的</li>
+</ol>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/22/Netty%E5%AD%A6%E4%B9%A0/chapter08_01.png" alt="img"></p>
+<h3 id="8-2编码解码器"><a href="#8-2编码解码器" class="headerlink" title="8.2编码解码器"></a>8.2编码解码器</h3><ol>
+<li>当 <code>Netty</code> 发送或者接受一个消息的时候，就将会发生一次数据转换。入站消息会被解码：从字节转换为另一种格式（比如 <code>java</code> 对象）；如果是出站消息，它会被编码成字节。</li>
+<li><code>Netty</code> 提供一系列实用的编解码器，他们都实现了 <code>ChannelInboundHadnler</code> 或者 <code>ChannelOutboundHandler</code> 接口。在这些类中，<code>channelRead</code> 方法已经被重写了。以入站为例，对于每个从入站 <code>Channel</code> 读取的消息，这个方法会被调用。随后，它将调用由解码器所提供的 <code>decode()</code> 方法进行解码，并将已经解码的字节转发给 <code>ChannelPipeline</code> 中的下一个 <code>ChannelInboundHandler</code>。</li>
+</ol>
+<h3 id="8-3-解码器-ByteToMessageDecoder"><a href="#8-3-解码器-ByteToMessageDecoder" class="headerlink" title="8.3 解码器 - ByteToMessageDecoder"></a>8.3 解码器 - ByteToMessageDecoder</h3><ol>
+<li>关系继承图</li>
+</ol>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/22/Netty%E5%AD%A6%E4%B9%A0/chapter08_02.png" alt="img"></p>
+<ol>
+<li>由于不可能知道远程节点是否会一次性发送一个完整的信息，<code>tcp</code> 有可能出现粘包拆包的问题，这个类会对入站数据进行缓冲，直到它准备好被处理.</li>
+<li>一个关于 <code>ByteToMessageDecoder</code> 实例分析</li>
+</ol>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/22/Netty%E5%AD%A6%E4%B9%A0/chapter08_03.png" alt="img"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/22/Netty%E5%AD%A6%E4%B9%A0/chapter08_04.png" alt="img"></p>
+<h3 id="8-4-Netty-的-handler-链的调用机制"><a href="#8-4-Netty-的-handler-链的调用机制" class="headerlink" title="8.4 Netty 的 handler 链的调用机制"></a>8.4 Netty 的 handler 链的调用机制</h3><p>实例要求:</p>
+<ol>
+<li>使用自定义的编码器和解码器来说明 <code>Netty</code> 的 <code>handler</code> 调用机制 客户端发送 <code>long</code> -&gt; 服务器 服务端发送 <code>long</code> -&gt; 客户端</li>
+<li>案例演示</li>
+</ol>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/22/Netty%E5%AD%A6%E4%B9%A0/chapter08_05.png" alt="img"></p>
+<ol>
+<li>结论<ul>
+<li>不论解码器 <code>handler</code> 还是编码器 <code>handler</code> 即接收的消息类型必须与待处理的消息类型一致，否则该 <code>handler</code> 不会被执行</li>
+<li>在解码器进行数据解码时，需要判断缓存区（<code>ByteBuf</code>）的数据是否足够，否则接收到的结果会期望结果可能不一致</li>
+</ul>
+</li>
+</ol>
+<h3 id="8-5-解码器-ReplayingDecoder"><a href="#8-5-解码器-ReplayingDecoder" class="headerlink" title="8.5 解码器 - ReplayingDecoder"></a>8.5 解码器 - ReplayingDecoder</h3><ol>
+<li><code>public abstract class ReplayingDecoder&lt;S&gt; extends ByteToMessageDecoder</code></li>
+<li><code>ReplayingDecoder</code> 扩展了 <code>ByteToMessageDecoder</code> 类，使用这个类，我们不必调用 <code>readableBytes()</code> 方法。参数 <code>S</code> 指定了用户状态管理的类型，其中 <code>Void</code> 代表不需要状态管理</li>
+<li>应用实例：使用 <code>ReplayingDecoder</code> 编写解码器，对前面的案例进行简化[案例演示]</li>
+</ol>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.atguigu.netty.inboundhandlerandoutboundhandler;
+
+<span class="hljs-keyword">import</span> io.netty.buffer.ByteBuf;
+<span class="hljs-keyword">import</span> io.netty.channel.ChannelHandlerContext;
+<span class="hljs-keyword">import</span> io.netty.handler.codec.ReplayingDecoder;
+
+<span class="hljs-keyword">import</span> java.util.List;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyByteToLongDecoder2</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ReplayingDecoder</span>&lt;<span class="hljs-title">Void</span>&gt; </span>&#123;
+    
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">decode</span><span class="hljs-params">(ChannelHandlerContext ctx, ByteBuf in, List&lt;Object&gt; out)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        System.out.println(<span class="hljs-string">&quot;MyByteToLongDecoder2 被调用&quot;</span>);
+        <span class="hljs-comment">//在 ReplayingDecoder 不需要判断数据是否足够读取，内部会进行处理判断</span>
+        out.add(in.readLong());
+    &#125;
+&#125;</code></pre></div>
+
+<ol start="4">
+<li><code>ReplayingDecoder</code>使用方便，但它也有一些局限性：<ul>
+<li>并不是所有的 <code>ByteBuf</code> 操作都被支持，如果调用了一个不被支持的方法，将会抛出一个 <code>UnsupportedOperationException</code>。</li>
+<li><code>ReplayingDecoder</code> 在某些情况下可能稍慢于 <code>ByteToMessageDecoder</code>，例如网络缓慢并且消息格式复杂时，消息会被拆成了多个碎片，速度变慢</li>
+</ul>
+</li>
+</ol>
+<h3 id="8-6-其它编解码器"><a href="#8-6-其它编解码器" class="headerlink" title="8.6 其它编解码器"></a>8.6 其它编解码器</h3><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/22/Netty%E5%AD%A6%E4%B9%A0/chapter08_06.png" alt="img"></p>
+<h4 id="8-6-1-其它解码器"><a href="#8-6-1-其它解码器" class="headerlink" title="8.6.1 其它解码器"></a>8.6.1 其它解码器</h4><ol>
+<li><code>LineBasedFrameDecoder</code>：这个类在 <code>Netty</code> 内部也有使用，它使用行尾控制字符（\n或者\r\n）作为分隔符来解析数据。</li>
+<li><code>DelimiterBasedFrameDecoder</code>：使用自定义的特殊字符作为消息的分隔符。</li>
+<li><code>HttpObjectDecoder</code>：一个 <code>HTTP</code> 数据的解码器</li>
+<li><code>LengthFieldBasedFrameDecoder</code>：通过指定长度来标识整包消息，这样就可以自动的处理黏包和半包消息。</li>
+</ol>
+<h4 id="8-6-2-其它编码器"><a href="#8-6-2-其它编码器" class="headerlink" title="8.6.2 其它编码器"></a>8.6.2 其它编码器</h4><h3 id="8-7-Log4j-整合到-Netty"><a href="#8-7-Log4j-整合到-Netty" class="headerlink" title="8.7 Log4j 整合到 Netty"></a>8.7 Log4j 整合到 Netty</h3><ol>
+<li>在 <code>Maven</code> 中添加对 <code>Log4j</code> 的依赖在 <code>pom.xml</code></li>
+</ol>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>log4j<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>log4j<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.2.17<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.slf4j<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>slf4j-api<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.7.25<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.slf4j<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>slf4j-log4j12<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.7.25<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.slf4j<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>slf4j-simple<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.7.25<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<ol>
+<li>配置 <code>Log4j</code>，在 <code>resources/log4j.properties</code></li>
+</ol>
+<div class="code-wrapper"><pre><code class="hljs xml">log4j.rootLogger=DEBUG,stdout
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=[%p]%C&#123;1&#125;-%m%nCopy to clipboardErrorCopied</code></pre></div>
+
+<ol>
+<li>演示整合</li>
+</ol>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://dongzl.github.io/netty-handbook/_media/chapter08/chapter08_07.png" alt="img"></p>
+<h2 id="9-TCP-粘包和拆包及解决方案"><a href="#9-TCP-粘包和拆包及解决方案" class="headerlink" title="9 TCP 粘包和拆包及解决方案"></a>9 TCP 粘包和拆包及解决方案</h2>
             </div>
             <hr>
             <div>
