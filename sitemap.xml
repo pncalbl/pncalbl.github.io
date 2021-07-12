@@ -641,14 +641,14 @@
   </url>
   
   <url>
-    <loc>https://pncalbl.github.io/tags/%E9%9D%99%E6%80%81IP/</loc>
+    <loc>https://pncalbl.github.io/tags/MongoDB/</loc>
     <lastmod>2021-07-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://pncalbl.github.io/tags/MongoDB/</loc>
+    <loc>https://pncalbl.github.io/tags/%E9%9D%99%E6%80%81IP/</loc>
     <lastmod>2021-07-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -718,6 +718,13 @@
   </url>
   
   <url>
+    <loc>https://pncalbl.github.io/tags/mysql/</loc>
+    <lastmod>2021-07-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://pncalbl.github.io/tags/visualization/</loc>
     <lastmod>2021-07-12</lastmod>
     <changefreq>daily</changefreq>
@@ -739,7 +746,14 @@
   </url>
   
   <url>
-    <loc>https://pncalbl.github.io/tags/mysql/</loc>
+    <loc>https://pncalbl.github.io/tags/Typora/</loc>
+    <lastmod>2021-07-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://pncalbl.github.io/tags/%E5%BF%AB%E6%8D%B7%E9%94%AE/</loc>
     <lastmod>2021-07-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -761,20 +775,6 @@
   
   <url>
     <loc>https://pncalbl.github.io/tags/VM/</loc>
-    <lastmod>2021-07-12</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://pncalbl.github.io/tags/Typora/</loc>
-    <lastmod>2021-07-12</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://pncalbl.github.io/tags/%E5%BF%AB%E6%8D%B7%E9%94%AE/</loc>
     <lastmod>2021-07-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -865,14 +865,14 @@
   </url>
   
   <url>
-    <loc>https://pncalbl.github.io/tags/ElasticSearch/</loc>
+    <loc>https://pncalbl.github.io/tags/Dubbo/</loc>
     <lastmod>2021-07-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://pncalbl.github.io/tags/Dubbo/</loc>
+    <loc>https://pncalbl.github.io/tags/ElasticSearch/</loc>
     <lastmod>2021-07-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -993,14 +993,14 @@
   </url>
   
   <url>
-    <loc>https://pncalbl.github.io/categories/Java/Spring/</loc>
+    <loc>https://pncalbl.github.io/categories/Technical/Hardware/</loc>
     <lastmod>2021-07-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://pncalbl.github.io/categories/Technical/Hardware/</loc>
+    <loc>https://pncalbl.github.io/categories/Java/Spring/</loc>
     <lastmod>2021-07-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
