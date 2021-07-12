@@ -235,7 +235,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2 天前
+                  本文最后更新于：19 分钟前
                 
               </p>
             
@@ -1124,7 +1124,11 @@ docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag
 -v 卷挂载
 -e 环境配置
 -- name 容器名字
-<span class="hljs-meta">$</span><span class="bash"> docker run -d -p 3310:3306 -v /home/mysql/conf:/etc/mysql/conf.d -v /home/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 --name mysql03 mysql:5.7</span>
+
+docker run -p 3306:3306 --name docker-mysql
+-v /usr/local/workspace/docker/mysql/conf:/etc/mysql
+-v /usr/local/workspace/docker/mysql/data:/var/lib/mysql
+-e MYSQL_ROOT_PASSWORD=12345678 -d mysql:5.6
 
 <span class="hljs-meta">#</span><span class="bash"> 启动成功之后，我们在本地使用sqlyog来测试一下</span>
 <span class="hljs-meta">#</span><span class="bash"> sqlyog-连接到服务器的3306--和容器内的3306映射</span> 
