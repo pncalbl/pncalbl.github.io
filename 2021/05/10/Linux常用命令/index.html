@@ -1,0 +1,722 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon-t.png">
+  <link rel="icon" href="/img/favicon-t.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="pncalbl">
+  <meta name="keywords" content="计算机,开发,编程,代码,博客,技术">
+  
+  <title>Liunx 一般配置与命令 - pncalbl</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"pncalbl.github.io","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/rss2.xml" title="pncalbl" type="application/rss+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>pncalbl</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/post.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Liunx 一般配置与命令">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      pncalbl
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-05-10 00:00" pubdate>
+        2021年5月10日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Liunx 一般配置与命令</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：3 天前
+                
+              </p>
+            
+            <div class="markdown-body">
+              <h1 id="1-Liunx-常用命令"><a href="#1-Liunx-常用命令" class="headerlink" title="1 Liunx 常用命令"></a>1 Liunx 常用命令</h1><h2 id="命令行"><a href="#命令行" class="headerlink" title="命令行"></a>命令行</h2><table>
+<thead>
+<tr>
+<th>描述</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>编辑环境变量</td>
+<td>vim /etc/profile</td>
+</tr>
+<tr>
+<td>生效环境变量</td>
+<td>source /etc/profile</td>
+</tr>
+<tr>
+<td>检查目标服务的端口监听状态</td>
+<td>netstat -ntlp | grep 3306</td>
+</tr>
+<tr>
+<td>启动目标服务</td>
+<td>systemctl start service</td>
+</tr>
+<tr>
+<td>检查目标服务的状态</td>
+<td>systemctl status service</td>
+</tr>
+<tr>
+<td>停止目标服务</td>
+<td>systemctl stop service</td>
+</tr>
+<tr>
+<td>查看安装包</td>
+<td>rpm -qa | grep Git</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="Vim"><a href="#Vim" class="headerlink" title="Vim"></a>Vim</h2><table>
+<thead>
+<tr>
+<th>描述</th>
+<th>命令模式</th>
+<th>底线命令模式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>移到最第一行</td>
+<td>gg</td>
+<td>:0或:1</td>
+</tr>
+<tr>
+<td>移到最后一行</td>
+<td>shift+g</td>
+<td>:$</td>
+</tr>
+<tr>
+<td>搜索字符串</td>
+<td>查看下一个  按下 n<br>转到上一个  按下 N</td>
+<td>:/字符串</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h1 id="2-设置快捷键"><a href="#2-设置快捷键" class="headerlink" title="2 设置快捷键"></a>2 设置快捷键</h1><ol>
+<li>进入设置 / <code>settings</code></li>
+<li>进入 <code>Keyboard</code></li>
+<li>点击 添加按钮 <code>+</code></li>
+<li>定义名称 <code>Open Terminal</code></li>
+<li>输入命令 <code>/usr/bin/gnome-terminal</code></li>
+</ol>
+<h1 id="3-更换-yum-源"><a href="#3-更换-yum-源" class="headerlink" title="3 更换 yum 源"></a>3 更换 yum 源</h1><h2 id="1-下载wget的rpm包"><a href="#1-下载wget的rpm包" class="headerlink" title="1.下载wget的rpm包"></a>1.下载wget的rpm包</h2><p>首先去<a target="_blank" rel="noopener" href="http://mirrors.163.com/centos/7/os/x86_64/Packages/找到wget的rpm包，复制链接，使用curl命令下载">http://mirrors.163.com/centos/7/os/x86_64/Packages/找到wget的rpm包，复制链接，使用curl命令下载</a></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/10/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/1089423-20191203231224175-577731216.png" alt="img"></p>
+<p> 使用curl下载（注意相关的包版本可能已经变，请以最新的下载地址为准)）</p>
+<div class="code-wrapper"><pre><code class="hljs shell">curl http://mirrors.163.com/centos/7/os/x86_64/Packages/wget-1.14-18.el7_6.1.x86_64.rpm</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs shell">rpm -ivh wget-1.14-18.el7_6.1.x86_64.rpm</code></pre></div>
+
+<h2 id="2-安装yum"><a href="#2-安装yum" class="headerlink" title="2.安装yum"></a>2.安装yum</h2><p> 1.删除原有的yum</p>
+<div class="code-wrapper"><pre><code class="hljs shell">rpm -aq|grep yum|xargs rpm -e --nodeps</code></pre></div>
+
+<p> 2.下载yum,注意自己的LINUX系统版本，是什么版本就进相关版本目录去下载。但小版本的目录就不用进了。如版本是6.5，就只需进6 目录，版本是 7.2，只需进7目录</p>
+<div class="code-wrapper"><pre><code class="hljs shell">1 yum-*.rpm
+2 yum-metadata-parser-*.rpm
+3 yum-plugin-fastestmirror-*.rpm
+4 python-iniparse-*.rpm</code></pre></div>
+
+<p>3.使用wget下载(注意相关的包版本可能已经变，请以最新的下载地址为准)</p>
+<div class="code-wrapper"><pre><code class="hljs shell">wget https://mirrors.163.com/centos/7/os/x86_64/Packages/yum-3.4.3-168.el7.centos.noarch.rpm
+wget https://mirrors.163.com/centos/7/os/x86_64/Packages/yum-metadata-parser-1.1.4-10.el7.x86_64.rpm
+wget https://mirrors.163.com/centos/7/os/x86_64/Packages/yum-plugin-fastestmirror-1.1.31-54.el7_8.noarch.rpm
+wget https://mirrors.163.com/centos/7/os/x86_64/Packages/python-iniparse-0.4-9.el7.noarch.rpm</code></pre></div>
+
+<p>4.下载后安转yum依赖的包</p>
+<div class="code-wrapper"><pre><code class="hljs shell">rpm -ivh python-iniparse-*.rpm
+rpm -ivh yum-*.rpm  yum-metadata-parser-*.rpm  yum-plugin-fastestmirror-*.rpm</code></pre></div>
+
+<h2 id="3-修改yum源"><a href="#3-修改yum源" class="headerlink" title="3.修改yum源"></a>3.修改yum源</h2><p> 1.进入到系统yum源的目录下：</p>
+<div class="code-wrapper"><pre><code class="hljs shell">cd /etc/yum.repos.d</code></pre></div>
+
+<p> 2.下载yum源</p>
+<div class="code-wrapper"><pre><code class="hljs shell">wget http://mirrors.163.com/.help/CentOS7-Base-163.repo</code></pre></div>
+
+<p> 3.修改源文件名（注意需要把之前的删掉，或者改为.bak文件）</p>
+<div class="code-wrapper"><pre><code class="hljs shell">mv CentOS7-Base-163.repo CentOS-Base.repo</code></pre></div>
+
+<p>4.运行makecache 生成缓存 使配置生效</p>
+<div class="code-wrapper"><pre><code class="hljs shell">yum makecache</code></pre></div>
+
+<p>5.验证yum源</p>
+<div class="code-wrapper"><pre><code class="hljs shell">yum repolist
+查看是否有163的标识 有则证明配置国内163镜像源成功</code></pre></div>
+
+<p>7.运行yum clean all（等同于 yum cleanheaders ; yum cleanpackages）;</p>
+<div class="code-wrapper"><pre><code class="hljs shell">yum clean all
+yum 会把下载的软件包和header存储在cache中，而不自动删除。如果觉得占用磁盘空间，可以使用yum clean指令进行清除，更精确 的用法是yum clean headers清除header，yum clean packages清除下载的rpm包，yum clean all一全部清除。</code></pre></div>
+
+<p>8.更新YUM文件 全部更新软件包</p>
+<div class="code-wrapper"><pre><code class="hljs shell">yum  update</code></pre></div>
+
+<p>10.yum常用操作</p>
+<div class="code-wrapper"><pre><code class="hljs shell">yum install XXX
+
+yum remove XXX
+
+yum list
+
+yum list installed</code></pre></div>
+
+<h1 id="4-美化界面"><a href="#4-美化界面" class="headerlink" title="4 美化界面"></a>4 美化界面</h1><ol>
+<li><p>先安装 gnome-tweak-tool</p>
+<div class="code-wrapper"><pre><code class="hljs shell">yum install gnome-tweak-tool</code></pre></div>
+</li>
+<li><p>主题：<a href="mailto:git@gitzab.com">git@gitzab.com</a>:Anduin/GNOME-OSX-II-Theme.git </p>
+<p>解压 GNOME-OSX-II-Theme-master.zip 到 /home/pncalbl/.themes </p>
+<p>在 tweak 中切换主题 GNOME-OSX-II-Theme</p>
+</li>
+<li><p>图标：<a href="mailto:git@github.com">git@github.com</a>:keeferrourke/la-capitaine-icon-theme.git </p>
+<p>解压 la-capitaine-icon-theme-master.zip 到 /home/pncalbl/.icons</p>
+<p>在 tweak 中切换主题 图标</p>
+</li>
+<li><p>启动器：<a href="mailto:git@github.com">git@github.com</a>:micheleg/dash-to-dock.git</p>
+</li>
+</ol>
+<h1 id="5-生成密钥"><a href="#5-生成密钥" class="headerlink" title="5 生成密钥"></a>5 生成密钥</h1><ol>
+<li>生成秘钥</li>
+</ol>
+<div class="code-wrapper"><pre><code class="hljs shell">//换成你自己的邮箱
+ssh-keygen -t rsa -C &quot;pncalbl@qq.com&quot;
+//一直next并记住生成的地址
+Generating public/private rsa key pair.
+Enter file in which to save the key (/root/.ssh/id_rsa):
+Created directory &#x27;/root/.ssh&#x27;.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /root/.ssh/id_rsa.
+Your public key has been saved in /root/.ssh/id_rsa.pub.</code></pre></div>
+
+<ol>
+<li>进入.ssh 目录提出key</li>
+</ol>
+<div class="code-wrapper"><pre><code class="hljs shell">[root@localhost ~]# cd .ssh
+[root@localhost .ssh]# ls
+id_rsa  id_rsa.pub
+//把显示的内容复制到GitHub的SSHkey配置即可
+[root@localhost .ssh]# cat id_rsa.pub</code></pre></div>
+
+<ol>
+<li>测试</li>
+</ol>
+<div class="code-wrapper"><pre><code class="hljs shell">[root@localhost .ssh]# ssh -T git@github.com
+The authenticity of host &#x27;github.com (192.30.255.113)&#x27; can&#x27;t be established.
+RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.
+Are you sure you want to continue connecting (yes/no)? y
+Please type &#x27;yes&#x27; or &#x27;no&#x27;: yes
+Warning: Permanently added &#x27;github.com,192.30.255.113&#x27; (RSA) to the list of known hosts.
+Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide shell access.</code></pre></div>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Help/">Help</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Help/Linux/">Linux</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Linux/">Linux</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%91%BD%E4%BB%A4/">命令</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Win10 搭建 PyTorch 环境</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/05/09/%E5%88%86%E6%9E%90%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/">
+                        <span class="hidden-mobile">分析开源项目</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=a;var i=n.imageLazyLoadSetting.isSPA,o=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function a(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var a=0;a<r.length;a++)t=r[a],0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight*o||document.documentElement.clientHeight*o)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}();var t,e}a(),n.addEventListener("scroll",function(){var t,e;t=a,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>

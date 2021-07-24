@@ -1,0 +1,1728 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon-t.png">
+  <link rel="icon" href="/img/favicon-t.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="pncalbl">
+  <meta name="keywords" content="计算机,开发,编程,代码,博客,技术">
+  
+  <title>K8s 学习 - pncalbl</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"pncalbl.github.io","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/rss2.xml" title="pncalbl" type="application/rss+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>pncalbl</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/post.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="K8s 学习">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      pncalbl
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-22 00:00" pubdate>
+        2021年7月22日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      12k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      142
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">K8s 学习</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：3 小时前
+                
+              </p>
+            
+            <div class="markdown-body">
+              <h1 id="第1章-Kubernetes简介"><a href="#第1章-Kubernetes简介" class="headerlink" title="第1章 Kubernetes简介"></a>第1章 Kubernetes简介</h1><h2 id="1-来源"><a href="#1-来源" class="headerlink" title="1 来源"></a>1 来源</h2><p>bilibili尚硅谷K8s视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1GT4y1A756">https://www.bilibili.com/video/BV1GT4y1A756</a></p>
+<p>中文官网：<a target="_blank" rel="noopener" href="https://kubernetes.io/zh">https://kubernetes.io/zh</a></p>
+<p>中文社区：<a target="_blank" rel="noopener" href="https://www.kubernetes.org.cn/">https://www.kubernetes.org.cn/</a></p>
+<h2 id="2-介绍"><a href="#2-介绍" class="headerlink" title="2 介绍"></a>2 介绍</h2><p>K8s主要讲的就是Kubernetes，首先Kubernetes首字母为K，末尾为s，中间一共有8个字母，所以简称K8s</p>
+<h2 id="3-前置知识"><a href="#3-前置知识" class="headerlink" title="3 前置知识"></a>3 前置知识</h2><ul>
+<li>Linux操作系统</li>
+<li>Docker</li>
+</ul>
+<h2 id="4-课程简介"><a href="#4-课程简介" class="headerlink" title="4 课程简介"></a>4 课程简介</h2><ul>
+<li><p>K8s概念和架构</p>
+</li>
+<li><p>从零搭建K8s集群</p>
+<ul>
+<li>基于客户端工具kubeadm搭建（简单，最多半小时）</li>
+<li>基于二进制包方式（能看到内部的架构）</li>
+</ul>
+</li>
+<li><p>K8s核心概念</p>
+<ul>
+<li>Pod：K8s管理的最小单位级，是所有业务类型的基础</li>
+<li>Controller：控制器，有状态，无状态，一次任务，定时任务，守护进程</li>
+<li>Service Ingress：对外暴露端口</li>
+<li>RBAC：安全机制，权限模型</li>
+<li>Helm：下载机制</li>
+<li>持久化存储</li>
+</ul>
+</li>
+<li><p>搭建集群监控平台系统</p>
+</li>
+<li><p>从零搭建高可用K8s集群</p>
+</li>
+<li><p>在集群环境部署项目</p>
+</li>
+</ul>
+<h2 id="5-K8s概念和特性"><a href="#5-K8s概念和特性" class="headerlink" title="5 K8s概念和特性"></a>5 K8s概念和特性</h2><h3 id="5-1-部署发展历程"><a href="#5-1-部署发展历程" class="headerlink" title="5.1 部署发展历程"></a>5.1 部署发展历程</h3><p>我们的项目部署也在经历下面的这样一个历程</p>
+<blockquote>
+<p>传统部署 -&gt; 虚拟化部署时代 -&gt; 容器部署时代</p>
+</blockquote>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/1_Kubernetes%E7%AE%80%E4%BB%8B/images/image-20201122104102715.png" alt="image-20201122104102715"></p>
+<ul>
+<li><strong>传统部署时代</strong>：早期，组织在物理服务器上运行应用程序。无法为物理服务器中的应用程序定义资源边界，这会导致资源分配问题。例如，如果在物理服务器上运行多个应用程序，则可能会出现-一个应用程序占用大部分资源的情况，结果可能导致其他应用程序的性能下降。–种解决方案是在不同的物理服务器上运行每个应用程序，但是由于资源利用不足而无法扩展，并且组织维护许多物理服务器的成本很高。</li>
+<li><strong>虚拟化部署时代</strong>：作为解决方案，引入了虚拟化功能，它允许您在单个物理服务器的CPU.上运行多个虚拟机（VM）。虚拟化功能允许应用程序在VM之间隔离，并提供安全级别，因为一一个应用程序的信息不能被另一应用程序自由地访问。因为虚拟化可以轻松地添加或更新应用程序、降低硬件成本等等，所以虚拟化可以更好地利用物理服务器中的资源，并可以实现更好的可伸缩性。每个VM是一台完整的计算机，在虚拟化硬件之上运行所有组件，包括其自己的操作系统。</li>
+<li><strong>容器部署时代</strong>：容器类似于VM，但是它们具有轻量级的隔离属性，可以在应用程序之间共享操作系统<br>（OS），因此，容器被认为是轻量级的。容器与VM类似，具有自己的文件系统、CPU、内存、进程空间等。由于它们与基础架构分离，因此可以跨云和OS分发进行移植。</li>
+</ul>
+<p>容器因具有许多优势而变得流行起来。下面列出了容器的一些好处：</p>
+<ul>
+<li>敏捷应用程序的创建和部署：与使用VM镜像相比，提高了容器镜像创建的简便性和效率。</li>
+<li>持续开发、集成和部署：通过简单的回滚（由于镜像不可变性），提供可靠且频繁的容器镜像构建和部署。</li>
+<li>关注开发与运维的分离：在构建/时而不是在部署时创建应用程序容器镜像，将应用程序与基础架构分离。</li>
+<li>可观察性：不仅可以显示操作系统级别的信息和指标，还可以显示应用程序的运行状况和其他指标信号。</li>
+<li>跨开发、测试和生产的环境一致性：在便携式计算机上与在云中相同地运行。</li>
+<li>云和操作系统分发的可移植性：可在Ubuntu、RHEL、RHEL、CoreOS、本地、Google Kubernetes Engine和其它任何其它地方运行。</li>
+<li>以应用程序为中心的管理：提高抽象级别，从在虚拟硬件上运行OS到使用逻辑资源在OS上运行应用程序。</li>
+<li>松散耦合、分布式、弹性、解放的微服务：应用程序被分解成较小的独立部分，并且可以动态部署和管理-而不是在一台大型单机上器体运行。</li>
+<li>资源隔离：可预测的应用程序性能。</li>
+</ul>
+<h3 id="5-2-K8s概述"><a href="#5-2-K8s概述" class="headerlink" title="5.2 K8s概述"></a>5.2 K8s概述</h3><p>kubernetes，简称K8s，是用8 代替8 个字符“ubernete”而成的缩写。是一个开源的，用于管理云平台中多个主机上的容器化的应用，Kubernetes 的目标是让部署容器化的应用简单并且高效（powerful）,Kubernetes 提供了应用部署，规划，更新，维护的一种机制。</p>
+<p>传统的应用部署方式是通过插件或脚本来安装应用。这样做的缺点是应用的运行、配置、管理、所有生存周期将与当前操作系统绑定，这样做并不利于应用的升级更新/回滚等操作，当然也可以通过创建虚拟机的方式来实现某些功能，但是虚拟机非常重，并不利于可移植性。</p>
+<p>新的方式是通过部署容器方式实现，每个容器之间互相隔离，每个容器有自己的文件系统，容器之间进程不会相互影响，能区分计算资源。相对于虚拟机，容器能快速部署，由于容器与底层设施、机器文件系统解耦的。</p>
+<blockquote>
+<p>总结：</p>
+<ul>
+<li>K8s是谷歌在2014年发布的容器化集群管理系统</li>
+<li>使用k8s进行容器化应用部署</li>
+<li>使用k8s利于应用扩展</li>
+<li>k8s目标实施让部署容器化应用更加简洁和高效</li>
+</ul>
+</blockquote>
+<h3 id="5-3-K8s概述"><a href="#5-3-K8s概述" class="headerlink" title="5.3 K8s概述"></a>5.3 K8s概述</h3><p>Kubernetes 是一个轻便的和可扩展的开源平台，用于管理容器化应用和服务。通过Kubernetes 能够进行应用的自动化部署和扩缩容。在Kubernetes 中，会将组成应用的容器组合成一个逻辑单元以更易管理和发现。</p>
+<p>Kubernetes 积累了作为Google 生产环境运行工作负载15 年的经验，并吸收了来自于社区的最佳想法和实践。</p>
+<h3 id="5-4-K8s功能"><a href="#5-4-K8s功能" class="headerlink" title="5.4 K8s功能"></a>5.4 K8s功能</h3><h4 id="1-自动装箱"><a href="#1-自动装箱" class="headerlink" title="1 自动装箱"></a>1 自动装箱</h4><p>基于容器对应用运行环境的资源配置要求自动部署应用容器</p>
+<h4 id="2-自我修复-自愈能力"><a href="#2-自我修复-自愈能力" class="headerlink" title="2 自我修复(自愈能力)"></a>2 自我修复(自愈能力)</h4><p>当容器失败时，会对容器进行重启</p>
+<p>当所部署的Node节点有问题时，会对容器进行重新部署和重新调度</p>
+<p>当容器未通过监控检查时，会关闭此容器直到容器正常运行时，才会对外提供服务</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/1_Kubernetes%E7%AE%80%E4%BB%8B/images/image-20200928101336750.png" alt="image-20200928101336750"></p>
+<p>如果某个服务器上的应用不响应了，Kubernetes会自动在其它的地方创建一个</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/1_Kubernetes%E7%AE%80%E4%BB%8B/images/image-20201122112241092.png" alt="image-20201122112241092"></p>
+<h4 id="3-水平扩展"><a href="#3-水平扩展" class="headerlink" title="3 水平扩展"></a>3 水平扩展</h4><p>通过简单的命令、用户UI 界面或基于CPU 等资源使用情况，对应用容器进行规模扩大或规模剪裁</p>
+<blockquote>
+<p>当我们有大量的请求来临时，我们可以增加副本数量，从而达到水平扩展的效果</p>
+</blockquote>
+<p>当黄色应用过度忙碌，会来扩展一个应用</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/1_Kubernetes%E7%AE%80%E4%BB%8B/images/image-20201122112301750.png" alt="image-20201122112301750"></p>
+<h4 id="4-服务发现"><a href="#4-服务发现" class="headerlink" title="4 服务发现"></a>4 服务发现</h4><p>用户不需使用额外的服务发现机制，就能够基于Kubernetes 自身能力实现服务发现和负载均衡</p>
+<blockquote>
+<p>对外提供统一的入口，让它来做节点的调度和负载均衡， 相当于微服务里面的网关？</p>
+</blockquote>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/1_Kubernetes%E7%AE%80%E4%BB%8B/images/image-20200928101711968.png" alt="image-20200928101711968"></p>
+<h4 id="5-滚动更新"><a href="#5-滚动更新" class="headerlink" title="5 滚动更新"></a>5 滚动更新</h4><p>可以根据应用的变化，对应用容器运行的应用，进行一次性或批量式更新</p>
+<blockquote>
+<p>添加应用的时候，不是加进去就马上可以进行使用，而是需要判断这个添加进去的应用是否能够正常使用</p>
+</blockquote>
+<h4 id="6-版本回退"><a href="#6-版本回退" class="headerlink" title="6 版本回退"></a>6 版本回退</h4><p>可以根据应用部署情况，对应用容器运行的应用，进行历史版本即时回退</p>
+<blockquote>
+<p>类似于Git中的回滚</p>
+</blockquote>
+<h4 id="7-密钥和配置管理"><a href="#7-密钥和配置管理" class="headerlink" title="7 密钥和配置管理"></a>7 密钥和配置管理</h4><p>在不需要重新构建镜像的情况下，可以部署和更新密钥和应用配置，类似热部署。</p>
+<h4 id="8-存储编排"><a href="#8-存储编排" class="headerlink" title="8 存储编排"></a>8 存储编排</h4><p>自动实现存储系统挂载及应用，特别对有状态应用实现数据持久化非常重要</p>
+<p>存储系统可以来自于本地目录、网络存储(NFS、Gluster、Ceph 等)、公共云存储服务</p>
+<h4 id="9-批处理"><a href="#9-批处理" class="headerlink" title="9 批处理"></a>9 批处理</h4><p>提供一次性任务，定时任务；满足批量数据处理和分析的场景</p>
+<h2 id="6-K8s架构组件"><a href="#6-K8s架构组件" class="headerlink" title="6 K8s架构组件"></a>6 K8s架构组件</h2><h3 id="6-1-完整架构图"><a href="#6-1-完整架构图" class="headerlink" title="6.1 完整架构图"></a>6.1 完整架构图</h3><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/1_Kubernetes%E7%AE%80%E4%BB%8B/images/image-20200928103059652.png" alt="image-20200928103059652"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/1_Kubernetes%E7%AE%80%E4%BB%8B/images/image-20200928110124821.png" alt="image-20200928110124821"></p>
+<h3 id="6-2-架构细节"><a href="#6-2-架构细节" class="headerlink" title="6.2 架构细节"></a>6.2 架构细节</h3><p>K8s架构主要包含两部分：Master（主控节点）和 node（工作节点）</p>
+<p>master节点架构图</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/1_Kubernetes%E7%AE%80%E4%BB%8B/images/image-20201122113057343.png" alt="image-20201122113057343"></p>
+<p>Node节点架构图</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/1_Kubernetes%E7%AE%80%E4%BB%8B/images/image-20201122155629990.png" alt="image-20201122155629990"></p>
+<p>k8s 集群控制节点，对集群进行调度管理，接受集群外用户去集群操作请求；</p>
+<ul>
+<li><p><strong>master</strong>：主控节点</p>
+<ul>
+<li>API Server：集群统一入口，以restful风格进行操作，同时交给etcd存储<ul>
+<li>提供认证、授权、访问控制、API注册和发现等机制</li>
+</ul>
+</li>
+<li>scheduler：节点的调度，选择node节点应用部署</li>
+<li>controller-manager：处理集群中常规后台任务，一个资源对应一个控制器</li>
+<li>etcd：存储系统，用于保存集群中的相关数据</li>
+</ul>
+</li>
+<li><p><strong>Work node</strong>：工作节点</p>
+<ul>
+<li>Kubelet：master派到node节点代表，管理本机容器<ul>
+<li>一个集群中每个节点上运行的代理，它保证容器都运行在Pod中</li>
+<li>负责维护容器的生命周期，同时也负责Volume(CSI) 和 网络(CNI)的管理</li>
+</ul>
+</li>
+<li>kube-proxy：提供网络代理，负载均衡等操作</li>
+</ul>
+</li>
+<li><p>容器运行环境【<strong>Container Runtime</strong>】</p>
+<ul>
+<li>容器运行环境是负责运行容器的软件</li>
+<li>Kubernetes支持多个容器运行环境：Docker、containerd、cri-o、rktlet以及任何实现Kubernetes CRI (容器运行环境接口) 的软件。</li>
+</ul>
+</li>
+<li><p>fluentd：是一个守护进程，它有助于提升 集群层面日志</p>
+</li>
+</ul>
+<h2 id="7-K8s核心概念"><a href="#7-K8s核心概念" class="headerlink" title="7 K8s核心概念"></a>7 K8s核心概念</h2><h3 id="7-1-Pod"><a href="#7-1-Pod" class="headerlink" title="7.1 Pod"></a>7.1 Pod</h3><ul>
+<li>Pod是K8s中最小的单元</li>
+<li>一组容器的集合</li>
+<li>共享网络【一个Pod中的所有容器共享同一网络】</li>
+<li>生命周期是短暂的（服务器重启后，就找不到了）</li>
+</ul>
+<h3 id="7-2-Volume"><a href="#7-2-Volume" class="headerlink" title="7.2 Volume"></a>7.2 Volume</h3><ul>
+<li>声明在Pod容器中可访问的文件目录</li>
+<li>可以被挂载到Pod中一个或多个容器指定路径下</li>
+<li>支持多种后端存储抽象【本地存储、分布式存储、云存储】</li>
+</ul>
+<h3 id="7-3-Controller"><a href="#7-3-Controller" class="headerlink" title="7.3 Controller"></a>7.3 Controller</h3><ul>
+<li>确保预期的pod副本数量【ReplicaSet】</li>
+<li>无状态应用部署【Depoltment】<ul>
+<li>无状态就是指，不需要依赖于网络或者ip</li>
+</ul>
+</li>
+<li>有状态应用部署【StatefulSet】<ul>
+<li>有状态需要特定的条件</li>
+</ul>
+</li>
+<li>确保所有的node运行同一个pod 【DaemonSet】</li>
+<li>一次性任务和定时任务【Job和CronJob】</li>
+</ul>
+<h3 id="7-4-Deployment"><a href="#7-4-Deployment" class="headerlink" title="7.4 Deployment"></a>7.4 Deployment</h3><ul>
+<li>定义一组Pod副本数目，版本等</li>
+<li>通过控制器【Controller】维持Pod数目【自动回复失败的Pod】</li>
+<li>通过控制器以指定的策略控制版本【滚动升级、回滚等】</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/1_Kubernetes%E7%AE%80%E4%BB%8B/images/image-20201122161601349.png" alt="image-20201122161601349"></p>
+<h3 id="7-5-Service"><a href="#7-5-Service" class="headerlink" title="7.5 Service"></a>7.5 Service</h3><ul>
+<li>定义一组pod的访问规则</li>
+<li>Pod的负载均衡，提供一个或多个Pod的稳定访问地址</li>
+<li>支持多种方式【ClusterIP、NodePort、LoadBalancer】</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/1_Kubernetes%E7%AE%80%E4%BB%8B/images/image-20201122161132055.png" alt="image-20201122161132055"></p>
+<p>可以用来组合pod，同时对外提供服务</p>
+<h3 id="7-6-Label"><a href="#7-6-Label" class="headerlink" title="7.6 Label"></a>7.6 Label</h3><p>label：标签，用于对象资源查询，筛选</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/1_Kubernetes%E7%AE%80%E4%BB%8B/images/image-20201122161713638.png" alt="image-20201122161713638"></p>
+<h3 id="7-7-Namespace"><a href="#7-7-Namespace" class="headerlink" title="7.7 Namespace"></a>7.7 Namespace</h3><p>命名空间，逻辑隔离</p>
+<ul>
+<li>一个集群内部的逻辑隔离机制【鉴权、资源】</li>
+<li>每个资源都属于一个namespace</li>
+<li>同一个namespace所有资源不能重复</li>
+<li>不同namespace可以资源名重复</li>
+</ul>
+<h3 id="7-8-API"><a href="#7-8-API" class="headerlink" title="7.8 API"></a>7.8 API</h3><p>我们通过Kubernetes的API来操作整个集群</p>
+<p>同时我们可以通过 kubectl 、ui、curl 最终发送 http + json/yaml 方式的请求给API Server，然后控制整个K8s集群，K8s中所有的资源对象都可以采用 yaml 或 json 格式的文件定义或描述</p>
+<p>如下：使用yaml部署一个nginx的pod</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/1_Kubernetes%E7%AE%80%E4%BB%8B/images/image-20201122162612448.png" alt="image-20201122162612448"></p>
+<h2 id="8-完整流程"><a href="#8-完整流程" class="headerlink" title="8 完整流程"></a>8 完整流程</h2><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/1_Kubernetes%E7%AE%80%E4%BB%8B/images/image-20201122163512535.png" alt="image-20201122163512535"></p>
+<ul>
+<li>通过Kubectl提交一个创建RC（Replication Controller）的请求，该请求通过APlserver写入etcd</li>
+<li>此时Controller Manager通过API Server的监听资源变化的接口监听到此RC事件</li>
+<li>分析之后，发现当前集群中还没有它所对应的Pod实例</li>
+<li>于是根据RC里的Pod模板定义一个生成Pod对象，通过APIServer写入etcd</li>
+<li>此事件被Scheduler发现，它立即执行执行一个复杂的调度流程，为这个新的Pod选定一个落户的Node，然后通过API Server讲这一结果写入etcd中</li>
+<li>目标Node上运行的Kubelet进程通过APiserver监测到这个”新生的Pod，并按照它的定义，启动该Pod并任劳任怨地负责它的下半生，直到Pod的生命结束</li>
+<li>随后，我们通过Kubectl提交一个新的映射到该Pod的Service的创建请求</li>
+<li>ControllerManager通过Label标签查询到关联的Pod实例，然后生成Service的Endpoints信息，并通过APIServer写入到etod中，</li>
+<li>接下来，所有Node上运行的Proxy进程通过APIServer查询并监听Service对象与其对应的Endponts信息，建立一个软件方式的负载均衡器来实现Service访问到后端Pod的流量转发功能</li>
+</ul>
+<h1 id="第2章-搭建K8S集群"><a href="#第2章-搭建K8S集群" class="headerlink" title="第2章 搭建K8S集群"></a>第2章 搭建K8S集群</h1><h2 id="1-搭建k8s环境平台规划"><a href="#1-搭建k8s环境平台规划" class="headerlink" title="1 搭建k8s环境平台规划"></a>1 搭建k8s环境平台规划</h2><h3 id="单master集群"><a href="#单master集群" class="headerlink" title="单master集群"></a>单master集群</h3><p>单个master节点，然后管理多个node节点</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/2_%E6%90%AD%E5%BB%BAK8S%E9%9B%86%E7%BE%A4%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/images/image-20200928110456495.png" alt="image-20200928110456495"></p>
+<h3 id="多master集群"><a href="#多master集群" class="headerlink" title="多master集群"></a>多master集群</h3><p>多个master节点，管理多个node节点，同时中间多了一个负载均衡的过程</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/2_%E6%90%AD%E5%BB%BAK8S%E9%9B%86%E7%BE%A4%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/images/image-20200928110543829.png" alt="image-20200928110543829"></p>
+<h2 id="2-服务器硬件配置要求"><a href="#2-服务器硬件配置要求" class="headerlink" title="2 服务器硬件配置要求"></a>2 服务器硬件配置要求</h2><h3 id="2-1-测试环境"><a href="#2-1-测试环境" class="headerlink" title="2.1 测试环境"></a>2.1 测试环境</h3><p>master：2核  4G  20G</p>
+<p>node：   4核  8G  40G</p>
+<h3 id="2-2-生产环境"><a href="#2-2-生产环境" class="headerlink" title="2.2 生产环境"></a>2.2 生产环境</h3><p>master：8核  16G  100G</p>
+<p>node：   16核  64G  200G</p>
+<p>目前生产部署Kubernetes集群主要有两种方式</p>
+<h3 id="2-3-kubeadm"><a href="#2-3-kubeadm" class="headerlink" title="2.3 kubeadm"></a>2.3 kubeadm</h3><p>kubeadm是一个K8S部署工具，提供kubeadm init 和 kubeadm join，用于快速部署Kubernetes集群</p>
+<p>官网地址：<a target="_blank" rel="noopener" href="https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/">点我传送</a></p>
+<h3 id="2-4-二进制包"><a href="#2-4-二进制包" class="headerlink" title="2.4 二进制包"></a>2.4 二进制包</h3><p>从github下载发行版的二进制包，手动部署每个组件，组成Kubernetes集群。</p>
+<p>Kubeadm降低部署门槛，但屏蔽了很多细节，遇到问题很难排查。如果想更容易可控，推荐使用二进制包部署Kubernetes集群，虽然手动部署麻烦点，期间可以学习很多工作原理，也利于后期维护。</p>
+<h2 id="3-Kubeadm部署集群"><a href="#3-Kubeadm部署集群" class="headerlink" title="3 Kubeadm部署集群"></a>3 Kubeadm部署集群</h2><p>kubeadm 是官方社区推出的一个用于快速部署kubernetes 集群的工具，这个工具能通过两条指令完成一个kubernetes 集群的部署：</p>
+<ul>
+<li>创建一个Master 节点kubeadm init</li>
+<li>将Node 节点加入到当前集群中$ kubeadm join &lt;Master 节点的IP 和端口&gt;</li>
+</ul>
+<h2 id="4-安装要求"><a href="#4-安装要求" class="headerlink" title="4 安装要求"></a>4 安装要求</h2><p>在开始之前，部署Kubernetes集群机器需要满足以下几个条件</p>
+<ul>
+<li>一台或多台机器，操作系统为Centos7.X</li>
+<li>硬件配置：2GB或更多GAM，2个CPU或更多CPU，硬盘30G</li>
+<li>集群中所有机器之间网络互通</li>
+<li>可以访问外网，需要拉取镜像</li>
+<li>禁止swap分区</li>
+</ul>
+<h1 id="第3章-使用kubeadm方式搭建K8S集群"><a href="#第3章-使用kubeadm方式搭建K8S集群" class="headerlink" title="第3章 使用kubeadm方式搭建K8S集群"></a>第3章 使用kubeadm方式搭建K8S集群</h1><p>kubeadm是官方社区推出的一个用于快速部署kubernetes集群的工具。</p>
+<p>这个工具能通过两条指令完成一个kubernetes集群的部署：</p>
+<div class="code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> 创建一个 Master 节点</span>
+kubeadm init
+
+<span class="hljs-meta">#</span><span class="bash"> 将一个 Node 节点加入到当前集群中</span>
+kubeadm join &lt;Master节点的IP和端口 &gt;</code></pre></div>
+
+<h2 id="1-Kubeadm方式搭建K8S集群"><a href="#1-Kubeadm方式搭建K8S集群" class="headerlink" title="1 Kubeadm方式搭建K8S集群"></a>1 Kubeadm方式搭建K8S集群</h2><p>使用kubeadm方式搭建K8s集群主要分为以下几步</p>
+<ul>
+<li>准备三台虚拟机，同时安装操作系统CentOS 7.x</li>
+<li>对三个安装之后的操作系统进行初始化操作</li>
+<li>在三个节点安装 docker kubelet kubeadm kubectl</li>
+<li>在master节点执行kubeadm init命令初始化</li>
+<li>在node节点上执行 kubeadm join命令，把node节点添加到当前集群</li>
+<li>配置CNI网络插件，用于节点之间的连通【失败了可以多试几次】</li>
+<li>通过拉取一个nginx进行测试，能否进行外网测试</li>
+</ul>
+<h2 id="2-安装要求"><a href="#2-安装要求" class="headerlink" title="2 安装要求"></a>2 安装要求</h2><p>在开始之前，部署Kubernetes集群机器需要满足以下几个条件：</p>
+<ul>
+<li>一台或多台机器，操作系统 CentOS7.x-86_x64</li>
+<li>硬件配置：2GB或更多RAM，2个CPU或更多CPU，硬盘30GB或更多【注意master需要两核】</li>
+<li>可以访问外网，需要拉取镜像，如果服务器不能上网，需要提前下载镜像并导入节点</li>
+<li>禁止swap分区</li>
+</ul>
+<h2 id="3-准备环境"><a href="#3-准备环境" class="headerlink" title="3 准备环境"></a>3 准备环境</h2><table>
+<thead>
+<tr>
+<th>角色</th>
+<th>IP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>master</td>
+<td>192.168.177.130</td>
+</tr>
+<tr>
+<td>node1</td>
+<td>192.168.177.131</td>
+</tr>
+<tr>
+<td>node2</td>
+<td>192.168.177.132</td>
+</tr>
+</tbody></table>
+<p>然后开始在每台机器上执行下面的命令</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 关闭防火墙</span>
+systemctl stop firewalld
+systemctl <span class="hljs-built_in">disable</span> firewalld
+
+<span class="hljs-comment"># 关闭selinux</span>
+<span class="hljs-comment"># 永久关闭</span>
+sed -i <span class="hljs-string">&#x27;s/enforcing/disabled/&#x27;</span> /etc/selinux/config  
+<span class="hljs-comment"># 临时关闭</span>
+setenforce 0  
+
+<span class="hljs-comment"># 关闭swap</span>
+<span class="hljs-comment"># 临时</span>
+swapoff -a 
+<span class="hljs-comment"># 永久关闭</span>
+sed -ri <span class="hljs-string">&#x27;s/.*swap.*/#&amp;/&#x27;</span> /etc/fstab
+
+<span class="hljs-comment"># 根据规划设置主机名【master节点上操作】</span>
+hostnamectl set-hostname k8smaster
+<span class="hljs-comment"># 根据规划设置主机名【node1节点操作】</span>
+hostnamectl set-hostname k8snode1
+<span class="hljs-comment"># 根据规划设置主机名【node2节点操作】</span>
+hostnamectl set-hostname k8snode2
+
+<span class="hljs-comment"># 在master添加hosts</span>
+cat &gt;&gt; /etc/hosts &lt;&lt; <span class="hljs-string">EOF</span>
+<span class="hljs-string">192.168.177.130 k8smaster</span>
+<span class="hljs-string">192.168.177.131 k8snode1</span>
+<span class="hljs-string">192.168.177.132 k8snode2</span>
+<span class="hljs-string">EOF</span>
+
+
+<span class="hljs-comment"># 将桥接的IPv4流量传递到iptables的链</span>
+cat &gt; /etc/sysctl.d/k8s.conf &lt;&lt; <span class="hljs-string">EOF</span>
+<span class="hljs-string">net.bridge.bridge-nf-call-ip6tables = 1</span>
+<span class="hljs-string">net.bridge.bridge-nf-call-iptables = 1</span>
+<span class="hljs-string">EOF</span>
+<span class="hljs-comment"># 生效</span>
+sysctl --system  
+
+<span class="hljs-comment"># 时间同步</span>
+yum install ntpdate -y
+ntpdate time.windows.com</code></pre></div>
+
+<h2 id="4-安装Docker-kubeadm-kubelet"><a href="#4-安装Docker-kubeadm-kubelet" class="headerlink" title="4 安装Docker/kubeadm/kubelet"></a>4 安装Docker/kubeadm/kubelet</h2><p>所有节点安装Docker/kubeadm/kubelet ，Kubernetes默认CRI（容器运行时）为Docker，因此先安装Docker</p>
+<h3 id="4-1-安装Docker"><a href="#4-1-安装Docker" class="headerlink" title="4.1 安装Docker"></a>4.1 安装Docker</h3><p>首先配置一下Docker的阿里yum源</p>
+<div class="code-wrapper"><pre><code class="hljs bash">cat &gt;/etc/yum.repos.d/docker.repo&lt;&lt;<span class="hljs-string">EOF</span>
+<span class="hljs-string">[docker-ce-edge]</span>
+<span class="hljs-string">name=Docker CE Edge - \$basearch</span>
+<span class="hljs-string">baseurl=https://mirrors.aliyun.com/docker-ce/linux/centos/7/\$basearch/edge</span>
+<span class="hljs-string">enabled=1</span>
+<span class="hljs-string">gpgcheck=1</span>
+<span class="hljs-string">gpgkey=https://mirrors.aliyun.com/docker-ce/linux/centos/gpg</span>
+<span class="hljs-string">EOF</span></code></pre></div>
+
+<p>然后yum方式安装docker</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># yum安装</span>
+yum -y install docker-ce
+
+<span class="hljs-comment"># 查看docker版本</span>
+docker --version  
+
+<span class="hljs-comment"># 启动docker</span>
+systemctl <span class="hljs-built_in">enable</span> docker
+systemctl start docker</code></pre></div>
+
+<p>配置docker的镜像源</p>
+<div class="code-wrapper"><pre><code class="hljs bash">cat &gt;&gt; /etc/docker/daemon.json &lt;&lt; <span class="hljs-string">EOF</span>
+<span class="hljs-string">&#123;</span>
+<span class="hljs-string">  &quot;registry-mirrors&quot;: [&quot;https://b9pmyelo.mirror.aliyuncs.com&quot;]</span>
+<span class="hljs-string">&#125;</span>
+<span class="hljs-string">EOF</span></code></pre></div>
+
+<p>然后重启docker</p>
+<div class="code-wrapper"><pre><code class="hljs bash">systemctl restart docker</code></pre></div>
+
+<h3 id="4-2-添加kubernetes软件源"><a href="#4-2-添加kubernetes软件源" class="headerlink" title="4.2 添加kubernetes软件源"></a>4.2 添加kubernetes软件源</h3><p>然后我们还需要配置一下yum的k8s软件源</p>
+<div class="code-wrapper"><pre><code class="hljs bash">cat &gt; /etc/yum.repos.d/kubernetes.repo &lt;&lt; <span class="hljs-string">EOF</span>
+<span class="hljs-string">[kubernetes]</span>
+<span class="hljs-string">name=Kubernetes</span>
+<span class="hljs-string">baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64</span>
+<span class="hljs-string">enabled=1</span>
+<span class="hljs-string">gpgcheck=0</span>
+<span class="hljs-string">repo_gpgcheck=0</span>
+<span class="hljs-string">gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</span>
+<span class="hljs-string">EOF</span></code></pre></div>
+
+<h3 id="4-3-安装kubeadm，kubelet和kubectl"><a href="#4-3-安装kubeadm，kubelet和kubectl" class="headerlink" title="4.3 安装kubeadm，kubelet和kubectl"></a>4.3 安装kubeadm，kubelet和kubectl</h3><p>由于版本更新频繁，这里指定版本号部署：</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 安装kubelet、kubeadm、kubectl，同时指定版本</span>
+yum install -y kubelet-1.18.0 kubeadm-1.18.0 kubectl-1.18.0
+<span class="hljs-comment"># 设置开机启动</span>
+systemctl <span class="hljs-built_in">enable</span> kubelet</code></pre></div>
+
+<h2 id="5-部署Kubernetes-Master【master节点】"><a href="#5-部署Kubernetes-Master【master节点】" class="headerlink" title="5 部署Kubernetes Master【master节点】"></a>5 部署Kubernetes Master【master节点】</h2><p>在   192.168.177.130  执行，也就是master节点</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubeadm init --apiserver-advertise-address=192.168.177.130 --image-repository registry.aliyuncs.com/google_containers --kubernetes-version v1.18.0 --service-cidr=10.96.0.0/12  --pod-network-cidr=10.244.0.0/16</code></pre></div>
+
+<p>由于默认拉取镜像地址k8s.gcr.io国内无法访问，这里指定阿里云镜像仓库地址，【执行上述命令会比较慢，因为后台其实已经在拉取镜像了】，我们 docker images 命令即可查看已经拉取的镜像</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/3_%E4%BD%BF%E7%94%A8kubeadm%E6%96%B9%E5%BC%8F%E6%90%AD%E5%BB%BAK8S%E9%9B%86%E7%BE%A4/images/image-20200929094302491.png" alt="image-20200929094302491"></p>
+<p>当我们出现下面的情况时，表示kubernetes的镜像已经安装成功</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/3_%E4%BD%BF%E7%94%A8kubeadm%E6%96%B9%E5%BC%8F%E6%90%AD%E5%BB%BAK8S%E9%9B%86%E7%BE%A4/images/image-20200929094620145.png" alt="image-20200929094620145"></p>
+<p>使用kubectl工具 【master节点操作】</p>
+<div class="code-wrapper"><pre><code class="hljs bash">mkdir -p <span class="hljs-variable">$HOME</span>/.kube
+sudo cp -i /etc/kubernetes/admin.conf <span class="hljs-variable">$HOME</span>/.kube/config
+sudo chown $(id -u):$(id -g) <span class="hljs-variable">$HOME</span>/.kube/config</code></pre></div>
+
+<p>执行完成后，我们使用下面命令，查看我们正在运行的节点</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubectl get nodes</code></pre></div>
+
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/3_%E4%BD%BF%E7%94%A8kubeadm%E6%96%B9%E5%BC%8F%E6%90%AD%E5%BB%BAK8S%E9%9B%86%E7%BE%A4/images/image-20200929094933142.png" alt="image-20200929094933142"></p>
+<p>能够看到，目前有一个master节点已经运行了，但是还处于未准备状态</p>
+<p>下面我们还需要在Node节点执行其它的命令，将node1和node2加入到我们的master节点上</p>
+<h2 id="6-加入Kubernetes-Node【Slave节点】"><a href="#6-加入Kubernetes-Node【Slave节点】" class="headerlink" title="6 加入Kubernetes Node【Slave节点】"></a>6 加入Kubernetes Node【Slave节点】</h2><p>下面我们需要到 node1 和 node2服务器，执行下面的代码向集群添加新节点</p>
+<p>执行在kubeadm init输出的kubeadm join命令：</p>
+<blockquote>
+<p>注意，以下的命令是在master初始化完成后，每个人的都不一样！！！需要复制自己生成的</p>
+</blockquote>
+<div class="code-wrapper"><pre><code class="hljs bash">kubeadm join 192.168.177.130:6443 --token 8j6ui9.gyr4i156u30y80xf \
+    --discovery-token-ca-cert-hash sha256:eda1380256a62d8733f4bddf926f148e57cf9d1a3a58fb45dd6e80768af5a500</code></pre></div>
+
+<p>默认token有效期为24小时，当过期之后，该token就不可用了。这时就需要重新创建token，操作如下：</p>
+<div class="code-wrapper"><pre><code class="hljs gauss">kubeadm <span class="hljs-built_in">token</span> <span class="hljs-keyword">create</span> --<span class="hljs-keyword">print</span>-join-command</code></pre></div>
+
+<p>当我们把两个节点都加入进来后，我们就可以去Master节点 执行下面命令查看情况</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubectl get node</code></pre></div>
+
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/3_%E4%BD%BF%E7%94%A8kubeadm%E6%96%B9%E5%BC%8F%E6%90%AD%E5%BB%BAK8S%E9%9B%86%E7%BE%A4/images/image-20201113165358663.png" alt="image-20201113165358663"></p>
+<h2 id="7-部署CNI网络插件"><a href="#7-部署CNI网络插件" class="headerlink" title="7 部署CNI网络插件"></a>7 部署CNI网络插件</h2><p>上面的状态还是NotReady，下面我们需要网络插件，来进行联网访问</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 下载网络插件配置</span>
+wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml</code></pre></div>
+
+<p>默认镜像地址无法访问，sed命令修改为docker hub镜像仓库。</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 添加</span>
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+<span class="hljs-comment">##①首先下载v0.13.1-rc2-amd64 镜像</span>
+<span class="hljs-comment">##参考博客：https://www.cnblogs.com/pyxuexi/p/14288591.html</span>
+<span class="hljs-comment">##② 导入镜像，命令，，特别提示，3个机器都需要导入，3个机器都需要导入，3个机器都需要导入，3个机器都需要导入，重要的事情说3遍。不然抱错。如果没有操作，报错后，需要删除节点，重置，在导入镜像，重新加入才行。本地就是这样操作成功的！</span>
+docker load &lt; flanneld-v0.13.1-rc2-amd64.docker
+<span class="hljs-comment">#####下载本地，替换将image: quay.io/coreos/flannel:v0.13.1-rc2 替换为 image: quay.io/coreos/flannel:v0.13.1-rc2-amd64</span>
+
+<span class="hljs-comment"># 查看状态 【kube-system是k8s中的最小单元】</span>
+kubectl get pods -n kube-system</code></pre></div>
+
+<p>运行后的结果</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/3_%E4%BD%BF%E7%94%A8kubeadm%E6%96%B9%E5%BC%8F%E6%90%AD%E5%BB%BAK8S%E9%9B%86%E7%BE%A4/images/image-20201113165929510.png" alt="image-20201113165929510"></p>
+<p>运行完成后，我们查看状态可以发现，已经变成了Ready状态了</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/3_%E4%BD%BF%E7%94%A8kubeadm%E6%96%B9%E5%BC%8F%E6%90%AD%E5%BB%BAK8S%E9%9B%86%E7%BE%A4/images/image-20201113194557147.png" alt="image-20201113194557147"></p>
+<p>如果上述操作完成后，还存在某个节点处于NotReady状态，可以在Master将该节点删除</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># master节点将该节点删除</span>
+
+<span class="hljs-comment">##20210223 yan 查阅资料添加###kubectl drain k8snode1 --delete-local-data --force --ignore-daemonsets</span>
+
+kubectl delete node k8snode1
+ 
+<span class="hljs-comment"># 然后到k8snode1节点进行重置</span>
+ kubeadm reset
+<span class="hljs-comment"># 重置完后在加入</span>
+kubeadm join 192.168.177.130:6443 --token 8j6ui9.gyr4i156u30y80xf     --discovery-token-ca-cert-hash sha256:eda1380256a62d8733f4bddf926f148e57cf9d1a3a58fb45dd6e80768af5a500</code></pre></div>
+
+<h2 id="8-测试kubernetes集群"><a href="#8-测试kubernetes集群" class="headerlink" title="8 测试kubernetes集群"></a>8 测试kubernetes集群</h2><p>我们都知道K8S是容器化技术，它可以联网去下载镜像，用容器的方式进行启动</p>
+<p>在Kubernetes集群中创建一个pod，验证是否正常运行：</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 下载nginx 【会联网拉取nginx镜像】</span>
+kubectl create deployment nginx --image=nginx
+<span class="hljs-comment"># 查看状态</span>
+kubectl get pod</code></pre></div>
+
+<p>如果我们出现Running状态的时候，表示已经成功运行了</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/3_%E4%BD%BF%E7%94%A8kubeadm%E6%96%B9%E5%BC%8F%E6%90%AD%E5%BB%BAK8S%E9%9B%86%E7%BE%A4/images/image-20201113203537028.png" alt="image-20201113203537028"></p>
+<p>下面我们就需要将端口暴露出去，让其它外界能够访问</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 暴露端口</span>
+kubectl expose deployment nginx --port=80 --<span class="hljs-built_in">type</span>=NodePort
+<span class="hljs-comment"># 查看一下对外的端口</span>
+kubectl get pod,svc</code></pre></div>
+
+<p>能够看到，我们已经成功暴露了 80端口  到 30529上</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/3_%E4%BD%BF%E7%94%A8kubeadm%E6%96%B9%E5%BC%8F%E6%90%AD%E5%BB%BAK8S%E9%9B%86%E7%BE%A4/images/image-20201113203840915.png" alt="image-20201113203840915"></p>
+<p>我们到我们的宿主机浏览器上，访问如下地址</p>
+<div class="code-wrapper"><pre><code class="hljs bash">http://192.168.177.130:30529/</code></pre></div>
+
+<p>发现我们的nginx已经成功启动了</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/3_%E4%BD%BF%E7%94%A8kubeadm%E6%96%B9%E5%BC%8F%E6%90%AD%E5%BB%BAK8S%E9%9B%86%E7%BE%A4/images/image-20201113204056851.png" alt="image-20201113204056851"></p>
+<p>到这里为止，我们就搭建了一个单master的k8s集群</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/3_%E4%BD%BF%E7%94%A8kubeadm%E6%96%B9%E5%BC%8F%E6%90%AD%E5%BB%BAK8S%E9%9B%86%E7%BE%A4/images/image-20201113204158884.png" alt="image-20201113204158884"></p>
+<h2 id="9-错误汇总"><a href="#9-错误汇总" class="headerlink" title="9 错误汇总"></a>9 错误汇总</h2><h3 id="9-1-错误一"><a href="#9-1-错误一" class="headerlink" title="9.1 错误一"></a>9.1 错误一</h3><p>在执行Kubernetes  init方法的时候，出现这个问题</p>
+<div class="code-wrapper"><pre><code class="hljs bash">error execution phase preflight: [preflight] Some fatal errors occurred:
+	[ERROR NumCPU]: the number of available CPUs 1 is less than the required 2</code></pre></div>
+
+<p>是因为VMware设置的核数为1，而K8S需要的最低核数应该是2，调整核数重启系统即可</p>
+<h3 id="9-2-错误二"><a href="#9-2-错误二" class="headerlink" title="9.2 错误二"></a>9.2 错误二</h3><p>我们在给node1节点使用 kubernetes join命令的时候，出现以下错误</p>
+<div class="code-wrapper"><pre><code class="hljs bash">error execution phase preflight: [preflight] Some fatal errors occurred:
+	[ERROR Swap]: running with swap on is not supported. Please <span class="hljs-built_in">disable</span> swap</code></pre></div>
+
+<p>错误原因是我们需要关闭swap</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 关闭swap</span>
+<span class="hljs-comment"># 临时</span>
+swapoff -a 
+<span class="hljs-comment"># 临时</span>
+sed -ri <span class="hljs-string">&#x27;s/.*swap.*/#&amp;/&#x27;</span> /etc/fstab</code></pre></div>
+
+<h3 id="9-3-错误三"><a href="#9-3-错误三" class="headerlink" title="9.3 错误三"></a>9.3 错误三</h3><p>在给node1节点使用 kubernetes join命令的时候，出现以下错误</p>
+<div class="code-wrapper"><pre><code class="hljs bash">The HTTP call equal to <span class="hljs-string">&#x27;curl -sSL http://localhost:10248/healthz&#x27;</span> failed with error: Get http://localhost:10248/healthz: dial tcp [::1]:10248: connect: connection refused</code></pre></div>
+
+<p>解决方法，首先需要到 master 节点，创建一个文件</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 创建文件夹</span>
+mkdir /etc/systemd/system/kubelet.service.d
+
+<span class="hljs-comment"># 创建文件</span>
+vim /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+
+<span class="hljs-comment"># 添加如下内容</span>
+Environment=<span class="hljs-string">&quot;KUBELET_SYSTEM_PODS_ARGS=--pod-manifest-path=/etc/kubernetes/manifests --allow-privileged=true --fail-swap-on=false&quot;</span>
+
+<span class="hljs-comment"># 重置</span>
+kubeadm reset</code></pre></div>
+
+<p>然后删除刚刚创建的配置目录</p>
+<div class="code-wrapper"><pre><code class="hljs bash">rm -rf <span class="hljs-variable">$HOME</span>/.kube</code></pre></div>
+
+<p>然后 在master重新初始化</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubeadm init --apiserver-advertise-address=202.193.57.11 --image-repository registry.aliyuncs.com/google_containers --kubernetes-version v1.18.0 --service-cidr=10.96.0.0/12  --pod-network-cidr=10.244.0.0/16</code></pre></div>
+
+<p>初始完成后，我们再到 node1节点，执行 kubeadm join命令，加入到master</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubeadm join 202.193.57.11:6443 --token c7a7ou.z00fzlb01d76r37s \
+    --discovery-token-ca-cert-hash sha256:9c3f3cc3f726c6ff8bdff14e46b1a856e3b8a4cbbe30cab185f6c5ee453aeea5</code></pre></div>
+
+<p>添加完成后，我们使用下面命令，查看节点是否成功添加</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubectl get nodes</code></pre></div>
+
+<h3 id="9-4-错误四"><a href="#9-4-错误四" class="headerlink" title="9.4 错误四"></a>9.4 错误四</h3><p>我们再执行查看节点的时候，  kubectl get nodes 会出现问题</p>
+<div class="code-wrapper"><pre><code class="hljs bash">Unable to connect to the server: x509: certificate signed by unknown authority (possibly because of <span class="hljs-string">&quot;crypto/rsa: verification error&quot;</span> <span class="hljs-keyword">while</span> trying to verify candidate authority certificate <span class="hljs-string">&quot;kubernetes&quot;</span>)</code></pre></div>
+
+<p>这是因为我们之前创建的配置文件还存在，也就是这些配置</p>
+<div class="code-wrapper"><pre><code class="hljs bash">mkdir -p <span class="hljs-variable">$HOME</span>/.kube
+sudo cp -i /etc/kubernetes/admin.conf <span class="hljs-variable">$HOME</span>/.kube/config
+sudo chown $(id -u):$(id -g) <span class="hljs-variable">$HOME</span>/.kube/config</code></pre></div>
+
+<p>我们需要做的就是把配置文件删除，然后重新执行一下</p>
+<div class="code-wrapper"><pre><code class="hljs bash">rm -rf <span class="hljs-variable">$HOME</span>/.kube</code></pre></div>
+
+<p>然后再次创建一下即可</p>
+<div class="code-wrapper"><pre><code class="hljs bash">mkdir -p <span class="hljs-variable">$HOME</span>/.kube
+sudo cp -i /etc/kubernetes/admin.conf <span class="hljs-variable">$HOME</span>/.kube/config
+sudo chown $(id -u):$(id -g) <span class="hljs-variable">$HOME</span>/.kube/config</code></pre></div>
+
+<p>这个问题主要是因为我们在执行 kubeadm reset 的时候，没有把 $HOME/.kube 给移除掉，再次创建时就会出现问题了</p>
+<h3 id="9-5-错误五"><a href="#9-5-错误五" class="headerlink" title="9.5 错误五"></a>9.5 错误五</h3><p>安装的时候，出现以下错误</p>
+<div class="code-wrapper"><pre><code class="hljs bash">Another app is currently holding the yum lock; waiting <span class="hljs-keyword">for</span> it to <span class="hljs-built_in">exit</span>...</code></pre></div>
+
+<p>是因为yum上锁占用，解决方法</p>
+<div class="code-wrapper"><pre><code class="hljs bash">yum -y install docker-ce</code></pre></div>
+
+<h3 id="9-6-错误六"><a href="#9-6-错误六" class="headerlink" title="9.6 错误六"></a>9.6 错误六</h3><p>在使用下面命令，添加node节点到集群上的时候</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubeadm join 192.168.177.130:6443 --token jkcz0t.3c40t0bqqz5g8wsb  --discovery-token-ca-cert-hash sha256:bc494eeab6b7bac64c0861da16084504626e5a95ba7ede7b9c2dc7571ca4c9e5</code></pre></div>
+
+<p>然后出现了这个错误</p>
+<div class="code-wrapper"><pre><code class="hljs bash">[root@k8smaster ~]<span class="hljs-comment"># kubeadm join 192.168.177.130:6443 --token jkcz0t.3c40t0bqqz5g8wsb     --discovery-token-ca-cert-hash sha256:bc494eeab6b7bac64c0861da16084504626e5a95ba7ede7b9c2dc7571ca4c9e5</span>
+W1117 06:55:11.220907   11230 join.go:346] [preflight] WARNING: JoinControlPane.controlPlane settings will be ignored when control-plane flag is not <span class="hljs-built_in">set</span>.
+[preflight] Running pre-flight checks
+	[WARNING IsDockerSystemdCheck]: detected <span class="hljs-string">&quot;cgroupfs&quot;</span> as the Docker cgroup driver. The recommended driver is <span class="hljs-string">&quot;systemd&quot;</span>. Please follow the guide at https://kubernetes.io/docs/setup/cri/
+error execution phase preflight: [preflight] Some fatal errors occurred:
+	[ERROR FileContent--proc-sys-net-ipv4-ip_forward]: /proc/sys/net/ipv4/ip_forward contents are not <span class="hljs-built_in">set</span> to 1
+[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`
+To see the stack trace of this error execute with --v=5 or higher</code></pre></div>
+
+<p>出于安全考虑，Linux系统<strong>默认是禁止数据包转发</strong>的。所谓<strong>转发即当主机拥有多于一块的网卡时，其中一块收到数据包，根据数据包的目的ip地址将包发往本机另一网卡，该网卡根据路由表继续发送数据包</strong>。这通常就是路由器所要实现的功能。也就是说  <strong>/proc/sys/net/ipv4/ip_forward</strong> 文件的值不支持转发</p>
+<ul>
+<li>0：禁止</li>
+<li>1：转发</li>
+</ul>
+<p>所以我们需要将值修改成1即可</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> “1” &gt; /proc/sys/net/ipv4/ip_forward</code></pre></div>
+
+<p>修改完成后，重新执行命令即可</p>
+<h1 id="第4章-使用二进制方式搭建K8S集群"><a href="#第4章-使用二进制方式搭建K8S集群" class="headerlink" title="第4章 使用二进制方式搭建K8S集群"></a>第4章 使用二进制方式搭建K8S集群</h1><h2 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1 准备工作"></a>1 准备工作</h2><p>在开始之前，部署Kubernetes集群机器需要满足以下几个条件</p>
+<ul>
+<li>一台或多台机器，操作系统CentOS 7.x</li>
+<li>硬件配置：2GB ，2个CPU，硬盘30GB</li>
+<li>集群中所有机器之间网络互通</li>
+<li>可以访问外网，需要拉取镜像，如果服务器不能上网，需要提前下载镜像导入节点</li>
+<li>禁止swap分区</li>
+</ul>
+<h2 id="2-步骤"><a href="#2-步骤" class="headerlink" title="2 步骤"></a>2 步骤</h2><ul>
+<li>创建多台虚拟机，安装Linux系统</li>
+<li>操作系统的初始化</li>
+<li>为etcd 和 apiserver 自签证书</li>
+<li>部署etcd集群</li>
+<li>部署master组件【安装docker、kube-apiserver、kube-controller-manager、kube-scheduler、etcd】</li>
+<li>部署node组件【安装kubelet、kube-proxy、docker、etcd】</li>
+<li>部署集群网络</li>
+</ul>
+<h2 id="3-准备虚拟机"><a href="#3-准备虚拟机" class="headerlink" title="3 准备虚拟机"></a>3 准备虚拟机</h2><p>首先我们准备了两台虚拟机，来进行安装测试</p>
+<table>
+<thead>
+<tr>
+<th>主机名</th>
+<th>ip</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>k8s_2_master</td>
+<td>192.168.177.140</td>
+</tr>
+<tr>
+<td>k8s_2_node</td>
+<td>192.168.177.141</td>
+</tr>
+</tbody></table>
+<h2 id="4-操作系统的初始化"><a href="#4-操作系统的初始化" class="headerlink" title="4 操作系统的初始化"></a>4 操作系统的初始化</h2><p>然后我们需要进行一些系列的初始化操作</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 关闭防火墙</span>
+systemctl stop firewalld
+systemctl <span class="hljs-built_in">disable</span> firewalld
+
+<span class="hljs-comment"># 关闭selinux</span>
+<span class="hljs-comment"># 永久关闭</span>
+sed -i <span class="hljs-string">&#x27;s/enforcing/disabled/&#x27;</span> /etc/selinux/config  
+<span class="hljs-comment"># 临时关闭</span>
+setenforce 0  
+
+<span class="hljs-comment"># 关闭swap</span>
+<span class="hljs-comment"># 临时</span>
+swapoff -a 
+<span class="hljs-comment"># 永久关闭</span>
+sed -ri <span class="hljs-string">&#x27;s/.*swap.*/#&amp;/&#x27;</span> /etc/fstab
+
+<span class="hljs-comment"># 根据规划设置主机名【master节点上操作】</span>
+hostnamectl set-hostname k8s_2_master
+<span class="hljs-comment"># 根据规划设置主机名【node1节点操作】</span>
+hostnamectl set-hostname k8s_2_node1
+
+
+<span class="hljs-comment"># 在master添加hosts</span>
+cat &gt;&gt; /etc/hosts &lt;&lt; <span class="hljs-string">EOF</span>
+<span class="hljs-string">192.168.177.140 k8s_2_master</span>
+<span class="hljs-string">192.168.177.141 k8s_2_node1</span>
+<span class="hljs-string">EOF</span>
+
+
+<span class="hljs-comment"># 将桥接的IPv4流量传递到iptables的链</span>
+cat &gt; /etc/sysctl.d/k8s.conf &lt;&lt; <span class="hljs-string">EOF</span>
+<span class="hljs-string">net.bridge.bridge-nf-call-ip6tables = 1</span>
+<span class="hljs-string">net.bridge.bridge-nf-call-iptables = 1</span>
+<span class="hljs-string">EOF</span>
+<span class="hljs-comment"># 生效</span>
+sysctl --system  
+
+<span class="hljs-comment"># 时间同步</span>
+yum install ntpdate -y
+ntpdate time.windows.com</code></pre></div>
+
+<h2 id="5-部署Etcd集群"><a href="#5-部署Etcd集群" class="headerlink" title="5 部署Etcd集群"></a>5 部署Etcd集群</h2><p>Etcd是一个分布式键值存储系统，Kubernetes使用Etcd进行数据存储，所以先准备一个Etcd数据库，为了解决Etcd单点故障，应采用集群方式部署，这里使用3台组建集群，可容忍一台机器故障，当然也可以使用5台组件集群，可以容忍2台机器故障</p>
+<h3 id="自签证书"><a href="#自签证书" class="headerlink" title="自签证书"></a>自签证书</h3><p>提到证书，我们想到的就是下面这个情况</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/4_%E4%BD%BF%E7%94%A8%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%BC%8F%E6%90%AD%E5%BB%BAK8S%E9%9B%86%E7%BE%A4/images/image-20201113213116353.png" alt="image-20201113213116353"></p>
+<p>这个https证书，其实就是服务器颁发给网站的，代表这是一个安全可信任的网站。</p>
+<p>而在我们K8S集群的内部，其实也是有证书的，如果不带证书，那么访问就会受限</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/4_%E4%BD%BF%E7%94%A8%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%BC%8F%E6%90%AD%E5%BB%BAK8S%E9%9B%86%E7%BE%A4/images/image-20201113213353267.png" alt="image-20201113213353267"></p>
+<p>同时在集群内部 和 外部的访问，我们也需要签发证书</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/4_%E4%BD%BF%E7%94%A8%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%BC%8F%E6%90%AD%E5%BB%BAK8S%E9%9B%86%E7%BE%A4/images/image-20201113213416013.png" alt="image-20201113213416013"></p>
+<p>如果我们使用二进制的方式，那么就需要自己手动签发证书。</p>
+<p>自签证书：我们可以想象成在一家公司上班，然后会颁发一个门禁卡，同时一般门禁卡有两种，一个是内部员工的门禁卡，和外部访客门禁卡。这两种门禁卡的权限可能不同，员工的门禁卡可以进入公司的任何地方，而访客的门禁卡是受限的，这个门禁卡其实就是自签证书</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/4_%E4%BD%BF%E7%94%A8%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%BC%8F%E6%90%AD%E5%BB%BAK8S%E9%9B%86%E7%BE%A4/images/image-20201113214234194.png" alt="image-20201113214234194"></p>
+<h3 id="准备cfssl证书生成工具"><a href="#准备cfssl证书生成工具" class="headerlink" title="准备cfssl证书生成工具"></a>准备cfssl证书生成工具</h3><p>cfssl是一个开源的证书管理工具，使用json文件生成证书，相比openssl 更方便使用。找任意一台服务器操作，这里用Master节点。</p>
+<div class="code-wrapper"><pre><code class="hljs bash">wget https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
+wget https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+wget https://pkg.cfssl.org/R1.2/cfssl-certinfo_linux-amd64
+chmod +x cfssl_linux-amd64 cfssljson_linux-amd64 cfssl-certinfo_linux-amd64
+mv cfssl_linux-amd64 /usr/<span class="hljs-built_in">local</span>/bin/cfssl
+mv cfssljson_linux-amd64 /usr/<span class="hljs-built_in">local</span>/bin/cfssljson
+mv cfssl-certinfo_linux-amd64 /usr/bin/cfssl-certinfo</code></pre></div>
+
+<h1 id="第5章-Kubeadm和二进制方式对比"><a href="#第5章-Kubeadm和二进制方式对比" class="headerlink" title="第5章 Kubeadm和二进制方式对比"></a>第5章 Kubeadm和二进制方式对比</h1><h2 id="1-Kubeadm方式搭建K8S集群-1"><a href="#1-Kubeadm方式搭建K8S集群-1" class="headerlink" title="1 Kubeadm方式搭建K8S集群"></a>1 Kubeadm方式搭建K8S集群</h2><ul>
+<li><p>安装虚拟机，在虚拟机安装Linux操作系统【3台虚拟机】</p>
+</li>
+<li><p>对操作系统初始化操作</p>
+</li>
+<li><p>所有节点安装Docker、kubeadm、kubelet、kubectl【包含master和slave节点】</p>
+<ul>
+<li>安装docker、使用yum，不指定版本默认安装最新的docker版本</li>
+<li>修改docker仓库地址，yum源地址，改为阿里云地址</li>
+<li>安装kubeadm，kubelet 和 kubectl<ul>
+<li>k8s已经发布最新的1.19版本，可以指定版本安装，不指定安装最新版本</li>
+<li><code>yum install -y kubelet kubeadm kubectl</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在master节点执行初始化命令操作</p>
+<ul>
+<li><code>kubeadm init</code></li>
+<li>默认拉取镜像地址 K8s.gcr.io国内地址，需要使用国内地址</li>
+</ul>
+</li>
+<li><p>安装网络插件(CNI)</p>
+<ul>
+<li><code>kubectl apply -f kube-flannel.yml</code></li>
+<li></li>
+</ul>
+</li>
+<li><p>在所有的node节点上，使用join命令，把node添加到master节点上</p>
+</li>
+<li><p>测试kubernetes集群</p>
+</li>
+</ul>
+<h2 id="2-二进制方式搭建K8S集群"><a href="#2-二进制方式搭建K8S集群" class="headerlink" title="2 二进制方式搭建K8S集群"></a>2 二进制方式搭建K8S集群</h2><ul>
+<li>安装虚拟机和操作系统，对操作系统进行初始化操作</li>
+<li>生成cfssl 自签证书<ul>
+<li><code>ca-key.pem</code>、<code>ca.pem</code></li>
+<li><code>server-key.pem</code>、<code>server.pem</code></li>
+</ul>
+</li>
+<li>部署Etcd集群<ul>
+<li>部署的本质，就是把etcd集群交给 systemd 管理</li>
+<li>把生成的证书复制过来，启动，设置开机启动</li>
+</ul>
+</li>
+<li>为apiserver自签证书，生成过程和etcd类似</li>
+<li>部署master组件，主要包含以下组件<ul>
+<li>apiserver</li>
+<li>controller-manager</li>
+<li>scheduler</li>
+<li>交给systemd管理，并设置开机启动</li>
+<li>如果要安装最新的1.19版本，下载二进制文件进行安装</li>
+</ul>
+</li>
+<li>部署node组件<ul>
+<li>docker</li>
+<li>kubelet</li>
+<li>kube-proxy【需要批准kubelet证书申请加入集群】</li>
+<li>交给systemd管理组件- 组件启动，设置开机启动</li>
+</ul>
+</li>
+<li>批准kubelet证书申请 并加入集群</li>
+<li>部署CNI网络插件</li>
+<li>测试Kubernets集群【安装nginx测试】</li>
+</ul>
+<h1 id="第6章-Kubernetes集群管理工具kubectl"><a href="#第6章-Kubernetes集群管理工具kubectl" class="headerlink" title="第6章 Kubernetes集群管理工具kubectl"></a>第6章 Kubernetes集群管理工具kubectl</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h2><p>kubectl是Kubernetes集群的命令行工具，通过kubectl能够对集群本身进行管理，并能够在集群上进行容器化应用的安装和部署</p>
+<h2 id="2-命令格式"><a href="#2-命令格式" class="headerlink" title="2 命令格式"></a>2 命令格式</h2><p>命令格式如下</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubectl [<span class="hljs-built_in">command</span>] [<span class="hljs-built_in">type</span>] [name] [flags]</code></pre></div>
+
+<p>参数</p>
+<ul>
+<li>command：指定要对资源执行的操作，例如create、get、describe、delete</li>
+<li>type：指定资源类型，资源类型是大小写敏感的，开发者能够以单数 、复数 和 缩略的形式</li>
+</ul>
+<p>例如：</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubectl get pod pod1
+kubectl get pods pod1
+kubectl get po pod1</code></pre></div>
+
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/6_Kubernetes%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7kubectl/images/image-20201114095544185.png" alt="image-20201114095544185"></p>
+<ul>
+<li>name：指定资源的名称，名称也是大小写敏感的，如果省略名称，则会显示所有的资源，例如</li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs bash">kubectl get pods</code></pre></div>
+
+<ul>
+<li>flags：指定可选的参数，例如，可用 -s 或者 -server参数指定Kubernetes API server的地址和端口</li>
+</ul>
+<h2 id="3-常见命令"><a href="#3-常见命令" class="headerlink" title="3 常见命令"></a>3 常见命令</h2><h3 id="3-1-kubectl-help-获取更多信息"><a href="#3-1-kubectl-help-获取更多信息" class="headerlink" title="3.1 kubectl help 获取更多信息"></a>3.1 kubectl help 获取更多信息</h3><p>通过 help命令，能够获取帮助信息</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 获取kubectl的命令</span>
+kubectl --<span class="hljs-built_in">help</span>
+
+<span class="hljs-comment"># 获取某个命令的介绍和使用</span>
+kubectl get --<span class="hljs-built_in">help</span></code></pre></div>
+
+<h3 id="3-2-基础命令"><a href="#3-2-基础命令" class="headerlink" title="3.2 基础命令"></a>3.2 基础命令</h3><p>常见的基础命令</p>
+<table>
+<thead>
+<tr>
+<th align="center">命令</th>
+<th align="center">介绍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">create</td>
+<td align="center">通过文件名或标准输入创建资源</td>
+</tr>
+<tr>
+<td align="center">expose</td>
+<td align="center">将一个资源公开为一个新的Service</td>
+</tr>
+<tr>
+<td align="center">run</td>
+<td align="center">在集群中运行一个特定的镜像</td>
+</tr>
+<tr>
+<td align="center">set</td>
+<td align="center">在对象上设置特定的功能</td>
+</tr>
+<tr>
+<td align="center">get</td>
+<td align="center">显示一个或多个资源</td>
+</tr>
+<tr>
+<td align="center">explain</td>
+<td align="center">文档参考资料</td>
+</tr>
+<tr>
+<td align="center">edit</td>
+<td align="center">使用默认的编辑器编辑一个资源</td>
+</tr>
+<tr>
+<td align="center">delete</td>
+<td align="center">通过文件名，标准输入，资源名称或标签来删除资源</td>
+</tr>
+</tbody></table>
+<h3 id="3-3-部署命令"><a href="#3-3-部署命令" class="headerlink" title="3.3 部署命令"></a>3.3 部署命令</h3><table>
+<thead>
+<tr>
+<th align="center">命令</th>
+<th align="center">介绍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">rollout</td>
+<td align="center">管理资源的发布</td>
+</tr>
+<tr>
+<td align="center">rolling-update</td>
+<td align="center">对给定的复制控制器滚动更新</td>
+</tr>
+<tr>
+<td align="center">scale</td>
+<td align="center">扩容或缩容Pod数量，Deployment、ReplicaSet、RC或Job</td>
+</tr>
+<tr>
+<td align="center">autoscale</td>
+<td align="center">创建一个自动选择扩容或缩容并设置Pod数量</td>
+</tr>
+</tbody></table>
+<h3 id="3-4-集群管理命令"><a href="#3-4-集群管理命令" class="headerlink" title="3.4 集群管理命令"></a>3.4 集群管理命令</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>介绍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>certificate</td>
+<td>修改证书资源</td>
+</tr>
+<tr>
+<td>cluster-info</td>
+<td>显示集群信息</td>
+</tr>
+<tr>
+<td>top</td>
+<td>显示资源(CPU/M)</td>
+</tr>
+<tr>
+<td>cordon</td>
+<td>标记节点不可调度</td>
+</tr>
+<tr>
+<td>uncordon</td>
+<td>标记节点可被调度</td>
+</tr>
+<tr>
+<td>drain</td>
+<td>驱逐节点上的应用，准备下线维护</td>
+</tr>
+<tr>
+<td>taint</td>
+<td>修改节点taint标记</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="3-5-故障和调试命令"><a href="#3-5-故障和调试命令" class="headerlink" title="3.5 故障和调试命令"></a>3.5 故障和调试命令</h3><table>
+<thead>
+<tr>
+<th align="center">命令</th>
+<th align="center">介绍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">describe</td>
+<td align="center">显示特定资源或资源组的详细信息</td>
+</tr>
+<tr>
+<td align="center">logs</td>
+<td align="center">在一个Pod中打印一个容器日志，如果Pod只有一个容器，容器名称是可选的</td>
+</tr>
+<tr>
+<td align="center">attach</td>
+<td align="center">附加到一个运行的容器</td>
+</tr>
+<tr>
+<td align="center">exec</td>
+<td align="center">执行命令到容器</td>
+</tr>
+<tr>
+<td align="center">port-forward</td>
+<td align="center">转发一个或多个</td>
+</tr>
+<tr>
+<td align="center">proxy</td>
+<td align="center">运行一个proxy到Kubernetes API Server</td>
+</tr>
+<tr>
+<td align="center">cp</td>
+<td align="center">拷贝文件或目录到容器中</td>
+</tr>
+<tr>
+<td align="center">auth</td>
+<td align="center">检查授权</td>
+</tr>
+</tbody></table>
+<h3 id="3-6-其它命令"><a href="#3-6-其它命令" class="headerlink" title="3.6 其它命令"></a>3.6 其它命令</h3><table>
+<thead>
+<tr>
+<th align="center">命令</th>
+<th align="center">介绍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">apply</td>
+<td align="center">通过文件名或标准输入对资源应用配置</td>
+</tr>
+<tr>
+<td align="center">patch</td>
+<td align="center">使用补丁修改、更新资源的字段</td>
+</tr>
+<tr>
+<td align="center">replace</td>
+<td align="center">通过文件名或标准输入替换一个资源</td>
+</tr>
+<tr>
+<td align="center">convert</td>
+<td align="center">不同的API版本之间转换配置文件</td>
+</tr>
+<tr>
+<td align="center">label</td>
+<td align="center">更新资源上的标签</td>
+</tr>
+<tr>
+<td align="center">annotate</td>
+<td align="center">更新资源上的注释</td>
+</tr>
+<tr>
+<td align="center">completion</td>
+<td align="center">用于实现kubectl工具自动补全</td>
+</tr>
+<tr>
+<td align="center">api-versions</td>
+<td align="center">打印受支持的API版本</td>
+</tr>
+<tr>
+<td align="center">config</td>
+<td align="center">修改kubeconfig文件（用于访问API，比如配置认证信息）</td>
+</tr>
+<tr>
+<td align="center">help</td>
+<td align="center">所有命令帮助</td>
+</tr>
+<tr>
+<td align="center">plugin</td>
+<td align="center">运行一个命令行插件</td>
+</tr>
+<tr>
+<td align="center">version</td>
+<td align="center">打印客户端和服务版本信息</td>
+</tr>
+</tbody></table>
+<h3 id="3-7-目前使用的命令"><a href="#3-7-目前使用的命令" class="headerlink" title="3.7 目前使用的命令"></a>3.7 目前使用的命令</h3><div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 创建一个nginx镜像</span>
+kubectl create deployment nginx --image=nginx
+
+<span class="hljs-comment"># 对外暴露端口</span>
+kubectl expose deployment nginx --port=80 --<span class="hljs-built_in">type</span>=NodePort
+
+<span class="hljs-comment"># 查看资源</span>
+kubectl get pod, svc</code></pre></div>
+
+<h1 id="第7章-Kubernetes集群YAML文件详解"><a href="#第7章-Kubernetes集群YAML文件详解" class="headerlink" title="第7章 Kubernetes集群YAML文件详解"></a>第7章 Kubernetes集群YAML文件详解</h1><h2 id="1-概述-1"><a href="#1-概述-1" class="headerlink" title="1 概述"></a>1 概述</h2><p>k8s 集群中对资源管理和资源对象编排部署都可以通过声明样式（YAML）文件来解决，也就是可以把需要对资源对象操作编辑到YAML 格式文件中，我们把这种文件叫做资源清单文件，通过kubectl 命令直接使用资源清单文件就可以实现对大量的资源对象进行编排部署了。一般在我们开发的时候，都是通过配置YAML文件来部署集群的。</p>
+<p>YAML文件：就是资源清单文件，用于资源编排</p>
+<h2 id="2-YAML文件介绍"><a href="#2-YAML文件介绍" class="headerlink" title="2 YAML文件介绍"></a>2 YAML文件介绍</h2><h3 id="2-1-YAML概述"><a href="#2-1-YAML概述" class="headerlink" title="2.1 YAML概述"></a>2.1 YAML概述</h3><p>YAML ：仍是一种标记语言。为了强调这种语言以数据做为中心，而不是以标记语言为重点。</p>
+<p>YAML 是一个可读性高，用来表达数据序列的格式。</p>
+<h3 id="2-2-YAML-基本语法"><a href="#2-2-YAML-基本语法" class="headerlink" title="2.2 YAML 基本语法"></a>2.2 YAML 基本语法</h3><ul>
+<li>使用空格做为缩进</li>
+<li>缩进的空格数目不重要，只要相同层级的元素左侧对齐即可</li>
+<li>低版本缩进时不允许使用Tab 键，只允许使用空格</li>
+<li>使用#标识注释，从这个字符一直到行尾，都会被解释器忽略</li>
+<li>使用 — 表示新的yaml文件开始</li>
+</ul>
+<h3 id="2-3-YAML-支持的数据结构"><a href="#2-3-YAML-支持的数据结构" class="headerlink" title="2.3 YAML 支持的数据结构"></a>2.3 YAML 支持的数据结构</h3><h4 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h4><p>键值对的集合，又称为映射(mapping) / 哈希（hashes） / 字典（dictionary）</p>
+<div class="code-wrapper"><pre><code class="hljs yaml"><span class="hljs-comment"># 对象类型：对象的一组键值对，使用冒号结构表示</span>
+<span class="hljs-attr">name:</span> <span class="hljs-string">Tom</span>
+<span class="hljs-attr">age:</span> <span class="hljs-number">18</span>
+
+<span class="hljs-comment"># yaml 也允许另一种写法，将所有键值对写成一个行内对象</span>
+<span class="hljs-attr">hash:</span> &#123;<span class="hljs-attr">name:</span> <span class="hljs-string">Tom</span>, <span class="hljs-attr">age:</span> <span class="hljs-number">18</span>&#125;</code></pre></div>
+
+<h4 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h4><div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 数组类型：一组连词线开头的行，构成一个数组</span>
+People
+- Tom
+- Jack
+
+<span class="hljs-comment"># 数组也可以采用行内表示法</span>
+People: [Tom, Jack]</code></pre></div>
+
+<h2 id="3-YAML文件组成部分"><a href="#3-YAML文件组成部分" class="headerlink" title="3 YAML文件组成部分"></a>3 YAML文件组成部分</h2><p>主要分为了两部分，一个是控制器的定义和被控制的对象</p>
+<h3 id="3-1-控制器的定义"><a href="#3-1-控制器的定义" class="headerlink" title="3.1 控制器的定义"></a>3.1 控制器的定义</h3><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/7_Kubernetes%E9%9B%86%E7%BE%A4YAML%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3/images/image-20201114110444032.png" alt="image-20201114110444032"></p>
+<h3 id="3-2-被控制的对象"><a href="#3-2-被控制的对象" class="headerlink" title="3.2 被控制的对象"></a>3.2 被控制的对象</h3><p>包含一些 镜像，版本、端口等</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/7_Kubernetes%E9%9B%86%E7%BE%A4YAML%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3/images/image-20201114110600165.png" alt="image-20201114110600165"></p>
+<h3 id="3-3-属性说明"><a href="#3-3-属性说明" class="headerlink" title="3.3 属性说明"></a>3.3 属性说明</h3><p>在一个YAML文件的控制器定义中，有很多属性名称</p>
+<table>
+<thead>
+<tr>
+<th align="center">属性名称</th>
+<th align="center">介绍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">apiVersion</td>
+<td align="center">API版本</td>
+</tr>
+<tr>
+<td align="center">kind</td>
+<td align="center">资源类型</td>
+</tr>
+<tr>
+<td align="center">metadata</td>
+<td align="center">资源元数据</td>
+</tr>
+<tr>
+<td align="center">spec</td>
+<td align="center">资源规格</td>
+</tr>
+<tr>
+<td align="center">replicas</td>
+<td align="center">副本数量</td>
+</tr>
+<tr>
+<td align="center">selector</td>
+<td align="center">标签选择器</td>
+</tr>
+<tr>
+<td align="center">template</td>
+<td align="center">Pod模板</td>
+</tr>
+<tr>
+<td align="center">metadata</td>
+<td align="center">Pod元数据</td>
+</tr>
+<tr>
+<td align="center">spec</td>
+<td align="center">Pod规格</td>
+</tr>
+<tr>
+<td align="center">containers</td>
+<td align="center">容器配置</td>
+</tr>
+</tbody></table>
+<h2 id="4-如何快速编写YAML文件"><a href="#4-如何快速编写YAML文件" class="headerlink" title="4 如何快速编写YAML文件"></a>4 如何快速编写YAML文件</h2><p>一般来说，我们很少自己手写YAML文件，因为这里面涉及到了很多内容，我们一般都会借助工具来创建</p>
+<h3 id="使用kubectl-create命令"><a href="#使用kubectl-create命令" class="headerlink" title="使用kubectl create命令"></a>使用kubectl create命令</h3><p>这种方式一般用于资源没有部署的时候，我们可以直接创建一个YAML配置文件</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 尝试运行,并不会真正的创建镜像</span>
+kubectl create deployment web --image=nginx -o yaml --dry-run</code></pre></div>
+
+<p>或者我们可以输出到一个文件中</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubectl create deployment web --image=nginx -o yaml --dry-run &gt; hello.yaml</code></pre></div>
+
+<p>然后我们就在文件中直接修改即可</p>
+<h3 id="使用kubectl-get命令导出yaml文件"><a href="#使用kubectl-get命令导出yaml文件" class="headerlink" title="使用kubectl get命令导出yaml文件"></a>使用kubectl get命令导出yaml文件</h3><p>可以首先查看一个目前已经部署的镜像</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubectl get deploy</code></pre></div>
+
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/7_Kubernetes%E9%9B%86%E7%BE%A4YAML%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3/images/image-20201114113115649.png" alt="image-20201114113115649"></p>
+<p>然后我们导出 nginx的配置</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 注意 --export在新版本中已经被去除了</span>
+kubectl get deploy nginx -o=yaml --<span class="hljs-built_in">export</span> &gt; nginx.yaml</code></pre></div>
+
+<p>然后会生成一个 <code>nginx.yaml</code> 的配置文件</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/7_Kubernetes%E9%9B%86%E7%BE%A4YAML%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3/images/image-20201114184538797.png" alt="image-20201114184538797"></p>
+<h1 id="第8章-Kubernetes核心技术Pod"><a href="#第8章-Kubernetes核心技术Pod" class="headerlink" title="第8章 Kubernetes核心技术Pod"></a>第8章 Kubernetes核心技术Pod</h1><h2 id="1-Pod概述"><a href="#1-Pod概述" class="headerlink" title="1 Pod概述"></a>1 Pod概述</h2><p>Pod是K8S系统中可以创建和管理的最小单元，是资源对象模型中由用户创建或部署的最小资源对象模型，也是在K8S上运行容器化应用的资源对象，其它的资源对象都是用来支撑或者扩展Pod对象功能的，比如控制器对象是用来管控Pod对象的，Service或者Ingress资源对象是用来暴露Pod引用对象的，PersistentVolume资源对象是用来为Pod提供存储等等，K8S不会直接处理容器，而是Pod，Pod是由一个或多个container组成。</p>
+<p>Pod是Kubernetes的最重要概念，每一个Pod都有一个特殊的被称为 “根容器”的Pause容器。Pause容器对应的镜像属于Kubernetes平台的一部分，除了Pause容器，每个Pod还包含一个或多个紧密相关的用户业务容器。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114185528215.png" alt="image-20201114185528215"></p>
+<h3 id="Pod基本概念"><a href="#Pod基本概念" class="headerlink" title="Pod基本概念"></a>Pod基本概念</h3><ul>
+<li>最小部署的单元</li>
+<li>Pod里面是由一个或多个容器组成【一组容器的集合】</li>
+<li>一个pod中的容器是共享网络命名空间</li>
+<li>Pod是短暂的</li>
+<li>每个Pod包含一个或多个紧密相关的用户业务容器</li>
+</ul>
+<h3 id="Pod存在的意义"><a href="#Pod存在的意义" class="headerlink" title="Pod存在的意义"></a>Pod存在的意义</h3><ul>
+<li>创建容器使用docker，一个docker对应一个容器，一个容器运行一个应用进程</li>
+<li>Pod是多进程设计，运用多个应用程序，也就是一个Pod里面有多个容器，而一个容器里面运行一个应用程序</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114190018948.png" alt="image-20201114190018948"></p>
+<ul>
+<li>Pod的存在是为了亲密性应用<ul>
+<li>两个应用之间进行交互</li>
+<li>网络之间的调用【通过127.0.0.1 或 socket】</li>
+<li>两个应用之间需要频繁调用</li>
+</ul>
+</li>
+</ul>
+<p>Pod是在K8S集群中运行部署应用或服务的最小单元，它是可以支持多容器的。Pod的设计理念是支持多个容器在一个Pod中共享网络地址和文件系统，可以通过进程间通信和文件共享这种简单高效的方式组合完成服务。同时Pod对多容器的支持是K8S中最基础的设计理念。在生产环境中，通常是由不同的团队各自开发构建自己的容器镜像，在部署的时候组合成一个微服务对外提供服务。</p>
+<p>Pod是K8S集群中所有业务类型的基础，可以把Pod看作运行在K8S集群上的小机器人，不同类型的业务就需要不同类型的小机器人去执行。目前K8S的业务主要可以分为以下几种</p>
+<ul>
+<li>长期伺服型：long-running</li>
+<li>批处理型：batch</li>
+<li>节点后台支撑型：node-daemon</li>
+<li>有状态应用型：stateful application</li>
+</ul>
+<p>上述的几种类型，分别对应的小机器人控制器为：Deployment、Job、DaemonSet 和 StatefulSet  (后面将介绍控制器)</p>
+<h2 id="2-Pod实现机制"><a href="#2-Pod实现机制" class="headerlink" title="2 Pod实现机制"></a>2 Pod实现机制</h2><p>主要有以下两大机制</p>
+<ul>
+<li>共享网络</li>
+<li>共享存储</li>
+</ul>
+<h3 id="共享网络"><a href="#共享网络" class="headerlink" title="共享网络"></a>共享网络</h3><p>容器本身之间相互隔离的，一般是通过 <strong>namespace</strong> 和 <strong>group</strong> 进行隔离，那么Pod里面的容器如何实现通信？</p>
+<ul>
+<li>首先需要满足前提条件，也就是容器都在同一个<strong>namespace</strong>之间</li>
+</ul>
+<p>关于Pod实现原理，首先会在Pod会创建一个根容器： <code>pause容器</code>，然后我们在创建业务容器 【nginx，redis 等】，在我们创建业务容器的时候，会把它添加到 <code>info容器</code> 中</p>
+<p>而在 <code>info容器</code> 中会独立出  ip地址，mac地址，port 等信息，然后实现网络的共享</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114190913859.png" alt="image-20201114190913859"></p>
+<p>完整步骤如下</p>
+<ul>
+<li>通过 Pause 容器，把其它业务容器加入到Pause容器里，让所有业务容器在同一个名称空间中，可以实现网络共享</li>
+</ul>
+<h3 id="共享存储"><a href="#共享存储" class="headerlink" title="共享存储"></a>共享存储</h3><p>Pod持久化数据，专门存储到某个地方中</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114193124160.png" alt="image-20201114193124160"></p>
+<p>使用 Volumn数据卷进行共享存储，案例如下所示</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114193341993.png" alt="image-20201114193341993"></p>
+<h2 id="3-Pod镜像拉取策略"><a href="#3-Pod镜像拉取策略" class="headerlink" title="3 Pod镜像拉取策略"></a>3 Pod镜像拉取策略</h2><p>我们以具体实例来说，拉取策略就是 <code>imagePullPolicy</code></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114193605230.png" alt="image-20201114193605230"></p>
+<p>拉取策略主要分为了以下几种</p>
+<ul>
+<li>IfNotPresent：默认值，镜像在宿主机上不存在才拉取</li>
+<li>Always：每次创建Pod都会重新拉取一次镜像</li>
+<li>Never：Pod永远不会主动拉取这个镜像</li>
+</ul>
+<h2 id="4-Pod资源限制"><a href="#4-Pod资源限制" class="headerlink" title="4 Pod资源限制"></a>4 Pod资源限制</h2><p>也就是我们Pod在进行调度的时候，可以对调度的资源进行限制，例如我们限制 Pod调度是使用的资源是 2C4G，那么在调度对应的node节点时，只会占用对应的资源，对于不满足资源的节点，将不会进行调度</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114194057920.png" alt="image-20201114194057920"></p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>我们在下面的地方进行资源的限制</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114194245517.png" alt="image-20201114194245517"></p>
+<p>这里分了两个部分</p>
+<ul>
+<li>request：表示调度所需的资源</li>
+<li>limits：表示最大所占用的资源</li>
+</ul>
+<h2 id="5-Pod重启机制"><a href="#5-Pod重启机制" class="headerlink" title="5 Pod重启机制"></a>5 Pod重启机制</h2><p>因为Pod中包含了很多个容器，假设某个容器出现问题了，那么就会触发Pod重启机制</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114194722125.png" alt="image-20201114194722125"></p>
+<p>重启策略主要分为以下三种</p>
+<ul>
+<li>Always：当容器终止退出后，总是重启容器，默认策略 【nginx等，需要不断提供服务】</li>
+<li>OnFailure：当容器异常退出（退出状态码非0）时，才重启容器。</li>
+<li>Never：当容器终止退出，从不重启容器 【批量任务】</li>
+</ul>
+<h2 id="6-Pod健康检查"><a href="#6-Pod健康检查" class="headerlink" title="6 Pod健康检查"></a>6 Pod健康检查</h2><p>通过容器检查，原来我们使用下面的命令来检查</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubectl get pod</code></pre></div>
+
+<p>但是有的时候，程序可能出现了 <strong>Java</strong> 堆内存溢出，程序还在运行，但是不能对外提供服务了，这个时候就不能通过 容器检查来判断服务是否可用了</p>
+<p>这个时候就可以使用应用层面的检查</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 存活检查，如果检查失败，将杀死容器，根据Pod的restartPolicy【重启策略】来操作</span>
+livenessProbe
+
+<span class="hljs-comment"># 就绪检查，如果检查失败，Kubernetes会把Pod从Service endpoints中剔除</span>
+readinessProbe</code></pre></div>
+
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114195807564.png" alt="image-20201114195807564"></p>
+<p>Probe支持以下三种检查方式</p>
+<ul>
+<li>http Get：发送HTTP请求，返回200 - 400 范围状态码为成功</li>
+<li>exec：执行Shell命令返回状态码是0为成功</li>
+<li>tcpSocket：发起TCP Socket建立成功</li>
+</ul>
+<h2 id="7-Pod调度策略"><a href="#7-Pod调度策略" class="headerlink" title="7 Pod调度策略"></a>7 Pod调度策略</h2><h3 id="创建Pod流程"><a href="#创建Pod流程" class="headerlink" title="创建Pod流程"></a>创建Pod流程</h3><ul>
+<li>首先创建一个pod，然后创建一个API Server 和 Etcd【把创建出来的信息存储在etcd中】</li>
+<li>然后创建 Scheduler，监控API Server是否有新的Pod，如果有的话，会通过调度算法，把pod调度某个node上</li>
+<li>在node节点，会通过 <code>kubelet -- apiserver</code> 读取etcd 拿到分配在当前node节点上的pod，然后通过docker创建容器</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114201611308.png" alt="image-20201114201611308"></p>
+<h3 id="影响Pod调度的属性"><a href="#影响Pod调度的属性" class="headerlink" title="影响Pod调度的属性"></a>影响Pod调度的属性</h3><p>Pod资源限制对Pod的调度会有影响</p>
+<h4 id="根据request找到足够node节点进行调度"><a href="#根据request找到足够node节点进行调度" class="headerlink" title="根据request找到足够node节点进行调度"></a>根据request找到足够node节点进行调度</h4><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114194245517.png" alt="image-20201114194245517"></p>
+<h4 id="节点选择器标签影响Pod调度"><a href="#节点选择器标签影响Pod调度" class="headerlink" title="节点选择器标签影响Pod调度"></a>节点选择器标签影响Pod调度</h4><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114202456151.png" alt="image-20201114202456151"></p>
+<p>关于节点选择器，其实就是有两个环境，然后环境之间所用的资源配置不同</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114202643905.png" alt="image-20201114202643905"></p>
+<p>我们可以通过以下命令，给我们的节点新增标签，然后节点选择器就会进行调度了</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubectl label node node1 env_role=prod</code></pre></div>
+
+<h4 id="节点亲和性"><a href="#节点亲和性" class="headerlink" title="节点亲和性"></a>节点亲和性</h4><p>节点亲和性 <strong>nodeAffinity</strong> 和 之前nodeSelector 基本一样的，根据节点上标签约束来决定Pod调度到哪些节点上</p>
+<ul>
+<li>硬亲和性：约束条件必须满足</li>
+<li>软亲和性：尝试满足，不保证</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114203433939.png" alt="image-20201114203433939"></p>
+<p>支持常用操作符：in、NotIn、Exists、Gt、Lt、DoesNotExists</p>
+<p>反亲和性：就是和亲和性刚刚相反，如 NotIn、DoesNotExists等</p>
+<h2 id="8-污点和污点容忍"><a href="#8-污点和污点容忍" class="headerlink" title="8 污点和污点容忍"></a>8 污点和污点容忍</h2><h3 id="8-1-概述"><a href="#8-1-概述" class="headerlink" title="8.1 概述"></a>8.1 概述</h3><p>nodeSelector 和 NodeAffinity，都是Prod调度到某些节点上，属于Pod的属性，是在调度的时候实现的。</p>
+<p>Taint 污点：节点不做普通分配调度，是节点属性</p>
+<h3 id="8-2-场景"><a href="#8-2-场景" class="headerlink" title="8.2 场景"></a>8.2 场景</h3><ul>
+<li>专用节点【限制ip】</li>
+<li>配置特定硬件的节点【固态硬盘】</li>
+<li>基于Taint驱逐【在node1不放，在node2放】</li>
+</ul>
+<h3 id="8-3-查看污点情况"><a href="#8-3-查看污点情况" class="headerlink" title="8.3 查看污点情况"></a>8.3 查看污点情况</h3><div class="code-wrapper"><pre><code class="hljs bash">kubectl describe node k8smaster | grep Taint</code></pre></div>
+
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114204124819.png" alt="image-20201114204124819"></p>
+<p>污点值有三个</p>
+<ul>
+<li>NoSchedule：一定不被调度</li>
+<li>PreferNoSchedule：尽量不被调度【也有被调度的几率】</li>
+<li>NoExecute：不会调度，并且还会驱逐Node已有Pod</li>
+</ul>
+<h3 id="8-4-未节点添加污点"><a href="#8-4-未节点添加污点" class="headerlink" title="8.4 未节点添加污点"></a>8.4 未节点添加污点</h3><div class="code-wrapper"><pre><code class="hljs bash">kubectl taint node [node] key=value:污点的三个值</code></pre></div>
+
+<p>举例：</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubectl taint node k8snode1 env_role=yes:NoSchedule</code></pre></div>
+
+<h3 id="8-5-删除污点"><a href="#8-5-删除污点" class="headerlink" title="8.5 删除污点"></a>8.5 删除污点</h3><div class="code-wrapper"><pre><code class="hljs bash">kubectl taint node k8snode1 env_role:NoSchedule-</code></pre></div>
+
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114210022883.png" alt="image-20201114210022883"></p>
+<h3 id="8-6-演示"><a href="#8-6-演示" class="headerlink" title="8.6 演示"></a>8.6 演示</h3><p>我们现在创建多个Pod，查看最后分配到Node上的情况</p>
+<p>首先我们创建一个 nginx 的pod</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubectl create deployment web --image=nginx</code></pre></div>
+
+<p>然后使用命令查看</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubectl get pods -o wide</code></pre></div>
+
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114204917548.png" alt="image-20201114204917548"></p>
+<p>我们可以非常明显的看到，这个Pod已经被分配到 k8snode1 节点上了</p>
+<p>下面我们把pod复制5份，在查看情况pod情况</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubectl scale deployment web --replicas=5</code></pre></div>
+
+<p>我们可以发现，因为master节点存在污点的情况，所以节点都被分配到了 node1 和 node2节点上</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114205135282.png" alt="image-20201114205135282"></p>
+<p>我们可以使用下面命令，把刚刚我们创建的pod都删除</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubectl delete deployment web</code></pre></div>
+
+<p>现在给了更好的演示污点的用法，我们现在给 node1节点打上污点</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubectl taint node k8snode1 env_role=yes:NoSchedule</code></pre></div>
+
+<p>然后我们查看污点是否成功添加</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubectl describe node k8snode1 | grep Taint</code></pre></div>
+
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114205516154.png" alt="image-20201114205516154"></p>
+<p>然后我们在创建一个 pod</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 创建nginx pod</span>
+kubectl create deployment web --image=nginx
+<span class="hljs-comment"># 复制五次</span>
+kubectl scale deployment web --replicas=5</code></pre></div>
+
+<p>然后我们在进行查看</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubectl get pods -o wide</code></pre></div>
+
+<p>我们能够看到现在所有的pod都被分配到了 k8snode2上，因为刚刚我们给node1节点设置了污点</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114205654867.png" alt="image-20201114205654867"></p>
+<p>最后我们可以删除刚刚添加的污点</p>
+<div class="code-wrapper"><pre><code class="hljs bash">kubectl taint node k8snode1 env_role:NoSchedule-</code></pre></div>
+
+<h3 id="8-7-污点容忍"><a href="#8-7-污点容忍" class="headerlink" title="8.7 污点容忍"></a>8.7 污点容忍</h3><p>污点容忍就是某个节点可能被调度，也可能不被调度</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/K8S/8_Kubernetes%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AFPod/images/image-20201114210146123.png" alt="image-20201114210146123"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Technical/">Technical</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Technical/Distributed/">Distributed</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/k8s/">k8s</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/20/JVM%E5%AD%A6%E4%B9%A0/">
+                        <span class="hidden-mobile">JVM 学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=a;var i=n.imageLazyLoadSetting.isSPA,o=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function a(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var a=0;a<r.length;a++)t=r[a],0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight*o||document.documentElement.clientHeight*o)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}();var t,e}a(),n.addEventListener("scroll",function(){var t,e;t=a,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>

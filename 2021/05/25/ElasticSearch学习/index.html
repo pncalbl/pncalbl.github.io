@@ -1,0 +1,1357 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon-t.png">
+  <link rel="icon" href="/img/favicon-t.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="pncalbl">
+  <meta name="keywords" content="计算机,开发,编程,代码,博客,技术">
+  
+  <title>ElasticSearch 学习 - pncalbl</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"pncalbl.github.io","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/rss2.xml" title="pncalbl" type="application/rss+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>pncalbl</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/post.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="ElasticSearch 学习">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      pncalbl
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-05-25 00:00" pubdate>
+        2021年5月25日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      8.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      107
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ElasticSearch 学习</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：1 个月前
+                
+              </p>
+            
+            <div class="markdown-body">
+              <h1 id="ElasticSearch-学习"><a href="#ElasticSearch-学习" class="headerlink" title="ElasticSearch 学习"></a>ElasticSearch 学习</h1><h2 id="0-聊聊DougCutting"><a href="#0-聊聊DougCutting" class="headerlink" title="0 聊聊DougCutting"></a>0 聊聊DougCutting</h2><p>为什么要讲这个人,后面要聊大数据</p>
+<blockquote>
+<p>  本故事内容来自公众号：新枣课堂</p>
+</blockquote>
+<p>1998年9月4号,google公司在美国硅谷成立.正如大家所知,它是一家搜索引擎起家的公司</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/1596610550313.png" alt></p>
+<p>无独有偶,一位名叫DougCutting的美国工程师,也迷上了搜索引擎.他做了一个用于文本搜索的函数库(姑且理解为软件的功能组件),命名为Lucene.</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/1596610568104.png" alt></p>
+<p>Lucene使用Java写的,目标是为各种中小型应用软件加入全文检索功能.因为好用而且开源(代码公开),非常受程序员们稀罕)</p>
+<p>在这个过程中,google确实找到了不少好的办法,并且无私地分享了出来.</p>
+<p>开源是一种精神!</p>
+<p>2003年,google发表了一篇技术学术论文,公开介绍了自己的谷歌文件系统GFS(google File System).这是google公司为了存储海量搜素数据而设计的专用文件系统</p>
+<p>第二年,2004年,Doug Cutting基于google的GFS论文,实现了分布式文件存储系统,并将它命名为NDFS(Nutch Distributed File System)</p>
+<p>还是2004年,google又发表了一篇技术学术论文,介绍自己的MapReduce编程模型.这个编程模型,用于大规模数据集(大于1TB)的并行分析运算.</p>
+<p>2005年,Doug Cutting 又基于MapReduce,在Nutch搜索引擎实现了该功能.</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/1596610581999.png" alt></p>
+<p>2006年,当时依然很厉害的Yahoo(雅虎)公司,招安了Doug Cutting</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/1596610607769.png" alt></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/1596610720399.png" alt></p>
+<p>我们继续往下说.</p>
+<p>还是2006年,google有发表论文了</p>
+<p>这次,他们介绍自己的BigTable,这是一种分布式的数据存储系统,一种用来处理海量数据的非关系型数据库.</p>
+<p>Doug Cutting 当然没有放过,在自己的hadoop系统里面,引入了BigTable,并命名为HBase.</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/1596610829469.png" alt></p>
+<p>好吧,反正就是紧跟Google时代步伐,你出什么,我学什么</p>
+<p>所有,Hadoop的核心部分,基本上都有Google的影子.</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/1596610891867.png" alt></p>
+<p>2008年1月,Hadoop成功上位,成为Apache基金会的顶级项目.</p>
+<p>同年2月,Yahoo宣布建成了一个拥有1W个内核的Hadoop集群,并将自己的搜索引擎产品部署在上面.</p>
+<p>7月,Hadoop打破世界纪录,成为最快排序1TB数据的系统,用时209秒.</p>
+<h2 id="1-什么是Elasticsearch？"><a href="#1-什么是Elasticsearch？" class="headerlink" title="1 什么是Elasticsearch？"></a>1 什么是Elasticsearch？</h2><h3 id="1-1-Lucene简介"><a href="#1-1-Lucene简介" class="headerlink" title="1.1 Lucene简介"></a>1.1 Lucene简介</h3><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/lucene_logo_green_300.png" alt="Lucene Logo"></p>
+<ul>
+<li>Lucene是一套用于<strong>全文检索</strong>和<strong>搜寻</strong>的<strong>开源</strong>程序库，由Apache软件基金会支持和提供</li>
+<li>Lucene提供了一个简单却强大的应用程序接口（API），能够做全文索引和搜寻，在Java开发环境里Lucene是一个成熟的免费开放源代码工具</li>
+<li>Lucene并不是现成的搜索引擎产品，但可以用来制作搜索引擎产品</li>
+<li>Lucene是一套信息检索工具包! jar包!不包含搜索引擎系统!<ul>
+<li>Lucene包含:索引结构!读写索引的工具!排序,搜索规则…工具类!等</li>
+</ul>
+</li>
+<li><strong>Lucene和ElasticSearch关系</strong>:<ul>
+<li>简单来说，ElasticSearch是基于Lucene做了一些<strong>封装</strong>和*<em>增强 *</em></li>
+</ul>
+</li>
+</ul>
+<h3 id="1-2-ElasticSearch简介"><a href="#1-2-ElasticSearch简介" class="headerlink" title="1.2 ElasticSearch简介"></a>1.2 ElasticSearch简介</h3><ul>
+<li><p>ElasticSearch是一个<strong>实时分布式搜索和分析引擎</strong>。它让你以前所未有的速度处理大数据成为可能。</p>
+</li>
+<li><p>它用于<strong>全文搜索、结构化搜索、分析</strong>以及将这三者混合使用:</p>
+<ul>
+<li>维基百科使用Elasticsearch提供<strong>全文搜索并高亮关键字</strong> ,以及<strong>输入实时搜索(search-asyou-type)</strong>和<strong>搜索纠错(did-you-mean)</strong>等搜索建议功能。</li>
+<li>英国卫报使用Elasticsearch结合用户日志和社交网络数据提供给他们的编辑以<strong>实时的反馈</strong>,以便及时了解公众对新发表的文章的回应。</li>
+<li>StackOverflow结合<strong>全文搜索</strong>与<strong>地理位置查询</strong>,以及more-like-this功能来找到相关的问题和答案。</li>
+<li>Github使用Elasticsearch检索<strong>1300亿</strong>行的代码。</li>
+</ul>
+</li>
+<li><p>并且Elasticsearch不仅用于大型企业,它还让像DataDog以及Klout这样的创业公司将最初的想法变成可扩展的解决方案。</p>
+</li>
+<li><p>Elasticsearch可以在你的笔记本。上运行，也可以在数以百计的服务器上<strong>处理PB级别的数据</strong>。</p>
+</li>
+<li><p>Elasticsearch是一个基于Apache Lucene(TM)的开源搜索引擎。 无论在开源还是专有领域, Lucene可以被认为是迄今为止最先进、性能最好的、功能最全的搜索引擎库。</p>
+</li>
+<li><p>但是, Lucene只是一个库。想要使用它,你必须使用Java来作为开发语言并将其直接集成到你的应用中,更糟糕的是, Lucene非常复杂,你需要深入了解检索的相关知识来理解它是如何工作的。</p>
+</li>
+<li><p>Elasticsearch也使用<strong>Java</strong>开发并使用Lucene作为其核心来实现所有索引和搜索的功能,它的目的是通过简单的<strong>RESTful API</strong>（REST风格的网络接口，是当下主流的API）来隐藏Lucene的复杂性,从而让全文搜索变得简单。</p>
+</li>
+</ul>
+<h3 id="1-3-ElasticSearch的应用场景"><a href="#1-3-ElasticSearch的应用场景" class="headerlink" title="1.3 ElasticSearch的应用场景"></a>1.3 ElasticSearch的应用场景</h3><ul>
+<li><p>维基百科,类似百度百科,<strong>全文检索</strong>,<strong>高亮</strong>,<strong>搜索推荐</strong></p>
+</li>
+<li><p>The Guardian (国外新闻网站) , 类似搜狐新闻,用户行为日志(点击,浏览,收藏,评论) +社交网络数据(对某某新闻的相关看法) ,数据分析,给到每篇新闻文章的作者,让他知道他的文章的公众反馈</p>
+</li>
+<li><p>Stack Overflow (国外的程序异常讨论论坛) , IT问题,程序的报错, 提交上去,有人会跟你讨论和回答,全文检索,搜索相关问题和答案,程序报错了,就会将报错信息粘贴到里面去,搜索有没有对应的答案</p>
+</li>
+<li><p>GitHub (开源代码管理)</p>
+</li>
+<li><p>电商网站,<strong>检索商品</strong>.</p>
+</li>
+<li><p>日志数据分析, logstash采集日志, ES进行复杂的数据分析, <strong>ELK技术, elasticsearch（搜索）+logstash（过滤）+kibana（可视化分析）</strong></p>
+</li>
+<li><p>商品价格监控网站,用户设定某商品的价格阈值,当低于该阈值的时候,发送通知消息给用户,比如说订阅牙膏的监控：如果高露洁牙膏的家庭套装低于50块钱,就通知我,我就去买</p>
+</li>
+<li><p>BI系统 ,商业智能, Business Intelligence.比如说有个大型商场集团, BI分析一下某某区域最近3年的用户消费金额的趋势以及用户群体的组成构成,产出相关的数张报表, 最近3年,每年消费金额呈现100%的增长,而且用户群体85%是高级白领。</p>
+</li>
+<li><p>国内:<strong>站内搜索</strong>(电商，招聘，门户，等等)，<strong>IT系统搜索</strong>(OA,CRM,ERP，等等)，<strong>数据分析</strong>(ES热门的一个使用场景)</p>
+</li>
+</ul>
+<p>总而言之，Elasticsearch就是提供<strong>高效</strong>、<strong>个性化检索</strong>需求的一种解决方案</p>
+<h3 id="1-4-ELK简介"><a href="#1-4-ELK简介" class="headerlink" title="1.4 ELK简介"></a>1.4 ELK简介</h3><ul>
+<li><p>ELK是<strong>Elasticsearch、Logstash、Kibana</strong>三大开源框架首字母大写简称。市面上也被成为Elastic Stack。</p>
+<ul>
+<li>其中ElasticSearch是一个基于Lucene、分布式、通过Restful方式进行交互的近实时搜索平台框架。像类似百度、谷歌这种大数据全文搜索引擎的场景都可以使用Elasticsearch作为底层支持框架,可见Elasticsearch提供的搜索能力确实强大,市面上很多时候我们简称Elasticsearch为es.</li>
+<li>Logstash是ELK的<strong>中央数据流引擎</strong>,用于<strong>从不同目标</strong>(文件/数据存储/MQ )<strong>收集的不同格式数据</strong>,经过过滤后支持输出以到不同目的地(文件/MQ/redis/elasticsearch/kafka等)。</li>
+<li>Kibana可以将es的<strong>数据</strong>通过友好的页面<strong>展示</strong>出来 ,提供实时分析的功能。</li>
+</ul>
+</li>
+<li><p>总结一下就是：<strong>收集清洗数据–&gt;建立索引，储存–&gt;Kibana分析</strong></p>
+</li>
+<li><p>市面上很多开发只要提到ELK能够一致说出它是一 个日志分析架构技术栈总称,但实际上ELK不仅仅适用于日志分析,它还可以<strong>支持其它任何数据分析和收集的场景</strong>,日志分析和收集只是更具有代表性，并非唯一性。</p>
+</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105031.png" alt></p>
+<h2 id="2-其他搜索引擎"><a href="#2-其他搜索引擎" class="headerlink" title="2 其他搜索引擎"></a>2 其他搜索引擎</h2><h3 id="2-1-Solr简介"><a href="#2-1-Solr简介" class="headerlink" title="2.1 Solr简介"></a>2.1 Solr简介</h3><ul>
+<li><p>Solr是Apache下的一个顶级开源项目,采用java开发,它是基于Lucene的全文搜索服务器。Solr提供了比Lucene更为丰富的查询语言,同时实现了可配置、可扩展，并对索引、搜索性能进行了优化</p>
+</li>
+<li><p>Solr可以独立运行在Jetty、Tomcat等这些Servlet容器中 , Solr索引的实现方法很简单,用POST方法向Solr服务器发送一个描述Field及其内容的XML文档，Solr根据xml文档添加、删除、更新索引。</p>
+</li>
+<li><p>列如：搜索name==dayceng&lt;&gt;</p>
+<ul>
+<li>Solr 搜索只需要发送HTTP GET请求,然后对Solr返回xml、<strong>json</strong>等格式的查询结果进行解析,组织页面布局。Solr不提供构建UI的功能, Solr提供了一个管理界面,通过管理界面可以查询Solr的配置和运行情况。</li>
+</ul>
+</li>
+<li><p>solr是基于lucene开发企业级搜索服务器,实际上就是封装了lucene.</p>
+</li>
+<li><p>Solr是一个独立的企业级搜索应用服务器,它对外提供类似于Web-service的API接口。用户可以通过http请求,向搜索引擎服务器提交一定格式的文件,生成索引;也可以通过提出查找请求,并得到返回结果。</p>
+</li>
+</ul>
+<h3 id="2-2-ES与Solr对比"><a href="#2-2-ES与Solr对比" class="headerlink" title="2.2 ES与Solr对比"></a>2.2 ES与Solr对比</h3><ul>
+<li><p>单纯地对已有的数据进行搜索，Solr更快</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105035.png" alt></p>
+</li>
+<li><p>当建立<strong>实时索引</strong>时，Solr会产生IO阻塞，查询性能较差，此时ES具有明显优势</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105045.png" alt></p>
+</li>
+<li><p>随着搜索量的增加，Solr的劣势愈发明显，ES无明显变化</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105121.png" alt></p>
+</li>
+<li><p><strong>总结</strong></p>
+<ul>
+<li>ES基本是开箱即用，非常简单。Solr安装略微复杂</li>
+<li>Solr 利用Zookeeper进行分布式管理，而Elasticsearch 自身带有分布式协调管理功能。</li>
+<li>Solr 支持更多格式的数据，比如JSON、XML、 CSV ，而Elasticsearch仅支持JSON文件格式。</li>
+<li>Solr 官方提供的功能更多，而Elasticsearch本身更注重于核心功能，高级功能多有第三方插件提供，例如图形化界面需要kibana友好支撑</li>
+<li>Solr 查询快，但更新索引时慢(即插入删除慢) ，用于电商等查询多的应用;<ul>
+<li>ES建立索引快(即查询慢) ，即<strong>实时性查询快</strong>，用于facebook新浪等搜索。</li>
+<li>Solr是传统搜索应用的有力解决方案，但Elasticsearch 更适用于新兴的实时搜索应用。</li>
+</ul>
+</li>
+<li>Solr比较成熟，有一个更大，更成熟的用户、开发和贡献者社区,而Elasticsearch相对开发维护者较少，更新太快,<strong>学习使用成本较高</strong></li>
+</ul>
+</li>
+</ul>
+<h2 id="3-Elasticsearch安装"><a href="#3-Elasticsearch安装" class="headerlink" title="3 Elasticsearch安装"></a>3 Elasticsearch安装</h2><p>注意：java版本至少为JDK1.8或以上</p>
+<p>Java开发,elasticsearch的版本和我们之后对应的Java的核心jar包! 版本对应! JDK环境是正常的</p>
+<p>这里一定要保证</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/1596614089583.png" alt></p>
+<h3 id="3-1-安装"><a href="#3-1-安装" class="headerlink" title="3.1 安装"></a>3.1 安装</h3><p>下载：<a target="_blank" rel="noopener" href="https://www.elastic.co/cn/downloads/elasticsearch">https://www.elastic.co/cn/downloads/elasticsearch</a></p>
+<p>windows下解压即可使用</p>
+<h3 id="3-2-Elasticsearch目录介绍"><a href="#3-2-Elasticsearch目录介绍" class="headerlink" title="3.2 Elasticsearch目录介绍"></a>3.2 Elasticsearch目录介绍</h3><ul>
+<li>bin 相关启动文件</li>
+<li>config 配置文件</li>
+<li>log4j2.properties 日志配置文件</li>
+<li>jvm.options java虚拟机配置文件</li>
+<li>elasticsearch.yml ES配置文件（默认端口：9200，这里在tpot中，docker默认分配的是1111，需要再映射到9200才行）</li>
+<li>lib 相关jar包</li>
+<li>logs 日志</li>
+<li>modules 功能模块</li>
+<li>plugins 插件</li>
+</ul>
+<h3 id="3-3-启动"><a href="#3-3-启动" class="headerlink" title="3.3 启动"></a>3.3 启动</h3><p>双击bin下的<strong>elasticsearch.bat</strong>即可</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105122.png" alt></p>
+<h3 id="3-4-测试访问"><a href="#3-4-测试访问" class="headerlink" title="3.4 测试访问"></a>3.4 测试访问</h3><p>访问其暴露的端口进行验证（<a target="_blank" rel="noopener" href="http://127.0.0.1:9200/）">http://127.0.0.1:9200/）</a></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105123.png" alt></p>
+<h3 id="3-5-安装可视化界面Elasticsearch-head"><a href="#3-5-安装可视化界面Elasticsearch-head" class="headerlink" title="3.5 安装可视化界面Elasticsearch-head"></a>3.5 安装可视化界面Elasticsearch-head</h3><p>1、请下载Node.js（<a target="_blank" rel="noopener" href="https://nodejs.org/en/），并检查npm为较新的版本">https://nodejs.org/en/），并检查npm为较新的版本</a></p>
+<p>2、安装npm淘宝镜像源（cnpm）</p>
+<blockquote>
+<p>  npm install -g cnpm <em>–registry=<a target="_blank" rel="noopener" href="https://registry.npm.taobao.org">https://registry.npm.taobao.org</a></em></p>
+</blockquote>
+<p> 查看是否安装成功</p>
+<blockquote>
+<p>  cnpm -v</p>
+</blockquote>
+<p> 出现以下信息即可</p>
+<blockquote>
+<p>  C:\Users\XXXX&gt; cnpm -v</p>
+<p>  <a href="mailto:cnpm@5.1.1">cnpm@5.1.1</a> (F:\Live\NODE\node_global\node_modules\cnpm\lib\parse_argv.js)<br>  <a href="mailto:npm@5.6.0">npm@5.6.0</a> (F:\Live\NODE\node_global\node_modules\cnpm\node_modules\npm\lib\npm.js)<br>  <a href="mailto:node@8.9.1">node@8.9.1</a> (F:\Live\NODE\node.exe)<br>  <a href="mailto:npminstall@3.2.1">npminstall@3.2.1</a> (F:\Live\NODE\node_global\node_modules\cnpm\node_modules\npminstall\lib\index.js)<br>  prefix=F:\Live\NODE\node_global<br>  win32 x64 10.0.16299<br>  registry=<a target="_blank" rel="noopener" href="http://registry.npm.taobao.org">http://registry.npm.taobao.org</a></p>
+</blockquote>
+<p><strong>在ElasticSearch\elasticsearch-head-master即ES head目录下</strong></p>
+<p> <strong>下载依赖</strong></p>
+<blockquote>
+<p>  cnpm install</p>
+</blockquote>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105124.png" alt="image-20210131091020099"></p>
+<p> <strong>运行</strong></p>
+<blockquote>
+<p>  npm run start</p>
+</blockquote>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/image-20210609005919167.png" alt></p>
+<p> <strong>访问<a target="_blank" rel="noopener" href="http://localhost:9100/">http://localhost:9100/</a></strong></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105126.png" alt="image-20210131091312021"></p>
+<p> <strong>此时因为跨域访问（跨端口）导致集群无法连接，要通过配置elasticsearch.yml来解决</strong></p>
+<h3 id="3-6-解决跨域问题"><a href="#3-6-解决跨域问题" class="headerlink" title="3.6 解决跨域问题"></a>3.6 解决跨域问题</h3><p>配置es，打开elasticsearch.yml文件，在最后一行加入（注意yalm语法，冒号后要加一个空格）</p>
+<blockquote>
+<p>  http.cors.enabled: true<br>  http.cors.allow-origin: “*”</p>
+</blockquote>
+<p>使用elasticsearch.bat重启es，连接成功</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105127.png" alt="image-20210131092227531"></p>
+<p>注1：Linux下可能会因为进程问题启动失败</p>
+<p><em>#查看elastic的进程号 并杀死</em></p>
+<div class="code-wrapper"><pre><code class="hljs perl">ps aux | <span class="hljs-keyword">grep</span> elasticsearch 
+
+<span class="hljs-keyword">kill</span> -<span class="hljs-number">9</span> 进程号</code></pre></div>
+
+<p><em>#重启 -d 后台运行</em></p>
+<div class="code-wrapper"><pre><code class="hljs awk">.<span class="hljs-regexp">/bin/</span>elasticsearch -d</code></pre></div>
+
+<p>注2：Linux下eshead启动失败，提示9100端口占用</p>
+<p><em>#查看占用端口的进程id</em></p>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">lsof</span> -i:<span class="hljs-number">9100</span></code></pre></div>
+
+<p><em>#杀死进行</em></p>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">kill</span> -<span class="hljs-number">9</span> <span class="hljs-number">4852</span></code></pre></div>
+
+<h2 id="4-Kibana安装"><a href="#4-Kibana安装" class="headerlink" title="4 Kibana安装"></a>4 Kibana安装</h2><p>Kibana是一个针对Elasticsearch的开源分析及可视化平台 ，用来搜索、查看交互存储在Elasticsearch索引中的数据。 使用Kibana，可以通过各种图表进行高级数据分析及展示。Kibana让海量数据更容易理解。它操作简单，基于浏览器的用户界面可以快速创建仪表板( dashboard )实时显示Elasticsearch查询动态。设置Kibana非常简单。无需编码或者额外的基础架构，几分钟内就可以完成Kibana安装并启动Elasticsearch索引监测。</p>
+<p>官网：<a target="_blank" rel="noopener" href="https://www.elastic.co/cn/kibana">https://www.elastic.co/cn/kibana</a></p>
+<p>注意：<strong>使用的ES版本要与Kibana的对应</strong></p>
+<p>下载完成解压，双击kibana.bat启动即可</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105128.png" alt="image-20210131103309389"></p>
+<p><strong>汉化</strong></p>
+<p>在Kibana目录下的config中修改Kibana.yml文件，最后一行加上</p>
+<blockquote>
+<p>  i18n.locale: “zh-CN”</p>
+</blockquote>
+<p>重启即可</p>
+<h2 id="5-ES核心概念"><a href="#5-ES核心概念" class="headerlink" title="5 ES核心概念"></a>5 ES核心概念</h2><h3 id="5-1-概述"><a href="#5-1-概述" class="headerlink" title="5.1 概述"></a>5.1 概述</h3><p>Elasticsearch是面向文档的一种数据库，这意味着其不再需要行列式的表格字段约束。</p>
+<p>ES会存储整个构造好的数据或文档，然而不仅仅是储存数据，这使得文档中每个数据可以被标识，进而可以被检索。在ES中，执行index，search，sort或过滤文档等操作都不是传统意义上的行列式的数据。</p>
+<p>ES从根本上对数据的不同思考方式也正是他能应对复杂数据结构的全文检索的原因之一。</p>
+<p><strong>关系型数据库与Elasticsearch的对比</strong></p>
+<p>以下数据格式均为JSON</p>
+<table>
+<thead>
+<tr>
+<th>Relational DB</th>
+<th>Elasticsearch</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数据库（database）</td>
+<td>索引（index）</td>
+</tr>
+<tr>
+<td>表（tables）</td>
+<td>类型（types，新版本中逐步弃用）</td>
+</tr>
+<tr>
+<td>行（rows）</td>
+<td>文档（documents）</td>
+</tr>
+<tr>
+<td>字段（columns）</td>
+<td>字段（file）</td>
+</tr>
+</tbody></table>
+<p>Elasticsearch(一般为集群)中可以包含多个索引（对应数据库) ，每个索引中可以包含多个类型(对应表) ，每个类型下又包含多个文档(对应行)，每个文档中又包含多个字段(对应列)。</p>
+<p><strong>物理设计</strong>:<br>Elasticsearch在后台<strong>把每个索引划分成多个分片</strong>,每分分片可以在集群中的不同服务器间迁移（方便集群的搭建）</p>
+<p>实际上只建立一个索引它自己也是一个集群，默认名称就是elasticsearch</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105129.png" alt="image-20210202093954072"></p>
+<p><strong>逻辑设计:</strong><br>一个索引类型中，包含多个文档，如文档1 ,文档2。</p>
+<p>当我们索引一篇文档时，可以通过这样的一个顺序找到它:</p>
+<p> 索引–&gt;类型–&gt;文档ID</p>
+<p>通过这个组合我们就能索引到某个具体的文档。</p>
+<p>（注:ID不必是整数,实际上它是个字符串。）</p>
+<h3 id="5-2-文档"><a href="#5-2-文档" class="headerlink" title="5.2 文档"></a>5.2 文档</h3><p>Elasticsearch是面向文档的,那么就意味着索引和搜索数据的<strong>最小单位是文档</strong>, Elasticsearch中,文档有几个重要属性:</p>
+<ul>
+<li><p>自我包含，一篇文档同时包含字段和对应的值,也就是同时包含key:value</p>
+</li>
+<li><p>可以是层次型的，一个文档中包含着文档，复杂的逻辑实体就是这么来的（即文档就是JSON格式的对象，可用fastjson进行自动转换自动）</p>
+</li>
+<li><p>灵活的结构，文档不依赖预先定义的模式，我们知道关系型数据库中，要提前定义字段才能使用，在Elasticsearch中，对于字段是非常灵活的，有时候我们可以忽略该字段，或者动态的添加一个新的字段。</p>
+</li>
+</ul>
+<p>我们可以随意的新增或者忽略某个字段，但每个字段的类型非常重要。比如一个年龄字段类型，可以是字符串也可以是整形。因为elasticsearch会保存字段和类型之间的映射及其他的设置。这种映射具体到每个映射的每种类型,这也是为什么在elasticsearch中，类型有时候也称为<strong>映射类型</strong></p>
+<p>文档就是<strong>一条条打好标签的数据</strong></p>
+<p><strong>举个例子：</strong></p>
+<blockquote>
+<p>  user</p>
+<p>  1 xiaoming 22</p>
+<p>  2 liming 19</p>
+<p>  。。。</p>
+</blockquote>
+<p>这是一个表，名称为user，里面的每一行就是一个文档，文档中包含着序号、名字、年龄等信息（有点像之前要使用TFIDF算法时做的那个设备文档）</p>
+<h3 id="5-3-类型"><a href="#5-3-类型" class="headerlink" title="5.3 类型"></a>5.3 类型</h3><p>类型是文档的<strong>逻辑容器</strong>，就像关系型数据库一样，表格是行的容器。</p>
+<p>类型中对于字段的定义称为<strong>映射</strong>，比如name可以映射为字符串类型。</p>
+<p>我们说文档是无模式的，它们不需要拥有映射中所定义的所有字段，比如新增一个字段。那么elasticsearch是怎么做的呢?elasticsearch会自动的将新字段加入映射，但是这个字段的不确定它是什么类型，elasticsearch就开始猜，如果这个值是18 ,那么elasticsearch会认为它是整形。</p>
+<p>但是elasticsearch也可能猜不对 ，所以最安全的方式就是提前定义好所需要的映射，这点跟关系型数据库殊途同归了，先定义好字段，然后再使用</p>
+<p>类比MySQL中，建立一个表的时候需要设定的数据类型</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105130.png" alt="image-20210202095941630"></p>
+<h3 id="5-4-索引"><a href="#5-4-索引" class="headerlink" title="5.4 索引"></a>5.4 索引</h3><p>索引是<strong>映射类型的容器</strong>， elasticsearch中的索引是一个非常大的文档集合（即数据库）。索引存储了映射类型的字段和其他设置。 然后它们被存储到了各个分片上了。我们来研究下分片是如何工作的。</p>
+<p><strong>物理设计: 节点和分片如何工作</strong></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105131.png" alt="image-20210202100254208"></p>
+<p>存在数据库的数据可以通过不同的分片放在不同的集群上</p>
+<p>一个集群至少有一个节点，而一个节点就是一个elasricsearch进程，节点可以有多个索引默认的，如果你创建索引，那么索引将会有个5个分片( primary shard ,又称<strong>主分片</strong>)构成，每一个主分片会有一个副本( replica shard ,又称<strong>复制分片</strong>)</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105132.png" alt="image-20210202100505894"></p>
+<p>上图是一个有3个节点的集群，可以看到主分片和对应的复制分片都不会在同一个节点内（比如主分片P0和主分片的复制分片P1分别在节点1/3，同样的分片Px在每个至少有一个），当某个节点挂掉了，数据也不至于丢失。</p>
+<p>实际上，一个分片是一个Lucene索引，一个包含<strong>倒排索引</strong>的文件目录，倒排索引的结构使得elasticsearch在不扫描全部文档的情况下，就能告诉你哪些文档包含特定的关键字。什么是倒排索引？</p>
+<h3 id="5-5-倒排索引"><a href="#5-5-倒排索引" class="headerlink" title="5.5 倒排索引"></a>5.5 倒排索引</h3><p>elasticsearch使用的是一种称为倒排索引的结构 ,采用<strong>Lucene倒排索引</strong>作为底层。这种结构适用于快速的全文搜索，一个索引由文档中所有不重复的列表构成，对于每一个词，都有一个包含它的文档列表。</p>
+<p>例如，现在有两个文档，每个文档包含如下内容:</p>
+<blockquote>
+<p>  study every day, good good up to forever #文档1包含的内容<br>  To forever, study every day， good good up #文档2包含的内容</p>
+</blockquote>
+<p>为了创建倒排索引，我们首先要将每个文档拆分成独立的词(或称为词条或者tokens) ，然后创建一个包含所有不重复的词条的排序列表，然后列出每个词条出现在哪个文档:（大小写要区分，重复单词也要加入）</p>
+<table>
+<thead>
+<tr>
+<th>term</th>
+<th>doc_1</th>
+<th>doc_2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Study</td>
+<td>〇</td>
+<td>X</td>
+</tr>
+<tr>
+<td>To</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>forever</td>
+<td>〇</td>
+<td>〇</td>
+</tr>
+<tr>
+<td>every</td>
+<td>〇</td>
+<td>〇</td>
+</tr>
+<tr>
+<td>study</td>
+<td>X</td>
+<td>〇</td>
+</tr>
+<tr>
+<td>day</td>
+<td>〇</td>
+<td>〇</td>
+</tr>
+<tr>
+<td>good</td>
+<td>〇</td>
+<td>〇</td>
+</tr>
+<tr>
+<td>up</td>
+<td>〇</td>
+<td>〇</td>
+</tr>
+<tr>
+<td>to</td>
+<td>〇</td>
+<td>X</td>
+</tr>
+<tr>
+<td>every</td>
+<td>〇</td>
+<td>〇</td>
+</tr>
+</tbody></table>
+<p>现在，我们试图搜索to forever，只需要查看每个词条在对应文档是否出现即可。这里to和forever在doc1里面都有，而doc2中to没有，所以搜索结果为：doc1的<strong>权重</strong>更大，即“to forever”更可能出现在doc1</p>
+<table>
+<thead>
+<tr>
+<th>term</th>
+<th>doc_1</th>
+<th>doc_2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>to</td>
+<td>〇</td>
+<td>X</td>
+</tr>
+<tr>
+<td>forever</td>
+<td>〇</td>
+<td>〇</td>
+</tr>
+<tr>
+<td>SUM</td>
+<td>2</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>这里的“权重”，即为文档的<strong>score</strong>，es搜索完成会对分数进行自动统计</p>
+<p>两个文档都匹配，但是第一个文档比第二个匹配程度更高。如果没有别的条件，这两个包含关键字的文档都将返回。</p>
+<p><strong>再举一个例子</strong></p>
+<p>再来看一个示例比如我们通过博客标签来搜索博客文章。 那么倒排索引列表就是这样的一个结构:</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105133.png" alt="image-20210202111236177"></p>
+<p>如果要搜索含有python标签的文章，那相对于查找所有原始数据而言，查找倒排索引后的数据将会快的多。只需要查看标签这一栏,然后获取相关的文章ID即可。比如这里搜索“Linux”就绝对不会出现1或者2</p>
+<p><strong>elasticsearch的索引和Lucene的索引对比</strong></p>
+<p>在elasticsearch中，索引（数据库）这个词被频繁使用。在elasticsearch中 ，索引被分为多个分片，每份分片是一个Lucene的索引。<strong>所以一个elasticsearch索引是由多个Lucene倒排索引组成的</strong>。（因为elasticsearch使用Lucene作为底层）</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105134.png" alt="image-20210202112920334"></p>
+<p>如无特指，说起<strong>索引都是指elasticsearch的索引</strong>。</p>
+<h2 id="6-IK分词器"><a href="#6-IK分词器" class="headerlink" title="6 IK分词器"></a>6 IK分词器</h2><h3 id="6-1-什么是IK分词器"><a href="#6-1-什么是IK分词器" class="headerlink" title="6.1 什么是IK分词器?"></a>6.1 <strong>什么是IK分词器?</strong></h3><p> <strong>分词</strong>:即把一段中文或者别的划分成一个个的关键字，我们在搜索时候会把自己的信息进行分词，会把数据库中或者索引库中的数据进行分词，然后进行一个匹配操作，默认的中文分词是将每个字看成一个词，比如“我爱黎明”会被分为”我”,”爱”,”“黎”,”明” 。这显然是不符合要求的，所以我们需要安装中文分词器IK来解决这个问题。</p>
+<p>IK提供了两个分词算法: ik. smart和ik_max_ word</p>
+<p>其中ik_smart为最少切分， ik _max_word为最细粒度划分</p>
+<h3 id="6-2-安装-IK分词器"><a href="#6-2-安装-IK分词器" class="headerlink" title="6.2 安装 IK分词器"></a>6.2 安装 IK分词器</h3><p><strong>1、下载</strong></p>
+<blockquote>
+<p>  <a target="_blank" rel="noopener" href="https://github.com/medcl/elasticsearch-analysis-ik">https://github.com/medcl/elasticsearch-analysis-ik</a></p>
+</blockquote>
+<p><strong>2、安装</strong></p>
+<p>解压后放入es的插件目录plugins下即可</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105135.png" alt="image-20210202144827745"></p>
+<p><strong>3、重启es加载插件</strong></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105136.png" alt="image-20210202145019120"></p>
+<p>可使用以下命令查看插件列表</p>
+<blockquote>
+<p>  elasticsearch-plugin list</p>
+</blockquote>
+<p><strong>4、启动Kibana测试</strong></p>
+<p>测试ik_smart（使用RESTful风格的语句发起GET请求，对我们提供的JSON数据进行分词）</p>
+<blockquote>
+  <div class="code-wrapper"><pre><code class="hljs json">GET _analyze
+&#123;
+<span class="hljs-attr">&quot;analyzer&quot;</span>: <span class="hljs-string">&quot;ik_smart&quot;</span>,
+<span class="hljs-attr">&quot;text&quot;</span>: [<span class="hljs-string">&quot;新型冠状病毒&quot;</span>]
+&#125;</code></pre></div>
+</blockquote>
+<p>运行结果：</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105137.png" alt="image-20210202150329532"></p>
+<p>测试ik _max _word</p>
+<blockquote>
+  <div class="code-wrapper"><pre><code class="hljs json">GET _analyze
+&#123;
+<span class="hljs-attr">&quot;analyzer&quot;</span>: <span class="hljs-string">&quot;ik_max_word&quot;</span>,
+<span class="hljs-attr">&quot;text&quot;</span>: [<span class="hljs-string">&quot;新型冠状病毒&quot;</span>]
+&#125;</code></pre></div>
+</blockquote>
+<p>运行结果：最细粒度划分会把所有可能的组合都划分出来（划分方式由某个字典规定）</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105138.png" alt="image-20210202150645756"></p>
+<p>问题：当遇到自造词时，拆分结果不是我们想要的</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105139.png" alt="image-20210202151449769"></p>
+<p>这时需要把关键词加入字典</p>
+<h3 id="6-3-配置IK分词器"><a href="#6-3-配置IK分词器" class="headerlink" title="6.3 配置IK分词器"></a>6.3 配置IK分词器</h3><p><strong>添加自定义字典</strong></p>
+<blockquote>
+<p>  在 elasticsearch-7.12.1\plugins\ik\config</p>
+</blockquote>
+<p>中可以找到配置文件<strong>IKAnalyzer.cfg.xml</strong></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105140.png" alt="image-20210202152120411"></p>
+<p>只需要在config目录下新建一个自己的.dic字典文件并录入IKAnalyzer.cfg.xml中然后<strong>重启es</strong>即可</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105141.png" alt="image-20210202152518579"></p>
+<p>测试能够识别自定义词语</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105142.png" alt="image-20210202153349063"></p>
+<h2 id="7-REST风格"><a href="#7-REST风格" class="headerlink" title="7 REST风格"></a>7 REST风格</h2><h3 id="7-1-概念"><a href="#7-1-概念" class="headerlink" title="7.1 概念"></a>7.1 <strong>概念</strong></h3><p>一种软件架构风格，而不是标准，只是提供了一组设计原则和约束条件。它主要用于客户端和服务器交互类的软件。基于这个风格设计的软件可以更简洁，更有层次，更易于实现缓存等机制。</p>
+<p>即<strong>通过不同的命令实现不同的操作</strong></p>
+<h3 id="7-2-基本REST命令"><a href="#7-2-基本REST命令" class="headerlink" title="7.2 基本REST命令"></a>7.2 基本REST命令</h3><table>
+<thead>
+<tr>
+<th>method</th>
+<th>url地址</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PUT</td>
+<td>localhost:9200/索引名称/类型名称/文档id</td>
+<td>创建文档(指定文档id )</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>localhost:9200/索弓|名称/类型名称</td>
+<td>创建文档(随机文档id )</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>localhost:9200/索引名称/类型名称/文档id/_ update</td>
+<td>修改文档</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>localhost:9200/索引名称/类型名称/文档id</td>
+<td>删除文档</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>localhost:9200/索引名称/类型名称/文档id</td>
+<td>查询文档（通过文档id）</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>localhost:9200/索弓|名称/类型名称/_ search</td>
+<td>查询所有数据</td>
+</tr>
+</tbody></table>
+<h2 id="8-测试"><a href="#8-测试" class="headerlink" title="8 测试"></a>8 测试</h2><h3 id="8-1-关于索引的操作"><a href="#8-1-关于索引的操作" class="headerlink" title="8.1 关于索引的操作"></a>8.1 关于索引的操作</h3><h4 id="1、创建一个索引"><a href="#1、创建一个索引" class="headerlink" title="1、创建一个索引"></a><strong>1、创建一个索引</strong></h4><blockquote>
+  <div class="code-wrapper"><pre><code class="hljs awk">PUT <span class="hljs-regexp">/索引名/</span>类型名（新版本逐步废弃）/文档ID
+&#123;
+	请求体
+&#125;</code></pre></div>
+</blockquote>
+<div class="code-wrapper"><pre><code class="hljs awk">PUT <span class="hljs-regexp">/test1/</span>type/<span class="hljs-number">1</span>
+&#123;
+  <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;xiaoming&quot;</span>,
+  <span class="hljs-string">&quot;age&quot;</span>: <span class="hljs-number">13</span>
+&#125;</code></pre></div>
+
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105143.png" alt="image-20210203092727349"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105144.png" alt="image-20210203110817742"></p>
+<p><strong>注意：</strong></p>
+<p> 1、创建的索引名要<strong>小写</strong></p>
+<p> 2、es head中数据浏览不显示内容就换个浏览器试试</p>
+<h4 id="2、更新一个索引"><a href="#2、更新一个索引" class="headerlink" title="2、更新一个索引"></a>2、更新一个索引</h4><p>修改索引依旧可以使用PUT，此时返回的版本号会增加，”result”会提示update，但如果漏了一些信息，原始信息就会丢失，故现在一般<strong>使用POST来更新索引</strong></p>
+<div class="code-wrapper"><pre><code class="hljs awk">POST <span class="hljs-regexp">/test1/</span>type1/<span class="hljs-number">1</span>
+&#123;
+ <span class="hljs-string">&quot;doc&quot;</span>:&#123;
+   <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;张三&quot;</span>
+ &#125;
+&#125;</code></pre></div>
+
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105145.png" alt="image-20210203115556670"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105146.png" alt="image-20210203115639183"></p>
+<p>没有写age，它就会保持原样（如果用PUT的话age就直接没了）</p>
+<h4 id="3、删除一个索引"><a href="#3、删除一个索引" class="headerlink" title="3、删除一个索引"></a>3、删除一个索引</h4><div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">DELETE</span> test<span class="hljs-number">1</span>（索引名或文档记录ID）</code></pre></div>
+
+<h4 id="4、指定类型"><a href="#4、指定类型" class="headerlink" title="4、指定类型"></a>4、指定类型</h4><p><strong>常用的字段类型有：</strong></p>
+<p>●字符串类型<br>text、keyword<br>●数值类型<br>long,. integer, short, byte, double, float, half float, scaled float<br>●日期类型<br>date<br>●te布尔值类型<br>boolean<br>●二进制类型<br>binary.</p>
+<p>创建一个t2索引（或者说索引库）但不创建文档，此时称其为一个“规则”</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105147.png" alt="image-20210203111936090"></p>
+<p>查看t2，里面没有值，后续可以往里面放数据</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105148.png" alt="image-20210203112007717"></p>
+<p>通过GET可以查看规则信息</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105149.png" alt="image-20210203112304214"></p>
+<p>GET请求很好用，除了规则，还可以查看索引、文档的信息</p>
+<p><strong>注：</strong></p>
+<p>1、新版本es中正在逐步弃用type，我们创建索引库的时候可以将原来的type换成_doc，这样es就会自动帮我们配置字段类型</p>
+<p>如下面的新建的test3：</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105150.png" alt="image-20210203113420834"></p>
+<p>2、查看默认配置命令 GET _cat/indices?v</p>
+<p>可以使用这个命令查看集群健康状态等一些信息</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105151.png" alt="image-20210203114043227"></p>
+<h3 id="8-2-关于文档的操作"><a href="#8-2-关于文档的操作" class="headerlink" title="8.2 关于文档的操作"></a>8.2 关于文档的操作</h3><h4 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h4><p><strong>1、添加数据</strong></p>
+<div class="code-wrapper"><pre><code class="hljs json">PUT /dayceng/user/1
+&#123;
+  <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;DAYceng&quot;</span>,
+  <span class="hljs-attr">&quot;age&quot;</span>: <span class="hljs-string">&quot;22&quot;</span>,
+  <span class="hljs-attr">&quot;desc&quot;</span>: <span class="hljs-string">&quot;如此生活三十年&quot;</span>,
+  <span class="hljs-attr">&quot;tags&quot;</span>: [<span class="hljs-string">&quot;穷&quot;</span>,<span class="hljs-string">&quot;阿宅&quot;</span>,<span class="hljs-string">&quot;脚本小子&quot;</span>]
+&#125;</code></pre></div>
+
+<p><strong>2、查询（获取，GET）数据</strong></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105152.png" alt="image-20210205094004174"></p>
+<p><strong>3、简单搜索</strong>(GET条件查询)</p>
+<div class="code-wrapper"><pre><code class="hljs json">GET /dayceng/user/_search?q=name:条件</code></pre></div>
+
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105153.png" alt="image-20210205095050550"></p>
+<p>简单的条件查询可根据默认的映射规则产生基本查询结果</p>
+<p>（这里的”_score”代表匹配度，分值越高，匹配度越高）</p>
+<p>说明：</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105154.png" alt="image-20210205095252732"></p>
+<p>字段name，它的类型是keyword，此时进行搜索，分词器不会对类型为keyword的name进行分词（即如果你搜“丹”是不会返回“丹霞”的结果的），如果类型是text则可以查到</p>
+<h4 id="复杂操作（主要是搜索）"><a href="#复杂操作（主要是搜索）" class="headerlink" title="复杂操作（主要是搜索）"></a><strong>复杂操作（主要是搜索）</strong></h4><p><strong>复杂搜索select（排序、分页、模糊/精准查询、高亮）</strong></p>
+<h5 id="1、使用请求体查询"><a href="#1、使用请求体查询" class="headerlink" title="1、使用请求体查询"></a><strong>1、使用请求体查询</strong></h5><p>一般来说，我们进行搜索不是直接写条件搜索，而是需要构建一个JSON格式的请求体，这样可以设置更多参数以实现定制化的搜索</p>
+<div class="code-wrapper"><pre><code class="hljs json">GET /dayceng/user/_search
+&#123;
+  <span class="hljs-attr">&quot;query&quot;</span>: &#123;
+    <span class="hljs-attr">&quot;match&quot;</span>: &#123;
+      <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;丹霞&quot;</span>
+    &#125;
+  &#125;
+&#125;</code></pre></div>
+
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105155.png" alt="image-20210205105110638"></p>
+<p>如果有相似关键字的多个结果，他们的分数会有不同</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105156.png" alt="image-20210205110206156"></p>
+<p>hits是我们比较关注的一部分，其中包含：</p>
+<p> 索引和文档的信息</p>
+<p> 查询的结果总数</p>
+<p> 查询出来的具体的文档</p>
+<p> 分数：用来判断哪个结果更加符合预期</p>
+<p>通过hits我们可以把数据的信息遍历出来，让我们想要的结果优先显示出来</p>
+<p>后面使用java操控es，所有的方法和对象就是这里的hits、source等key</p>
+<h5 id="2、请求体参数"><a href="#2、请求体参数" class="headerlink" title="2、请求体参数"></a>2、请求体参数</h5><p>我们通过在请求体后添加参数的方式实现一些自定义的操作</p>
+<h6 id="筛选结果"><a href="#筛选结果" class="headerlink" title="筛选结果"></a><strong>筛选结果</strong></h6><p>只返回特定结果</p>
+<div class="code-wrapper"><pre><code class="hljs awk">GET <span class="hljs-regexp">/dayceng/u</span>ser/_search
+&#123;
+  <span class="hljs-string">&quot;query&quot;</span>: &#123;
+    <span class="hljs-string">&quot;match&quot;</span>: &#123;
+      <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;丹霞&quot;</span>
+    &#125;
+  &#125;,
+   <span class="hljs-string">&quot;_source&quot;</span>:[<span class="hljs-string">&quot;name&quot;</span>,<span class="hljs-string">&quot;tags&quot;</span>]
+&#125;</code></pre></div>
+
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/daycen/drawing-bed/raw/master/img/20210505105157.png" alt="image-20210205114109589"></p>
+<h6 id="排序"><a href="#排序" class="headerlink" title="排序"></a><strong>排序</strong></h6><div class="code-wrapper"><pre><code class="hljs json">GET /dayceng/user/_search
+&#123;
+  <span class="hljs-attr">&quot;query&quot;</span>: &#123;
+    <span class="hljs-attr">&quot;match&quot;</span>: &#123;
+      <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;丹霞&quot;</span>
+    &#125;
+  &#125;,
+  <span class="hljs-attr">&quot;sort&quot;</span>: [
+    &#123;
+      <span class="hljs-attr">&quot;age&quot;</span>: &#123;
+        <span class="hljs-attr">&quot;order&quot;</span>: <span class="hljs-string">&quot;desc&quot;</span>
+      &#125;
+    &#125;
+  ]
+&#125;</code></pre></div>
+
+<p>注意：排序只能用于数值类型，我这里的age是text类型，运行就会报错</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105158.png" alt="image-20210205115918067"></p>
+<blockquote>
+<p>  “Text fields are not optimised for operations that require per-document field data like aggregations and sorting, so these operations are disabled by default. Please use a keyword field instead. Alternatively, set fielddata=true on [age] in order to load field data by uninverting the inverted index. Note that this can use significant memory.”</p>
+</blockquote>
+<p>把“age”换成“age.keyword”即可正常排序</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/20210505105159.png" alt="image-20210205120324780"></p>
+<h6 id="分页"><a href="#分页" class="headerlink" title="分页"></a><strong>分页</strong></h6><div class="code-wrapper"><pre><code class="hljs json">GET /dayceng/user/_search
+&#123;
+  <span class="hljs-attr">&quot;query&quot;</span>: &#123;
+    <span class="hljs-attr">&quot;match&quot;</span>: &#123;
+      <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;丹霞在&quot;</span>
+    &#125;
+  &#125;,
+  <span class="hljs-attr">&quot;sort&quot;</span>: [
+    &#123;
+      <span class="hljs-attr">&quot;age.keyword&quot;</span>: &#123;
+        <span class="hljs-attr">&quot;order&quot;</span>: <span class="hljs-string">&quot;desc&quot;</span>
+      &#125;
+    &#125;
+  ],
+   &quot;from&quot;: 0,---从第几个数据开始
+   &quot;size&quot;: 2 ---返回几个数据
+
+&#125;</code></pre></div>
+
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/daycen/drawing-bed/raw/master/img/20210505105200.png" alt="image-20210206093248369"></p>
+<h6 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a><strong>过滤</strong></h6><p>使用filter参数即可</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/daycen/drawing-bed/raw/master/img/20210505105201.png" alt="image-20210206094548128"></p>
+<p> gt：大于</p>
+<p> gte：大于等于</p>
+<p> lt：小于</p>
+<p> lte：小于等于</p>
+<p> （以上条件可混合使用）</p>
+<h5 id="3、布尔值查询"><a href="#3、布尔值查询" class="headerlink" title="3、布尔值查询"></a>3、布尔值查询</h5><p>使用布尔值可进行多条件查询</p>
+<p><strong>must</strong>：设置的所有match都要匹配才会返回结果</p>
+<p><strong>must not</strong>：返回与设置条件相反的结果</p>
+<p><strong>should</strong>：满足条件之一即可返回结果</p>
+<div class="code-wrapper"><pre><code class="hljs json">GET /dayceng/user/_search
+&#123;
+  <span class="hljs-attr">&quot;query&quot;</span>: &#123;
+    <span class="hljs-attr">&quot;bool&quot;</span>: &#123;
+      <span class="hljs-attr">&quot;must&quot;</span>: [
+        &#123;
+          <span class="hljs-attr">&quot;match&quot;</span>: &#123;
+            <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;DAYceng&quot;</span>
+          &#125;
+        &#125;,
+        &#123;
+          <span class="hljs-attr">&quot;match&quot;</span>: &#123;
+            <span class="hljs-attr">&quot;age&quot;</span>: <span class="hljs-number">22</span>
+          &#125;
+        &#125;
+      ]
+    &#125;
+  &#125;
+
+&#125;</code></pre></div>
+
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/daycen/drawing-bed/raw/master/img/20210505105202.png" alt="image-20210206093144473"></p>
+<h5 id="4、精确查询"><a href="#4、精确查询" class="headerlink" title="4、精确查询"></a>4、精确查询</h5><p>term查询是直接使用倒排索引进行精确查询的</p>
+<p><strong>term与match的比较</strong></p>
+<p> ·term使用倒排索引直接进行精确查询</p>
+<p> ·match则会使用分词器进行解析后再查询（先分析文档，在通过分析结果进行查询）</p>
+<p><strong>类型text与keyword的比较</strong></p>
+<p>text会使用分词器进行分词后再查询</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/daycen/drawing-bed/raw/master/img/20210505105203.png" alt="image-20210206102310427"></p>
+<p>keyword不会拆分特定词语</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/daycen/drawing-bed/raw/master/img/20210505105204.png" alt="image-20210206102247047"></p>
+<h5 id="5、高亮查询"><a href="#5、高亮查询" class="headerlink" title="5、高亮查询"></a>5、高亮查询</h5><p>使用highlight参数</p>
+<div class="code-wrapper"><pre><code class="hljs awk">GET <span class="hljs-regexp">/dayceng/u</span>ser/_search
+&#123;
+  <span class="hljs-string">&quot;query&quot;</span>: &#123;
+    <span class="hljs-string">&quot;match&quot;</span>: &#123;
+      <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;丹霞&quot;</span>
+    &#125;
+  &#125;,
+  <span class="hljs-string">&quot;highlight&quot;</span>: &#123;
+    <span class="hljs-string">&quot;fields&quot;</span>: &#123;
+      <span class="hljs-string">&quot;name&quot;</span>:&#123;&#125;
+    &#125;
+  &#125;
+&#125;</code></pre></div>
+
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/daycen/drawing-bed/raw/master/img/20210505105205.png" alt="image-20210206104615060"></p>
+<p>在highlight中也可以自定义高亮标签</p>
+<div class="code-wrapper"><pre><code class="hljs awk">GET <span class="hljs-regexp">/dayceng/u</span>ser/_search
+&#123;
+  <span class="hljs-string">&quot;query&quot;</span>: &#123;
+    <span class="hljs-string">&quot;match&quot;</span>: &#123;
+      <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;丹霞&quot;</span>
+    &#125;
+  &#125;,
+  <span class="hljs-string">&quot;highlight&quot;</span>: &#123;
+    <span class="hljs-string">&quot;pre_tags&quot;</span>: <span class="hljs-string">&quot;&lt;p class=key style=&#x27;color:red&#x27;&gt;&quot;</span>, 
+    <span class="hljs-string">&quot;post_tags&quot;</span>: <span class="hljs-string">&quot;&lt;/p&gt;&quot;</span>, 
+    <span class="hljs-string">&quot;fields&quot;</span>: &#123;
+      <span class="hljs-string">&quot;name&quot;</span>:&#123;&#125;
+    &#125;
+  &#125;
+&#125;</code></pre></div>
+
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/daycen/drawing-bed/raw/master/img/20210505105206.png" alt="image-20210206105030939"></p>
+<h2 id="9-Python-elasticsearch基本用法"><a href="#9-Python-elasticsearch基本用法" class="headerlink" title="9 Python-elasticsearch基本用法"></a>9 Python-elasticsearch基本用法</h2><p>官方文档：<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/client/python-api/current/connecting.html#_getting_a_document">https://www.elastic.co/guide/en/elasticsearch/client/python-api/current/connecting.html#_getting_a_document</a></p>
+<h3 id="9-1-安装及初始化"><a href="#9-1-安装及初始化" class="headerlink" title="9.1 安装及初始化"></a>9.1 安装及初始化</h3><p>使用pip安装即可</p>
+<div class="code-wrapper"><pre><code class="hljs shell">pip install elasticsearch
+pip install elasticsearch[async]	#支持异步，可不安装</code></pre></div>
+
+<h3 id="9-2-实例化es客户端"><a href="#9-2-实例化es客户端" class="headerlink" title="9.2 实例化es客户端"></a>9.2 <strong>实例化es客户端</strong></h3><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/daycen/drawing-bed/raw/master/img/20210505105207.png" alt="image-20210219115247238"></p>
+<p>实际上这里文档中给了三种创建客户端的方式，我们选择HTTP authentication方式（看起来清晰一些，当然你也可以用别的）实例化es对象</p>
+<div class="code-wrapper"><pre><code class="hljs python">es = Elasticsearch(
+    [
+        &#123;<span class="hljs-string">&quot;host&quot;</span>: <span class="hljs-string">&quot;127.0.0.1&quot;</span>, <span class="hljs-string">&quot;port&quot;</span>: <span class="hljs-number">9200</span>&#125;,
+    ],
+    http_auth=(<span class="hljs-string">&quot;username&quot;</span>, <span class="hljs-string">&quot;secret&quot;</span>),
+    timeout=<span class="hljs-number">3600</span>
+)</code></pre></div>
+
+<p>ES提供了两种搜索的方式：　　</p>
+<p>　 请求参数方式</p>
+<p>　 请求体方式（带body 的那种查询，把查询的内容放入body中，会造成一定的开销，但是易于理解）</p>
+<p>这里我们使用请求体方式进行搜索</p>
+<p>配置一个body</p>
+<div class="code-wrapper"><pre><code class="hljs python">body = &#123;
+    <span class="hljs-string">&quot;settings&quot;</span>: &#123;
+        <span class="hljs-string">&quot;number_of_shards&quot;</span>: <span class="hljs-number">3</span>,
+        <span class="hljs-string">&quot;number_of_replicas&quot;</span>: <span class="hljs-number">2</span>
+    &#125;,
+    <span class="hljs-string">&quot;mappings&quot;</span>:&#123;
+        <span class="hljs-comment"># &quot;_doc&quot;:&#123;</span>
+        <span class="hljs-string">&quot;properties&quot;</span>:&#123;
+            <span class="hljs-string">&quot;id&quot;</span>:&#123;
+                <span class="hljs-string">&quot;type&quot;</span>:<span class="hljs-string">&quot;integer&quot;</span>,
+            &#125;,
+            <span class="hljs-string">&quot;text&quot;</span>: &#123;
+                <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;text&quot;</span>,
+                <span class="hljs-string">&quot;analyzer&quot;</span>: <span class="hljs-string">&quot;ik_max_word&quot;</span>,  <span class="hljs-comment">#指定ik分词器，适用中文分词。</span>
+                <span class="hljs-string">&quot;index&quot;</span>:<span class="hljs-literal">False</span>
+            &#125;,
+            <span class="hljs-string">&quot;userId&quot;</span>: &#123;
+                <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;long&quot;</span>,
+            &#125;,
+            <span class="hljs-string">&quot;reprinted&quot;</span>: &#123;
+                <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;keyword&quot;</span>,
+            &#125;,
+        &#125;</code></pre></div>
+
+<p>注：可以看到，body中实际上就是之前我们使用请求体参数搜索时设置的一些东西</p>
+<h3 id="9-3-单一操作"><a href="#9-3-单一操作" class="headerlink" title="9.3 单一操作"></a>9.3 单一操作</h3><h4 id="增加"><a href="#增加" class="headerlink" title="增加"></a>增加</h4><p><strong>create</strong></p>
+<p>必须指定待查询的idnex、type、id和查询体body；缺一不可，否则报错</p>
+<div class="code-wrapper"><pre><code class="hljs python">es.indices.create(index = <span class="hljs-string">&quot;testpy&quot;</span>, body = body)</code></pre></div>
+
+<p><strong>index</strong>　</p>
+<p>相比于create，index的用法就相对灵活很多；id并非是一个必选项，如果指定，则该文档的id就是指定值，若不指定，则系统会自动生成一个全局唯一的id赋给该文档。</p>
+<div class="code-wrapper"><pre><code class="hljs python">es.index(index = <span class="hljs-string">&quot;testpy&quot;</span>, doc_type = <span class="hljs-string">&quot;_doc&quot;</span>, <span class="hljs-built_in">id</span> = <span class="hljs-number">1</span>, body = &#123;<span class="hljs-string">&quot;id&quot;</span>:<span class="hljs-number">1</span>, <span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;小明&quot;</span>&#125;)</code></pre></div>
+
+<h4 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h4><p>　　delete：删除指定index、type、id的文档</p>
+<div class="code-wrapper"><pre><code class="hljs python">es.indices.delete(index = <span class="hljs-string">&#x27;test&#x27;</span>)</code></pre></div>
+
+<h4 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h4><p>　　get：获取指定index、type、id所对应的文档</p>
+<div class="code-wrapper"><pre><code class="hljs python">es.get(index=<span class="hljs-string">&quot;testpy&quot;</span>, <span class="hljs-built_in">id</span>=<span class="hljs-number">2</span>)</code></pre></div>
+
+<h4 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h4><p>　　update：跟新指定index、type、id所对应的文档</p>
+<div class="code-wrapper"><pre><code class="hljs python">es.update(index=<span class="hljs-string">&#x27;testpy&#x27;</span>, doc_type=<span class="hljs-string">&#x27;_doc&#x27;</span>, <span class="hljs-built_in">id</span>=<span class="hljs-string">&#x27;2&#x27;</span>, body=&#123;待更新字段&#125;)</code></pre></div>
+
+<h3 id="9-4-批量操作"><a href="#9-4-批量操作" class="headerlink" title="9.4 批量操作"></a>9.4 批量操作</h3><h4 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h4><p>search：查询满足条件的所有文档，没有id属性，且index，type和body均可为None。 body的语法格式必须符合DSL格式</p>
+<div class="code-wrapper"><pre><code class="hljs python">es.search(index = <span class="hljs-string">&quot;test&quot;</span>, doc_type = <span class="hljs-string">&quot;_doc&quot;</span>, body = query)</code></pre></div>
+
+<p>复合查询语句</p>
+<div class="code-wrapper"><pre><code class="hljs python">query = &#123;<span class="hljs-string">&#x27;query&#x27;</span>: &#123;<span class="hljs-string">&#x27;match_all&#x27;</span>: &#123;&#125;&#125;&#125;<span class="hljs-comment"># 查找所有文档</span>
+query = &#123;<span class="hljs-string">&#x27;query&#x27;</span>: &#123;<span class="hljs-string">&#x27;term&#x27;</span>: &#123;<span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;jack&#x27;</span>&#125;&#125;&#125;<span class="hljs-comment"># 查找名字叫做jack的所有文档</span>
+query = &#123;<span class="hljs-string">&#x27;query&#x27;</span>: &#123;<span class="hljs-string">&#x27;range&#x27;</span>: &#123;<span class="hljs-string">&#x27;age&#x27;</span>: &#123;<span class="hljs-string">&#x27;gt&#x27;</span>: <span class="hljs-number">11</span>&#125;&#125;&#125;&#125;<span class="hljs-comment"># 查找年龄大于11的所有文档</span>
+allDoc = es.search(index=<span class="hljs-string">&#x27;indexName&#x27;</span>, doc_type=<span class="hljs-string">&#x27;typeName&#x27;</span>, body=query)</code></pre></div>
+
+<h4 id="删除-1"><a href="#删除-1" class="headerlink" title="删除"></a>删除</h4><p>delete_by_query</p>
+<div class="code-wrapper"><pre><code class="hljs python">query = &#123;<span class="hljs-string">&#x27;query&#x27;</span>: &#123;<span class="hljs-string">&#x27;match&#x27;</span>: &#123;<span class="hljs-string">&#x27;sex&#x27;</span>: <span class="hljs-string">&#x27;famale&#x27;</span>&#125;&#125;&#125;<span class="hljs-comment"># 删除性别为女性的所有文档</span>
+query = &#123;<span class="hljs-string">&#x27;query&#x27;</span>: &#123;<span class="hljs-string">&#x27;range&#x27;</span>: &#123;<span class="hljs-string">&#x27;age&#x27;</span>: &#123;<span class="hljs-string">&#x27;lt&#x27;</span>: <span class="hljs-number">11</span>&#125;&#125;&#125;&#125;<span class="hljs-comment"># 删除年龄小于11的所有文档</span>
+es.delete_by_query(index=<span class="hljs-string">&#x27;indexName&#x27;</span>, body=query, doc_type=<span class="hljs-string">&#x27;typeName&#x27;</span>)</code></pre></div>
+
+<h4 id="更新-1"><a href="#更新-1" class="headerlink" title="更新"></a>更新</h4><p>update_by_query</p>
+<div class="code-wrapper"><pre><code class="hljs python">query = &#123;
+            <span class="hljs-string">&quot;script&quot;</span>: &#123;
+            <span class="hljs-string">&quot;lang&quot;</span>: <span class="hljs-string">&quot;painless&quot;</span>,
+            <span class="hljs-comment"># &quot;inline&quot;: &quot;if (ctx._source.test_code == null) &#123;ctx._source.test_code= &#x27;02&#x27;&#125;&quot;</span>
+            <span class="hljs-string">&quot;inline&quot;</span>: <span class="hljs-string">&quot;ctx._source.kw_sourceType= &#x27;trueTime&#x27;&quot;</span>   <span class="hljs-comment">#新增字段kw_sourceType值为trueTime</span>
+              &#125;
+            &#125;
+res = es.update_by_query(index=<span class="hljs-string">&quot;hot_rank&quot;</span>, doc_type=<span class="hljs-string">&quot;baidu_hot_search_rank&quot;</span>, body=query)</code></pre></div>
+
+<h3 id="9-5-完整测试工程代码"><a href="#9-5-完整测试工程代码" class="headerlink" title="9.5 完整测试工程代码"></a>9.5 完整测试工程代码</h3><div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> elasticsearch <span class="hljs-keyword">import</span> Elasticsearch
+<span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime
+<span class="hljs-comment">#from elasticsearch import AsyncElasticsearch</span>
+
+<span class="hljs-comment">#es = Elasticsearch(host=&quot;localhost&quot;, port=9200)</span>
+
+es = Elasticsearch(
+    [
+        &#123;<span class="hljs-string">&quot;host&quot;</span>: <span class="hljs-string">&quot;127.0.0.1&quot;</span>, <span class="hljs-string">&quot;port&quot;</span>: <span class="hljs-number">9200</span>&#125;,
+    ],
+    http_auth=(<span class="hljs-string">&quot;username&quot;</span>, <span class="hljs-string">&quot;secret&quot;</span>),
+    timeout=<span class="hljs-number">3600</span>
+)
+body = &#123;
+    <span class="hljs-string">&quot;settings&quot;</span>: &#123;
+        <span class="hljs-string">&quot;number_of_shards&quot;</span>: <span class="hljs-number">3</span>,
+        <span class="hljs-string">&quot;number_of_replicas&quot;</span>: <span class="hljs-number">2</span>
+    &#125;,
+    <span class="hljs-string">&quot;mappings&quot;</span>:&#123;
+        <span class="hljs-comment"># &quot;_doc&quot;:&#123;</span>
+        <span class="hljs-string">&quot;properties&quot;</span>:&#123;
+            <span class="hljs-string">&quot;id&quot;</span>:&#123;
+                <span class="hljs-string">&quot;type&quot;</span>:<span class="hljs-string">&quot;integer&quot;</span>,
+            &#125;,
+            <span class="hljs-string">&quot;text&quot;</span>: &#123;
+                <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;text&quot;</span>,
+                <span class="hljs-string">&quot;analyzer&quot;</span>: <span class="hljs-string">&quot;ik_max_word&quot;</span>,  <span class="hljs-comment">#指定ik分词器，适用中文分词。</span>
+                <span class="hljs-string">&quot;index&quot;</span>:<span class="hljs-literal">False</span>
+            &#125;,
+            <span class="hljs-string">&quot;userId&quot;</span>: &#123;
+                <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;long&quot;</span>,
+            &#125;,
+            <span class="hljs-string">&quot;reprinted&quot;</span>: &#123;
+                <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;keyword&quot;</span>,
+            &#125;,
+        &#125;
+        <span class="hljs-comment"># &#125;</span>
+    &#125;
+&#125;
+<span class="hljs-comment">#创建 index</span>
+<span class="hljs-comment">#es.indices.create(index = &quot;testpy&quot;, body = body)</span>
+<span class="hljs-comment">#删除 index</span>
+<span class="hljs-comment">#es.indices.delete(index = &#x27;test&#x27;)</span>
+
+<span class="hljs-comment">#插入数据</span>
+<span class="hljs-comment">#es.index(index = &quot;testpy&quot;, doc_type = &quot;_doc&quot;, id = 1, body = &#123;&quot;id&quot;:1, &quot;name&quot;:&quot;小明&quot;&#125;)</span>
+<span class="hljs-comment">#可以不用指定id，create会自动添加id。</span>
+<span class="hljs-comment">#es.create(index=&quot;testpy&quot;, doc_type = &quot;_doc&quot;,id = 2, body = &#123;&quot;id&quot;:2, &quot;name&quot;:&quot;小红&quot;&#125;)</span>
+
+<span class="hljs-string">&#x27;&#x27;&#x27;doc = &#123;</span>
+<span class="hljs-string">    &#x27;author&#x27;: &#x27;author_name&#x27;,</span>
+<span class="hljs-string">    &#x27;text&#x27;: &#x27;Interensting content...&#x27;,</span>
+<span class="hljs-string">    &#x27;timestamp&#x27;: datetime.now(),</span>
+<span class="hljs-string">&#125;&#x27;&#x27;&#x27;</span>
+
+res = es.get(index=<span class="hljs-string">&quot;testpy&quot;</span>, <span class="hljs-built_in">id</span>=<span class="hljs-number">2</span>)
+<span class="hljs-comment">#es.search(index = &quot;test&quot;, doc_type = &quot;_doc&quot;, body = query)</span>
+<span class="hljs-built_in">print</span>(res[<span class="hljs-string">&#x27;_source&#x27;</span>])</code></pre></div>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Technical/">Technical</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Technical/Distributed/">Distributed</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ElasticSearch/">ElasticSearch</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/06/08/%E5%9F%BA%E4%BA%8E%E7%89%A9%E8%81%94%E7%BD%91(IoT)%E7%9A%84%E5%A4%AA%E9%98%B3%E8%83%BD%E8%B7%9F%E8%B8%AA%E5%99%A8/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">基于物联网(IoT)的太阳能跟踪器</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/05/25/Kafka%E5%AD%A6%E4%B9%A0/">
+                        <span class="hidden-mobile">Kafka 学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=a;var i=n.imageLazyLoadSetting.isSPA,o=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function a(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var a=0;a<r.length;a++)t=r[a],0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight*o||document.documentElement.clientHeight*o)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}();var t,e}a(),n.addEventListener("scroll",function(){var t,e;t=a,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>

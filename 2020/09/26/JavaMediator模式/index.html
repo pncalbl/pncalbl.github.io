@@ -1,0 +1,671 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon-t.png">
+  <link rel="icon" href="/img/favicon-t.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="pncalbl">
+  <meta name="keywords" content="计算机,开发,编程,代码,博客,技术">
+  
+  <title>JavaMediator模式 - pncalbl</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"pncalbl.github.io","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/rss2.xml" title="pncalbl" type="application/rss+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>pncalbl</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/post.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="JavaMediator模式">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      pncalbl
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-09-26 00:00" pubdate>
+        2020年9月26日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      753 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      12
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JavaMediator模式</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：3 个月前
+                
+              </p>
+            
+            <div class="markdown-body">
+              <blockquote>
+<p>  只有一个仲裁者</p>
+</blockquote>
+<h2 id="1-定义”仲裁者”的接口-API-的接口"><a href="#1-定义”仲裁者”的接口-API-的接口" class="headerlink" title="1 - 定义”仲裁者”的接口(API)的接口"></a>1 - 定义”仲裁者”的接口(API)的接口</h2><div class="code-wrapper"><pre><code>public interface Mediator &#123;
+    public abstract void createColleagues();
+    public abstract void colleagueChanged();
+&#125;</code></pre></div><h2 id="2-定义”组员”的接口-API-的接口"><a href="#2-定义”组员”的接口-API-的接口" class="headerlink" title="2 - 定义”组员”的接口(API)的接口"></a>2 - 定义”组员”的接口(API)的接口</h2><div class="code-wrapper"><pre><code>public interface Colleague &#123;
+    public abstract void setMediator(Mediator mediator);
+    public abstract void setColleagueEnabled(boolean enabled);
+&#125;</code></pre></div><h2 id="3-表示按钮的类-它实现了Colleague接口"><a href="#3-表示按钮的类-它实现了Colleague接口" class="headerlink" title="3 - 表示按钮的类, 它实现了Colleague接口"></a>3 - 表示按钮的类, 它实现了Colleague接口</h2><div class="code-wrapper"><pre><code>public class ColleagueButton extends Button implements Colleague &#123;
+    private Mediator mediator;
+
+    public ColleagueButton(String caption) &#123;
+        super(caption);
+    &#125;
+
+    @Override
+    public void setMediator(Mediator mediator) &#123;    // 保存Mediator
+        this.mediator = mediator;
+    &#125;
+
+    @Override
+    public void setColleagueEnabled(boolean enabled) &#123;  // Mediator 下达启用/禁用的指示
+        setEnabled(enabled);
+    &#125;
+&#125;</code></pre></div><h2 id="4-表示文本输入框的类-它实现了Colleague接口"><a href="#4-表示文本输入框的类-它实现了Colleague接口" class="headerlink" title="4 - 表示文本输入框的类, 它实现了Colleague接口"></a>4 - 表示文本输入框的类, 它实现了Colleague接口</h2><div class="code-wrapper"><pre><code>public class ColleagueTextField extends TextField implements TextListener, Colleague &#123;
+    private Mediator mediator;
+
+    public ColleagueTextField(String text, int columns)&#123;
+        super(text, columns);
+    &#125;
+
+    @Override
+    public void textValueChanged(TextEvent textEvent) &#123; // 当文字发生改变时通知Mediator
+        mediator.colleagueChanged();
+    &#125;
+
+    @Override
+    public void setMediator(Mediator mediator) &#123;
+        this.mediator = mediator;
+    &#125;
+
+    @Override
+    public void setColleagueEnabled(boolean enabled) &#123;  // Mediator 下达启用/禁用的指示
+        setEnabled(enabled);
+        setBackground(enabled ? Color.white : Color.lightGray);
+    &#125;
+&#125;</code></pre></div><h2 id="5-表示勾选框-此处是单按钮-的类-它实现了Colleague接口"><a href="#5-表示勾选框-此处是单按钮-的类-它实现了Colleague接口" class="headerlink" title="5 - 表示勾选框(此处是单按钮)的类, 它实现了Colleague接口"></a>5 - 表示勾选框(此处是单按钮)的类, 它实现了Colleague接口</h2><div class="code-wrapper"><pre><code>public class ColleagueCheckbox extends Checkbox implements ItemListener, Colleague &#123;
+    private Mediator mediator;
+
+    public ColleagueCheckbox(String caption, CheckboxGroup group, boolean state) &#123;
+        super(caption, group, state);
+    &#125;
+
+    @Override
+    public void itemStateChanged(ItemEvent itemEvent) &#123; // 当状态发生改变时通知Mediator
+        mediator.colleagueChanged();
+    &#125;
+
+    @Override
+    public void setMediator(Mediator mediator) &#123;
+        this.mediator = mediator;
+    &#125;
+
+    @Override
+    public void setColleagueEnabled(boolean enabled) &#123;  // Mediator 下达启用/禁用的指示
+        setEnabled(enabled);
+    &#125;
+&#125;</code></pre></div><h2 id="6-表示登录对话框的类-它实现了Mediator接口"><a href="#6-表示登录对话框的类-它实现了Mediator接口" class="headerlink" title="6 - 表示登录对话框的类, 它实现了Mediator接口"></a>6 - 表示登录对话框的类, 它实现了Mediator接口</h2><div class="code-wrapper"><pre><code>public class LoginFrame extends Frame implements ActionListener, Mediator &#123;
+    private ColleagueCheckbox checkGuest;
+    private ColleagueCheckbox checkLogin;
+    private ColleagueTextField textUser;
+    private ColleagueTextField textPass;
+    private ColleagueButton buttonOk;
+    private ColleagueButton buttonCancel;
+
+    // 构造函数
+    // 生成并配置各个Colleague后,显示对话框
+    public  LoginFrame(String title) &#123;
+        super(title);
+        setBackground(Color.LIGHT_GRAY);
+        // 使用布局管理器生成4x2的窗格
+        setLayout(new GridLayout(4, 2));
+        // 生成各个Colleague
+        createColleagues();
+        // 配置
+        add(checkGuest);
+        add(checkLogin);
+        add(new Label(&quot;Username:&quot;));
+        add(textUser);
+        add(new Label(&quot;Password&quot;));
+        add(textPass);
+        add(buttonOk);
+        add(buttonCancel);
+        // 设置初始的启用/禁用状态
+        colleagueChanged();
+        // 显示
+        pack();
+        show();
+    &#125;
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) &#123;
+        System.out.println(actionEvent.toString());
+        System.exit(0);
+    &#125;
+
+    // 生成各个Colleague
+    @Override
+    public void createColleagues() &#123;
+        // 生成
+        CheckboxGroup g = new CheckboxGroup();
+        checkGuest = new ColleagueCheckbox(&quot;Guest&quot;, g, true);
+        checkLogin = new ColleagueCheckbox(&quot;Login&quot;, g, false);
+        textUser = new ColleagueTextField(&quot;&quot;, 10);
+        textPass = new ColleagueTextField(&quot;&quot;, 10);
+        textPass.setEchoChar(&apos;*&apos;);
+        buttonOk = new ColleagueButton(&quot;OK&quot;);
+        buttonCancel = new ColleagueButton(&quot;Cancel&quot;);
+        // 设置Mediator
+        checkGuest.setMediator(this);
+        checkLogin.setMediator(this);
+        textUser.setMediator(this);
+        textPass.setMediator(this);
+        buttonOk.setMediator(this);
+        buttonCancel.setMediator(this);
+        // 设置Listener
+        checkGuest.addItemListener(checkGuest);
+        checkLogin.addItemListener(checkLogin);
+        textUser.addTextListener(textUser);
+        textPass.addTextListener(textPass);
+        buttonOk.addActionListener(this);
+        buttonCancel.addActionListener(this);
+
+    &#125;
+
+    // 接收来自于Colleague的通知然后判断个Colleague的启用/禁用状态
+    @Override
+    public void colleagueChanged() &#123;
+        if(checkGuest.getState()) &#123;
+            textUser.setColleagueEnabled(false);
+            textPass.setColleagueEnabled(false);
+            buttonOk.setColleagueEnabled(true);
+        &#125;else &#123;
+            textUser.setColleagueEnabled(true);
+            underpassChanged();
+        &#125;
+    &#125;
+
+    // 当textUser或textPass文本输入框中的文字发生变化时
+    // 判断Colleague的启用/禁用状态
+    public void underpassChanged() &#123;
+        if (textUser.getText().length() &gt; 0) &#123;
+            textPass.setColleagueEnabled(true);
+            if (textPass.getText().length() &gt; 0) &#123;
+                buttonOk.setColleagueEnabled(true);
+            &#125; else &#123;
+                buttonOk.setColleagueEnabled(false);
+            &#125;
+        &#125; else &#123;
+            textPass.setColleagueEnabled(false);
+            buttonOk.setColleagueEnabled(false);
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="7-表示测试程序行为的类"><a href="#7-表示测试程序行为的类" class="headerlink" title="7 - 表示测试程序行为的类"></a>7 - 表示测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        new LoginFrame(&quot;Mediator Sample&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="8-输出示例"><a href="#8-输出示例" class="headerlink" title="8 - 输出示例"></a>8 - 输出示例</h2><div class="code-wrapper"><pre><code>// 具体见窗口
+java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=OK,
+when=1601126737494,modifiers=] on button0</code></pre></div>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/09/28/JavaObserver%E6%A8%A1%E5%BC%8F/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JavaObserver模式</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/09/25/JavaFacade%E6%A8%A1%E5%BC%8F/">
+                        <span class="hidden-mobile">JavaFacade模式</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=a;var i=n.imageLazyLoadSetting.isSPA,o=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function a(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var a=0;a<r.length;a++)t=r[a],0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight*o||document.documentElement.clientHeight*o)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}();var t,e}a(),n.addEventListener("scroll",function(){var t,e;t=a,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>

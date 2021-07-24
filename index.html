@@ -1,0 +1,979 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon-t.png">
+  <link rel="icon" href="/img/favicon-t.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="pncalbl">
+  <meta name="keywords" content="计算机,开发,编程,代码,博客,技术">
+  
+  <title>pncalbl</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"pncalbl.github.io","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/rss2.xml" title="pncalbl" type="application/rss+xml">
+</head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>pncalbl</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/home.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="今天的学习任务是什么呢?!">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/07/22/K8s%E5%AD%A6%E4%B9%A0/" target="_self">
+          K8s 学习
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/07/22/K8s%E5%AD%A6%E4%B9%A0/" target="_self">
+          
+          
+            
+          
+          第1章 Kubernetes简介1 来源bilibili尚硅谷K8s视频：https://www.bilibili.com/video/BV1GT4y1A756
+中文官网：https://kubernetes.io/zh
+中文社区：https://www.kubernetes.org.cn/
+2 介绍K8s主要讲的就是Kubernetes，首先Kubernetes首字母为K，末尾为s，中间一共有8
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-07-22 00:00" pubdate>
+              2021-07-22
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Technical/">Technical</a>
+            
+              <a href="/categories/Technical/Distributed/">Distributed</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/k8s/">k8s</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/07/20/JVM%E5%AD%A6%E4%B9%A0/" target="_self">
+          JVM 学习
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/07/20/JVM%E5%AD%A6%E4%B9%A0/" target="_self">
+          
+          
+            
+          
+          第一部分 内存与垃圾回收第1章 JVM与Java体系结构1 前言作为Java工程师的你曾被伤害过吗？你是否也遇到过这些问题？
+运行着的线上系统突然卡死，系统无法访问，甚至直接OOMM！
+
+想解决线上JVM GC问题，但却无从下手。
+新项目上线，对各种JVM参数设置一脸茫然，直接默认吧然后就JJ了
+每次面试之前都要重新背一遍JVM的一些原理概念性的东西，然而面试官却经常问你在实际项目中如何调优VM参
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-07-20 00:00" pubdate>
+              2021-07-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/Tool/">Tool</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/06/08/%E5%9F%BA%E4%BA%8E%E7%89%A9%E8%81%94%E7%BD%91(IoT)%E7%9A%84%E5%A4%AA%E9%98%B3%E8%83%BD%E8%B7%9F%E8%B8%AA%E5%99%A8/" target="_self">
+          基于物联网(IoT)的太阳能跟踪器
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/06/08/%E5%9F%BA%E4%BA%8E%E7%89%A9%E8%81%94%E7%BD%91(IoT)%E7%9A%84%E5%A4%AA%E9%98%B3%E8%83%BD%E8%B7%9F%E8%B8%AA%E5%99%A8/" target="_self">
+          
+          
+            
+          
+          基于物联网(IoT)的太阳能跟踪器1 项目概述
+该项目提供了一个简单和低成本的 IoT 解决方案，用于监控和控制智能双轴太阳能跟踪系统，用于性能评估。
+
+项目中的基于 IoT 的太阳能跟踪系统在图 1 中进行了描述。它是一种双轴太阳能跟踪器，可以自动旋转，使用LDR传感器跟踪太阳的位置，或者用户通过物理控制的仪表板手动跟踪太阳的位置。系统从 LDR 传感器检测太阳位置（光的强度）开始，并将数据发送
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-06-08 00:00" pubdate>
+              2021-06-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Technical/">Technical</a>
+            
+              <a href="/categories/Technical/Hardware/">Hardware</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/IoT/">IoT</a>
+            
+              <a href="/tags/%E5%A4%AA%E9%98%B3%E8%83%BD/">太阳能</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/" target="_self">
+          ElasticSearch 学习
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/" target="_self">
+          
+          
+            
+          
+          ElasticSearch 学习0 聊聊DougCutting为什么要讲这个人,后面要聊大数据
+
+  本故事内容来自公众号：新枣课堂
+
+1998年9月4号,google公司在美国硅谷成立.正如大家所知,它是一家搜索引擎起家的公司
+
+无独有偶,一位名叫DougCutting的美国工程师,也迷上了搜索引擎.他做了一个用于文本搜索的函数库(姑且理解为软件的功能组件),命名为Lucene.
+
+Lucene
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-05-25 00:00" pubdate>
+              2021-05-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Technical/">Technical</a>
+            
+              <a href="/categories/Technical/Distributed/">Distributed</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/ElasticSearch/">ElasticSearch</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/05/25/Kafka%E5%AD%A6%E4%B9%A0/" target="_self">
+          Kafka 学习
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/05/25/Kafka%E5%AD%A6%E4%B9%A0/" target="_self">
+          
+          
+            
+          
+          Kafka 学习1 Kafka 入门1.1 文档
+Kafka官网主页
+
+Kafka官方文档
+
+
+1.2 什么是 KafkaKafka 是一个分布式的基于发布/订阅模式的消息队列（Message Queue），主要应用于大数据实时处理领域。
+1.3 消息队列传统消息队列的应用场景
+使用消息队列的好处
+解耦（类似Spring的IOC）
+允许你独立的扩展或修改两边的处理过程，只要确保它们遵守同样的接口约
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-05-25 00:00" pubdate>
+              2021-05-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Technical/">Technical</a>
+            
+              <a href="/categories/Technical/Distributed/">Distributed</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Kafka/">Kafka</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/05/22/Clion%E6%90%AD%E5%BB%BAGtest%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/" target="_self">
+          Clion搭建Gtest单元测试框架
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/05/22/Clion%E6%90%AD%E5%BB%BAGtest%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/" target="_self">
+          
+          
+            
+          
+          Clion搭建Gtest单元测试框架1 下载GTest源码git clone https://github.com/google/googletest.git
+
+下载下来的google gtest源码目录结构如下，里面包含了很多东西，这里我们只是想利用gtest对自己的代码进行单元测试，因此只需要关注红框所求的文件夹即可，其他的暂时不需要关注
+
+2 导入 Gtest使用CLion新建一下C++项目
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-05-22 00:00" pubdate>
+              2021-05-22
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Help/">Help</a>
+            
+              <a href="/categories/Help/Win/">Win</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Note/">Note</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/05/22/Netty%E5%AD%A6%E4%B9%A0/" target="_self">
+          Netty 学习
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/05/22/Netty%E5%AD%A6%E4%B9%A0/" target="_self">
+          
+          
+            
+          
+          Netty 学习1 Netty 介绍和应用场景1.1 本课程的学习要求
+本课程不适用于 0 基础的学员。
+要求已经掌握了 Java 编程，主要技术构成：Java OOP 编程、Java 多线程编程、Java IO 编程、Java 网络编程、常用的 Java 设计模式（比如观察者模式，命令模式，职责链模式）、常用的数据结构（比如链表）。
+本课程的《Netty 核心源码剖析章节》要求学员最好有项目开发
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-05-22 00:00" pubdate>
+              2021-05-22
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/Network/">Network</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/network/">network</a>
+            
+              <a href="/tags/framework/">framework</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/" target="_self">
+          Win10 搭建 PyTorch 环境
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/" target="_self">
+          
+          
+            
+          
+          Win10 搭建 PyTorch 环境0 说明为了进行深度学习，需要电脑上安装相应的软件，pytorch 就是其中一种。至于 pytorch 是什么的科普，建议去网上搜索。
+而为了安装好 pytorch，需要安装众多软件，网上一搜一大把流程。但事实上随着技术的更新，很多流程都会变得过时，就像我现在这篇，因此我也特意标注了时间。
+本流程的目的是：在 win 10 上安装 pytorch 且能调用 G
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-05-20 00:00" pubdate>
+              2021-05-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Help/">Help</a>
+            
+              <a href="/categories/Help/Win/">Win</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/PyTorch/">PyTorch</a>
+            
+              <a href="/tags/Win10/">Win10</a>
+            
+              <a href="/tags/Deep-learning/">Deep learning</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/05/10/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" target="_self">
+          Liunx 一般配置与命令
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/05/10/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" target="_self">
+          
+          
+            
+          
+          1 Liunx 常用命令命令行
+
+
+描述
+命令
+
+
+
+编辑环境变量
+vim /etc/profile
+
+
+生效环境变量
+source /etc/profile
+
+
+检查目标服务的端口监听状态
+netstat -ntlp | grep 3306
+
+
+启动目标服务
+systemctl start service
+
+
+检查目标服务的状态
+systemctl status service
+
+
+停止目标服务
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-05-10 00:00" pubdate>
+              2021-05-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Help/">Help</a>
+            
+              <a href="/categories/Help/Linux/">Linux</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Linux/">Linux</a>
+            
+              <a href="/tags/%E5%91%BD%E4%BB%A4/">命令</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/05/09/%E5%88%86%E6%9E%90%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/" target="_self">
+          分析开源项目
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/05/09/%E5%88%86%E6%9E%90%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/" target="_self">
+          
+          
+            
+          
+          分析开源项目 (EL-ADMIN)1 观察开源项目
+后端
+
+
+
+前端
+
+
+2 开源项目下载下载完毕 ==&gt; 解压 ==&gt; 不要着急运行
+观察
+
+用了那些技术 (Spring Boot 2.1.0 、 Spring Boot Jpa、 JWT、Spring Security、Redis、Vue、Element-UI)
+是否有数据库 (MySQL)
+你的环境是否匹配 (java， mave
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-05-09 00:00" pubdate>
+              2021-05-09
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Help/">Help</a>
+            
+              <a href="/categories/Help/Win/">Win</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%BC%80%E6%BA%90/">开源</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/#board">8</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=a;var i=n.imageLazyLoadSetting.isSPA,o=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function a(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var a=0;a<r.length;a++)t=r[a],0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight*o||document.documentElement.clientHeight*o)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}();var t,e}a(),n.addEventListener("scroll",function(){var t,e;t=a,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>

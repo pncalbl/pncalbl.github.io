@@ -1,0 +1,1628 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon-t.png">
+  <link rel="icon" href="/img/favicon-t.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="pncalbl">
+  <meta name="keywords" content="计算机,开发,编程,代码,博客,技术">
+  
+  <title>JVM 学习 - pncalbl</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"pncalbl.github.io","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/rss2.xml" title="pncalbl" type="application/rss+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>pncalbl</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/post.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="JVM 学习">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      pncalbl
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-20 00:00" pubdate>
+        2021年7月20日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      20k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      220
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JVM 学习</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：4 小时前
+                
+              </p>
+            
+            <div class="markdown-body">
+              <h1 id="第一部分-内存与垃圾回收"><a href="#第一部分-内存与垃圾回收" class="headerlink" title="第一部分 内存与垃圾回收"></a>第一部分 内存与垃圾回收</h1><h1 id="第1章-JVM与Java体系结构"><a href="#第1章-JVM与Java体系结构" class="headerlink" title="第1章 JVM与Java体系结构"></a>第1章 JVM与Java体系结构</h1><h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1 前言"></a>1 前言</h2><p>作为Java工程师的你曾被伤害过吗？你是否也遇到过这些问题？</p>
+<p>运行着的线上系统突然卡死，系统无法访问，甚至直接OOMM！</p>
+<ul>
+<li>想解决线上JVM GC问题，但却无从下手。</li>
+<li>新项目上线，对各种JVM参数设置一脸茫然，直接默认吧然后就JJ了</li>
+<li>每次面试之前都要重新背一遍JVM的一些原理概念性的东西，然而面试官却经常问你在实际项目中如何调优VM参数，如何解决GC、OOM等问题，一脸懵逼。</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/1_JVM%E4%B8%8EJava%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/images/image-20200704111417472.png" alt="image-20200704111417472"></p>
+<p>大部分Java开发人员，除会在项目中使用到与Java平台相关的各种高精尖技术，对于Java技术的核心Java虚拟机了解甚少。</p>
+<p>一些有一定工作经验的开发人员，打心眼儿里觉得SSM、微服务等上层技术才是重点，基础技术并不重要，这其实是一种本末倒置的“病态”。如果我们把核心类库的API比做数学公式的话，那么Java虚拟机的知识就好比公式的推导过程。</p>
+<p>计算机系统体系对我们来说越来越远，在不了解底层实现方式的前提下，通过高级语言很容易编写程序代码。但事实上计算机并不认识高级语言</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/1_JVM%E4%B8%8EJava%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/images/image-20200704112119729.png" alt="image-20200704112119729"></p>
+<h2 id="2-架构师每天都在思考什么？"><a href="#2-架构师每天都在思考什么？" class="headerlink" title="2 架构师每天都在思考什么？"></a>2 架构师每天都在思考什么？</h2><ul>
+<li>应该如何让我的系统更快？</li>
+<li>如何避免系统出现瓶颈？</li>
+</ul>
+<p>知乎上有条帖子：应该如何看招聘信息，直通年薪50万+？</p>
+<ul>
+<li>参与现有系统的性能优化，重构，保证平台性能和稳定性</li>
+<li>根据业务场景和需求，决定技术方向，做技术选型</li>
+<li>能够独立架构和设计海量数据下高并发分布式解决方案，满足功能和非功能需求</li>
+<li>解决各类潜在系统风险，核心功能的架构与代码编写</li>
+<li>分析系统瓶颈，解决各种疑难杂症，性能调优等</li>
+</ul>
+<h2 id="3-为什么要学习JVM"><a href="#3-为什么要学习JVM" class="headerlink" title="3 为什么要学习JVM"></a>3 为什么要学习JVM</h2><ul>
+<li><p>面试的需要（BATJ、TMD，PKQ等面试都爱问）</p>
+</li>
+<li><p>中高级程序员必备技能</p>
+<ul>
+<li>项目管理、调优的需求</li>
+</ul>
+</li>
+<li><p>追求极客的精神</p>
+<ul>
+<li>比如：垃圾回收算法、JIT（及时编译器）、底层原理</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-Java-vs-C"><a href="#4-Java-vs-C" class="headerlink" title="4 Java vs C++"></a>4 Java vs C++</h2><p>垃圾收集机制为我们打理了很多繁琐的工作，大大提高了开发的效率，但是，垃圾收集也不是万能的，懂得JVM内部的内存结构、工作机制，是设计高扩展性应用和诊断运行时问题的基础，也是Java工程师进阶的必备能力。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/1_JVM%E4%B8%8EJava%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/images/image-20200704112700211.png" alt="image-20200704112700211"></p>
+<p>C语言需要自己来分配内存和回收内存，Java全部交给JVM进行分配和回收。</p>
+<h2 id="5-推荐书籍"><a href="#5-推荐书籍" class="headerlink" title="5 推荐书籍"></a>5 推荐书籍</h2><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/1_JVM%E4%B8%8EJava%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/images/image-20200704145340513.png" alt="image-20200704145340513"></p>
+<h2 id="6-Java生态圈"><a href="#6-Java生态圈" class="headerlink" title="6 Java生态圈"></a>6 Java生态圈</h2><p>Java是目前应用最为广泛的软件开发平台之一。随着Java以及Java社区的不断壮大Java 也早已不再是简简单单的一门计算机语言了，它更是一个平台、一种文化、一个社区。</p>
+<ul>
+<li><p>作为一个平台，Java虚拟机扮演着举足轻重的作用</p>
+<ul>
+<li>Groovy、Scala、JRuby、Kotlin等都是Java平台的一部分</li>
+</ul>
+</li>
+<li><p>作为灯种文化，Java几乎成为了“开源”的代名词。</p>
+<ul>
+<li>第三方开源软件和框架。如Tomcat、Struts，MyBatis，Spring等。</li>
+<li>就连JDK和JVM自身也有不少开源的实现，如openJDK、Harmony。</li>
+</ul>
+</li>
+<li><p>作为一个社区，Java拥有全世界最多的技术拥护者和开源社区支持，有数不清的论坛和资料。从桌面应用软件、嵌入式开发到企业级应用、后台服务器、中间件，都可以看到Java的身影。其应用形式之复杂、参与人数之众多也令人咋舌。</p>
+</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/1_JVM%E4%B8%8EJava%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/images/image-20200704151731216.png" alt="image-20200704151731216"></p>
+<p>每个语言都需要转换成字节码文件，最后转换的字节码文件都能通过Java虚拟机进行运行和处理</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/1_JVM%E4%B8%8EJava%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/images/image-20200704152052489.png" alt="image-20200704152052489"></p>
+<p>随着Java7的正式发布，Java虚拟机的设计者们通过JSR-292规范基本实现在Java虚拟机平台上运行非Java语言编写的程序。</p>
+<p>Java虚拟机根本不关心运行在其内部的程序到底是使用何种编程语言编写的，它只关心“字节码”文件。也就是说Java虚拟机拥有语言无关性，并不会单纯地与Java语言“终身绑定”，只要其他编程语言的编译结果满足并包含Java虚拟机的内部指令集、符号表以及其他的辅助信息，它就是一个有效的字节码文件，就能够被虚拟机所识别并装载运行。</p>
+<h2 id="7-字节码"><a href="#7-字节码" class="headerlink" title="7 字节码"></a>7 字节码</h2><p>我们平时说的java字节码，指的是用java语言编译成的字节码。准确的说任何能在jvm平台上执行的字节码格式都是一样的。所以应该统称为：jvm字节码。</p>
+<p>不同的编译器，可以编译出相同的字节码文件，字节码文件也可以在不同的JVM上运行。</p>
+<p>Java虚拟机与Java语言并没有必然的联系，它只与特定的二进制文件格式—Class文件格式所关联，Class文件中包含了Java虚拟机指令集（或者称为字节码、Bytecodes）和符号表，还有一些其他辅助信息。</p>
+<h2 id="8-多语言混合编程"><a href="#8-多语言混合编程" class="headerlink" title="8 多语言混合编程"></a>8 多语言混合编程</h2><p>Java平台上的多语言混合编程正成为主流，通过特定领域的语言去解决特定领域的问题是当前软件开发应对日趋复杂的项目需求的一个方向。</p>
+<p>试想一下，在一个项目之中，并行处理用clojure语言编写，展示层使用JRuby/Rails，中间层则是Java，每个应用层都将使用不同的编程语言来完成，而且，接口对每一层的开发者都是透明的，各种语言之间的交互不存在任何困难，就像使用自己语言的原生API一样方便，因为它们最终都运行在一个虚拟机之上。</p>
+<p>对这些运行于Java虚拟机之上、Java之外的语言，来自系统级的、底层的支持正在迅速增强，以JSR-292为核心的一系列项目和功能改进（如Da Vinci Machine项目、Nashorn引擎、InvokeDynamic指令、java.lang.invoke包等），推动Java虚拟机从“Java语言的虚拟机”向 “多语言虚拟机”的方向发展。</p>
+<h2 id="9-Java发展的重大事件"><a href="#9-Java发展的重大事件" class="headerlink" title="9 Java发展的重大事件"></a>9 Java发展的重大事件</h2><ul>
+<li><p>1990年，在Sun计算机公司中，由Patrick Naughton、MikeSheridan及James Gosling领导的小组Green Team，开发出的新的程序语言，命名为oak，后期命名为Java</p>
+</li>
+<li><p>1995年，Sun正式发布Java和HotJava产品，Java首次公开亮相。</p>
+</li>
+<li><p>1996年1月23日sun Microsystems发布了JDK 1.0。</p>
+</li>
+<li><p>1998年，JDK1.2版本发布。同时，sun发布了JSP/Servlet、EJB规范，以及将Java分成了J2EE、J2SE和J2ME。这表明了Java开始向企业、桌面应用和移动设备应用3大领域挺进。</p>
+</li>
+<li><p>2000年，JDK1.3发布，Java HotSpot Virtual Machine正式发布，成为Java的默认虚拟机。</p>
+</li>
+<li><p>2002年，JDK1.4发布，古老的Classic虚拟机退出历史舞台。</p>
+</li>
+<li><p>2003年年底，Java平台的scala正式发布，同年Groovy也加入了Java阵营。</p>
+</li>
+<li><p>2004年，JDK1.5发布。同时JDK1.5改名为JavaSE5.0。</p>
+</li>
+<li><p>2006年，JDK6发布。同年，Java开源并建立了openJDK。顺理成章，Hotspot虚拟机也成为了openJDK中的默认虚拟机。</p>
+</li>
+<li><p>2007年，Java平台迎来了新伙伴Clojure。</p>
+</li>
+<li><p>2008年，oracle收购了BEA，得到了JRockit虚拟机。</p>
+</li>
+<li><p>2009年，Twitter宣布把后台大部分程序从Ruby迁移到scala，这是Java平台的又一次大规模应用。</p>
+</li>
+<li><p>2010年，oracle收购了sun，获得Java商标和最真价值的HotSpot虚拟机。此时，oracle拥有市场占用率最高的两款虚拟机HotSpot和JRockit，并计划在未来对它们进行整合：HotRockit</p>
+</li>
+<li><p>2011年，JDK7发布。在JDK1.7u4中，正式启用了新的垃圾回收器G1。</p>
+</li>
+<li><p>2017年，JDK9发布。将G1设置为默认Gc，替代CMS</p>
+</li>
+<li><p>同年，IBM的J9开源，形成了现在的open J9社区</p>
+</li>
+<li><p>2018年，Android的Java侵权案判决，Google赔偿oracle计88亿美元</p>
+</li>
+<li><p>同年，oracle宣告JavagE成为历史名词JDBC、JMS、Servlet赠予Eclipse基金会</p>
+</li>
+<li><p>同年，JDK11发布，LTS版本的JDK，发布革命性的zGc，调整JDK授权许可</p>
+</li>
+<li><p>2019年，JDK12发布，加入RedHat领导开发的shenandoah GC</p>
+</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/1_JVM%E4%B8%8EJava%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/images/image-20200704182035810.png" alt="image-20200704182035810"></p>
+<p>在JDK11之前，oracleJDK中还会存在一些openJDK中没有的、闭源的功能。但在JDK11中，我们可以认为openJDK和oracleJDK代码实质上已经完全一致的程度。</p>
+<h2 id="10-虚拟机与Java虚拟机"><a href="#10-虚拟机与Java虚拟机" class="headerlink" title="10 虚拟机与Java虚拟机"></a>10 虚拟机与Java虚拟机</h2><h3 id="10-1-虚拟机"><a href="#10-1-虚拟机" class="headerlink" title="10.1 虚拟机"></a>10.1 虚拟机</h3><p>所谓虚拟机（Virtual Machine），就是一台虚拟的计算机。它是一款软件，用来执行一系列虚拟计算机指令。大体上，虚拟机可以分为系统虚拟机和程序虚拟机。</p>
+<ul>
+<li>大名鼎鼎的Visual Box，Mware就属于系统虚拟机，它们完全是对物理计算机的仿真，提供了一个可运行完整操作系统的软件平台。</li>
+<li>程序虚拟机的典型代表就是Java虚拟机，它专门为执行单个计算机程序而设计，在Java虚拟机中执行的指令我们称为Java字节码指令。</li>
+</ul>
+<p>无论是系统虚拟机还是程序虚拟机，在上面运行的软件都被限制于虚拟机提供的资源中。</p>
+<h3 id="10-2-Java虚拟机"><a href="#10-2-Java虚拟机" class="headerlink" title="10.2 Java虚拟机"></a>10.2 Java虚拟机</h3><p>Java虚拟机是一台执行Java字节码的虚拟计算机，它拥有独立的运行机制，其运行的Java字节码也未必由Java语言编译而成。</p>
+<p>JVM平台的各种语言可以共享Java虚拟机带来的跨平台性、优秀的垃圾回器，以及可靠的即时编译器。</p>
+<p>Java技术的核心就是Java虚拟机（JVM，Java Virtual Machine），因为所有的Java程序都运行在Java虚拟机内部。</p>
+<p>Java虚拟机就是二进制字节码的运行环境，负责装载字节码到其内部，解释/编译为对应平台上的机器指令执行。每一条Java指令，Java虚拟机规范中都有详细定义，如怎么取操作数，怎么处理操作数，处理结果放在哪里。</p>
+<p>特点：</p>
+<ul>
+<li>一次编译，到处运行</li>
+<li>自动内存管理</li>
+<li>自动垃圾回收功能</li>
+</ul>
+<h2 id="11-JVM的位置"><a href="#11-JVM的位置" class="headerlink" title="11 JVM的位置"></a>11 JVM的位置</h2><p>JVM是运行在操作系统之上的，它与硬件没有直接的交互</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/1_JVM%E4%B8%8EJava%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/images/image-20200704183048061.png" alt="image-20200704183048061"></p>
+<p>Java的体系结构</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/1_JVM%E4%B8%8EJava%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/images/image-20200704183236169.png" alt="image-20200704183236169"></p>
+<h2 id="12-JVM整体结构"><a href="#12-JVM整体结构" class="headerlink" title="12 JVM整体结构"></a>12 JVM整体结构</h2><ul>
+<li>HotSpot VM是目前市面上高性能虚拟机的代表作之一。</li>
+<li>它采用解释器与即时编译器并存的架构。</li>
+<li>在今天，Java程序的运行性能早已脱胎换骨，已经达到了可以和C/C++程序一较高下的地步。</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/1_JVM%E4%B8%8EJava%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/images/image-20200704183436495.png" alt="image-20200704183436495"></p>
+<p>执行引擎包含三部分：解释器，及时编译器，垃圾回收器</p>
+<h2 id="13-Java代码执行流程"><a href="#13-Java代码执行流程" class="headerlink" title="13 Java代码执行流程"></a>13 Java代码执行流程</h2><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/1_JVM%E4%B8%8EJava%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/images/image-20200704210429535.png" alt="image-20200704210429535"></p>
+<p>只是能生成被Java虚拟机所能解释的字节码文件，那么理论上就可以自己设计一套代码了</p>
+<h2 id="14-JVM的架构模型"><a href="#14-JVM的架构模型" class="headerlink" title="14 JVM的架构模型"></a>14 JVM的架构模型</h2><p>Java编译器输入的指令流基本上是一种基于栈的指令集架构，另外一种指令集架构则是基于寄存器的指令集架构。具体来说：这两种架构之间的区别：</p>
+<p>基于栈式架构的特点</p>
+<ul>
+<li>设计和实现更简单，适用于资源受限的系统；</li>
+<li>避开了寄存器的分配难题：使用零地址指令方式分配。</li>
+<li>指令流中的指令大部分是零地址指令，其执行过程依赖于操作栈。指令集更小，编译器容易实现。</li>
+<li>不需要硬件支持，可移植性更好，更好实现跨平台</li>
+</ul>
+<p>基于寄存器架构的特点</p>
+<ul>
+<li>典型的应用是x86的二进制指令集：比如传统的PC以及Android的Davlik虚拟机。</li>
+<li>指令集架构则完全依赖硬件，可移植性差</li>
+<li>性能优秀和执行更高效</li>
+<li>花费更少的指令去完成一项操作。</li>
+<li>在大部分情况下，基于寄存器架构的指令集往往都以一地址指令、二地址指令和三地址指令为主，而基于栈式架构的指令集却是以零地址指令为主方水洋</li>
+</ul>
+<h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>同样执行2+3这种逻辑操作，其指令分别如下：</p>
+<p>基于栈的计算流程（以Java虚拟机为例）：</p>
+<div class="code-wrapper"><pre><code class="hljs bash">iconst_2 //常量2入栈
+istore_1
+iconst_3 // 常量3入栈
+istore_2
+iload_1
+iload_2
+iadd //常量2/3出栈，执行相加
+istore_0 // 结果5入栈</code></pre></div>
+
+<p>而基于寄存器的计算流程</p>
+<div class="code-wrapper"><pre><code class="hljs bash">mov eax,2 //将eax寄存器的值设为1
+add eax,3 //使eax寄存器的值加3</code></pre></div>
+
+<h3 id="字节码反编译"><a href="#字节码反编译" class="headerlink" title="字节码反编译"></a>字节码反编译</h3><p>我们编写一个简单的代码，然后查看一下字节码的反编译后的结果</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> pncalbl</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2021/7/20 21:31</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@e</span>-mail pncalbl@qq.com</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@description</span></span>
+<span class="hljs-comment"> **/</span>
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StackStruTest</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span> + <span class="hljs-number">3</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>然后我们找到编译后的 class文件，使用下列命令进行反编译</p>
+<div class="code-wrapper"><pre><code class="hljs bash">javap -v StackStruTest.class</code></pre></div>
+
+<p>得到的文件为:</p>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">public</span> static void main(java.lang.String[]);
+  <span class="hljs-attribute">descriptor</span>: ([Ljava/lang/String;)V
+  <span class="hljs-attribute">flags</span>: ACC_PUBLIC, ACC_STATIC
+  <span class="hljs-attribute">Code</span>:
+    <span class="hljs-attribute">stack</span>=<span class="hljs-number">2</span>, locals=<span class="hljs-number">4</span>, args_size=<span class="hljs-number">1</span>
+       <span class="hljs-attribute">0</span>: iconst_<span class="hljs-number">2</span>
+       <span class="hljs-attribute">1</span>: istore_<span class="hljs-number">1</span>
+       <span class="hljs-attribute">2</span>: iconst_<span class="hljs-number">3</span>
+       <span class="hljs-attribute">3</span>: istore_<span class="hljs-number">2</span>
+       <span class="hljs-attribute">4</span>: iload_<span class="hljs-number">1</span>
+       <span class="hljs-attribute">5</span>: iload_<span class="hljs-number">2</span>
+       <span class="hljs-attribute">6</span>: iadd
+       <span class="hljs-attribute">7</span>: istore_<span class="hljs-number">3</span>
+       <span class="hljs-attribute">8</span>: return
+    <span class="hljs-attribute">LineNumberTable</span>:
+      <span class="hljs-attribute">line</span> <span class="hljs-number">9</span>: <span class="hljs-number">0</span>
+      <span class="hljs-attribute">line</span> <span class="hljs-number">10</span>: <span class="hljs-number">2</span>
+      <span class="hljs-attribute">line</span> <span class="hljs-number">11</span>: <span class="hljs-number">4</span>
+      <span class="hljs-attribute">line</span> <span class="hljs-number">12</span>: <span class="hljs-number">8</span>
+    <span class="hljs-attribute">LocalVariableTable</span>:
+      <span class="hljs-attribute">Start</span>  Length  Slot  Name   Signature
+          <span class="hljs-attribute">0</span>       <span class="hljs-number">9</span>     <span class="hljs-number">0</span>  args  <span class="hljs-meta"> [Ljava/lang/String;</span>
+<span class="hljs-meta">          2       7     1     i   I</span>
+<span class="hljs-meta">          4       5     2     j   I</span>
+<span class="hljs-meta">          8       1     3     k   I</span></code></pre></div>
+
+<h2 id="15-总结"><a href="#15-总结" class="headerlink" title="15 总结"></a>15 总结</h2><p>由于跨平台性的设计，Java的指令都是根据栈来设计的。不同平台CPU架构不同，所以不能设计为基于寄存器的。优点是跨平台，指令集小，编译器容易实现，缺点是性能下降，实现同样的功能需要更多的指令。</p>
+<p>时至今日，尽管嵌入式平台已经不是Java程序的主流运行平台了（准确来说应该是HotSpotVM的宿主环境已经不局限于嵌入式平台了），那么为什么不将架构更换为基于寄存器的架构呢？</p>
+<h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><ul>
+<li>跨平台性</li>
+<li>指令集小</li>
+<li>指令多</li>
+<li>执行性能比寄存器差</li>
+</ul>
+<h2 id="16-JVM生命周期"><a href="#16-JVM生命周期" class="headerlink" title="16 JVM生命周期"></a>16 JVM生命周期</h2><h3 id="虚拟机的启动"><a href="#虚拟机的启动" class="headerlink" title="虚拟机的启动"></a>虚拟机的启动</h3><p>Java虚拟机的启动是通过引导类加载器（bootstrap class loader）创建一个初始类（initial class）来完成的，这个类是由虚拟机的具体实现指定的。</p>
+<h3 id="虚拟机的执行"><a href="#虚拟机的执行" class="headerlink" title="虚拟机的执行"></a>虚拟机的执行</h3><ul>
+<li>一个运行中的Java虚拟机有着一个清晰的任务：执行Java程序。</li>
+<li>程序开始执行时他才运行，程序结束时他就停止。</li>
+<li>执行一个所谓的Java程序的时候，真真正正在执行的是一个叫做Java虚拟机的进程。</li>
+</ul>
+<h3 id="虚拟机的退出"><a href="#虚拟机的退出" class="headerlink" title="虚拟机的退出"></a>虚拟机的退出</h3><p>有如下的几种情况：</p>
+<ul>
+<li><p>程序正常执行结束</p>
+</li>
+<li><p>程序在执行过程中遇到了异常或错误而异常终止</p>
+</li>
+<li><p>由于操作系统用现错误而导致Java虚拟机进程终止</p>
+</li>
+<li><p>某线程调用Runtime类或system类的exit方法，或Runtime类的halt方法，并且Java安全管理器也允许这次exit或halt操作。</p>
+</li>
+<li><p>除此之外，JNI（Java Native Interface）规范描述了用JNI Invocation API来加载或卸载 Java虚拟机时，Java虚拟机的退出情况。</p>
+</li>
+</ul>
+<h2 id="17-JVM发展历程"><a href="#17-JVM发展历程" class="headerlink" title="17 JVM发展历程"></a>17 JVM发展历程</h2><h3 id="Sun-Classic-VM"><a href="#Sun-Classic-VM" class="headerlink" title="Sun Classic VM"></a>Sun Classic VM</h3><ul>
+<li>早在1996年Java1.0版本的时候，Sun公司发布了一款名为sun classic VM的Java虚拟机，它同时也是世界上第一款商用Java虚拟机，JDK1.4时完全被淘汰。</li>
+<li>这款虚拟机内部只提供解释器。现在还有及时编译器，因此效率比较低，而及时编译器会把热点代码缓存起来，那么以后使用热点代码的时候，效率就比较高。</li>
+<li>如果使用JIT编译器，就需要进行外挂。但是一旦使用了JIT编译器，JIT就会接管虚拟机的执行系统。解释器就不再工作。解释器和编译器不能配合工作。</li>
+<li>现在hotspot内置了此虚拟机。</li>
+</ul>
+<h3 id="Exact-VM"><a href="#Exact-VM" class="headerlink" title="Exact VM"></a>Exact VM</h3><p>为了解决上一个虚拟机问题，jdk1.2时，sun提供了此虚拟机。<br>Exact Memory Management：准确式内存管理</p>
+<ul>
+<li>也可以叫Non-Conservative/Accurate Memory Management</li>
+<li>虚拟机可以知道内存中某个位置的数据具体是什么类型。|</li>
+</ul>
+<p>具备现代高性能虚拟机的维形</p>
+<ul>
+<li>热点探测（寻找出热点代码进行缓存）</li>
+<li>编译器与解释器混合工作模式</li>
+</ul>
+<p>只在solaris平台短暂使用，其他平台上还是classic vm，英雄气短，终被Hotspot虚拟机替换</p>
+<h3 id="HotSpot-VM"><a href="#HotSpot-VM" class="headerlink" title="HotSpot VM"></a>HotSpot VM</h3><p>HotSpot历史</p>
+<ul>
+<li>最初由一家名为“Longview Technologies”的小公司设计</li>
+<li>1997年，此公司被sun收购；2009年，Sun公司被甲骨文收购。</li>
+<li>JDK1.3时，HotSpot VM成为默认虚拟机</li>
+</ul>
+<p>目前Hotspot占有绝对的市场地位，称霸武林。</p>
+<ul>
+<li>不管是现在仍在广泛使用的JDK6，还是使用比例较多的JDK8中，默认的虚拟机都是HotSpot</li>
+<li>Sun/oracle JDK和openJDK的默认虚拟机</li>
+<li>因此本课程中默认介绍的虚拟机都是HotSpot，相关机制也主要是指HotSpot的Gc机制。（比如其他两个商用虚机都没有方法区的概念）</li>
+</ul>
+<p>从服务器、桌面到移动端、嵌入式都有应用。</p>
+<p>名称中的HotSpot指的就是它的热点代码探测技术。</p>
+<ul>
+<li>通过计数器找到最具编译价值代码，触发即时编译或栈上替换</li>
+<li>通过编译器与解释器协同工作，在最优化的程序响应时间与最佳执行性能中取得平衡</li>
+</ul>
+<h3 id="JRockit"><a href="#JRockit" class="headerlink" title="JRockit"></a>JRockit</h3><p>专注于服务器端应用</p>
+<ul>
+<li>它可以不太关注程序启动速度，因此JRockit内部不包含解析器实现，全部代码都靠即时编译器编译后执行。</li>
+</ul>
+<p>大量的行业基准测试显示，JRockit JVM是世界上最快的JVM。</p>
+<ul>
+<li>使用JRockit产品，客户已经体验到了显著的性能提高（一些超过了70%）和硬件成本的减少（达50%）。</li>
+</ul>
+<p>优势：全面的Java运行时解决方案组合</p>
+<ul>
+<li>JRockit面向延迟敏感型应用的解决方案JRockit Real Time提供以毫秒或微秒级的JVM响应时间，适合财务、军事指挥、电信网络的需要</li>
+<li>MissionControl服务套件，它是一组以极低的开销来监控、管理和分析生产环境中的应用程序的工具。</li>
+</ul>
+<p>2008年，JRockit被oracle收购。</p>
+<p>oracle表达了整合两大优秀虚拟机的工作，大致在JDK8中完成。整合的方式是在HotSpot的基础上，移植JRockit的优秀特性。</p>
+<p>高斯林：目前就职于谷歌，研究人工智能和水下机器人</p>
+<h3 id="IBM的J9"><a href="#IBM的J9" class="headerlink" title="IBM的J9"></a>IBM的J9</h3><p>全称：IBM Technology for Java Virtual Machine，简称IT4J，内部代号：J9</p>
+<p>市场定位与HotSpot接近，服务器端、桌面应用、嵌入式等多用途VM广泛用于IBM的各种Java产品。</p>
+<p>目前，有影响力的三大商用虚拟机之一，也号称是世界上最快的Java虚拟机。</p>
+<p>2017年左右，IBM发布了开源J9VM，命名为openJ9，交给EClipse基金会管理，也称为Eclipse OpenJ9</p>
+<p>OpenJDK   -&gt; 是JDK开源了，包括了虚拟机</p>
+<h3 id="KVM和CDC-CLDC-Hotspot"><a href="#KVM和CDC-CLDC-Hotspot" class="headerlink" title="KVM和CDC / CLDC  Hotspot"></a>KVM和CDC / CLDC  Hotspot</h3><p>oracle在Java ME产品线上的两款虚拟机为：CDC/CLDC HotSpot Implementation VM KVM（Kilobyte）是CLDC-HI早期产品目前移动领域地位尴尬，智能机被Angroid和ioS二分天下。</p>
+<p>KVM简单、轻量、高度可移植，面向更低端的设备上还维持自己的一片市场</p>
+<ul>
+<li>智能控制器、传感器</li>
+<li>老人手机、经济欠发达地区的功能手机</li>
+</ul>
+<p>所有的虚拟机的原则：一次编译，到处运行。</p>
+<h3 id="Azul-VM"><a href="#Azul-VM" class="headerlink" title="Azul VM"></a>Azul VM</h3><p>前面三大“高性能Java虚拟机”使用在通用硬件平台上这里Azu1VW和BEALiquid VM是与特定硬件平台绑定、软硬件配合的专有虚拟机I</p>
+<ul>
+<li>高性能Java虚拟机中的战斗机。</li>
+</ul>
+<p>Azul VM是Azu1Systems公司在HotSpot基础上进行大量改进，运行于Azul Systems公司的专有硬件Vega系统上的ava虚拟机。</p>
+<p>每个Azu1VM实例都可以管理至少数十个CPU和数百GB内存的硬件资源，并提供在巨大内存范围内实现可控的GC时间的垃圾收集器、专有硬件优化的线程调度等优秀特性。</p>
+<p>2010年，AzulSystems公司开始从硬件转向软件，发布了自己的zing JVM，可以在通用x86平台上提供接近于Vega系统的特性。</p>
+<h3 id="Liquid-VM"><a href="#Liquid-VM" class="headerlink" title="Liquid VM"></a>Liquid VM</h3><p>高性能Java虚拟机中的战斗机。</p>
+<p>BEA公司开发的，直接运行在自家Hypervisor系统上Liquid VM即是现在的JRockit VE（Virtual Edition），</p>
+<p>Liquid VM不需要操作系统的支持，或者说它自己本身实现了一个专用操作系统的必要功能，如线程调度、文件系统、网络支持等。</p>
+<p>随着JRockit虚拟机终止开发，Liquid vM项目也停止了。</p>
+<h3 id="Apache-Marmony"><a href="#Apache-Marmony" class="headerlink" title="Apache Marmony"></a>Apache Marmony</h3><p>Apache也曾经推出过与JDK1.5和JDK1.6兼容的Java运行平台Apache Harmony。</p>
+<p>它是IElf和Inte1联合开发的开源JVM，受到同样开源的openJDK的压制，Sun坚决不让Harmony获得JCP认证，最终于2011年退役，IBM转而参与OpenJDK</p>
+<p>虽然目前并没有Apache Harmony被大规模商用的案例，但是它的Java类库代码吸纳进了Android SDK。</p>
+<h3 id="Micorsoft-JVM"><a href="#Micorsoft-JVM" class="headerlink" title="Micorsoft JVM"></a>Micorsoft JVM</h3><p>微软为了在IE3浏览器中支持Java Applets，开发了Microsoft JVM。</p>
+<p>只能在window平台下运行。但确是当时Windows下性能最好的Java VM。</p>
+<p>1997年，sun以侵犯商标、不正当竞争罪名指控微软成功，赔了sun很多钱。微软windowsXPSP3中抹掉了其VM。现在windows上安装的jdk都是HotSpot。</p>
+<h3 id="Taobao-JVM"><a href="#Taobao-JVM" class="headerlink" title="Taobao JVM"></a>Taobao JVM</h3><p>由AliJVM团队发布。阿里，国内使用Java最强大的公司，覆盖云计算、金融、物流、电商等众多领域，需要解决高并发、高可用、分布式的复合问题。有大量的开源产品。</p>
+<p>基于openJDK开发了自己的定制版本AlibabaJDK，简称AJDK。是整个阿里Java体系的基石。</p>
+<p>基于openJDK Hotspot VM发布的国内第一个优化、深度定制且开源的高性能服务器版Java虚拟机。</p>
+<ul>
+<li>创新的GCIH（GCinvisible heap）技术实现了off-heap，即将生命周期较长的Java对象从heap中移到heap之外，并且Gc不能管理GCIH内部的Java对象，以此达到降低GC的回收频率和提升Gc的回收效率的目的。</li>
+<li>GCIH中的对象还能够在多个Java虚拟机进程中实现共享</li>
+<li>使用crc32指令实现JvM intrinsic降低JNI的调用开销</li>
+<li>PMU hardware的Java profiling tool和诊断协助功能</li>
+<li>针对大数据场景的ZenGc </li>
+</ul>
+<p>taobao vm应用在阿里产品上性能高，硬件严重依赖inte1的cpu，损失了兼容性，但提高了性能</p>
+<p>目前已经在淘宝、天猫上线，把oracle官方JvM版本全部替换了。</p>
+<h3 id="Dalvik-VM"><a href="#Dalvik-VM" class="headerlink" title="Dalvik VM"></a>Dalvik VM</h3><p>谷歌开发的，应用于Android系统，并在Android2.2中提供了JIT，发展迅猛。</p>
+<p>Dalvik y只能称作虚拟机，而不能称作“Java虚拟机”，它没有遵循 Java虚拟机规范</p>
+<p>不能直接执行Java的Class文件</p>
+<p>基于寄存器架构，不是jvm的栈架构。</p>
+<p>执行的是编译以后的dex（Dalvik Executable）文件。执行效率比较高。</p>
+<ul>
+<li>它执行的dex（Dalvik Executable）文件可以通过class文件转化而来，使用Java语法编写应用程序，可以直接使用大部分的Java API等。</li>
+</ul>
+<p>Android 5.0使用支持提前编译（Ahead of Time Compilation，AoT）的ART VM替换Dalvik VM。</p>
+<h3 id="Graal-VM"><a href="#Graal-VM" class="headerlink" title="Graal VM"></a>Graal VM</h3><p>2018年4月，oracle Labs公开了GraalvM，号称 “Run Programs Faster Anywhere”，勃勃野心。与1995年java的”write once，run anywhere”遥相呼应。</p>
+<p>GraalVM在HotSpot VM基础上增强而成的跨语言全栈虚拟机，可以作为“任何语言”<br>的运行平台使用。语言包括：Java、Scala、Groovy、Kotlin；C、C++、Javascript、Ruby、Python、R等</p>
+<p>支持不同语言中混用对方的接口和对象，支持这些语言使用已经编写好的本地库文件</p>
+<p>工作原理是将这些语言的源代码或源代码编译后的中间格式，通过解释器转换为能被Graal VM接受的中间表示。Graal VM提供Truffle工具集快速构建面向一种新语言的解释器。在运行时还能进行即时编译优化，获得比原生编译器更优秀的执行效率。</p>
+<p>如果说HotSpot有一天真的被取代，Graalvm希望最大。但是Java的软件生态没有丝毫变化。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>具体JVM的内存结构，其实取决于其实现，不同厂商的JVM，或者同一厂商发布的不同版本，都有可能存在一定差异。主要以oracle HotSpot VM为默认虚拟机。</p>
+<h1 id="第2章-类加载子系统"><a href="#第2章-类加载子系统" class="headerlink" title="第2章 类加载子系统"></a>第2章 类加载子系统</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h2><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/2_%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%AD%90%E7%B3%BB%E7%BB%9F/images/image-20200705080719531.png" alt="image-20200705080719531"></p>
+<p>完整图如下</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/2_%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%AD%90%E7%B3%BB%E7%BB%9F/images/image-20200705080911284.png" alt="image-20200705080911284"></p>
+<p>如果自己想手写一个Java虚拟机的话，主要考虑哪些结构呢？</p>
+<ul>
+<li>类加载器</li>
+<li>执行引擎</li>
+</ul>
+<h2 id="2-类加载器子系统作用"><a href="#2-类加载器子系统作用" class="headerlink" title="2 类加载器子系统作用"></a>2 类加载器子系统作用</h2><p>类加载器子系统负责从文件系统或者网络中加载Class文件，class文件在文件开头有特定的文件标识。</p>
+<p>ClassLoader只负责class文件的加载，至于它是否可以运行，则由Execution Engine决定。</p>
+<p>加载的类信息存放于一块称为方法区的内存空间。除了类的信息外，方法区中还会存放运行时常量池信息，可能还包括字符串字面量和数字常量（这部分常量信息是Class文件中常量池部分的内存映射）</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/2_%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%AD%90%E7%B3%BB%E7%BB%9F/images/image-20200705081813409.png" alt="image-20200705081813409"></p>
+<ul>
+<li>class file存在于本地硬盘上，可以理解为设计师画在纸上的模板，而最终这个模板在执行的时候是要加载到JVM当中来根据这个文件实例化出n个一模一样的实例。</li>
+<li>class file加载到JVM中，被称为DNA元数据模板，放在方法区。</li>
+<li>在.class文件-&gt;JVM-&gt;最终成为元数据模板，此过程就要一个运输工具（类装载器Class Loader），扮演一个快递员的角色。</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/2_%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%AD%90%E7%B3%BB%E7%BB%9F/images/image-20200705081913538.png" alt="image-20200705081913538"></p>
+<h2 id="3-类的加载过程"><a href="#3-类的加载过程" class="headerlink" title="3 类的加载过程"></a>3 类的加载过程</h2><p>例如下面的一段简单的代码</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloLoader</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        System.out.println(<span class="hljs-string">&quot;我已经被加载啦&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<p>它的加载过程是怎么样的呢?</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/2_%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%AD%90%E7%B3%BB%E7%BB%9F/images/image-20200705082255746.png" alt="image-20200705082255746"></p>
+<p>完整的流程图如下所示</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/2_%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%AD%90%E7%B3%BB%E7%BB%9F/images/image-20200705082601441.png" alt="image-20200705082601441"></p>
+<h2 id="4-加载阶段"><a href="#4-加载阶段" class="headerlink" title="4 加载阶段"></a>4 加载阶段</h2><p>通过一个类的全限定名获取定义此类的二进制字节流</p>
+<p>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构</p>
+<p>在内存中生成一个代表这个类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口</p>
+<h3 id="4-1-加载class文件的方式"><a href="#4-1-加载class文件的方式" class="headerlink" title="4.1 加载class文件的方式"></a>4.1 加载class文件的方式</h3><ul>
+<li>从本地系统中直接加载</li>
+<li>通过网络获取，典型场景：Web Applet</li>
+<li>从zip压缩包中读取，成为日后jar、war格式的基础</li>
+<li>运行时计算生成，使用最多的是：动态代理技术</li>
+<li>由其他文件生成，典型场景：JSP应用从专有数据库中提取.class文件，比较少见</li>
+<li>从加密文件中获取，典型的防Class文件被反编译的保护措施</li>
+</ul>
+<h3 id="4-2-链接阶段"><a href="#4-2-链接阶段" class="headerlink" title="4.2 链接阶段"></a>4.2 链接阶段</h3><h4 id="验证-Verify"><a href="#验证-Verify" class="headerlink" title="验证 Verify"></a>验证 Verify</h4><p>目的在于确保Class文件的字节流中包含信息符合当前虚拟机要求，保证被加载类的正确性，不会危害虚拟机自身安全。</p>
+<p>主要包括四种验证，文件格式验证，元数据验证，字节码验证，符号引用验证。</p>
+<blockquote>
+<p>工具：Binary Viewer查看</p>
+</blockquote>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/2_%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%AD%90%E7%B3%BB%E7%BB%9F/images/image-20200705084038680.png" alt="image-20200705084038680"></p>
+<p>如果出现不合法的字节码文件，那么将会验证不通过</p>
+<p>同时我们可以通过安装IDEA的插件，来查看我们的Class文件</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/2_%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%AD%90%E7%B3%BB%E7%BB%9F/images/image-20200705090237078.png" alt="image-20200705090237078"></p>
+<p>安装完成后，我们编译完一个class文件后，点击view即可显示我们安装的插件来查看字节码方法了</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/2_%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%AD%90%E7%B3%BB%E7%BB%9F/images/image-20200705090328171.png" alt="image-20200705090328171"></p>
+<h3 id="4-3-准备-Prepare"><a href="#4-3-准备-Prepare" class="headerlink" title="4.3 准备 Prepare"></a>4.3 准备 Prepare</h3><p>为类变量分配内存并且设置该类变量的默认初始值，即零值。</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloApp</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> a = <span class="hljs-number">1</span>;  <span class="hljs-comment">// 准备阶段为0，在下个阶段，也就是初始化的时候才是1</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        System.out.println(a);
+    &#125;
+&#125;</code></pre></div>
+
+<p>上面的变量a在准备阶段会赋初始值，但不是1，而是0。</p>
+<p>这里不包含用final修饰的static，因为final在编译的时候就会分配了，准备阶段会显式初始化；</p>
+<p>这里不会为实例变量分配初始化，类变量会分配在方法区中，而实例变量是会随着对象一起分配到Java堆中。</p>
+<p>例如下面这段代码</p>
+<h3 id="4-4-解析-Resolve"><a href="#4-4-解析-Resolve" class="headerlink" title="4.4 解析 Resolve"></a>4.4 解析 Resolve</h3><p>将常量池内的符号引用转换为直接引用的过程。</p>
+<p>事实上，解析操作往往会伴随着JVM在执行完初始化之后再执行。</p>
+<p>符号引用就是一组符号来描述所引用的目标。符号引用的字面量形式明确定义在《java虚拟机规范》的class文件格式中。直接引用就是直接指向目标的指针、相对偏移量或一个间接定位到目标的句柄。</p>
+<p>解析动作主要针对类或接口、字段、类方法、接口方法、方法类型等。对应常量池中的CONSTANT Class info、CONSTANT Fieldref info、CONSTANT Methodref info等</p>
+<h3 id="4-5-初始化阶段"><a href="#4-5-初始化阶段" class="headerlink" title="4.5 初始化阶段"></a>4.5 初始化阶段</h3><p>初始化阶段就是执行类构造器法<clinit>（）的过程。</clinit></p>
+<p>此方法不需定义，是javac编译器自动收集类中的所有类变量的赋值动作和静态代码块中的语句合并而来。</p>
+<ul>
+<li>也就是说，当我们代码中包含static变量的时候，就会有clinit方法</li>
+</ul>
+<p>构造器方法中指令按语句在源文件中出现的顺序执行。</p>
+<p><clinit>（）不同于类的构造器。（关联：构造器是虚拟机视角下的<init>（））若该类具有父类，JVM会保证子类的<clinit>（）执行前，父类的<clinit>（）已经执行完毕。</clinit></clinit></init></clinit></p>
+<ul>
+<li>任何一个类在声明后，都有生成一个构造器，默认是空参构造器</li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ClassInitTest</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> num = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">static</span> &#123;
+        num = <span class="hljs-number">2</span>;
+        number = <span class="hljs-number">20</span>;
+        System.out.println(num);
+        System.out.println(number);  <span class="hljs-comment">//报错，非法的前向引用</span>
+    &#125;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> number = <span class="hljs-number">10</span>;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        System.out.println(ClassInitTest.num); <span class="hljs-comment">// 2</span>
+        System.out.println(ClassInitTest.number); <span class="hljs-comment">// 10</span>
+    &#125;
+&#125;</code></pre></div>
+
+<p>关于涉及到父类时候的变量赋值过程</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ClinitTest1</span> </span>&#123;
+    <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Father</span> </span>&#123;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> A = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">static</span> &#123;
+            A = <span class="hljs-number">2</span>;
+        &#125;
+    &#125;
+
+    <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Son</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Father</span> </span>&#123;
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> b = A;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        System.out.println(Son.b);
+    &#125;
+&#125;</code></pre></div>
+
+<p>我们输出结果为 2，也就是说首先加载ClinitTest1的时候，会找到main方法，然后执行Son的初始化，但是Son继承了Father，因此还需要执行Father的初始化，同时将A赋值为2。我们通过反编译得到Father的加载过程，首先我们看到原来的值被赋值成1，然后又被复制成2，最后返回</p>
+<div class="code-wrapper"><pre><code class="hljs bash">iconst_1
+putstatic <span class="hljs-comment">#2 &lt;com/atguigu/java/chapter02/ClinitTest1$Father.A&gt;</span>
+iconst_2
+putstatic <span class="hljs-comment">#2 &lt;com/atguigu/java/chapter02/ClinitTest1$Father.A&gt;</span>
+<span class="hljs-built_in">return</span></code></pre></div>
+
+<p>虚拟机必须保证一个类的<clinit>（）方法在多线程下被同步加锁。</clinit></p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DeadThreadTest</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+            System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot;\t 线程t1开始&quot;</span>);
+            <span class="hljs-keyword">new</span> DeadThread();
+        &#125;, <span class="hljs-string">&quot;t1&quot;</span>).start();
+
+        <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+            System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot;\t 线程t2开始&quot;</span>);
+            <span class="hljs-keyword">new</span> DeadThread();
+        &#125;, <span class="hljs-string">&quot;t2&quot;</span>).start();
+    &#125;
+&#125;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DeadThread</span> </span>&#123;
+    <span class="hljs-keyword">static</span> &#123;
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">true</span>) &#123;
+            System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot;\t 初始化当前类&quot;</span>);
+            <span class="hljs-keyword">while</span>(<span class="hljs-keyword">true</span>) &#123;
+
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>上面的代码，输出结果为</p>
+<div class="code-wrapper"><pre><code class="hljs mipsasm">线程<span class="hljs-built_in">t1</span>开始
+线程<span class="hljs-built_in">t2</span>开始
+线程<span class="hljs-built_in">t2</span> 初始化当前类</code></pre></div>
+
+<p>从上面可以看出初始化后，只能够执行一次初始化，这也就是同步加锁的过程</p>
+<h2 id="5-类加载器的分类"><a href="#5-类加载器的分类" class="headerlink" title="5 类加载器的分类"></a>5 类加载器的分类</h2><p>JVM支持两种类型的类加载器 。分别为引导类加载器（Bootstrap ClassLoader）和自定义类加载器（User-Defined ClassLoader）。</p>
+<p>从概念上来讲，自定义类加载器一般指的是程序中由开发人员自定义的一类类加载器，但是Java虚拟机规范却没有这么定义，而是将所有派生于抽象类ClassLoader的类加载器都划分为自定义类加载器。</p>
+<p>无论类加载器的类型如何划分，在程序中我们最常见的类加载器始终只有3个，如下所示：</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/2_%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%AD%90%E7%B3%BB%E7%BB%9F/images/image-20200705094149223.png" alt="image-20200705094149223"></p>
+<p>这里的四者之间是包含关系，不是上层和下层，也不是子系统的继承关系。</p>
+<p>我们通过一个类，获取它不同的加载器</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ClassLoaderTest</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-comment">// 获取系统类加载器</span>
+        ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();
+        System.out.println(systemClassLoader);
+
+        <span class="hljs-comment">// 获取其上层的：扩展类加载器</span>
+        ClassLoader extClassLoader = systemClassLoader.getParent();
+        System.out.println(extClassLoader);
+
+        <span class="hljs-comment">// 试图获取 根加载器</span>
+        ClassLoader bootstrapClassLoader = extClassLoader.getParent();
+        System.out.println(bootstrapClassLoader);
+
+        <span class="hljs-comment">// 获取自定义加载器</span>
+        ClassLoader classLoader = ClassLoaderTest.class.getClassLoader();
+        System.out.println(classLoader);
+        
+        <span class="hljs-comment">// 获取String类型的加载器</span>
+        ClassLoader classLoader1 = String.class.getClassLoader();
+        System.out.println(classLoader1);
+    &#125;
+&#125;</code></pre></div>
+
+<p>得到的结果，从结果可以看出 根加载器无法直接通过代码获取，同时目前用户代码所使用的加载器为系统类加载器。同时我们通过获取String类型的加载器，发现是null，那么说明String类型是通过根加载器进行加载的，也就是说Java的核心类库都是使用根加载器进行加载的。</p>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">sun</span>.misc.Launcher$AppClassLoader@<span class="hljs-number">18</span>b<span class="hljs-number">4</span>aac<span class="hljs-number">2</span>
+<span class="hljs-attribute">sun</span>.misc.Launcher$ExtClassLoader@<span class="hljs-number">1540</span>e<span class="hljs-number">19</span>d
+<span class="hljs-attribute">null</span>
+<span class="hljs-attribute">sun</span>.misc.Launcher$AppClassLoader@<span class="hljs-number">18</span>b<span class="hljs-number">4</span>aac<span class="hljs-number">2</span>
+<span class="hljs-attribute">null</span></code></pre></div>
+
+<h3 id="5-1-虚拟机自带的加载器"><a href="#5-1-虚拟机自带的加载器" class="headerlink" title="5.1 虚拟机自带的加载器"></a>5.1 虚拟机自带的加载器</h3><h4 id="启动类加载器（引导类加载器，Bootstrap-ClassLoader）"><a href="#启动类加载器（引导类加载器，Bootstrap-ClassLoader）" class="headerlink" title="启动类加载器（引导类加载器，Bootstrap ClassLoader）"></a>启动类加载器（引导类加载器，Bootstrap ClassLoader）</h4><ul>
+<li>这个类加载使用C/C++语言实现的，嵌套在JVM内部。</li>
+<li>它用来加载Java的核心库（JAVAHOME/jre/1ib/rt.jar、resources.jar或sun.boot.class.path路径下的内容），用于提供JVM自身需要的类</li>
+<li>并不继承自ava.lang.ClassLoader，没有父加载器。</li>
+<li>加载扩展类和应用程序类加载器，并指定为他们的父类加载器。</li>
+<li>出于安全考虑，Bootstrap启动类加载器只加载包名为java、javax、sun等开头的类</li>
+</ul>
+<h3 id="5-2-扩展类加载器（Extension-ClassLoader）"><a href="#5-2-扩展类加载器（Extension-ClassLoader）" class="headerlink" title="5.2 扩展类加载器（Extension ClassLoader）"></a>5.2 扩展类加载器（Extension ClassLoader）</h3><ul>
+<li>Java语言编写，由sun.misc.Launcher$ExtClassLoader实现。</li>
+<li>派生于ClassLoader类</li>
+<li>父类加载器为启动类加载器</li>
+<li>从java.ext.dirs系统属性所指定的目录中加载类库，或从JDK的安装目录的jre/1ib/ext子目录（扩展目录）下加载类库。如果用户创建的JAR放在此目录下，也会自动由扩展类加载器加载。</li>
+</ul>
+<h3 id="5-3-应用程序类加载器（系统类加载器，AppClassLoader）"><a href="#5-3-应用程序类加载器（系统类加载器，AppClassLoader）" class="headerlink" title="5.3 应用程序类加载器（系统类加载器，AppClassLoader）"></a>5.3 应用程序类加载器（系统类加载器，AppClassLoader）</h3><ul>
+<li>javI语言编写，由sun.misc.LaunchersAppClassLoader实现</li>
+<li>派生于ClassLoader类</li>
+<li>父类加载器为扩展类加载器</li>
+<li>它负责加载环境变量classpath或系统属性java.class.path指定路径下的类库</li>
+<li>该类加载是程序中默认的类加载器，一般来说，Java应用的类都是由它来完成加载</li>
+<li>通过classLoader#getSystemclassLoader（）方法可以获取到该类加载器</li>
+</ul>
+<h3 id="5-4-用户自定义类加载器"><a href="#5-4-用户自定义类加载器" class="headerlink" title="5.4 用户自定义类加载器"></a>5.4 用户自定义类加载器</h3><p>在Java的日常应用程序开发中，类的加载几乎是由上述3种类加载器相互配合执行的，在必要时，我们还可以自定义类加载器，来定制类的加载方式。<br>为什么要自定义类加载器？</p>
+<ul>
+<li>隔离加载类</li>
+<li>修改类加载的方式</li>
+<li>扩展加载源</li>
+<li>防止源码泄漏</li>
+</ul>
+<p>用户自定义类加载器实现步骤：</p>
+<ul>
+<li>开发人员可以通过继承抽象类ava.1ang.ClassLoader类的方式，实现自己的类加载器，以满足一些特殊的需求</li>
+<li>在JDK1.2之前，在自定义类加载器时，总会去继承ClassLoader类并重写1oadClass（）方法，从而实现自定义的类加载类，但是在JDK1.2之后已不再建议用户去覆盖1oadclass（）方法，而是建议把自定义的类加载逻辑写在findclass（）方法中</li>
+<li>在编写自定义类加载器时，如果没有太过于复杂的需求，可以直接继承URIClassLoader类，这样就可以避免自己去编写findclass（）方法及其获取字节码流的方式，使自定义类加载器编写更加简洁。</li>
+</ul>
+<h3 id="5-5-查看根加载器所能加载的目录"><a href="#5-5-查看根加载器所能加载的目录" class="headerlink" title="5.5 查看根加载器所能加载的目录"></a>5.5 查看根加载器所能加载的目录</h3><p>刚刚我们通过概念了解到了，根加载器只能够加载 java /lib目录下的class，我们通过下面代码验证一下</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ClassLoaderTest1</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        System.out.println(<span class="hljs-string">&quot;*********启动类加载器************&quot;</span>);
+        <span class="hljs-comment">// 获取BootstrapClassLoader 能够加载的API的路径</span>
+        URL[] urls = sun.misc.Launcher.getBootstrapClassPath().getURLs();
+        <span class="hljs-keyword">for</span> (URL url : urls) &#123;
+            System.out.println(url.toExternalForm());
+        &#125;
+
+        <span class="hljs-comment">// 从上面路径中，随意选择一个类，来看看他的类加载器是什么：得到的是null，说明是  根加载器</span>
+        ClassLoader classLoader = Provider.class.getClassLoader();
+    &#125;
+&#125;</code></pre></div>
+
+<p>得到的结果</p>
+<div class="code-wrapper"><pre><code class="hljs gradle">*********启动类加载器************
+<span class="hljs-keyword">file</span>:<span class="hljs-regexp">/E:/</span>Software<span class="hljs-regexp">/JDK1.8/</span>Java<span class="hljs-regexp">/jre/</span>lib/resources.jar
+<span class="hljs-keyword">file</span>:<span class="hljs-regexp">/E:/</span>Software<span class="hljs-regexp">/JDK1.8/</span>Java<span class="hljs-regexp">/jre/</span>lib/rt.jar
+<span class="hljs-keyword">file</span>:<span class="hljs-regexp">/E:/</span>Software<span class="hljs-regexp">/JDK1.8/</span>Java<span class="hljs-regexp">/jre/</span>lib/sunrsasign.jar
+<span class="hljs-keyword">file</span>:<span class="hljs-regexp">/E:/</span>Software<span class="hljs-regexp">/JDK1.8/</span>Java<span class="hljs-regexp">/jre/</span>lib/jsse.jar
+<span class="hljs-keyword">file</span>:<span class="hljs-regexp">/E:/</span>Software<span class="hljs-regexp">/JDK1.8/</span>Java<span class="hljs-regexp">/jre/</span>lib/jce.jar
+<span class="hljs-keyword">file</span>:<span class="hljs-regexp">/E:/</span>Software<span class="hljs-regexp">/JDK1.8/</span>Java<span class="hljs-regexp">/jre/</span>lib/charsets.jar
+<span class="hljs-keyword">file</span>:<span class="hljs-regexp">/E:/</span>Software<span class="hljs-regexp">/JDK1.8/</span>Java<span class="hljs-regexp">/jre/</span>lib/jfr.jar
+<span class="hljs-keyword">file</span>:<span class="hljs-regexp">/E:/</span>Software<span class="hljs-regexp">/JDK1.8/</span>Java<span class="hljs-regexp">/jre/</span>classes
+<span class="hljs-keyword">null</span></code></pre></div>
+
+<h3 id="5-6-关于ClassLoader"><a href="#5-6-关于ClassLoader" class="headerlink" title="5.6 关于ClassLoader"></a>5.6 关于ClassLoader</h3><p>ClassLoader类，它是一个抽象类，其后所有的类加载器都继承自ClassLoader（不包括启动类加载器）</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/2_%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%AD%90%E7%B3%BB%E7%BB%9F/images/image-20200705103516138.png" alt="image-20200705103516138"></p>
+<p>sun.misc.Launcher 它是一个java虚拟机的入口应用</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/2_%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%AD%90%E7%B3%BB%E7%BB%9F/images/image-20200705103636003.png" alt="image-20200705103636003"></p>
+<p>获取ClassLoader的途径</p>
+<ul>
+<li>获取当前ClassLoader：clazz.getClassLoader()</li>
+<li>获取当前线程上下文的ClassLoader：Thread.currentThread().getContextClassLoader()</li>
+<li>获取系统的ClassLoader：ClassLoader.getSystemClassLoader()</li>
+<li>获取调用者的ClassLoader：DriverManager.getCallerClassLoader()</li>
+</ul>
+<h2 id="6-双亲委派机制"><a href="#6-双亲委派机制" class="headerlink" title="6 双亲委派机制"></a>6 双亲委派机制</h2><p>Java虚拟机对class文件采用的是按需加载的方式，也就是说当需要使用该类时才会将它的class文件加载到内存生成class对象。而且加载某个类的class文件时，Java虚拟机采用的是双亲委派模式，即把请求交由父类处理，它是一种任务委派模式。</p>
+<h3 id="6-1-工作原理"><a href="#6-1-工作原理" class="headerlink" title="6.1 工作原理"></a>6.1 工作原理</h3><ul>
+<li>如果一个类加载器收到了类加载请求，它并不会自己先去加载，而是把这个请求委托给父类的加载器去执行；</li>
+<li>如果父类加载器还存在其父类加载器，则进一步向上委托，依次递归，请求最终将到达顶层的启动类加载器；</li>
+<li>如果父类加载器可以完成类加载任务，就成功返回，倘若父类加载器无法完成此加载任务，子加载器才会尝试自己去加载，这就是双亲委派模式。</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/2_%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%AD%90%E7%B3%BB%E7%BB%9F/images/image-20200705105151258.png" alt="image-20200705105151258"></p>
+<h3 id="6-2-双亲委派机制举例"><a href="#6-2-双亲委派机制举例" class="headerlink" title="6.2 双亲委派机制举例"></a>6.2 双亲委派机制举例</h3><p>当我们加载jdbc.jar 用于实现数据库连接的时候，首先我们需要知道的是 jdbc.jar是基于SPI接口进行实现的，所以在加载的时候，会进行双亲委派，最终从根加载器中加载 SPI核心类，然后在加载SPI接口类，接着在进行反向委派，通过线程上下文类加载器进行实现类 jdbc.jar的加载。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/2_%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%AD%90%E7%B3%BB%E7%BB%9F/images/image-20200705105810107.png" alt="image-20200705105810107"></p>
+<h3 id="6-3-沙箱安全机制"><a href="#6-3-沙箱安全机制" class="headerlink" title="6.3 沙箱安全机制"></a>6.3 沙箱安全机制</h3><p>自定义string类，但是在加载自定义String类的时候会率先使用引导类加载器加载，而引导类加载器在加载的过程中会先加载jdk自带的文件（rt.jar包中java\lang\String.class），报错信息说没有main方法，就是因为加载的是rt.jar包中的string类。这样可以保证对java核心源代码的保护，这就是沙箱安全机制。</p>
+<h3 id="6-4-双亲委派机制的优势"><a href="#6-4-双亲委派机制的优势" class="headerlink" title="6.4 双亲委派机制的优势"></a>6.4 双亲委派机制的优势</h3><p>通过上面的例子，我们可以知道，双亲机制可以</p>
+<ul>
+<li>避免类的重复加载</li>
+<li>保护程序安全，防止核心API被随意篡改<ul>
+<li>自定义类：java.lang.String</li>
+<li>自定义类：java.lang.ShkStart（报错：阻止创建 java.lang开头的类）</li>
+</ul>
+</li>
+</ul>
+<h2 id="7-其它"><a href="#7-其它" class="headerlink" title="7 其它"></a>7 其它</h2><h3 id="如何判断两个class对象是否相同"><a href="#如何判断两个class对象是否相同" class="headerlink" title="如何判断两个class对象是否相同"></a>如何判断两个class对象是否相同</h3><p>在JVM中表示两个class对象是否为同一个类存在两个必要条件：</p>
+<ul>
+<li>类的完整类名必须一致，包括包名。</li>
+<li>加载这个类的ClassLoader（指ClassLoader实例对象）必须相同。</li>
+</ul>
+<p>换句话说，在JvM中，即使这两个类对象（class对象）来源同一个Class文件，被同一个虚拟机所加载，但只要加载它们的ClassLoader实例对象不同，那么这两个类对象也是不相等的。</p>
+<p>JVM必须知道一个类型是由启动加载器加载的还是由用户类加载器加载的。如果一个类型是由用户类加载器加载的，那么JVM会将这个类加载器的一个引用作为类型信息的一部分保存在方法区中。当解析一个类型到另一个类型的引用的时候，JVM需要保证这两个类型的类加载器是相同的。</p>
+<h3 id="类的主动使用和被动使用"><a href="#类的主动使用和被动使用" class="headerlink" title="类的主动使用和被动使用"></a>类的主动使用和被动使用</h3><p>Java程序对类的使用方式分为：王动使用和被动使用。<br>主动使用，又分为七种情况：</p>
+<ul>
+<li>创建类的实例</li>
+<li>访问某个类或接口的静态变量，或者对该静态变量赋值</li>
+<li>调用类的静态方法I</li>
+<li>反射（比如：Class.forName（”com.atguigu.Test”））</li>
+<li>初始化一个类的子类</li>
+<li>Java虚拟机启动时被标明为启动类的类</li>
+<li>JDK7开始提供的动态语言支持：</li>
+<li>java.lang.invoke.MethodHandle实例的解析结果REF getStatic、REF putStatic、REF invokeStatic句柄对应的类没有初始化，则初始化</li>
+</ul>
+<p>除了以上七种情况，其他使用Java类的方式都被看作是对类的被动使用，都不会导致类的初始化。</p>
+<h1 id="第3章-运行时数据区概述及线程"><a href="#第3章-运行时数据区概述及线程" class="headerlink" title="第3章  运行时数据区概述及线程"></a>第3章  运行时数据区概述及线程</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本节主要讲的是运行时数据区，也就是下图这部分，它是在类加载完成后的阶段</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/3_%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E6%A6%82%E8%BF%B0%E5%8F%8A%E7%BA%BF%E7%A8%8B/images/image-20200705111640511.png" alt="image-20200705111640511"></p>
+<p>当我们通过前面的：类的加载-&gt; 验证 -&gt; 准备 -&gt; 解析 -&gt; 初始化 这几个阶段完成后，就会用到执行引擎对我们的类进行使用，同时执行引擎将会使用到我们运行时数据区</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/3_%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E6%A6%82%E8%BF%B0%E5%8F%8A%E7%BA%BF%E7%A8%8B/images/image-20200705111843003.png" alt="image-20200705111843003"></p>
+<p>也就是大厨做饭，我们把大厨后面的东西（切好的菜，刀，调料），比作是运行时数据区。而厨师可以类比于执行引擎，将通过准备的东西进行制作成精美的菜品</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/3_%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E6%A6%82%E8%BF%B0%E5%8F%8A%E7%BA%BF%E7%A8%8B/images/image-20200705112036630.png" alt="image-20200705112036630"></p>
+<p>内存是非常重要的系统资源，是硬盘和CPU的中间仓库及桥梁，承载着操作系统和应用程序的实时运行JVM内存布局规定了Java在运行过程中内存申请、分配、管理的策略，保证了JVM的高效稳定运行。不同的JVM对于内存的划分方式和管理机制存在着部分差异。结合JVM虚拟机规范，来探讨一下经典的JVM内存布局。</p>
+<blockquote>
+<p>我们通过磁盘或者网络IO得到的数据，都需要先加载到内存中，然后CPU从内存中获取数据进行读取，也就是说内存充当了CPU和磁盘之间的桥梁</p>
+</blockquote>
+<p>运行时数据区的完整图</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/3_%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E6%A6%82%E8%BF%B0%E5%8F%8A%E7%BA%BF%E7%A8%8B/images/image-20200705112416101.png" alt="image-20200705112416101"></p>
+<p>Java虚拟机定义了若干种程序运行期间会使用到的运行时数据区，其中有一些会随着虚拟机启动而创建，随着虚拟机退出而销毁。另外一些则是与线程一一对应的，这些与线程对应的数据区域会随着线程开始和结束而创建和销毁。</p>
+<p>灰色的为单独线程私有的，红色的为多个线程共享的。即：</p>
+<ul>
+<li>每个线程：独立包括程序计数器、栈、本地栈。</li>
+<li>线程间共享：堆、堆外内存（永久代或元空间、代码缓存）</li>
+</ul>
+<p>!<img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/3_%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E6%A6%82%E8%BF%B0%E5%8F%8A%E7%BA%BF%E7%A8%8B/images/image-20200705112601211.png" alt="image-20200705112601211"></p>
+<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><p>线程是一个程序里的运行单元。JVM允许一个应用有多个线程并行的执行。<br>在Hotspot JVM里，每个线程都与操作系统的本地线程直接映射。</p>
+<ul>
+<li>当一个Java线程准备好执行以后，此时一个操作系统的本地线程也同时创建。Java线程执行终止后，本地线程也会回收。</li>
+</ul>
+<p>操作系统负责所有线程的安排调度到任何一个可用的CPU上。一旦本地线程初始化成功，它就会调用Java线程中的run（）方法。</p>
+<h3 id="JVM系统线程"><a href="#JVM系统线程" class="headerlink" title="JVM系统线程"></a>JVM系统线程</h3><p>如果你使用console或者是任何一个调试工具，都能看到在后台有许多线程在运行。这些后台线程不包括调用public static void main（String[]）的main线程以及所有这个main线程自己创建的线程。|<br>这些主要的后台系统线程在Hotspot JVM里主要是以下几个：</p>
+<ul>
+<li>虚拟机线程：这种线程的操作是需要JVM达到安全点才会出现。这些操作必须在不同的线程中发生的原因是他们都需要JVM达到安全点，这样堆才不会变化。这种线程的执行类型包括”stop-the-world”的垃圾收集，线程栈收集，线程挂起以及偏向锁撤销。</li>
+<li>周期任务线程：这种线程是时间周期事件的体现（比如中断），他们一般用于周期性操作的调度执行。</li>
+<li>GC线程：这种线程对在JVM里不同种类的垃圾收集行为提供了支持。</li>
+<li>编译线程：这种线程在运行时会将字节码编译成到本地代码。</li>
+<li>信号调度线程：这种线程接收信号并发送给JVM，在它内部通过调用适当的方法进行处理。</li>
+</ul>
+<h1 id="第4章-程序计数器"><a href="#第4章-程序计数器" class="headerlink" title="第4章 程序计数器"></a>第4章 程序计数器</h1><h2 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1 介绍"></a>1 介绍</h2><p>JVM中的程序计数寄存器（Program Counter Register）中，Register的命名源于CPU的寄存器，寄存器存储指令相关的现场信息。CPU只有把数据装载到寄存器才能够运行。这里，并非是广义上所指的物理寄存器，或许将其翻译为PC计数器（或指令计数器）会更加贴切（也称为程序钩子），并且也不容易引起一些不必要的误会。JVM中的PC寄存器是对物理PC寄存器的一种抽象模拟。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/4_%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8/images/image-20200705155551919.png" alt="image-20200705155551919"></p>
+<p>它是一块很小的内存空间，几乎可以忽略不记。也是运行速度最快的存储区域。</p>
+<p>在JVM规范中，每个线程都有它自己的程序计数器，是线程私有的，生命周期与线程的生命周期保持一致。</p>
+<p>任何时间一个线程都只有一个方法在执行，也就是所谓的当前方法。程序计数器会存储当前线程正在执行的Java方法的JVM指令地址；或者，如果是在执行native方法，则是未指定值（undefned）。</p>
+<p>它是程序控制流的指示器，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令。</p>
+<p>它是唯一一个在Java虚拟机规范中没有规定任何outotMemoryError情况的区域。</p>
+<h2 id="2-作用"><a href="#2-作用" class="headerlink" title="2 作用"></a>2 作用</h2><p>PC寄存器用来存储指向下一条指令的地址，也即将要执行的指令代码。由执行引擎读取下一条指令。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/4_%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8/images/image-20200705155728557.png" alt="image-20200705155728557"></p>
+<h2 id="3-代码演示"><a href="#3-代码演示" class="headerlink" title="3 代码演示"></a>3 代码演示</h2><p>我们首先写一个简单的代码</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PCRegisterTest</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> i = <span class="hljs-number">10</span>;
+        <span class="hljs-keyword">int</span> j = <span class="hljs-number">20</span>;
+        <span class="hljs-keyword">int</span> k = i + j;
+    &#125;
+&#125;</code></pre></div>
+
+<p>然后将代码进行编译成字节码文件，我们再次查看 ，发现在字节码的左边有一个行号标识，它其实就是指令地址，用于指向当前执行到哪里。</p>
+<div class="code-wrapper"><pre><code class="hljs bash">0: bipush        10
+2: istore_1
+3: bipush        20
+5: istore_2
+6: iload_1
+7: iload_2
+8: iadd
+9: istore_3
+10: <span class="hljs-built_in">return</span></code></pre></div>
+
+<p>通过PC寄存器，我们就可以知道当前程序执行到哪一步了 </p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/4_%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8/images/image-20200705161007423.png" alt="image-20200705161007423"></p>
+<h2 id="4-使用PC寄存器存储字节码指令地址有什么用呢？"><a href="#4-使用PC寄存器存储字节码指令地址有什么用呢？" class="headerlink" title="4 使用PC寄存器存储字节码指令地址有什么用呢？"></a>4 使用PC寄存器存储字节码指令地址有什么用呢？</h2><p>因为CPU需要不停的切换各个线程，这时候切换回来以后，就得知道接着从哪开始继续执行。</p>
+<p>JVM的字节码解释器就需要通过改变PC寄存器的值来明确下一条应该执行什么样的字节码指令。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/4_%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8/images/image-20200705161409533.png" alt="image-20200705161409533"></p>
+<h2 id="5-PC寄存器为什么被设定为私有的？"><a href="#5-PC寄存器为什么被设定为私有的？" class="headerlink" title="5 PC寄存器为什么被设定为私有的？"></a>5 PC寄存器为什么被设定为私有的？</h2><p>我们都知道所谓的多线程在一个特定的时间段内只会执行其中某一个线程的方法，CPU会不停地做任务切换，这样必然导致经常中断或恢复，如何保证分毫无差呢？为了能够准确地记录各个线程正在执行的当前字节码指令地址，最好的办法自然是为每一个线程都分配一个PC寄存器，这样一来各个线程之间便可以进行独立计算，从而不会出现相互干扰的情况。</p>
+<p>由于CPU时间片轮限制，众多线程在并发执行过程中，任何一个确定的时刻，一个处理器或者多核处理器中的一个内核，只会执行某个线程中的一条指令。</p>
+<p>这样必然导致经常中断或恢复，如何保证分毫无差呢？每个线程在创建后，都会产生自己的程序计数器和栈帧，程序计数器在各个线程之间互不影响。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/4_%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8/images/image-20200705161812542.png" alt="image-20200705161812542"></p>
+<h2 id="6-CPU时间片"><a href="#6-CPU时间片" class="headerlink" title="6 CPU时间片"></a>6 CPU时间片</h2><p>CPU时间片即CPU分配给各个程序的时间，每个线程被分配一个时间段，称作它的时间片。</p>
+<p>在宏观上：俄们可以同时打开多个应用程序，每个程序并行不悖，同时运行。</p>
+<p>但在微观上：由于只有一个CPU，一次只能处理程序要求的一部分，如何处理公平，一种方法就是引入时间片，每个程序轮流执行。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/4_%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8/images/image-20200705161849557.png" alt="image-20200705161849557"></p>
+<h1 id="第5章-虚拟机栈"><a href="#第5章-虚拟机栈" class="headerlink" title="第5章 虚拟机栈"></a>第5章 虚拟机栈</h1><h2 id="1-虚拟机栈概述"><a href="#1-虚拟机栈概述" class="headerlink" title="1 虚拟机栈概述"></a>1 虚拟机栈概述</h2><p>由于跨平台性的设计，Java的指令都是根据栈来设计的。不同平台CPU架构不同，所以不能设计为基于寄存器的。<br>优点是跨平台，指令集小，编译器容易实现，缺点是性能下降，实现同样的功能需要更多的指令。</p>
+<p>有不少Java开发人员一提到Java内存结构，就会非常粗粒度地将JVM中的内存区理解为仅有Java堆（heap）和Java战（stack）？为什么？</p>
+<p>首先栈是运行时的单位，而堆是存储的单位</p>
+<ul>
+<li>栈解决程序的运行问题，即程序如何执行，或者说如何处理数据。</li>
+<li>堆解决的是数据存储的问题，即数据怎么放，放哪里</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200705163928652.png" alt="image-20200705163928652"></p>
+<h3 id="1-1-Java虚拟机栈是什么"><a href="#1-1-Java虚拟机栈是什么" class="headerlink" title="1.1 Java虚拟机栈是什么"></a>1.1 Java虚拟机栈是什么</h3><p>Java虚拟机栈（Java Virtual Machine Stack），早期也叫Java栈。每个线程在创建时都会创建一个虚拟机栈，其内部保存一个个的栈帧（Stack Frame），对应着一次次的Java方法调用。</p>
+<blockquote>
+<p>是线程私有的</p>
+</blockquote>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200705164722033.png" alt="image-20200705164722033"></p>
+<h3 id="1-2-生命周期"><a href="#1-2-生命周期" class="headerlink" title="1.2 生命周期"></a>1.2 生命周期</h3><p>生命周期和线程一致，也就是线程结束了，该虚拟机栈也销毁了</p>
+<h3 id="1-3-作用"><a href="#1-3-作用" class="headerlink" title="1.3 作用"></a>1.3 作用</h3><p>主管Java程序的运行，它保存方法的局部变量、部分结果，并参与方法的调用和返回。</p>
+<blockquote>
+<p>局部变量，它是相比于成员变量来说的（或属性）</p>
+<p>基本数据类型变量 VS  引用类型变量（类、数组、接口）</p>
+</blockquote>
+<h3 id="1-4-栈的特点"><a href="#1-4-栈的特点" class="headerlink" title="1.4 栈的特点"></a>1.4 栈的特点</h3><p>栈是一种快速有效的分配存储方式，访问速度仅次于程序计数器。JVM直接对Java栈的操作只有两个：</p>
+<ul>
+<li>每个方法执行，伴随着进栈（入栈、压栈）</li>
+<li>执行结束后的出栈工作</li>
+</ul>
+<p>对于栈来说不存在垃圾回收问题（栈存在溢出的情况）</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200705165025382.png" alt="image-20200705165025382"></p>
+<h3 id="1-5-开发中遇到哪些异常？"><a href="#1-5-开发中遇到哪些异常？" class="headerlink" title="1.5 开发中遇到哪些异常？"></a>1.5 开发中遇到哪些异常？</h3><p>栈中可能出现的异常</p>
+<p>Java 虚拟机规范允许Java栈的大小是动态的或者是固定不变的。</p>
+<p>如果采用固定大小的Java虚拟机栈，那每一个线程的Java虚拟机栈容量可以在线程创建的时候独立选定。如果线程请求分配的栈容量超过Java虚拟机栈允许的最大容量，Java虚拟机将会抛出一个StackoverflowError 异常。</p>
+<p>如果Java虚拟机栈可以动态扩展，并且在尝试扩展的时候无法申请到足够的内存，或者在创建新的线程时没有足够的内存去创建对应的虚拟机栈，那Java虚拟机将会抛出一个 outofMemoryError 异常。</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StackErrorTest</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> count = <span class="hljs-number">1</span>;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        System.out.println(count++);
+        main(args);
+    &#125;
+&#125;</code></pre></div>
+
+<p>当栈深度达到9872的时候，就出现栈内存空间不足</p>
+<h3 id="1-6-设置栈内存大小"><a href="#1-6-设置栈内存大小" class="headerlink" title="1.6 设置栈内存大小"></a>1.6 设置栈内存大小</h3><p>我们可以使用参数 -Xss选项来设置线程的最大栈空间，栈的大小直接决定了函数调用的最大可达深度</p>
+<div class="code-wrapper"><pre><code class="hljs shell">-Xss1m
+-Xss1k</code></pre></div>
+
+<h2 id="2-栈的存储单位"><a href="#2-栈的存储单位" class="headerlink" title="2 栈的存储单位"></a>2 栈的存储单位</h2><p>每个线程都有自己的栈，栈中的数据都是以栈帧（Stack Frame）的格式存在。</p>
+<p>在这个线程上正在执行的每个方法都各自对应一个栈帧（Stack Frame）。</p>
+<p>栈帧是一个内存区块，是一个数据集，维系着方法执行过程中的各种数据信息。</p>
+<h3 id="2-1-栈中存储什么？"><a href="#2-1-栈中存储什么？" class="headerlink" title="2.1 栈中存储什么？"></a>2.1 栈中存储什么？</h3><p>每个线程都有自己的栈，栈中的数据都是以栈帧（Stack Frame）的格式存在。在这个线程上正在执行的每个方法都各自对应一个栈颜（Stack Frame）。栈帧是一个内存区块，是一个数据集，维系着方法执行过程中的各种数据信息。</p>
+<blockquote>
+<p>OOP的基本概念：类和对象</p>
+<p>类中基本结构：field（属性、字段、域）、method</p>
+</blockquote>
+<p>JVM直接对Java栈的操作只有两个，就是对栈帧的压栈和出栈，遵循“先进后出”/“后进先出”原则。</p>
+<p>在一条活动线程中，一个时间点上，只会有一个活动的栈帧。即只有当前正在执行的方法的栈帧（栈顶栈帧）是有效的，这个栈帧被称为当前栈帧（Current Frame），与当前栈帧相对应的方法就是当前方法（Current Method），定义这个方法的类就是当前类（Current Class）。</p>
+<p>执行引擎运行的所有字节码指令只针对当前栈帧进行操作。</p>
+<p>如果在该方法中调用了其他方法，对应的新的栈帧会被创建出来，放在栈的顶端，成为新的当前帧。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200705203142545.png" alt="image-20200705203142545"></p>
+<p>下面写一个简单的代码</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StackFrameTest</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        method01();
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">method01</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.println(<span class="hljs-string">&quot;方法1的开始&quot;</span>);
+        <span class="hljs-keyword">int</span> i = method02();
+        System.out.println(<span class="hljs-string">&quot;方法1的结束&quot;</span>);
+        <span class="hljs-keyword">return</span> i;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">method02</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.println(<span class="hljs-string">&quot;方法2的开始&quot;</span>);
+        <span class="hljs-keyword">int</span> i = method03();;
+        System.out.println(<span class="hljs-string">&quot;方法2的结束&quot;</span>);
+        <span class="hljs-keyword">return</span> i;
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">method03</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.println(<span class="hljs-string">&quot;方法3的开始&quot;</span>);
+        <span class="hljs-keyword">int</span> i = <span class="hljs-number">30</span>;
+        System.out.println(<span class="hljs-string">&quot;方法3的结束&quot;</span>);
+        <span class="hljs-keyword">return</span> i;
+    &#125;
+&#125;</code></pre></div>
+
+<p>输出结果为</p>
+<div class="code-wrapper"><pre><code class="hljs bash">方法1的开始
+方法2的开始
+方法3的开始
+方法3的结束
+方法2的结束
+方法1的结束</code></pre></div>
+
+<p>满足栈先进后出的概念，通过Idea的 DEBUG，能够看到栈信息</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200705203916023.png" alt="image-20200705203916023"></p>
+<h3 id="2-2-栈运行原理"><a href="#2-2-栈运行原理" class="headerlink" title="2.2 栈运行原理"></a>2.2 栈运行原理</h3><p>不同线程中所包含的栈帧是不允许存在相互引用的，即不可能在一个栈帧之中引用另外一个线程的栈帧。</p>
+<p>如果当前方法调用了其他方法，方法返回之际，当前栈帧会传回此方法的执行结果给前一个栈帧，接着，虚拟机会丢弃当前栈帧，使得前一个栈帧重新成为当前栈帧。</p>
+<p>Java方法有两种返回函数的方式，一种是正常的函数返回，使用return指令；另外一种是抛出异常。不管使用哪种方式，都会导致栈帧被弹出。</p>
+<h3 id="2-3-栈帧的内部结构"><a href="#2-3-栈帧的内部结构" class="headerlink" title="2.3 栈帧的内部结构"></a>2.3 栈帧的内部结构</h3><p>每个栈帧中存储着：</p>
+<ul>
+<li>局部变量表（Local Variables）</li>
+<li>操作数栈（operand Stack）（或表达式栈）</li>
+<li>动态链接（DynamicLinking）（或指向运行时常量池的方法引用）</li>
+<li>方法返回地址（Return Address）（或方法正常退出或者异常退出的定义）</li>
+<li>一些附加信息</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200705204836977.png" alt="image-20200705204836977"></p>
+<p>并行每个线程下的栈都是私有的，因此每个线程都有自己各自的栈，并且每个栈里面都有很多栈帧，栈帧的大小主要由局部变量表 和 操作数栈决定的</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200705205443993.png" alt="image-20200705205443993"></p>
+<h2 id="3-局部变量表"><a href="#3-局部变量表" class="headerlink" title="3 局部变量表"></a>3 局部变量表</h2><p>局部变量表：Local Variables，被称之为局部变量数组或本地变量表</p>
+<p>定义为一个数字数组，主要用于存储方法参数和定义在方法体内的局部变量这些数据类型包括各类基本数据类型、对象引用（reference），以及returnAddress类型。</p>
+<p>由于局部变量表是建立在线程的栈上，是线程的私有数据，因此不存在数据安全问题</p>
+<p>局部变量表所需的容量大小是在编译期确定下来的，并保存在方法的Code属性的maximum local variables数据项中。在方法运行期间是不会改变局部变量表的大小的。</p>
+<p>方法嵌套调用的次数由栈的大小决定。一般来说，栈越大，方法嵌套调用次数越多。对一个函数而言，它的参数和局部变量越多，使得局部变量表膨胀，它的栈帧就越大，以满足方法调用所需传递的信息增大的需求。进而函数调用就会占用更多的栈空间，导致其嵌套调用次数就会减少。</p>
+<p>局部变量表中的变量只在当前方法调用中有效。在方法执行时，虚拟机通过使用局部变量表完成参数值到参数变量列表的传递过程。当方法调用结束后，随着方法栈帧的销毁，局部变量表也会随之销毁。</p>
+<h3 id="3-1-关于Slot的理解"><a href="#3-1-关于Slot的理解" class="headerlink" title="3.1 关于Slot的理解"></a>3.1 关于Slot的理解</h3><p>参数值的存放总是在局部变量数组的index0开始，到数组长度-1的索引结束。</p>
+<p>局部变量表，最基本的存储单元是Slot（变量槽）局部变量表中存放编译期可知的各种基本数据类型（8种），引用类型（reference），returnAddress类型的变量。</p>
+<p>在局部变量表里，32位以内的类型只占用一个slot（包括returnAddress类型），64位的类型（1ong和double）占用两个slot。</p>
+<blockquote>
+<p>byte、short、char 在存储前被转换为int，boolean也被转换为int，0表示false，非0表示true。<br>1ong和double则占据两个slot。</p>
+</blockquote>
+<p>JVM会为局部变量表中的每一个Slot都分配一个访问索引，通过这个索引即可成功访问到局部变量表中指定的局部变量值</p>
+<p>当一个实例方法被调用的时候，它的方法参数和方法体内部定义的局部变量将会按照顺序被复制到局部变量表中的每一个slot上</p>
+<p>如果需要访问局部变量表中一个64bit的局部变量值时，只需要使用前一个索引即可。（比如：访问1ong或doub1e类型变量）</p>
+<p>如果当前帧是由构造方法或者实例方法创建的，那么该对象引用this将会存放在index为0的s1ot处，其余的参数按照参数表顺序继续排列。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200705212454445.png" alt="image-20200705212454445"></p>
+<h3 id="3-2-Slot的重复利用"><a href="#3-2-Slot的重复利用" class="headerlink" title="3.2 Slot的重复利用"></a>3.2 Slot的重复利用</h3><p>栈帧中的局部变量表中的槽位是可以重用的，如果一个局部变量过了其作用域，那么在其作用域之后申明的新的局部变就很有可能会复用过期局部变量的槽位，从而达到节省资源的目的。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200705213106749.png" alt="image-20200705213106749"></p>
+<h3 id="3-3-静态变量与局部变量的对比"><a href="#3-3-静态变量与局部变量的对比" class="headerlink" title="3.3 静态变量与局部变量的对比"></a>3.3 静态变量与局部变量的对比</h3><p>变量的分类：</p>
+<ul>
+<li>按数据类型分：基本数据类型、引用数据类型</li>
+<li>按类中声明的位置分：成员变量（类变量，实例变量）、局部变量<ul>
+<li>类变量：linking的paper阶段，给类变量默认赋值，init阶段给类变量显示赋值即静态代码块</li>
+<li>实例变量：随着对象创建，会在堆空间中分配实例变量空间，并进行默认赋值</li>
+<li>局部变量：在使用前必须进行显式赋值，不然编译不通过。</li>
+</ul>
+</li>
+</ul>
+<p>参数表分配完毕之后，再根据方法体内定义的变量的顺序和作用域分配。</p>
+<p>我们知道类变量表有两次初始化的机会，第一次是在“准备阶段”，执行系统初始化，对类变量设置零值，另一次则是在“初始化”阶段，赋予程序员在代码中定义的初始值。</p>
+<p>和类变量初始化不同的是，局部变量表不存在系统初始化的过程，这意味着一旦定义了局部变量则必须人为的初始化，否则无法使用。</p>
+<p>在栈帧中，与性能调优关系最为密切的部分就是前面提到的局部变量表。在方法执行时，虚拟机使用局部变量表完成方法的传递。</p>
+<p>局部变量表中的变量也是重要的垃圾回收根节点，只要被局部变量表中直接或间接引用的对象都不会被回收。</p>
+<h2 id="4-操作数栈"><a href="#4-操作数栈" class="headerlink" title="4 操作数栈"></a>4 操作数栈</h2><h3 id="4-1-概念"><a href="#4-1-概念" class="headerlink" title="4.1 概念"></a>4.1 概念</h3><p>操作数栈：Operand Stack</p>
+<p>每一个独立的栈帧除了包含局部变量表以外，还包含一个后进先出（Last - In - First -Out）的 <strong>操作数栈</strong>，也可以称之为 <strong>表达式栈</strong>（Expression Stack）</p>
+<p>操作数栈，在方法执行过程中，根据字节码指令，往栈中写入数据或提取数据，即入栈（push）和 出栈（pop）</p>
+<ul>
+<li>某些字节码指令将值压入操作数栈，其余的字节码指令将操作数取出栈。使用它们后再把结果压入栈</li>
+<li>比如：执行复制、交换、求和等操作</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200706090618332.png" alt="image-20200706090618332"></p>
+<p>代码举例</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200706090833697.png" alt="image-20200706090833697"></p>
+<p>操作数栈，主要用于保存计算过程的中间结果，同时作为计算过程中变量临时的存储空间。</p>
+<p>操作数栈就是JVM执行引擎的一个工作区，当一个方法刚开始执行的时候，一个新的栈帧也会随之被创建出来，这个方法的操作数栈是空的。.</p>
+<blockquote>
+<p>这个时候数组是有长度的，因为数组一旦创建，那么就是不可变的</p>
+</blockquote>
+<p>每一个操作数栈都会拥有一个明确的栈深度用于存储数值，其所需的最大深度在编译期就定义好了，保存在方法的Code属性中，为maxstack的值。</p>
+<p>栈中的任何一个元素都是可以任意的Java数据类型</p>
+<ul>
+<li>32bit的类型占用一个栈单位深度</li>
+<li>64bit的类型占用两个栈单位深度</li>
+</ul>
+<p>操作数栈并非采用访问索引的方式来进行数据访问的，而是只能通过标准的入栈和出栈操作来完成一次数据访问</p>
+<p>如果被调用的方法带有返回值的话，其返回值将会被压入当前栈帧的操作数栈中，并更新PC寄存器中下一条需要执行的字节码指令。</p>
+<p>操作数栈中元素的数据类型必须与字节码指令的序列严格匹配，这由编译器在编译器期间进行验证，同时在类加载过程中的类检验阶段的数据流分析阶段要再次验证。|</p>
+<p>另外，我们说Java虚拟机的解释引擎是基于栈的执行引擎，其中的栈指的就是操作数栈。</p>
+<h3 id="4-2-代码追踪"><a href="#4-2-代码追踪" class="headerlink" title="4.2 代码追踪"></a>4.2 代码追踪</h3><p>我们给定代码</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testAddOperation</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-keyword">byte</span> i = <span class="hljs-number">15</span>;
+    <span class="hljs-keyword">int</span> j = <span class="hljs-number">8</span>;
+    <span class="hljs-keyword">int</span> k = i + j;
+&#125;</code></pre></div>
+
+<p>使用javap 命令反编译class文件： javap -v 类名.class</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200706092610730.png" alt="image-20200706092610730"></p>
+<blockquote>
+<p>byte、short、char、boolean 内部都是使用int型来进行保存的</p>
+<p>从上面的代码我们可以知道，我们都是通过bipush对操作数 15 和  8进行入栈操作</p>
+<p>同时使用的是 iadd方法进行相加操作，i -&gt; 代表的就是 int，也就是int类型的加法操作</p>
+</blockquote>
+<p>执行流程如下所示：</p>
+<p>首先执行第一条语句，PC寄存器指向的是0，也就是指令地址为0，然后使用bipush让操作数15入栈。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200706093131621.png" alt="image-20200706093131621"></p>
+<p>执行完后，让PC + 1，指向下一行代码，下一行代码就是将操作数栈的元素存储到局部变量表1的位置，我们可以看到局部变量表的已经增加了一个元素</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200706093251302.png" alt="image-20200706093251302"></p>
+<blockquote>
+<p>为什么局部变量表不是从0开始的呢？</p>
+<p>其实局部变量表也是从0开始的，但是因为0号位置存储的是this指针，所以说就直接省略了~</p>
+</blockquote>
+<p>然后PC+1，指向的是下一行。让操作数8也入栈，同时执行store操作，存入局部变量表中</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200706093646406.png" alt="image-20200706093646406"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200706093751711.png" alt="image-20200706093751711"></p>
+<p>然后从局部变量表中，依次将数据放在操作数栈中</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200706093859191.png" alt="image-20200706093859191"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200706093921573.png" alt="image-20200706093921573"></p>
+<p>然后将操作数栈中的两个元素执行相加操作，并存储在局部变量表3的位置</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200706094046782.png" alt="image-20200706094046782"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200706094109629.png" alt="image-20200706094109629"></p>
+<p>最后PC寄存器的位置指向10，也就是return方法，则直接退出方法</p>
+<p>i++和++i的区别</p>
+<h2 id="5-栈顶缓存技术"><a href="#5-栈顶缓存技术" class="headerlink" title="5 栈顶缓存技术"></a>5 栈顶缓存技术</h2><p>栈顶缓存技术：Top Of Stack Cashing</p>
+<p>前面提过，基于栈式架构的虚拟机所使用的零地址指令更加紧凑，但完成一项操作的时候必然需要使用更多的入栈和出栈指令，这同时也就意味着将需要更多的指令分派（instruction dispatch）次数和内存读/写次数。</p>
+<p>由于操作数是存储在内存中的，因此频繁地执行内存读/写操作必然会影响执行速度。为了解决这个问题，HotSpot JVM的设计者们提出了栈顶缓存（Tos，Top-of-Stack Cashing）技术，将栈顶元素全部缓存在物理CPU的寄存器中，以此降低对内存的读/写次数，提升执行引擎的执行效率。</p>
+<blockquote>
+<p>寄存器：指令更少，执行速度快</p>
+</blockquote>
+<h2 id="6-动态链接"><a href="#6-动态链接" class="headerlink" title="6 动态链接"></a>6 动态链接</h2><p>动态链接：Dynamic Linking</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200706100311886.png" alt="image-20200706100311886"></p>
+<blockquote>
+<p>动态链接、方法返回地址、附加信息 ： 有些地方被称为帧数据区</p>
+</blockquote>
+<p>每一个栈帧内部都包含一个指向<strong>运行时常量池</strong>中该栈帧所属方法的引用包含这个引用的目的就是为了支持当前方法的代码能够实现动态链接（Dynamic Linking）。比如：invokedynamic指令</p>
+<p>在Java源文件被编译到字节码文件中时，所有的变量和方法引用都作为符号引用（symbolic Reference）保存在class文件的常量池里。</p>
+<p>比如：描述一个方法调用了另外的其他方法时，就是通过常量池中指向方法的符号引用来表示的，那么动态链接的作用就是为了将这些符号引用转换为调用方法的直接引用。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200706101251847.png" alt="image-20200706101251847"></p>
+<blockquote>
+<p>为什么需要运行时常量池？</p>
+<p>因为在不同的方法，都可能调用常量或者方法，所以只需要存储一份即可，节省了空间</p>
+<p>常量池的作用：就是为了提供一些符号和常量，便于指令的识别</p>
+</blockquote>
+<h2 id="7-方法调用：解析与分配"><a href="#7-方法调用：解析与分配" class="headerlink" title="7 方法调用：解析与分配"></a>7 方法调用：解析与分配</h2><p>在JVM中，将符号引用转换为调用方法的直接引用与方法的绑定机制相关</p>
+<h3 id="7-1-链接"><a href="#7-1-链接" class="headerlink" title="7.1 链接"></a>7.1 链接</h3><h4 id="静态链接"><a href="#静态链接" class="headerlink" title="静态链接"></a>静态链接</h4><p>当一个字节码文件被装载进JVM内部时，如果被调用的目标方法在编译期被确定，且运行期保持不变时，这种情况下降调用方法的符号引用转换为直接引用的过程称之为静态链接</p>
+<h4 id="动态链接"><a href="#动态链接" class="headerlink" title="动态链接"></a>动态链接</h4><p>如果被调用的方法在编译期无法被确定下来，也就是说，只能够在程序运行期将调用的方法的符号转换为直接引用，由于这种引用转换过程具备动态性，因此也被称之为动态链接。</p>
+<h3 id="7-2-绑定机制"><a href="#7-2-绑定机制" class="headerlink" title="7.2 绑定机制"></a>7.2 绑定机制</h3><p>对应的方法的绑定机制为：早期绑定（Early Binding）和晚期绑定（Late Binding）。绑定是一个字段、方法或者类在符号引用被替换为直接引用的过程，这仅仅发生一次。</p>
+<h4 id="早期绑定"><a href="#早期绑定" class="headerlink" title="早期绑定"></a>早期绑定</h4><p>早期绑定就是指被调用的目标方法如果在编译期可知，且运行期保持不变时，即可将这个方法与所属的类型进行绑定，这样一来，由于明确了被调用的目标方法究竟是哪一个，因此也就可以使用静态链接的方式将符号引用转换为直接引用。</p>
+<h4 id="晚期绑定"><a href="#晚期绑定" class="headerlink" title="晚期绑定"></a>晚期绑定</h4><p>如果被调用的方法在编译期无法被确定下来，只能够在程序运行期根据实际的类型绑定相关的方法，这种绑定方式也就被称之为晚期绑定。</p>
+<h3 id="早晚期绑定的发展历史"><a href="#早晚期绑定的发展历史" class="headerlink" title="早晚期绑定的发展历史"></a>早晚期绑定的发展历史</h3><p>随着高级语言的横空出世，类似于Java一样的基于面向对象的编程语言如今越来越多，尽管这类编程语言在语法风格上存在一定的差别，但是它们彼此之间始终保持着一个共性，那就是都支持封装、继承和多态等面向对象特性，既然这一类的编程语言具备多态特性，那么自然也就具备早期绑定和晚期绑定两种绑定方式。</p>
+<p>Java中任何一个普通的方法其实都具备虚函数的特征，它们相当于C++语言中的虚函数（C++中则需要使用关键字virtual来显式定义）。如果在Java程序中不希望某个方法拥有虚函数的特征时，则可以使用关键字final来标记这个方法。</p>
+<h3 id="7-3-虚方法和非虚方法"><a href="#7-3-虚方法和非虚方法" class="headerlink" title="7.3 虚方法和非虚方法"></a>7.3 虚方法和非虚方法</h3><ul>
+<li>如果方法在编译期就确定了具体的调用版本，这个版本在运行时是不可变的。这样的方法称为非虚方法。</li>
+<li>静态方法、私有方法、final方法、实例构造器、父类方法都是非虚方法。</li>
+<li>其他方法称为虚方法。</li>
+</ul>
+<blockquote>
+<p>子类对象的多态的使用前提</p>
+<ul>
+<li>类的继承关系</li>
+<li>方法的重写</li>
+</ul>
+</blockquote>
+<p>虚拟机中提供了以下几条方法调用指令：</p>
+<h4 id="普通调用指令："><a href="#普通调用指令：" class="headerlink" title="普通调用指令："></a>普通调用指令：</h4><ul>
+<li>invokestatic：调用静态方法，解析阶段确定唯一方法版本</li>
+<li>invokespecial：调用<init>方法、私有及父类方法，解析阶段确定唯一方法版本</init></li>
+<li>invokevirtual：调用所有虚方法</li>
+<li>invokeinterface：调用接口方法</li>
+</ul>
+<h4 id="动态调用指令："><a href="#动态调用指令：" class="headerlink" title="动态调用指令："></a>动态调用指令：</h4><ul>
+<li>invokedynamic：动态解析出需要调用的方法，然后执行</li>
+</ul>
+<p>前四条指令固化在虚拟机内部，方法的调用执行不可人为干预，而invokedynamic指令则支持由用户确定方法版本。其中invokestatic指令和invokespecial指令调用的方法称为非虚方法，其余的（fina1修饰的除外）称为虚方法。</p>
+<h3 id="7-4-invokedynamic指令"><a href="#7-4-invokedynamic指令" class="headerlink" title="7.4 invokedynamic指令"></a>7.4 invokedynamic指令</h3><p>JVM字节码指令集一直比较稳定，一直到Java7中才增加了一个invokedynamic指令，这是Java为了实现动态类型语言】支持而做的一种改进。</p>
+<p>但是在Java7中并没有提供直接生成invokedynamic指令的方法，需要借助ASM这种底层字节码工具来产生invokedynamic指令。直到Java8的Lambda表达式的出现，invokedynamic指令的生成，在Java中才有了直接的生成方式。</p>
+<p>Java7中增加的动态语言类型支持的本质是对Java虚拟机规范的修改，而不是对Java语言规则的修改，这一块相对来讲比较复杂，增加了虚拟机中的方法调用，最直接的受益者就是运行在Java平台的动态语言的编译器。</p>
+<h3 id="7-5-动态类型语言和静态类型语言"><a href="#7-5-动态类型语言和静态类型语言" class="headerlink" title="7.5 动态类型语言和静态类型语言"></a>7.5 动态类型语言和静态类型语言</h3><p>动态类型语言和静态类型语言两者的区别就在于对类型的检查是在编译期还是在运行期，满足前者就是静态类型语言，反之是动态类型语言。</p>
+<p>说的再直白一点就是，静态类型语言是判断变量自身的类型信息；动态类型语言是判断变量值的类型信息，变量没有类型信息，变量值才有类型信息，这是动态语言的一个重要特征。</p>
+<blockquote>
+<p>Java：String info = “mogu blog”;     (Java是静态类型语言的，会先编译就进行类型检查)</p>
+<p>JS：var name = “shkstart”;    var name = 10;    （运行时才进行检查）</p>
+</blockquote>
+<h3 id="7-6-方法重写的本质"><a href="#7-6-方法重写的本质" class="headerlink" title="7.6 方法重写的本质"></a>7.6 方法重写的本质</h3><h4 id="Java-语言中方法重写的本质："><a href="#Java-语言中方法重写的本质：" class="headerlink" title="Java 语言中方法重写的本质："></a>Java 语言中方法重写的本质：</h4><ul>
+<li>找到操作数栈顶的第一个元素所执行的对象的实际类型，记作C。</li>
+<li>如果在类型C中找到与常量中的描述符合简单名称都相符的方法，则进行访问权限校验，如果通过则返回这个方法的直接引用，查找过程结束；如果不通过，则返回java.1ang.I1legalAccessError 异常。</li>
+<li>否则，按照继承关系从下往上依次对C的各个父类进行第2步的搜索和验证过程。</li>
+<li>如果始终没有找到合适的方法，则抛出java.1ang.AbstractMethodsrror异常。</li>
+</ul>
+<h4 id="IllegalAccessError介绍"><a href="#IllegalAccessError介绍" class="headerlink" title="IllegalAccessError介绍"></a>IllegalAccessError介绍</h4><p>程序试图访问或修改一个属性或调用一个方法，这个属性或方法，你没有权限访问。一般的，这个会引起编译器异常。这个错误如果发生在运行时，就说明一个类发生了不兼容的改变。</p>
+<h3 id="7-7-方法的调用：虚方法表"><a href="#7-7-方法的调用：虚方法表" class="headerlink" title="7.7 方法的调用：虚方法表"></a>7.7 方法的调用：虚方法表</h3><p>在面向对象的编程中，会很频繁的使用到动态分派，如果在每次动态分派的过程中都要重新在类的方法元数据中搜索合适的目标的话就可能影响到执行效率。因此，为了提高性能，JVM采用在类的方法区建立一个虚方法表<br>（virtual method table）（非虚方法不会出现在表中）来实现。使用索引表来代替查找。</p>
+<p>每个类中都有一个虚方法表，表中存放着各个方法的实际入口。</p>
+<p>虚方法表是什么时候被创建的呢？</p>
+<p>虚方法表会在类加载的链接阶段被创建并开始初始化，类的变量初始值准备完成之后，JVM会把该类的方法表也初始化完毕。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200706144954070.png" alt="image-20200706144954070"></p>
+<p>如上图所示：如果类中重写了方法，那么调用的时候，就会直接在虚方法表中查找，否则将会直接连接到Object的方法中。</p>
+<h2 id="8-方法返回地址"><a href="#8-方法返回地址" class="headerlink" title="8 方法返回地址"></a>8 方法返回地址</h2><p>存放调用该方法的pc寄存器的值。一个方法的结束，有两种方式：</p>
+<ul>
+<li><p>正常执行完成</p>
+</li>
+<li><p>出现未处理的异常，非正常退出</p>
+</li>
+</ul>
+<p>无论通过哪种方式退出，在方法退出后都返回到该方法被调用的位置。方法正常退出时，调用者的pc计数器的值作为返回地址，即调用该方法的指令的下一条指令的地址。而通过异常退出的，返回地址是要通过异常表来确定，栈帧中一般不会保存这部分信息。</p>
+<p>当一个方法开始执行后，只有两种方式可以退出这个方法：</p>
+<p>执行引擎遇到任意一个方法返回的字节码指令（return），会有返回值传递给上层的方法调用者，简称正常完成出口；</p>
+<ul>
+<li>一个方法在正常调用完成之后，究竟需要使用哪一个返回指令，还需要根据方法返回值的实际数据类型而定。</li>
+<li>在字节码指令中，返回指令包含ireturn（当返回值是boolean，byte，char，short和int类型时使用），lreturn（Long类型），freturn（Float类型），dreturn（Double类型），areturn。另外还有一个return指令声明为void的方法，实例初始化方法，类和接口的初始化方法使用。</li>
+</ul>
+<p>在方法执行过程中遇到异常（Exception），并且这个异常没有在方法内进行处理，也就是只要在本方法的异常表中没有搜索到匹配的异常处理器，就会导致方法退出，简称异常完成出口。</p>
+<p>方法执行过程中，抛出异常时的异常处理，存储在一个异常处理表，方便在发生异常的时候找到处理异常的代码</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/master/JVM/1_%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AF%87/5_%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/images/image-20200706154554604.png" alt="image-20200706154554604"></p>
+<p>本质上，方法的退出就是当前栈帧出栈的过程。此时，需要恢复上层方法的局部变量表、操作数栈、将返回值压入调用者栈帧的操作数栈、设置PC寄存器值等，让调用者方法继续执行下去。</p>
+<p>正常完成出口和异常完成出口的区别在于：通过异常完成出口退出的不会给他的上层调用者产生任何的返回值。</p>
+<h2 id="9-一些附加信息"><a href="#9-一些附加信息" class="headerlink" title="9 一些附加信息"></a>9 一些附加信息</h2><p>栈帧中还允许携带与Java虚拟机实现相关的一些附加信息。例如：对程序调试提供支持的信息。</p>
+<h2 id="10-栈的相关面试题"><a href="#10-栈的相关面试题" class="headerlink" title="10 栈的相关面试题"></a>10 栈的相关面试题</h2><ul>
+<li>举例栈溢出的情况？（StackOverflowError）<ul>
+<li>通过 -Xss设置栈的大小</li>
+</ul>
+</li>
+<li>调整栈大小，就能保证不出现溢出么？<ul>
+<li>不能保证不溢出</li>
+</ul>
+</li>
+<li>分配的栈内存越大越好么？<ul>
+<li>不是，一定时间内降低了OOM概率，但是会挤占其它的线程空间，因为整个空间是有限的。</li>
+</ul>
+</li>
+<li>垃圾回收是否涉及到虚拟机栈？<ul>
+<li>不会</li>
+</ul>
+</li>
+<li>方法中定义的局部变量是否线程安全？<ul>
+<li>具体问题具体分析</li>
+</ul>
+</li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 面试题</span>
+<span class="hljs-comment"> * 方法中定义局部变量是否线程安全？具体情况具体分析</span>
+<span class="hljs-comment"> * 何为线程安全？</span>
+<span class="hljs-comment"> *    如果只有一个线程才可以操作此数据，则必是线程安全的</span>
+<span class="hljs-comment"> *    如果有多个线程操作，则此数据是共享数据，如果不考虑共享机制，则为线程不安全</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StringBuilderTest</span> </span>&#123;
+
+    <span class="hljs-comment">// s1的声明方式是线程安全的</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">method01</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-comment">// 线程内部创建的，属于局部变量</span>
+        StringBuilder s1 = <span class="hljs-keyword">new</span> StringBuilder();
+        s1.append(<span class="hljs-string">&quot;a&quot;</span>);
+        s1.append(<span class="hljs-string">&quot;b&quot;</span>);
+    &#125;
+
+    <span class="hljs-comment">// 这个也是线程不安全的，因为有返回值，有可能被其它的程序所调用</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> StringBuilder <span class="hljs-title">method04</span><span class="hljs-params">()</span> </span>&#123;
+        StringBuilder stringBuilder = <span class="hljs-keyword">new</span> StringBuilder();
+        stringBuilder.append(<span class="hljs-string">&quot;a&quot;</span>);
+        stringBuilder.append(<span class="hljs-string">&quot;b&quot;</span>);
+        <span class="hljs-keyword">return</span> stringBuilder;
+    &#125;
+
+    <span class="hljs-comment">// stringBuilder 是线程不安全的，操作的是共享数据</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">method02</span><span class="hljs-params">(StringBuilder stringBuilder)</span> </span>&#123;
+        stringBuilder.append(<span class="hljs-string">&quot;a&quot;</span>);
+        stringBuilder.append(<span class="hljs-string">&quot;b&quot;</span>);
+    &#125;
+
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 同时并发的执行，会出现线程不安全的问题</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">method03</span><span class="hljs-params">()</span> </span>&#123;
+        StringBuilder stringBuilder = <span class="hljs-keyword">new</span> StringBuilder();
+        <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+            stringBuilder.append(<span class="hljs-string">&quot;a&quot;</span>);
+            stringBuilder.append(<span class="hljs-string">&quot;b&quot;</span>);
+        &#125;, <span class="hljs-string">&quot;t1&quot;</span>).start();
+
+        method02(stringBuilder);
+    &#125;
+
+    <span class="hljs-comment">// StringBuilder是线程安全的，但是String也可能线程不安全的</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">method05</span><span class="hljs-params">()</span> </span>&#123;
+        StringBuilder stringBuilder = <span class="hljs-keyword">new</span> StringBuilder();
+        stringBuilder.append(<span class="hljs-string">&quot;a&quot;</span>);
+        stringBuilder.append(<span class="hljs-string">&quot;b&quot;</span>);
+        <span class="hljs-keyword">return</span> stringBuilder.toString();
+    &#125;
+&#125;</code></pre></div>
+
+<p>总结一句话就是：如果对象是在内部产生，并在内部消亡，没有返回到外部，那么它就是线程安全的，反之则是线程不安全的。</p>
+<p>运行时数据区，是否存在Error和GC？</p>
+<table>
+<thead>
+<tr>
+<th>运行时数据区</th>
+<th>是否存在Error</th>
+<th>是否存在GC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>程序计数器</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td>虚拟机栈</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>本地方法栈</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>方法区</td>
+<td>是（OOM）</td>
+<td>是</td>
+</tr>
+<tr>
+<td>堆</td>
+<td>是</td>
+<td>是</td>
+</tr>
+</tbody></table>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Tool/">Tool</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/22/K8s%E5%AD%A6%E4%B9%A0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">K8s 学习</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/06/08/%E5%9F%BA%E4%BA%8E%E7%89%A9%E8%81%94%E7%BD%91(IoT)%E7%9A%84%E5%A4%AA%E9%98%B3%E8%83%BD%E8%B7%9F%E8%B8%AA%E5%99%A8/">
+                        <span class="hidden-mobile">基于物联网(IoT)的太阳能跟踪器</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=a;var i=n.imageLazyLoadSetting.isSPA,o=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function a(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var a=0;a<r.length;a++)t=r[a],0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight*o||document.documentElement.clientHeight*o)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}();var t,e}a(),n.addEventListener("scroll",function(){var t,e;t=a,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>

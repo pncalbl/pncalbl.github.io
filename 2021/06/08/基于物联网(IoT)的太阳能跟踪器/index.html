@@ -1,0 +1,764 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon-t.png">
+  <link rel="icon" href="/img/favicon-t.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="pncalbl">
+  <meta name="keywords" content="计算机,开发,编程,代码,博客,技术">
+  
+  <title>基于物联网(IoT)的太阳能跟踪器 - pncalbl</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"pncalbl.github.io","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/rss2.xml" title="pncalbl" type="application/rss+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>pncalbl</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/post.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="基于物联网(IoT)的太阳能跟踪器">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      pncalbl
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-06-08 00:00" pubdate>
+        2021年6月8日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      49
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">基于物联网(IoT)的太阳能跟踪器</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：2 个月前
+                
+              </p>
+            
+            <div class="markdown-body">
+              <h1 id="基于物联网-IoT-的太阳能跟踪器"><a href="#基于物联网-IoT-的太阳能跟踪器" class="headerlink" title="基于物联网(IoT)的太阳能跟踪器"></a>基于物联网(IoT)的太阳能跟踪器</h1><h2 id="1-项目概述"><a href="#1-项目概述" class="headerlink" title="1 项目概述"></a>1 项目概述</h2><ul>
+<li><p>该项目提供了一个简单和低成本的 IoT 解决方案，用于监控和控制智能双轴太阳能跟踪系统，用于性能评估。</p>
+</li>
+<li><p>项目中的基于 IoT 的太阳能跟踪系统在图 1 中进行了描述。它是一种双轴太阳能跟踪器，可以自动旋转，使用LDR传感器跟踪太阳的位置，或者用户通过物理控制的仪表板手动跟踪太阳的位置。系统从 LDR 传感器检测太阳位置（光的强度）开始，并将数据发送到控制器（Arduino Mega 板）。后者然后处理这些数据以命令保存器 （SM1 和 SM2），这些存储器将光伏面板旋转到太阳。产生的光伏电压值和电流、温度和湿度也通过相关传感器发送到 Arduino。</p>
+</li>
+<li><p>接下来，安装在 Arduino 并允许其连接到 Internet 的以太网扩展模块将把Arduino正在获取或处理的数据发送到云（Webserver）。最后，通过预制的小部件实时显示太阳跟踪器数据，包括LDR传感器、光伏功率、温度和湿度。物联网监控应用程序是使用我的设备卡宴。一旦用户从计算机或智能手机连接到互联网，他可以在物联网应用程序的仪表板中在其相关小部件中可视化所有太阳能跟踪器数据。因此，用户拥有与光伏面板的环境和性能相关的必要数据。</p>
+</li>
+<li><p>此外，在手动模式下，伺服运动器将从仪表板中的相关小部件中获取角度方向。因此，用户可以控制自己的系统，以寻求最佳的环境条件，并从光伏面板中提取最大能量。物联网应用程序还被编程为在senor达到预定阈值时发送通知警报（短信或电子邮件）。</p>
+</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/06/08/%E5%9F%BA%E4%BA%8E%E7%89%A9%E8%81%94%E7%BD%91(IoT)%E7%9A%84%E5%A4%AA%E9%98%B3%E8%83%BD%E8%B7%9F%E8%B8%AA%E5%99%A8/clip_image002.png" alt="图1. 项目总体设计图。"></p>
+<p>​                                            </p>
+<h2 id="2-硬件设计"><a href="#2-硬件设计" class="headerlink" title="2 硬件设计"></a>2 硬件设计</h2><ul>
+<li>如图2所示，物联网太阳能跟踪系统由光伏电池板、两台伺服电机、四个LDR传感器、电压分频器电路、温度和湿度传感器、Led和Arduino Mega 板组成。</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/06/08/%E5%9F%BA%E4%BA%8E%E7%89%A9%E8%81%94%E7%BD%91(IoT)%E7%9A%84%E5%A4%AA%E9%98%B3%E8%83%BD%E8%B7%9F%E8%B8%AA%E5%99%A8/electronic_circuit_of_the_iot-based_solar_tracker_system_9ORL3xysVy.png" alt="图2. 基于物联网（IoT）的太阳能跟踪器的硬件电路图。"></p>
+<ul>
+<li><p>使用的光伏面板尺寸为 115 mm 乘 85mm，输出为 1.6 W，可产生高达 6 V 的电压。两个180度的伺服器用于使太阳能跟踪器电机化，它们由阿尔杜伊诺板通过PWM引脚5和6控制。左右 （L-R） 伺服电机 （MG996R） 在垂直轴上（东/西）旋转太阳跟踪器，而上下 （U-D） 伺服电机 （SG90） 在水平轴 （南/北） 上旋转太阳跟踪器。</p>
+</li>
+<li><p>四个LDR（Cds GL5528）用于感应太阳的位置，这些位置已固定在面板的四个角落。LDR 传感器通过 A0 到 A3 的模拟引脚连接到阿尔杜伊诺。LDR 是一种电阻器，其值随着表面光强度事件的增加而降低。LDR 传感器设计为电压分流器电路，如图 2 所见。分频器输出电压由 Arduino Mega 的微控制器从模拟值转换为 0 到 1023 之间的数字值。因为微控制器的模拟数字转换器 （ADC） 编码为 10 位。LDR 传感器电路中的系列电阻器值为 330 Ω。</p>
+</li>
+<li><p>温度和湿度通过 DHT22 传感器测量。DHT22 内嵌有一个热电容器和电容湿度传感器，可测量温度和相对湿度。其温度范围为 -40 至 80 °C，准确度为 &lt; ±0.5°C，湿度范围为 0 至 100%，±2%（最大±5%）准确性。此传感器使用一根信号线将数据传输到 Arduino（数字引脚 2）和两根用于电源的电线。</p>
+</li>
+<li><p>光伏电压和电流通过电压分隔电路测量，该分频器也作为负载，由两个 10 Ohms 的系列电阻器组成。分频器电路输出与阿尔杜伊诺的模拟引脚 A4 相连。此外，连接到数字引脚 3 的 LED 在系统电路中反映了太阳能跟踪器（手动或自动）的模式状态。</p>
+</li>
+<li><p>Arduino Mega 与ATmega2560 微控制器用作嵌入式控制器，与阿尔杜伊诺以太网屏蔽以及监控平台交互。安装在 Arduino 板上方的以太网防护罩必须通过图 3 中显示的 RJ45 电缆与 Wi-Fi 路由器 （或 PC） 连接。以太网盾基于 Wiznet W5100 以太网芯片，该芯片为 TCP 和 UDP 协议提供了网络 （IP） 堆栈。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/06/08/%E5%9F%BA%E4%BA%8E%E7%89%A9%E8%81%94%E7%BD%91(IoT)%E7%9A%84%E5%A4%AA%E9%98%B3%E8%83%BD%E8%B7%9F%E8%B8%AA%E5%99%A8/image2_7PtCrbSgOy.png" alt="图3. arduino 和以太网扩展模块之间的硬件连接图。"></p>
+</li>
+</ul>
+<h2 id="3-软件设计"><a href="#3-软件设计" class="headerlink" title="3 软件设计"></a>3 软件设计</h2><h3 id="3-1-Arduino-IDE"><a href="#3-1-Arduino-IDE" class="headerlink" title="3.1 Arduino IDE"></a>3.1 Arduino IDE</h3><p>Arduino 是一个开源电子原型平台，具有易于使用的硬件和软件。Arduino 平台提供集成开发环境 （IDE），其中包括对 C 和C++编程语言的支持。本作品中使用的 Arduino 板由 IDE 编程，该 IDE 充当代码编辑器，程序代码可以通过 USB 电缆上传到微控制器，如图 3 所示。Arduino 巨型板用于实现基于物联网的太阳能跟踪器的所有软件要求。</p>
+<h3 id="3-2-myDevices-Cayenne-我的设备卡宴"><a href="#3-2-myDevices-Cayenne-我的设备卡宴" class="headerlink" title="3.2 myDevices Cayenne (我的设备卡宴)"></a>3.2 myDevices Cayenne (我的设备卡宴)</h3><ul>
+<li>MyDevices 是一家提供完美的物联网解决方案的公司。它为 IoT 提供了端到端平台。在我们的项目中，我们将专注于卡宴，这是来自我的设备的解决方案之一。此工具允许开发人员、设计师和工程师构建物机原型。卡宴使用消息排队电信传输 （MQTT） 协议将任何设备与卡延内克云连接起来。连接后，用户可以通过创建的小部件将设备中的数据发送并接收到 Cayenne 仪表板。MQTT 是基于 TCP/IP 协议的发布订阅消息协议。发布订阅方法使用负责向客户端传递消息的消息代理。MQTT 是用于向卡宴云或卡宴控制的设备发送信息的 API。此连接中的消息代理是云，它管理发送和接收数据的不同客户端（传感器和执行器）。</li>
+<li>要使用 MQTT 与卡宴， 我们需要使用卡宴库。对于阿尔杜伊诺，可以从 IDE 的图书馆经理安装卡延内MQTT 库。要对基于 Cayenne 物联网平台的物联网应用进行编程，我们将利用预先定义的功能。例如，为了建立 Cayenne 云和配备以太网模块的 Arduino Mega 之间的连接，我们调用 CayenneMQTT 以太网库，在那里我们声明我们的身份验证信息（用户名、密码和客户 ID），这些信息应从 Cayenne 仪表板获得。然后，在程序的设置部分，我们调用 <em>Cayenne.开始 （）</em>功能来建立与 Cayenne 仪表板的连接。对于每个执行器，我们创建一个功能，其整数参数在 0 到 31 之间，称为 <em>CAYENNE IN（虚拟通道）。</em>对于每个传感器，我们创建一个功能，其整数参数在 0 到 31 之间，称为<em>CAYENNE_OUT （VIRTUAL_CHANNEL）</em>。在程序的循环部分，我们称为预先定义的函数 <em>Cayenne.loop （），</em>该函数本身称为功能<em>CAYENNE_OUT</em>和<em>CAYENNE_IN。</em>虚拟通道，因为它的名称建议是一个通道，没有物理存在，它的特点是可视化或命令小部件。它允许它们与相应的传感器或执行器连接。</li>
+</ul>
+<h3 id="3-3-The-embedded-software-design-嵌入式软件设计"><a href="#3-3-The-embedded-software-design-嵌入式软件设计" class="headerlink" title="3.3 The embedded software design(嵌入式软件设计)"></a>3.3 The embedded software design(嵌入式软件设计)</h3><p>嵌入式软件将嵌入到 Arduino Mega 中，以便在以太网模块和 Cayenne 云之间进行交互（参见附录）。其设计如下：</p>
+<h4 id="1-功能模式"><a href="#1-功能模式" class="headerlink" title="1 功能模式"></a>1 功能模式</h4><ul>
+<li><p>基于物联网的太阳能跟踪器具有两种功能模式：手动和自动。在 Cayenne 仪表板中创建的按钮具有在两种模式之间切换的作用。非活动时，选择手动模式，否则自动模式。此外，在 Arduino 代码中还建立了一个功能，允许恢复按钮的状态。系统电路中的 LED 反映了此开关的状态。</p>
+</li>
+<li><p>因此，要使控制器了解所选的操作模式，我们只需要测试 LED 连接的引脚状态。例如，如果 LED 状态较低，控制器将调用手动模式功能执行，否则将调用自动功能。</p>
+</li>
+</ul>
+<h4 id="2-手动模式"><a href="#2-手动模式" class="headerlink" title="2 手动模式"></a>2 手动模式</h4><ul>
+<li><p>如果选择手动模式，用户可以直接控制伺服器的位置，通过 L-R 伺服器将光伏板从东向西定向，或通过 U-D 伺服器从南向北定向。该控制由物联网应用程序仪表板中服务器运动器的相关小部件组成。</p>
+</li>
+<li><p>在此模式下，控制器调用 <strong><em>Cayenne.loop（）</em></strong>功能，该函数本身调用所有<strong><em>功能CAYENNE_IN（</em></strong>包括与伺服器相关的功能）执行。 <strong>Cayenne.loop（）</strong>功能还将调用与传感器相连的所有功能CAYENNE_OUT执行。如果将与 LDR 传感器、光伏电流、电压和功率、温度和湿度相关的数据发送到服务器，以便在物联网应用程序中的相关小部件中可视化这些数据。</p>
+</li>
+</ul>
+<h4 id="3-自动模式"><a href="#3-自动模式" class="headerlink" title="3 自动模式"></a>3 自动模式</h4><ul>
+<li><p>如果选择自动模式，将执行图 4 中显示的算法。该算法首先阅读 LDR 传感器返回的模拟值。然后，它会处理这些数据以命令将光伏面板移向太阳位置的伺服运动器。考虑到基于垂直轴的太阳能跟踪器运动，比较了左侧两个LDR和右侧两个LDR的平均值，如果左侧接收到更多的光，光伏电池板将朝这个方向（顺时针方向）穿过L-R伺服器。当差额结果在 -10 和 10 之间时，后者将停止。此范围用于稳定控制器并降低伺服器的功耗。否则，如果正确的LDR集接收更多的光，光伏面板将朝这个方向移动（逆时针）通过L-R伺服器，并将继续旋转，直到差异结果在范围内[−10，10]。同一方法用于基于水平轴的太阳能跟踪器运动，比较顶部两个LDR和底部两个LDR的平均值。</p>
+</li>
+<li><p>除了在自动模式下，控制器还将调用 <strong><em>Cayenne.loop（）</em></strong>功能将太阳能跟踪器数据发送到 IoT 应用程序。</p>
+</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/06/08/%E5%9F%BA%E4%BA%8E%E7%89%A9%E8%81%94%E7%BD%91(IoT)%E7%9A%84%E5%A4%AA%E9%98%B3%E8%83%BD%E8%B7%9F%E8%B8%AA%E5%99%A8/image_3_pZv5s80gr2.png" alt="图4. 太阳能跟踪器自动模式的流程图。"></p>
+<h3 id="3-4-Development-of-the-IoT-monitoring-application-开发-IoT-监控应用程序"><a href="#3-4-Development-of-the-IoT-monitoring-application-开发-IoT-监控应用程序" class="headerlink" title="3.4 Development of the IoT monitoring application(开发 IoT 监控应用程序)"></a>3.4 Development of the IoT monitoring application(开发 IoT 监控应用程序)</h3><h4 id="1-硬件与卡宴-IoT-平台的连接"><a href="#1-硬件与卡宴-IoT-平台的连接" class="headerlink" title="1 硬件与卡宴 IoT 平台的连接"></a>1 硬件与卡宴 IoT 平台的连接</h4><p>要将硬件（包括传感器和执行器）与物联网络平台对接，我们需要遵循以下步骤：</p>
+<ul>
+<li><p>创建帐户后登录卡宴我的Device网站（图5（a））。</p>
+</li>
+<li><p>然后，单击 Cayenne API 中的”自带东西”（图 5（b））。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/06/08/%E5%9F%BA%E4%BA%8E%E7%89%A9%E8%81%94%E7%BD%91(IoT)%E7%9A%84%E5%A4%AA%E9%98%B3%E8%83%BD%E8%B7%9F%E8%B8%AA%E5%99%A8/fig5_jaSC4EBHxI.png" alt="图5. 卡宴IoT平台注册（a）。卡宴API（b）。"></p>
+</li>
+<li><p>从克里特岛应用程序（图6）复制 MQTT 凭据（用户名、密码和客户 ID），并将其粘贴到 Arduino 源代码中，如前所述。在成功编译并上传整个代码到 Arduino Mega 后，在 Arduino IDE 中打开串行监视器以获取 Cayenne 日志打印（图 7）。一旦我们的设备上线并连接到 Cayenne，上一页（图 6）将自动更新，我们将在在线仪表板中看到我们的设备，如图 8 所见。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/06/08/%E5%9F%BA%E4%BA%8E%E7%89%A9%E8%81%94%E7%BD%91(IoT)%E7%9A%84%E5%A4%AA%E9%98%B3%E8%83%BD%E8%B7%9F%E8%B8%AA%E5%99%A8/fig6_qCu0wEtQwz.png" alt="图6. MQTT凭据和设备连接到卡宴。"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/06/08/%E5%9F%BA%E4%BA%8E%E7%89%A9%E8%81%94%E7%BD%91(IoT)%E7%9A%84%E5%A4%AA%E9%98%B3%E8%83%BD%E8%B7%9F%E8%B8%AA%E5%99%A8/fige_yYB61wSOY4.png" alt="图7. 卡宴日志打印在串行监视器上。"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/06/08/%E5%9F%BA%E4%BA%8E%E7%89%A9%E8%81%94%E7%BD%91(IoT)%E7%9A%84%E5%A4%AA%E9%98%B3%E8%83%BD%E8%B7%9F%E8%B8%AA%E5%99%A8/fig8_lQi9h5PnKM.png" alt="图8. 设备设置。"></p>
+</li>
+<li><p>然后，要接口传感器和执行器，即创建其小部件，单击”添加新…”，选择”设备/小部件”，然后单击”自定义小部件”（图 9）。然后，选择小部件并填充相关设置（通道号必须与代码相同），最后单击”添加小部件”将其添加到设备的仪表板。对于我们来说，我们为所有传感器选择了”价值”小部件，为模式切换选择了”按钮”小部件，为伺服器选择了”滑块”小部件。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/06/08/%E5%9F%BA%E4%BA%8E%E7%89%A9%E8%81%94%E7%BD%91(IoT)%E7%9A%84%E5%A4%AA%E9%98%B3%E8%83%BD%E8%B7%9F%E8%B8%AA%E5%99%A8/fig9_0KAhjvvj5M.png" alt="图9. 卡宴自定义小部件。"></p>
+</li>
+</ul>
+<p>最后，图10说明了用于监测太阳能跟踪器数据的设计物联网应用程序。与太阳跟踪器系统建立连接后，传感器数据可以在其相关部件上可视化，跟踪模式（自动或手动）可以从开关按钮中选择，并通过小部件控制伺服者的角度。还可以通过修改其设置中的表示类型或单击小部件上方的图形图标以图形形式获取传感器数据。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/06/08/%E5%9F%BA%E4%BA%8E%E7%89%A9%E8%81%94%E7%BD%91(IoT)%E7%9A%84%E5%A4%AA%E9%98%B3%E8%83%BD%E8%B7%9F%E8%B8%AA%E5%99%A8/fig10_Om7yhhrJcO.png" alt="图10. 太阳能跟踪系统的IoT监控应用。"></p>
+<h4 id="2-警报创建"><a href="#2-警报创建" class="headerlink" title="2 警报创建"></a>2 警报创建</h4><p>监控系统中最重要的标准之一是，当发生与其监控设备相关的事件时，它能够发送通知警报通知用户。为此，我们利用 Cayenne 的一个功能为我们的物联网应用程序添加警报，在那里我们可以预先编程我们的应用程序以发送通知警报（短信、电子邮件或两者兼有）或执行指定操作。例如，创建温度警报，以便在监控温度达到阈值时向用户（或收件人）发送电子邮件通知，如图 11 所示。要创建警报，请单击”添加新。”然后选择”触发”，然后设置事件及其操作，最后单击”保存”将其添加到仪表板。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/06/08/%E5%9F%BA%E4%BA%8E%E7%89%A9%E8%81%94%E7%BD%91(IoT)%E7%9A%84%E5%A4%AA%E9%98%B3%E8%83%BD%E8%B7%9F%E8%B8%AA%E5%99%A8/fig11_HcTpIiwQOI.png" alt="图11. 温度警报设置。"></p>
+<h2 id="4-原型设计"><a href="#4-原型设计" class="headerlink" title="4 原型设计"></a>4 原型设计</h2><p>图12展示了太阳能跟踪器原型在其分离和组装状态。它由光伏面板、R 和 U-D 伺服器和 LDR 传感器组成。该面板一侧连接到 U-Dservomotor，另一侧有轴承，以确保当太阳能跟踪器围绕水平轴旋转时更好的灵活性。装配连接到 L-R 伺服器。LDR 传感器固定在空心气缸内面板的四个角落。如果面板不垂直于太阳，则至少有一个 LDR 将被周围圆柱体造成的阴影覆盖。因此，光强度会有差异。最佳方向是当光的特性在所有LDR传感器中是相等的。图13显示了基于 IoT 的太阳能跟踪系统的整个原型，很明显，硬件部分中的所有报告组件都已用于构建它。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/06/08/%E5%9F%BA%E4%BA%8E%E7%89%A9%E8%81%94%E7%BD%91(IoT)%E7%9A%84%E5%A4%AA%E9%98%B3%E8%83%BD%E8%B7%9F%E8%B8%AA%E5%99%A8/solar_tracker_prototype_in_its_detached_and_assembled_state_zbScjRgUaK.png" alt="图12. 太阳能跟踪器原型处于组装和分离状态"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/06/08/%E5%9F%BA%E4%BA%8E%E7%89%A9%E8%81%94%E7%BD%91(IoT)%E7%9A%84%E5%A4%AA%E9%98%B3%E8%83%BD%E8%B7%9F%E8%B8%AA%E5%99%A8/iot_based_solar_tracker_prototype__PG9L9gMmwr.png" alt="图13. 基于IOT的太阳能跟踪器原型"></p>
+<p>有关所获结果的更多详细信息，请参阅本链接中的论文： <a target="_blank" rel="noopener" href="https://link.springer.com/chapter/10.1007%2F978-3-030-64565-6_4">https://link.springer.com/chapter/10.1007%2F978-3-030-64565-6_4</a></p>
+<h2 id="5-代码"><a href="#5-代码" class="headerlink" title="5 代码"></a>5 代码</h2><div class="code-wrapper"><pre><code class="hljs c"><span class="hljs-comment">/***************************************************************</span>
+<span class="hljs-comment"> PROJECT: IoT based solar tracker system / the embedded software</span>
+<span class="hljs-comment"> Aboubakr El Hammoumi/ aboubakr.elhammoumi@usmba.ac.ma</span>
+<span class="hljs-comment">***************************************************************/</span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> CAYENNE_PRINT Serial</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CayenneMQTTEthernet.h&gt;</span>    <span class="hljs-comment">//CayenneMQTT library </span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;Servo.h&gt;</span>                  <span class="hljs-comment">//Servo motor library </span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;DHT.h&gt;</span>                    <span class="hljs-comment">//DHT library </span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> DHTTYPE DHT22</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> DHTPIN 2</span>
+<span class="hljs-function">DHT <span class="hljs-title">dht</span><span class="hljs-params">(DHTPIN,DHTTYPE)</span></span>;
+
+<span class="hljs-comment">//MQTT credentials   </span>
+<span class="hljs-keyword">char</span> username[]=<span class="hljs-string">&quot;498d2d00-afe2-11ea-883c-638d8ce4c23d&quot;</span>;
+<span class="hljs-keyword">char</span> password[]=<span class="hljs-string">&quot;ab4a8f92d94033c01f6e18ce1d8a84d8c304c9c4&quot;</span>;
+<span class="hljs-keyword">char</span> clientID[]=<span class="hljs-string">&quot;17798a40-b968-11ea-93bf-d33a96695544&quot;</span>;
+
+Servo servo_x;                   <span class="hljs-comment">//up-down servomotor  </span>
+<span class="hljs-keyword">int</span> servoh = <span class="hljs-number">0</span>;
+<span class="hljs-keyword">int</span> servohLimitHigh = <span class="hljs-number">170</span>;     
+<span class="hljs-keyword">int</span> servohLimitLow = <span class="hljs-number">10</span>;       
+
+Servo servo_z;                   <span class="hljs-comment">//left-right servomotor </span>
+<span class="hljs-keyword">int</span> servov = <span class="hljs-number">0</span>; 
+<span class="hljs-keyword">int</span> servovLimitHigh = <span class="hljs-number">170</span>;
+<span class="hljs-keyword">int</span> servovLimitLow = <span class="hljs-number">10</span>;
+
+<span class="hljs-keyword">int</span> topl,topr,botl,botr;
+<span class="hljs-keyword">int</span> threshold_value=<span class="hljs-number">10</span>;        
+<span class="hljs-keyword">float</span> Vout;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setup</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123; Serial.begin(<span class="hljs-number">9600</span>);
+  Cayenne.begin(username, password, clientID);
+  servo_x.attach(<span class="hljs-number">5</span>);
+  servo_z.attach(<span class="hljs-number">6</span>);
+  dht.begin();
+  pinMode(<span class="hljs-number">3</span>,OUTPUT);
+  digitalWrite(<span class="hljs-number">3</span>,LOW); 
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">loop</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123; topr= analogRead(A2);       
+  topl= analogRead(A3);         
+  botl= analogRead(A4);         
+  botr= analogRead(A5);        
+  Vout=(analogRead(A1) * <span class="hljs-number">5.0</span>) / <span class="hljs-number">1023</span>;
+  Serial.println(<span class="hljs-string">&quot; Manual-mode&quot;</span>);
+  Cayenne.loop();
+  
+  <span class="hljs-keyword">if</span> (digitalRead(<span class="hljs-number">3</span>)==HIGH)&#123;
+    Serial.println(<span class="hljs-string">&quot; Automatic-mode&quot;</span>);
+    servoh = servo_x.read();
+    servov = servo_z.read();
+    <span class="hljs-keyword">int</span> avgtop = (topr + topl) / <span class="hljs-number">2</span>;     
+    <span class="hljs-keyword">int</span> avgbot = (botr + botl) / <span class="hljs-number">2</span>;   
+    <span class="hljs-keyword">int</span> avgright = (topr + botr) / <span class="hljs-number">2</span>;   
+    <span class="hljs-keyword">int</span> avgleft = (topl + botl) / <span class="hljs-number">2</span>;    
+    <span class="hljs-keyword">int</span> diffhori= avgtop - avgbot;      
+    <span class="hljs-keyword">int</span> diffverti= avgleft - avgright;    
+    
+    <span class="hljs-comment">/*tracking according to horizontal axis*/</span> 
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">abs</span>(diffhori) &lt;= threshold_value)
+    &#123;
+     servo_x.write(servoh);            <span class="hljs-comment">//stop the servo up-down</span>
+    &#125;<span class="hljs-keyword">else</span> &#123;
+       <span class="hljs-keyword">if</span> (diffhori &gt; threshold_value)
+          &#123; Serial.println(<span class="hljs-string">&quot; x - 2 &quot;</span>);
+          servo_x.write(servoh <span class="hljs-number">-2</span>);    <span class="hljs-comment">//Clockwise rotation CW</span>
+          <span class="hljs-keyword">if</span> (servoh &gt; servohLimitHigh)
+          &#123;
+           servoh = servohLimitHigh;
+          &#125;
+          delay(<span class="hljs-number">10</span>);
+          &#125;<span class="hljs-keyword">else</span> &#123;
+           servo_x.write(servoh +<span class="hljs-number">2</span>);   <span class="hljs-comment">//CCW</span>
+           <span class="hljs-keyword">if</span> (servoh &lt; servohLimitLow)
+           &#123;
+           servoh = servohLimitLow;
+           &#125;
+           delay(<span class="hljs-number">10</span>);
+           &#125;
+      &#125;      
+    <span class="hljs-comment">/*tracking according to vertical axis*/</span> 
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">abs</span>(diffverti) &lt;= threshold_value)
+    &#123;     
+     servo_z.write(servov);       <span class="hljs-comment">//stop the servo left-right</span>
+    &#125;<span class="hljs-keyword">else</span>&#123;
+       <span class="hljs-keyword">if</span> (diffverti &gt; threshold_value)
+       &#123; 
+       servo_z.write(servov <span class="hljs-number">-2</span>);  <span class="hljs-comment">//CW</span>
+       <span class="hljs-keyword">if</span> (servov &gt; servovLimitHigh) 
+       &#123; 
+       servov = servovLimitHigh;
+       &#125;
+       delay(<span class="hljs-number">10</span>);
+       &#125;<span class="hljs-keyword">else</span>&#123; 
+        servo_z.write(servov +<span class="hljs-number">2</span>);  <span class="hljs-comment">//CCW</span>
+        <span class="hljs-keyword">if</span> (servov &lt; servovLimitLow) 
+        &#123;
+        servov = servovLimitLow;
+        &#125;
+        delay(<span class="hljs-number">10</span>);
+        &#125;
+     &#125;
+  &#125;
+&#125;
+<span class="hljs-comment">// Cayenne Functions</span>
+CAYENNE_IN(<span class="hljs-number">8</span>)&#123;
+  <span class="hljs-keyword">int</span> value = getValue.asInt();
+  CAYENNE_LOG(<span class="hljs-string">&quot;Channel %d, pin %d, value %d&quot;</span>, <span class="hljs-number">8</span>, <span class="hljs-number">3</span>, value);
+  digitalWrite(<span class="hljs-number">3</span>,value);
+&#125;
+CAYENNE_IN(<span class="hljs-number">7</span>)&#123; <span class="hljs-comment">//up-down servo motor</span>
+  <span class="hljs-keyword">if</span> (digitalRead(<span class="hljs-number">3</span>)==HIGH)&#123; <span class="hljs-comment">//Automatic_mode</span>
+  &#125;
+  <span class="hljs-keyword">else</span>&#123; <span class="hljs-comment">//Manual_mode</span>
+  servo_x.write(getValue.asDouble() * <span class="hljs-number">180</span>);
+  &#125;
+&#125;
+CAYENNE_IN(<span class="hljs-number">6</span>)&#123; <span class="hljs-comment">//left-right servo motor</span>
+  <span class="hljs-keyword">if</span> (digitalRead(<span class="hljs-number">3</span>)==HIGH)&#123;
+  &#125;  
+  <span class="hljs-keyword">else</span>&#123;
+  servo_z.write(getValue.asDouble() * <span class="hljs-number">180</span>);
+  &#125;
+&#125;
+
+CAYENNE_OUT(<span class="hljs-number">0</span>) &#123; <span class="hljs-comment">//Current</span>
+  <span class="hljs-keyword">float</span> current = Vout/<span class="hljs-number">10</span>;
+  Cayenne.virtualWrite(<span class="hljs-number">0</span>, current);
+  Serial.print(<span class="hljs-string">&quot;Current: &quot;</span>);
+  Serial.println(current);
+&#125;
+CAYENNE_OUT(<span class="hljs-number">1</span>) &#123; <span class="hljs-comment">//Voltage</span>
+  <span class="hljs-keyword">float</span> voltage = Vout * <span class="hljs-number">2</span>;
+  Cayenne.virtualWrite(<span class="hljs-number">1</span>, voltage);
+  Serial.print(<span class="hljs-string">&quot;Voltage: &quot;</span>);
+  Serial.println(voltage);
+&#125;
+CAYENNE_OUT(<span class="hljs-number">2</span>)&#123; <span class="hljs-comment">//LDR Top-right</span>
+  Cayenne.virtualWrite(<span class="hljs-number">2</span>, topr);
+&#125;
+CAYENNE_OUT(<span class="hljs-number">3</span>)&#123; <span class="hljs-comment">//LDR Top-left</span>
+  Cayenne.virtualWrite(<span class="hljs-number">3</span>,topl);
+&#125;
+CAYENNE_OUT(<span class="hljs-number">4</span>)&#123; <span class="hljs-comment">//LDR Bot-left</span>
+  Cayenne.virtualWrite(<span class="hljs-number">4</span>,botl);
+&#125;
+CAYENNE_OUT(<span class="hljs-number">5</span>)&#123; <span class="hljs-comment">//LDR Bot-right</span>
+  Cayenne.virtualWrite(<span class="hljs-number">5</span>,botr);
+&#125;
+CAYENNE_OUT(<span class="hljs-number">10</span>) &#123; <span class="hljs-comment">//Power</span>
+  <span class="hljs-keyword">float</span> power = (Vout * <span class="hljs-number">2</span> * Vout)/<span class="hljs-number">10</span> ;
+  Cayenne.virtualWrite(<span class="hljs-number">10</span>, power);
+  Serial.print(<span class="hljs-string">&quot;Power: &quot;</span>);
+  Serial.println(power);
+&#125;
+CAYENNE_OUT(<span class="hljs-number">11</span>)&#123; <span class="hljs-comment">//Temperature</span>
+  <span class="hljs-keyword">float</span> t = dht.readTemperature();
+  <span class="hljs-comment">//int chk = dht.read(DHT11PIN);</span>
+  Cayenne.virtualWrite(<span class="hljs-number">11</span>, t, TYPE_TEMPERATURE, UNIT_CELSIUS);
+  Serial.print(<span class="hljs-string">&quot;temperature: &quot;</span>);
+  Serial.println(t);
+&#125;
+CAYENNE_OUT(<span class="hljs-number">12</span>)&#123; <span class="hljs-comment">//Huidity</span>
+  <span class="hljs-keyword">float</span> h = dht.readHumidity();
+  <span class="hljs-comment">//int chk = dht.read(DHT11PIN);</span>
+  Cayenne.virtualWrite(<span class="hljs-number">12</span>, h);
+  Serial.print(<span class="hljs-string">&quot;  humidity: &quot;</span>);
+  Serial.println(h);
+&#125;</code></pre></div>
+
+<h2 id="6-发展示例"><a href="#6-发展示例" class="headerlink" title="6 发展示例"></a>6 发展示例</h2><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/06/08/%E5%9F%BA%E4%BA%8E%E7%89%A9%E8%81%94%E7%BD%91(IoT)%E7%9A%84%E5%A4%AA%E9%98%B3%E8%83%BD%E8%B7%9F%E8%B8%AA%E5%99%A8/img_3581_XDaDENY3ax.JPG" alt="太阳能电池板太阳跟踪器 - 手机充电器"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/06/08/%E5%9F%BA%E4%BA%8E%E7%89%A9%E8%81%94%E7%BD%91(IoT)%E7%9A%84%E5%A4%AA%E9%98%B3%E8%83%BD%E8%B7%9F%E8%B8%AA%E5%99%A8/image-20210607020629991.png" alt="巨型太阳能跟踪器"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Technical/">Technical</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Technical/Hardware/">Hardware</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/IoT/">IoT</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%A4%AA%E9%98%B3%E8%83%BD/">太阳能</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/20/JVM%E5%AD%A6%E4%B9%A0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JVM 学习</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/">
+                        <span class="hidden-mobile">ElasticSearch 学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=a;var i=n.imageLazyLoadSetting.isSPA,o=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function a(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var a=0;a<r.length;a++)t=r[a],0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight*o||document.documentElement.clientHeight*o)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}();var t,e}a(),n.addEventListener("scroll",function(){var t,e;t=a,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>

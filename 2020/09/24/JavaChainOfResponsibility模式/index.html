@@ -1,0 +1,659 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon-t.png">
+  <link rel="icon" href="/img/favicon-t.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="pncalbl">
+  <meta name="keywords" content="计算机,开发,编程,代码,博客,技术">
+  
+  <title>JavaChainOfResponsibility模式 - pncalbl</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"pncalbl.github.io","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/rss2.xml" title="pncalbl" type="application/rss+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>pncalbl</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/post.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="JavaChainOfResponsibility模式">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      pncalbl
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-09-24 00:00" pubdate>
+        2020年9月24日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      849 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JavaChainOfResponsibility模式</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：3 个月前
+                
+              </p>
+            
+            <div class="markdown-body">
+              <blockquote>
+<p>  推卸责任</p>
+</blockquote>
+<h2 id="1-表示发生的问题的类-它带有问题编号-number"><a href="#1-表示发生的问题的类-它带有问题编号-number" class="headerlink" title="1 - 表示发生的问题的类.它带有问题编号(number)"></a>1 - 表示发生的问题的类.它带有问题编号(number)</h2><div class="code-wrapper"><pre><code>public class Trouble &#123;
+    private int number; // 问题编号
+
+    public Trouble(int number)&#123; // 生成问题
+        this.number = number;
+    &#125;
+
+    public int getNumber()&#123;
+        return number;
+    &#125;
+
+    @Override
+    public String toString()&#123;
+        return &quot;[Trouble &quot; + number + &quot;]&quot;;
+    &#125;
+&#125;</code></pre></div><h2 id="2-用来解决问题的抽象类"><a href="#2-用来解决问题的抽象类" class="headerlink" title="2 - 用来解决问题的抽象类"></a>2 - 用来解决问题的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class Support &#123;
+    private String name;    // 解决问题的实例的名字
+    private Support next;   // 要推卸给的对象
+
+    public Support(String name)&#123;
+        this.name = name;
+    &#125;
+
+    public Support setNext(Support next)&#123;
+        this.next = next;
+        return next;
+    &#125;
+
+    public final void support(Trouble trouble)&#123; // 解决问题的步骤
+        if (resolve(trouble))&#123;
+            done(trouble);
+        &#125;else if(next != null)&#123;
+            next.support(trouble);
+        &#125;else&#123;
+            fail(trouble);
+        &#125;
+    &#125;
+
+    @Override
+    public String toString()&#123;
+        return &quot;[&quot; + name + &quot;]&quot;;
+    &#125;
+
+    protected abstract boolean resolve(Trouble trouble);
+
+    protected  void done(Trouble trouble)&#123;  // 解决
+        System.out.println(trouble + &quot; is resolved by &quot; + this + &quot;.&quot;);
+    &#125;
+
+    protected void fail(Trouble trouble)&#123;   // 未解决
+        System.out.println(trouble + &quot;cannot be resolved.&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="3-用来解决问题的具体类-永远-“-不处理问题-“"><a href="#3-用来解决问题的具体类-永远-“-不处理问题-“" class="headerlink" title="3 - 用来解决问题的具体类(永远 “ 不处理问题 “)"></a>3 - 用来解决问题的具体类(永远 “ 不处理问题 “)</h2><div class="code-wrapper"><pre><code>public class NoSupport extends Support&#123;
+    public NoSupport(String name)&#123;
+        super(name);
+    &#125;
+
+    @Override
+    protected boolean resolve(Trouble trouble) &#123;    // 解决问题的方法
+        return false;                               // 自己什么也不做
+    &#125;
+&#125;</code></pre></div><h2 id="4-用来解决问题的具体类-仅解决编号小于指定编号的问题"><a href="#4-用来解决问题的具体类-仅解决编号小于指定编号的问题" class="headerlink" title="4 - 用来解决问题的具体类(仅解决编号小于指定编号的问题)"></a>4 - 用来解决问题的具体类(仅解决编号小于指定编号的问题)</h2><div class="code-wrapper"><pre><code>public class LimitSupport extends Support&#123;
+    private int limit;
+    public LimitSupport(String name, int limit) &#123;
+        super(name);
+        this.limit = limit;
+    &#125;
+
+    @Override
+    protected boolean resolve(Trouble trouble) &#123;
+        return trouble.getNumber() &lt; limit;
+    &#125;
+&#125;</code></pre></div><h2 id="5-用来解决问题的具体类-仅解决奇数编号的问题"><a href="#5-用来解决问题的具体类-仅解决奇数编号的问题" class="headerlink" title="5 - 用来解决问题的具体类(仅解决奇数编号的问题)"></a>5 - 用来解决问题的具体类(仅解决奇数编号的问题)</h2><div class="code-wrapper"><pre><code>public class OddSupport extends Support&#123;
+    public OddSupport(String name) &#123;
+        super(name);
+    &#125;
+
+    @Override
+    protected boolean resolve(Trouble trouble) &#123;
+        return trouble.getNumber() % 2 == 1;
+    &#125;
+&#125;</code></pre></div><h2 id="6-用来解决问题的具体类-仅解决指定编号的问题"><a href="#6-用来解决问题的具体类-仅解决指定编号的问题" class="headerlink" title="6 - 用来解决问题的具体类(仅解决指定编号的问题)"></a>6 - 用来解决问题的具体类(仅解决指定编号的问题)</h2><div class="code-wrapper"><pre><code>public class SpecialSupport extends Support&#123;
+    private int number;
+    public SpecialSupport(String name, int number) &#123;
+        super(name);
+        this.number = number;
+    &#125;
+
+    @Override
+    protected boolean resolve(Trouble trouble) &#123;
+        return trouble.getNumber() == number;
+    &#125;
+&#125;</code></pre></div><h2 id="7-制作Support的职责链-制造问题并测试程序行为"><a href="#7-制作Support的职责链-制造问题并测试程序行为" class="headerlink" title="7 - 制作Support的职责链, 制造问题并测试程序行为"></a>7 - 制作Support的职责链, 制造问题并测试程序行为</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        Support alice = new NoSupport(&quot;Alice&quot;);
+        Support bob = new LimitSupport(&quot;Bob&quot;, 10);
+        Support charlie = new SpecialSupport(&quot;Charlie&quot;, 29);
+        Support diana = new LimitSupport(&quot;Diana&quot;, 20);
+        Support elmo = new OddSupport(&quot;Elmo&quot;);
+        Support fred = new LimitSupport(&quot;Fred&quot;, 30);
+        // 形成职责链
+        alice.setNext(bob).setNext(charlie).setNext(diana).setNext(elmo).setNext(fred);
+        for (int i = 0; i &lt; 50; i++) &#123;
+            alice.support(new Trouble(i));
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="8-输出示例"><a href="#8-输出示例" class="headerlink" title="8 - 输出示例"></a>8 - 输出示例</h2><div class="code-wrapper"><pre><code>[Trouble 0] is resolved by [Bob].
+[Trouble 1] is resolved by [Bob].
+[Trouble 2] is resolved by [Bob].
+[Trouble 3] is resolved by [Bob].
+[Trouble 4] is resolved by [Bob].
+[Trouble 5] is resolved by [Bob].
+[Trouble 6] is resolved by [Bob].
+[Trouble 7] is resolved by [Bob].
+[Trouble 8] is resolved by [Bob].
+[Trouble 9] is resolved by [Bob].
+[Trouble 10] is resolved by [Diana].
+[Trouble 11] is resolved by [Diana].
+[Trouble 12] is resolved by [Diana].
+[Trouble 13] is resolved by [Diana].
+[Trouble 14] is resolved by [Diana].
+[Trouble 15] is resolved by [Diana].
+[Trouble 16] is resolved by [Diana].
+[Trouble 17] is resolved by [Diana].
+[Trouble 18] is resolved by [Diana].
+[Trouble 19] is resolved by [Diana].
+[Trouble 20] is resolved by [Fred].
+[Trouble 21] is resolved by [Elmo].
+[Trouble 22] is resolved by [Fred].
+[Trouble 23] is resolved by [Elmo].
+[Trouble 24] is resolved by [Fred].
+[Trouble 25] is resolved by [Elmo].
+[Trouble 26] is resolved by [Fred].
+[Trouble 27] is resolved by [Elmo].
+[Trouble 28] is resolved by [Fred].
+[Trouble 29] is resolved by [Charlie].
+[Trouble 30]cannot be resolved.
+[Trouble 31] is resolved by [Elmo].
+[Trouble 32]cannot be resolved.
+[Trouble 33] is resolved by [Elmo].
+[Trouble 34]cannot be resolved.
+[Trouble 35] is resolved by [Elmo].
+[Trouble 36]cannot be resolved.
+[Trouble 37] is resolved by [Elmo].
+[Trouble 38]cannot be resolved.
+[Trouble 39] is resolved by [Elmo].
+[Trouble 40]cannot be resolved.
+[Trouble 41] is resolved by [Elmo].
+[Trouble 42]cannot be resolved.
+[Trouble 43] is resolved by [Elmo].
+[Trouble 44]cannot be resolved.
+[Trouble 45] is resolved by [Elmo].
+[Trouble 46]cannot be resolved.
+[Trouble 47] is resolved by [Elmo].
+[Trouble 48]cannot be resolved.
+[Trouble 49] is resolved by [Elmo].</code></pre></div>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/09/25/JavaFacade%E6%A8%A1%E5%BC%8F/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JavaFacade模式</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/09/22/JavaVisitor%E6%A8%A1%E5%BC%8F/">
+                        <span class="hidden-mobile">JavaVisitor模式</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=a;var i=n.imageLazyLoadSetting.isSPA,o=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function a(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var a=0;a<r.length;a++)t=r[a],0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight*o||document.documentElement.clientHeight*o)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}();var t,e}a(),n.addEventListener("scroll",function(){var t,e;t=a,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>
