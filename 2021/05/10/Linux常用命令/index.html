@@ -191,7 +191,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.1k 字
+      1.2k 字
     </span>
   
 
@@ -201,7 +201,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      16
+      18
        分钟
     </span>
   
@@ -235,7 +235,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：3 天前
+                  本文最后更新于：3 小时前
                 
               </p>
             
@@ -286,6 +286,18 @@
 <tr>
 <td>更新用户组</td>
 <td>newgrp docker</td>
+</tr>
+<tr>
+<td>关闭防火墙</td>
+<td>systemctl stop firewalld.service</td>
+</tr>
+<tr>
+<td>永久关闭防火墙</td>
+<td>systemctl disable firewalld.service</td>
+</tr>
+<tr>
+<td>设置主机名</td>
+<td>hostnamectl set-hostname pncalbl-pc</td>
 </tr>
 </tbody></table>
 <h2 id="Vim"><a href="#Vim" class="headerlink" title="Vim"></a>Vim</h2><table>
@@ -446,6 +458,15 @@ Please type &#x27;yes&#x27; or &#x27;no&#x27;: yes
 Warning: Permanently added &#x27;github.com,192.30.255.113&#x27; (RSA) to the list of known hosts.
 Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide shell access.</code></pre></div>
 
+<h1 id="6-重载-VMware-tools"><a href="#6-重载-VMware-tools" class="headerlink" title="6 重载 VMware tools"></a>6 重载 VMware tools</h1><p>以下命令都在 root 权限下进行</p>
+<ol>
+<li>卸载   <code>yum remove open-vm-tools</code></li>
+<li>使用 VM 安装 <code>VMware Tools</code></li>
+<li>从光盘复制出 VMwareTools-10.3.21-14772444.tar.gz</li>
+<li>解压缩 tar -zxvf  VMwareTools-10.3.21-14772444.tar.gz -C ./</li>
+<li>执行  <code>./vmware-install.pl</code></li>
+<li><code>第一步输入: y</code>, 剩下的按回车默认即可</li>
+</ol>
 
             </div>
             <hr>

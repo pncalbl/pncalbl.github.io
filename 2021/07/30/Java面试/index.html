@@ -1,0 +1,1680 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon-t.png">
+  <link rel="icon" href="/img/favicon-t.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="pncalbl">
+  <meta name="keywords" content="计算机,开发,编程,代码,博客,技术">
+  
+  <title>Java 面试 - pncalbl</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"pncalbl.github.io","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/rss2.xml" title="pncalbl" type="application/rss+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>pncalbl</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/post.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Java 面试">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      pncalbl
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-30 00:00" pubdate>
+        2021年7月30日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      9.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      120
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Java 面试</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：13 分钟前
+                
+              </p>
+            
+            <div class="markdown-body">
+              <h1 id="第1章-Java-并发编程"><a href="#第1章-Java-并发编程" class="headerlink" title="第1章 Java 并发编程"></a>第1章 Java 并发编程</h1><h2 id="1-请谈谈你对-volatile-的理解"><a href="#1-请谈谈你对-volatile-的理解" class="headerlink" title="1 请谈谈你对 volatile 的理解"></a>1 请谈谈你对 volatile 的理解</h2><p><strong>volatile 是 Java 虚拟机提供的轻量级的同步机制</strong></p>
+<ul>
+<li>保证可见性</li>
+<li>禁止指令排序</li>
+<li>不保证原子性</li>
+</ul>
+<p><strong>JMM（Java 内存模型</strong>）</p>
+<ul>
+<li>JMM 本身是一种抽象的概念并不是真实存在，它描述的是一组规定或则规范，通过这组规范定义了程序中的访问方式。</li>
+<li>JMM 同步规定<ul>
+<li>线程解锁前，必须把共享变量的值刷新回主内存</li>
+<li>线程加锁前，必须读取主内存的最新值到自己的工作内存</li>
+<li>加锁解锁是同一把锁</li>
+</ul>
+</li>
+<li>由于 JVM 运行程序的实体是线程，而每个线程创建时 JVM 都会为其创建一个工作内存，工作内存是每个线程的私有数据区域，而 Java 内存模型中规定所有变量的储存在主内存，主内存是共享内存区域，所有的线程都可以访问，但线程对变量的操作（读取赋值等）必须都工作内存进行看。</li>
+<li>首先要将变量从主内存拷贝的自己的工作内存空间，然后对变量进行操作，操作完成后再将变量写回主内存，不能直接操作主内存中的变量，工作内存中存储着主内存中的变量副本拷贝，前面说过，工作内存是每个线程的私有数据区域，因此不同的线程间无法访问对方的工作内存，线程间的通信(传值)必须通过主内存来完成。</li>
+<li>内存模型图</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="http://img.cuzz.site/2020/%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B.png" alt="img"></p>
+<p><strong>三大特性：</strong></p>
+<ul>
+<li>可见性</li>
+<li>原子性</li>
+<li>有序性</li>
+</ul>
+<p>（1）可见性，如果不加 volatile 关键字，则主线程会进入死循环，加 volatile 则主线程能够退出，说明加了 volatile 关键字变量，当有一个线程修改了值，会马上被另一个线程感知到，当前值作废，从新从主内存中获取值。对其他线程可见，这就叫可见性。</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">VolatileDemo</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        Data data = <span class="hljs-keyword">new</span> Data();
+        <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+            System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot; coming...&quot;</span>);
+            <span class="hljs-keyword">try</span> &#123;
+                Thread.sleep(<span class="hljs-number">3000</span>);
+            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+            data.addOne(); <span class="hljs-comment">// 调用</span>
+            System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot; updated...&quot;</span>);
+        &#125;).start();
+
+        <span class="hljs-keyword">while</span> (data.a == <span class="hljs-number">0</span>) &#123;
+            <span class="hljs-comment">// looping</span>
+        &#125;
+        System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot; job is done...&quot;</span>);
+    &#125;
+&#125;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Data</span> </span>&#123;
+    <span class="hljs-comment">// int a = 0;</span>
+    <span class="hljs-keyword">volatile</span> <span class="hljs-keyword">int</span> a = <span class="hljs-number">0</span>;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">addOne</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.a += <span class="hljs-number">1</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>（2）原子性，发现下面输出不能得到 20000。</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">VolatileDemo</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+       <span class="hljs-comment">// test01();</span>
+       test02();
+    &#125;
+
+    <span class="hljs-comment">// 测试原子性</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test02</span><span class="hljs-params">()</span> </span>&#123;
+        Data data = <span class="hljs-keyword">new</span> Data();
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">20</span>; i++) &#123;
+            <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">1000</span>; j++) &#123;
+                    data.addOne();
+                &#125;
+            &#125;).start();
+        &#125;
+        <span class="hljs-comment">// 默认有 main 线程和 gc 线程</span>
+        <span class="hljs-keyword">while</span> (Thread.activeCount() &gt; <span class="hljs-number">2</span>) &#123;
+            Thread.yield();
+        &#125;
+        System.out.println(data.a);
+    &#125;
+&#125;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Data</span> </span>&#123;
+    <span class="hljs-keyword">volatile</span> <span class="hljs-keyword">int</span> a = <span class="hljs-number">0</span>;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">addOne</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.a += <span class="hljs-number">1</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>（3）有序性</p>
+<ul>
+<li>计算机在执行程序时，为了提高性能，编译器个处理器常常会对指令做重排，一般分为以下 3 种<ul>
+<li>编译器优化的重排</li>
+<li>指令并行的重排</li>
+<li>内存系统的重排</li>
+</ul>
+</li>
+<li>单线程环境里面确保程序最终执行的结果和代码执行的结果一致</li>
+<li>处理器在进行重排序时必须考虑指令之间的数据依赖性</li>
+<li>多线程环境中线程交替执行，由于编译器优化重排的存在，两个线程中使用的变量能否保证用的变量能否一致性是无法确定的，结果无法预测</li>
+</ul>
+<p>代码示例</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ReSortSeqDemo</span> </span>&#123;
+    <span class="hljs-keyword">int</span> a = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">boolean</span> flag = <span class="hljs-keyword">false</span>;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">method01</span><span class="hljs-params">()</span> </span>&#123;
+        a = <span class="hljs-number">1</span>;           <span class="hljs-comment">// flag = true;</span>
+        <span class="hljs-comment">// ----线程切换----</span>
+        flag = <span class="hljs-keyword">true</span>;     <span class="hljs-comment">// a = 1;</span>
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">method02</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (flag) &#123;
+            a = a + <span class="hljs-number">3</span>;
+            System.out.println(<span class="hljs-string">&quot;a = &quot;</span> + a);
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>如果两个线程同时执行，method01 和 method02 如果线程 1 执行 method01 重排序了，然后切换的线程 2 执行 method02 就会出现不一样的结果。</p>
+<p><strong>禁止指令排序</strong></p>
+<p>volatile 实现禁止指令重排序的优化，从而避免了多线程环境下程序出现乱序的现象</p>
+<p>先了解一个概念，内存屏障（Memory Barrier）又称内存栅栏，是一个 CPU 指令，他的作用有两个：</p>
+<ul>
+<li>保证特定操作的执行顺序</li>
+<li>保证某些变量的内存可见性（利用该特性实现 volatile 的内存可见性）</li>
+</ul>
+<p>由于编译器个处理器都能执行指令重排序优化，如果在指令间插入一条 Memory Barrier 则会告诉编译器和 CPU，不管什么指令都不能个这条 Memory Barrier 指令重排序，也就是说通过插入内存屏障禁止在内存屏障前后执行重排序优化。内存屏障另一个作用是强制刷出各种 CPU 缓存数据，因此任何 CPU 上的线程都能读取到这些数据的最新版本。</p>
+<p>下面是保守策略下，volatile写插入内存屏障后生成的指令序列示意图：</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="http://img.cuzz.site/2020/0e75180bf35c40e2921493d0bf6bd684_th.png" alt="img"></p>
+<p>下面是在保守策略下，volatile读插入内存屏障后生成的指令序列示意图：</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="http://img.cuzz.site/2020/20200910141550.png" alt="img"></p>
+<p><strong>线程安全性保证</strong></p>
+<ul>
+<li>工作内存与主内存同步延迟现象导致可见性问题<ul>
+<li>可以使用 synchronzied 或 volatile 关键字解决，它们可以使用一个线程修改后的变量立即对其他线程可见</li>
+</ul>
+</li>
+<li>对于指令重排导致可见性问题和有序性问题<ul>
+<li>可以利用 volatile 关键字解决，因为 volatile 的另一个作用就是禁止指令重排序优化</li>
+</ul>
+</li>
+</ul>
+<p><strong>你在哪些地方用到过 volatile？单例</strong></p>
+<p>多线程环境下可能存在的安全问题，发现构造器里的内容会多次输出</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@NotThreadSafe</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Singleton01</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Singleton01 instance = <span class="hljs-keyword">null</span>;
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Singleton01</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot;  construction...&quot;</span>);
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Singleton01 <span class="hljs-title">getInstance</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (instance == <span class="hljs-keyword">null</span>) &#123;
+            instance = <span class="hljs-keyword">new</span> Singleton01();
+        &#125;
+        <span class="hljs-keyword">return</span> instance;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        ExecutorService executorService = Executors.newFixedThreadPool(<span class="hljs-number">10</span>);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) &#123;
+            executorService.execute(()-&gt; Singleton01.getInstance());
+        &#125;
+        executorService.shutdown();
+    &#125;
+&#125;</code></pre></div>
+
+<p>双重锁单例</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Singleton02</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">volatile</span> Singleton02 instance = <span class="hljs-keyword">null</span>;
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Singleton02</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot;  construction...&quot;</span>);
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Singleton02 <span class="hljs-title">getInstance</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (instance == <span class="hljs-keyword">null</span>) &#123;
+            <span class="hljs-keyword">synchronized</span> (Singleton01.class) &#123;
+                <span class="hljs-keyword">if</span> (instance == <span class="hljs-keyword">null</span>) &#123;
+                    instance = <span class="hljs-keyword">new</span> Singleton02();
+                &#125;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> instance;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        ExecutorService executorService = Executors.newFixedThreadPool(<span class="hljs-number">10</span>);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) &#123;
+            executorService.execute(()-&gt; Singleton02.getInstance());
+        &#125;
+        executorService.shutdown();
+    &#125;
+&#125;</code></pre></div>
+
+<p>如果没有加 volatile 就不一定是线程安全的，原因是指令重排序的存在，加入 volatile 可以禁止指令重排。原因是在于某一个线程执行到第一次检测，读取到的 instance 不为 null 时，<strong>instance 的引用对象可能还没有完成初始化。</strong><code>instance = new Singleton()</code>可以分为以下三步完成。</p>
+<div class="code-wrapper"><pre><code class="hljs java">memory = allocate();  <span class="hljs-comment">// 1.分配对象空间</span>
+instance(memory);     <span class="hljs-comment">// 2.初始化对象</span>
+instance = memory;    <span class="hljs-comment">// 3.设置instance指向刚分配的内存地址，此时instance != null</span></code></pre></div>
+
+<p>步骤 2 和步骤 3 不存在依赖关系，而且无论重排前还是重排后程序的执行结果在单线程中并没有改变，因此这种优化是允许的，发生重排。</p>
+<div class="code-wrapper"><pre><code class="hljs java">memory = allocate();  <span class="hljs-comment">// 1.分配对象空间</span>
+instance = memory;    <span class="hljs-comment">// 3.设置instance指向刚分配的内存地址，此时instance != null，但对象还没有初始化完成</span>
+instance(memory);     <span class="hljs-comment">// 2.初始化对象</span></code></pre></div>
+
+<p>所以不加 volatile 返回的实例不为空，但可能是未初始化的实例</p>
+<h2 id="2-CAS-你知道吗？CAS-底层原理？谈谈对-UnSafe-的理解？"><a href="#2-CAS-你知道吗？CAS-底层原理？谈谈对-UnSafe-的理解？" class="headerlink" title="2 CAS 你知道吗？CAS 底层原理？谈谈对 UnSafe 的理解？"></a>2 CAS 你知道吗？CAS 底层原理？谈谈对 UnSafe 的理解？</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CASDemo</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        AtomicInteger atomicInteger = <span class="hljs-keyword">new</span> AtomicInteger(<span class="hljs-number">666</span>);
+        <span class="hljs-comment">// 获取真实值，并替换为相应的值</span>
+        <span class="hljs-keyword">boolean</span> b = atomicInteger.compareAndSet(<span class="hljs-number">666</span>, <span class="hljs-number">2019</span>);
+        System.out.println(b); <span class="hljs-comment">// true</span>
+        <span class="hljs-keyword">boolean</span> b1 = atomicInteger.compareAndSet(<span class="hljs-number">666</span>, <span class="hljs-number">2020</span>);
+        System.out.println(b1); <span class="hljs-comment">// false</span>
+        atomicInteger.getAndIncrement();
+    &#125;
+&#125;</code></pre></div>
+
+<p>getAndIncrement()方法</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment">* Atomically increments by one the current value.</span>
+<span class="hljs-comment">*</span>
+<span class="hljs-comment">* <span class="hljs-doctag">@return</span> the previous value</span>
+<span class="hljs-comment">*/</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getAndIncrement</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-keyword">return</span> unsafe.getAndAddInt(<span class="hljs-keyword">this</span>, valueOffset, <span class="hljs-number">1</span>);
+&#125;</code></pre></div>
+
+<p>引出一个问题：UnSafe 类是什么？我们先看看AtomicInteger 就使用了Unsafe 类。</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AtomicInteger</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Number</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">java</span>.<span class="hljs-title">io</span>.<span class="hljs-title">Serializable</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> serialVersionUID = <span class="hljs-number">6214790243416807050L</span>;
+
+    <span class="hljs-comment">// setup to use Unsafe.compareAndSwapInt for updates</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Unsafe unsafe = Unsafe.getUnsafe();
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> valueOffset;
+
+    <span class="hljs-keyword">static</span> &#123;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-comment">// 获取下面 value 的地址偏移量</span>
+            valueOffset = unsafe.objectFieldOffset
+                (AtomicInteger.class.getDeclaredField(<span class="hljs-string">&quot;value&quot;</span>));
+        &#125; <span class="hljs-keyword">catch</span> (Exception ex) &#123; <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error(ex); &#125;
+    &#125;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">volatile</span> <span class="hljs-keyword">int</span> value;
+    <span class="hljs-comment">// ...</span>
+&#125;</code></pre></div>
+
+<p>Unsafe类：</p>
+<ul>
+<li>Unsafe 是 CAS 的核心类，由于 Java 方法无法直接访问底层系统，而需要通过本地（native）方法来访问， Unsafe 类相当一个后门，基于该类可以直接操作特定内存的数据。Unsafe 类存在于 sun.misc 包中，其内部方法操作可以像 C 指针一样直接操作内存，因为 Java 中 CAS 操作执行依赖于 Unsafe 类。</li>
+<li>变量 vauleOffset，表示该变量值在内存中的偏移量，因为 Unsafe 就是根据内存偏移量来获取数据的。</li>
+<li>变量 value 用 volatile 修饰，保证了多线程之间的内存可见性。</li>
+</ul>
+<p>CAS 是什么？</p>
+<ul>
+<li><p>CAS 的全称 Compare-And-Swap，它是一条 CPU 并发。</p>
+</li>
+<li><p>它的功能是判断内存某一个位置的值是否为预期，如果是则更改这个值，这个过程就是原子的。</p>
+</li>
+<li><p>CAS 并发原体现在 JAVA 语言中就是 sun.misc.Unsafe 类中的各个方法。调用 UnSafe 类中的 CAS 方法，JVM 会帮我们实现出 CAS 汇编指令。这是一种完全依赖硬件的功能，通过它实现了原子操作。由于 CAS 是一种系统源语，源语属于操作系统用语范畴，是由若干条指令组成，用于完成某一个功能的过程，并且原语的执行必须是连续的，在执行的过程中不允许被中断，也就是说 CAS 是一条原子指令，不会造成所谓的数据不一致的问题。</p>
+</li>
+<li><p>分析一下 getAndAddInt 这个方法</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// unsafe.getAndAddInt</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getAndAddInt</span><span class="hljs-params">(Object obj, <span class="hljs-keyword">long</span> valueOffset, <span class="hljs-keyword">long</span> expected, <span class="hljs-keyword">int</span> val)</span> </span>&#123;
+    <span class="hljs-keyword">int</span> temp;
+    <span class="hljs-keyword">do</span> &#123;
+        temp = <span class="hljs-keyword">this</span>.getIntVolatile(obj, valueOffset);  <span class="hljs-comment">// 获取快照值</span>
+    &#125; <span class="hljs-keyword">while</span> (!<span class="hljs-keyword">this</span>.compareAndSwap(obj, valueOffset, temp, temp + val));  <span class="hljs-comment">// 如果此时 temp 没有被修改，就能退出循环，否则重新获取</span>
+    <span class="hljs-keyword">return</span> temp;
+&#125;</code></pre></div>
+
+</li>
+</ul>
+<p>CAS 的缺点？</p>
+<ul>
+<li>循环时间长开销很大<ul>
+<li>如果 CAS 失败，会一直尝试，如果 CAS 长时间一直不成功，可能会给 CPU 带来很大的开销（比如线程数很多，每次比较都是失败，就会一直循环），所以希望是线程数比较小的场景。</li>
+</ul>
+</li>
+<li>只能保证一个共享变量的原子操作<ul>
+<li>对于多个共享变量操作时，循环 CAS 就无法保证操作的原子性。</li>
+</ul>
+</li>
+<li>引出 ABA 问题</li>
+</ul>
+<h2 id="3-原子类-AtomicInteger-的-ABA-问题谈一谈？原子更新引用知道吗？"><a href="#3-原子类-AtomicInteger-的-ABA-问题谈一谈？原子更新引用知道吗？" class="headerlink" title="3 原子类 AtomicInteger 的 ABA 问题谈一谈？原子更新引用知道吗？"></a>3 原子类 AtomicInteger 的 ABA 问题谈一谈？原子更新引用知道吗？</h2><p>原子引用</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AtomicReferenceDemo</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        User cuzz = <span class="hljs-keyword">new</span> User(<span class="hljs-string">&quot;cuzz&quot;</span>, <span class="hljs-number">18</span>);
+        User faker = <span class="hljs-keyword">new</span> User(<span class="hljs-string">&quot;faker&quot;</span>, <span class="hljs-number">20</span>);
+        AtomicReference&lt;User&gt; atomicReference = <span class="hljs-keyword">new</span> AtomicReference&lt;&gt;();
+        atomicReference.set(cuzz);
+        System.out.println(atomicReference.compareAndSet(cuzz, faker)); <span class="hljs-comment">// true</span>
+        System.out.println(atomicReference.get()); <span class="hljs-comment">// User(userName=faker, age=20)</span>
+    &#125;
+&#125;</code></pre></div>
+
+<p>ABA 问题是怎么产生的</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@program</span>: learn-demo</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@description</span>: ABA</span>
+<span class="hljs-comment"> **/</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ABADemo</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> AtomicReference&lt;Integer&gt; atomicReference = <span class="hljs-keyword">new</span> AtomicReference&lt;&gt;(<span class="hljs-number">100</span>);
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+            atomicReference.compareAndSet(<span class="hljs-number">100</span>, <span class="hljs-number">101</span>);
+            atomicReference.compareAndSet(<span class="hljs-number">101</span>, <span class="hljs-number">100</span>);
+        &#125;).start();
+
+        <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+            <span class="hljs-comment">// 保证上面线程先执行</span>
+            <span class="hljs-keyword">try</span> &#123;
+                Thread.sleep(<span class="hljs-number">1000</span>);
+            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+            atomicReference.compareAndSet(<span class="hljs-number">100</span>, <span class="hljs-number">2019</span>);
+            System.out.println(atomicReference.get()); <span class="hljs-comment">// 2019</span>
+        &#125;).start();
+    &#125;
+&#125;</code></pre></div>
+
+<p>当有一个值从 A 改为 B 又改为 A，这就是 ABA 问题。</p>
+<p>时间戳原子引用</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.cuzz.thread;
+
+<span class="hljs-keyword">import</span> java.util.concurrent.atomic.AtomicReference;
+<span class="hljs-keyword">import</span> java.util.concurrent.atomic.AtomicStampedReference;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@description</span>: ABA</span>
+<span class="hljs-comment"> **/</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ABADemo2</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> AtomicStampedReference&lt;Integer&gt; atomicStampedReference = <span class="hljs-keyword">new</span> AtomicStampedReference&lt;&gt;(<span class="hljs-number">100</span>, <span class="hljs-number">1</span>);
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+            <span class="hljs-keyword">int</span> stamp = atomicStampedReference.getStamp();
+            System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot; 的版本号为：&quot;</span> + stamp);
+            <span class="hljs-keyword">try</span> &#123;
+                Thread.sleep(<span class="hljs-number">1000</span>);
+            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+            atomicStampedReference.compareAndSet(<span class="hljs-number">100</span>, <span class="hljs-number">101</span>, atomicStampedReference.getStamp(), atomicStampedReference.getStamp() + <span class="hljs-number">1</span> );
+            atomicStampedReference.compareAndSet(<span class="hljs-number">101</span>, <span class="hljs-number">100</span>, atomicStampedReference.getStamp(), atomicStampedReference.getStamp() + <span class="hljs-number">1</span> );
+        &#125;).start();
+
+        <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+            <span class="hljs-keyword">int</span> stamp = atomicStampedReference.getStamp();
+            System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot; 的版本号为：&quot;</span> + stamp);
+            <span class="hljs-keyword">try</span> &#123;
+                Thread.sleep(<span class="hljs-number">3000</span>);
+            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+            <span class="hljs-keyword">boolean</span> b = atomicStampedReference.compareAndSet(<span class="hljs-number">100</span>, <span class="hljs-number">2019</span>, stamp, stamp + <span class="hljs-number">1</span>);
+            System.out.println(b); <span class="hljs-comment">// false</span>
+            System.out.println(atomicStampedReference.getReference()); <span class="hljs-comment">// 100</span>
+        &#125;).start();
+    &#125;
+&#125;</code></pre></div>
+
+<p>我们先保证两个线程的初始版本为一致，后面修改是由于版本不一样就会修改失败。</p>
+<h2 id="4-我们知道-ArrayList-是线程不安全，请编写一个不安全的案例并给出解决方案？"><a href="#4-我们知道-ArrayList-是线程不安全，请编写一个不安全的案例并给出解决方案？" class="headerlink" title="4 我们知道 ArrayList 是线程不安全，请编写一个不安全的案例并给出解决方案？"></a>4 我们知道 ArrayList 是线程不安全，请编写一个不安全的案例并给出解决方案？</h2><p>故障现象</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ContainerDemo</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        List&lt;Integer&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+        Random random = <span class="hljs-keyword">new</span> Random();
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++) &#123;
+            <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+                list.add(random.nextInt(<span class="hljs-number">10</span>));
+                System.out.println(list);
+            &#125;).start();
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>发现报 <code>java.util.ConcurrentModificationException</code></p>
+<p>导致原因</p>
+<ul>
+<li>并发修改导致的异常</li>
+</ul>
+<p>解决方案</p>
+<ul>
+<li><code>new Vector();</code></li>
+<li><code>Collections.synchronizedList(new ArrayList&lt;&gt;());</code></li>
+<li><code>new CopyOnWriteArrayList&lt;&gt;();</code></li>
+</ul>
+<p>优化建议</p>
+<ul>
+<li>在读多写少的时候推荐使用 CopeOnWriteArrayList 这个类</li>
+</ul>
+<h2 id="5-java-中锁你知道哪些？请手写一个自旋锁？"><a href="#5-java-中锁你知道哪些？请手写一个自旋锁？" class="headerlink" title="5 java 中锁你知道哪些？请手写一个自旋锁？"></a>5 java 中锁你知道哪些？请手写一个自旋锁？</h2><p><strong>1、公平和非公平锁</strong></p>
+<p>是什么</p>
+<ul>
+<li>公平锁：是指多个线程按照申请的顺序来获取值</li>
+<li>非公平锁：是值多个线程获取值的顺序并不是按照申请锁的顺序，有可能后申请的线程比先申请的线程优先获取锁，在高并发的情况下，可能会造成优先级翻转或者饥饿现象</li>
+</ul>
+<p>两者区别</p>
+<ul>
+<li>公平锁：在并发环境中，每一个线程在获取锁时会先查看此锁维护的等待队列，如果为空，或者当前线程是等待队列的第一个就占有锁，否者就会加入到等待队列中，以后会按照 FIFO 的规则获取锁</li>
+<li>非公平锁：一上来就尝试占有锁，如果失败在进行排队</li>
+</ul>
+<p><strong>2、可重入锁和不可重入锁</strong></p>
+<p>是什么</p>
+<ul>
+<li>可重入锁：指的是同一个线程外层函数获得锁之后，内层仍然能获取到该锁，在同一个线程在外层方法获取锁的时候，在进入内层方法或会自动获取该锁</li>
+<li>不可重入锁： 所谓不可重入锁，即若当前线程执行某个方法已经获取了该锁，那么在方法中尝试再次获取锁时，就会获取不到被阻塞</li>
+</ul>
+<p>代码实现</p>
+<ul>
+<li>可重入锁</li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ReentrantLock</span> </span>&#123;
+    <span class="hljs-keyword">boolean</span> isLocked = <span class="hljs-keyword">false</span>;
+    Thread lockedBy = <span class="hljs-keyword">null</span>;
+    <span class="hljs-keyword">int</span> lockedCount = <span class="hljs-number">0</span>;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">lock</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;
+        Thread thread = Thread.currentThread();
+        <span class="hljs-keyword">while</span> (isLocked &amp;&amp; lockedBy != thread) &#123;
+            wait();
+        &#125;
+        isLocked = <span class="hljs-keyword">true</span>;
+        lockedCount++;
+        lockedBy = thread;
+    &#125;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">unlock</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (Thread.currentThread() == lockedBy) &#123;
+            lockedCount--;
+            <span class="hljs-keyword">if</span> (lockedCount == <span class="hljs-number">0</span>) &#123;
+                isLocked = <span class="hljs-keyword">false</span>;
+                notify();
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>测试</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Count</span> </span>&#123;
+<span class="hljs-comment">//    NotReentrantLock lock = new NotReentrantLock();</span>
+    ReentrantLock lock = <span class="hljs-keyword">new</span> ReentrantLock();
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">print</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException</span>&#123;
+        lock.lock();
+        doAdd();
+        lock.unlock();
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doAdd</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;
+        lock.lock();
+        <span class="hljs-comment">// do something</span>
+        System.out.println(<span class="hljs-string">&quot;ReentrantLock&quot;</span>);
+        lock.unlock();
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;
+        Count count = <span class="hljs-keyword">new</span> Count();
+        count.print();
+    &#125;
+&#125;</code></pre></div>
+
+<p>发现可以输出 ReentrantLock，我们设计两个线程调用 print() 方法，第一个线程调用 print() 方法获取锁，进入 lock() 方法，由于初始 lockedBy 是 null，所以不会进入 while 而挂起当前线程，而是是增量 lockedCount 并记录 lockBy 为第一个线程。接着第一个线程进入 doAdd() 方法，由于同一进程，所以不会进入 while 而挂起，接着增量 lockedCount，当第二个线程尝试lock，由于 isLocked=true，所以他不会获取该锁，直到第一个线程调用两次 unlock() 将 lockCount 递减为0，才将标记为 isLocked 设置为 false。</p>
+<ul>
+<li>不可重入锁</li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NotReentrantLock</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> isLocked = <span class="hljs-keyword">false</span>;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">lock</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;
+        <span class="hljs-keyword">while</span> (isLocked) &#123;
+            wait();
+        &#125;
+        isLocked = <span class="hljs-keyword">true</span>;
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">unlock</span><span class="hljs-params">()</span> </span>&#123;
+        isLocked = <span class="hljs-keyword">false</span>;
+        notify();
+    &#125;
+&#125;</code></pre></div>
+
+<p>测试</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Count</span> </span>&#123;
+    NotReentrantLock lock = <span class="hljs-keyword">new</span> NotReentrantLock();
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">print</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException</span>&#123;
+        lock.lock();
+        doAdd();
+        lock.unlock();
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doAdd</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;
+        lock.lock();
+        <span class="hljs-comment">// do something</span>
+        lock.unlock();
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;
+        Count count = <span class="hljs-keyword">new</span> Count();
+        count.print();
+    &#125;
+&#125;</code></pre></div>
+
+<p>当前线程执行print()方法首先获取lock，接下来执行doAdd()方法就无法执行doAdd()中的逻辑，必须先释放锁。这个例子很好的说明了不可重入锁。</p>
+<p>synchronized 和 ReentrantLock 都是可重入锁</p>
+<p>synchronzied</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SynchronziedDemo</span> </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">print</span><span class="hljs-params">()</span> </span>&#123;
+        doAdd();
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doAdd</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.println(<span class="hljs-string">&quot;doAdd...&quot;</span>);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        SynchronziedDemo synchronziedDemo = <span class="hljs-keyword">new</span> SynchronziedDemo();
+        synchronziedDemo.print(); <span class="hljs-comment">// doAdd...</span>
+    &#125;
+&#125;</code></pre></div>
+
+<p>上面可以说明 synchronized 是可重入锁。</p>
+<p>ReentrantLock</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ReentrantLockDemo</span> </span>&#123;
+    <span class="hljs-keyword">private</span> Lock lock = <span class="hljs-keyword">new</span> ReentrantLock();
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">print</span><span class="hljs-params">()</span> </span>&#123;
+        lock.lock();
+        doAdd();
+        lock.unlock();
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doAdd</span><span class="hljs-params">()</span> </span>&#123;
+        lock.lock();
+        lock.lock();
+        System.out.println(<span class="hljs-string">&quot;doAdd...&quot;</span>);
+        lock.unlock();
+        lock.unlock();
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        ReentrantLockDemo reentrantLockDemo = <span class="hljs-keyword">new</span> ReentrantLockDemo();
+        reentrantLockDemo.print();
+    &#125;
+&#125;</code></pre></div>
+
+<p>上面例子可以说明 ReentrantLock 是可重入锁，而且在 #doAdd 方法中加两次锁和解两次锁也可以。</p>
+<p><strong>3、自旋锁</strong></p>
+<p>是指定尝试获取锁的线程不会立即堵塞，而是<strong>采用循环的方式去尝试获取锁</strong>，这样的好处是减少线程上线文切换的消耗，缺点就是循环会消耗 CPU。</p>
+<p>手动实现自旋锁</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SpinLock</span> </span>&#123;
+    <span class="hljs-keyword">private</span> AtomicReference&lt;Thread&gt; atomicReference = <span class="hljs-keyword">new</span> AtomicReference&lt;&gt;();
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">lock</span> <span class="hljs-params">()</span> </span>&#123;
+        System.out.println(Thread.currentThread() + <span class="hljs-string">&quot; coming...&quot;</span>);
+        <span class="hljs-keyword">while</span> (!atomicReference.compareAndSet(<span class="hljs-keyword">null</span>, Thread.currentThread())) &#123;
+            <span class="hljs-comment">// loop</span>
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">unlock</span><span class="hljs-params">()</span> </span>&#123;
+        Thread thread = Thread.currentThread();
+        atomicReference.compareAndSet(thread, <span class="hljs-keyword">null</span>);
+        System.out.println(thread + <span class="hljs-string">&quot; unlock...&quot;</span>);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;
+        SpinLock spinLock = <span class="hljs-keyword">new</span> SpinLock();
+        <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+            spinLock.lock();
+            <span class="hljs-keyword">try</span> &#123;
+                Thread.sleep(<span class="hljs-number">3000</span>);
+            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+            System.out.println(<span class="hljs-string">&quot;hahaha&quot;</span>);
+            spinLock.unlock();
+
+        &#125;).start();
+
+        Thread.sleep(<span class="hljs-number">1</span>);
+
+        <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+            spinLock.lock();
+            System.out.println(<span class="hljs-string">&quot;hehehe&quot;</span>);
+            spinLock.unlock();
+        &#125;).start();
+    &#125;
+&#125;</code></pre></div>
+
+<p>输出：</p>
+<div class="code-wrapper"><pre><code class="hljs java">Thread[Thread-<span class="hljs-number">0</span>,<span class="hljs-number">5</span>,main] coming...
+Thread[Thread-<span class="hljs-number">1</span>,<span class="hljs-number">5</span>,main] coming...
+hahaha
+Thread[Thread-<span class="hljs-number">0</span>,<span class="hljs-number">5</span>,main] unlock...
+hehehe
+Thread[Thread-<span class="hljs-number">1</span>,<span class="hljs-number">5</span>,main] unlock...</code></pre></div>
+
+<p>获取锁的时候，如果原子引用为空就获取锁，不为空表示有人获取了锁，就循环等待。</p>
+<p><strong>4、独占锁（写锁）/共享锁（读锁）</strong></p>
+<p>是什么</p>
+<ul>
+<li>独占锁：指该锁一次只能被一个线程持有</li>
+<li>共享锁：该锁可以被多个线程持有</li>
+</ul>
+<p>对于 ReentrantLock 和 synchronized 都是独占锁；对与 ReentrantReadWriteLock 其读锁是共享锁而写锁是独占锁。读锁的共享可保证并发读是非常高效的，读写、写读和写写的过程是互斥的。</p>
+<p>读写锁例子</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyCache</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">volatile</span> Map&lt;String, Object&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+
+    <span class="hljs-keyword">private</span> ReentrantReadWriteLock lock = <span class="hljs-keyword">new</span> ReentrantReadWriteLock();
+    WriteLock writeLock = lock.writeLock();
+    ReadLock readLock = lock.readLock();
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">put</span><span class="hljs-params">(String key, Object value)</span> </span>&#123;
+        <span class="hljs-keyword">try</span> &#123;
+            writeLock.lock();
+            System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot; 正在写入...&quot;</span>);
+            <span class="hljs-keyword">try</span> &#123;
+                Thread.sleep(<span class="hljs-number">1000</span>);
+            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+            map.put(key, value);
+            System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot; 写入完成，写入结果是 &quot;</span> + value);
+        &#125; <span class="hljs-keyword">finally</span> &#123;
+            writeLock.unlock();
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">get</span><span class="hljs-params">(String key)</span> </span>&#123;
+        <span class="hljs-keyword">try</span> &#123;
+            readLock.lock();
+            System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot; 正在读...&quot;</span>);
+            <span class="hljs-keyword">try</span> &#123;
+                Thread.sleep(<span class="hljs-number">1000</span>);
+            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+            Object res = map.get(key);
+            System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot; 读取完成，读取结果是 &quot;</span> + res);
+        &#125; <span class="hljs-keyword">finally</span> &#123;
+            readLock.unlock();
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>测试</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ReadWriteLockDemo</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        MyCache cache = <span class="hljs-keyword">new</span> MyCache();
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++) &#123;
+            <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> temp = i;
+            <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+                cache.put(temp + <span class="hljs-string">&quot;&quot;</span>, temp + <span class="hljs-string">&quot;&quot;</span>);
+            &#125;).start();
+        &#125;
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++) &#123;
+            <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> temp = i;
+            <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+                cache.get(temp + <span class="hljs-string">&quot;&quot;</span>);
+            &#125;).start();
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>输出结果</p>
+<div class="code-wrapper"><pre><code class="hljs java">Thread-<span class="hljs-number">0</span> 正在写入...
+Thread-<span class="hljs-number">0</span> 写入完成，写入结果是 <span class="hljs-number">0</span>
+Thread-<span class="hljs-number">1</span> 正在写入...
+Thread-<span class="hljs-number">1</span> 写入完成，写入结果是 <span class="hljs-number">1</span>
+Thread-<span class="hljs-number">2</span> 正在写入...
+Thread-<span class="hljs-number">2</span> 写入完成，写入结果是 <span class="hljs-number">2</span>
+Thread-<span class="hljs-number">3</span> 正在写入...
+Thread-<span class="hljs-number">3</span> 写入完成，写入结果是 <span class="hljs-number">3</span>
+Thread-<span class="hljs-number">4</span> 正在写入...
+Thread-<span class="hljs-number">4</span> 写入完成，写入结果是 <span class="hljs-number">4</span>
+Thread-<span class="hljs-number">5</span> 正在读...
+Thread-<span class="hljs-number">7</span> 正在读...
+Thread-<span class="hljs-number">8</span> 正在读...
+Thread-<span class="hljs-number">6</span> 正在读...
+Thread-<span class="hljs-number">9</span> 正在读...
+Thread-<span class="hljs-number">5</span> 读取完成，读取结果是 <span class="hljs-number">0</span>
+Thread-<span class="hljs-number">7</span> 读取完成，读取结果是 <span class="hljs-number">2</span>
+Thread-<span class="hljs-number">8</span> 读取完成，读取结果是 <span class="hljs-number">3</span>
+Thread-<span class="hljs-number">6</span> 读取完成，读取结果是 <span class="hljs-number">1</span>
+Thread-<span class="hljs-number">9</span> 读取完成，读取结果是 <span class="hljs-number">4</span></code></pre></div>
+
+<p>能保证<strong>读写</strong>、<strong>写读</strong>和<strong>写写</strong>的过程是互斥的时候是独享的，<strong>读读</strong>的时候是共享的。</p>
+<h2 id="6-CountDownLatch、CyclicBarrier-和Semaphore-使用过吗？"><a href="#6-CountDownLatch、CyclicBarrier-和Semaphore-使用过吗？" class="headerlink" title="6 CountDownLatch、CyclicBarrier 和Semaphore 使用过吗？"></a>6 CountDownLatch、CyclicBarrier 和Semaphore 使用过吗？</h2><p><strong>1、CountDownLatch</strong></p>
+<p>让一些线程堵塞直到另一个线程完成一系列操作后才被唤醒。CountDownLatch 主要有两个方法，当一个或多个线程调用 await 方法时，调用线程会被堵塞，其他线程调用 countDown 方法会将计数减一（调用 countDown 方法的线程不会堵塞），当计数其值变为零时，因调用 await 方法被堵塞的线程会被唤醒，继续执行。</p>
+<p>假设我们有这么一个场景，教室里有班长和其他6个人在教室上自习，怎么保证班长等其他6个人都走出教室在把教室门给关掉。</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CountDownLanchDemo</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">6</span>; i++) &#123;
+            <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+                System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot; 离开了教室...&quot;</span>);
+            &#125;, String.valueOf(i)).start();
+        &#125;
+        System.out.println(<span class="hljs-string">&quot;班长把门给关了，离开了教室...&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<p>此时输出</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-number">0</span> 离开了教室...
+<span class="hljs-number">1</span> 离开了教室...
+<span class="hljs-number">2</span> 离开了教室...
+<span class="hljs-number">3</span> 离开了教室...
+班长把门给关了，离开了教室...
+<span class="hljs-number">5</span> 离开了教室...
+<span class="hljs-number">4</span> 离开了教室...</code></pre></div>
+
+<p>发现班长都没有等其他人理他教室就把门给关了，此时我们就可以使用 CountDownLatch 来控制</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CountDownLanchDemo</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;
+        CountDownLatch countDownLatch = <span class="hljs-keyword">new</span> CountDownLatch(<span class="hljs-number">6</span>);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">6</span>; i++) &#123;
+            <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+                countDownLatch.countDown();
+                System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot; 离开了教室...&quot;</span>);
+            &#125;, String.valueOf(i)).start();
+        &#125;
+        countDownLatch.await();
+        System.out.println(<span class="hljs-string">&quot;班长把门给关了，离开了教室...&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<p>此时输出</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-number">0</span> 离开了教室...
+<span class="hljs-number">1</span> 离开了教室...
+<span class="hljs-number">2</span> 离开了教室...
+<span class="hljs-number">3</span> 离开了教室...
+<span class="hljs-number">4</span> 离开了教室...
+<span class="hljs-number">5</span> 离开了教室...
+班长把门给关了，离开了教室...</code></pre></div>
+
+<p><strong>2、CyclicBarrier</strong></p>
+<p>我们假设有这么一个场景，每辆车只能坐个人，当车满了，就发车。</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CyclicBarrierDemo</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        CyclicBarrier cyclicBarrier = <span class="hljs-keyword">new</span> CyclicBarrier(<span class="hljs-number">4</span>, () -&gt; &#123;
+            System.out.println(<span class="hljs-string">&quot;车满了，开始出发...&quot;</span>);
+        &#125;);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">8</span>; i++) &#123;
+            <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+                System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot; 开始上车...&quot;</span>);
+                <span class="hljs-keyword">try</span> &#123;
+                    cyclicBarrier.await();
+                &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;
+                    e.printStackTrace();
+                &#125; <span class="hljs-keyword">catch</span> (BrokenBarrierException e) &#123;
+                    e.printStackTrace();
+                &#125;
+            &#125;).start();
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>输出结果</p>
+<div class="code-wrapper"><pre><code class="hljs java">Thread-<span class="hljs-number">0</span> 开始上车...
+Thread-<span class="hljs-number">1</span> 开始上车...
+Thread-<span class="hljs-number">3</span> 开始上车...
+Thread-<span class="hljs-number">4</span> 开始上车...
+车满了，开始出发...
+Thread-<span class="hljs-number">5</span> 开始上车...
+Thread-<span class="hljs-number">7</span> 开始上车...
+Thread-<span class="hljs-number">2</span> 开始上车...
+Thread-<span class="hljs-number">6</span> 开始上车...
+车满了，开始出发...</code></pre></div>
+
+<p><strong>3、Semaphore</strong></p>
+<p>假设我们有 3 个停车位，6 辆车去抢</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SemaphoreDemo</span> </span>&#123;
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+      Semaphore semaphore = <span class="hljs-keyword">new</span> Semaphore(<span class="hljs-number">3</span>);
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">6</span>; i++) &#123;
+          <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+              <span class="hljs-keyword">try</span> &#123;
+                  semaphore.acquire(); <span class="hljs-comment">// 获取一个许可</span>
+                  System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot; 抢到车位...&quot;</span>);
+                  Thread.sleep(<span class="hljs-number">3000</span>);
+                  System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot; 离开车位&quot;</span>);
+              &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;
+                  e.printStackTrace();
+              &#125; <span class="hljs-keyword">finally</span> &#123;
+                  semaphore.release(); <span class="hljs-comment">// 释放一个许可</span>
+              &#125;
+          &#125;).start();
+      &#125;
+  &#125;
+&#125;</code></pre></div>
+
+<p>输出</p>
+<div class="code-wrapper"><pre><code class="hljs lasso"><span class="hljs-keyword">Thread</span><span class="hljs-number">-1</span> 抢到车位<span class="hljs-params">...</span>
+<span class="hljs-keyword">Thread</span><span class="hljs-number">-2</span> 抢到车位<span class="hljs-params">...</span>
+<span class="hljs-keyword">Thread</span><span class="hljs-number">-0</span> 抢到车位<span class="hljs-params">...</span>
+<span class="hljs-keyword">Thread</span><span class="hljs-number">-2</span> 离开车位
+<span class="hljs-keyword">Thread</span><span class="hljs-number">-0</span> 离开车位
+<span class="hljs-keyword">Thread</span><span class="hljs-number">-3</span> 抢到车位<span class="hljs-params">...</span>
+<span class="hljs-keyword">Thread</span><span class="hljs-number">-1</span> 离开车位
+<span class="hljs-keyword">Thread</span><span class="hljs-number">-4</span> 抢到车位<span class="hljs-params">...</span>
+<span class="hljs-keyword">Thread</span><span class="hljs-number">-5</span> 抢到车位<span class="hljs-params">...</span>
+<span class="hljs-keyword">Thread</span><span class="hljs-number">-3</span> 离开车位
+<span class="hljs-keyword">Thread</span><span class="hljs-number">-5</span> 离开车位
+<span class="hljs-keyword">Thread</span><span class="hljs-number">-4</span> 离开车位</code></pre></div>
+
+<h2 id="7-堵塞队列你知道吗？"><a href="#7-堵塞队列你知道吗？" class="headerlink" title="7 堵塞队列你知道吗？"></a>7 堵塞队列你知道吗？</h2><p><strong>1、阻塞队列有哪些</strong></p>
+<ul>
+<li>ArrayBlockingQueue：是一个基于数组结构的有界阻塞队列，此队列按 FIFO（先进先出）对元素进行排序。</li>
+<li>LinkedBlokcingQueue：是一个基于链表结构的阻塞队列，此队列按 FIFO（先进先出）对元素进行排序，吞吐量通常要高于 ArrayBlockingQueue。</li>
+<li>SynchronousQueue：是一个不存储元素的阻塞队列，每个插入操作必须等到另一个线程调用移除操作，否则插入操作一直处于阻塞状态，吞吐量通常要高于 LinkedBlokcingQueue。</li>
+</ul>
+<p><strong>2、什么是阻塞队列</strong></p>
+<p><a target="_blank" rel="noopener" href="http://img.cuzz.site/2020/20200910141635.png"><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="http://img.cuzz.site/2020/20200910141635.png" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://img.cuzz.site/2020/20200910141635.png">img</a></p>
+<ul>
+<li><p>阻塞队列，顾名思义，首先它是一个队列，而一个阻塞队列在数据结构中所起的作用大致如图所示：</p>
+</li>
+<li><p>当阻塞队列是空时，从队列中获取元素的操作将会被阻塞。</p>
+</li>
+<li><p>当阻塞队列是满时，往队列里添加元素的操作将会被阻塞。</p>
+</li>
+<li><p>核心方法</p>
+<table>
+<thead>
+<tr>
+<th>方法\行为</th>
+<th>抛异常</th>
+<th>特定的值</th>
+<th>阻塞</th>
+<th>超时</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>插入方法</td>
+<td>add(o)</td>
+<td>offer(o)</td>
+<td>put(o)</td>
+<td>offer(o, timeout, timeunit)</td>
+</tr>
+<tr>
+<td>移除方法</td>
+<td></td>
+<td>poll()、remove(o)</td>
+<td>take()</td>
+<td>poll(timeout, timeunit)</td>
+</tr>
+<tr>
+<td>检查方法</td>
+<td>element()</td>
+<td>peek()</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>行为解释：</p>
+<ul>
+<li>抛异常：如果操作不能马上进行，则抛出异常</li>
+<li>特定的值：如果操作不能马上进行，将会返回一个特殊的值，一般是 true 或者 false</li>
+<li>阻塞：如果操作不能马上进行，操作会被阻塞</li>
+<li>超时：如果操作不能马上进行，操作会被阻塞指定的时间，如果指定时间没执行，则返回一个特殊值，一般是 true 或者 false</li>
+</ul>
+</li>
+<li><p>插入方法：</p>
+<ul>
+<li>add(E e)：添加成功返回true，失败抛 IllegalStateException 异常</li>
+<li>offer(E e)：成功返回 true，如果此队列已满，则返回 false</li>
+<li>put(E e)：将元素插入此队列的尾部，如果该队列已满，则一直阻塞</li>
+</ul>
+</li>
+<li><p>删除方法：</p>
+<ul>
+<li>remove(Object o) ：移除指定元素,成功返回true，失败返回false</li>
+<li>poll()：获取并移除此队列的头元素，若队列为空，则返回 null</li>
+<li>take()：获取并移除此队列头元素，若没有元素则一直阻塞</li>
+</ul>
+</li>
+<li><p>检查方法：</p>
+<ul>
+<li>element() ：获取但不移除此队列的头元素，没有元素则抛异常</li>
+<li>peek() :获取但不移除此队列的头；若队列为空，则返回 null</li>
+</ul>
+</li>
+</ul>
+<p><strong>3、SynchronousQueue</strong></p>
+<p>SynchronousQueue，实际上它不是一个真正的队列，因为它不会为队列中元素维护存储空间。与其他队列不同的是，它维护一组线程，这些线程在等待着把元素加入或移出队列。</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SynchronousQueueDemo</span> </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        SynchronousQueue&lt;Integer&gt; synchronousQueue = <span class="hljs-keyword">new</span> SynchronousQueue&lt;&gt;();
+        <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+            <span class="hljs-keyword">try</span> &#123;
+                synchronousQueue.put(<span class="hljs-number">1</span>);
+                Thread.sleep(<span class="hljs-number">3000</span>);
+                synchronousQueue.put(<span class="hljs-number">2</span>);
+                Thread.sleep(<span class="hljs-number">3000</span>);
+                synchronousQueue.put(<span class="hljs-number">3</span>);
+            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+        &#125;).start();
+
+        <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+            <span class="hljs-keyword">try</span> &#123;
+                Integer val = synchronousQueue.take();
+                System.out.println(val);
+                Integer val2 = synchronousQueue.take();
+                System.out.println(val2);
+                Integer val3 = synchronousQueue.take();
+                System.out.println(val3);
+            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+        &#125;).start();
+    &#125;
+&#125;</code></pre></div>
+
+<p><strong>4、使用场景</strong></p>
+<ul>
+<li>生产者消费者模式</li>
+<li>线程池</li>
+<li>消息中间件</li>
+</ul>
+<h2 id="8-synchronized-和-Lock-有什么区别？"><a href="#8-synchronized-和-Lock-有什么区别？" class="headerlink" title="8 synchronized 和 Lock 有什么区别？"></a>8 synchronized 和 Lock 有什么区别？</h2><ul>
+<li>原始结构<ul>
+<li>synchronized 是关键字属于 JVM 层面，反应在字节码上是 monitorenter 和 monitorexit，其底层是通过 monitor 对象来完成，其实 wait/notify 等方法也是依赖 monitor 对象只有在同步快或方法中才能调用 wait/notify 等方法。</li>
+<li>Lock 是具体类（java.util.concurrent.locks.Lock）是 api 层面的锁。</li>
+</ul>
+</li>
+<li>使用方法<ul>
+<li>synchronized 不需要用户手动去释放锁，当 synchronized 代码执行完后系统会自动让线程释放对锁的占用。</li>
+<li>ReentrantLock 则需要用户手动的释放锁，若没有主动释放锁，可能导致出现死锁的现象，lock() 和 unlock() 方法需要配合 try/finally 语句来完成。</li>
+</ul>
+</li>
+<li>等待是否可中断<ul>
+<li>synchronized 不可中断，除非抛出异常或者正常运行完成。</li>
+<li>ReentrantLock 可中断，设置超时方法 tryLock(long timeout, TimeUnit unit)，lockInterruptibly() 放代码块中，调用 interrupt() 方法可中断。</li>
+</ul>
+</li>
+<li>加锁是否公平<ul>
+<li>synchronized 非公平锁</li>
+<li>ReentrantLock 默认非公平锁，构造方法中可以传入 boolean 值，true 为公平锁，false 为非公平锁。</li>
+</ul>
+</li>
+<li>锁可以绑定多个 Condition<ul>
+<li>synchronized 没有 Condition。</li>
+<li>ReentrantLock 用来实现分组唤醒需要唤醒的线程们，可以精确唤醒，而不是像 synchronized 要么随机唤醒一个线程要么唤醒全部线程。</li>
+</ul>
+</li>
+</ul>
+<h2 id="9-线程池使用过吗？谈谈对-ThreadPoolExector-的理解？"><a href="#9-线程池使用过吗？谈谈对-ThreadPoolExector-的理解？" class="headerlink" title="9 线程池使用过吗？谈谈对 ThreadPoolExector 的理解？"></a>9 线程池使用过吗？谈谈对 ThreadPoolExector 的理解？</h2><p><strong>为什使用线程池，线程池的优势？</strong></p>
+<p>线程池用于多线程处理中，它可以根据系统的情况，可以有效控制线程执行的数量，优化运行效果。线程池做的工作主要是控制运行的线程的数量，处理过程中将任务放入队列，然后在线程创建后启动这些任务，如果线程数量超过了最大数量，那么超出数量的线程排队等候，等其它线程执行完毕，再从队列中取出任务来执行。</p>
+<p>主要特点为：</p>
+<ul>
+<li>线程复用</li>
+<li>控制最大并发数量</li>
+<li>管理线程</li>
+</ul>
+<p>主要优点</p>
+<ul>
+<li>降低资源消耗，通过重复利用已创建的线程来降低线程创建和销毁造成的消耗。</li>
+<li>提高相应速度，当任务到达时，任务可以不需要的等到线程创建就能立即执行。</li>
+<li>提高线程的可管理性，线程是稀缺资源，如果无限制的创建，不仅仅会消耗系统资源，还会降低体统的稳定性，使用线程可以进行统一分配，调优和监控。</li>
+</ul>
+<p><strong>创建线程的几种方式</strong></p>
+<ul>
+<li><p>继承 Thread</p>
+</li>
+<li><p>实现 Runnable 接口</p>
+</li>
+<li><p>实现 Callable</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CallableDemo</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> ExecutionException, InterruptedException </span>&#123;
+        <span class="hljs-comment">// 在 FutureTask 中传入 Callable 的实现类</span>
+        FutureTask&lt;Integer&gt; futureTask = <span class="hljs-keyword">new</span> FutureTask&lt;&gt;(<span class="hljs-keyword">new</span> Callable&lt;Integer&gt;() &#123;
+            <span class="hljs-meta">@Override</span>
+            <span class="hljs-function"><span class="hljs-keyword">public</span> Integer <span class="hljs-title">call</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+                <span class="hljs-keyword">return</span> <span class="hljs-number">666</span>;
+            &#125;
+        &#125;);
+        <span class="hljs-comment">// 把 futureTask 放入线程中</span>
+        <span class="hljs-keyword">new</span> Thread(futureTask).start();
+        <span class="hljs-comment">// 获取结果</span>
+        Integer res = futureTask.get();
+        System.out.println(res);
+    &#125;
+&#125;</code></pre></div>
+
+</li>
+</ul>
+<p><strong>线程池如果使用？</strong></p>
+<p>架构说明</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="http://img.cuzz.site/2020/20200910141651.jpg" alt="img"></p>
+<p>编码实现</p>
+<ul>
+<li>Executors.newSingleThreadExecutor()：只有一个线程的线程池，因此所有提交的任务是顺序执行</li>
+<li>Executors.newCachedThreadPool()：线程池里有很多线程需要同时执行，老的可用线程将被新的任务触发重新执行，如果线程超过60秒内没执行，那么将被终止并从池中删除</li>
+<li>Executors.newFixedThreadPool()：拥有固定线程数的线程池，如果没有任务执行，那么线程会一直等待</li>
+<li>Executors.newScheduledThreadPool()：用来调度即将执行的任务的线程池</li>
+<li>Executors.newWorkStealingPool()： newWorkStealingPool适合使用在很耗时的操作，但是newWorkStealingPool不是ThreadPoolExecutor的扩展，它是新的线程池类ForkJoinPool的扩展，但是都是在统一的一个Executors类中实现，由于能够合理的使用CPU进行对任务操作（并行操作），所以适合使用在很耗时的任务中</li>
+</ul>
+<p>ThreadPoolExecutor</p>
+<p>ThreadPoolExecutor作为java.util.concurrent包对外提供基础实现，以内部线程池的形式对外提供管理任务执行，线程调度，线程池管理等等服务。</p>
+<p><strong>线程池的几个重要参数介绍？</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>corePoolSize</td>
+<td>核心线程池大小</td>
+</tr>
+<tr>
+<td>maximumPoolSize</td>
+<td>最大线程池大小</td>
+</tr>
+<tr>
+<td>keepAliveTime</td>
+<td>线程池中超过 corePoolSize 数目的空闲线程最大存活时间；可以allowCoreThreadTimeOut(true) 使得核心线程有效时间</td>
+</tr>
+<tr>
+<td>TimeUnit</td>
+<td>keepAliveTime 时间单位</td>
+</tr>
+<tr>
+<td>workQueue</td>
+<td>阻塞任务队列</td>
+</tr>
+<tr>
+<td>threadFactory</td>
+<td>新建线程工厂</td>
+</tr>
+<tr>
+<td>RejectedExecutionHandler</td>
+<td>当提交任务数超过 maxmumPoolSize+workQueue 之和时，任务会交给RejectedExecutionHandler 来处理</td>
+</tr>
+</tbody></table>
+<p>说说线程池的底层工作原理？</p>
+<p><strong>重点讲解：</strong> 其中比较容易让人误解的是：corePoolSize，maximumPoolSize，workQueue之间关系。</p>
+<ol>
+<li>当线程池小于corePoolSize时，新提交任务将创建一个新线程执行任务，即使此时线程池中存在空闲线程。</li>
+<li>当线程池达到corePoolSize时，新提交任务将被放入 workQueue 中，等待线程池中任务调度执行。</li>
+<li>当workQueue已满，且 maximumPoolSize 大于 corePoolSize 时，新提交任务会创建新线程执行任务。</li>
+<li>当提交任务数超过 maximumPoolSize 时，新提交任务由 RejectedExecutionHandler 处理。</li>
+<li>当线程池中超过corePoolSize 线程，空闲时间达到 keepAliveTime 时，关闭空闲线程 。</li>
+<li>当设置allowCoreThreadTimeOut(true) 时，线程池中 corePoolSize 线程空闲时间达到 keepAliveTime 也将关闭。</li>
+</ol>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="http://img.cuzz.site/2020/20200910141714.jpg" alt="img"></p>
+<h2 id="10-线程池用过吗？生产上你如何设置合理参数？"><a href="#10-线程池用过吗？生产上你如何设置合理参数？" class="headerlink" title="10 线程池用过吗？生产上你如何设置合理参数？"></a>10 线程池用过吗？生产上你如何设置合理参数？</h2><p><strong>线程池的拒绝策略你谈谈？</strong></p>
+<ul>
+<li>是什么<ul>
+<li>等待队列已经满了，再也塞不下新的任务，同时线程池中的线程数达到了最大线程数，无法继续为新任务服务。</li>
+</ul>
+</li>
+<li>拒绝策略<ul>
+<li>AbortPolicy：处理程序遭到拒绝将抛出运行时 RejectedExecutionException</li>
+<li>CallerRunsPolicy：线程调用运行该任务的 execute 本身。此策略提供简单的反馈控制机制，能够减缓新任务的提交速度。</li>
+<li>DiscardPolicy：不能执行的任务将被删除</li>
+<li>DiscardOldestPolicy：如果执行程序尚未关闭，则位于工作队列头部的任务将被删除，然后重试执行程序（如果再次失败，则重复此过程）</li>
+</ul>
+</li>
+</ul>
+<p><strong>你在工作中单一的、固定数的和可变的三种创建线程池的方法，你用哪个多，超级大坑？</strong></p>
+<p>如果读者对Java中的阻塞队列有所了解的话，看到这里或许就能够明白原因了。</p>
+<p>Java中的BlockingQueue主要有两种实现，分别是ArrayBlockingQueue 和 LinkedBlockingQueue。</p>
+<p>ArrayBlockingQueue是一个用数组实现的有界阻塞队列，必须设置容量。</p>
+<p>LinkedBlockingQueue是一个用链表实现的有界阻塞队列，容量可以选择进行设置，不设置的话，将是一个无边界的阻塞队列，最大长度为Integer.MAX_VALUE。</p>
+<p>这里的问题就出在：不设置的话，将是一个无边界的阻塞队列，最大长度为Integer.MAX_VALUE。也就是说，如果我们不设置LinkedBlockingQueue的容量的话，其默认容量将会是Integer.MAX_VALUE。</p>
+<p>而newFixedThreadPool中创建LinkedBlockingQueue时，并未指定容量。此时，LinkedBlockingQueue就是一个无边界队列，对于一个无边界队列来说，是可以不断的向队列中加入任务的，这种情况下就有可能因为任务过多而导致内存溢出问题。</p>
+<p>上面提到的问题主要体现在newFixedThreadPool和newSingleThreadExecutor两个工厂方法上，并不是说newCachedThreadPool和newScheduledThreadPool这两个方法就安全了，这两种方式创建的最大线程数可能是Integer.MAX_VALUE，而创建这么多线程，必然就有可能导致OOM。</p>
+<p><strong>你在工作中是如何使用线程池的，是否自定义过线程池使用？</strong></p>
+<p>自定义线程池</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadPoolExecutorDemo</span> </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        Executor executor = <span class="hljs-keyword">new</span> ThreadPoolExecutor(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">1L</span>, TimeUnit.SECONDS,
+                <span class="hljs-keyword">new</span> LinkedBlockingQueue&lt;&gt;(<span class="hljs-number">5</span>), 
+                Executors.defaultThreadFactory(), 
+                <span class="hljs-keyword">new</span> ThreadPoolExecutor.DiscardPolicy());
+    &#125;
+&#125;</code></pre></div>
+
+<p><strong>合理配置线程池你是如果考虑的？</strong></p>
+<ul>
+<li>CPU 密集型<ul>
+<li>CPU 密集的意思是该任务需要大量的运算，而没有阻塞，CPU 一直全速运行。</li>
+<li>CPU 密集型任务尽可能的少的线程数量，一般为 CPU 核数 + 1 个线程的线程池。</li>
+</ul>
+</li>
+<li>IO 密集型<ul>
+<li>由于 IO 密集型任务线程并不是一直在执行任务，可以多分配一点线程数，如 CPU * 2 。</li>
+<li>也可以使用公式：CPU 核数 / (1 - 阻塞系数)；其中阻塞系数在 0.8 ～ 0.9 之间。</li>
+</ul>
+</li>
+</ul>
+<h2 id="11-死锁编码以及定位分析"><a href="#11-死锁编码以及定位分析" class="headerlink" title="11 死锁编码以及定位分析"></a>11 死锁编码以及定位分析</h2><p>产生死锁的原因</p>
+<p>死锁是指两个或两个以上的进程在执行过程中，因争夺资源而造成的一种相互等待的现象，如果无外力的干涉那它们都将无法推进下去，如果系统的资源充足，进程的资源请求都能够得到满足，死锁出现的可能性就很低，否则就会因争夺有限的资源而陷入死锁。</p>
+<p>代码</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DeadLockDemo</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        String lockA = <span class="hljs-string">&quot;lockA&quot;</span>;
+        String lockB = <span class="hljs-string">&quot;lockB&quot;</span>;
+
+        DeadLockDemo deadLockDemo = <span class="hljs-keyword">new</span> DeadLockDemo();
+        Executor executor = Executors.newFixedThreadPool(<span class="hljs-number">2</span>);
+        executor.execute(() -&gt; deadLockDemo.method(lockA, lockB));
+        executor.execute(() -&gt; deadLockDemo.method(lockB, lockA));
+
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">method</span><span class="hljs-params">(String lock1, String lock2)</span> </span>&#123;
+        <span class="hljs-keyword">synchronized</span> (lock1) &#123;
+            System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot;--获取到：&quot;</span> + lock1 + <span class="hljs-string">&quot;; 尝试获取：&quot;</span> + lock2);
+            <span class="hljs-keyword">try</span> &#123;
+                Thread.sleep(<span class="hljs-number">1000</span>);
+            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+            <span class="hljs-keyword">synchronized</span> (lock2) &#123;
+                System.out.println(<span class="hljs-string">&quot;获取到两把锁!&quot;</span>);
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>解决</p>
+<p>jps -l 命令查定位进程号</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-number">28519</span> org.jetbrains.jps.cmdline.Launcher
+<span class="hljs-number">32376</span> com.intellij.idea.Main
+<span class="hljs-number">28521</span> com.cuzz.thread.DeadLockDemo
+<span class="hljs-number">27836</span> org.jetbrains.kotlin.daemon.KotlinCompileDaemon
+<span class="hljs-number">28591</span> sun.tools.jps.Jps</code></pre></div>
+
+<p>jstack 28521 找到死锁查看</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-number">2019</span>-<span class="hljs-number">05</span>-<span class="hljs-number">07</span> <span class="hljs-number">00</span>:<span class="hljs-number">04</span>:<span class="hljs-number">15</span>
+<span class="hljs-function">Full thread dump Java <span class="hljs-title">HotSpot</span><span class="hljs-params">(TM)</span> 64-Bit Server <span class="hljs-title">VM</span> <span class="hljs-params">(<span class="hljs-number">25.191</span>-b12 mixed mode)</span>:</span>
+<span class="hljs-function"></span>
+<span class="hljs-function">&quot;Attach Listener&quot; #13 daemon prio</span>=<span class="hljs-number">9</span> os_prio=<span class="hljs-number">0</span> tid=<span class="hljs-number">0x00007f7acc001000</span> nid=<span class="hljs-number">0x702a</span> waiting on condition [<span class="hljs-number">0x0000000000000000</span>]
+   java.lang.Thread.State: RUNNABLE
+<span class="hljs-comment">// ...</span>
+Found one Java-level deadlock:
+=============================
+<span class="hljs-string">&quot;pool-1-thread-2&quot;</span>:
+  waiting to lock monitor <span class="hljs-number">0x00007f7ad4006478</span> (object <span class="hljs-number">0x00000000d71f60b0</span>, a java.lang.String),
+  which is held by <span class="hljs-string">&quot;pool-1-thread-1&quot;</span>
+<span class="hljs-string">&quot;pool-1-thread-1&quot;</span>:
+  waiting to lock monitor <span class="hljs-number">0x00007f7ad4003be8</span> (object <span class="hljs-number">0x00000000d71f60e8</span>, a java.lang.String),
+  which is held by <span class="hljs-string">&quot;pool-1-thread-2&quot;</span>
+
+Java stack information <span class="hljs-keyword">for</span> the threads listed above:
+===================================================
+<span class="hljs-string">&quot;pool-1-thread-2&quot;</span>:
+        at com.cuzz.thread.DeadLockDemo.method(DeadLockDemo.java:<span class="hljs-number">34</span>)
+        - waiting to lock &lt;<span class="hljs-number">0x00000000d71f60b0</span>&gt; (a java.lang.String)
+        - locked &lt;<span class="hljs-number">0x00000000d71f60e8</span>&gt; (a java.lang.String)
+        at com.cuzz.thread.DeadLockDemo.lambda$main$<span class="hljs-number">1</span>(DeadLockDemo.java:<span class="hljs-number">21</span>)
+        at com.cuzz.thread.DeadLockDemo$$Lambda$<span class="hljs-number">2</span>/<span class="hljs-number">2074407503.</span>run(Unknown Source)
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:<span class="hljs-number">1149</span>)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:<span class="hljs-number">624</span>)
+        at java.lang.Thread.run(Thread.java:<span class="hljs-number">748</span>)
+<span class="hljs-string">&quot;pool-1-thread-1&quot;</span>:
+        at com.cuzz.thread.DeadLockDemo.method(DeadLockDemo.java:<span class="hljs-number">34</span>)
+        - waiting to lock &lt;<span class="hljs-number">0x00000000d71f60e8</span>&gt; (a java.lang.String)
+        - locked &lt;<span class="hljs-number">0x00000000d71f60b0</span>&gt; (a java.lang.String)
+        at com.cuzz.thread.DeadLockDemo.lambda$main$<span class="hljs-number">0</span>(DeadLockDemo.java:<span class="hljs-number">20</span>)
+        at com.cuzz.thread.DeadLockDemo$$Lambda$<span class="hljs-number">1</span>/<span class="hljs-number">558638686.</span>run(Unknown Source)
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:<span class="hljs-number">1149</span>)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:<span class="hljs-number">624</span>)
+        at java.lang.Thread.run(Thread.java:<span class="hljs-number">748</span>)
+
+Found <span class="hljs-number">1</span> deadlock.</code></pre></div>
+
+<p>最后发现一个死锁。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Tool/">Tool</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/22/K8s%E5%AD%A6%E4%B9%A0/">
+                        <span class="hidden-mobile">K8s 学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=a;var i=n.imageLazyLoadSetting.isSPA,o=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function a(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var a=0;a<r.length;a++)t=r[a],0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight*o||document.documentElement.clientHeight*o)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}();var t,e}a(),n.addEventListener("scroll",function(){var t,e;t=a,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>

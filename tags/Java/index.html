@@ -18,25 +18,9 @@
   <meta name="author" content="pncalbl">
   <meta name="keywords" content="计算机,开发,编程,代码,博客,技术">
   
-  <title>Java简单实现多线程 - pncalbl</title>
+  <title>标签 - Java - pncalbl</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
-
-
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
-  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
-
-  
-    
-    
-      
-      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
-    
-  
-
-  
-    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
-  
 
 
 
@@ -65,7 +49,7 @@
 
 
 <body>
-  <header style="height: 70vh;">
+  <header style="height: 80vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -159,60 +143,22 @@
 </nav>
 
     <div class="banner" id="banner" parallax=true
-         style="background: url('/img/post.jpg') no-repeat center center;
+         style="background: url('/img/default.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Java简单实现多线程">
+            <span class="h2" id="subtitle" title="标签 - Java">
               
             </span>
 
             
-              <div class="mt-3">
-  
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-author" aria-hidden="true"></i>
-      pncalbl
-    </span>
-  
-  
-    <span class="post-meta">
-      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2020-08-11 00:00" pubdate>
-        2020年8月11日 凌晨
-      </time>
-    </span>
-  
-</div>
-
-<div class="mt-1">
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-chart"></i>
-      293 字
-    </span>
-  
-
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-clock-fill"></i>
-      
-      
-      4
-       分钟
-    </span>
-  
-
-  
-  
-</div>
-
-            
           </div>
 
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
           
         </div>
       </div>
@@ -221,164 +167,40 @@
 
   <main>
     
+      <div class="container nopadding-x-md">
+        <div class="py-5" id="board"
+          >
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+<div class="list-group">
+  <p class="h4">共计 1 篇文章</p>
+  <hr>
+  
+  
+    
       
+      <p class="h5">2021</p>
+    
+    <a href="/2021/07/30/Java%E9%9D%A2%E8%AF%95/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">Java 面试</span>
+      <time style="float: right;">07-30</time>
+    </a>
+  
+</div>
 
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div class="py-5" id="board">
-          <article class="post-content mx-auto">
-            <!-- SEO header -->
-            <h1 style="display: none">Java简单实现多线程</h1>
-            
-              <p class="note note-info">
-                
-                  本文最后更新于：3 个月前
-                
-              </p>
-            
-            <div class="markdown-body">
-              <h2 id="1-直接继承Thread类-来实现多线程"><a href="#1-直接继承Thread类-来实现多线程" class="headerlink" title="1- 直接继承Thread类,来实现多线程"></a>1- 直接继承Thread类,来实现多线程</h2><div class="code-wrapper"><pre><code>public class ThreadDemo &#123;
-    public static void main(String[] args) &#123;
-        new TestThread().start(); // 激活一个线程
 
-        // 循环输出
-        for (int i = 0; i &lt; 5; i++) &#123;
-            System.out.println(&quot;main线程在运行&quot;);
 
-            try &#123;
-                Thread.sleep(1000); // 睡眠1000毫秒,即一秒
-            &#125;catch (InterruptedException ex)&#123;
-                ex.printStackTrace();
-            &#125;
-        &#125;
-    &#125;
-&#125;
 
-class TestThread extends Thread&#123;
-    @Override
-    public void run()&#123;
-        for (int i = 0; i &lt; 5; i++) &#123;
-            System.out.println(&quot;TestThread在运行!&quot;);
 
-            try &#123;
-                Thread.sleep(1000); // 睡眠1000毫秒,即一秒
-            &#125; catch (InterruptedException ex) &#123;
-                ex.printStackTrace();
-            &#125;
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="2-利用Runnable接口-来实现多线程"><a href="#2-利用Runnable接口-来实现多线程" class="headerlink" title="2-利用Runnable接口,来实现多线程"></a>2-利用Runnable接口,来实现多线程</h2><div class="code-wrapper"><pre><code>public class RunnableThreadDemo &#123;
-    public static void main(String[] args) &#123;
-        TestThread t = new TestThread2();
-        new Thread(t).start(); // 使用Thread类的start方法启动线程
-
-        // 循环输出
-        for (int i = 0; i &lt; 5; i++) &#123;
-            System.out.println(&quot;main线程在运行&quot;);
-
-            try &#123;
-                Thread.sleep(1000); // 睡眠1000毫秒,即一秒
-            &#125;catch (InterruptedException ex)&#123;
-                ex.printStackTrace();
-            &#125;
-        &#125;
-    &#125;
-&#125;
-
-class TestThread implements Runnable&#123;
-    @Override
-    public void run()&#123;
-        for (int i = 0; i &lt; 5; i++) &#123;
-            System.out.println(&quot;TestThread在运行!&quot;);
-
-            try &#123;
-                Thread.sleep(1000); // 睡眠1000毫秒,即一秒
-            &#125; catch (InterruptedException ex) &#123;
-                ex.printStackTrace();
-            &#125;
-        &#125;
-    &#125;
-&#125;</code></pre></div><p>无论哪种方式实现多线程,最好覆写run()方法</p>
-
-            </div>
-            <hr>
-            <div>
-              <div class="post-metas mb-3">
-                
-                  <div class="post-meta mr-3">
-                    <i class="iconfont icon-category"></i>
-                    
-                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
-                    
-                      <a class="hover-with-bg" href="/categories/Java/Tool/">Tool</a>
-                    
-                  </div>
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>
-                    
-                  </div>
-                
               </div>
-              
-                <p class="note note-warning">
-                  
-                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
-                  
-                </p>
-              
-              
-                <div class="post-prevnext">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2020/08/12/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Java多线程的同步问题</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2020/08/10/Python%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%A8%8B%E5%AE%9E%E7%8E%B0%E7%A8%8B%E5%BA%8F%E5%B9%B6%E5%8F%91/">
-                        <span class="hidden-mobile">Python多线程实现程序并发</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
             </div>
-
-            
-          </article>
+          </div>
         </div>
       </div>
-    </div>
-    
-      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
-        <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-      </div>
-    
-  </div>
-</div>
-
-<!-- Custom -->
-
-
     
 
     
@@ -482,15 +304,9 @@ class TestThread implements Runnable&#123;
 
 
 
-  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
 
 
 
-  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
-
-
-
-  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
 
 
 
