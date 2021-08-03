@@ -191,7 +191,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      32.1k 字
+      46.5k 字
     </span>
   
 
@@ -201,7 +201,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      399
+      574
        分钟
     </span>
   
@@ -235,7 +235,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：10 分钟前
+                  本文最后更新于：16 分钟前
                 
               </p>
             
@@ -280,7 +280,7 @@
 <li>加锁和解锁是同一把锁</li>
 </ul>
 <p>由于JVM运行程序的实体是线程，而每个线程创建时JVM都会为其创建一个工作内存（有些地方称为栈空间），工作内存是每个线程的私有数据区域，而Java内存模型中规定所有变量都存储在主内存，主内存是共享内存区域，所有线程都可以访问，<code>但线程对变量的操作（读取赋值等）必须在工作内存中进行，首先要将变量从主内存拷贝到自己的工作内存空间，然后对变量进行操作，操作完成后再将变量写会主内存</code>，不能直接操作主内存中的变量，各个线程中的工作内存中存储着主内存中的变量副本拷贝，因此不同的线程间无法访问对方的工作内存，线程间的通信（传值）必须通过主内存来完成，其简要访问过程：</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/1_%E8%B0%88%E8%B0%88Volatile/1_Volatile%E5%92%8CJMM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%8F%AF%E8%A7%81%E6%80%A7/images/image-20200309153225758.png" alt="image-20200309153225758"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200309153225758.png" alt="image-20200309153225758"></p>
 <p>数据传输速率：硬盘 &lt; 内存 &lt; &lt; cache &lt; CPU   </p>
 <p>上面提到了两个概念：主内存  和 工作内存</p>
 <ul>
@@ -290,7 +290,7 @@
 <ul>
 <li>当同时有三个线程同时访问 student中的age变量时，那么每个线程都会拷贝一份，到各自的工作内存，从而实现了变量的拷贝</li>
 </ul>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/1_%E8%B0%88%E8%B0%88Volatile/1_Volatile%E5%92%8CJMM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%8F%AF%E8%A7%81%E6%80%A7/images/image-20200309154435933.png" alt="image-20200309154435933"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200309154435933.png" alt="image-20200309154435933"></p>
 </li>
 </ul>
 <p>即：JMM内存模型的可见性，指的是当主内存区域中的值被某个线程写入更改后，其它线程会马上知晓更改后的值，并重新得到更改后的值。</p>
@@ -382,7 +382,7 @@
 &#125;</code></pre></div>
 
 <p>输出结果为</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/1_%E8%B0%88%E8%B0%88Volatile/1_Volatile%E5%92%8CJMM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%8F%AF%E8%A7%81%E6%80%A7/images/image-20200309162154191.png" alt="image-20200309162154191">    </p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200309162154191-1628001500488100.png" alt="image-20200309162154191">    </p>
 <p>最后线程没有停止，并行没有输出  mission is over 这句话，说明没有用volatile修饰的变量，是没有可见性</p>
 <p>当我们修改MyData类中的成员变量时，并且添加volatile关键字修饰</p>
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
@@ -400,7 +400,7 @@
 &#125;</code></pre></div>
 
 <p>最后输出的结果为：</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/1_%E8%B0%88%E8%B0%88Volatile/1_Volatile%E5%92%8CJMM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%8F%AF%E8%A7%81%E6%80%A7/images/image-20200309162154191.png" alt="image-20200309162154191"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200309162154191.png" alt="image-20200309162154191"></p>
 <p>主线程也执行完毕了，说明volatile修饰的变量，是具备JVM轻量级同步机制的，能够感知其它线程的修改后的值。</p>
 <h2 id="2-Volatile不保证原子性"><a href="#2-Volatile不保证原子性" class="headerlink" title="2 Volatile不保证原子性"></a>2 Volatile不保证原子性</h2><h3 id="2-1-前言"><a href="#2-1-前言" class="headerlink" title="2.1 前言"></a>2.1 前言</h3><p>通过前面对JMM的介绍，我们知道，各个线程对主内存中共享变量的操作都是各个线程各自拷贝到自己的工作内存进行操作后在写回到主内存中的。</p>
 <p>这就可能存在一个线程AAA修改了共享变量X的值，但是还未写入主内存时，另外一个线程BBB又对主内存中同一共享变量X进行操作，但此时A线程工作内存中共享变量X对线程B来说是不可见，这种工作内存与主内存同步延迟现象就造成了可见性问题。</p>
@@ -501,12 +501,12 @@
 
 <p>最终结果我们会发现，number输出的值并没有20000，而且是每次运行的结果都不一致的，这说明了volatile修饰的变量不保证原子性</p>
 <p>第一次：</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/1_%E8%B0%88%E8%B0%88Volatile/2_Volatile%E4%B8%8D%E4%BF%9D%E8%AF%81%E5%8E%9F%E5%AD%90%E6%80%A7/images/image-20200309172900462.png" alt="image-20200309172900462"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200309172900462.png" alt="image-20200309172900462"></p>
 <p>第二次：</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/1_%E8%B0%88%E8%B0%88Volatile/2_Volatile%E4%B8%8D%E4%BF%9D%E8%AF%81%E5%8E%9F%E5%AD%90%E6%80%A7/images/image-20200309172919295.png" alt="image-20200309172919295"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200309172919295.png" alt="image-20200309172919295"></p>
 <p>第三次：</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/1_%E8%B0%88%E8%B0%88Volatile/2_Volatile%E4%B8%8D%E4%BF%9D%E8%AF%81%E5%8E%9F%E5%AD%90%E6%80%A7/images/image-20200309172929820.png" alt="image-20200309172929820"></p>
-<h3 id="2-4-为什么出现数值丢失"><a href="#2-4-为什么出现数值丢失" class="headerlink" title="2.4 为什么出现数值丢失"></a>2.4 为什么出现数值丢失</h3><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/1_%E8%B0%88%E8%B0%88Volatile/2_Volatile%E4%B8%8D%E4%BF%9D%E8%AF%81%E5%8E%9F%E5%AD%90%E6%80%A7/images/image-20200309174220675.png" alt="image-20200309174220675"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200309172929820.png" alt="image-20200309172929820"></p>
+<h3 id="2-4-为什么出现数值丢失"><a href="#2-4-为什么出现数值丢失" class="headerlink" title="2.4 为什么出现数值丢失"></a>2.4 为什么出现数值丢失</h3><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200309174220675.png" alt="image-20200309174220675"></p>
 <p>各自线程在写入主内存的时候，出现了数据的丢失，而引起的数值缺失的问题</p>
 <p>下面我们将一个简单的number++操作，转换为字节码文件一探究竟</p>
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">T1</span> </span>&#123;
@@ -542,9 +542,9 @@
 
 <p>这里查看字节码的操作，是用到了IDEA的javap命令</p>
 <p>我们首先，使用IDEA提供的External Tools，来扩展javap命令</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/1_%E8%B0%88%E8%B0%88Volatile/2_Volatile%E4%B8%8D%E4%BF%9D%E8%AF%81%E5%8E%9F%E5%AD%90%E6%80%A7/images/image-20200309183026329.png" alt="image-20200309183026329"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200309183026329.png" alt="image-20200309183026329"></p>
 <p>完成上述操作后，我们在需要查看字节码的文件下，右键选择 External Tools即可</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/1_%E8%B0%88%E8%B0%88Volatile/2_Volatile%E4%B8%8D%E4%BF%9D%E8%AF%81%E5%8E%9F%E5%AD%90%E6%80%A7/images/image-20200309183115613.png" alt="image-20200309183115613"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200309183115613.png" alt="image-20200309183115613"></p>
 <p>如果出现了找不到指定类，那是因为我们创建的是spring boot的maven项目，我们之前需要执行mvn package命令，进行打包操作，将其编译成class文件</p>
 <p>移动到底部，有一份字节码指令对照表，方便我们进行阅读</p>
 <p>下面我们就针对 add() 这个方法的字节码文件进行分析</p>
@@ -574,7 +574,7 @@
 &#125;</code></pre></div>
 
 <p>运行结果：</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/1_%E8%B0%88%E8%B0%88Volatile/2_Volatile%E4%B8%8D%E4%BF%9D%E8%AF%81%E5%8E%9F%E5%AD%90%E6%80%A7/images/image-20200309173315294.png" alt="image-20200309173315294"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200309173315294.png" alt="image-20200309173315294"></p>
 <p>我们能够发现引入synchronized关键字后，保证了该方法每次只能够一个线程进行访问和操作，最终输出的结果也就为20000</p>
 <h3 id="2-6-其它解决方法"><a href="#2-6-其它解决方法" class="headerlink" title="2.6  其它解决方法"></a>2.6  其它解决方法</h3><p>上面的方法引入synchronized，虽然能够保证原子性，但是为了解决number++，而引入重量级的同步机制，有种 杀鸡焉用牛刀</p>
 <p>除了引用synchronized关键字外，还可以使用JUC下面的原子包装类，即刚刚的int类型的number，可以使用AtomicInteger来代替</p>
@@ -606,7 +606,7 @@ System.out.println(Thread.currentThread().getName() + <span class="hljs-string">
 System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot;\t finally atomicNumber value: &quot;</span> + myData.atomicInteger);</code></pre></div>
 
 <p>下面的结果，一个是引入synchronized，一个是使用了原子包装类AtomicInteger</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/1_%E8%B0%88%E8%B0%88Volatile/2_Volatile%E4%B8%8D%E4%BF%9D%E8%AF%81%E5%8E%9F%E5%AD%90%E6%80%A7/images/image-20200309205242622.png" alt="image-20200309205242622"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200309205242622.png" alt="image-20200309205242622"></p>
 <h2 id="3-Volatile禁止指令重排"><a href="#3-Volatile禁止指令重排" class="headerlink" title="3 Volatile禁止指令重排"></a>3 Volatile禁止指令重排</h2><p>计算机在执行程序时，为了提高性能，编译器和处理器常常会对指令重排，一般分为以下三种：</p>
 <div class="code-wrapper"><pre><code class="hljs clean">源代码 -&gt; 编译器优化的重排 -&gt; 指令并行的重排 -&gt; 内存系统的重排 -&gt; 最终执行指令</code></pre></div>
 
@@ -731,7 +731,7 @@ a = <span class="hljs-number">1</span>;</code></pre></div>
 <li>保证某些变量的内存可见性（利用该特性实现volatile的内存可见性）</li>
 </ul>
 <p>由于编译器和处理器都能执行指令重排的优化，如果在指令间插入一条Memory Barrier则会告诉编译器和CPU，不管什么指令都不能和这条Memory Barrier指令重排序，也就是说 <code>通过插入内存屏障禁止在内存屏障前后的指令执行重排序优化</code>。 内存屏障另外一个作用是刷新出各种CPU的缓存数，因此任何CPU上的线程都能读取到这些数据的最新版本。</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/1_%E8%B0%88%E8%B0%88Volatile/3_Volatile%E7%A6%81%E6%AD%A2%E6%8C%87%E4%BB%A4%E9%87%8D%E6%8E%92/images/image-20200310162654437.png" alt="image-20200310162654437"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200310162654437.png" alt="image-20200310162654437"></p>
 <p>也就是过在Volatile的写 和 读的时候，加入屏障，防止出现指令重排的</p>
 <h3 id="3-4-线程安全获得保证"><a href="#3-4-线程安全获得保证" class="headerlink" title="3.4 线程安全获得保证"></a>3.4 线程安全获得保证</h3><p>工作内存与主内存同步延迟现象导致的可见性问题</p>
 <ul>
@@ -770,7 +770,7 @@ a = <span class="hljs-number">1</span>;</code></pre></div>
 &#125;</code></pre></div>
 
 <p>最后输出的结果</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/1_%E8%B0%88%E8%B0%88Volatile/4_Volatile%E7%9A%84%E5%BA%94%E7%94%A8/images/image-20200310164513408.png" alt="image-20200310164513408"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200310164513408.png" alt="image-20200310164513408"></p>
 <p>但是在多线程的环境下，我们的单例模式是否还是同一个对象了</p>
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
 <span class="hljs-comment"> * SingletonDemo（单例模式）</span>
@@ -800,7 +800,7 @@ a = <span class="hljs-number">1</span>;</code></pre></div>
 &#125;</code></pre></div>
 
 <p>从下面的结果我们可以看出，我们通过SingletonDemo.getInstance() 获取到的对象，并不是同一个，而是被下面几个线程都进行了创建，那么在多线程环境下，单例模式如何保证呢？</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/1_%E8%B0%88%E8%B0%88Volatile/4_Volatile%E7%9A%84%E5%BA%94%E7%94%A8/images/image-20200310164720940.png" alt="image-20200310164720940"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200310164720940.png" alt="image-20200310164720940"></p>
 <h4 id="1-解决方法1"><a href="#1-解决方法1" class="headerlink" title="1 解决方法1"></a>1 解决方法1</h4><p>引入synchronized关键字</p>
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">static</span> SingletonDemo <span class="hljs-title">getInstance</span><span class="hljs-params">()</span> </span>&#123;
     <span class="hljs-keyword">if</span>(instance == <span class="hljs-keyword">null</span>) &#123;
@@ -810,7 +810,7 @@ a = <span class="hljs-number">1</span>;</code></pre></div>
 &#125;</code></pre></div>
 
 <p>输出结果</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/1_%E8%B0%88%E8%B0%88Volatile/4_Volatile%E7%9A%84%E5%BA%94%E7%94%A8/images/image-20200310164946940.png" alt="image-20200310164946940"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200310164946940.png" alt="image-20200310164946940"></p>
 <p>我们能够发现，通过引入Synchronized关键字，能够解决高并发环境下的单例模式问题</p>
 <p>但是synchronized属于重量级的同步机制，它只允许一个线程同时访问获取实例的方法，但是为了保证数据一致性，而减低了并发性，因此采用的比较少</p>
 <h4 id="2-解决方法2"><a href="#2-解决方法2" class="headerlink" title="2 解决方法2"></a>2 解决方法2</h4><p>通过引入DCL   Double Check Lock   双端检锁机制</p>
@@ -828,7 +828,7 @@ a = <span class="hljs-number">1</span>;</code></pre></div>
 &#125;</code></pre></div>
 
 <p>最后输出的结果为：</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/1_%E8%B0%88%E8%B0%88Volatile/4_Volatile%E7%9A%84%E5%BA%94%E7%94%A8/images/image-20200310165703190.png" alt="image-20200310165703190"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200310165703190.png" alt="image-20200310165703190"></p>
 <p>从输出结果来看，确实能够保证单例模式的正确性，但是上面的方法还是存在问题的</p>
 <p>DCL（双端检锁）机制不一定是线程安全的，原因是有指令重排的存在，加入volatile可以禁止指令重排</p>
 <p>原因是在某一个线程执行到第一次检测的时候，读取到 instance 不为null，instance的引用对象可能没有完成实例化。因为 instance = new SingletonDemo()；可以分为以下三步进行完成：</p>
@@ -926,22 +926,22 @@ AtomicInteger atomicInteger = <span class="hljs-keyword">new</span> AtomicIntege
 &#125;</code></pre></div>
 
 <p>上面代码的执行结果为</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/2_%E8%B0%88%E8%B0%88CAS/5_CAS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/images/image-20200310201327734.png" alt="image-20200310201327734"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200310201327734.png" alt="image-20200310201327734"></p>
 <p>这是因为我们执行第一个的时候，期望值和原本值是满足的，因此修改成功，但是第二次后，主内存的值已经修改成了2019，不满足期望值，因此返回了false，本次写入失败</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/2_%E8%B0%88%E8%B0%88CAS/5_CAS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/images/image-20200310201311367.png" alt="image-20200310201311367"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200310201311367.png" alt="image-20200310201311367"></p>
 <p>这个就类似于SVN或者Git的版本号，如果没有人更改过，就能够正常提交，否者需要先将代码pull下来，合并代码后，然后提交</p>
 <h2 id="3-CAS底层原理"><a href="#3-CAS底层原理" class="headerlink" title="3 CAS底层原理"></a>3 CAS底层原理</h2><p>首先我们先看看 atomicInteger.getAndIncrement()方法的源码</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/2_%E8%B0%88%E8%B0%88CAS/5_CAS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/images/image-20200310203030720.png" alt="image-20200310203030720"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200310203030720-162800144543982.png" alt="image-20200310203030720"></p>
 <p>从这里能够看到，底层又调用了一个unsafe类的getAndAddInt方法</p>
-<h3 id="3-1-unsafe类"><a href="#3-1-unsafe类" class="headerlink" title="3.1 unsafe类"></a>3.1 unsafe类</h3><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/2_%E8%B0%88%E8%B0%88CAS/5_CAS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/images/image-20200310203350122.png" alt="image-20200310203350122"></p>
+<h3 id="3-1-unsafe类"><a href="#3-1-unsafe类" class="headerlink" title="3.1 unsafe类"></a>3.1 unsafe类</h3><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200310203350122.png" alt="image-20200310203350122"></p>
 <p>Unsafe是CAS的核心类，由于Java方法无法直接访问底层系统，需要通过本地（Native）方法来访问，Unsafe相当于一个后门，基于该类可以直接操作特定的内存数据。Unsafe类存在sun.misc包中，其内部方法操作可以像C的指针一样直接操作内存，因为Java中的CAS操作的执行依赖于Unsafe类的方法。</p>
 <p><code>注意Unsafe类的所有方法都是native修饰的，也就是说unsafe类中的方法都直接调用操作系统底层资源执行相应的任务</code></p>
 <p>为什么Atomic修饰的包装类，能够保证原子性，依靠的就是底层的unsafe类</p>
 <h3 id="3-2-变量valueOffset"><a href="#3-2-变量valueOffset" class="headerlink" title="3.2 变量valueOffset"></a>3.2 变量valueOffset</h3><p>表示该变量值在内存中的偏移地址，因为Unsafe就是根据内存偏移地址获取数据的。</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/2_%E8%B0%88%E8%B0%88CAS/5_CAS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/images/image-20200310203030720.png" alt="image-20200310203030720"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200310203030720.png" alt="image-20200310203030720"></p>
 <p>从这里我们能够看到，通过valueOffset，直接通过内存地址，获取到值，然后进行加1的操作</p>
 <h3 id="3-3-变量value用volatile修饰"><a href="#3-3-变量value用volatile修饰" class="headerlink" title="3.3 变量value用volatile修饰"></a>3.3 变量value用volatile修饰</h3><p>保证了多线程之间的内存可见性</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/2_%E8%B0%88%E8%B0%88CAS/5_CAS%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/images/image-20200310210701761.png" alt="image-20200310210701761"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200310210701761.png" alt="image-20200310210701761"></p>
 <p>var5：就是我们从主内存中拷贝到工作内存中的值(每次都要从主内存拿到最新的值到自己的本地内存，然后执行compareAndSwapInt()在再和主内存的值进行比较。因为线程不可以直接越过高速缓存，直接操作主内存，所以执行上述方法需要比较一次，在执行加1操作)</p>
 <p>那么操作的时候，需要比较工作内存中的值，和主内存中的值进行比较</p>
 <p>假设执行 compareAndSwapInt返回false，那么就一直执行 while方法，直到期望的值和真实值一样</p>
@@ -986,7 +986,7 @@ AtomicInteger atomicInteger = <span class="hljs-keyword">new</span> AtomicIntege
 <h1 id="第3章-原子类AtomicInteger的ABA问题"><a href="#第3章-原子类AtomicInteger的ABA问题" class="headerlink" title="第3章 原子类AtomicInteger的ABA问题"></a>第3章 原子类AtomicInteger的ABA问题</h1><h2 id="1-连环套路"><a href="#1-连环套路" class="headerlink" title="1 连环套路"></a>1 连环套路</h2><p>从AtomicInteger引出下面的问题</p>
 <p>CAS -&gt; Unsafe -&gt; CAS底层思想 -&gt; ABA -&gt; 原子引用更新 -&gt; 如何规避ABA问题</p>
 <h2 id="2-ABA问题是什么"><a href="#2-ABA问题是什么" class="headerlink" title="2 ABA问题是什么"></a>2 ABA问题是什么</h2><p>狸猫换太子</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/3_%E8%B0%88%E8%B0%88%E5%8E%9F%E5%AD%90%E7%B1%BB%E7%9A%84ABA%E9%97%AE%E9%A2%98/6_%E5%8E%9F%E5%AD%90%E7%B1%BBAtomicInteger%E7%9A%84ABA%E9%97%AE%E9%A2%98/images/image-20200311212442057.png" alt="image-20200311212442057"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200311212442057.png" alt="image-20200311212442057"></p>
 <p>假设现在有两个线程，分别是T1 和 T2，然后T1执行某个操作的时间为10秒，T2执行某个时间的操作是2秒，最开始AB两个线程，分别从主内存中获取A值，但是因为B的执行速度更快，他先把A的值改成B，然后在修改成A，然后执行完毕，T1线程在10秒后，执行完毕，判断内存中的值为A，并且和自己预期的值一样，它就认为没有人更改了主内存中的值，就快乐的修改成B，但是实际上 可能中间经历了 ABCDEFA 这个变换，也就是中间的值经历了狸猫换太子。</p>
 <p>所以ABA问题就是，在进行获取主内存值的时候，该内存值在我们写入主内存的时候，已经被修改了N次，但是最终又改成原来的值了</p>
 <h2 id="3-CAS导致ABA问题"><a href="#3-CAS导致ABA问题" class="headerlink" title="3 CAS导致ABA问题"></a>3 CAS导致ABA问题</h2><p>CAS算法实现了一个重要的前提，需要取出内存中某时刻的数据，并在当下时刻比较并替换，那么这个时间差会导致数据的变化。</p>
@@ -1087,7 +1087,7 @@ AtomicInteger atomicInteger = <span class="hljs-keyword">new</span> AtomicIntege
 &#125;</code></pre></div>
 
 <p>我们发现，它能够成功的修改，这就是ABA问题</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/3_%E8%B0%88%E8%B0%88%E5%8E%9F%E5%AD%90%E7%B1%BB%E7%9A%84ABA%E9%97%AE%E9%A2%98/6_%E5%8E%9F%E5%AD%90%E7%B1%BBAtomicInteger%E7%9A%84ABA%E9%97%AE%E9%A2%98/images/image-20200312154752973.png" alt="image-20200312154752973"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200312154752973.png" alt="image-20200312154752973"></p>
 <h2 id="6-解决ABA问题"><a href="#6-解决ABA问题" class="headerlink" title="6 解决ABA问题"></a>6 解决ABA问题</h2><p>新增一种机制，也就是修改版本号，类似于时间戳的概念</p>
 <p>T1：  100 1                      2019 2</p>
 <p>T2：  100 1     101 2       100  3</p>
@@ -1180,7 +1180,7 @@ AtomicInteger atomicInteger = <span class="hljs-keyword">new</span> AtomicIntege
 &#125;</code></pre></div>
 
 <p>运行结果为：</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/3_%E8%B0%88%E8%B0%88%E5%8E%9F%E5%AD%90%E7%B1%BB%E7%9A%84ABA%E9%97%AE%E9%A2%98/6_%E5%8E%9F%E5%AD%90%E7%B1%BBAtomicInteger%E7%9A%84ABA%E9%97%AE%E9%A2%98/images/image-20200312200434776.png" alt="image-20200312200434776"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200312200434776.png" alt="image-20200312200434776"></p>
 <p>我们能够发现，线程t3，在进行ABA操作后，版本号变更成了3，而线程t4在进行操作的时候，就出现操作失败了，因为版本号和当初拿到的不一样</p>
 <h2 id="8-LongAdder（CAS机制优化）"><a href="#8-LongAdder（CAS机制优化）" class="headerlink" title="8 LongAdder（CAS机制优化）"></a>8 LongAdder（CAS机制优化）</h2><p>LongAdder是java8为我们提供的新的类，跟AtomicLong有相同的效果。是对CAS机制的优化</p>
 <div class="code-wrapper"><pre><code class="hljs axapta">LongAdder：
@@ -1192,7 +1192,7 @@ AtomicInteger atomicInteger = <span class="hljs-keyword">new</span> AtomicIntege
 <span class="hljs-keyword">count</span></code></pre></div>
 
 <h3 id="为什么有了AtomicLong还要新增一个LongAdder呢"><a href="#为什么有了AtomicLong还要新增一个LongAdder呢" class="headerlink" title="为什么有了AtomicLong还要新增一个LongAdder呢"></a>为什么有了AtomicLong还要新增一个LongAdder呢</h3><p>原因是：CAS底层实现是在一个死循环中不断地尝试修改目标值，直到修改成功。如果竞争不激烈的时候，修改成功率很高，否则失败率很高。在失败的时候，这些重复的原子性操作会耗费性能。（不停的<strong>自旋</strong>，进入一个无限重复的循环中）</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/3_%E8%B0%88%E8%B0%88%E5%8E%9F%E5%AD%90%E7%B1%BB%E7%9A%84ABA%E9%97%AE%E9%A2%98/6_%E5%8E%9F%E5%AD%90%E7%B1%BBAtomicInteger%E7%9A%84ABA%E9%97%AE%E9%A2%98/images/image-20200429085540554.png" alt="image-20200429085540554"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200429085540554.png" alt="image-20200429085540554"></p>
 <p><strong>核心思想：将热点数据分离。</strong></p>
 <p>比如说它可以将AtomicLong内部的内部核心数据value分离成一个数组，每个线程访问时，通过hash等算法映射到其中一个数字进行计数，而最终的计数结果则为这个数组的求和累加，其中热点数据value会被分离成多个单元的cell，每个cell独自维护内部的值。当前对象的实际值由所有的cell累计合成，这样热点就进行了有效地分离，并提高了并行度。这相当于将AtomicLong的单点的更新压力分担到各个节点上。在低并发的时候通过对base的直接更新，可以保障和AtomicLong的性能基本一致。而在高并发的时候通过分散提高了性能。</p>
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">increment</span><span class="hljs-params">()</span> </span>&#123;
@@ -1213,7 +1213,7 @@ AtomicInteger atomicInteger = <span class="hljs-keyword">new</span> AtomicIntege
 <p>这些线程不停地获取值，然后发起CAS操作，但是发现这个值被别人改过了，于是再次进入下一个循环，获取值，发起CAS操作又失败了，再次进入下一个循环。</p>
 <p>在大量线程高并发更新AtomicInteger的时候，这种问题可能会比较明显，导致大量线程空循环，自旋转，性能和效率都不是特别好。</p>
 <p>于是，当当当当，Java 8推出了一个新的类，<strong>LongAdder</strong>，他就是尝试使用分段CAS以及自动分段迁移的方式来大幅度提升多线程高并发执行CAS操作的性能！</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/3_%E8%B0%88%E8%B0%88%E5%8E%9F%E5%AD%90%E7%B1%BB%E7%9A%84ABA%E9%97%AE%E9%A2%98/6_%E5%8E%9F%E5%AD%90%E7%B1%BBAtomicInteger%E7%9A%84ABA%E9%97%AE%E9%A2%98/images/image-20200429085141487.png" alt="image-20200429085141487"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200429085141487.png" alt="image-20200429085141487"></p>
 <p>在LongAdder的底层实现中，首先有一个base值，刚开始多线程来不停的累加数值，都是对base进行累加的，比如刚开始累加成了base = 5。</p>
 <p>接着如果发现并发更新的线程数量过多，在发生竞争的情况下，会有一个Cell数组用于将不同线程的操作离散到不同的节点上去 ==(会根据需要扩容，最大为CPU核）==就会开始施行<strong>分段CAS的机制</strong>，也就是内部会搞一个Cell数组，每个数组是一个数值分段。</p>
 <p>这时，让大量的线程分别去对不同Cell内部的value值进行CAS累加操作，这样就把CAS计算压力分散到了不同的Cell分段数值中了！</p>
@@ -1221,17 +1221,17 @@ AtomicInteger atomicInteger = <span class="hljs-keyword">new</span> AtomicIntege
 <p>而且他内部实现了<strong>自动分段迁移的机制</strong>，也就是如果某个Cell的value执行CAS失败了，那么就会自动去找另外一个Cell分段内的value值进行CAS操作。</p>
 <p>这样也解决了线程空旋转、自旋不停等待执行CAS操作的问题，让一个线程过来执行CAS时可以尽快的完成这个操作。</p>
 <p>最后，如果你要从LongAdder中获取当前累加的总值，就会把base值和所有Cell分段数值加起来返回给你。</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/3_%E8%B0%88%E8%B0%88%E5%8E%9F%E5%AD%90%E7%B1%BB%E7%9A%84ABA%E9%97%AE%E9%A2%98/6_%E5%8E%9F%E5%AD%90%E7%B1%BBAtomicInteger%E7%9A%84ABA%E9%97%AE%E9%A2%98/images/image-20200429085957778.png" alt="image-20200429085957778"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200429085957778.png" alt="image-20200429085957778"></p>
 <p>如上图所示，LongAdder则是内部维护多个Cell变量，每个Cell里面有一个初始值为0的long型变量，在同等并发量的情况下，争夺单个变量的线程会减少，这是变相的减少了争夺共享资源的并发量，另外多个线程在争夺同一个原子变量时候，</p>
 <p>如果失败并不是自旋CAS重试，而是尝试获取其他原子变量的锁，最后当获取当前值时候是把所有变量的值累加后再加上base的值返回的。</p>
 <p>LongAdder维护了要给延迟初始化的原子性更新数组和一个基值变量base数组的大小保持是2的N次方大小，数组表的下标使用每个线程的hashcode值的掩码表示，数组里面的变量实体是Cell类型。</p>
 <p>Cell 类型是Atomic的一个改进，用来减少缓存的争用，对于大多数原子操作字节填充是浪费的，因为原子操作都是无规律的分散在内存中进行的，多个原子性操作彼此之间是没有接触的，但是原子性数组元素彼此相邻存放将能经常共享缓存行，也就是<strong>伪共享</strong>。所以这在性能上是一个提升。（补充：可以看到Cell类用Contended注解修饰，这里主要是解决false sharing(伪共享的问题)，不过个人认为伪共享翻译的不是很好，或者应该是错误的共享，比如两个volatile变量被分配到了同一个缓存行，但是这两个的更新在高并发下会竞争，比如线程A去更新变量a，线程B去更新变量b，但是这两个变量被分配到了同一个缓存行，因此会造成每个线程都去争抢缓存行的所有权，例如A获取了所有权然后执行更新这时由于volatile的语义会造成其刷新到主存，但是由于变量b也被缓存到同一个缓存行，因此就会造成cache miss，这样就会造成极大的性能损失）<br><strong>LongAdder的add操作图</strong></p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/3_%E8%B0%88%E8%B0%88%E5%8E%9F%E5%AD%90%E7%B1%BB%E7%9A%84ABA%E9%97%AE%E9%A2%98/6_%E5%8E%9F%E5%AD%90%E7%B1%BBAtomicInteger%E7%9A%84ABA%E9%97%AE%E9%A2%98/images/image-20200429090249633.png" alt="image-20200429090249633"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200429090249633.png" alt="image-20200429090249633"></p>
 <p>可以看到，只有从未出现过并发冲突的时候，base基数才会使用到，一旦出现了并发冲突，之后所有的操作都只针对Cell[]数组中的单元Cell。<br>如果Cell[]数组未初始化，会调用父类的longAccumelate去初始化Cell[]，如果Cell[]已经初始化但是冲突发生在Cell单元内，则也调用父类的longAccumelate，此时可能就需要对Cell[]扩容了。<br><strong>另外由于Cells占用内存是相对比较大的，所以一开始并不创建，而是在需要时候再创建，也就是惰性加载，当一开始没有空间时候，所有的更新都是操作base变量。</strong></p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/3_%E8%B0%88%E8%B0%88%E5%8E%9F%E5%AD%90%E7%B1%BB%E7%9A%84ABA%E9%97%AE%E9%A2%98/6_%E5%8E%9F%E5%AD%90%E7%B1%BBAtomicInteger%E7%9A%84ABA%E9%97%AE%E9%A2%98/images/image-20200429090556928.png" alt="image-20200429090556928"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200429090556928.png" alt="image-20200429090556928"></p>
 <p>如上图代码：<br>例如32、64位操作系统的缓存行大小不一样，因此JAVA8中就增加了一个注<code>@sun.misc.Contended</code>解用于解决这个问题,由JVM去插入这些变量，<a target="_blank" rel="noopener" href="http://xn--openjdk-hc5k25at0ntqhnpa7548b.java.net/jeps/142">具体可以参考openjdk.java.net/jeps/142</a> ，但是通常来说对象是不规则的分配到内存中的，但是数组由于是连续的内存，因此可能会共享缓存行，因此这里加一个Contended注解以防cells数组发生伪共享的情况。</p>
 <p>为了降低高并发下多线程对一个变量CAS争夺失败后大量线程会自旋而造成降低并发性能问题，LongAdder内部通过根据并发请求量来维护多个Cell元素(一个动态的Cell数组)来分担对单个变量进行争夺资源。</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/3_%E8%B0%88%E8%B0%88%E5%8E%9F%E5%AD%90%E7%B1%BB%E7%9A%84ABA%E9%97%AE%E9%A2%98/6_%E5%8E%9F%E5%AD%90%E7%B1%BBAtomicInteger%E7%9A%84ABA%E9%97%AE%E9%A2%98/images/image-20200429090713078.png" alt="image-20200429090713078"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200429090713078.png" alt="image-20200429090713078"></p>
 <p>可以看到LongAdder继承自Striped64类，Striped64内部维护着三个变量，LongAdder的真实值其实就是base的值与Cell数组里面所有Cell元素值的累加，base是个基础值，默认是0，cellBusy用来实现自旋锁，当创建Cell元素或者扩容Cell数组时候用来进行线程间的同步。</p>
 <p>在无竞争下直接更新base，类似AtomicLong高并发下，会将每个线程的操作hash到不同的cells数组中，从而将AtomicLong中更新一个value的行为优化之后，分散到多个value中<br>从而降低更新热点，而需要得到当前值的时候，直接 将所有cell中的value与base相加即可，但是跟AtomicLong(compare and change -&gt; xadd)的CAS不同，incrementAndGet操作及其变种可以返回更新后的值，而LongAdder返回的是void。</p>
 <p>由于Cell相对来说比较占内存，因此这里采用懒加载的方式，在无竞争的情况下直接更新base域，在第一次发生竞争的时候(CAS失败)就会创建一个大小为2的cells数组，每次扩容都是加倍，只到达到CPU核数。同时我们知道扩容数组等行为需要只能有一个线程同时执行，因此需要一个锁，这里通过CAS更新cellsBusy来实现一个简单的spin lock。</p>
@@ -1259,7 +1259,7 @@ AtomicInteger atomicInteger = <span class="hljs-keyword">new</span> AtomicIntege
 &#125;</code></pre></div>
 
 <h2 id="3-多线程环境"><a href="#3-多线程环境" class="headerlink" title="3 多线程环境"></a>3 多线程环境</h2><p>为什么ArrayList是线程不安全的？因为在进行写操作的时候，方法上为了保证并发性，是没有添加synchronized修饰，所以并发写的时候，就会出现问题</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/4_ArrayList%E4%B8%BA%E4%BB%80%E4%B9%88%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8/ArrayList%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E4%B8%BE%E4%BE%8B/images/image-20200312202720715.png" alt="image-20200312202720715"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200312202720715.png" alt="image-20200312202720715"></p>
 <p>当我们同时启动30个线程去操作List的时候</p>
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
 <span class="hljs-comment"> * 集合类线程不安全举例</span>
@@ -1279,11 +1279,11 @@ AtomicInteger atomicInteger = <span class="hljs-keyword">new</span> AtomicIntege
 &#125;</code></pre></div>
 
 <p>这个时候出现了错误，也就是java.util.ConcurrentModificationException</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/4_ArrayList%E4%B8%BA%E4%BB%80%E4%B9%88%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8/ArrayList%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E4%B8%BE%E4%BE%8B/images/image-20200312205142763.png" alt="image-20200312205142763"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200312205142763.png" alt="image-20200312205142763"></p>
 <p>这个异常是 并发修改的异常</p>
 <h2 id="5-解决方案"><a href="#5-解决方案" class="headerlink" title="5 解决方案"></a>5 解决方案</h2><h3 id="5-1-方案一：Vector"><a href="#5-1-方案一：Vector" class="headerlink" title="5.1 方案一：Vector"></a>5.1 方案一：Vector</h3><p>第一种方法，就是不用ArrayList这种不安全的List实现类，而采用Vector，线程安全的</p>
 <p>关于Vector如何实现线程安全的，而是在方法上加了锁，即synchronized</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/4_ArrayList%E4%B8%BA%E4%BB%80%E4%B9%88%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8/ArrayList%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E4%B8%BE%E4%BE%8B/images/image-20200312210401865.png" alt="image-20200312210401865"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200312210401865.png" alt="image-20200312210401865"></p>
 <p>这样就每次只能够一个线程进行操作，所以不会出现线程不安全的问题，但是因为加锁了，导致并发性基于下降</p>
 <h3 id="5-2-方案二：Collections-synchronized"><a href="#5-2-方案二：Collections-synchronized" class="headerlink" title="5.2 方案二：Collections.synchronized()"></a>5.2 方案二：Collections.synchronized()</h3><div class="code-wrapper"><pre><code class="hljs java">List&lt;String&gt; list = Collections.synchronizedList(<span class="hljs-keyword">new</span> ArrayList&lt;&gt;());</code></pre></div>
 
@@ -1321,9 +1321,9 @@ Object[] newElements = Arrays.copyOf(elements, len + <span class="hljs-number">1
 
 <p>最后把内容set到Array中</p>
 <h2 id="6-HashSet线程不安全"><a href="#6-HashSet线程不安全" class="headerlink" title="6 HashSet线程不安全"></a>6 HashSet线程不安全</h2><h3 id="CopyOnWriteArraySet"><a href="#CopyOnWriteArraySet" class="headerlink" title="CopyOnWriteArraySet"></a>CopyOnWriteArraySet</h3><p>底层还是使用CopyOnWriteArrayList进行实例化</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/4_ArrayList%E4%B8%BA%E4%BB%80%E4%B9%88%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8/ArrayList%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E4%B8%BE%E4%BE%8B/images/image-20200312221602095.png" alt="image-20200312221602095"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200312221602095.png" alt="image-20200312221602095"></p>
 <h3 id="HashSet底层结构"><a href="#HashSet底层结构" class="headerlink" title="HashSet底层结构"></a>HashSet底层结构</h3><p>同理HashSet的底层结构就是HashMap</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/4_ArrayList%E4%B8%BA%E4%BB%80%E4%B9%88%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8/ArrayList%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E4%B8%BE%E4%BE%8B/images/image-20200312221735178.png" alt="image-20200312221735178"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200312221735178.png" alt="image-20200312221735178"></p>
 <p>但是为什么我调用 HashSet.add()的方法，只需要传递一个元素，而HashMap是需要传递key-value键值对？</p>
 <p>首先我们查看hashSet的add方法</p>
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">add</span><span class="hljs-params">(E e)</span> </span>&#123;
@@ -1401,12 +1401,12 @@ string-----abc</code></pre></div>
 <h2 id="2-changeValue1的执行过程"><a href="#2-changeValue1的执行过程" class="headerlink" title="2 changeValue1的执行过程"></a>2 changeValue1的执行过程</h2><p>八种基本数据类型，在栈里面分配内存，属于值传递</p>
 <p><code>栈管运行，堆管存储</code></p>
 <p>当们执行 changeValue1的时候，因为int是基本数据类型，所以传递的是int = 20这个值，相当于传递的是一个副本，main方法里面的age并没有改变，因此输出的结果 age还是20，属于值传递</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/5_TransferValue%E6%98%AF%E4%BB%80%E4%B9%88/images/image-20200314185317851.png" alt="image-20200314185317851"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200314185317851.png" alt="image-20200314185317851"></p>
 <h2 id="3-changeValue2的执行过程"><a href="#3-changeValue2的执行过程" class="headerlink" title="3 changeValue2的执行过程"></a>3 changeValue2的执行过程</h2><p>因为Person是属于对象，传递的是内存地址，当执行changeValue2的时候，会改变内存中的Person的值，属于引用传递，两个指针都是指向同一个地址</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/5_TransferValue%E6%98%AF%E4%BB%80%E4%B9%88/images/image-20200314185528034.png" alt="image-20200314185528034"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200314185528034.png" alt="image-20200314185528034"></p>
 <h2 id="4-changeValue3的执行过程"><a href="#4-changeValue3的执行过程" class="headerlink" title="4 changeValue3的执行过程"></a>4 changeValue3的执行过程</h2><p>String不属于基本数据类型，但是为什么执行完成后，还是abc呢？</p>
 <p>这是因为String的特殊性，当我们执行String str = “abc”的时候，它会把 <code>abc</code> 放入常量池中</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/5_TransferValue%E6%98%AF%E4%BB%80%E4%B9%88/images/image-20200314190021466.png" alt="image-20200314190021466"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200314190021466.png" alt="image-20200314190021466"></p>
 <p>当我们执行changeValue3的时候，会重新新建一个xxx，并没有销毁abc，然后指向xxx，然后最后我们输出的是main中的引用，还是指向的abc，因此最后输出结果还是abc</p>
 <h1 id="第6章-Lock"><a href="#第6章-Lock" class="headerlink" title="第6章 Lock"></a>第6章 Lock</h1><h2 id="1-Java锁之公平锁和非公平锁"><a href="#1-Java锁之公平锁和非公平锁" class="headerlink" title="1 Java锁之公平锁和非公平锁"></a>1 Java锁之公平锁和非公平锁</h2><h3 id="1-1-概念"><a href="#1-1-概念" class="headerlink" title="1.1 概念"></a>1.1 概念</h3><h4 id="公平锁"><a href="#公平锁" class="headerlink" title="公平锁"></a>公平锁</h4><p>是指多个线程按照申请锁的顺序来获取锁，类似于排队买饭，先来后到，先来先服务，就是公平的，也就是队列</p>
 <h4 id="非公平锁"><a href="#非公平锁" class="headerlink" title="非公平锁"></a>非公平锁</h4><p>是指多个线程获取锁的顺序，并不是按照申请锁的顺序，有可能申请的线程比先申请的线程优先获取锁，在高并发环境下，有可能造成优先级翻转，或者饥饿的线程（也就是某个线程一直得不到锁）</p>
@@ -1650,7 +1650,7 @@ java.lang.IllegalMonitorStateException
 
 <h2 id="3-Java锁之自旋锁"><a href="#3-Java锁之自旋锁" class="headerlink" title="3 Java锁之自旋锁"></a>3 Java锁之自旋锁</h2><p>自旋锁：spinlock，是指尝试获取锁的线程不会立即阻塞，而是采用循环的方式去尝试获取锁，这样的好处是减少线程上下文切换的消耗，缺点是循环会消耗CPU</p>
 <p>原来提到的比较并交换，底层使用的就是自旋，自旋就是多次尝试，多次访问，不会阻塞的状态就是自旋。</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/6_Java%E7%9A%84%E9%94%81/Java%E9%94%81%E4%B9%8B%E8%87%AA%E6%97%8B%E9%94%81/images/image-20200315154143781.png" alt="image-20200315154143781"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200315154143781.png" alt="image-20200315154143781"></p>
 <h3 id="3-1-优缺点"><a href="#3-1-优缺点" class="headerlink" title="3.1 优缺点"></a>3.1 优缺点</h3><p>优点：循环比较获取直到成功为止，没有类似于wait的阻塞</p>
 <p>缺点：当不断自旋的线程越来越多的时候，会因为执行while循环不断的消耗CPU资源</p>
 <h3 id="3-2-手写自旋锁"><a href="#3-2-手写自旋锁" class="headerlink" title="3.2 手写自旋锁"></a>3.2 手写自旋锁</h3><p>通过CAS操作完成自旋锁，A线程先进来调用myLock方法自己持有锁5秒，B随后进来发现当前有线程持有锁，不是null，所以只能通过自旋等待，直到A释放锁后B随后抢到</p>
@@ -2291,9 +2291,9 @@ semaphore.release();</code></pre></div>
 5	 离开车位</code></pre></div>
 
 <p>看运行结果能够发现，0 2 1 车辆首先抢占到了停车位，然后等待3秒后，离开，然后后面 3 4 5 又抢到了车位</p>
-<h1 id="第8章阻塞队列"><a href="#第8章阻塞队列" class="headerlink" title="第8章阻塞队列"></a>第8章阻塞队列</h1><h2 id="8-1-概念"><a href="#8-1-概念" class="headerlink" title="8.1 概念"></a>8.1 概念</h2><h3 id="1-队列"><a href="#1-队列" class="headerlink" title="1 队列"></a>1 队列</h3><p>队列就可以想成是一个数组，从一头进入，一头出去，排队买饭</p>
-<h3 id="2-阻塞队列"><a href="#2-阻塞队列" class="headerlink" title="2 阻塞队列"></a>2 阻塞队列</h3><p>BlockingQueue   阻塞队列，排队拥堵，首先它是一个队列，而一个阻塞队列在数据结构中所起的作用大致如下图所示：</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/8_%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97/images/image-20200316152120272.png" alt="image-20200316152120272"></p>
+<h1 id="第8章阻塞队列"><a href="#第8章阻塞队列" class="headerlink" title="第8章阻塞队列"></a>第8章阻塞队列</h1><h2 id="1-概念-1"><a href="#1-概念-1" class="headerlink" title="1 概念"></a>1 概念</h2><h3 id="1-1-队列"><a href="#1-1-队列" class="headerlink" title="1.1 队列"></a>1.1 队列</h3><p>队列就可以想成是一个数组，从一头进入，一头出去，排队买饭</p>
+<h3 id="1-2-阻塞队列"><a href="#1-2-阻塞队列" class="headerlink" title="1.2 阻塞队列"></a>1.2 阻塞队列</h3><p>BlockingQueue   阻塞队列，排队拥堵，首先它是一个队列，而一个阻塞队列在数据结构中所起的作用大致如下图所示：</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200316152120272.png" alt="image-20200316152120272"></p>
 <p>线程1往阻塞队列中添加元素，而线程2从阻塞队列中移除元素</p>
 <ul>
 <li><p><code>当阻塞队列是空时，从队列中获取元素的操作将会被阻塞</code></p>
@@ -2309,11 +2309,11 @@ semaphore.release();</code></pre></div>
 </ul>
 <p>也就是说 试图从空的阻塞队列中获取元素的线程将会被阻塞，直到其它线程往空的队列插入新的元素</p>
 <p>同理，试图往已经满的阻塞队列中添加新元素的线程，直到其它线程往满的队列中移除一个或多个元素，或者完全清空队列后，使队列重新变得空闲起来，并后续新增</p>
-<h2 id="8-2-为什么要用？"><a href="#8-2-为什么要用？" class="headerlink" title="8.2 为什么要用？"></a>8.2 为什么要用？</h2><p>去海底捞吃饭，大厅满了，需要进候厅等待，但是这些等待的客户能够对商家带来利润，因此我们非常欢迎他们阻塞</p>
+<h2 id="2-为什么要用？"><a href="#2-为什么要用？" class="headerlink" title="2 为什么要用？"></a>2 为什么要用？</h2><p>去海底捞吃饭，大厅满了，需要进候厅等待，但是这些等待的客户能够对商家带来利润，因此我们非常欢迎他们阻塞</p>
 <p>在多线程领域：所谓的阻塞，在某些清空下会挂起线程（即阻塞），一旦条件满足，被挂起的线程又会自动唤醒</p>
 <h3 id="为什么需要BlockingQueue"><a href="#为什么需要BlockingQueue" class="headerlink" title="为什么需要BlockingQueue"></a>为什么需要BlockingQueue</h3><p>好处是我们不需要关心什么时候需要阻塞线程，什么时候需要唤醒线程，因为这一切BlockingQueue都帮你一手包办了</p>
 <p>在concurrent包发布以前，在多线程环境下，我们每个程序员都必须自己取控制这些细节，尤其还要兼顾效率和线程安全，而这会给我们的程序带来不小的复杂度。</p>
-<h2 id="8-3-架构"><a href="#8-3-架构" class="headerlink" title="8.3 架构"></a>8.3 架构</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 你用过List集合类</span>
+<h2 id="3-架构"><a href="#3-架构" class="headerlink" title="3 架构"></a>3 架构</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 你用过List集合类</span>
 
 <span class="hljs-comment">// ArrayList集合类熟悉么？</span>
 
@@ -2336,7 +2336,7 @@ semaphore.release();</code></pre></div>
 <li>LinkedBlockingDeque：由链表结构组成的双向阻塞队列</li>
 </ul>
 <p>这里需要掌握的是：ArrayBlockQueue、LinkedBlockingQueue、SynchronousQueue</p>
-<h2 id="8-4-BlockingQueue核心方法"><a href="#8-4-BlockingQueue核心方法" class="headerlink" title="8.4 BlockingQueue核心方法"></a>8.4 BlockingQueue核心方法</h2><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/8_%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97/images/image-20200316154442756.png" alt="image-20200316154442756"></p>
+<h2 id="4-BlockingQueue核心方法"><a href="#4-BlockingQueue核心方法" class="headerlink" title="4 BlockingQueue核心方法"></a>4 BlockingQueue核心方法</h2><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200316154442756.png" alt="image-20200316154442756"></p>
 <table>
 <thead>
 <tr>
@@ -2357,7 +2357,7 @@ semaphore.release();</code></pre></div>
 <td>当阻塞队列满时，队里会阻塞生产者线程一定时间，超过限时后生产者线程会退出</td>
 </tr>
 </tbody></table>
-<h3 id="1-抛出异常组"><a href="#1-抛出异常组" class="headerlink" title="1 抛出异常组"></a>1 抛出异常组</h3><p>但执行add方法，向已经满的ArrayBlockingQueue中添加元素时候，会抛出异常</p>
+<h3 id="4-1-抛出异常组"><a href="#4-1-抛出异常组" class="headerlink" title="4.1 抛出异常组"></a>4.1 抛出异常组</h3><p>但执行add方法，向已经满的ArrayBlockingQueue中添加元素时候，会抛出异常</p>
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 阻塞队列，需要填入默认值</span>
 BlockingQueue&lt;String&gt; blockingQueue = <span class="hljs-keyword">new</span> ArrayBlockingQueue&lt;&gt;(<span class="hljs-number">3</span>);
 
@@ -2399,7 +2399,7 @@ Exception in thread <span class="hljs-string">&quot;main&quot;</span> java.util.
 	at java.util.AbstractQueue.remove(AbstractQueue.java:<span class="hljs-number">117</span>)
 	at com.moxi.interview.study.queue.BlockingQueueDemo.main(BlockingQueueDemo.java:<span class="hljs-number">30</span>)</code></pre></div>
 
-<h3 id="2-布尔类型组"><a href="#2-布尔类型组" class="headerlink" title="2 布尔类型组"></a>2 布尔类型组</h3><p>我们使用 offer的方法，添加元素时候，如果阻塞队列满了后，会返回false，否者返回true</p>
+<h3 id="4-2-布尔类型组"><a href="#4-2-布尔类型组" class="headerlink" title="4.2 布尔类型组"></a>4.2 布尔类型组</h3><p>我们使用 offer的方法，添加元素时候，如果阻塞队列满了后，会返回false，否者返回true</p>
 <p>同时在取的时候，如果队列已空，那么会返回null</p>
 <div class="code-wrapper"><pre><code class="hljs java">BlockingQueue blockingQueue = <span class="hljs-keyword">new</span> ArrayBlockingQueue(<span class="hljs-number">3</span>);
 
@@ -2423,7 +2423,7 @@ b
 c
 <span class="hljs-literal">null</span></code></pre></div>
 
-<h3 id="3-阻塞队列组"><a href="#3-阻塞队列组" class="headerlink" title="3 阻塞队列组"></a>3 阻塞队列组</h3><p>我们使用 put的方法，添加元素时候，如果阻塞队列满了后，添加消息的线程，会一直阻塞，直到队列元素减少，会被清空，才会唤醒</p>
+<h3 id="4-3-阻塞队列组"><a href="#4-3-阻塞队列组" class="headerlink" title="4.3 阻塞队列组"></a>4.3 阻塞队列组</h3><p>我们使用 put的方法，添加元素时候，如果阻塞队列满了后，添加消息的线程，会一直阻塞，直到队列元素减少，会被清空，才会唤醒</p>
 <p>一般在消息中间件，比如RabbitMQ中会使用到，因为需要保证消息百分百不丢失，因此只有让它阻塞</p>
 <div class="code-wrapper"><pre><code class="hljs abnf">BlockingQueue&lt;String&gt; blockingQueue = new ArrayBlockingQueue&lt;&gt;(<span class="hljs-number">3</span>)<span class="hljs-comment">;</span>
 blockingQueue.put(<span class="hljs-string">&quot;a&quot;</span>)<span class="hljs-comment">;</span>
@@ -2437,7 +2437,7 @@ blockingQueue.take()<span class="hljs-comment">;</span>
 blockingQueue.take()<span class="hljs-comment">;</span></code></pre></div>
 
 <p>同时使用take取消息的时候，如果内容不存在的时候，也会被阻塞</p>
-<h3 id="4-不见不散组"><a href="#4-不见不散组" class="headerlink" title="4 不见不散组"></a>4 不见不散组</h3><p>offer( )  ， poll 加时间</p>
+<h3 id="4-4-不见不散组"><a href="#4-4-不见不散组" class="headerlink" title="4.4 不见不散组"></a>4.4 不见不散组</h3><p>offer( )  ， poll 加时间</p>
 <p>使用offer插入的时候，需要指定时间，如果2秒还没有插入，那么就放弃插入</p>
 <div class="code-wrapper"><pre><code class="hljs java">BlockingQueue&lt;String&gt; blockingQueue = <span class="hljs-keyword">new</span> ArrayBlockingQueue&lt;&gt;(<span class="hljs-number">3</span>);
 System.out.println(blockingQueue.offer(<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-number">2L</span>, TimeUnit.SECONDS));
@@ -2452,7 +2452,7 @@ System.out.println(blockingQueue.poll(<span class="hljs-number">2L</span>, TimeU
 System.out.println(blockingQueue.poll(<span class="hljs-number">2L</span>, TimeUnit.SECONDS));</code></pre></div>
 
 <p>如果2秒内取不出来，那么就返回null</p>
-<h2 id="8-5-SynchronousQueue"><a href="#8-5-SynchronousQueue" class="headerlink" title="8.5 SynchronousQueue"></a>8.5 SynchronousQueue</h2><p>SynchronousQueue没有容量，与其他BlockingQueue不同，SynchronousQueue是一个不存储的BlockingQueue，每一个put操作必须等待一个take操作，否者不能继续添加元素</p>
+<h2 id="5-SynchronousQueue"><a href="#5-SynchronousQueue" class="headerlink" title="5 SynchronousQueue"></a>5 SynchronousQueue</h2><p>SynchronousQueue没有容量，与其他BlockingQueue不同，SynchronousQueue是一个不存储的BlockingQueue，每一个put操作必须等待一个take操作，否者不能继续添加元素</p>
 <p>下面我们测试SynchronousQueue添加元素的过程</p>
 <p>首先我们创建了两个线程，一个线程用于生产，一个线程用于消费</p>
 <p>生产的线程分别put了 A、B、C这三个字段</p>
@@ -2522,7 +2522,7 @@ System.out.println(blockingQueue.poll(<span class="hljs-number">2L</span>, TimeU
 <span class="hljs-built_in">t2</span>	 take C</code></pre></div>
 
 <p>我们从最后的运行结果可以看出，每次t1线程向队列中添加阻塞队列添加元素后，t1输入线程就会等待 t2消费线程，t2消费后，t2处于挂起状态，等待t1在存入，从而周而复始，形成 一存一取的状态</p>
-<h2 id="8-6-阻塞队列的用处"><a href="#8-6-阻塞队列的用处" class="headerlink" title="8.6 阻塞队列的用处"></a>8.6 阻塞队列的用处</h2><h3 id="生产者消费者模式"><a href="#生产者消费者模式" class="headerlink" title="生产者消费者模式"></a>生产者消费者模式</h3><p>一个初始值为0的变量，两个线程对其交替操作，一个加1，一个减1，来5轮</p>
+<h2 id="6-阻塞队列的用处"><a href="#6-阻塞队列的用处" class="headerlink" title="6 阻塞队列的用处"></a>6 阻塞队列的用处</h2><h3 id="生产者消费者模式"><a href="#生产者消费者模式" class="headerlink" title="生产者消费者模式"></a>生产者消费者模式</h3><p>一个初始值为0的变量，两个线程对其交替操作，一个加1，一个减1，来5轮</p>
 <p>关于多线程的操作，我们需要记住下面几句</p>
 <ul>
 <li>线程 操作 资源类</li>
@@ -2721,7 +2721,7 @@ System.out.println(blockingQueue.poll(<span class="hljs-number">2L</span>, TimeU
 <span class="hljs-attribute">t1</span>	 <span class="hljs-number">1</span>
 <span class="hljs-attribute">t2</span>	 <span class="hljs-number">0</span></code></pre></div>
 
-<h2 id="8-7-生成者和消费者3-0"><a href="#8-7-生成者和消费者3-0" class="headerlink" title="8.7 生成者和消费者3.0"></a>8.7 生成者和消费者3.0</h2><p>在concurrent包发布以前，在多线程环境下，我们每个程序员都必须自己去控制这些细节，尤其还要兼顾效率和线程安全，则这会给我们的程序带来不小的时间复杂度</p>
+<h2 id="7-生成者和消费者3-0"><a href="#7-生成者和消费者3-0" class="headerlink" title="7 生成者和消费者3.0"></a>7 生成者和消费者3.0</h2><p>在concurrent包发布以前，在多线程环境下，我们每个程序员都必须自己去控制这些细节，尤其还要兼顾效率和线程安全，则这会给我们的程序带来不小的时间复杂度</p>
 <p>现在我们使用新版的阻塞队列版生产者和消费者，使用：volatile、CAS、atomicInteger、BlockQueue、线程交互、原子引用</p>
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
 <span class="hljs-comment"> * 生产者消费者  阻塞队列版</span>
@@ -2872,7 +2872,7 @@ consumer	 消费队列:<span class="hljs-number">5</span>成功
 <span class="hljs-number">5</span>秒中后，生产和消费线程停止，线程结束
 prod	 停止生产，表示FLAG=<span class="hljs-keyword">false</span>，生产介绍</code></pre></div>
 
-<h1 id="第9章-Synchronized和Lock的区别"><a href="#第9章-Synchronized和Lock的区别" class="headerlink" title="第9章 Synchronized和Lock的区别"></a>第9章 Synchronized和Lock的区别</h1><h2 id="9-1-前言"><a href="#9-1-前言" class="headerlink" title="9.1 前言"></a>9.1 前言</h2><p>早期的时候我们对线程的主要操作为：</p>
+<h1 id="第9章-Synchronized和Lock的区别"><a href="#第9章-Synchronized和Lock的区别" class="headerlink" title="第9章 Synchronized和Lock的区别"></a>第9章 Synchronized和Lock的区别</h1><h2 id="1-前言-1"><a href="#1-前言-1" class="headerlink" title="1 前言"></a>1 前言</h2><p>早期的时候我们对线程的主要操作为：</p>
 <ul>
 <li>synchronized wait  notify</li>
 </ul>
@@ -2880,8 +2880,8 @@ prod	 停止生产，表示FLAG=<span class="hljs-keyword">false</span>，生产
 <ul>
 <li>lock await  signal</li>
 </ul>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/9_Synchronized%E5%92%8CLock%E7%9A%84%E5%8C%BA%E5%88%AB%E4%B8%8E%E5%A5%BD%E5%A4%84/images/image-20200317101210376.png" alt="image-20200317101210376"></p>
-<h2 id="9-2-问题"><a href="#9-2-问题" class="headerlink" title="9.2 问题"></a>9.2 问题</h2><h3 id="synchronized-和-lock-有什么区别？用新的lock有什么好处？举例说明"><a href="#synchronized-和-lock-有什么区别？用新的lock有什么好处？举例说明" class="headerlink" title="synchronized 和 lock 有什么区别？用新的lock有什么好处？举例说明"></a>synchronized 和 lock 有什么区别？用新的lock有什么好处？举例说明</h3><ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200317101210376.png" alt="image-20200317101210376"></p>
+<h2 id="2-问题"><a href="#2-问题" class="headerlink" title="2 问题"></a>2 问题</h2><h3 id="synchronized-和-lock-有什么区别？用新的lock有什么好处？举例说明"><a href="#synchronized-和-lock-有什么区别？用新的lock有什么好处？举例说明" class="headerlink" title="synchronized 和 lock 有什么区别？用新的lock有什么好处？举例说明"></a>synchronized 和 lock 有什么区别？用新的lock有什么好处？举例说明</h3><ul>
 <li>synchronized 和 lock 有什么区别？用新的lock有什么好处？举例说明</li>
 </ul>
 <p>1）synchronized属于JVM层面，属于java的关键字</p>
@@ -2915,7 +2915,7 @@ prod	 停止生产，表示FLAG=<span class="hljs-keyword">false</span>，生产
 <li>synchronized：没有，要么随机，要么全部唤醒</li>
 <li>ReentrantLock：用来实现分组唤醒需要唤醒的线程，可以精确唤醒，而不是像synchronized那样，要么随机，要么全部唤醒</li>
 </ul>
-<h2 id="9-3-举例"><a href="#9-3-举例" class="headerlink" title="9.3 举例"></a>9.3 举例</h2><p>针对刚刚提到的区别的第5条，我们有下面这样的一个场景</p>
+<h2 id="3-举例"><a href="#3-举例" class="headerlink" title="3 举例"></a>3 举例</h2><p>针对刚刚提到的区别的第5条，我们有下面这样的一个场景</p>
 <div class="code-wrapper"><pre><code class="hljs java">题目：多线程之间按顺序调用，实现 A-&gt; B -&gt; C 三个线程启动，要求如下：
 AA打印<span class="hljs-number">5</span>次，BB打印<span class="hljs-number">10</span>次，CC打印<span class="hljs-number">15</span>次
 紧接着
@@ -2925,7 +2925,7 @@ AA打印<span class="hljs-number">5</span>次，BB打印<span class="hljs-number
 
 <p>我们会发现，这样的场景在使用synchronized来完成的话，会非常的困难，但是使用lock就非常方便了</p>
 <p>也就是我们需要实现一个链式唤醒的操作</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/9_Synchronized%E5%92%8CLock%E7%9A%84%E5%8C%BA%E5%88%AB%E4%B8%8E%E5%A5%BD%E5%A4%84/images/image-20200317105121435.png" alt="image-20200317105121435"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200317105121435.png" alt="image-20200317105121435"></p>
 <p>当A线程执行完后，B线程才能执行，然后B线程执行完成后，C线程才执行</p>
 <p>首先我们需要创建一个重入锁</p>
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 创建一个重入锁</span>
@@ -3088,14 +3088,14 @@ AA打印<span class="hljs-number">5</span>次，BB打印<span class="hljs-number
     &#125;
 &#125;</code></pre></div>
 
-<h1 id="第10章线程池"><a href="#第10章线程池" class="headerlink" title="第10章线程池"></a>第10章线程池</h1><h2 id="10-1-前言"><a href="#10-1-前言" class="headerlink" title="10.1 前言"></a>10.1 前言</h2><p>获取多线程的方法，我们都知道有三种，还有一种是实现Callable接口</p>
+<h1 id="第10章线程池"><a href="#第10章线程池" class="headerlink" title="第10章线程池"></a>第10章线程池</h1><h2 id="1-前言-2"><a href="#1-前言-2" class="headerlink" title="1 前言"></a>1 前言</h2><p>获取多线程的方法，我们都知道有三种，还有一种是实现Callable接口</p>
 <ul>
 <li>实现Runnable接口</li>
 <li>实现Callable接口</li>
 <li>实例化Thread类</li>
 <li>使用线程池获取</li>
 </ul>
-<h2 id="10-2-Callable接口"><a href="#10-2-Callable接口" class="headerlink" title="10.2 Callable接口"></a>10.2 Callable接口</h2><p>Callable接口，是一种让线程执行完成后，能够返回结果的</p>
+<h2 id="2-Callable接口"><a href="#2-Callable接口" class="headerlink" title="2 Callable接口"></a>2 Callable接口</h2><p>Callable接口，是一种让线程执行完成后，能够返回结果的</p>
 <p>在说到Callable接口的时候，我们不得不提到Runnable接口</p>
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
 <span class="hljs-comment"> * 实现Runnable接口</span>
@@ -3140,7 +3140,7 @@ System.out.println(<span class="hljs-string">&quot;result FutureTask &quot;</spa
 
 <p>这就相当于原来我们的方式是main方法一条龙之心，后面在引入Callable后，对于执行比较久的线程，可以单独新开一个线程进行执行，最后在进行汇总输出</p>
 <p>最后需要注意的是 要求获得Callable线程的计算结果，如果没有计算完成就要去强求，会导致阻塞，直到计算完成</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/10_%E7%BA%BF%E7%A8%8B%E6%B1%A0/images/image-20200317152541284.png" alt="image-20200317152541284"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200317152541284.png" alt="image-20200317152541284"></p>
 <p>也就是说 futureTask.get() 需要放在最后执行，这样不会导致主线程阻塞</p>
 <p>也可以使用下面算法，使用类似于自旋锁的方式来进行判断是否运行完毕</p>
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 判断futureTask是否计算完成</span>
@@ -3164,10 +3164,10 @@ FutureTask&lt;Integer&gt; futureTask2 = <span class="hljs-keyword">new</span> Fu
 
 <span class="hljs-keyword">new</span> Thread(futureTask2, <span class="hljs-string">&quot;BBB&quot;</span>).start();</code></pre></div>
 
-<h2 id="10-3-ThreadPoolExecutor"><a href="#10-3-ThreadPoolExecutor" class="headerlink" title="10.3 ThreadPoolExecutor"></a>10.3 ThreadPoolExecutor</h2><h3 id="1-为什么用线程池"><a href="#1-为什么用线程池" class="headerlink" title="1 为什么用线程池"></a>1 为什么用线程池</h3><p>线程池做的主要工作就是控制运行的线程的数量，处理过程中，将任务放入到队列中，然后线程创建后，启动这些任务，如果线程数量超过了最大数量的线程排队等候，等其它线程执行完毕，再从队列中取出任务来执行。</p>
+<h2 id="3-ThreadPoolExecutor"><a href="#3-ThreadPoolExecutor" class="headerlink" title="3 ThreadPoolExecutor"></a>3 ThreadPoolExecutor</h2><h3 id="3-1-为什么用线程池"><a href="#3-1-为什么用线程池" class="headerlink" title="3.1 为什么用线程池"></a>3.1 为什么用线程池</h3><p>线程池做的主要工作就是控制运行的线程的数量，处理过程中，将任务放入到队列中，然后线程创建后，启动这些任务，如果线程数量超过了最大数量的线程排队等候，等其它线程执行完毕，再从队列中取出任务来执行。</p>
 <p>它的主要特点为：线程复用、控制最大并发数、管理线程</p>
 <p>线程池中的任务是放入到阻塞队列中的</p>
-<h3 id="2-线程池的好处"><a href="#2-线程池的好处" class="headerlink" title="2 线程池的好处"></a>2 线程池的好处</h3><p>多核处理的好处是：省略的上下文的切换开销</p>
+<h3 id="3-2-线程池的好处"><a href="#3-2-线程池的好处" class="headerlink" title="3.2 线程池的好处"></a>3.2 线程池的好处</h3><p>多核处理的好处是：省略的上下文的切换开销</p>
 <p>原来我们实例化对象的时候，是使用 new关键字进行创建，到了Spring后，我们学了IOC依赖注入，发现Spring帮我们将对象已经加载到了Spring容器中，只需要通过@Autowrite注解，就能够自动注入，从而使用</p>
 <p>因此使用多线程有下列的好处</p>
 <ul>
@@ -3175,10 +3175,10 @@ FutureTask&lt;Integer&gt; futureTask2 = <span class="hljs-keyword">new</span> Fu
 <li>提高响应速度。当任务到达时，任务可以不需要等到线程创建就立即执行</li>
 <li>提高线程的可管理性。线程是稀缺资源，如果无线创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一的分配，调优和监控</li>
 </ul>
-<h3 id="3-架构说明"><a href="#3-架构说明" class="headerlink" title="3 架构说明"></a>3 架构说明</h3><p>Java中线程池是通过Executor框架实现的，该框架中用到了Executor，Executors（代表工具类），ExecutorService，ThreadPoolExecutor这几个类。</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/10_%E7%BA%BF%E7%A8%8B%E6%B1%A0/images/image-20200317175202647.png" alt="image-20200317175202647"></p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/10_%E7%BA%BF%E7%A8%8B%E6%B1%A0/images/image-20200317175241007.png" alt="image-20200317175241007"></p>
-<h3 id="4-创建线程池"><a href="#4-创建线程池" class="headerlink" title="4 创建线程池"></a>4 创建线程池</h3><ul>
+<h3 id="3-3-架构说明"><a href="#3-3-架构说明" class="headerlink" title="3.3 架构说明"></a>3.3 架构说明</h3><p>Java中线程池是通过Executor框架实现的，该框架中用到了Executor，Executors（代表工具类），ExecutorService，ThreadPoolExecutor这几个类。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200317175202647.png" alt="image-20200317175202647"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200317175241007.png" alt="image-20200317175241007"></p>
+<h3 id="3-4-创建线程池"><a href="#3-4-创建线程池" class="headerlink" title="3.4 创建线程池"></a>3.4 创建线程池</h3><ul>
 <li>Executors.newFixedThreadPool(int i) ：创建一个拥有 i 个线程的线程池<ul>
 <li>执行长期的任务，性能好很多</li>
 <li>创建一个定长线程池，可控制线程数最大并发数，超出的线程会在队列中等待</li>
@@ -3264,7 +3264,7 @@ pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">1</span
 pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">5</span>	 给用户:<span class="hljs-number">6</span> 办理业务</code></pre></div>
 
 <p>我们能够看到，一共有5个线程，在给10个用户办理业务</p>
-<h3 id="5-创建周期性执行任务的线程池"><a href="#5-创建周期性执行任务的线程池" class="headerlink" title="5  创建周期性执行任务的线程池"></a>5  创建周期性执行任务的线程池</h3><p>Executors.newScheduledThreadPool(int corePoolSize)：</p>
+<h3 id="3-5-创建周期性执行任务的线程池"><a href="#3-5-创建周期性执行任务的线程池" class="headerlink" title="3.5  创建周期性执行任务的线程池"></a>3.5  创建周期性执行任务的线程池</h3><p>Executors.newScheduledThreadPool(int corePoolSize)：</p>
 <p><strong>线程池支持定时以及周期性执行任务，创建一个corePoolSize为传入参数，最大线程数为整形的最大数的线程池</strong></p>
 <p>底层使用 ScheduledThreadPoolExecutor 来实现 ScheduledThreadPoolExecutor 为ThreadPoolExecutor子类</p>
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ScheduledThreadPoolExecutor</span><span class="hljs-params">(<span class="hljs-keyword">int</span> corePoolSize)</span> </span>&#123;
@@ -3309,13 +3309,13 @@ pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">5</span
 <span class="hljs-comment">     */</span>
 <span class="hljs-keyword">public</span> ScheduledFuture&lt;?&gt; scheduleWithFixedDelay(Runnable command, <span class="hljs-keyword">long</span> initialDelay, <span class="hljs-keyword">long</span> delay, TimeUnit unit)</code></pre></div>
 
-<h2 id="10-4-底层实现"><a href="#10-4-底层实现" class="headerlink" title="10. 4 底层实现"></a>10. 4 底层实现</h2><p>我们通过查看源码，点击了Executors.newSingleThreadExecutor 和 Executors.newFixedThreadPool能够发现底层都是使用了ThreadPoolExecutor</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/10_%E7%BA%BF%E7%A8%8B%E6%B1%A0/images/image-20200317182004293.png" alt="image-20200317182004293"></p>
+<h2 id="4-底层实现"><a href="#4-底层实现" class="headerlink" title="4 底层实现"></a>4 底层实现</h2><p>我们通过查看源码，点击了Executors.newSingleThreadExecutor 和 Executors.newFixedThreadPool能够发现底层都是使用了ThreadPoolExecutor</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200317182004293.png" alt="image-20200317182004293"></p>
 <p>我们可以看到线程池的内部，还使用到了LinkedBlockingQueue 链表阻塞队列</p>
 <p>同时在查看Executors.newCacheThreadPool 看到底层用的是 SynchronousBlockingQueue阻塞队列</p>
 <p>最后查看一下，完整的三个创建线程的方法</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/10_%E7%BA%BF%E7%A8%8B%E6%B1%A0/images/image-20200317183202992.png" alt="image-20200317183202992"></p>
-<h2 id="10-5-线程池的重要参数"><a href="#10-5-线程池的重要参数" class="headerlink" title="10. 5 线程池的重要参数"></a>10. 5 线程池的重要参数</h2><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/10_%E7%BA%BF%E7%A8%8B%E6%B1%A0/images/image-20200317183600957.png" alt="image-20200317183600957"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200317183202992.png" alt="image-20200317183202992"></p>
+<h2 id="5-线程池的重要参数"><a href="#5-线程池的重要参数" class="headerlink" title="5 线程池的重要参数"></a>5 线程池的重要参数</h2><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200317183600957.png" alt="image-20200317183600957"></p>
 <p>线程池在创建的时候，一共有7大参数</p>
 <ul>
 <li>corePoolSize：核心线程数，线程池中的常驻核心线程数<ul>
@@ -3342,15 +3342,15 @@ pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">5</span
 <li>handler：拒绝策略，表示当队列满了并且工作线程大于线程池的最大线程数（maximumPoolSize3）时，如何来拒绝请求执行的Runnable的策略</li>
 </ul>
 <p>当营业窗口和阻塞队列中都满了时候，就需要设置拒绝策略</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/10_%E7%BA%BF%E7%A8%8B%E6%B1%A0/images/image-20200317201150197.png" alt="image-20200317201150197"></p>
-<h2 id="10-6-拒绝策略"><a href="#10-6-拒绝策略" class="headerlink" title="10.6 拒绝策略"></a>10.6 拒绝策略</h2><p>以下所有拒绝策略都实现了RejectedExecutionHandler接口</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200317201150197.png" alt="image-20200317201150197"></p>
+<h2 id="6-拒绝策略"><a href="#6-拒绝策略" class="headerlink" title="6 拒绝策略"></a>6 拒绝策略</h2><p>以下所有拒绝策略都实现了RejectedExecutionHandler接口</p>
 <ul>
 <li>AbortPolicy：默认，直接抛出RejectedExcutionException异常，阻止系统正常运行</li>
 <li>DiscardPolicy：直接丢弃任务，不予任何处理也不抛出异常，如果运行任务丢失，这是一种好方案</li>
 <li>CallerRunsPolicy：该策略既不会抛弃任务，也不会抛出异常，而是将某些任务回退到调用者</li>
 <li>DiscardOldestPolicy：抛弃队列中等待最久的任务，然后把当前任务加入队列中尝试再次提交当前任务</li>
 </ul>
-<h2 id="10-7-线程池底层工作原理"><a href="#10-7-线程池底层工作原理" class="headerlink" title="10.7 线程池底层工作原理"></a>10.7 线程池底层工作原理</h2><h3 id="线程池运行架构图"><a href="#线程池运行架构图" class="headerlink" title="线程池运行架构图"></a>线程池运行架构图</h3><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/10_%E7%BA%BF%E7%A8%8B%E6%B1%A0/images/image-20200318154414717.png" alt="image-20200318154414717"></p>
+<h2 id="7-线程池底层工作原理"><a href="#7-线程池底层工作原理" class="headerlink" title="7 线程池底层工作原理"></a>7 线程池底层工作原理</h2><h3 id="线程池运行架构图"><a href="#线程池运行架构图" class="headerlink" title="线程池运行架构图"></a>线程池运行架构图</h3><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200318154414717.png" alt="image-20200318154414717"></p>
 <p>文字说明</p>
 <ol>
 <li><p>在创建了线程池后，等待提交过来的任务请求</p>
@@ -3380,7 +3380,7 @@ pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">5</span
 <li>假设受理窗口已经达到最大数，并且请求数还是不断递增，此时候客区和线程池都已经满了，为了防止大量请求冲垮线程池，已经需要开启拒绝策略</li>
 <li>临时增加的线程会因为超过了最大存活时间，就会销毁，最后从最大数削减到核心数</li>
 </ol>
-<h2 id="10-8-为什么不用默认创建的线程池？"><a href="#10-8-为什么不用默认创建的线程池？" class="headerlink" title="10.8 为什么不用默认创建的线程池？"></a>10.8 为什么不用默认创建的线程池？</h2><p>线程池创建的方法有：固定数的，单一的，可变的，那么在实际开发中，应该使用哪个？</p>
+<h2 id="8-为什么不用默认创建的线程池？"><a href="#8-为什么不用默认创建的线程池？" class="headerlink" title="8 为什么不用默认创建的线程池？"></a>8 为什么不用默认创建的线程池？</h2><p>线程池创建的方法有：固定数的，单一的，可变的，那么在实际开发中，应该使用哪个？</p>
 <p>我们一个都不用，在生产环境中是使用自己自定义的</p>
 <p>为什么不用 Executors 中JDK提供的？</p>
 <p>根据阿里巴巴手册：并发控制这章</p>
@@ -3404,7 +3404,7 @@ pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">5</span
 </ul>
 </li>
 </ul>
-<h2 id="10-9-手写线程池"><a href="#10-9-手写线程池" class="headerlink" title="10.9 手写线程池"></a>10.9 手写线程池</h2><h3 id="1-采用默认拒绝策略"><a href="#1-采用默认拒绝策略" class="headerlink" title="1 采用默认拒绝策略"></a>1 采用默认拒绝策略</h3><p>从上面我们知道，因为默认的Executors创建的线程池，底层都是使用LinkBlockingQueue作为阻塞队列的，而LinkBlockingQueue虽然是有界的，但是它的界限是 Integer.MAX_VALUE 大概有20多亿，可以相当是无界的了，因此我们要使用ThreadPoolExecutor自己手动创建线程池，然后指定阻塞队列的大小</p>
+<h2 id="9-手写线程池"><a href="#9-手写线程池" class="headerlink" title="9 手写线程池"></a>9 手写线程池</h2><h3 id="9-1-采用默认拒绝策略"><a href="#9-1-采用默认拒绝策略" class="headerlink" title="9.1 采用默认拒绝策略"></a>9.1 采用默认拒绝策略</h3><p>从上面我们知道，因为默认的Executors创建的线程池，底层都是使用LinkBlockingQueue作为阻塞队列的，而LinkBlockingQueue虽然是有界的，但是它的界限是 Integer.MAX_VALUE 大概有20多亿，可以相当是无界的了，因此我们要使用ThreadPoolExecutor自己手动创建线程池，然后指定阻塞队列的大小</p>
 <p>下面我们创建了一个 核心线程数为2，最大线程数为5，并且阻塞队列数为3的线程池</p>
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 手写线程池</span>
 <span class="hljs-keyword">final</span> Integer corePoolSize = <span class="hljs-number">2</span>;
@@ -3455,7 +3455,7 @@ java.util.concurrent.RejectedExecutionException: Task com.moxi.interview.study.t
 
 <p>这是因为触发了拒绝策略，而我们设置的拒绝策略是默认的AbortPolicy，也就是抛异常的</p>
 <p>触发条件是，请求的线程大于 阻塞队列大小 + 最大线程数 = 8 的时候，也就是说第9个线程来获取线程池中的线程时，就会抛出异常从而报错退出。</p>
-<h3 id="2-采用CallerRunsPolicy拒绝策略"><a href="#2-采用CallerRunsPolicy拒绝策略" class="headerlink" title="2 采用CallerRunsPolicy拒绝策略"></a>2 采用CallerRunsPolicy拒绝策略</h3><p>当我们更好其它的拒绝策略时，采用CallerRunsPolicy拒绝策略，也称为回退策略，就是把任务丢回原来的请求开启线程着，我们看运行结果</p>
+<h3 id="9-2-采用CallerRunsPolicy拒绝策略"><a href="#9-2-采用CallerRunsPolicy拒绝策略" class="headerlink" title="9.2 采用CallerRunsPolicy拒绝策略"></a>9.2 采用CallerRunsPolicy拒绝策略</h3><p>当我们更好其它的拒绝策略时，采用CallerRunsPolicy拒绝策略，也称为回退策略，就是把任务丢回原来的请求开启线程着，我们看运行结果</p>
 <div class="code-wrapper"><pre><code class="hljs java">pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">1</span>	 给用户:<span class="hljs-number">0</span> 办理业务
 pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">5</span>	 给用户:<span class="hljs-number">7</span> 办理业务
 pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">4</span>	 给用户:<span class="hljs-number">6</span> 办理业务
@@ -3468,7 +3468,7 @@ pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">5</span
 pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">1</span>	 给用户:<span class="hljs-number">2</span> 办理业务</code></pre></div>
 
 <p>我们发现，输出的结果里面出现了main线程，因为线程池出发了拒绝策略，把任务回退到main线程，然后main线程对任务进行处理</p>
-<h3 id="3-采用-DiscardPolicy-拒绝策略"><a href="#3-采用-DiscardPolicy-拒绝策略" class="headerlink" title="3 采用 DiscardPolicy 拒绝策略"></a>3 采用 DiscardPolicy 拒绝策略</h3><div class="code-wrapper"><pre><code class="hljs java">pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">1</span>	 给用户:<span class="hljs-number">0</span> 办理业务
+<h3 id="9-3-采用-DiscardPolicy-拒绝策略"><a href="#9-3-采用-DiscardPolicy-拒绝策略" class="headerlink" title="9.3 采用 DiscardPolicy 拒绝策略"></a>9.3 采用 DiscardPolicy 拒绝策略</h3><div class="code-wrapper"><pre><code class="hljs java">pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">1</span>	 给用户:<span class="hljs-number">0</span> 办理业务
 pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">3</span>	 给用户:<span class="hljs-number">5</span> 办理业务
 pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">1</span>	 给用户:<span class="hljs-number">2</span> 办理业务
 pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">2</span>	 给用户:<span class="hljs-number">1</span> 办理业务
@@ -3478,7 +3478,7 @@ pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">4</span
 pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">3</span>	 给用户:<span class="hljs-number">3</span> 办理业务</code></pre></div>
 
 <p>采用DiscardPolicy拒绝策略会，线程池会自动把后面的任务都直接丢弃，也不报异常，当任务无关紧要的时候，可以采用这个方式</p>
-<h3 id="4-采用DiscardOldestPolicy拒绝策略"><a href="#4-采用DiscardOldestPolicy拒绝策略" class="headerlink" title="4 采用DiscardOldestPolicy拒绝策略"></a>4 采用DiscardOldestPolicy拒绝策略</h3><div class="code-wrapper"><pre><code class="hljs java">pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">1</span>	 给用户:<span class="hljs-number">0</span> 办理业务
+<h3 id="9-4-采用DiscardOldestPolicy拒绝策略"><a href="#9-4-采用DiscardOldestPolicy拒绝策略" class="headerlink" title="9.4 采用DiscardOldestPolicy拒绝策略"></a>9.4 采用DiscardOldestPolicy拒绝策略</h3><div class="code-wrapper"><pre><code class="hljs java">pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">1</span>	 给用户:<span class="hljs-number">0</span> 办理业务
 pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">4</span>	 给用户:<span class="hljs-number">6</span> 办理业务
 pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">1</span>	 给用户:<span class="hljs-number">4</span> 办理业务
 pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">3</span>	 给用户:<span class="hljs-number">5</span> 办理业务
@@ -3488,7 +3488,7 @@ pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">4</span
 pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">5</span>	 给用户:<span class="hljs-number">7</span> 办理业务</code></pre></div>
 
 <p>这个策略和刚刚差不多，会把最久的队列中的任务替换掉</p>
-<h2 id="10-10-线程池的合理参数"><a href="#10-10-线程池的合理参数" class="headerlink" title="10.10 线程池的合理参数"></a>10.10 线程池的合理参数</h2><p>生产环境中如何配置 corePoolSize 和 maximumPoolSize</p>
+<h2 id="10-线程池的合理参数"><a href="#10-线程池的合理参数" class="headerlink" title="10 线程池的合理参数"></a>10 线程池的合理参数</h2><p>生产环境中如何配置 corePoolSize 和 maximumPoolSize</p>
 <p>这个是根据具体业务来配置的，分为CPU密集型和IO密集型</p>
 <ul>
 <li>CPU密集型</li>
@@ -3508,14 +3508,14 @@ pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">5</span
 <p>IO密集时，大部分线程都被阻塞，故需要多配置线程数：</p>
 <p>参考公式：CPU核数 / (1 - 阻塞系数)      阻塞系数在0.8 ~ 0.9左右</p>
 <p>例如：8核CPU：8/ (1 - 0.9) = 80个线程数</p>
-<h1 id="第11章-死锁编码及定位分析"><a href="#第11章-死锁编码及定位分析" class="headerlink" title="第11章 死锁编码及定位分析"></a>第11章 死锁编码及定位分析</h1><h2 id="11-1-概念"><a href="#11-1-概念" class="headerlink" title="11.1 概念"></a>11.1 概念</h2><p>死锁是指两个或多个以上的进程在执行过程中，因争夺资源而造成一种互相等待的现象，若无外力干涉那他们都将无法推进下去。如果资源充足，进程的资源请求都能够得到满足，死锁出现的可能性就很低，否则就会因争夺有限的资源而陷入死锁。</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/11_%E6%AD%BB%E9%94%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%BF%AB%E9%80%9F%E5%AE%9A%E4%BD%8D/images/image-20200318175441578.png" alt="image-20200318175441578"></p>
-<h2 id="11-2-产生死锁的原因"><a href="#11-2-产生死锁的原因" class="headerlink" title="11.2 产生死锁的原因"></a>11.2 产生死锁的原因</h2><ul>
+<h1 id="第11章-死锁编码及定位分析"><a href="#第11章-死锁编码及定位分析" class="headerlink" title="第11章 死锁编码及定位分析"></a>第11章 死锁编码及定位分析</h1><h2 id="1-概念-2"><a href="#1-概念-2" class="headerlink" title="1 概念"></a>1 概念</h2><p>死锁是指两个或多个以上的进程在执行过程中，因争夺资源而造成一种互相等待的现象，若无外力干涉那他们都将无法推进下去。如果资源充足，进程的资源请求都能够得到满足，死锁出现的可能性就很低，否则就会因争夺有限的资源而陷入死锁。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200318175441578.png" alt="image-20200318175441578"></p>
+<h2 id="2-产生死锁的原因"><a href="#2-产生死锁的原因" class="headerlink" title="2 产生死锁的原因"></a>2 产生死锁的原因</h2><ul>
 <li>系统资源不足</li>
 <li>进程运行推进的顺序不对</li>
 <li>资源分配不当</li>
 </ul>
-<h2 id="11-3-死锁产生的四个必要条件"><a href="#11-3-死锁产生的四个必要条件" class="headerlink" title="11.3 死锁产生的四个必要条件"></a>11.3 死锁产生的四个必要条件</h2><ul>
+<h2 id="3-死锁产生的四个必要条件"><a href="#3-死锁产生的四个必要条件" class="headerlink" title="3 死锁产生的四个必要条件"></a>3 死锁产生的四个必要条件</h2><ul>
 <li>互斥<ul>
 <li>解决方法：把互斥的共享资源封装成可同时访问</li>
 </ul>
@@ -3533,7 +3533,7 @@ pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">5</span
 </ul>
 </li>
 </ul>
-<h2 id="11-4-死锁代码"><a href="#11-4-死锁代码" class="headerlink" title="11.4 死锁代码"></a>11.4 死锁代码</h2><p>我们创建了一个资源类，然后让两个线程分别持有自己的锁，同时在尝试获取别人的，就会出现死锁现象</p>
+<h2 id="4-死锁代码"><a href="#4-死锁代码" class="headerlink" title="4 死锁代码"></a>4 死锁代码</h2><p>我们创建了一个资源类，然后让两个线程分别持有自己的锁，同时在尝试获取别人的，就会出现死锁现象</p>
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
 <span class="hljs-comment"> * 死锁小Demo</span>
 <span class="hljs-comment"> * 死锁是指两个或多个以上的进程在执行过程中，</span>
@@ -3591,11 +3591,11 @@ pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">5</span
 <div class="code-wrapper"><pre><code class="hljs java">t1	 自己持有lockA	 尝试获取：lockB
 t2	 自己持有lockB	 尝试获取：lockA</code></pre></div>
 
-<h2 id="11-5-如何排查死锁"><a href="#11-5-如何排查死锁" class="headerlink" title="11.5 如何排查死锁"></a>11.5 如何排查死锁</h2><p>当我们出现死锁的时候，首先需要使用jps命令查看运行的程序</p>
+<h2 id="5-如何排查死锁"><a href="#5-如何排查死锁" class="headerlink" title="5 如何排查死锁"></a>5 如何排查死锁</h2><p>当我们出现死锁的时候，首先需要使用jps命令查看运行的程序</p>
 <div class="code-wrapper"><pre><code class="hljs java">jps -l</code></pre></div>
 
 <p>我们能看到DeadLockDemo这个类，一直在运行</p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://gitee.com/moxi159753/LearningNotes/raw/97b22942b4818475ad6ba9b32058aaa823789290/%E6%A0%A1%E6%8B%9B%E9%9D%A2%E8%AF%95/JUC/11_%E6%AD%BB%E9%94%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%BF%AB%E9%80%9F%E5%AE%9A%E4%BD%8D/images/image-20200318181504703.png" alt="image-20200318181504703"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200318181504703.png" alt="image-20200318181504703"></p>
 <p>在使用jstack查看堆栈信息</p>
 <div class="code-wrapper"><pre><code class="hljs java">jstack  7560   # 后面参数是 jps输出的该类的pid</code></pre></div>
 
@@ -3625,6 +3625,1181 @@ Java stack information <span class="hljs-keyword">for</span> the threads listed 
 Found <span class="hljs-number">1</span> deadlock.</code></pre></div>
 
 <p>通过查看最后一行，我们看到  Found 1 deadlock，即存在一个死锁</p>
+<h1 id="第二部分-JVM"><a href="#第二部分-JVM" class="headerlink" title="第二部分 JVM"></a>第二部分 JVM</h1><h1 id="第-12-章-JVM"><a href="#第-12-章-JVM" class="headerlink" title="第 12 章 JVM"></a>第 12 章 JVM</h1><h2 id="1-JVM体系结构"><a href="#1-JVM体系结构" class="headerlink" title="1 JVM体系结构"></a>1 JVM体系结构</h2><h3 id="1-1-概览"><a href="#1-1-概览" class="headerlink" title="1.1 概览"></a>1.1 概览</h3><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200318182540332.png" alt="image-20200318182540332"></p>
+<p>java gc 主要回收的是 方法区 和 堆中的内容</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200318184401133.png" alt="image-20200318184401133"></p>
+<h3 id="1-2-类加载器"><a href="#1-2-类加载器" class="headerlink" title="1.2 类加载器"></a>1.2 类加载器</h3><ul>
+<li>类加载器是什么</li>
+<li>双亲委派机制</li>
+<li>Java类加载的沙箱安全机制</li>
+</ul>
+<h3 id="1-3-常见的垃圾回收算法"><a href="#1-3-常见的垃圾回收算法" class="headerlink" title="1.3 常见的垃圾回收算法"></a>1.3 常见的垃圾回收算法</h3><ul>
+<li>引用计数</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200318184508982.png" alt="image-20200318184508982"></p>
+<p>在双端循环，互相引用的时候，容易报错，目前很少使用这种方式了</p>
+<ul>
+<li>复制</li>
+</ul>
+<p>复制算法在年轻代的时候，进行使用，复制时候有交换</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200318184759295.png" alt="image-20200318184759295"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="images/image-20200318184820787.png" alt="image-20200318184820787"></p>
+<p>优点：没有产生内存碎片</p>
+<ul>
+<li>标记清除</li>
+</ul>
+<p>先标记，后清除，缺点是会产生内存碎片，用于老年代多一些</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200318184944878.png" alt="image-20200318184944878"></p>
+<ul>
+<li>标记整理</li>
+</ul>
+<p>标记清除整理</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200318185100936.png" alt="image-20200318185100936"></p>
+<p>但是需要付出代价，因为移动对象需要成本</p>
+<h2 id="2-JVM-面试题"><a href="#2-JVM-面试题" class="headerlink" title="2 JVM 面试题"></a>2 JVM 面试题</h2><h3 id="2-1-是么是-GCRoots-能做什么"><a href="#2-1-是么是-GCRoots-能做什么" class="headerlink" title="2.1 是么是 GCRoots 能做什么"></a>2.1 是么是 GCRoots 能做什么</h3><h4 id="1-什么是垃圾"><a href="#1-什么是垃圾" class="headerlink" title="1 什么是垃圾"></a>1 什么是垃圾</h4><p>简单来说就是内存中已经不再被使用的空间就是垃圾</p>
+<h4 id="2-如何判断一个对象是否可以被回收"><a href="#2-如何判断一个对象是否可以被回收" class="headerlink" title="2 如何判断一个对象是否可以被回收"></a>2 如何判断一个对象是否可以被回收</h4><h5 id="2-1-引用计数法"><a href="#2-1-引用计数法" class="headerlink" title="2.1 引用计数法"></a>2.1 引用计数法</h5><p>Java中，引用和对象是有关联的。如果要操作对象则必须用引用进行。</p>
+<p>因此，很显然一个简单的办法就是通过引用计数来判断一个对象是否可以回收。简单说，给对象中添加一个引用计数器</p>
+<p>每当有一个地方引用它，计数器值加1</p>
+<p>每当有一个引用失效，计数器值减1</p>
+<p>任何时刻计数器值为零的对象就是不可能再被使用的，那么这个对象就是可回收对象。</p>
+<p>那么为什么主流的Java虚拟机里面都没有选用这个方法呢？其中最主要的原因是它很难解决对象之间相互循环引用的问题。</p>
+<p>该算法存在但目前无人用了，解决不了循环引用的问题，了解即可。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200318213301603.png" alt="image-20200318213301603"></p>
+<h5 id="2-2-枚举根节点做可达性分析"><a href="#2-2-枚举根节点做可达性分析" class="headerlink" title="2.2 枚举根节点做可达性分析"></a>2.2 枚举根节点做可达性分析</h5><p>根搜索路径算法</p>
+<p>为了解决引用计数法的循环引用个问题，Java使用了可达性分析的方法：</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200319113611244.png" alt="image-20200319113611244"></p>
+<p>所谓 GC Roots 或者说 Tracing Roots的“根集合” 就是一组必须活跃的引用</p>
+<p>基本思路就是通过一系列名为 GC Roots的对象作为起始点，从这个被称为GC Roots的对象开始向下搜索，如果一个对象到GC Roots没有任何引用链相连，则说明此对象不可用。也即给定一个集合的引用作为根出发，通过引用关系遍历对象图，能被遍历到的（可到达的）对象就被判定为存活，没有被遍历到的对象就被判定为死亡</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200319114526625.png" alt="image-20200319114526625"></p>
+<p>必须从GC Roots对象开始，这个类似于linux的 /  也就是根目录</p>
+<p>蓝色部分是从GC Roots出发，能够循环可达</p>
+<p>而白色部分，从GC Roots出发，无法到达</p>
+<h5 id="2-3-一句话理解GC-Roots"><a href="#2-3-一句话理解GC-Roots" class="headerlink" title="2.3 一句话理解GC Roots"></a>2.3 一句话理解GC Roots</h5><p>假设我们现在有三个实体，分别是 人，狗，毛衣</p>
+<p>然后他们之间的关系是：人 牵着 狗，狗穿着毛衣，他们之间是强连接的关系</p>
+<p>有一天人消失了，只剩下狗狗 和 毛衣，这个时候，把人想象成 GC Roots，因为 人 和 狗之间失去了绳子连接，</p>
+<p>那么狗可能被回收，也就是被警察抓起来，被送到流浪狗寄养所</p>
+<p>假设狗和人有强连接的时候，狗狗就不会被当成是流浪狗</p>
+<h5 id="2-4-那些对象可以当做GC-Roots"><a href="#2-4-那些对象可以当做GC-Roots" class="headerlink" title="2.4 那些对象可以当做GC Roots"></a>2.4 那些对象可以当做GC Roots</h5><ul>
+<li>虚拟机栈（栈帧中的局部变量区，也叫做局部变量表）中的引用对象</li>
+<li>方法区中的类静态属性引用的对象</li>
+<li>方法区中常量引用的对象</li>
+<li>本地方法栈中的JNI（Native方法）的引用对象</li>
+</ul>
+<h5 id="2-5-代码说明"><a href="#2-5-代码说明" class="headerlink" title="2.5 代码说明"></a>2.5 代码说明</h5><div class="code-wrapper"><pre><code class="hljs java">
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 在Java中，可以作为GC Roots的对象有：</span>
+<span class="hljs-comment"> * - 虚拟机栈（栈帧中的局部变量区，也叫做局部变量表）中的引用对象</span>
+<span class="hljs-comment"> * - 方法区中的类静态属性引用的对象</span>
+<span class="hljs-comment"> * - 方法区中常量引用的对象</span>
+<span class="hljs-comment"> * - 本地方法栈中的JNI（Native方法）的引用对象</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GCRootDemo</span> </span>&#123;
+
+
+    <span class="hljs-comment">// 方法区中的类静态属性引用的对象</span>
+    <span class="hljs-comment">// private static GCRootDemo2 t2;</span>
+
+    <span class="hljs-comment">// 方法区中的常量引用，GC Roots 也会以这个为起点，进行遍历</span>
+    <span class="hljs-comment">// private static final GCRootDemo3 t3 = new GCRootDemo3(8);</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">m1</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-comment">// 第一种，虚拟机栈中的引用对象</span>
+        GCRootDemo t1 = <span class="hljs-keyword">new</span> GCRootDemo();
+        System.gc();
+        System.out.println(<span class="hljs-string">&quot;第一次GC完成&quot;</span>);
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        m1();
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="2-2-JVM参数调优"><a href="#2-2-JVM参数调优" class="headerlink" title="2.2  JVM参数调优"></a>2.2  JVM参数调优</h3><h4 id="1-前言-3"><a href="#1-前言-3" class="headerlink" title="1 前言"></a>1 前言</h4><p>你说你做过JVM调优和参数配置，请问如何盘点查看JVM系统默认值</p>
+<p>使用jps和jinfo进行查看</p>
+<div class="code-wrapper"><pre><code class="hljs diff"><span class="hljs-deletion">-Xms：初始堆空间</span>
+<span class="hljs-deletion">-Xmx：堆最大值</span>
+<span class="hljs-deletion">-Xss：栈空间</span></code></pre></div>
+
+<p>-Xms 和 -Xmx最好调整一致，防止JVM频繁进行收集和回收</p>
+<h4 id="2-JVM参数类型"><a href="#2-JVM参数类型" class="headerlink" title="2 JVM参数类型"></a>2 JVM参数类型</h4><ul>
+<li>标配参数（从JDK1.0 - Java12都在，很稳定）<ul>
+<li>-version</li>
+<li>-help</li>
+<li>java -showversion</li>
+</ul>
+</li>
+<li>X参数（了解）<ul>
+<li>-Xint：解释执行</li>
+<li>-Xcomp：第一次使用就编译成本地代码</li>
+<li>-Xmixed：混合模式</li>
+</ul>
+</li>
+<li>XX参数（重点）<ul>
+<li>Boolean类型<ul>
+<li>公式：-XX:+ 或者-某个属性   + 表示开启，-表示关闭</li>
+<li>Case：-XX:-PrintGCDetails：表示关闭了GC详情输出</li>
+</ul>
+</li>
+<li>key-value类型<ul>
+<li>公式：-XX:属性key=属性value</li>
+<li>不满意初始值，可以通过下列命令调整</li>
+<li>case：如何：-XX:MetaspaceSize=21807104：查看Java元空间的值</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-查看运行的Java程序，JVM参数是否开启，具体值为多少？"><a href="#3-查看运行的Java程序，JVM参数是否开启，具体值为多少？" class="headerlink" title="3 查看运行的Java程序，JVM参数是否开启，具体值为多少？"></a>3 查看运行的Java程序，JVM参数是否开启，具体值为多少？</h4><p>首先我们运行一个HelloGC的java程序</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloGC</span> </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;
+        System.out.println(<span class="hljs-string">&quot;hello GC&quot;</span>);
+        Thread.sleep(Integer.MAX_VALUE);
+    &#125;
+&#125;</code></pre></div>
+
+<p>然后使用下列命令查看它的默认参数</p>
+<div class="code-wrapper"><pre><code class="hljs mipsasm"><span class="hljs-keyword">jps：查看java的后台进程</span>
+<span class="hljs-keyword">jinfo：查看正在运行的java程序</span></code></pre></div>
+
+<p>具体使用：</p>
+<div class="code-wrapper"><pre><code class="hljs mipsasm"><span class="hljs-keyword">jps </span>-l得到进程号</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-number">12608</span> com.moxi.interview.study.GC.HelloGC
+<span class="hljs-number">15200</span> sun.tools.jps.Jps
+<span class="hljs-number">15296</span> org.jetbrains.idea.maven.server.RemoteMavenServer36
+<span class="hljs-number">4528</span>
+<span class="hljs-number">12216</span> org.jetbrains.jps.cmdline.Launcher
+<span class="hljs-number">9772</span> org.jetbrains.kotlin.daemon.KotlinCompileDaemon</code></pre></div>
+
+<p>查看到HelloGC的进程号为：12608</p>
+<p>我们使用jinfo -flag 然后查看是否开启PrintGCDetails这个参数</p>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">jinfo</span> -flag PrintGCDetails <span class="hljs-number">12608</span></code></pre></div>
+
+<p>得到的内容为</p>
+<div class="code-wrapper"><pre><code class="hljs diff"><span class="hljs-deletion">-XX:-PrintGCDetails</span></code></pre></div>
+
+<p>上面提到了，-号表示关闭，即没有开启PrintGCDetails这个参数</p>
+<p>下面我们需要在启动HelloGC的时候，增加 PrintGCDetails这个参数，需要在运行程序的时候配置JVM参数</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200319122922264.png" alt="image-20200319122922264"></p>
+<p>然后在VM Options中加入下面的代码，现在+号表示开启</p>
+<div class="code-wrapper"><pre><code class="hljs diff"><span class="hljs-deletion">-XX:+PrintGCDetails</span></code></pre></div>
+
+<p>然后在使用jinfo查看我们的配置</p>
+<div class="code-wrapper"><pre><code class="hljs mipsasm"><span class="hljs-keyword">jps </span>-l
+<span class="hljs-keyword">jinfo </span>-flag PrintGCDetails <span class="hljs-number">13540</span></code></pre></div>
+
+<p>得到的结果为</p>
+<div class="code-wrapper"><pre><code class="hljs diff"><span class="hljs-deletion">-XX:+PrintGCDetails</span></code></pre></div>
+
+<p>我们看到原来的-号变成了+号，说明我们通过 VM Options配置的JVM参数已经生效了</p>
+<p>使用下列命令，会把jvm的全部默认参数输出</p>
+<div class="code-wrapper"><pre><code class="hljs asciidoc">jinfo -flags <span class="hljs-strong">***</span></code></pre></div>
+
+<h4 id="4-题外话（坑题）"><a href="#4-题外话（坑题）" class="headerlink" title="4 题外话（坑题）"></a>4 题外话（坑题）</h4><p>两个经典参数：-Xms  和 -Xmx，这两个参数 如何解释</p>
+<p>这两个参数，还是属于XX参数，因为取了别名</p>
+<ul>
+<li>-Xms  等价于 -XX:InitialHeapSize  ：初始化堆内存（默认只会用最大物理内存的64分1）</li>
+<li>-Xmx 等价于 -XX:MaxHeapSize    ：最大堆内存（默认只会用最大物理内存的4分1）</li>
+</ul>
+<h4 id="5-查看JVM默认参数"><a href="#5-查看JVM默认参数" class="headerlink" title="5 查看JVM默认参数"></a>5 查看JVM默认参数</h4><ul>
+<li><p>-XX:+PrintFlagsInitial</p>
+<ul>
+<li>主要是查看初始默认值</li>
+<li>公式<ul>
+<li>java -XX:+PrintFlagsInitial -version</li>
+<li>java -XX:+PrintFlagsInitial（重要参数）</li>
+</ul>
+</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200320212256284.png" alt="image-20200320212256284">   </p>
+</li>
+<li><p>-XX:+PrintFlagsFinal：表示修改以后，最终的值</p>
+<div class="code-wrapper"><pre><code>会将JVM的各个结果都进行打印
+
+如果有  := 表示修改过的， = 表示没有修改过的</code></pre></div></li>
+</ul>
+<h4 id="6-工作中常用的JVM基本配置参数"><a href="#6-工作中常用的JVM基本配置参数" class="headerlink" title="6 工作中常用的JVM基本配置参数"></a>6 工作中常用的JVM基本配置参数</h4><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200322163252777.png" alt="image-20200322163252777"></p>
+<h5 id="6-1-查看堆内存"><a href="#6-1-查看堆内存" class="headerlink" title="6.1 查看堆内存"></a>6.1 查看堆内存</h5><p>查看JVM的初始化堆内存 -Xms 和最大堆内存 Xmx</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloGC</span> </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;
+        <span class="hljs-comment">// 返回Java虚拟机中内存的总量</span>
+        <span class="hljs-keyword">long</span> totalMemory = Runtime.getRuntime().totalMemory();
+
+        <span class="hljs-comment">// 返回Java虚拟机中试图使用的最大内存量</span>
+        <span class="hljs-keyword">long</span> maxMemory = Runtime.getRuntime().maxMemory();
+
+        System.out.println(<span class="hljs-string">&quot;TOTAL_MEMORY(-Xms) = &quot;</span> + totalMemory + <span class="hljs-string">&quot;(字节)、&quot;</span> + (totalMemory / (<span class="hljs-keyword">double</span>)<span class="hljs-number">1024</span> / <span class="hljs-number">1024</span>) + <span class="hljs-string">&quot;MB&quot;</span>);
+        System.out.println(<span class="hljs-string">&quot;MAX_MEMORY(-Xmx) = &quot;</span> + maxMemory + <span class="hljs-string">&quot;(字节)、&quot;</span> + (maxMemory / (<span class="hljs-keyword">double</span>)<span class="hljs-number">1024</span> / <span class="hljs-number">1024</span>) + <span class="hljs-string">&quot;MB&quot;</span>);
+
+    &#125;
+&#125;</code></pre></div>
+
+<p>运行结果为：</p>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">TOTAL_MEMORY</span>(-Xms) = <span class="hljs-number">257425408</span>(字节)、<span class="hljs-number">245</span>.<span class="hljs-number">5</span>MB
+<span class="hljs-attribute">MAX_MEMORY</span>(-Xmx) = <span class="hljs-number">3790077952</span>(字节)、<span class="hljs-number">3614</span>.<span class="hljs-number">5</span>MB</code></pre></div>
+
+<p>-Xms 初始堆内存为：物理内存的1/64          -Xmx 最大堆内存为：系统物理内存的 1/4</p>
+<h5 id="6-2-打印JVM默认参数"><a href="#6-2-打印JVM默认参数" class="headerlink" title="6.2 打印JVM默认参数"></a>6.2 打印JVM默认参数</h5><p>使用 <code>-XX:+PrintCommandLineFlags</code> 打印出JVM的默认的简单初始化参数</p>
+<p>比如我的机器输出为：</p>
+<div class="code-wrapper"><pre><code class="hljs routeros">-XX:<span class="hljs-attribute">InitialHeapSize</span>=266376000 -XX:<span class="hljs-attribute">MaxHeapSize</span>=4262016000 -XX:+PrintCommandLineFlags -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:-UseLargePagesIndividualAllocation -XX:+UseParallelGC</code></pre></div>
+
+<h5 id="6-3-生活常用调优参数"><a href="#6-3-生活常用调优参数" class="headerlink" title="6.3 生活常用调优参数"></a>6.3 生活常用调优参数</h5><ul>
+<li>-Xms：初始化堆内存，默认为物理内存的1/64，等价于 -XX:initialHeapSize</li>
+<li>-Xmx：最大堆内存，默认为物理内存的1/4，等价于-XX:MaxHeapSize</li>
+<li>-Xss：设计单个线程栈的大小，一般默认为512K~1024K，等价于 -XX:ThreadStackSize<ul>
+<li>使用 jinfo -flag ThreadStackSize   会发现 -XX:ThreadStackSize = 0</li>
+<li>这个值的大小是取决于平台的</li>
+<li>Linux/x64:1024KB</li>
+<li>OS X：1024KB</li>
+<li>Oracle Solaris：1024KB</li>
+<li>Windows：取决于虚拟内存的大小</li>
+</ul>
+</li>
+<li>-Xmn：设置年轻代大小</li>
+<li>-XX:MetaspaceSize：设置元空间大小<ul>
+<li>元空间的本质和永久代类似，都是对JVM规范中方法区的实现，不过元空间与永久代之间最大的区别在于：元空间并不在虚拟机中，而是使用本地内存，因此，默认情况下，元空间的大小仅受本地内存限制。</li>
+<li>-Xms10m -Xmx10m -XX:MetaspaceSize=1024m  -XX:+PrintFlagsFinal</li>
+<li>但是默认的元空间大小：只有20多M</li>
+<li>为了防止在频繁的实例化对象的时候，让元空间出现OOM，因此可以把元空间设置的大一些</li>
+</ul>
+</li>
+<li>-XX:PrintGCDetails：输出详细GC收集日志信息<ul>
+<li>GC</li>
+<li>Full GC</li>
+</ul>
+</li>
+</ul>
+<p>GC日志收集流程图</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200322185639902.png" alt="image-20200322185639902"></p>
+<p>我们使用一段代码，制造出垃圾回收的过程</p>
+<p>首先我们设置一下程序的启动配置:  设置初始堆内存为10M，最大堆内存为10M</p>
+<div class="code-wrapper"><pre><code class="hljs diff"><span class="hljs-deletion">-Xms10m -Xmx10m -XX:+PrintGCDetails</span></code></pre></div>
+
+<p>然后用下列代码，创建一个 非常大空间的byte类型数组</p>
+<div class="code-wrapper"><pre><code class="hljs arduino"><span class="hljs-keyword">byte</span> [] byteArray = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">50</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>];</code></pre></div>
+
+<p>运行后，发现会出现下列错误，这就是OOM：java内存溢出，也就是堆空间不足</p>
+<div class="code-wrapper"><pre><code class="hljs stylus">Exception <span class="hljs-keyword">in</span> thread <span class="hljs-string">&quot;main&quot;</span> java<span class="hljs-selector-class">.lang</span><span class="hljs-selector-class">.OutOfMemoryError</span>: Java heap space
+	at com<span class="hljs-selector-class">.moxi</span><span class="hljs-selector-class">.interview</span><span class="hljs-selector-class">.study</span><span class="hljs-selector-class">.GC</span><span class="hljs-selector-class">.HelloGC</span><span class="hljs-selector-class">.main</span>(HelloGC<span class="hljs-selector-class">.java</span>:<span class="hljs-number">22</span>)</code></pre></div>
+
+<p>同时还打印出了GC垃圾回收时候的详情</p>
+<div class="code-wrapper"><pre><code class="hljs mathematica"><span class="hljs-punctuation">[</span><span class="hljs-variable">GC</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">Allocation</span> <span class="hljs-built_in">Failure</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">PSYoungGen</span><span class="hljs-operator">:</span> <span class="hljs-number">1972</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">504</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">2560</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <span class="hljs-number">1972</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">740</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">9728</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-operator">,</span> <span class="hljs-number">0.0156109</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">[</span><span class="hljs-built_in">Times</span><span class="hljs-operator">:</span> <span class="hljs-variable">user</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span> <span class="hljs-variable">sys</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span><span class="hljs-operator">,</span> <span class="hljs-variable">real</span><span class="hljs-operator">=</span><span class="hljs-number">0.03</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> 
+<span class="hljs-punctuation">[</span><span class="hljs-variable">GC</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">Allocation</span> <span class="hljs-built_in">Failure</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">PSYoungGen</span><span class="hljs-operator">:</span> <span class="hljs-number">504</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">480</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">2560</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <span class="hljs-number">740</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">772</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">9728</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-operator">,</span> <span class="hljs-number">0.0007815</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">[</span><span class="hljs-built_in">Times</span><span class="hljs-operator">:</span> <span class="hljs-variable">user</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span> <span class="hljs-variable">sys</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span><span class="hljs-operator">,</span> <span class="hljs-variable">real</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> 
+<span class="hljs-punctuation">[</span><span class="hljs-built_in">Full</span> <span class="hljs-variable">GC</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">Allocation</span> <span class="hljs-built_in">Failure</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">PSYoungGen</span><span class="hljs-operator">:</span> <span class="hljs-number">480</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">0</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">2560</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">ParOldGen</span><span class="hljs-operator">:</span> <span class="hljs-number">292</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">648</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">7168</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <span class="hljs-number">772</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">648</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">9728</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-operator">,</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">Metaspace</span><span class="hljs-operator">:</span> <span class="hljs-number">3467</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">3467</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">1056768</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span><span class="hljs-operator">,</span> <span class="hljs-number">0.0080505</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">[</span><span class="hljs-built_in">Times</span><span class="hljs-operator">:</span> <span class="hljs-variable">user</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span> <span class="hljs-variable">sys</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span><span class="hljs-operator">,</span> <span class="hljs-variable">real</span><span class="hljs-operator">=</span><span class="hljs-number">0.01</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> 
+<span class="hljs-punctuation">[</span><span class="hljs-variable">GC</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">Allocation</span> <span class="hljs-built_in">Failure</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">PSYoungGen</span><span class="hljs-operator">:</span> <span class="hljs-number">0</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">0</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">2560</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <span class="hljs-number">648</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">648</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">9728</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-operator">,</span> <span class="hljs-number">0.0003035</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">[</span><span class="hljs-built_in">Times</span><span class="hljs-operator">:</span> <span class="hljs-variable">user</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span> <span class="hljs-variable">sys</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span><span class="hljs-operator">,</span> <span class="hljs-variable">real</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> 
+<span class="hljs-punctuation">[</span><span class="hljs-built_in">Full</span> <span class="hljs-variable">GC</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">Allocation</span> <span class="hljs-built_in">Failure</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">PSYoungGen</span><span class="hljs-operator">:</span> <span class="hljs-number">0</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">0</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">2560</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">ParOldGen</span><span class="hljs-operator">:</span> <span class="hljs-number">648</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">630</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">7168</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <span class="hljs-number">648</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">630</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">9728</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-operator">,</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">Metaspace</span><span class="hljs-operator">:</span> <span class="hljs-number">3467</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">3467</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">1056768</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span><span class="hljs-operator">,</span> <span class="hljs-number">0.0058502</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">[</span><span class="hljs-built_in">Times</span><span class="hljs-operator">:</span> <span class="hljs-variable">user</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span> <span class="hljs-variable">sys</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span><span class="hljs-operator">,</span> <span class="hljs-variable">real</span><span class="hljs-operator">=</span><span class="hljs-number">0.01</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> 
+<span class="hljs-variable">Heap</span>
+ <span class="hljs-variable">PSYoungGen</span>      <span class="hljs-variable">total</span> <span class="hljs-number">2560</span><span class="hljs-built_in">K</span><span class="hljs-operator">,</span> <span class="hljs-variable">used</span> <span class="hljs-number">80</span><span class="hljs-built_in">K</span> <span class="hljs-punctuation">[</span><span class="hljs-number">0</span><span class="hljs-variable">x00000000ffd00000</span><span class="hljs-operator">,</span> <span class="hljs-number">0</span><span class="hljs-variable">x0000000100000000</span><span class="hljs-operator">,</span> <span class="hljs-number">0</span><span class="hljs-variable">x0000000100000000</span><span class="hljs-punctuation">)</span>
+  <span class="hljs-variable">eden</span> <span class="hljs-variable">space</span> <span class="hljs-number">2048</span><span class="hljs-built_in">K</span><span class="hljs-operator">,</span> <span class="hljs-number">3</span><span class="hljs-operator">%</span> <span class="hljs-variable">used</span> <span class="hljs-punctuation">[</span><span class="hljs-number">0</span><span class="hljs-variable">x00000000ffd00000</span><span class="hljs-operator">,</span><span class="hljs-number">0</span><span class="hljs-variable">x00000000ffd143d8</span><span class="hljs-operator">,</span><span class="hljs-number">0</span><span class="hljs-variable">x00000000fff00000</span><span class="hljs-punctuation">)</span>
+  <span class="hljs-variable">from</span> <span class="hljs-variable">space</span> <span class="hljs-number">512</span><span class="hljs-built_in">K</span><span class="hljs-operator">,</span> <span class="hljs-number">0</span><span class="hljs-operator">%</span> <span class="hljs-variable">used</span> <span class="hljs-punctuation">[</span><span class="hljs-number">0</span><span class="hljs-variable">x00000000fff00000</span><span class="hljs-operator">,</span><span class="hljs-number">0</span><span class="hljs-variable">x00000000fff00000</span><span class="hljs-operator">,</span><span class="hljs-number">0</span><span class="hljs-variable">x00000000fff80000</span><span class="hljs-punctuation">)</span>
+  <span class="hljs-variable">to</span>   <span class="hljs-variable">space</span> <span class="hljs-number">512</span><span class="hljs-built_in">K</span><span class="hljs-operator">,</span> <span class="hljs-number">0</span><span class="hljs-operator">%</span> <span class="hljs-variable">used</span> <span class="hljs-punctuation">[</span><span class="hljs-number">0</span><span class="hljs-variable">x00000000fff80000</span><span class="hljs-operator">,</span><span class="hljs-number">0</span><span class="hljs-variable">x00000000fff80000</span><span class="hljs-operator">,</span><span class="hljs-number">0</span><span class="hljs-variable">x0000000100000000</span><span class="hljs-punctuation">)</span>
+ <span class="hljs-variable">ParOldGen</span>       <span class="hljs-variable">total</span> <span class="hljs-number">7168</span><span class="hljs-built_in">K</span><span class="hljs-operator">,</span> <span class="hljs-variable">used</span> <span class="hljs-number">630</span><span class="hljs-built_in">K</span> <span class="hljs-punctuation">[</span><span class="hljs-number">0</span><span class="hljs-variable">x00000000ff600000</span><span class="hljs-operator">,</span> <span class="hljs-number">0</span><span class="hljs-variable">x00000000ffd00000</span><span class="hljs-operator">,</span> <span class="hljs-number">0</span><span class="hljs-variable">x00000000ffd00000</span><span class="hljs-punctuation">)</span>
+  <span class="hljs-variable">object</span> <span class="hljs-variable">space</span> <span class="hljs-number">7168</span><span class="hljs-built_in">K</span><span class="hljs-operator">,</span> <span class="hljs-number">8</span><span class="hljs-operator">%</span> <span class="hljs-variable">used</span> <span class="hljs-punctuation">[</span><span class="hljs-number">0</span><span class="hljs-variable">x00000000ff600000</span><span class="hljs-operator">,</span><span class="hljs-number">0</span><span class="hljs-variable">x00000000ff69dbd0</span><span class="hljs-operator">,</span><span class="hljs-number">0</span><span class="hljs-variable">x00000000ffd00000</span><span class="hljs-punctuation">)</span>
+ <span class="hljs-variable">Metaspace</span>       <span class="hljs-variable">used</span> <span class="hljs-number">3510</span><span class="hljs-built_in">K</span><span class="hljs-operator">,</span> <span class="hljs-variable">capacity</span> <span class="hljs-number">4500</span><span class="hljs-built_in">K</span><span class="hljs-operator">,</span> <span class="hljs-variable">committed</span> <span class="hljs-number">4864</span><span class="hljs-built_in">K</span><span class="hljs-operator">,</span> <span class="hljs-variable">reserved</span> <span class="hljs-number">1056768</span><span class="hljs-built_in">K</span>
+  <span class="hljs-variable">class</span> <span class="hljs-variable">space</span>    <span class="hljs-variable">used</span> <span class="hljs-number">389</span><span class="hljs-built_in">K</span><span class="hljs-operator">,</span> <span class="hljs-variable">capacity</span> <span class="hljs-number">392</span><span class="hljs-built_in">K</span><span class="hljs-operator">,</span> <span class="hljs-variable">committed</span> <span class="hljs-number">512</span><span class="hljs-built_in">K</span><span class="hljs-operator">,</span> <span class="hljs-variable">reserved</span> <span class="hljs-number">1048576</span><span class="hljs-built_in">K</span></code></pre></div>
+
+<p>问题发生的原因：</p>
+<p>因为们通过 -Xms10m  和 -Xmx10m 只给Java堆栈设置了10M的空间，但是创建了50M的对象，因此就会出现空间不足，而导致出错</p>
+<p>同时在垃圾收集的时候，我们看到有两个对象：GC 和 Full GC</p>
+<h5 id="6-4-GC垃圾收集"><a href="#6-4-GC垃圾收集" class="headerlink" title="6.4 GC垃圾收集"></a>6.4 GC垃圾收集</h5><p>GC在新生区</p>
+<div class="code-wrapper"><pre><code class="hljs json">[GC (Allocation Failure) [PSYoungGen: <span class="hljs-number">1972</span>K-&gt;<span class="hljs-number">504</span>K(<span class="hljs-number">2560</span>K)] <span class="hljs-number">1972</span>K-&gt;<span class="hljs-number">740</span>K(<span class="hljs-number">9728</span>K), <span class="hljs-number">0.0156109</span> secs] [Times: user=<span class="hljs-number">0.00</span> sys=<span class="hljs-number">0.00</span>, real=<span class="hljs-number">0.03</span> secs]</code></pre></div>
+
+<p>GC (Allocation Failure)：表示分配失败，那么就需要触发年轻代空间中的内容被回收</p>
+<div class="code-wrapper"><pre><code class="hljs mathematica"><span class="hljs-punctuation">[</span><span class="hljs-variable">PSYoungGen</span><span class="hljs-operator">:</span> <span class="hljs-number">1972</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">504</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">2560</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <span class="hljs-number">1972</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">740</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">9728</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-operator">,</span> <span class="hljs-number">0.0156109</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span></code></pre></div>
+
+<p>参数对应的图为：</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200323124000865.png" alt="image-20200323124000865"></p>
+<h5 id="6-6-Full-GC垃圾回收"><a href="#6-6-Full-GC垃圾回收" class="headerlink" title="6.6 Full GC垃圾回收"></a>6.6 Full GC垃圾回收</h5><p>Full GC大部分发生在养老区</p>
+<div class="code-wrapper"><pre><code class="hljs mathematica"><span class="hljs-punctuation">[</span><span class="hljs-built_in">Full</span> <span class="hljs-variable">GC</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">Allocation</span> <span class="hljs-built_in">Failure</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">PSYoungGen</span><span class="hljs-operator">:</span> <span class="hljs-number">0</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">0</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">2560</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">ParOldGen</span><span class="hljs-operator">:</span> <span class="hljs-number">648</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">630</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">7168</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <span class="hljs-number">648</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">630</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">9728</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-operator">,</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">Metaspace</span><span class="hljs-operator">:</span> <span class="hljs-number">3467</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">3467</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">1056768</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span><span class="hljs-operator">,</span> <span class="hljs-number">0.0058502</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">[</span><span class="hljs-built_in">Times</span><span class="hljs-operator">:</span> <span class="hljs-variable">user</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span> <span class="hljs-variable">sys</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span><span class="hljs-operator">,</span> <span class="hljs-variable">real</span><span class="hljs-operator">=</span><span class="hljs-number">0.01</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span></code></pre></div>
+
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200323125839653.png" alt="image-20200323125839653"></p>
+<p>规律：</p>
+<div class="code-wrapper"><pre><code class="hljs clojure">[名称： GC前内存占用 -&gt; GC后内存占用 (该区内存总大小)]</code></pre></div>
+
+<p>当我们出现了老年代都扛不住的时候，就会出现OOM异常</p>
+<h5 id="6-7-XX-SurvivorRatio"><a href="#6-7-XX-SurvivorRatio" class="headerlink" title="6.7 -XX:SurvivorRatio"></a>6.7 -XX:SurvivorRatio</h5><p>调节新生代中 eden 和 S0、S1的空间比例，默认为 -XX:SuriviorRatio=8，Eden:S0:S1 = 8:1:1</p>
+<p>加入设置成 -XX:SurvivorRatio=4，则为 Eden:S0:S1 = 4:1:1</p>
+<p>SurvivorRatio值就是设置eden区的比例占多少，S0和S1相同</p>
+<p>Java堆从GC的角度还可以细分为：新生代（Eden区，From Survivor区合To Survivor区）和老年代</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200323130442088.png" alt="image-20200323130442088"></p>
+<ul>
+<li>eden、SurvivorFrom复制到SurvivorTo，年龄 + 1</li>
+</ul>
+<p>首先，当Eden区满的时候会触发第一次GC，把还活着的对象拷贝到SurvivorFrom去，当Eden区再次触发GC的时候会扫描Eden区合From区域，对这两个区域进行垃圾回收，经过这次回收后还存活的对象，则直接复制到To区域（如果对象的年龄已经到达老年的标准，则赋值到老年代区），通知把这些对象的年龄 + 1</p>
+<ul>
+<li>清空eden、SurvivorFrom</li>
+</ul>
+<p>然后，清空eden，SurvivorFrom中的对象，也即复制之后有交换，谁空谁是to</p>
+<ul>
+<li>SurvivorTo和SurvivorFrom互换</li>
+</ul>
+<p>最后，SurvivorTo和SurvivorFrom互换，原SurvivorTo成为下一次GC时的SurvivorFrom区，部分对象会在From和To区域中复制来复制去，如此交换15次（由JVM参数MaxTenuringThreshold决定，这个参数默认为15），最终如果还是存活，就存入老年代</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200323150946414.png" alt="image-20200323150946414"></p>
+<h5 id="6-8-XX-NewRatio（了解）"><a href="#6-8-XX-NewRatio（了解）" class="headerlink" title="6.8 -XX:NewRatio（了解）"></a>6.8 -XX:NewRatio（了解）</h5><p>配置年轻代new 和老年代old 在堆结构的占比</p>
+<p>默认： -XX:NewRatio=2 新生代占1，老年代2，年轻代占整个堆的1/3</p>
+<p>-XX:NewRatio=4：新生代占1，老年代占4，年轻代占整个堆的1/5，NewRadio值就是设置老年代的占比，剩下的1个新生代</p>
+<p>新生代特别小，会造成频繁的进行GC收集</p>
+<h5 id="6-9-XX-MaxTenuringThreshold"><a href="#6-9-XX-MaxTenuringThreshold" class="headerlink" title="6.9 -XX:MaxTenuringThreshold"></a>6.9 -XX:MaxTenuringThreshold</h5><p>设置垃圾最大年龄，SurvivorTo和SurvivorFrom互换，原SurvivorTo成为下一次GC时的SurvivorFrom区，部分对象会在From和To区域中复制来复制去，如此交换15次（由JVM参数MaxTenuringThreshold决定，这个参数默认为15），最终如果还是存活，就存入老年代</p>
+<p>这里就是调整这个次数的，默认是15，并且设置的值 在 0~15之间</p>
+<p>查看默认进入老年代年龄：jinfo -flag MaxTenuringThreshold 17344</p>
+<p>-XX:MaxTenuringThreshold=0：设置垃圾最大年龄。如果设置为0的话，则年轻对象不经过Survivor区，直接进入老年代。对于年老代比较多的应用，可以提高效率。如果将此值设置为一个较大的值，则年轻代对象会在Survivor区进行多次复制，这样可以增加对象再年轻代的存活时间，增加在年轻代即被回收的概念</p>
+<h3 id="2-3-Java中的引用"><a href="#2-3-Java中的引用" class="headerlink" title="2.3 Java中的引用"></a>2.3 Java中的引用</h3><h4 id="1-前言-4"><a href="#1-前言-4" class="headerlink" title="1 前言"></a>1 前言</h4><p>在原来的时候，我们谈到一个类的实例化</p>
+<div class="code-wrapper"><pre><code class="hljs java">Person p = <span class="hljs-keyword">new</span> Person()</code></pre></div>
+
+<p>在等号的左边，就是一个对象的引用，存储在栈中</p>
+<p>而等号右边，就是实例化的对象，存储在堆中</p>
+<p>其实这样的一个引用关系，就被称为强引用</p>
+<h4 id="2-整体架构"><a href="#2-整体架构" class="headerlink" title="2 整体架构"></a>2 整体架构</h4><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200323155120778.png" alt="image-20200323155120778"></p>
+<h4 id="3-强引用"><a href="#3-强引用" class="headerlink" title="3 强引用"></a>3 强引用</h4><p>当内存不足的时候，JVM开始垃圾回收，对于强引用的对象，就算是出现了OOM也不会对该对象进行回收，打死也不回收~！</p>
+<p>强引用是我们最常见的普通对象引用，只要还有一个强引用指向一个对象，就能表明对象还“活着”，垃圾收集器不会碰这种对象。在Java中最常见的就是强引用，把一个对象赋给一个引用变量，这个引用变量就是一个强引用。当一个对象被强引用变量引用时，它处于可达状态，它是不可能被垃圾回收机制回收的，即使该对象以后永远都不会被用到，JVM也不会回收，因此强引用是造成Java内存泄漏的主要原因之一。</p>
+<p>对于一个普通的对象，如果没有其它的引用关系，只要超过了引用的作用于或者显示地将相应（强）引用赋值为null，一般可以认为就是可以被垃圾收集的了（当然具体回收时机还是要看垃圾回收策略）</p>
+<p>强引用小例子：</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 强引用</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StrongReferenceDemo</span> </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-comment">// 这样定义的默认就是强应用</span>
+        Object obj1 = <span class="hljs-keyword">new</span> Object();
+
+        <span class="hljs-comment">// 使用第二个引用，指向刚刚创建的Object对象</span>
+        Object obj2 = obj1;
+
+        <span class="hljs-comment">// 置空</span>
+        obj1 = <span class="hljs-keyword">null</span>;
+
+        <span class="hljs-comment">// 垃圾回收</span>
+        System.gc();
+
+        System.out.println(obj1);
+
+        System.out.println(obj2);
+    &#125;
+&#125;</code></pre></div>
+
+<p>输出结果我们能够发现，即使 obj1 被设置成了null，然后调用gc进行回收，但是也没有回收实例出来的对象，obj2还是能够指向该地址，也就是说垃圾回收器，并没有将该对象进行垃圾回收</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">null</span>
+java.lang.Object@14ae5a5</code></pre></div>
+
+<h4 id="4-软引用"><a href="#4-软引用" class="headerlink" title="4 软引用"></a>4 软引用</h4><p>软引用是一种相对弱化了一些的引用，需要用Java.lang.ref.SoftReference类来实现，可以让对象豁免一些垃圾收集，对于只有软引用的对象来讲：</p>
+<ul>
+<li>当系统内存充足时，它不会被回收</li>
+<li>当系统内存不足时，它会被回收</li>
+</ul>
+<p>软引用通常在对内存敏感的程序中，比如高速缓存就用到了软引用，内存够用 的时候就保留，不够用就回收</p>
+<p>具体使用</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 软引用</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SoftReferenceDemo</span> </span>&#123;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 内存够用的时候</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">softRefMemoryEnough</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-comment">// 创建一个强应用</span>
+        Object o1 = <span class="hljs-keyword">new</span> Object();
+        <span class="hljs-comment">// 创建一个软引用</span>
+        SoftReference&lt;Object&gt; softReference = <span class="hljs-keyword">new</span> SoftReference&lt;&gt;(o1);
+        System.out.println(o1);
+        System.out.println(softReference.get());
+
+        o1 = <span class="hljs-keyword">null</span>;
+        <span class="hljs-comment">// 手动GC</span>
+        System.gc();
+
+        System.out.println(o1);
+        System.out.println(softReference.get());
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * JVM配置，故意产生大对象并配置小的内存，让它的内存不够用了导致OOM，看软引用的回收情况</span>
+<span class="hljs-comment">     * -Xms5m -Xmx5m -XX:+PrintGCDetails</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">softRefMemoryNoEnough</span><span class="hljs-params">()</span> </span>&#123;
+
+        System.out.println(<span class="hljs-string">&quot;========================&quot;</span>);
+        <span class="hljs-comment">// 创建一个强应用</span>
+        Object o1 = <span class="hljs-keyword">new</span> Object();
+        <span class="hljs-comment">// 创建一个软引用</span>
+        SoftReference&lt;Object&gt; softReference = <span class="hljs-keyword">new</span> SoftReference&lt;&gt;(o1);
+        System.out.println(o1);
+        System.out.println(softReference.get());
+
+        o1 = <span class="hljs-keyword">null</span>;
+
+        <span class="hljs-comment">// 模拟OOM自动GC</span>
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-comment">// 创建30M的大对象</span>
+            <span class="hljs-keyword">byte</span>[] bytes = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">30</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>];
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            e.printStackTrace();
+        &#125; <span class="hljs-keyword">finally</span> &#123;
+            System.out.println(o1);
+            System.out.println(softReference.get());
+        &#125;
+
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+
+        softRefMemoryEnough();
+
+        softRefMemoryNoEnough();
+    &#125;
+&#125;
+</code></pre></div>
+
+<p>我们写了两个方法，一个是内存够用的时候，一个是内存不够用的时候</p>
+<p>我们首先查看内存够用的时候，首先输出的是 o1 和 软引用的 softReference，我们都能够看到值</p>
+<p>然后我们把o1设置为null，执行手动GC后，我们发现softReference的值还存在，说明内存充足的时候，软引用的对象不会被回收</p>
+<div class="code-wrapper"><pre><code class="hljs java">java.lang.Object@14ae5a5
+java.lang.Object@14ae5a5
+
+[GC (System.gc()) [PSYoungGen: 1396K-&gt;504K(1536K)] 1504K-&gt;732K(5632K), <span class="hljs-number">0.0007842</span> secs] [Times: user=<span class="hljs-number">0.00</span> sys=<span class="hljs-number">0.00</span>, real=<span class="hljs-number">0.00</span> secs] 
+[<span class="hljs-function">Full <span class="hljs-title">GC</span> <span class="hljs-params">(System.gc()</span>) [PSYoungGen: 504K-&gt;0<span class="hljs-title">K</span><span class="hljs-params">(1536K)</span>] [ParOldGen: 228K-&gt;651<span class="hljs-title">K</span><span class="hljs-params">(4096K)</span>] 732K-&gt;651<span class="hljs-title">K</span><span class="hljs-params">(5632K)</span>, [Metaspace: 3480K-&gt;3480<span class="hljs-title">K</span><span class="hljs-params">(1056768K)</span>], 0.0058450 secs] [Times: user</span>=<span class="hljs-number">0.00</span> sys=<span class="hljs-number">0.00</span>, real=<span class="hljs-number">0.01</span> secs] 
+
+<span class="hljs-keyword">null</span>
+java.lang.Object@14ae5a5</code></pre></div>
+
+<p>下面我们看当内存不够的时候，我们使用了JVM启动参数配置，给初始化堆内存为5M</p>
+<div class="code-wrapper"><pre><code class="hljs diff"><span class="hljs-deletion">-Xms5m -Xmx5m -XX:+PrintGCDetails</span></code></pre></div>
+
+<p>但是在创建对象的时候，我们创建了一个30M的大对象</p>
+<div class="code-wrapper"><pre><code class="hljs arduino"><span class="hljs-comment">// 创建30M的大对象</span>
+<span class="hljs-keyword">byte</span>[] bytes = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">30</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>];</code></pre></div>
+
+<p>这就必然会触发垃圾回收机制，这也是中间出现的垃圾回收过程，最后看结果我们发现，o1 和 softReference都被回收了，因此说明，软引用在内存不足的时候，会自动回收</p>
+<div class="code-wrapper"><pre><code class="hljs mathematica"><span class="hljs-variable">java</span><span class="hljs-operator">.</span><span class="hljs-variable">lang</span><span class="hljs-operator">.</span><span class="hljs-variable">Object</span><span class="hljs-operator">@</span><span class="hljs-number">7</span><span class="hljs-variable">f31245a</span>
+<span class="hljs-variable">java</span><span class="hljs-operator">.</span><span class="hljs-variable">lang</span><span class="hljs-operator">.</span><span class="hljs-variable">Object</span><span class="hljs-operator">@</span><span class="hljs-number">7</span><span class="hljs-variable">f31245a</span>
+
+<span class="hljs-punctuation">[</span><span class="hljs-variable">GC</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">Allocation</span> <span class="hljs-built_in">Failure</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">PSYoungGen</span><span class="hljs-operator">:</span> <span class="hljs-number">31</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">160</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">1536</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <span class="hljs-number">682</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">811</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">5632</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-operator">,</span> <span class="hljs-number">0.0003603</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">[</span><span class="hljs-built_in">Times</span><span class="hljs-operator">:</span> <span class="hljs-variable">user</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span> <span class="hljs-variable">sys</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span><span class="hljs-operator">,</span> <span class="hljs-variable">real</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> 
+<span class="hljs-punctuation">[</span><span class="hljs-variable">GC</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">Allocation</span> <span class="hljs-built_in">Failure</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">PSYoungGen</span><span class="hljs-operator">:</span> <span class="hljs-number">160</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">96</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">1536</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <span class="hljs-number">811</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">747</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">5632</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-operator">,</span> <span class="hljs-number">0.0006385</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">[</span><span class="hljs-built_in">Times</span><span class="hljs-operator">:</span> <span class="hljs-variable">user</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span> <span class="hljs-variable">sys</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span><span class="hljs-operator">,</span> <span class="hljs-variable">real</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> 
+<span class="hljs-punctuation">[</span><span class="hljs-built_in">Full</span> <span class="hljs-variable">GC</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">Allocation</span> <span class="hljs-built_in">Failure</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">PSYoungGen</span><span class="hljs-operator">:</span> <span class="hljs-number">96</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">0</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">1536</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">ParOldGen</span><span class="hljs-operator">:</span> <span class="hljs-number">651</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">646</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">4096</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <span class="hljs-number">747</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">646</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">5632</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-operator">,</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">Metaspace</span><span class="hljs-operator">:</span> <span class="hljs-number">3488</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">3488</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">1056768</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span><span class="hljs-operator">,</span> <span class="hljs-number">0.0067976</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">[</span><span class="hljs-built_in">Times</span><span class="hljs-operator">:</span> <span class="hljs-variable">user</span><span class="hljs-operator">=</span><span class="hljs-number">0.02</span> <span class="hljs-variable">sys</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span><span class="hljs-operator">,</span> <span class="hljs-variable">real</span><span class="hljs-operator">=</span><span class="hljs-number">0.01</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> 
+<span class="hljs-punctuation">[</span><span class="hljs-variable">GC</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">Allocation</span> <span class="hljs-built_in">Failure</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">PSYoungGen</span><span class="hljs-operator">:</span> <span class="hljs-number">0</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">0</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">1536</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <span class="hljs-number">646</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">646</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">5632</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-operator">,</span> <span class="hljs-number">0.0004024</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">[</span><span class="hljs-built_in">Times</span><span class="hljs-operator">:</span> <span class="hljs-variable">user</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span> <span class="hljs-variable">sys</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span><span class="hljs-operator">,</span> <span class="hljs-variable">real</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> 
+<span class="hljs-punctuation">[</span><span class="hljs-built_in">Full</span> <span class="hljs-variable">GC</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">Allocation</span> <span class="hljs-built_in">Failure</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">PSYoungGen</span><span class="hljs-operator">:</span> <span class="hljs-number">0</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">0</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">1536</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">ParOldGen</span><span class="hljs-operator">:</span> <span class="hljs-number">646</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">627</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">4096</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <span class="hljs-number">646</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">627</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">5632</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-operator">,</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">Metaspace</span><span class="hljs-operator">:</span> <span class="hljs-number">3488</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">3488</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">1056768</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span><span class="hljs-operator">,</span> <span class="hljs-number">0.0065506</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">[</span><span class="hljs-built_in">Times</span><span class="hljs-operator">:</span> <span class="hljs-variable">user</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span> <span class="hljs-variable">sys</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span><span class="hljs-operator">,</span> <span class="hljs-variable">real</span><span class="hljs-operator">=</span><span class="hljs-number">0.01</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> 
+
+<span class="hljs-variable">null</span>
+<span class="hljs-variable">null</span></code></pre></div>
+
+<h4 id="5-弱引用"><a href="#5-弱引用" class="headerlink" title="5 弱引用"></a>5 弱引用</h4><p>不管内存是否够，只要有GC操作就会进行回收</p>
+<p>弱引用需要用 <code>java.lang.ref.WeakReference</code> 类来实现，它比软引用生存期更短</p>
+<p>对于只有弱引用的对象来说，只要垃圾回收机制一运行，不管JVM的内存空间是否足够，都会回收该对象占用的空间。</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 弱引用</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WeakReferenceDemo</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        Object o1 = <span class="hljs-keyword">new</span> Object();
+        WeakReference&lt;Object&gt; weakReference = <span class="hljs-keyword">new</span> WeakReference&lt;&gt;(o1);
+        System.out.println(o1);
+        System.out.println(weakReference.get());
+        o1 = <span class="hljs-keyword">null</span>;
+        System.gc();
+        System.out.println(o1);
+        System.out.println(weakReference.get());
+    &#125;
+&#125;</code></pre></div>
+
+<p>我们看结果，能够发现，我们并没有制造出OOM内存溢出，而只是调用了一下GC操作，垃圾回收就把它给收集了</p>
+<div class="code-wrapper"><pre><code class="hljs mathematica"><span class="hljs-variable">java</span><span class="hljs-operator">.</span><span class="hljs-variable">lang</span><span class="hljs-operator">.</span><span class="hljs-variable">Object</span><span class="hljs-operator">@</span><span class="hljs-number">14</span><span class="hljs-variable">ae5a5</span>
+<span class="hljs-variable">java</span><span class="hljs-operator">.</span><span class="hljs-variable">lang</span><span class="hljs-operator">.</span><span class="hljs-variable">Object</span><span class="hljs-operator">@</span><span class="hljs-number">14</span><span class="hljs-variable">ae5a5</span>
+
+<span class="hljs-punctuation">[</span><span class="hljs-variable">GC</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">System</span><span class="hljs-operator">.</span><span class="hljs-variable">gc</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">PSYoungGen</span><span class="hljs-operator">:</span> <span class="hljs-number">5246</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">808</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">76288</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <span class="hljs-number">5246</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">816</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">251392</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-operator">,</span> <span class="hljs-number">0.0008236</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">[</span><span class="hljs-built_in">Times</span><span class="hljs-operator">:</span> <span class="hljs-variable">user</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span> <span class="hljs-variable">sys</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span><span class="hljs-operator">,</span> <span class="hljs-variable">real</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> 
+<span class="hljs-punctuation">[</span><span class="hljs-built_in">Full</span> <span class="hljs-variable">GC</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">System</span><span class="hljs-operator">.</span><span class="hljs-variable">gc</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">PSYoungGen</span><span class="hljs-operator">:</span> <span class="hljs-number">808</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">0</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">76288</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">ParOldGen</span><span class="hljs-operator">:</span> <span class="hljs-number">8</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">675</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">175104</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <span class="hljs-number">816</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">675</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">251392</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-operator">,</span> <span class="hljs-punctuation">[</span><span class="hljs-variable">Metaspace</span><span class="hljs-operator">:</span> <span class="hljs-number">3494</span><span class="hljs-built_in">K</span><span class="hljs-operator">-&gt;</span><span class="hljs-number">3494</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">(</span><span class="hljs-number">1056768</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span><span class="hljs-operator">,</span> <span class="hljs-number">0.0035953</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">[</span><span class="hljs-built_in">Times</span><span class="hljs-operator">:</span> <span class="hljs-variable">user</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span> <span class="hljs-variable">sys</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span><span class="hljs-operator">,</span> <span class="hljs-variable">real</span><span class="hljs-operator">=</span><span class="hljs-number">0.00</span> <span class="hljs-variable">secs</span><span class="hljs-punctuation">]</span> 
+
+<span class="hljs-variable">null</span>
+<span class="hljs-variable">null</span></code></pre></div>
+
+<h4 id="6-软引用和弱引用的使用场景"><a href="#6-软引用和弱引用的使用场景" class="headerlink" title="6 软引用和弱引用的使用场景"></a>6 软引用和弱引用的使用场景</h4><p>场景：假如有一个应用需要读取大量的本地图片</p>
+<ul>
+<li>如果每次读取图片都从硬盘读取则会严重影响性能</li>
+<li>如果一次性全部加载到内存中，又可能造成内存溢出</li>
+</ul>
+<p>此时使用软引用可以解决这个问题</p>
+<p>设计思路：使用HashMap来保存图片的路径和相应图片对象关联的软引用之间的映射关系，在内存不足时，JVM会自动回收这些缓存图片对象所占的空间，从而有效地避免了OOM的问题</p>
+<div class="code-wrapper"><pre><code class="hljs java">Map&lt;String, SoftReference&lt;String&gt;&gt; imageCache = <span class="hljs-keyword">new</span> HashMap&lt;String, SoftReference&lt;Bitmap&gt;&gt;();</code></pre></div>
+
+<h5 id="WeakHashMap是什么？"><a href="#WeakHashMap是什么？" class="headerlink" title="WeakHashMap是什么？"></a>WeakHashMap是什么？</h5><p>比如一些常常和底层打交道的，mybatis等，底层都应用到了WeakHashMap</p>
+<p>WeakHashMap和HashMap类似，只不过它的Key是使用了弱引用的，也就是说，当执行GC的时候，HashMap中的key会进行回收，下面我们使用例子来测试一下</p>
+<p>我们使用了两个方法，一个是普通的HashMap方法</p>
+<p>我们输入一个Key-Value键值对，然后让它的key置空，然后在查看结果</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">myHashMap</span><span class="hljs-params">()</span> </span>&#123;
+    Map&lt;Integer, String&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+    Integer key = <span class="hljs-keyword">new</span> Integer(<span class="hljs-number">1</span>);
+    String value = <span class="hljs-string">&quot;HashMap&quot;</span>;
+
+    map.put(key, value);
+    System.out.println(map);
+
+    key = <span class="hljs-keyword">null</span>;
+
+    System.gc();
+
+    System.out.println(map);
+&#125;</code></pre></div>
+
+<p>第二个是使用了WeakHashMap，完整代码如下</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * WeakHashMap</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WeakHashMapDemo</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        myHashMap();
+        System.out.println(<span class="hljs-string">&quot;==========&quot;</span>);
+        myWeakHashMap();
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">myHashMap</span><span class="hljs-params">()</span> </span>&#123;
+        Map&lt;Integer, String&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+        Integer key = <span class="hljs-keyword">new</span> Integer(<span class="hljs-number">1</span>);
+        String value = <span class="hljs-string">&quot;HashMap&quot;</span>;
+
+        map.put(key, value);
+        System.out.println(map);
+
+        key = <span class="hljs-keyword">null</span>;
+
+        System.gc();
+
+        System.out.println(map);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">myWeakHashMap</span><span class="hljs-params">()</span> </span>&#123;
+        Map&lt;Integer, String&gt; map = <span class="hljs-keyword">new</span> WeakHashMap&lt;&gt;();
+        Integer key = <span class="hljs-keyword">new</span> Integer(<span class="hljs-number">1</span>);
+        String value = <span class="hljs-string">&quot;WeakHashMap&quot;</span>;
+
+        map.put(key, value);
+        System.out.println(map);
+
+        key = <span class="hljs-keyword">null</span>;
+
+        System.gc();
+
+        System.out.println(map);
+    &#125;
+&#125;</code></pre></div>
+
+<p>最后输出结果为：</p>
+<div class="code-wrapper"><pre><code class="hljs java">&#123;<span class="hljs-number">1</span>=HashMap&#125;
+&#123;<span class="hljs-number">1</span>=HashMap&#125;
+==========
+&#123;<span class="hljs-number">1</span>=WeakHashMap&#125;
+&#123;&#125;</code></pre></div>
+
+<p>从这里我们看到，对于普通的HashMap来说，key置空并不会影响，HashMap的键值对，因为这个属于强引用，不会被垃圾回收。</p>
+<p>但是WeakHashMap，在进行GC操作后，弱引用的就会被回收</p>
+<h4 id="7-虚引用"><a href="#7-虚引用" class="headerlink" title="7 虚引用"></a>7 虚引用</h4><h5 id="7-1-概念"><a href="#7-1-概念" class="headerlink" title="7.1 概念"></a>7.1 概念</h5><p>虚引用又称为幽灵引用，需要<code>java.lang.ref.PhantomReference</code> 类来实现</p>
+<p>顾名思义，就是形同虚设，与其他几种引用都不同，虚引用并不会决定对象的生命周期。</p>
+<p>如果一个对象持有虚引用，那么它就和没有任何引用一样，在任何时候都可能被垃圾回收器回收，它不能单独使用也不能通过它访问对象，虚引用必须和引用队列ReferenceQueue联合使用。</p>
+<p>虚引用的主要作用和跟踪对象被垃圾回收的状态，仅仅是提供一种确保对象被finalize以后，做某些事情的机制。</p>
+<p>PhantomReference的get方法总是返回null，因此无法访问对象的引用对象。其意义在于说明一个对象已经进入finalization阶段，可以被gc回收，用来实现比finalization机制更灵活的回收操作</p>
+<p>换句话说，设置虚引用关联的唯一目的，就是在这个对象被收集器回收的时候，收到一个系统通知或者后续添加进一步的处理，Java技术允许使用finalize()方法在垃圾收集器将对象从内存中清除出去之前，做必要的清理工作</p>
+<p>这个就相当于Spring AOP里面的后置通知</p>
+<h5 id="7-2-场景"><a href="#7-2-场景" class="headerlink" title="7.2 场景"></a>7.2 场景</h5><p>一般用于在回收时候做通知相关操作</p>
+<h4 id="8-引用队列-ReferenceQueue"><a href="#8-引用队列-ReferenceQueue" class="headerlink" title="8 引用队列 ReferenceQueue"></a>8 引用队列 ReferenceQueue</h4><p>软引用，弱引用，虚引用在回收之前，需要在引用队列保存一下</p>
+<p>我们在初始化的弱引用或者虚引用的时候，可以传入一个引用队列</p>
+<div class="code-wrapper"><pre><code class="hljs java">Object o1 = <span class="hljs-keyword">new</span> Object();
+
+<span class="hljs-comment">// 创建引用队列</span>
+ReferenceQueue&lt;Object&gt; referenceQueue = <span class="hljs-keyword">new</span> ReferenceQueue&lt;&gt;();
+
+<span class="hljs-comment">// 创建一个弱引用</span>
+WeakReference&lt;Object&gt; weakReference = <span class="hljs-keyword">new</span> WeakReference&lt;&gt;(o1, referenceQueue);</code></pre></div>
+
+<p>那么在进行GC回收的时候，弱引用和虚引用的对象都会被回收，但是在回收之前，它会被送至引用队列中</p>
+<p>完整代码如下：</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 虚引用</span>
+<span class="hljs-comment"> *</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PhantomReferenceDemo</span> </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+
+        Object o1 = <span class="hljs-keyword">new</span> Object();
+
+        <span class="hljs-comment">// 创建引用队列</span>
+        ReferenceQueue&lt;Object&gt; referenceQueue = <span class="hljs-keyword">new</span> ReferenceQueue&lt;&gt;();
+
+        <span class="hljs-comment">// 创建一个弱引用</span>
+        WeakReference&lt;Object&gt; weakReference = <span class="hljs-keyword">new</span> WeakReference&lt;&gt;(o1, referenceQueue);
+
+        <span class="hljs-comment">// 创建一个弱引用</span>
+<span class="hljs-comment">//        PhantomReference&lt;Object&gt; weakReference = new PhantomReference&lt;&gt;(o1, referenceQueue);</span>
+
+        System.out.println(o1);
+        System.out.println(weakReference.get());
+        <span class="hljs-comment">// 取队列中的内容</span>
+        System.out.println(referenceQueue.poll());
+
+        o1 = <span class="hljs-keyword">null</span>;
+        System.gc();
+        System.out.println(<span class="hljs-string">&quot;执行GC操作&quot;</span>);
+
+        <span class="hljs-keyword">try</span> &#123;
+            TimeUnit.SECONDS.sleep(<span class="hljs-number">2</span>);
+        &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;
+            e.printStackTrace();
+        &#125;
+
+        System.out.println(o1);
+        System.out.println(weakReference.get());
+        <span class="hljs-comment">// 取队列中的内容</span>
+        System.out.println(referenceQueue.poll());
+
+    &#125;
+&#125;</code></pre></div>
+
+<p>运行结果</p>
+<div class="code-wrapper"><pre><code class="hljs angelscript">java.lang.<span class="hljs-symbol">Object@</span><span class="hljs-number">14</span>ae5a5
+java.lang.<span class="hljs-symbol">Object@</span><span class="hljs-number">14</span>ae5a5
+<span class="hljs-literal">null</span>
+执行GC操作
+<span class="hljs-literal">null</span>
+<span class="hljs-literal">null</span>
+java.lang.<span class="hljs-built_in">ref</span>.<span class="hljs-symbol">WeakReference@</span><span class="hljs-number">7f</span>3124</code></pre></div>
+
+<p>从这里我们能看到，在进行垃圾回收后，我们弱引用对象，也被设置成null，但是在队列中还能够导出该引用的实例，这就说明在回收之前，该弱引用的实例被放置引用队列中了，我们可以通过引用队列进行一些后置操作</p>
+<h4 id="9-GCRoots和四大引用小总结"><a href="#9-GCRoots和四大引用小总结" class="headerlink" title="9 GCRoots和四大引用小总结"></a>9 GCRoots和四大引用小总结</h4><ul>
+<li><p>红色部分在垃圾回收之外，也就是强引用的</p>
+</li>
+<li><p>蓝色部分：属于软引用，在内存不够的时候，才回收</p>
+</li>
+<li><p>虚引用和弱引用：每次垃圾回收的时候，都会被干掉，但是它在干掉之前还会存在引用队列中，我们可以通过引用队列进行一些通知机制</p>
+</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200324123829937.png" alt="image-20200324123829937"></p>
+<h3 id="2-4-Java内存溢出OOM"><a href="#2-4-Java内存溢出OOM" class="headerlink" title="2.4 Java内存溢出OOM"></a>2.4 Java内存溢出OOM</h3><h4 id="1-经典错误"><a href="#1-经典错误" class="headerlink" title="1 经典错误"></a>1 经典错误</h4><p>JVM中常见的两个错误</p>
+<p>StackoverFlowError ：栈溢出</p>
+<p>OutofMemoryError: java heap space：堆溢出</p>
+<p>除此之外，还有以下的错误</p>
+<ul>
+<li>java.lang.StackOverflowError</li>
+<li>java.lang.OutOfMemoryError：java heap space</li>
+<li>java.lang.OutOfMemoryError：GC overhead limit exceeeded</li>
+<li>java.lang.OutOfMemoryError：Direct buffer memory</li>
+<li>java.lang.OutOfMemoryError：unable to create new native thread</li>
+<li>java.lang.OutOfMemoryError：Metaspace</li>
+</ul>
+<h4 id="2-架构"><a href="#2-架构" class="headerlink" title="2 架构"></a>2 架构</h4><p>OutOfMemoryError和StackOverflowError是属于Error，不是Exception</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200324144802828.png" alt="image-20200324144802828"></p>
+<h4 id="3-StackoverFlowError"><a href="#3-StackoverFlowError" class="headerlink" title="3 StackoverFlowError"></a>3 StackoverFlowError</h4><p>堆栈溢出，我们有最简单的一个递归调用，就会造成堆栈溢出，也就是深度的方法调用</p>
+<p>栈一般是512K，不断的深度调用，直到栈被撑破</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StackOverflowErrorDemo</span> </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        stackOverflowError();
+    &#125;
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 栈一般是512K，不断的深度调用，直到栈被撑破</span>
+<span class="hljs-comment">     * Exception in thread &quot;main&quot; java.lang.StackOverflowError</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">stackOverflowError</span><span class="hljs-params">()</span> </span>&#123;
+        stackOverflowError();
+    &#125;
+&#125;</code></pre></div>
+
+<p>运行结果</p>
+<div class="code-wrapper"><pre><code class="hljs java">Exception in thread <span class="hljs-string">&quot;main&quot;</span> java.lang.StackOverflowError
+	at com.moxi.interview.study.oom.StackOverflowErrorDemo.stackOverflowError(StackOverflowErrorDemo.java:<span class="hljs-number">17</span>)</code></pre></div>
+
+<h4 id="4-OutOfMemoryError"><a href="#4-OutOfMemoryError" class="headerlink" title="4 OutOfMemoryError"></a>4 OutOfMemoryError</h4><h5 id="4-1-java-heap-space"><a href="#4-1-java-heap-space" class="headerlink" title="4.1 java heap space"></a>4.1 java heap space</h5><p>创建了很多对象，导致堆空间不够存储</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Java堆内存不足</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JavaHeapSpaceDemo</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+
+        <span class="hljs-comment">// 堆空间的大小 -Xms10m -Xmx10m</span>
+        <span class="hljs-comment">// 创建一个 80M的字节数组</span>
+        <span class="hljs-keyword">byte</span> [] bytes = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">80</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>];
+    &#125;
+&#125;</code></pre></div>
+
+<p>我们创建一个80M的数组，会直接出现Java heap space</p>
+<div class="code-wrapper"><pre><code class="hljs java">Exception in thread <span class="hljs-string">&quot;main&quot;</span> java.lang.OutOfMemoryError: Java heap space</code></pre></div>
+
+<h5 id="4-2-GC-overhead-limit-exceeded"><a href="#4-2-GC-overhead-limit-exceeded" class="headerlink" title="4.2 GC overhead limit exceeded"></a>4.2 GC overhead limit exceeded</h5><p>GC回收时间过长时会抛出OutOfMemoryError，过长的定义是，超过了98%的时间用来做GC，并且回收了不到2%的堆内存</p>
+<p>连续多次GC都只回收了不到2%的极端情况下，才会抛出。假设不抛出GC overhead limit 错误会造成什么情况呢？</p>
+<p>那就是GC清理的这点内存很快会再次被填满，迫使GC再次执行，这样就形成了恶性循环，CPU的使用率一直都是100%，而GC却没有任何成果。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200324150646260.png" alt="image-20200324150646260"></p>
+<p>代码演示：</p>
+<p>为了更快的达到效果，我们首先需要设置JVM启动参数</p>
+<div class="code-wrapper"><pre><code class="hljs java">-Xms10m -Xmx10m -XX:+PrintGCDetails -XX:MaxDirectMemorySize=5m</code></pre></div>
+
+<p>这个异常出现的步骤就是，我们不断的像list中插入String对象，直到启动GC回收</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * GC 回收超时</span>
+<span class="hljs-comment"> * JVM参数配置: -Xms10m -Xmx10m -XX:+PrintGCDetails -XX:MaxDirectMemorySize=5m</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GCOverheadLimitDemo</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;
+        List&lt;String&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-keyword">while</span>(<span class="hljs-keyword">true</span>) &#123;
+                list.add(String.valueOf(++i).intern());
+            &#125;
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            System.out.println(<span class="hljs-string">&quot;***************i:&quot;</span> + i);
+            e.printStackTrace();
+            <span class="hljs-keyword">throw</span> e;
+        &#125; <span class="hljs-keyword">finally</span> &#123;
+
+        &#125;
+
+    &#125;
+&#125;</code></pre></div>
+
+<p>运行结果</p>
+<div class="code-wrapper"><pre><code class="hljs java">[<span class="hljs-function">Full <span class="hljs-title">GC</span> <span class="hljs-params">(Ergonomics)</span> [PSYoungGen: 2047K-&gt;2047<span class="hljs-title">K</span><span class="hljs-params">(2560K)</span>] [ParOldGen: 7106K-&gt;7106<span class="hljs-title">K</span><span class="hljs-params">(7168K)</span>] 9154K-&gt;9154<span class="hljs-title">K</span><span class="hljs-params">(9728K)</span>, [Metaspace: 3504K-&gt;3504<span class="hljs-title">K</span><span class="hljs-params">(1056768K)</span>], 0.0311093 secs] [Times: user</span>=<span class="hljs-number">0.13</span> sys=<span class="hljs-number">0.00</span>, real=<span class="hljs-number">0.03</span> secs] 
+[<span class="hljs-function">Full <span class="hljs-title">GC</span> <span class="hljs-params">(Ergonomics)</span> [PSYoungGen: 2047K-&gt;0<span class="hljs-title">K</span><span class="hljs-params">(2560K)</span>] [ParOldGen: 7136K-&gt;667<span class="hljs-title">K</span><span class="hljs-params">(7168K)</span>] 9184K-&gt;667<span class="hljs-title">K</span><span class="hljs-params">(9728K)</span>, [Metaspace: 3540K-&gt;3540<span class="hljs-title">K</span><span class="hljs-params">(1056768K)</span>], 0.0058093 secs] [Times: user</span>=<span class="hljs-number">0.00</span> sys=<span class="hljs-number">0.00</span>, real=<span class="hljs-number">0.01</span> secs] 
+Heap
+ PSYoungGen      total 2560K, used 114K [<span class="hljs-number">0x00000000ffd00000</span>, <span class="hljs-number">0x0000000100000000</span>, <span class="hljs-number">0x0000000100000000</span>)
+  eden space 2048K, <span class="hljs-number">5</span>% used [<span class="hljs-number">0x00000000ffd00000</span>,<span class="hljs-number">0x00000000ffd1c878</span>,<span class="hljs-number">0x00000000fff00000</span>)
+  from space 512K, <span class="hljs-number">0</span>% used [<span class="hljs-number">0x00000000fff80000</span>,<span class="hljs-number">0x00000000fff80000</span>,<span class="hljs-number">0x0000000100000000</span>)
+  to   space 512K, <span class="hljs-number">0</span>% used [<span class="hljs-number">0x00000000fff00000</span>,<span class="hljs-number">0x00000000fff00000</span>,<span class="hljs-number">0x00000000fff80000</span>)
+ ParOldGen       total 7168K, used 667K [<span class="hljs-number">0x00000000ff600000</span>, <span class="hljs-number">0x00000000ffd00000</span>, <span class="hljs-number">0x00000000ffd00000</span>)
+  object space 7168K, <span class="hljs-number">9</span>% used [<span class="hljs-number">0x00000000ff600000</span>,<span class="hljs-number">0x00000000ff6a6ff8</span>,<span class="hljs-number">0x00000000ffd00000</span>)
+ Metaspace       used 3605K, capacity 4540K, committed 4864K, reserved 1056768K
+  <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">space</span>    <span class="hljs-title">used</span> 399<span class="hljs-title">K</span>, <span class="hljs-title">capacity</span> 428<span class="hljs-title">K</span>, <span class="hljs-title">committed</span> 512<span class="hljs-title">K</span>, <span class="hljs-title">reserved</span> 1048576<span class="hljs-title">K</span></span>
+<span class="hljs-class">  </span>
+<span class="hljs-class"> </span>
+Exception in thread &quot;main&quot; java.lang.OutOfMemoryError: GC overhead limit exceeded
+	at java.lang.Integer.toString(Integer.java:<span class="hljs-number">403</span>)
+	at java.lang.String.valueOf(String.java:<span class="hljs-number">3099</span>)
+	at com.moxi.interview.study.oom.GCOverheadLimitDemo.main(GCOverheadLimitDemo.java:<span class="hljs-number">18</span>)</code></pre></div>
+
+<p>我们能够看到 多次Full GC，并没有清理出空间，在多次执行GC操作后，就抛出异常 GC overhead limit</p>
+<h5 id="4-3-Direct-buffer-memory"><a href="#4-3-Direct-buffer-memory" class="headerlink" title="4.3 Direct buffer memory"></a>4.3 Direct buffer memory</h5><p>Netty + NIO：这是由于NIO引起的</p>
+<p>写NIO程序的时候经常会使用ByteBuffer来读取或写入数据，这是一种基于通道(Channel) 与 缓冲区(Buffer)的I/O方式，它可以使用Native 函数库直接分配堆外内存，然后通过一个存储在Java堆里面的DirectByteBuffer对象作为这块内存的引用进行操作。这样能在一些场景中显著提高性能，因为避免了在Java堆和Native堆中来回复制数据。</p>
+<p>ByteBuffer.allocate(capability)：第一种方式是分配JVM堆内存，属于GC管辖范围，由于需要拷贝所以速度相对较慢</p>
+<p>ByteBuffer.allocteDirect(capability)：第二种方式是分配OS本地内存，不属于GC管辖范围，由于不需要内存的拷贝，所以速度相对较快</p>
+<p>但如果不断分配本地内存，堆内存很少使用，那么JVM就不需要执行GC，DirectByteBuffer对象就不会被回收，这时候怼内存充足，但本地内存可能已经使用光了，再次尝试分配本地内存就会出现OutOfMemoryError，那么程序就奔溃了。</p>
+<p>一句话说：本地内存不足，但是堆内存充足的时候，就会出现这个问题</p>
+<p>我们使用 -XX:MaxDirectMemorySize=5m 配置能使用的堆外物理内存为5M</p>
+<div class="code-wrapper"><pre><code class="hljs java">-Xms10m -Xmx10m -XX:+PrintGCDetails -XX:MaxDirectMemorySize=5m</code></pre></div>
+
+<p>然后我们申请一个6M的空间</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 只设置了5M的物理内存使用，但是却分配 6M的空间</span>
+ByteBuffer bb = ByteBuffer.allocateDirect(<span class="hljs-number">6</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>);</code></pre></div>
+
+<p>这个时候，运行就会出现问题了</p>
+<div class="code-wrapper"><pre><code class="hljs java">配置的maxDirectMemory：<span class="hljs-number">5.</span>0MB
+[GC (System.gc()) [PSYoungGen: 2030K-&gt;488K(2560K)] 2030K-&gt;796K(9728K), <span class="hljs-number">0.0008326</span> secs] [Times: user=<span class="hljs-number">0.00</span> sys=<span class="hljs-number">0.00</span>, real=<span class="hljs-number">0.00</span> secs] 
+[<span class="hljs-function">Full <span class="hljs-title">GC</span> <span class="hljs-params">(System.gc()</span>) [PSYoungGen: 488K-&gt;0<span class="hljs-title">K</span><span class="hljs-params">(2560K)</span>] [ParOldGen: 308K-&gt;712<span class="hljs-title">K</span><span class="hljs-params">(7168K)</span>] 796K-&gt;712<span class="hljs-title">K</span><span class="hljs-params">(9728K)</span>, [Metaspace: 3512K-&gt;3512<span class="hljs-title">K</span><span class="hljs-params">(1056768K)</span>], 0.0052052 secs] [Times: user</span>=<span class="hljs-number">0.09</span> sys=<span class="hljs-number">0.00</span>, real=<span class="hljs-number">0.00</span> secs] 
+Exception in thread <span class="hljs-string">&quot;main&quot;</span> java.lang.OutOfMemoryError: Direct buffer memory
+	at java.nio.Bits.reserveMemory(Bits.java:<span class="hljs-number">693</span>)
+	at java.nio.DirectByteBuffer.&lt;init&gt;(DirectByteBuffer.java:<span class="hljs-number">123</span>)
+	at java.nio.ByteBuffer.allocateDirect(ByteBuffer.java:<span class="hljs-number">311</span>)
+	at com.moxi.interview.study.oom.DIrectBufferMemoryDemo.main(DIrectBufferMemoryDemo.java:<span class="hljs-number">19</span>)</code></pre></div>
+
+<h5 id="4-4-unable-to-create-new-native-thread"><a href="#4-4-unable-to-create-new-native-thread" class="headerlink" title="4.4 unable to create new native thread"></a>4.4 unable to create new native thread</h5><p>不能够创建更多的新的线程了，也就是说创建线程的上限达到了</p>
+<p>在高并发场景的时候，会应用到</p>
+<p>高并发请求服务器时，经常会出现如下异常<code>java.lang.OutOfMemoryError:unable to create new native thread</code>，准确说该native thread异常与对应的平台有关</p>
+<p>导致原因：</p>
+<ul>
+<li>应用创建了太多线程，一个应用进程创建多个线程，超过系统承载极限</li>
+<li>服务器并不允许你的应用程序创建这么多线程，linux系统默认运行单个进程可以创建的线程为1024个，如果应用创建超过这个数量，就会报 <code>java.lang.OutOfMemoryError:unable to create new native thread</code></li>
+</ul>
+<p>解决方法：</p>
+<ol>
+<li>想办法降低你应用程序创建线程的数量，分析应用是否真的需要创建这么多线程，如果不是，改代码将线程数降到最低</li>
+<li>对于有的应用，确实需要创建很多线程，远超过linux系统默认1024个线程限制，可以通过修改linux服务器配置，扩大linux默认限制</li>
+</ol>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 无法创建更多的线程</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UnableCreateNewThreadDemo</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; ; i++) &#123;
+            System.out.println(<span class="hljs-string">&quot;************** i = &quot;</span> + i);
+            <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;
+                <span class="hljs-keyword">try</span> &#123;
+                    TimeUnit.SECONDS.sleep(Integer.MAX_VALUE);
+                &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;
+                    e.printStackTrace();
+                &#125;
+            &#125;, String.valueOf(i)).start();
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>这个时候，就会出现下列的错误，线程数大概在 900多个</p>
+<div class="code-wrapper"><pre><code class="hljs java">Exception in thread <span class="hljs-string">&quot;main&quot;</span> java.lang.OutOfMemoryError: unable to cerate <span class="hljs-keyword">new</span> <span class="hljs-keyword">native</span> thread</code></pre></div>
+
+<p>如何查看线程数</p>
+<div class="code-wrapper"><pre><code class="hljs java">ulimit -u</code></pre></div>
+
+<h5 id="4-5-Metaspace"><a href="#4-5-Metaspace" class="headerlink" title="4.5 Metaspace"></a>4.5 Metaspace</h5><p>元空间内存不足，Matespace元空间应用的是本地内存</p>
+<p><code>-XX:MetaspaceSize</code> 的处理化大小为20M</p>
+<h6 id="元空间是什么"><a href="#元空间是什么" class="headerlink" title="元空间是什么"></a>元空间是什么</h6><p>元空间就是我们的方法区，存放的是类模板，类信息，常量池等</p>
+<p>Metaspace是方法区HotSpot中的实现，它与持久代最大的区别在于：Metaspace并不在虚拟内存中，而是使用本地内存，也即在java8中，class metadata（the virtual machines internal presentation of Java class），被存储在叫做Matespace的native memory</p>
+<p>永久代（java8后背元空间Metaspace取代了）存放了以下信息：</p>
+<ul>
+<li>虚拟机加载的类信息</li>
+<li>常量池</li>
+<li>静态变量</li>
+<li>即时编译后的代码</li>
+</ul>
+<p>模拟Metaspace空间溢出，我们不断生成类 往元空间里灌输，类占据的空间总会超过Metaspace指定的空间大小</p>
+<h6 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h6><p>在模拟异常生成时候，因为初始化的元空间为20M，因此我们使用JVM参数调整元空间的大小，为了更好的效果</p>
+<div class="code-wrapper"><pre><code class="hljs java">-XX:MetaspaceSize=8m -XX:MaxMetaspaceSize=8m</code></pre></div>
+
+<p>代码如下：</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 元空间溢出</span>
+<span class="hljs-comment"> *</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MetaspaceOutOfMemoryDemo</span> </span>&#123;
+
+    <span class="hljs-comment">// 静态类</span>
+    <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OOMTest</span> </span>&#123;
+
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">final</span> String[] args)</span> </span>&#123;
+        <span class="hljs-comment">// 模拟计数多少次以后发生异常</span>
+        <span class="hljs-keyword">int</span> i =<span class="hljs-number">0</span>;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) &#123;
+                i++;
+                <span class="hljs-comment">// 使用Spring的动态字节码技术</span>
+                Enhancer enhancer = <span class="hljs-keyword">new</span> Enhancer();
+                enhancer.setSuperclass(OOMTest.class);
+                enhancer.setUseCache(<span class="hljs-keyword">false</span>);
+                enhancer.setCallback(<span class="hljs-keyword">new</span> MethodInterceptor() &#123;
+                    <span class="hljs-meta">@Override</span>
+                    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">intercept</span><span class="hljs-params">(Object o, Method method, Object[] objects, MethodProxy methodProxy)</span> <span class="hljs-keyword">throws</span> Throwable </span>&#123;
+                        <span class="hljs-keyword">return</span> methodProxy.invokeSuper(o, args);
+                    &#125;
+                &#125;);
+            &#125;
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            System.out.println(<span class="hljs-string">&quot;发生异常的次数:&quot;</span> + i);
+            e.printStackTrace();
+        &#125; <span class="hljs-keyword">finally</span> &#123;
+
+        &#125;
+
+    &#125;
+&#125;</code></pre></div>
+
+<p>会出现以下错误：</p>
+<div class="code-wrapper"><pre><code class="hljs java">发生异常的次数: <span class="hljs-number">201</span>
+java.lang.OutOfMemoryError:Metaspace</code></pre></div>
+
+<h3 id="2-5-垃圾收集器"><a href="#2-5-垃圾收集器" class="headerlink" title="2.5 垃圾收集器"></a>2.5 垃圾收集器</h3><h4 id="1-GC垃圾回收算法和垃圾收集器关系"><a href="#1-GC垃圾回收算法和垃圾收集器关系" class="headerlink" title="1 GC垃圾回收算法和垃圾收集器关系"></a>1 GC垃圾回收算法和垃圾收集器关系</h4><blockquote>
+<p>天上飞的理念，要有落地的实现（垃圾收集器就是GC垃圾回收算法的实现）</p>
+<p>GC算法是内存回收的方法论，垃圾收集器就是算法的落地实现</p>
+</blockquote>
+<p>GC算法主要有以下几种</p>
+<ul>
+<li>引用计数（几乎不用，无法解决循环引用的问题）</li>
+<li>复制拷贝（用于新生代）</li>
+<li>标记清除（用于老年代）</li>
+<li>标记整理（用于老年代）</li>
+</ul>
+<p>因为目前为止还没有完美的收集器出现，更没有万能的收集器，只是针对具体应用最合适的收集器，进行分代收集（那个代用什么收集器）</p>
+<h4 id="2-四种主要的垃圾收集器"><a href="#2-四种主要的垃圾收集器" class="headerlink" title="2 四种主要的垃圾收集器"></a>2 四种主要的垃圾收集器</h4><ul>
+<li>Serial：串行回收  <code>-XX:+UseSeriallGC</code></li>
+<li>Parallel：并行回收  <code>-XX:+UseParallelGC</code></li>
+<li>CMS：并发标记清除</li>
+<li>G1</li>
+<li>ZGC：（java 11 出现的）</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200325084453631.png" alt="image-20200325084453631"></p>
+<h5 id="2-1-Serial"><a href="#2-1-Serial" class="headerlink" title="2.1 Serial"></a>2.1 Serial</h5><p>串行垃圾回收器，它为单线程环境设计且值使用一个线程进行垃圾收集，会暂停所有的用户线程，只有当垃圾回收完成时，才会重新唤醒主线程继续执行。所以不适合服务器环境</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200325085320683.png" alt="image-20200325085320683"></p>
+<h5 id="2-2-Parallel"><a href="#2-2-Parallel" class="headerlink" title="2.2 Parallel"></a>2.2 Parallel</h5><p>并行垃圾收集器，多个垃圾收集线程并行工作，此时用户线程也是阻塞的，适用于科学计算 / 大数据处理等弱交互场景，也就是说Serial 和 Parallel其实是类似的，不过是多了几个线程进行垃圾收集，但是主线程都会被暂停，但是并行垃圾收集器处理时间，肯定比串行的垃圾收集器要更短</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200325085729428.png" alt="image-20200325085729428"></p>
+<h5 id="2-3-CMS"><a href="#2-3-CMS" class="headerlink" title="2.3 CMS"></a>2.3 CMS</h5><p>并发标记清除，用户线程和垃圾收集线程同时执行（不一定是并行，可能是交替执行），不需要停顿用户线程，互联网公司都在使用，适用于响应时间有要求的场景。并发是可以有交互的，也就是说可以一边进行收集，一边执行应用程序。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200325090858921.png" alt="image-20200325090858921"></p>
+<h5 id="2-4-G1"><a href="#2-4-G1" class="headerlink" title="2.4 G1"></a>2.4 G1</h5><p>G1垃圾回收器将堆内存分割成不同区域，然后并发的进行垃圾回收</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200325093222711.png" alt="image-20200325093222711"></p>
+<h4 id="3-垃圾收集器总结"><a href="#3-垃圾收集器总结" class="headerlink" title="3 垃圾收集器总结"></a>3 垃圾收集器总结</h4><p>注意：并行垃圾回收在单核CPU下可能会更慢</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200325091619082.png" alt="image-20200325091619082"></p>
+<h4 id="4-查看默认垃圾收集器"><a href="#4-查看默认垃圾收集器" class="headerlink" title="4 查看默认垃圾收集器"></a>4 查看默认垃圾收集器</h4><p>使用下面JVM命令，查看配置的初始参数</p>
+<div class="code-wrapper"><pre><code class="hljs diff"><span class="hljs-deletion">-XX:+PrintCommandLineFlags</span></code></pre></div>
+
+<p>然后运行一个程序后，能够看到它的一些初始配置信息</p>
+<div class="code-wrapper"><pre><code class="hljs routeros">-XX:<span class="hljs-attribute">InitialHeapSize</span>=266376000 -XX:<span class="hljs-attribute">MaxHeapSize</span>=4262016000 -XX:+PrintCommandLineFlags -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:-UseLargePagesIndividualAllocation -XX:+UseParallelGC</code></pre></div>
+
+<p>移动到最后一句，就能看到 <code>-XX:+UseParallelGC</code> 说明使用的是并行垃圾回收</p>
+<div class="code-wrapper"><pre><code class="hljs diff"><span class="hljs-deletion">-XX:+UseParallelGC</span></code></pre></div>
+
+<h4 id="5-默认垃圾收集器有哪些"><a href="#5-默认垃圾收集器有哪些" class="headerlink" title="5 默认垃圾收集器有哪些"></a>5 默认垃圾收集器有哪些</h4><p>Java中一共有7大垃圾收集器</p>
+<ul>
+<li>UserSerialGC：串行垃圾收集器</li>
+<li>UserParallelGC：并行垃圾收集器</li>
+<li>UseConcMarkSweepGC：（CMS）并发标记清除</li>
+<li>UseParNewGC：年轻代的并行垃圾回收器</li>
+<li>UseParallelOldGC：老年代的并行垃圾回收器</li>
+<li>UseG1GC：G1垃圾收集器</li>
+<li>UserSerialOldGC：串行老年代垃圾收集器（已经被移除）</li>
+</ul>
+<p>底层源码</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200325100653829-16280006180638.png" alt="image-20200325100653829"></p>
+<h4 id="6-各垃圾收集器的使用范围"><a href="#6-各垃圾收集器的使用范围" class="headerlink" title="6 各垃圾收集器的使用范围"></a>6 各垃圾收集器的使用范围</h4><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200325101451849.png" alt="image-20200325101451849"></p>
+<p>新生代使用的：</p>
+<ul>
+<li>Serial Copying： UserSerialGC，串行垃圾回收器</li>
+<li>Parallel Scavenge：UserParallelGC，并行垃圾收集器</li>
+<li>ParNew：UserParNewGC，新生代并行垃圾收集器</li>
+</ul>
+<p>老年区使用的：</p>
+<ul>
+<li>Serial Old：UseSerialOldGC，老年代串行垃圾收集器</li>
+<li>Parallel Compacting（Parallel Old）：UseParallelOldGC，老年代并行垃圾收集器</li>
+<li>CMS：UseConcMarkSwepp，并行标记清除垃圾收集器</li>
+</ul>
+<p>各区都能使用的：</p>
+<p>G1：UseG1GC，G1垃圾收集器</p>
+<p>垃圾收集器就来具体实现这些GC算法并实现内存回收，不同厂商，不同版本的虚拟机实现差别很大，HotSpot中包含的收集器如下图所示：</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200325102329216.png" alt="image-20200325102329216"></p>
+<h4 id="7-部分参数说明"><a href="#7-部分参数说明" class="headerlink" title="7 部分参数说明"></a>7 部分参数说明</h4><ul>
+<li>DefNew：Default New Generation</li>
+<li>Tenured：Old</li>
+<li>ParNew：Parallel New Generation</li>
+<li>PSYoungGen：Parallel Scavenge</li>
+<li>ParOldGen：Parallel Old Generation</li>
+</ul>
+<h4 id="8-Java中的Server和Client模式"><a href="#8-Java中的Server和Client模式" class="headerlink" title="8  Java中的Server和Client模式"></a>8  Java中的Server和Client模式</h4><p>使用范围：一般使用Server模式，Client模式基本不会使用</p>
+<p>操作系统</p>
+<ul>
+<li>32位的Window操作系统，不论硬件如何都默认使用Client的JVM模式</li>
+<li>32位的其它操作系统，2G内存同时有2个cpu以上用Server模式，低于该配置还是Client模式</li>
+<li>64位只有Server模式</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200325175208231.png" alt="image-20200325175208231"></p>
+<h4 id="9-新生代下的垃圾收集器"><a href="#9-新生代下的垃圾收集器" class="headerlink" title="9 新生代下的垃圾收集器"></a>9 新生代下的垃圾收集器</h4><h5 id="9-1-串行GC-Serial"><a href="#9-1-串行GC-Serial" class="headerlink" title="9.1 串行GC(Serial)"></a>9.1 串行GC(Serial)</h5><p>串行GC（Serial）（Serial Copying）</p>
+<p>是一个单线程单线程的收集器，在进行垃圾收集时候，必须暂停其他所有的工作线程直到它收集结束。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200325175704604.png" alt="image-20200325175704604"></p>
+<p>串行收集器是最古老，最稳定以及效率高的收集器，只使用一个线程去回收但其在垃圾收集过程中可能会产生较长的停顿(Stop-The-World 状态)。 虽然在收集垃圾过程中需要暂停所有其它的工作线程，但是它简单高效，对于限定单个CPU环境来说，没有线程交互的开销可以获得最高的单线程垃圾收集效率，因此Serial垃圾收集器依然是Java虚拟机运行在Client模式下默认的新生代垃圾收集器</p>
+<p>对应JVM参数是：-XX:+UseSerialGC</p>
+<p>开启后会使用：Serial(Young区用) + Serial Old(Old区用) 的收集器组合</p>
+<p>表示：新生代、老年代都会使用串行回收收集器，新生代使用复制算法，老年代使用标记-整理算法</p>
+<div class="code-wrapper"><pre><code class="hljs diff"><span class="hljs-deletion">-Xms10m -Xmx10m -XX:PrintGCDetails -XX:+PrintConmandLineFlags -XX:+UseSerialGC</span></code></pre></div>
+
+<h5 id="9-2-并行GC-ParNew"><a href="#9-2-并行GC-ParNew" class="headerlink" title="9.2 并行GC(ParNew)"></a>9.2 并行GC(ParNew)</h5><p>并行收集器，使用多线程进行垃圾回收，在垃圾收集，会Stop-the-World暂停其他所有的工作线程直到它收集结束</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200325191328733.png" alt="image-20200325191328733"></p>
+<p>ParNew收集器其实就是Serial收集器新生代的并行多线程版本，最常见的应用场景时配合老年代的CMS GC工作，其余的行为和Serial收集器完全一样，ParNew垃圾收集器在垃圾收集过程中同样也要暂停所有其他的工作线程。它是很多Java虚拟机运行在Server模式下新生代的默认垃圾收集器。</p>
+<p>常见对应JVM参数：-XX:+UseParNewGC     启动ParNew收集器，只影响新生代的收集，不影响老年代</p>
+<p>开启上述参数后，会使用：ParNew（Young区用） + Serial Old的收集器组合，新生代使用复制算法，老年代采用标记-整理算法</p>
+<div class="code-wrapper"><pre><code class="hljs diff"><span class="hljs-deletion">-Xms10m -Xmx10m -XX:PrintGCDetails -XX:+PrintConmandLineFlags -XX:+UseParNewGC</span></code></pre></div>
+
+<p>但是会出现警告，即 ParNew 和 Serial Old 这样搭配，Java8已经不再被推荐</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200325194316660.png" alt="image-20200325194316660"></p>
+<p>备注： -XX:ParallelGCThreads   限制线程数量，默认开启和CPU数目相同的线程数</p>
+<h5 id="9-3-并行回收GC（Parallel）-（Parallel-Scavenge）"><a href="#9-3-并行回收GC（Parallel）-（Parallel-Scavenge）" class="headerlink" title="9.3 并行回收GC（Parallel）/ （Parallel Scavenge）"></a>9.3 并行回收GC（Parallel）/ （Parallel Scavenge）</h5><p>因为Serial 和 ParNew都不推荐使用了，因此现在新生代默认使用的是Parallel Scavenge，也就是新生代和老年代都是使用并行</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200325204437678.png" alt="image-20200325204437678"></p>
+<p>Parallel Scavenge收集器类似ParNew也是一个新生代垃圾收集器，使用复制算法，也是一个并行的多线程的垃圾收集器，俗称吞吐量优先收集器。一句话：串行收集器在新生代和老年代的并行化</p>
+<p>它关注的重点是：</p>
+<p>可控制的吞吐量（Thoughput = 运行用户代码时间 / (运行用户代码时间 + 垃圾收集时间) ），也即比如程序运行100分钟，垃圾收集时间1分钟，吞吐量就是99%。高吞吐量意味着高效利用CPU时间，它多用于在后台运算而不需要太多交互的任务。</p>
+<p>自适应调节策略也是ParallelScavenge收集器与ParNew收集器的一个重要区别。（自适应调节策略：虚拟机会根据当前系统的运行情况收集性能监控信息，动态调整这些参数以提供最合适的停顿时间( -XX:MaxGCPauseMills)）或最大的吞吐量。</p>
+<p>常用JVM参数：-XX:+UseParallelGC 或 -XX:+UseParallelOldGC（可互相激活）使用Parallel Scanvenge收集器</p>
+<p>开启该参数后：新生代使用复制算法，老年代使用标记-整理算法</p>
+<div class="code-wrapper"><pre><code class="hljs diff"><span class="hljs-deletion">-Xms10m -Xmx10m -XX:PrintGCDetails -XX:+PrintConmandLineFlags -XX:+UseParallelGC</span></code></pre></div>
+
+<h4 id="10-老年代下的垃圾收集器"><a href="#10-老年代下的垃圾收集器" class="headerlink" title="10 老年代下的垃圾收集器"></a>10 老年代下的垃圾收集器</h4><h5 id="10-1-串行GC（Serial-Old）-Serial-MSC"><a href="#10-1-串行GC（Serial-Old）-Serial-MSC" class="headerlink" title="10.1 串行GC（Serial Old） / (Serial MSC)"></a>10.1 串行GC（Serial Old） / (Serial MSC)</h5><p>Serial Old是Serial垃圾收集器老年代版本，它同样是一个单线程的收集器，使用标记-整理算法，这个收集器也主要是运行在Client默认的Java虚拟机中默认的老年代垃圾收集器</p>
+<p>在Server模式下，主要有两个用途（了解，版本已经到8及以后）</p>
+<ul>
+<li>在JDK1.5之前版本中与新生代的Parallel Scavenge收集器搭配使用（Parallel Scavenge + Serial Old）</li>
+<li>作为老年代版中使用CMS收集器的后备垃圾收集方案。</li>
+</ul>
+<p>配置方法：</p>
+<div class="code-wrapper"><pre><code class="hljs diff"><span class="hljs-deletion">-Xms10m -Xmx10m -XX:PrintGCDetails -XX:+PrintConmandLineFlags -XX:+UseSerialOldlGC</span></code></pre></div>
+
+<p>该垃圾收集器，目前已经不推荐使用了</p>
+<h5 id="10-2-并行GC（Parallel-Old）-（Parallel-MSC）"><a href="#10-2-并行GC（Parallel-Old）-（Parallel-MSC）" class="headerlink" title="10.2 并行GC（Parallel Old）/ （Parallel MSC）"></a>10.2 并行GC（Parallel Old）/ （Parallel MSC）</h5><p>Parallel Old收集器是Parallel Scavenge的老年代版本，使用多线程的标记-整理算法，Parallel Old收集器在JDK1.6才开始提供。</p>
+<p>在JDK1.6之前，新生代使用ParallelScavenge收集器只能搭配老年代的Serial Old收集器，只能保证新生代的吞吐量优先，无法保证整体的吞吐量。在JDK1.6以前(Parallel Scavenge + Serial Old)</p>
+<p>Parallel Old正是为了在老年代同样提供吞吐量优先的垃圾收集器，如果系统对吞吐量要求比较高，JDK1.8后可以考虑新生代Parallel Scavenge和老年代Parallel Old 收集器的搭配策略。在JDK1.8及后（Parallel Scavenge + Parallel Old）</p>
+<p>JVM常用参数：</p>
+<div class="code-wrapper"><pre><code class="hljs oxygene">-XX +UseParallelOldGC：使用<span class="hljs-keyword">Parallel</span> <span class="hljs-keyword">Old</span>收集器，设置该参数后，新生代<span class="hljs-keyword">Parallel</span>+老年代 <span class="hljs-keyword">Parallel</span> <span class="hljs-keyword">Old</span></code></pre></div>
+
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200325211525152.png" alt="image-20200325211525152"></p>
+<p>使用老年代并行收集器：</p>
+<div class="code-wrapper"><pre><code class="hljs diff"><span class="hljs-deletion">-Xms10m -Xmx10m -XX:PrintGCDetails -XX:+PrintConmandLineFlags -XX:+UseParallelOldlGC</span></code></pre></div>
+
+<h5 id="10-3-并发标记清除GC（CMS）"><a href="#10-3-并发标记清除GC（CMS）" class="headerlink" title="10.3 并发标记清除GC（CMS）"></a>10.3 并发标记清除GC（CMS）</h5><p>CMS收集器（Concurrent Mark Sweep：并发标记清除）是一种以最短回收停顿时间为目标的收集器</p>
+<p>适合应用在互联网或者B/S系统的服务器上，这类应用尤其重视服务器的响应速度，希望系统停顿时间最短。</p>
+<p>CMS非常适合堆内存大，CPU核数多的服务器端应用，也是G1出现之前大型应用的首选收集器。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200325212836441.png" alt="image-20200325212836441"></p>
+<p>Concurrent Mark Sweep：并发标记清除，并发收集低停顿，并发指的是与用户线程一起执行</p>
+<p>开启该收集器的JVM参数： -XX:+UseConcMarkSweepGC  开启该参数后，会自动将 -XX:+UseParNewGC打开，开启该参数后，使用ParNew(young 区用）+ CMS（Old 区用） + Serial Old 的收集器组合，Serial Old将作为CMS出错的后备收集器</p>
+<div class="code-wrapper"><pre><code class="hljs diff"><span class="hljs-deletion">-Xms10m -Xmx10m -XX:+PrintGCDetails -XX:+UseConcMarkSweepGC</span></code></pre></div>
+
+<h6 id="四个步骤"><a href="#四个步骤" class="headerlink" title="四个步骤"></a>四个步骤</h6><ul>
+<li>初始标记（CMS initial mark）<ul>
+<li>只是标记一个GC Roots 能直接关联的对象，速度很快，仍然需要暂停所有的工作线程</li>
+</ul>
+</li>
+<li>并发标记（CMS concurrent mark）和用户线程一起<ul>
+<li>进行GC Roots跟踪过程，和用户线程一起工作，不需要暂停工作线程。主要标记过程，标记全部对象</li>
+</ul>
+</li>
+<li>重新标记（CMS remark）<ul>
+<li>为了修正在并发标记期间，因用户程序继续运行而导致标记产生变动的那一部分对象的标记记录，仍然需要暂停所有的工作线程，由于并发标记时，用户线程依然运行，因此在正式清理前，在做修正</li>
+</ul>
+</li>
+<li>并发清除（CMS concurrent sweep）和用户线程一起<ul>
+<li>清除GC Roots不可达对象，和用户线程一起工作，不需要暂停工作线程。基于标记结果，直接清理对象，由于耗时最长的并发标记和并发清除过程中，垃圾收集线程可以和用户现在一起并发工作，所以总体上来看CMS收集器的内存回收和用户线程是一起并发地执行。</li>
+</ul>
+</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200325215401981-162800094846319.png" alt="image-20200325215401981"></p>
+<p>优点：并发收集低停顿</p>
+<p>缺点：并发执行，对CPU资源压力大，采用的标记清除算法会导致大量碎片</p>
+<p>由于并发进行，CMS在收集与应用线程会同时增加对堆内存的占用，也就是说，CMS必须在老年代堆内存用尽之前完成垃圾回收，否则CMS回收失败时，将触发担保机制，串行老年代收集器将会以STW方式进行一次GC，从而造成较大的停顿时间</p>
+<p>标记清除算法无法整理空间碎片，老年代空间会随着应用时长被逐步耗尽，最后将不得不通过担保机制对堆内存进行压缩，CMS也提供了参数 -XX:CMSFullGCSBeForeCompaction（默认0，即每次都进行内存整理）来指定多少次CMS收集之后，进行一次压缩的Full GC</p>
+<h4 id="11-为什么新生代采用复制算法，老年代采用标整算法"><a href="#11-为什么新生代采用复制算法，老年代采用标整算法" class="headerlink" title="11 为什么新生代采用复制算法，老年代采用标整算法"></a>11 为什么新生代采用复制算法，老年代采用标整算法</h4><h5 id="11-1-新生代使用复制算法"><a href="#11-1-新生代使用复制算法" class="headerlink" title="11.1 新生代使用复制算法"></a>11.1 新生代使用复制算法</h5><p>因为新生代对象的生存时间比较短，80%的都要回收的对象，采用标记-清除算法则内存碎片化比较严重，采用复制算法可以灵活高效，且便与整理空间。</p>
+<h5 id="11-2-老年代采用标记整理"><a href="#11-2-老年代采用标记整理" class="headerlink" title="11.2 老年代采用标记整理"></a>11.2 老年代采用标记整理</h5><p>标记整理算法主要是为了解决标记清除算法存在内存碎片的问题，又解决了复制算法两个Survivor区的问题，因为老年代的空间比较大，不可能采用复制算法，特别占用内存空间</p>
+<h4 id="12-垃圾收集器如何选择"><a href="#12-垃圾收集器如何选择" class="headerlink" title="12 垃圾收集器如何选择"></a>12 垃圾收集器如何选择</h4><h5 id="组合的选择"><a href="#组合的选择" class="headerlink" title="组合的选择"></a>组合的选择</h5><ul>
+<li>单CPU或者小内存，单机程序<ul>
+<li>-XX:+UseSerialGC</li>
+</ul>
+</li>
+<li>多CPU，需要最大的吞吐量，如后台计算型应用<ul>
+<li>-XX:+UseParallelGC（这两个相互激活）</li>
+<li>-XX:+UseParallelOldGC</li>
+</ul>
+</li>
+<li>多CPU，追求低停顿时间，需要快速响应如互联网应用<ul>
+<li>-XX:+UseConcMarkSweepGC</li>
+<li>-XX:+ParNewGC</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">新生代垃圾收集器</th>
+<th align="center">新生代算法</th>
+<th align="center">老年代垃圾收集器</th>
+<th align="center">老年代算法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">-XX:+UseSerialGC</td>
+<td align="center">SerialGC</td>
+<td align="center">复制</td>
+<td align="center">SerialOldGC</td>
+<td align="center">标记整理</td>
+</tr>
+<tr>
+<td align="center">-XX:+UseParNewGC</td>
+<td align="center">ParNew</td>
+<td align="center">复制</td>
+<td align="center">SerialOldGC</td>
+<td align="center">标记整理</td>
+</tr>
+<tr>
+<td align="center">-XX:+UseParallelGC</td>
+<td align="center">Parallel [Scavenge]</td>
+<td align="center">复制</td>
+<td align="center">Parallel Old</td>
+<td align="center">标记整理</td>
+</tr>
+<tr>
+<td align="center">-XX:+UseConcMarkSweepGC</td>
+<td align="center">ParNew</td>
+<td align="center">复制</td>
+<td align="center">CMS + Serial Old的收集器组合，Serial Old作为CMS出错的后备收集器</td>
+<td align="center">标记清除</td>
+</tr>
+<tr>
+<td align="center">-XX:+UseG1GC</td>
+<td align="center">G1整体上采用标记整理算法</td>
+<td align="center">局部复制</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<h4 id="13-G1垃圾收集器"><a href="#13-G1垃圾收集器" class="headerlink" title="13 G1垃圾收集器"></a>13 G1垃圾收集器</h4><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326115120405.png" alt="image-20200326115120405"></p>
+<h5 id="13-1-开启G1垃圾收集器"><a href="#13-1-开启G1垃圾收集器" class="headerlink" title="13.1 开启G1垃圾收集器"></a>13.1 开启G1垃圾收集器</h5><div class="code-wrapper"><pre><code class="hljs diff"><span class="hljs-deletion">-XX:+UseG1GC</span></code></pre></div>
+
+<h5 id="13-2-以前收集器的特点"><a href="#13-2-以前收集器的特点" class="headerlink" title="13.2 以前收集器的特点"></a>13.2 以前收集器的特点</h5><ul>
+<li>年轻代和老年代是各自独立且连续的内存块</li>
+<li>年轻代收集使用单eden + S0 + S1 进行复制算法</li>
+<li>老年代收集必须扫描珍整个老年代区域</li>
+<li>都是以尽可能少而快速地执行GC为设计原则</li>
+</ul>
+<h5 id="13-3-G1是什么"><a href="#13-3-G1是什么" class="headerlink" title="13.3 G1是什么"></a>13.3 G1是什么</h5><p>G1：Garbage-First 收集器，是一款面向服务端应用的收集器，应用在多处理器和大容量内存环境中，在实现高吞吐量的同时，尽可能满足垃圾收集暂停时间的要求。另外，它还具有一下特征：</p>
+<ul>
+<li>像CMS收集器一样，能与应用程序并发执行</li>
+<li>整理空闲空间更快</li>
+<li>需要更多的时间来预测GC停顿时间</li>
+<li>不希望牺牲大量的吞吐量性能</li>
+<li>不需要更大的Java Heap</li>
+</ul>
+<p>G1收集器设计目标是取代CMS收集器，它同CMS相比，在以下方面表现的更出色</p>
+<ul>
+<li>G1是一个有整理内存过程的垃圾收集器，不会产生很多内存碎片。</li>
+<li>G1的Stop The World（STW）更可控，G1在停顿时间上添加了预测机制，用户可以指定期望停顿时间。</li>
+</ul>
+<p>CMS垃圾收集器虽然减少了暂停应用程序的运行时间，但是它还存在着内存碎片问题。于是，为了去除内存碎片问题，同时又保留CMS垃圾收集器低暂停时间的优点，JAVA7发布了一个新的垃圾收集器-G1垃圾收集器</p>
+<p>G1是在2012奶奶才在JDK1.7中可用，Oracle官方计划在JDK9中将G1变成默认的垃圾收集器以替代CMS，它是一款面向服务端应用的收集器，主要应用在多CPU和大内存服务器环境下，极大减少垃圾收集的停顿时间，全面提升服务器的性能，逐步替换Java8以前的CMS收集器</p>
+<p>主要改变时：Eden，Survivor和Tenured等内存区域不再是连续了，而是变成一个个大小一样的region，每个region从1M到32M不等。一个region有可能属于Eden，Survivor或者Tenured内存区域。</p>
+<h5 id="13-4-特点"><a href="#13-4-特点" class="headerlink" title="13.4 特点"></a>13.4 特点</h5><ul>
+<li>G1能充分利用多CPU，多核环境硬件优势，尽量缩短STW</li>
+<li>G1整体上采用标记-整理算法，局部是通过复制算法，不会产生内存碎片</li>
+<li>宏观上看G1之中不再区分年轻代和老年代。把内存划分成多个独立的子区域（Region），可以近似理解为一个围棋的棋盘</li>
+<li>G1收集器里面将整个内存区域都混合在一起了，但其本身依然在小范围内要进行年轻代和老年代的区分，保留了新生代和老年代，但他们不再是物理隔离的，而是通过一部分Region的集合且不需要Region是连续的，也就是说依然会采取不同的GC方式来处理不同的区域</li>
+<li>G1虽然也是分代收集器，但整个内存分区不存在物理上的年轻代和老年代的区别，也不需要完全独立的Survivor（to space）堆做复制准备，G1只有逻辑上的分代概念，或者说每个分区都可能随G1的运行在不同代之间前后切换。</li>
+</ul>
+<h5 id="13-5-底层原理"><a href="#13-5-底层原理" class="headerlink" title="13.5 底层原理"></a>13.5 底层原理</h5><p>Region区域化垃圾收集器，化整为零，打破了原来新生区和老年区的壁垒，避免了全内存扫描，只需要按照区域来进行扫描即可。</p>
+<p>区域化内存划片Region，整体遍为了一些列不连续的内存区域，避免了全内存区的GC操作。</p>
+<p>核心思想是将整个堆内存区域分成大小相同的子区域（Region），在JVM启动时会自动设置子区域大小</p>
+<p>在堆的使用上，G1并不要求对象的存储一定是物理上连续的，只要逻辑上连续即可，每个分区也不会固定地为某个代服务，可以按需在年轻代和老年代之间切换。启动时可以通过参数<code>-XX:G1HeapRegionSize=n</code> 可指定分区大小（1MB~32MB，且必须是2的幂），默认将整堆划分为2048个分区。</p>
+<p>大小范围在1MB~32MB，最多能设置2048个区域，也即能够支持的最大内存为：32MB*2048 = 64G内存</p>
+<p>Region区域化垃圾收集器</p>
+<h5 id="13-6-Region区域化垃圾收集器"><a href="#13-6-Region区域化垃圾收集器" class="headerlink" title="13.6 Region区域化垃圾收集器"></a>13.6 Region区域化垃圾收集器</h5><p>G1将新生代、老年代的物理空间划分取消了</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326120105859.png" alt="image-20200326120105859"></p>
+<p>同时对内存进行了区域划分</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326120130427.png" alt="image-20200326120130427"></p>
+<p>G1算法将堆划分为若干个区域（Reign），它仍然属于分代收集器，这些Region的一部分包含新生代，新生代的垃圾收集依然采用暂停所有应用线程的方式，将存活对象拷贝到老年代或者Survivor空间</p>
+<p>这些Region的一部分包含老年代，G1收集器通过将对象从一个区域复制到另外一个区域，完成了清理工作。这就意味着，在正常的处理过程中，G1完成了堆的压缩（至少是部分堆的压缩），这样也就不会有CMS内存碎片的问题存在了。</p>
+<p>在G1中，还有一种特殊的区域，叫做Humongous（巨大的）区域，如果一个对象占用了空间超过了分区容量50%以上，G1收集器就认为这是一个巨型对象，这些巨型对象默认直接分配在老年代，但是如果他是一个短期存在的巨型对象，就会对垃圾收集器造成负面影响，为了解决这个问题，G1划分了一个Humongous区，它用来专门存放巨型对象。如果一个H区装不下一个巨型对象，那么G1会寻找连续的H区来存储，为了能找到连续的H区，有时候不得不启动Full GC。</p>
+<h5 id="13-7-回收步骤"><a href="#13-7-回收步骤" class="headerlink" title="13.7 回收步骤"></a>13.7 回收步骤</h5><p>针对Eden区进行收集，Eden区耗尽后会被触发，主要是小区域收集 + 形成连续的内存块，避免内碎片</p>
+<ul>
+<li>Eden区的数据移动到Survivor区，加入出现Survivor区空间不够，Eden区数据会晋升到Old区</li>
+<li>Survivor区的数据移动到新的Survivor区，部分数据晋升到Old区</li>
+<li>最后Eden区收拾干净了，GC结束，用户的应用程序继续执行</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326121409237.png" alt="image-20200326121409237"></p>
+<p>回收完成后</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326121622208.png" alt="image-20200326121622208"></p>
+<p>小区域收集 + 形成连续的内存块，最后在收集完成后，就会形成连续的内存空间，这样就解决了内存碎片的问题</p>
+<h5 id="13-8-四步过程"><a href="#13-8-四步过程" class="headerlink" title="13.8 四步过程"></a>13.8 四步过程</h5><ul>
+<li>初始标记：只标记GC Roots能直接关联到的对象</li>
+<li>并发标记：进行GC Roots Tracing（链路扫描）的过程</li>
+<li>最终标记：修正并发标记期间，因为程序运行导致标记发生变化的那一部分对象</li>
+<li>筛选回收：根据时间来进行价值最大化回收</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326121914326.png" alt="image-20200326121914326"></p>
+<h5 id="13-9-参数配置"><a href="#13-9-参数配置" class="headerlink" title="13.9 参数配置"></a>13.9 参数配置</h5><p>开发人员仅仅需要申明以下参数即可</p>
+<p>三步归纳：<code>-XX:+UseG1GC  -Xmx32G  -XX:MaxGCPauseMillis=100</code></p>
+<p>-XX:MaxGCPauseMillis=n：最大GC停顿时间单位毫秒，这是个软目标，JVM尽可能停顿小于这个时间</p>
+<h5 id="13-10-G1和CMS比较"><a href="#13-10-G1和CMS比较" class="headerlink" title="13.10 G1和CMS比较"></a>13.10 G1和CMS比较</h5><ul>
+<li>G1不会产生内碎片</li>
+<li>是可以精准控制停顿。该收集器是把整个堆（新生代、老年代）划分成多个固定大小的区域，每次根据允许停顿的时间去收集垃圾最多的区域。</li>
+</ul>
+<h4 id="14SpringBoot结合JVMGC"><a href="#14SpringBoot结合JVMGC" class="headerlink" title="14SpringBoot结合JVMGC"></a>14SpringBoot结合JVMGC</h4><p>启动微服务时候，就可以带上JVM和GC的参数</p>
+<ul>
+<li>IDEA开发完微服务工程</li>
+<li>maven进行clean package</li>
+<li>要求微服务启动的时候，同时配置我们的JVM/GC的调优参数<ul>
+<li>我们就可以根据具体的业务配置我们启动的JVM参数</li>
+</ul>
+</li>
+</ul>
+<p>例如：</p>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">java</span> -Xms<span class="hljs-number">1024</span>m -Xmx<span class="hljs-number">1024</span> -XX:UseG<span class="hljs-number">1</span>GC -jar   xxx.jar</code></pre></div>
 
             </div>
             <hr>
