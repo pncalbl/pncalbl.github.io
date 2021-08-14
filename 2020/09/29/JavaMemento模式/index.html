@@ -235,7 +235,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：4 个月前
+                  本文最后更新于：11 天前
                 
               </p>
             
@@ -243,186 +243,193 @@
               <blockquote>
 <p>  保存对象状态</p>
 </blockquote>
-<h2 id="1-表示Gamer状态的类"><a href="#1-表示Gamer状态的类" class="headerlink" title="1 - 表示Gamer状态的类"></a>1 - 表示Gamer状态的类</h2><div class="code-wrapper"><pre><code>public class Memento &#123;
-    int money;  // 所持金钱
-    ArrayList fruits;   // 获得的水果
+<h2 id="1-表示Gamer状态的类"><a href="#1-表示Gamer状态的类" class="headerlink" title="1 - 表示Gamer状态的类"></a>1 - 表示Gamer状态的类</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Memento</span> </span>&#123;
+    <span class="hljs-keyword">int</span> money;  <span class="hljs-comment">// 所持金钱</span>
+    ArrayList fruits;   <span class="hljs-comment">// 获得的水果</span>
 
-    public int getMoney() &#123; // 获取当前所持有的金钱(narrow interface)
-        return money;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getMoney</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-comment">// 获取当前所持有的金钱(narrow interface)</span>
+        <span class="hljs-keyword">return</span> money;
     &#125;
 
-    Memento(int money) &#123;    // 构造函数
-        this.money = money;
-        this.fruits = new ArrayList();
+    Memento(<span class="hljs-keyword">int</span> money) &#123;    <span class="hljs-comment">// 构造函数</span>
+        <span class="hljs-keyword">this</span>.money = money;
+        <span class="hljs-keyword">this</span>.fruits = <span class="hljs-keyword">new</span> ArrayList();
     &#125;
 
-    void addFruits(String fruit) &#123;  // 添加水果
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">addFruits</span><span class="hljs-params">(String fruit)</span> </span>&#123;  <span class="hljs-comment">// 添加水果</span>
         fruits.add(fruit);
     &#125;
 
-    List getFruits() &#123;  // 获取当前所持有的所有水果(wide interface)
-        return (List)fruits.clone();
+    <span class="hljs-function">List <span class="hljs-title">getFruits</span><span class="hljs-params">()</span> </span>&#123;  <span class="hljs-comment">// 获取当前所持有的所有水果(wide interface)</span>
+        <span class="hljs-keyword">return</span> (List)fruits.clone();
     &#125;
-&#125;</code></pre></div><h2 id="2-表示游戏主人公的类-它会生成Memento的实例"><a href="#2-表示游戏主人公的类-它会生成Memento的实例" class="headerlink" title="2 - 表示游戏主人公的类.它会生成Memento的实例"></a>2 - 表示游戏主人公的类.它会生成Memento的实例</h2><div class="code-wrapper"><pre><code>public class Gamer &#123;
-    private int money;  //  所持金钱
-    private List fruits = new ArrayList&lt;&gt;();  // 获得的水果
-    private Random random = new Random();   // 随机数生成器
-    private static String [] fruitsName = &#123; // 表示水果种类的数组
-            &quot;苹果&quot;, &quot;葡萄&quot;, &quot;香蕉&quot;, &quot;橘子&quot;,
+&#125;</code></pre></div>
+
+<h2 id="2-表示游戏主人公的类-它会生成Memento的实例"><a href="#2-表示游戏主人公的类-它会生成Memento的实例" class="headerlink" title="2 - 表示游戏主人公的类.它会生成Memento的实例"></a>2 - 表示游戏主人公的类.它会生成Memento的实例</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Gamer</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> money;  <span class="hljs-comment">//  所持金钱</span>
+    <span class="hljs-keyword">private</span> List fruits = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();  <span class="hljs-comment">// 获得的水果</span>
+    <span class="hljs-keyword">private</span> Random random = <span class="hljs-keyword">new</span> Random();   <span class="hljs-comment">// 随机数生成器</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> String [] fruitsName = &#123; <span class="hljs-comment">// 表示水果种类的数组</span>
+            <span class="hljs-string">&quot;苹果&quot;</span>, <span class="hljs-string">&quot;葡萄&quot;</span>, <span class="hljs-string">&quot;香蕉&quot;</span>, <span class="hljs-string">&quot;橘子&quot;</span>,
     &#125;;
 
-    public Gamer(int money) &#123;
-        this.money = money;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Gamer</span><span class="hljs-params">(<span class="hljs-keyword">int</span> money)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.money = money;
     &#125;
 
-    public int getMoney() &#123;
-        return money;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getMoney</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> money;
     &#125;
 
-    public void bet() &#123;         // 投掷骰子进行游戏
-        int dice = random.nextInt(6) + 1;   // 骰子结果为1时,增加所持有的金钱.
-        if(dice == 1) &#123;
-            money += 100;
-            System.out.println(&quot;所持金钱增加了.&quot;);
-        &#125; else if (dice == 2) &#123; // 骰子结果为2时,所持金钱减半.
-            money /= 2;
-            System.out.println(&quot;所持金钱减半了.&quot;);
-        &#125; else if (dice == 6) &#123; // 骰子结果为6时,获得水果
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">bet</span><span class="hljs-params">()</span> </span>&#123;         <span class="hljs-comment">// 投掷骰子进行游戏</span>
+        <span class="hljs-keyword">int</span> dice = random.nextInt(<span class="hljs-number">6</span>) + <span class="hljs-number">1</span>;   <span class="hljs-comment">// 骰子结果为1时,增加所持有的金钱.</span>
+        <span class="hljs-keyword">if</span>(dice == <span class="hljs-number">1</span>) &#123;
+            money += <span class="hljs-number">100</span>;
+            System.out.println(<span class="hljs-string">&quot;所持金钱增加了.&quot;</span>);
+        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (dice == <span class="hljs-number">2</span>) &#123; <span class="hljs-comment">// 骰子结果为2时,所持金钱减半.</span>
+            money /= <span class="hljs-number">2</span>;
+            System.out.println(<span class="hljs-string">&quot;所持金钱减半了.&quot;</span>);
+        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (dice == <span class="hljs-number">6</span>) &#123; <span class="hljs-comment">// 骰子结果为6时,获得水果</span>
             String f = getFruit();
-            System.out.println(&quot;获得了水果 (&quot; + f + &quot;).&quot;);
+            System.out.println(<span class="hljs-string">&quot;获得了水果 (&quot;</span> + f + <span class="hljs-string">&quot;).&quot;</span>);
             fruits.add(f);
-        &#125; else &#123;    // 骰子结果为3,4,5则什么都不会发生
-            System.out.println(&quot;什么都没有发生&quot;);
+        &#125; <span class="hljs-keyword">else</span> &#123;    <span class="hljs-comment">// 骰子结果为3,4,5则什么都不会发生</span>
+            System.out.println(<span class="hljs-string">&quot;什么都没有发生&quot;</span>);
         &#125;
     &#125;
 
-    public Memento createMemento() &#123;    // 拍摄快照
-        Memento m = new Memento(money);
-        for (Object fruit : fruits) &#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Memento <span class="hljs-title">createMemento</span><span class="hljs-params">()</span> </span>&#123;    <span class="hljs-comment">// 拍摄快照</span>
+        Memento m = <span class="hljs-keyword">new</span> Memento(money);
+        <span class="hljs-keyword">for</span> (Object fruit : fruits) &#123;
             String f = (String) fruit;
-            if (f.startsWith(&quot;好吃的&quot;)) &#123;  // 只保存好吃的水果
+            <span class="hljs-keyword">if</span> (f.startsWith(<span class="hljs-string">&quot;好吃的&quot;</span>)) &#123;  <span class="hljs-comment">// 只保存好吃的水果</span>
                 m.addFruits((String) f);
             &#125;
         &#125;
-        return m;
+        <span class="hljs-keyword">return</span> m;
     &#125;
 
-    public void restoreMemento(Memento memento) &#123;   // 撤销
-        this.money = memento.money;
-        this.fruits = memento.getFruits();
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">restoreMemento</span><span class="hljs-params">(Memento memento)</span> </span>&#123;   <span class="hljs-comment">// 撤销</span>
+        <span class="hljs-keyword">this</span>.money = memento.money;
+        <span class="hljs-keyword">this</span>.fruits = memento.getFruits();
     &#125;
 
-    @Override
-    public String toString() &#123;
-        return &quot;[money = &quot; + money + &quot;,fruits = &quot; + fruits + &quot;]&quot;;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;[money = &quot;</span> + money + <span class="hljs-string">&quot;,fruits = &quot;</span> + fruits + <span class="hljs-string">&quot;]&quot;</span>;
     &#125;
 
-    private String getFruit() &#123;
-        String prefix = &quot;&quot;;
-        if (random.nextBoolean()) &#123;
-            prefix = &quot;好吃的&quot;;
+    <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getFruit</span><span class="hljs-params">()</span> </span>&#123;
+        String prefix = <span class="hljs-string">&quot;&quot;</span>;
+        <span class="hljs-keyword">if</span> (random.nextBoolean()) &#123;
+            prefix = <span class="hljs-string">&quot;好吃的&quot;</span>;
         &#125;
-        return prefix + fruitsName[random.nextInt(fruitsName.length)];
+        <span class="hljs-keyword">return</span> prefix + fruitsName[random.nextInt(fruitsName.length)];
     &#125;
-&#125;</code></pre></div><h2 id="3-进行游戏的类-它会事先保存Memento的实例-之后会根据需要恢复Gamer的状态"><a href="#3-进行游戏的类-它会事先保存Memento的实例-之后会根据需要恢复Gamer的状态" class="headerlink" title="3 - 进行游戏的类.它会事先保存Memento的实例, 之后会根据需要恢复Gamer的状态"></a>3 - 进行游戏的类.它会事先保存Memento的实例, 之后会根据需要恢复Gamer的状态</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        Gamer gamer = new Gamer(100);   // 最初的金钱数为100
-        Memento memento = gamer.createMemento();    // 保存最初的状态
-        for (int i = 0; i &lt; 100; i++) &#123;
-            System.out.println(&quot;===&quot; + i);  // 显示掷骰子的次数
-            System.out.println(&quot;当前状态: &quot; + gamer);   // 显示主人公当前的状态
+&#125;</code></pre></div>
 
-            gamer.bet();    // 进行游戏
+<h2 id="3-进行游戏的类-它会事先保存Memento的实例-之后会根据需要恢复Gamer的状态"><a href="#3-进行游戏的类-它会事先保存Memento的实例-之后会根据需要恢复Gamer的状态" class="headerlink" title="3 - 进行游戏的类.它会事先保存Memento的实例, 之后会根据需要恢复Gamer的状态"></a>3 - 进行游戏的类.它会事先保存Memento的实例, 之后会根据需要恢复Gamer的状态</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        Gamer gamer = <span class="hljs-keyword">new</span> Gamer(<span class="hljs-number">100</span>);   <span class="hljs-comment">// 最初的金钱数为100</span>
+        Memento memento = gamer.createMemento();    <span class="hljs-comment">// 保存最初的状态</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++) &#123;
+            System.out.println(<span class="hljs-string">&quot;===&quot;</span> + i);  <span class="hljs-comment">// 显示掷骰子的次数</span>
+            System.out.println(<span class="hljs-string">&quot;当前状态: &quot;</span> + gamer);   <span class="hljs-comment">// 显示主人公当前的状态</span>
 
-            System.out.println(&quot;所持金钱为&quot; + gamer.getMoney() + &quot;元&quot;);
-            // 决定如何处理Memento
-            if (gamer.getMoney() &gt; memento.getMoney()) &#123;
-                System.out.println(&quot;    (所持金钱增加了许多,因此保存游戏当前的状态)&quot;);
+            gamer.bet();    <span class="hljs-comment">// 进行游戏</span>
+
+            System.out.println(<span class="hljs-string">&quot;所持金钱为&quot;</span> + gamer.getMoney() + <span class="hljs-string">&quot;元&quot;</span>);
+            <span class="hljs-comment">// 决定如何处理Memento</span>
+            <span class="hljs-keyword">if</span> (gamer.getMoney() &gt; memento.getMoney()) &#123;
+                System.out.println(<span class="hljs-string">&quot;    (所持金钱增加了许多,因此保存游戏当前的状态)&quot;</span>);
                 memento = gamer.createMemento();
-            &#125; else if (gamer.getMoney() &lt; memento.getMoney() / 2) &#123;
-                System.out.println(&quot;   (所持金钱减少了许多,因此将游戏恢复至以前的状态)&quot;);
+            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (gamer.getMoney() &lt; memento.getMoney() / <span class="hljs-number">2</span>) &#123;
+                System.out.println(<span class="hljs-string">&quot;   (所持金钱减少了许多,因此将游戏恢复至以前的状态)&quot;</span>);
                 gamer.restoreMemento(memento);
             &#125;
 
-            // 等待一段时间
-            try &#123;
-                Thread.sleep(1000);
-            &#125;catch (InterruptedException ignored) &#123;
+            <span class="hljs-comment">// 等待一段时间</span>
+            <span class="hljs-keyword">try</span> &#123;
+                Thread.sleep(<span class="hljs-number">1000</span>);
+            &#125;<span class="hljs-keyword">catch</span> (InterruptedException ignored) &#123;
             &#125;
-            System.out.println(&quot;&quot;);
+            System.out.println(<span class="hljs-string">&quot;&quot;</span>);
         &#125;
     &#125;
-&#125;</code></pre></div><h2 id="4-输出示例"><a href="#4-输出示例" class="headerlink" title="4 - 输出示例"></a>4 - 输出示例</h2><div class="code-wrapper"><pre><code>===0
-当前状态: [money = 100,fruits = []]
-什么都没有发生
-所持金钱为100元
+&#125;</code></pre></div>
 
-===1
-当前状态: [money = 100,fruits = []]
+<h2 id="4-输出示例"><a href="#4-输出示例" class="headerlink" title="4 - 输出示例"></a>4 - 输出示例</h2><div class="code-wrapper"><pre><code class="hljs java">===<span class="hljs-number">0</span>
+当前状态: [money = <span class="hljs-number">100</span>,fruits = []]
+什么都没有发生
+所持金钱为<span class="hljs-number">100</span>元
+
+===<span class="hljs-number">1</span>
+当前状态: [money = <span class="hljs-number">100</span>,fruits = []]
 所持金钱减半了.
-所持金钱为50元
+所持金钱为<span class="hljs-number">50</span>元
 
-===2
-当前状态: [money = 50,fruits = []]
+===<span class="hljs-number">2</span>
+当前状态: [money = <span class="hljs-number">50</span>,fruits = []]
 什么都没有发生
-所持金钱为50元
+所持金钱为<span class="hljs-number">50</span>元
 
-===3
-当前状态: [money = 50,fruits = []]
+===<span class="hljs-number">3</span>
+当前状态: [money = <span class="hljs-number">50</span>,fruits = []]
 所持金钱增加了.
-所持金钱为150元
+所持金钱为<span class="hljs-number">150</span>元
     (所持金钱增加了许多,因此保存游戏当前的状态)
 
-===4
-当前状态: [money = 150,fruits = []]
+===<span class="hljs-number">4</span>
+当前状态: [money = <span class="hljs-number">150</span>,fruits = []]
 所持金钱增加了.
-所持金钱为250元
+所持金钱为<span class="hljs-number">250</span>元
     (所持金钱增加了许多,因此保存游戏当前的状态)
 
-===5
-当前状态: [money = 250,fruits = []]
+===<span class="hljs-number">5</span>
+当前状态: [money = <span class="hljs-number">250</span>,fruits = []]
 什么都没有发生
-所持金钱为250元
+所持金钱为<span class="hljs-number">250</span>元
 
-===6
-当前状态: [money = 250,fruits = []]
+===<span class="hljs-number">6</span>
+当前状态: [money = <span class="hljs-number">250</span>,fruits = []]
 什么都没有发生
-所持金钱为250元
+所持金钱为<span class="hljs-number">250</span>元
 
-===7
-当前状态: [money = 250,fruits = []]
+===<span class="hljs-number">7</span>
+当前状态: [money = <span class="hljs-number">250</span>,fruits = []]
 所持金钱减半了.
-所持金钱为125元
+所持金钱为<span class="hljs-number">125</span>元
 
-===8
-当前状态: [money = 125,fruits = []]
+===<span class="hljs-number">8</span>
+当前状态: [money = <span class="hljs-number">125</span>,fruits = []]
 获得了水果(好吃的苹果).
-所持金钱为125元
+所持金钱为<span class="hljs-number">125</span>元
 
-===9
-当前状态: [money = 125,fruits = [好吃的苹果]]
+===<span class="hljs-number">9</span>
+当前状态: [money = <span class="hljs-number">125</span>,fruits = [好吃的苹果]]
 什么都没有发生
-所持金钱为125元
+所持金钱为<span class="hljs-number">125</span>元
 
-===10
-当前状态: [money = 125,fruits = [好吃的苹果]]
+===<span class="hljs-number">10</span>
+当前状态: [money = <span class="hljs-number">125</span>,fruits = [好吃的苹果]]
 所持金钱减半了.
-所持金钱为62元
+所持金钱为<span class="hljs-number">62</span>元
 (所持金钱减少了许多,因此将游戏恢复至以前的状态)
 
 省略
-===49
-当前状态: [money = 525,fruits = [好吃的橘子, 橘子]]
+===<span class="hljs-number">49</span>
+当前状态: [money = <span class="hljs-number">525</span>,fruits = [好吃的橘子, 橘子]]
 什么都没有发生
-所持金钱为525元
+所持金钱为<span class="hljs-number">525</span>元
 
-===50
-当前状态: [money = 525,fruits = [好吃的橘子, 橘子]]
+===<span class="hljs-number">50</span>
+当前状态: [money = <span class="hljs-number">525</span>,fruits = [好吃的橘子, 橘子]]
 所持金钱减半了.
-所持金钱为262元
+所持金钱为<span class="hljs-number">262</span>元
 (所持金钱减少了许多,因此将游戏恢复至以前的状态)
 
-===51</code></pre></div>
+===<span class="hljs-number">51</span></code></pre></div>
+
             </div>
             <hr>
             <div>

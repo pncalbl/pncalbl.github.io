@@ -235,7 +235,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：4 个月前
+                  本文最后更新于：11 天前
                 
               </p>
             
@@ -243,135 +243,145 @@
               <blockquote>
 <p>  组装复杂的实例</p>
 </blockquote>
-<h2 id="1-定义了决定文档结构的方法的抽象类"><a href="#1-定义了决定文档结构的方法的抽象类" class="headerlink" title="1 - 定义了决定文档结构的方法的抽象类"></a>1 - 定义了决定文档结构的方法的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class Builder &#123;
-    public abstract void makeTitle(String title);
-    public abstract void makeString(String str);
-    public abstract void makeItems(String[] items);
-    public abstract void close();
-&#125;</code></pre></div><h2 id="2-编写一个文档的类"><a href="#2-编写一个文档的类" class="headerlink" title="2 - 编写一个文档的类"></a>2 - 编写一个文档的类</h2><div class="code-wrapper"><pre><code>public class Director &#123;
-    private Builder builder;
+<h2 id="1-定义了决定文档结构的方法的抽象类"><a href="#1-定义了决定文档结构的方法的抽象类" class="headerlink" title="1 - 定义了决定文档结构的方法的抽象类"></a>1 - 定义了决定文档结构的方法的抽象类</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Builder</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title">makeTitle</span><span class="hljs-params">(String title)</span></span>;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title">makeString</span><span class="hljs-params">(String str)</span></span>;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title">makeItems</span><span class="hljs-params">(String[] items)</span></span>;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title">close</span><span class="hljs-params">()</span></span>;
+&#125;</code></pre></div>
 
-    public Director(Builder builder)&#123;
-        this.builder = builder;
+<h2 id="2-编写一个文档的类"><a href="#2-编写一个文档的类" class="headerlink" title="2 - 编写一个文档的类"></a>2 - 编写一个文档的类</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Director</span> </span>&#123;
+    <span class="hljs-keyword">private</span> Builder builder;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Director</span><span class="hljs-params">(Builder builder)</span></span>&#123;
+        <span class="hljs-keyword">this</span>.builder = builder;
     &#125;
 
-    public void construct()&#123;
-        builder.makeTitle(&quot;Greeting&quot;);
-        builder.makeString(&quot;从早上至下午&quot;);
-        builder.makeItems(new String[] &#123;
-                &quot;早上好.&quot;,
-                &quot;下午好.&quot;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">construct</span><span class="hljs-params">()</span></span>&#123;
+        builder.makeTitle(<span class="hljs-string">&quot;Greeting&quot;</span>);
+        builder.makeString(<span class="hljs-string">&quot;从早上至下午&quot;</span>);
+        builder.makeItems(<span class="hljs-keyword">new</span> String[] &#123;
+                <span class="hljs-string">&quot;早上好.&quot;</span>,
+                <span class="hljs-string">&quot;下午好.&quot;</span>
         &#125;);
-        builder.makeString(&quot;晚上&quot;);
-        builder.makeItems(new String[] &#123;
-                &quot;晚上好.&quot;,
-                &quot;晚安.&quot;,
-                &quot;再见.&quot;
+        builder.makeString(<span class="hljs-string">&quot;晚上&quot;</span>);
+        builder.makeItems(<span class="hljs-keyword">new</span> String[] &#123;
+                <span class="hljs-string">&quot;晚上好.&quot;</span>,
+                <span class="hljs-string">&quot;晚安.&quot;</span>,
+                <span class="hljs-string">&quot;再见.&quot;</span>
         &#125;);
         builder.close();
     &#125;
-&#125;</code></pre></div><h2 id="3-使用纯文本-普通字符串-编写文档的类"><a href="#3-使用纯文本-普通字符串-编写文档的类" class="headerlink" title="3 - 使用纯文本(普通字符串)编写文档的类"></a>3 - 使用纯文本(普通字符串)编写文档的类</h2><div class="code-wrapper"><pre><code>public class TextBuilder extends Builder&#123;
-    private StringBuffer buffer = new StringBuffer();
+&#125;</code></pre></div>
 
-    @Override
-    public void makeTitle(String title) &#123;
-        buffer.append(&quot;=================================\n&quot;);
-        buffer.append(&quot;[&quot;).append(title).append(&quot;]\n&quot;);
-        buffer.append(&quot;\n&quot;);
+<h2 id="3-使用纯文本-普通字符串-编写文档的类"><a href="#3-使用纯文本-普通字符串-编写文档的类" class="headerlink" title="3 - 使用纯文本(普通字符串)编写文档的类"></a>3 - 使用纯文本(普通字符串)编写文档的类</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TextBuilder</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Builder</span></span>&#123;
+    <span class="hljs-keyword">private</span> StringBuffer buffer = <span class="hljs-keyword">new</span> StringBuffer();
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">makeTitle</span><span class="hljs-params">(String title)</span> </span>&#123;
+        buffer.append(<span class="hljs-string">&quot;=================================\n&quot;</span>);
+        buffer.append(<span class="hljs-string">&quot;[&quot;</span>).append(title).append(<span class="hljs-string">&quot;]\n&quot;</span>);
+        buffer.append(<span class="hljs-string">&quot;\n&quot;</span>);
     &#125;
 
-    @Override
-    public void makeString(String str) &#123;
-        buffer.append(&apos;*&apos;).append(str).append(&quot;\n&quot;);
-        buffer.append(&quot;\n&quot;);
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">makeString</span><span class="hljs-params">(String str)</span> </span>&#123;
+        buffer.append(<span class="hljs-string">&#x27;*&#x27;</span>).append(str).append(<span class="hljs-string">&quot;\n&quot;</span>);
+        buffer.append(<span class="hljs-string">&quot;\n&quot;</span>);
     &#125;
 
-    @Override
-    public void makeItems(String[] items) &#123;
-        for (String item : items) &#123;
-            buffer.append(&quot; -&quot;).append(item).append(&quot;\n&quot;);
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">makeItems</span><span class="hljs-params">(String[] items)</span> </span>&#123;
+        <span class="hljs-keyword">for</span> (String item : items) &#123;
+            buffer.append(<span class="hljs-string">&quot; -&quot;</span>).append(item).append(<span class="hljs-string">&quot;\n&quot;</span>);
         &#125;
-        buffer.append(&quot;\n&quot;);
+        buffer.append(<span class="hljs-string">&quot;\n&quot;</span>);
     &#125;
 
-    @Override
-    public void close() &#123;
-        buffer.append(&quot;=================================\n&quot;);
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">close</span><span class="hljs-params">()</span> </span>&#123;
+        buffer.append(<span class="hljs-string">&quot;=================================\n&quot;</span>);
     &#125;
 
-    public String getResult()&#123;
-        return buffer.toString();
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getResult</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-keyword">return</span> buffer.toString();
     &#125;
-&#125;</code></pre></div><h2 id="4-使用HTML编写文档的类"><a href="#4-使用HTML编写文档的类" class="headerlink" title="4 - 使用HTML编写文档的类"></a>4 - 使用HTML编写文档的类</h2><div class="code-wrapper"><pre><code>public class HTMLBuilder extends Builder&#123;
-    private String filename;
-    private PrintWriter writer;
+&#125;</code></pre></div>
 
-    @Override
-    public void makeTitle(String title) &#123;
-        filename = title + &quot;.html&quot;;
-        try &#123;
-            writer = new PrintWriter(new FileWriter(filename));
-        &#125;catch (IOException e)&#123;
+<h2 id="4-使用HTML编写文档的类"><a href="#4-使用HTML编写文档的类" class="headerlink" title="4 - 使用HTML编写文档的类"></a>4 - 使用HTML编写文档的类</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HTMLBuilder</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Builder</span></span>&#123;
+    <span class="hljs-keyword">private</span> String filename;
+    <span class="hljs-keyword">private</span> PrintWriter writer;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">makeTitle</span><span class="hljs-params">(String title)</span> </span>&#123;
+        filename = title + <span class="hljs-string">&quot;.html&quot;</span>;
+        <span class="hljs-keyword">try</span> &#123;
+            writer = <span class="hljs-keyword">new</span> PrintWriter(<span class="hljs-keyword">new</span> FileWriter(filename));
+        &#125;<span class="hljs-keyword">catch</span> (IOException e)&#123;
             e.printStackTrace();
         &#125;
-        writer.println(&quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;&quot; + title + &quot;&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&quot;);
-        writer.println(&quot;&lt;h1&gt;&quot; + title + &quot;&lt;/h1&gt;&quot;);
+        writer.println(<span class="hljs-string">&quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;&quot;</span> + title + <span class="hljs-string">&quot;&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&quot;</span>);
+        writer.println(<span class="hljs-string">&quot;&lt;h1&gt;&quot;</span> + title + <span class="hljs-string">&quot;&lt;/h1&gt;&quot;</span>);
     &#125;
 
-    @Override
-    public void makeString(String str) &#123;
-        writer.println(&quot;&lt;p&gt;&quot; + str + &quot;&lt;/p&gt;&quot;);
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">makeString</span><span class="hljs-params">(String str)</span> </span>&#123;
+        writer.println(<span class="hljs-string">&quot;&lt;p&gt;&quot;</span> + str + <span class="hljs-string">&quot;&lt;/p&gt;&quot;</span>);
     &#125;
 
-    @Override
-    public void makeItems(String[] items) &#123;
-        writer.println(&quot;&lt;ul&gt;&quot;);
-        for (String item : items) &#123;
-            writer.println(&quot;&lt;li&gt;&quot; + item + &quot;&lt;/li&gt;&quot;);
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">makeItems</span><span class="hljs-params">(String[] items)</span> </span>&#123;
+        writer.println(<span class="hljs-string">&quot;&lt;ul&gt;&quot;</span>);
+        <span class="hljs-keyword">for</span> (String item : items) &#123;
+            writer.println(<span class="hljs-string">&quot;&lt;li&gt;&quot;</span> + item + <span class="hljs-string">&quot;&lt;/li&gt;&quot;</span>);
         &#125;
-        writer.println(&quot;&lt;/ul&gt;&quot;);
+        writer.println(<span class="hljs-string">&quot;&lt;/ul&gt;&quot;</span>);
     &#125;
 
-    @Override
-    public void close() &#123;
-        writer.println(&quot;&lt;/body&gt;&lt;/html&gt;&quot;);
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">close</span><span class="hljs-params">()</span> </span>&#123;
+        writer.println(<span class="hljs-string">&quot;&lt;/body&gt;&lt;/html&gt;&quot;</span>);
         writer.close();
     &#125;
 
-    public String getFilename()&#123;
-        return filename;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getFilename</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-keyword">return</span> filename;
     &#125;
-&#125;</code></pre></div><h2 id="5-测试程序行为的类"><a href="#5-测试程序行为的类" class="headerlink" title="5 - 测试程序行为的类"></a>5 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>// 需要提前设置好args的参数
-public class Main5 &#123;
-    public static void main(String[] args) &#123;
-        if (args.length != 1) &#123;
+&#125;</code></pre></div>
+
+<h2 id="5-测试程序行为的类"><a href="#5-测试程序行为的类" class="headerlink" title="5 - 测试程序行为的类"></a>5 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 需要提前设置好args的参数</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main5</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (args.length != <span class="hljs-number">1</span>) &#123;
             usage();
-            System.exit(0);
+            System.exit(<span class="hljs-number">0</span>);
         &#125;
 
-        if (args[0].equals(&quot;plain&quot;))&#123;
-            TextBuilder textBuilder = new TextBuilder();
-            Director director = new Director(textBuilder);
+        <span class="hljs-keyword">if</span> (args[<span class="hljs-number">0</span>].equals(<span class="hljs-string">&quot;plain&quot;</span>))&#123;
+            TextBuilder textBuilder = <span class="hljs-keyword">new</span> TextBuilder();
+            Director director = <span class="hljs-keyword">new</span> Director(textBuilder);
             director.construct();
             String result = textBuilder.getResult();
             System.out.println(result);
-        &#125;else if (args[0].equals(&quot;html&quot;))&#123;
-            HTMLBuilder htmlBuilder = new HTMLBuilder();
-            Director director = new Director(htmlBuilder);
+        &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (args[<span class="hljs-number">0</span>].equals(<span class="hljs-string">&quot;html&quot;</span>))&#123;
+            HTMLBuilder htmlBuilder = <span class="hljs-keyword">new</span> HTMLBuilder();
+            Director director = <span class="hljs-keyword">new</span> Director(htmlBuilder);
             director.construct();
             String filename = htmlBuilder.getFilename();
-            System.out.println(filename + &quot;文件编写完成&quot;);
-        &#125;else &#123;
+            System.out.println(filename + <span class="hljs-string">&quot;文件编写完成&quot;</span>);
+        &#125;<span class="hljs-keyword">else</span> &#123;
             usage();
-            System.exit(0);
+            System.exit(<span class="hljs-number">0</span>);
         &#125;
     &#125;
 
-    public static void usage()&#123;
-        System.out.println(&quot;Usage: java Main plain      编写纯文本文档&quot;);
-        System.out.println(&quot;Usage: java Main html       编写HTML文档&quot;);
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">usage</span><span class="hljs-params">()</span></span>&#123;
+        System.out.println(<span class="hljs-string">&quot;Usage: java Main plain      编写纯文本文档&quot;</span>);
+        System.out.println(<span class="hljs-string">&quot;Usage: java Main html       编写HTML文档&quot;</span>);
     &#125;
-&#125;</code></pre></div><h2 id="6-输出示例"><a href="#6-输出示例" class="headerlink" title="6 - 输出示例"></a>6 - 输出示例</h2><h3 id="6-1-Usage-java-Main-plain-编写纯文本文档"><a href="#6-1-Usage-java-Main-plain-编写纯文本文档" class="headerlink" title="6.1 Usage: java Main plain      编写纯文本文档"></a>6.1 Usage: java Main plain      编写纯文本文档</h3><div class="code-wrapper"><pre><code>=================================
+&#125;</code></pre></div>
+
+<h2 id="6-输出示例"><a href="#6-输出示例" class="headerlink" title="6 - 输出示例"></a>6 - 输出示例</h2><h3 id="6-1-Usage-java-Main-plain-编写纯文本文档"><a href="#6-1-Usage-java-Main-plain-编写纯文本文档" class="headerlink" title="6.1 Usage: java Main plain      编写纯文本文档"></a>6.1 Usage: java Main plain      编写纯文本文档</h3><div class="code-wrapper"><pre><code class="hljs java">=================================
     [Greeting]
 
     *从早上至下午
@@ -385,7 +395,9 @@ public class Main5 &#123;
     -晚安.
     -再见.
 
-=================================</code></pre></div><h3 id="6-2-Usage-java-Main-html-编写HTML文档"><a href="#6-2-Usage-java-Main-html-编写HTML文档" class="headerlink" title="6.2 Usage: java Main html       编写HTML文档"></a>6.2 Usage: java Main html       编写HTML文档</h3><div class="code-wrapper"><pre><code>Greeting.html文件编写完成
+=================================</code></pre></div>
+
+<h3 id="6-2-Usage-java-Main-html-编写HTML文档"><a href="#6-2-Usage-java-Main-html-编写HTML文档" class="headerlink" title="6.2 Usage: java Main html       编写HTML文档"></a>6.2 Usage: java Main html       编写HTML文档</h3><div class="code-wrapper"><pre><code class="hljs java">Greeting.html文件编写完成
 
 ****HTML文本****
  &lt;html&gt;&lt;head&gt;&lt;title&gt;Greeting&lt;/title&gt;&lt;/head&gt;&lt;body&gt;
@@ -401,7 +413,9 @@ public class Main5 &#123;
 &lt;li&gt;晚安.&lt;/li&gt;
 &lt;li&gt;再见.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/body&gt;&lt;/html&gt;</code></pre></div><p>在进行一些复杂实例的组装中我们经常用到如下模式</p>
+&lt;/body&gt;&lt;/html&gt;</code></pre></div>
+
+<p>在进行一些复杂实例的组装中我们经常用到如下模式</p>
 
             </div>
             <hr>

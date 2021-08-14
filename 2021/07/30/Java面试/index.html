@@ -191,7 +191,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      46.5k 字
+      47.5k 字
     </span>
   
 
@@ -201,7 +201,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      574
+      587
        分钟
     </span>
   
@@ -235,7 +235,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：16 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -4800,6 +4800,102 @@ java.lang.OutOfMemoryError:Metaspace</code></pre></div>
 </ul>
 <p>例如：</p>
 <div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">java</span> -Xms<span class="hljs-number">1024</span>m -Xmx<span class="hljs-number">1024</span> -XX:UseG<span class="hljs-number">1</span>GC -jar   xxx.jar</code></pre></div>
+
+<h1 id="第-13-章Linux诊断原因"><a href="#第-13-章Linux诊断原因" class="headerlink" title="第 13 章Linux诊断原因"></a>第 13 章Linux诊断原因</h1><h3 id="1-整机：top，查看整机系统性能"><a href="#1-整机：top，查看整机系统性能" class="headerlink" title="1 整机：top，查看整机系统性能"></a>1 整机：top，查看整机系统性能</h3><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326162329550.png" alt="image-20200326162329550"></p>
+<p>使用top命令的话，重点关注的是 %CPU、%MEM 、load average 三个指标</p>
+<ul>
+<li>load average三个指标：分别代表1、5、15分钟的负载情况</li>
+</ul>
+<p>在这个命令下，按1的话，可以看到每个CPU的占用情况</p>
+<p>uptime：系统性能命令的精简版</p>
+<h3 id="2-CPU：vmstat"><a href="#2-CPU：vmstat" class="headerlink" title="2 CPU：vmstat"></a>2 CPU：vmstat</h3><ul>
+<li>查看CPU（包含但是不限于）</li>
+<li>查看额外<ul>
+<li>查看所有CPU核信息：mpstat -p ALL 2</li>
+<li>每个进程使用CPU的用量分解信息：pidstat -u 1 -p 进程编号</li>
+</ul>
+</li>
+</ul>
+<p>命令格式：<code>vmstat -n 2 3</code></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326162803165.png" alt="image-20200326162803165"></p>
+<p>一般vmstat工具的使用是通过两个数字参数来完成的，第一个参数是残阳的时间间隔数（单位秒），第二个参数是采样的次数</p>
+<p><strong>procs</strong></p>
+<div class="code-wrapper"><pre><code>r：运行和等待的CPU时间片的进程数，原则上1核的CPU的运行队列不要超过2，整个系统的运行队列不超过总核数的2倍，否则代表系统压力过大，我们看蘑菇博客测试服务器，能发现都超过了2，说明现在压力过大
+
+b：等待资源的进程数，比如正在等待磁盘I/O、网络I/O等</code></pre></div><p><strong>cpu</strong></p>
+<div class="code-wrapper"><pre><code>us：用户进程消耗CPU时间百分比，us值高，用户进程消耗CPU时间多，如果长期大于50%，优化程序
+
+sy：内核进程消耗的CPU时间百分比</code></pre></div><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326164521263.png" alt="image-20200326164521263"></p>
+<div class="code-wrapper"><pre><code>us + sy 参考值为80%，如果us + sy 大于80%，说明可能存在CPU不足，从上面的图片可以看出，us + sy还没有超过百分80，因此说明蘑菇博客的CPU消耗不是很高
+
+id：处于空闲的CPU百分比
+
+wa：系统等待IO的CPU时间百分比
+
+st：来自于一个虚拟机偷取的CPU时间比</code></pre></div><h3 id="3-内存：free"><a href="#3-内存：free" class="headerlink" title="3 内存：free"></a>3 内存：free</h3><ul>
+<li><p>应用程序可用内存数：free -m</p>
+</li>
+<li><p>应用程序可用内存/系统物理内存 &gt; 70% 内存充足</p>
+</li>
+<li><p>应用程序可用内存/系统物理内存 &lt; 20% 内存不足，需要增加内存</p>
+</li>
+<li><p>20% &lt;  应用程序可用内存/系统物理内存 &lt; 70%，表示内存基本够用</p>
+</li>
+</ul>
+<p>free -h：以人类能看懂的方式查看物理内存</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326170217637.png" alt="image-20200326170217637"></p>
+<p>free -m：以MB为单位，查看物理内存</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326165815071.png" alt="image-20200326165815071"></p>
+<p>free -g：以GB为单位，查看物理内存</p>
+<h3 id="4-硬盘：df"><a href="#4-硬盘：df" class="headerlink" title="4 硬盘：df"></a>4 硬盘：df</h3><p>格式：<code>df -h  /</code>  (-h：human，表示以人类能看到的方式换算)</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326170318733.png" alt="image-20200326170318733"></p>
+<ul>
+<li>硬盘IO：iostat</li>
+</ul>
+<p>系统慢有两种原因引起的，一个是CPU高，一个是大量IO操作</p>
+<p>格式：<code>iostat -xdk 2 3</code></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326170522559.png" alt="image-20200326170522559"></p>
+<p>磁盘块设备分布：</p>
+<p>rkB /s：每秒读取数据量kB；</p>
+<p>wkB/s：每秒写入数据量kB；</p>
+<p>svctm I/O：请求的平均服务时间，单位毫秒</p>
+<p>await I/O：请求的平均等待时间，单位毫秒，值越小，性能越好</p>
+<p>util：一秒钟有百分几的时间用于I/O操作。接近100%时，表示磁盘带宽跑满，需要优化程序或者增加磁盘；</p>
+<p>rkB/s，wkB/s根据系统应用不同会有不同的值，但有规律遵循：长期、超大数据读写，肯定不正常，需要优化程序读取。</p>
+<p>svctm的值与await的值很接近，表示几乎没有I/O等待，磁盘性能好，如果await的值远高于svctm的值，则表示I/O队列等待太长，需要优化程序或更换更快磁盘</p>
+<h3 id="5-网络IO：ifstat"><a href="#5-网络IO：ifstat" class="headerlink" title="5 网络IO：ifstat"></a>5 网络IO：ifstat</h3><ul>
+<li>默认本地没有，下载ifstat</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326171559406.png" alt="image-20200326171559406"></p>
+<h3 id="6-生产环境服务器变慢，诊断思路和性能评估"><a href="#6-生产环境服务器变慢，诊断思路和性能评估" class="headerlink" title="6 生产环境服务器变慢，诊断思路和性能评估"></a>6 生产环境服务器变慢，诊断思路和性能评估</h3><p>记一次印象深刻的故障？</p>
+<p>结合Linux 和 JDK命令一起分析，步骤如下</p>
+<ul>
+<li><p>使用top命令找出CPU占比最高的</p>
+</li>
+<li><p>ps -ef 或者 jps 进一步定位，得知是一个怎么样的后台程序出的问题</p>
+</li>
+<li><p>定位到具体线程或者代码</p>
+<ul>
+<li>ps -mp 进程  -o THREAD，tid，time</li>
+<li>参数解释<ul>
+<li>-m：显示所有的线程</li>
+<li>-p：pid进程使用CPU的时间</li>
+<li>-o：该参数后是用户自定义格式</li>
+</ul>
+</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326173656164.png" alt="image-20200326173656164"></p>
+</li>
+<li><p>将需要的线程ID转换为16进制格式（英文小写格式）</p>
+<ul>
+<li>printf “%x\n” 有问题的线程ID</li>
+</ul>
+</li>
+<li><p>jstack 进程ID | grep tid（16进制线程ID小写英文） -A60</p>
+<p>精准定位到错误的地方</p>
+</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326174107444.png" alt="image-20200326174107444"></p>
 
             </div>
             <hr>

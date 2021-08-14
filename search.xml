@@ -715,344 +715,6 @@ HTML文本效果图</code></pre></div><html><head><title>LinkPage</title></head>
       </categories>
   </entry>
   <entry>
-    <title>JavaBuilder模式</title>
-    <url>/2020/09/13/JavaBuilder%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  组装复杂的实例</p>
-</blockquote>
-<h2 id="1-定义了决定文档结构的方法的抽象类"><a href="#1-定义了决定文档结构的方法的抽象类" class="headerlink" title="1 - 定义了决定文档结构的方法的抽象类"></a>1 - 定义了决定文档结构的方法的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class Builder &#123;
-    public abstract void makeTitle(String title);
-    public abstract void makeString(String str);
-    public abstract void makeItems(String[] items);
-    public abstract void close();
-&#125;</code></pre></div><h2 id="2-编写一个文档的类"><a href="#2-编写一个文档的类" class="headerlink" title="2 - 编写一个文档的类"></a>2 - 编写一个文档的类</h2><div class="code-wrapper"><pre><code>public class Director &#123;
-    private Builder builder;
-
-    public Director(Builder builder)&#123;
-        this.builder = builder;
-    &#125;
-
-    public void construct()&#123;
-        builder.makeTitle(&quot;Greeting&quot;);
-        builder.makeString(&quot;从早上至下午&quot;);
-        builder.makeItems(new String[] &#123;
-                &quot;早上好.&quot;,
-                &quot;下午好.&quot;
-        &#125;);
-        builder.makeString(&quot;晚上&quot;);
-        builder.makeItems(new String[] &#123;
-                &quot;晚上好.&quot;,
-                &quot;晚安.&quot;,
-                &quot;再见.&quot;
-        &#125;);
-        builder.close();
-    &#125;
-&#125;</code></pre></div><h2 id="3-使用纯文本-普通字符串-编写文档的类"><a href="#3-使用纯文本-普通字符串-编写文档的类" class="headerlink" title="3 - 使用纯文本(普通字符串)编写文档的类"></a>3 - 使用纯文本(普通字符串)编写文档的类</h2><div class="code-wrapper"><pre><code>public class TextBuilder extends Builder&#123;
-    private StringBuffer buffer = new StringBuffer();
-
-    @Override
-    public void makeTitle(String title) &#123;
-        buffer.append(&quot;=================================\n&quot;);
-        buffer.append(&quot;[&quot;).append(title).append(&quot;]\n&quot;);
-        buffer.append(&quot;\n&quot;);
-    &#125;
-
-    @Override
-    public void makeString(String str) &#123;
-        buffer.append(&apos;*&apos;).append(str).append(&quot;\n&quot;);
-        buffer.append(&quot;\n&quot;);
-    &#125;
-
-    @Override
-    public void makeItems(String[] items) &#123;
-        for (String item : items) &#123;
-            buffer.append(&quot; -&quot;).append(item).append(&quot;\n&quot;);
-        &#125;
-        buffer.append(&quot;\n&quot;);
-    &#125;
-
-    @Override
-    public void close() &#123;
-        buffer.append(&quot;=================================\n&quot;);
-    &#125;
-
-    public String getResult()&#123;
-        return buffer.toString();
-    &#125;
-&#125;</code></pre></div><h2 id="4-使用HTML编写文档的类"><a href="#4-使用HTML编写文档的类" class="headerlink" title="4 - 使用HTML编写文档的类"></a>4 - 使用HTML编写文档的类</h2><div class="code-wrapper"><pre><code>public class HTMLBuilder extends Builder&#123;
-    private String filename;
-    private PrintWriter writer;
-
-    @Override
-    public void makeTitle(String title) &#123;
-        filename = title + &quot;.html&quot;;
-        try &#123;
-            writer = new PrintWriter(new FileWriter(filename));
-        &#125;catch (IOException e)&#123;
-            e.printStackTrace();
-        &#125;
-        writer.println(&quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;&quot; + title + &quot;&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&quot;);
-        writer.println(&quot;&lt;h1&gt;&quot; + title + &quot;&lt;/h1&gt;&quot;);
-    &#125;
-
-    @Override
-    public void makeString(String str) &#123;
-        writer.println(&quot;&lt;p&gt;&quot; + str + &quot;&lt;/p&gt;&quot;);
-    &#125;
-
-    @Override
-    public void makeItems(String[] items) &#123;
-        writer.println(&quot;&lt;ul&gt;&quot;);
-        for (String item : items) &#123;
-            writer.println(&quot;&lt;li&gt;&quot; + item + &quot;&lt;/li&gt;&quot;);
-        &#125;
-        writer.println(&quot;&lt;/ul&gt;&quot;);
-    &#125;
-
-    @Override
-    public void close() &#123;
-        writer.println(&quot;&lt;/body&gt;&lt;/html&gt;&quot;);
-        writer.close();
-    &#125;
-
-    public String getFilename()&#123;
-        return filename;
-    &#125;
-&#125;</code></pre></div><h2 id="5-测试程序行为的类"><a href="#5-测试程序行为的类" class="headerlink" title="5 - 测试程序行为的类"></a>5 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>// 需要提前设置好args的参数
-public class Main5 &#123;
-    public static void main(String[] args) &#123;
-        if (args.length != 1) &#123;
-            usage();
-            System.exit(0);
-        &#125;
-
-        if (args[0].equals(&quot;plain&quot;))&#123;
-            TextBuilder textBuilder = new TextBuilder();
-            Director director = new Director(textBuilder);
-            director.construct();
-            String result = textBuilder.getResult();
-            System.out.println(result);
-        &#125;else if (args[0].equals(&quot;html&quot;))&#123;
-            HTMLBuilder htmlBuilder = new HTMLBuilder();
-            Director director = new Director(htmlBuilder);
-            director.construct();
-            String filename = htmlBuilder.getFilename();
-            System.out.println(filename + &quot;文件编写完成&quot;);
-        &#125;else &#123;
-            usage();
-            System.exit(0);
-        &#125;
-    &#125;
-
-    public static void usage()&#123;
-        System.out.println(&quot;Usage: java Main plain      编写纯文本文档&quot;);
-        System.out.println(&quot;Usage: java Main html       编写HTML文档&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="6-输出示例"><a href="#6-输出示例" class="headerlink" title="6 - 输出示例"></a>6 - 输出示例</h2><h3 id="6-1-Usage-java-Main-plain-编写纯文本文档"><a href="#6-1-Usage-java-Main-plain-编写纯文本文档" class="headerlink" title="6.1 Usage: java Main plain      编写纯文本文档"></a>6.1 Usage: java Main plain      编写纯文本文档</h3><div class="code-wrapper"><pre><code>=================================
-    [Greeting]
-
-    *从早上至下午
-
-    -早上好.
-    -下午好.
-
-    *晚上
-
-    -晚上好.
-    -晚安.
-    -再见.
-
-=================================</code></pre></div><h3 id="6-2-Usage-java-Main-html-编写HTML文档"><a href="#6-2-Usage-java-Main-html-编写HTML文档" class="headerlink" title="6.2 Usage: java Main html       编写HTML文档"></a>6.2 Usage: java Main html       编写HTML文档</h3><div class="code-wrapper"><pre><code>Greeting.html文件编写完成
-
-****HTML文本****
- &lt;html&gt;&lt;head&gt;&lt;title&gt;Greeting&lt;/title&gt;&lt;/head&gt;&lt;body&gt;
-&lt;h1&gt;Greeting&lt;/h1&gt;
-&lt;p&gt;从早上至下午&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;早上好.&lt;/li&gt;
-&lt;li&gt;下午好.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;晚上&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;晚上好.&lt;/li&gt;
-&lt;li&gt;晚安.&lt;/li&gt;
-&lt;li&gt;再见.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/body&gt;&lt;/html&gt;</code></pre></div><p>在进行一些复杂实例的组装中我们经常用到如下模式</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>JavaChainOfResponsibility模式</title>
-    <url>/2020/09/24/JavaChainOfResponsibility%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  推卸责任</p>
-</blockquote>
-<h2 id="1-表示发生的问题的类-它带有问题编号-number"><a href="#1-表示发生的问题的类-它带有问题编号-number" class="headerlink" title="1 - 表示发生的问题的类.它带有问题编号(number)"></a>1 - 表示发生的问题的类.它带有问题编号(number)</h2><div class="code-wrapper"><pre><code>public class Trouble &#123;
-    private int number; // 问题编号
-
-    public Trouble(int number)&#123; // 生成问题
-        this.number = number;
-    &#125;
-
-    public int getNumber()&#123;
-        return number;
-    &#125;
-
-    @Override
-    public String toString()&#123;
-        return &quot;[Trouble &quot; + number + &quot;]&quot;;
-    &#125;
-&#125;</code></pre></div><h2 id="2-用来解决问题的抽象类"><a href="#2-用来解决问题的抽象类" class="headerlink" title="2 - 用来解决问题的抽象类"></a>2 - 用来解决问题的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class Support &#123;
-    private String name;    // 解决问题的实例的名字
-    private Support next;   // 要推卸给的对象
-
-    public Support(String name)&#123;
-        this.name = name;
-    &#125;
-
-    public Support setNext(Support next)&#123;
-        this.next = next;
-        return next;
-    &#125;
-
-    public final void support(Trouble trouble)&#123; // 解决问题的步骤
-        if (resolve(trouble))&#123;
-            done(trouble);
-        &#125;else if(next != null)&#123;
-            next.support(trouble);
-        &#125;else&#123;
-            fail(trouble);
-        &#125;
-    &#125;
-
-    @Override
-    public String toString()&#123;
-        return &quot;[&quot; + name + &quot;]&quot;;
-    &#125;
-
-    protected abstract boolean resolve(Trouble trouble);
-
-    protected  void done(Trouble trouble)&#123;  // 解决
-        System.out.println(trouble + &quot; is resolved by &quot; + this + &quot;.&quot;);
-    &#125;
-
-    protected void fail(Trouble trouble)&#123;   // 未解决
-        System.out.println(trouble + &quot;cannot be resolved.&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="3-用来解决问题的具体类-永远-“-不处理问题-“"><a href="#3-用来解决问题的具体类-永远-“-不处理问题-“" class="headerlink" title="3 - 用来解决问题的具体类(永远 “ 不处理问题 “)"></a>3 - 用来解决问题的具体类(永远 “ 不处理问题 “)</h2><div class="code-wrapper"><pre><code>public class NoSupport extends Support&#123;
-    public NoSupport(String name)&#123;
-        super(name);
-    &#125;
-
-    @Override
-    protected boolean resolve(Trouble trouble) &#123;    // 解决问题的方法
-        return false;                               // 自己什么也不做
-    &#125;
-&#125;</code></pre></div><h2 id="4-用来解决问题的具体类-仅解决编号小于指定编号的问题"><a href="#4-用来解决问题的具体类-仅解决编号小于指定编号的问题" class="headerlink" title="4 - 用来解决问题的具体类(仅解决编号小于指定编号的问题)"></a>4 - 用来解决问题的具体类(仅解决编号小于指定编号的问题)</h2><div class="code-wrapper"><pre><code>public class LimitSupport extends Support&#123;
-    private int limit;
-    public LimitSupport(String name, int limit) &#123;
-        super(name);
-        this.limit = limit;
-    &#125;
-
-    @Override
-    protected boolean resolve(Trouble trouble) &#123;
-        return trouble.getNumber() &lt; limit;
-    &#125;
-&#125;</code></pre></div><h2 id="5-用来解决问题的具体类-仅解决奇数编号的问题"><a href="#5-用来解决问题的具体类-仅解决奇数编号的问题" class="headerlink" title="5 - 用来解决问题的具体类(仅解决奇数编号的问题)"></a>5 - 用来解决问题的具体类(仅解决奇数编号的问题)</h2><div class="code-wrapper"><pre><code>public class OddSupport extends Support&#123;
-    public OddSupport(String name) &#123;
-        super(name);
-    &#125;
-
-    @Override
-    protected boolean resolve(Trouble trouble) &#123;
-        return trouble.getNumber() % 2 == 1;
-    &#125;
-&#125;</code></pre></div><h2 id="6-用来解决问题的具体类-仅解决指定编号的问题"><a href="#6-用来解决问题的具体类-仅解决指定编号的问题" class="headerlink" title="6 - 用来解决问题的具体类(仅解决指定编号的问题)"></a>6 - 用来解决问题的具体类(仅解决指定编号的问题)</h2><div class="code-wrapper"><pre><code>public class SpecialSupport extends Support&#123;
-    private int number;
-    public SpecialSupport(String name, int number) &#123;
-        super(name);
-        this.number = number;
-    &#125;
-
-    @Override
-    protected boolean resolve(Trouble trouble) &#123;
-        return trouble.getNumber() == number;
-    &#125;
-&#125;</code></pre></div><h2 id="7-制作Support的职责链-制造问题并测试程序行为"><a href="#7-制作Support的职责链-制造问题并测试程序行为" class="headerlink" title="7 - 制作Support的职责链, 制造问题并测试程序行为"></a>7 - 制作Support的职责链, 制造问题并测试程序行为</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        Support alice = new NoSupport(&quot;Alice&quot;);
-        Support bob = new LimitSupport(&quot;Bob&quot;, 10);
-        Support charlie = new SpecialSupport(&quot;Charlie&quot;, 29);
-        Support diana = new LimitSupport(&quot;Diana&quot;, 20);
-        Support elmo = new OddSupport(&quot;Elmo&quot;);
-        Support fred = new LimitSupport(&quot;Fred&quot;, 30);
-        // 形成职责链
-        alice.setNext(bob).setNext(charlie).setNext(diana).setNext(elmo).setNext(fred);
-        for (int i = 0; i &lt; 50; i++) &#123;
-            alice.support(new Trouble(i));
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="8-输出示例"><a href="#8-输出示例" class="headerlink" title="8 - 输出示例"></a>8 - 输出示例</h2><div class="code-wrapper"><pre><code>[Trouble 0] is resolved by [Bob].
-[Trouble 1] is resolved by [Bob].
-[Trouble 2] is resolved by [Bob].
-[Trouble 3] is resolved by [Bob].
-[Trouble 4] is resolved by [Bob].
-[Trouble 5] is resolved by [Bob].
-[Trouble 6] is resolved by [Bob].
-[Trouble 7] is resolved by [Bob].
-[Trouble 8] is resolved by [Bob].
-[Trouble 9] is resolved by [Bob].
-[Trouble 10] is resolved by [Diana].
-[Trouble 11] is resolved by [Diana].
-[Trouble 12] is resolved by [Diana].
-[Trouble 13] is resolved by [Diana].
-[Trouble 14] is resolved by [Diana].
-[Trouble 15] is resolved by [Diana].
-[Trouble 16] is resolved by [Diana].
-[Trouble 17] is resolved by [Diana].
-[Trouble 18] is resolved by [Diana].
-[Trouble 19] is resolved by [Diana].
-[Trouble 20] is resolved by [Fred].
-[Trouble 21] is resolved by [Elmo].
-[Trouble 22] is resolved by [Fred].
-[Trouble 23] is resolved by [Elmo].
-[Trouble 24] is resolved by [Fred].
-[Trouble 25] is resolved by [Elmo].
-[Trouble 26] is resolved by [Fred].
-[Trouble 27] is resolved by [Elmo].
-[Trouble 28] is resolved by [Fred].
-[Trouble 29] is resolved by [Charlie].
-[Trouble 30]cannot be resolved.
-[Trouble 31] is resolved by [Elmo].
-[Trouble 32]cannot be resolved.
-[Trouble 33] is resolved by [Elmo].
-[Trouble 34]cannot be resolved.
-[Trouble 35] is resolved by [Elmo].
-[Trouble 36]cannot be resolved.
-[Trouble 37] is resolved by [Elmo].
-[Trouble 38]cannot be resolved.
-[Trouble 39] is resolved by [Elmo].
-[Trouble 40]cannot be resolved.
-[Trouble 41] is resolved by [Elmo].
-[Trouble 42]cannot be resolved.
-[Trouble 43] is resolved by [Elmo].
-[Trouble 44]cannot be resolved.
-[Trouble 45] is resolved by [Elmo].
-[Trouble 46]cannot be resolved.
-[Trouble 47] is resolved by [Elmo].
-[Trouble 48]cannot be resolved.
-[Trouble 49] is resolved by [Elmo].</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
     <title>JavaBridge模式</title>
     <url>/2020/09/18/JavaBridge%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -1158,251 +820,185 @@ public class Main5 &#123;
       </categories>
   </entry>
   <entry>
-    <title>JavaFacade模式</title>
-    <url>/2020/09/25/JavaFacade%E6%A8%A1%E5%BC%8F/</url>
+    <title>JavaBuilder模式</title>
+    <url>/2020/09/13/JavaBuilder%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
-<p>  简单窗口</p>
+<p>  组装复杂的实例</p>
 </blockquote>
-<h2 id="1-从邮件地址中获取用户名的类"><a href="#1-从邮件地址中获取用户名的类" class="headerlink" title="1- 从邮件地址中获取用户名的类"></a>1- 从邮件地址中获取用户名的类</h2><div class="code-wrapper"><pre><code>// 需要配置相应的数据库
-public class Database &#123;
-    private Database() &#123;    // 防止外部new出Database的实例,所以声明为private
+<h2 id="1-定义了决定文档结构的方法的抽象类"><a href="#1-定义了决定文档结构的方法的抽象类" class="headerlink" title="1 - 定义了决定文档结构的方法的抽象类"></a>1 - 定义了决定文档结构的方法的抽象类</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Builder</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title">makeTitle</span><span class="hljs-params">(String title)</span></span>;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title">makeString</span><span class="hljs-params">(String str)</span></span>;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title">makeItems</span><span class="hljs-params">(String[] items)</span></span>;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title">close</span><span class="hljs-params">()</span></span>;
+&#125;</code></pre></div>
+
+<h2 id="2-编写一个文档的类"><a href="#2-编写一个文档的类" class="headerlink" title="2 - 编写一个文档的类"></a>2 - 编写一个文档的类</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Director</span> </span>&#123;
+    <span class="hljs-keyword">private</span> Builder builder;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Director</span><span class="hljs-params">(Builder builder)</span></span>&#123;
+        <span class="hljs-keyword">this</span>.builder = builder;
     &#125;
 
-    public static Properties getProperties(String dbname)&#123;  // 根据数据库名获取Properties
-        String filename = dbname + &quot;.txt&quot;;
-        Properties prop = new Properties();
-        try &#123;
-            prop.load(new FileInputStream(filename));
-        &#125;catch (IOException e)&#123;
-            System.out.println(&quot;Warning: &quot; + filename + &quot; is not found.&quot;);
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">construct</span><span class="hljs-params">()</span></span>&#123;
+        builder.makeTitle(<span class="hljs-string">&quot;Greeting&quot;</span>);
+        builder.makeString(<span class="hljs-string">&quot;从早上至下午&quot;</span>);
+        builder.makeItems(<span class="hljs-keyword">new</span> String[] &#123;
+                <span class="hljs-string">&quot;早上好.&quot;</span>,
+                <span class="hljs-string">&quot;下午好.&quot;</span>
+        &#125;);
+        builder.makeString(<span class="hljs-string">&quot;晚上&quot;</span>);
+        builder.makeItems(<span class="hljs-keyword">new</span> String[] &#123;
+                <span class="hljs-string">&quot;晚上好.&quot;</span>,
+                <span class="hljs-string">&quot;晚安.&quot;</span>,
+                <span class="hljs-string">&quot;再见.&quot;</span>
+        &#125;);
+        builder.close();
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="3-使用纯文本-普通字符串-编写文档的类"><a href="#3-使用纯文本-普通字符串-编写文档的类" class="headerlink" title="3 - 使用纯文本(普通字符串)编写文档的类"></a>3 - 使用纯文本(普通字符串)编写文档的类</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TextBuilder</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Builder</span></span>&#123;
+    <span class="hljs-keyword">private</span> StringBuffer buffer = <span class="hljs-keyword">new</span> StringBuffer();
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">makeTitle</span><span class="hljs-params">(String title)</span> </span>&#123;
+        buffer.append(<span class="hljs-string">&quot;=================================\n&quot;</span>);
+        buffer.append(<span class="hljs-string">&quot;[&quot;</span>).append(title).append(<span class="hljs-string">&quot;]\n&quot;</span>);
+        buffer.append(<span class="hljs-string">&quot;\n&quot;</span>);
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">makeString</span><span class="hljs-params">(String str)</span> </span>&#123;
+        buffer.append(<span class="hljs-string">&#x27;*&#x27;</span>).append(str).append(<span class="hljs-string">&quot;\n&quot;</span>);
+        buffer.append(<span class="hljs-string">&quot;\n&quot;</span>);
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">makeItems</span><span class="hljs-params">(String[] items)</span> </span>&#123;
+        <span class="hljs-keyword">for</span> (String item : items) &#123;
+            buffer.append(<span class="hljs-string">&quot; -&quot;</span>).append(item).append(<span class="hljs-string">&quot;\n&quot;</span>);
         &#125;
-        return prop;
-    &#125;
-&#125;</code></pre></div><h2 id="2-编写HTML文件的类"><a href="#2-编写HTML文件的类" class="headerlink" title="2 - 编写HTML文件的类"></a>2 - 编写HTML文件的类</h2><div class="code-wrapper"><pre><code>public class HtmlWriter &#123;
-    private Writer writer;
-    public HtmlWriter(Writer writer)&#123;
-        this.writer = writer;
+        buffer.append(<span class="hljs-string">&quot;\n&quot;</span>);
     &#125;
 
-    public void title(String title) throws IOException&#123;
-        writer.write(&quot;&lt;html&gt;&quot;);
-        writer.write(&quot;&lt;head&gt;&quot;);
-        writer.write(&quot;&lt;title&gt;&quot; + title + &quot;&lt;/title&gt;&quot;);
-        writer.write(&quot;&lt;/head&gt;&quot;);
-        writer.write(&quot;&lt;body&gt;\n&quot;);
-        writer.write(&quot;&lt;h1&gt;&quot; + title + &quot;&lt;/h1&gt;&quot;);
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">close</span><span class="hljs-params">()</span> </span>&#123;
+        buffer.append(<span class="hljs-string">&quot;=================================\n&quot;</span>);
     &#125;
 
-    public void paragraph(String msg) throws IOException&#123;
-        writer.write(&quot;&lt;p&gt;&quot; + msg + &quot;&lt;/p&gt;\n&quot;);
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getResult</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-keyword">return</span> buffer.toString();
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="4-使用HTML编写文档的类"><a href="#4-使用HTML编写文档的类" class="headerlink" title="4 - 使用HTML编写文档的类"></a>4 - 使用HTML编写文档的类</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HTMLBuilder</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Builder</span></span>&#123;
+    <span class="hljs-keyword">private</span> String filename;
+    <span class="hljs-keyword">private</span> PrintWriter writer;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">makeTitle</span><span class="hljs-params">(String title)</span> </span>&#123;
+        filename = title + <span class="hljs-string">&quot;.html&quot;</span>;
+        <span class="hljs-keyword">try</span> &#123;
+            writer = <span class="hljs-keyword">new</span> PrintWriter(<span class="hljs-keyword">new</span> FileWriter(filename));
+        &#125;<span class="hljs-keyword">catch</span> (IOException e)&#123;
+            e.printStackTrace();
+        &#125;
+        writer.println(<span class="hljs-string">&quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;&quot;</span> + title + <span class="hljs-string">&quot;&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&quot;</span>);
+        writer.println(<span class="hljs-string">&quot;&lt;h1&gt;&quot;</span> + title + <span class="hljs-string">&quot;&lt;/h1&gt;&quot;</span>);
     &#125;
 
-    public void link(String href, String caption) throws IOException&#123;
-        paragraph(&quot;&lt;a href=\&quot;&quot; + href + &quot;\&quot;&gt;&quot; + caption + &quot;&lt;/a&gt;&quot;);
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">makeString</span><span class="hljs-params">(String str)</span> </span>&#123;
+        writer.println(<span class="hljs-string">&quot;&lt;p&gt;&quot;</span> + str + <span class="hljs-string">&quot;&lt;/p&gt;&quot;</span>);
     &#125;
 
-    public void mailto(String mailAddr, String userName) throws IOException&#123;
-        link(&quot;mailto: &quot; + mailAddr, userName);
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">makeItems</span><span class="hljs-params">(String[] items)</span> </span>&#123;
+        writer.println(<span class="hljs-string">&quot;&lt;ul&gt;&quot;</span>);
+        <span class="hljs-keyword">for</span> (String item : items) &#123;
+            writer.println(<span class="hljs-string">&quot;&lt;li&gt;&quot;</span> + item + <span class="hljs-string">&quot;&lt;/li&gt;&quot;</span>);
+        &#125;
+        writer.println(<span class="hljs-string">&quot;&lt;/ul&gt;&quot;</span>);
     &#125;
 
-    public void close() throws IOException&#123;
-        writer.write(&quot;&lt;/body&gt;&quot;);
-        writer.write(&quot;&lt;/html&gt;&quot;);
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">close</span><span class="hljs-params">()</span> </span>&#123;
+        writer.println(<span class="hljs-string">&quot;&lt;/body&gt;&lt;/html&gt;&quot;</span>);
         writer.close();
     &#125;
-&#125;</code></pre></div><h2 id="3-根据邮件地址编写该用户的Web页面"><a href="#3-根据邮件地址编写该用户的Web页面" class="headerlink" title="3 - 根据邮件地址编写该用户的Web页面"></a>3 - 根据邮件地址编写该用户的Web页面</h2><div class="code-wrapper"><pre><code>public class PageMaker &#123;
-    private PageMaker() &#123;    // 防止外部new出PageMaker的实例,所以声明为private
-    &#125;
 
-    public static void makeWelcomePage(String mailAddr, String filename)&#123;
-        try &#123;
-            Properties mailProp = Database.getProperties(&quot;mailData&quot;);
-            String userName = mailProp.getProperty(mailAddr);
-            HtmlWriter writer = new HtmlWriter(new FileWriter(filename));
-            writer.title(&quot;Welcome to &quot; + userName + &quot;`s page!&quot;);
-            writer.paragraph(userName + &quot;欢迎来到&quot; + userName + &quot;的主页&quot;);
-            writer.paragraph(&quot;等着你的邮件哦!&quot;);
-            writer.mailto(mailAddr, userName);
-            writer.close();
-            System.out.println(filename + &quot; is created for &quot; + mailAddr + &quot; (&quot; +
-                    userName + &quot;)&quot;);
-        &#125;catch (IOException e)&#123;
-            e.printStackTrace();
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getFilename</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-keyword">return</span> filename;
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="5-测试程序行为的类"><a href="#5-测试程序行为的类" class="headerlink" title="5 - 测试程序行为的类"></a>5 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 需要提前设置好args的参数</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main5</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (args.length != <span class="hljs-number">1</span>) &#123;
+            usage();
+            System.exit(<span class="hljs-number">0</span>);
         &#125;
 
-    &#125;
-&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        PageMaker.makeWelcomePage(&quot;hyuki@hyuki.com&quot;, &quot;welcome.html&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><html><head><title>Welcome to Hiroshi Yuki`s page!</title></head><body>
-<h1>Welcome to Hiroshi Yuki`s page!</h1><p>null欢迎来到null的主页</p>
-<p>等着你的邮件哦!</p>
-<p><a href="mailto: hyuki@hyuki.com">Hiroshi Yuki</a></p>
-</body></html>
-
-<div class="code-wrapper"><pre><code>// HTML源码
-&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to Hiroshi Yuki`s page!&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h1&gt;Welcome to Hiroshi Yuki`s page!&lt;/h1&gt;
-&lt;p&gt;null欢迎来到null的主页&lt;/p&gt;
-&lt;p&gt;等着你的邮件哦!&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;mailto: hyuki@hyuki.com&quot;&gt;Hiroshi Yuki&lt;/a&gt;&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>JavaComposite模式</title>
-    <url>/2020/09/20/JavaComposite%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  容器与内容的一致性</p>
-</blockquote>
-<h2 id="1-抽象类-用来实现File类和Directory类的一致性"><a href="#1-抽象类-用来实现File类和Directory类的一致性" class="headerlink" title="1- 抽象类, 用来实现File类和Directory类的一致性"></a>1- 抽象类, 用来实现File类和Directory类的一致性</h2><div class="code-wrapper"><pre><code>public abstract class Entry &#123;
-    public abstract String getName();   // 获取名字
-    public abstract int getSize();      // 获取大小
-    public Entry add(Entry entry) throws FileTreateMentException&#123; // 加入条目目录
-        throw new FileTreateMentException();
-    &#125;
-
-    public void printList()&#123;    // 显示目录条目一览
-        printList(&quot;&quot;);
-    &#125;
-
-    protected abstract void printList(String prefix);   // 为一览加上前缀
-                                                        // 显示条目一览
-    @Override                                           // 显示代表类的文字
-    public String toString()&#123;
-        return getName() + &quot; (&quot; + getSize() + &quot;)&quot;;
-    &#125;
-&#125;</code></pre></div><h2 id="2-表示文件的类"><a href="#2-表示文件的类" class="headerlink" title="2 - 表示文件的类"></a>2 - 表示文件的类</h2><div class="code-wrapper"><pre><code>public class File extends Entry&#123;
-    private String name;
-    private int size;
-
-    public File(String name, int size)&#123;
-        this.name = name;
-        this.size = size;
-    &#125;
-
-    @Override
-    public String getName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public int getSize() &#123;
-        return size;
-    &#125;
-
-    @Override
-    protected void printList(String prefix) &#123;
-        System.out.println(prefix + &quot;/&quot; + this);
-    &#125;
-&#125;</code></pre></div><h2 id="3-表示文件夹的类"><a href="#3-表示文件夹的类" class="headerlink" title="3 - 表示文件夹的类"></a>3 - 表示文件夹的类</h2><div class="code-wrapper"><pre><code>public class Directory extends Entry&#123;
-    private String name;
-    private ArrayList directory = new ArrayList();
-    public Directory(String name)&#123;
-        this.name = name;
-    &#125;
-
-    @Override
-    public String getName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public int getSize() &#123;
-        int size = 0;
-        Iterator it = directory.iterator();
-        while (it.hasNext())&#123;
-            Entry entry = (Entry)it.next();
-            size += entry.getSize();
-        &#125;
-        return size;
-    &#125;
-
-    public Entry add(Entry entry)&#123;
-        directory.add(entry);
-        return this;
-    &#125;
-
-    @Override
-    protected void printList(String prefix) &#123;
-        System.out.println(prefix + &quot;/&quot; + this);
-        Iterator it = directory.iterator();
-        while (it.hasNext())&#123;
-            Entry entry = (Entry)it.next();
-            entry.printList(prefix + &quot;/&quot; + name);
+        <span class="hljs-keyword">if</span> (args[<span class="hljs-number">0</span>].equals(<span class="hljs-string">&quot;plain&quot;</span>))&#123;
+            TextBuilder textBuilder = <span class="hljs-keyword">new</span> TextBuilder();
+            Director director = <span class="hljs-keyword">new</span> Director(textBuilder);
+            director.construct();
+            String result = textBuilder.getResult();
+            System.out.println(result);
+        &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (args[<span class="hljs-number">0</span>].equals(<span class="hljs-string">&quot;html&quot;</span>))&#123;
+            HTMLBuilder htmlBuilder = <span class="hljs-keyword">new</span> HTMLBuilder();
+            Director director = <span class="hljs-keyword">new</span> Director(htmlBuilder);
+            director.construct();
+            String filename = htmlBuilder.getFilename();
+            System.out.println(filename + <span class="hljs-string">&quot;文件编写完成&quot;</span>);
+        &#125;<span class="hljs-keyword">else</span> &#123;
+            usage();
+            System.exit(<span class="hljs-number">0</span>);
         &#125;
     &#125;
-&#125;</code></pre></div><h2 id="4-表示向文件中增加Entry时发生的异常的类"><a href="#4-表示向文件中增加Entry时发生的异常的类" class="headerlink" title="4 - 表示向文件中增加Entry时发生的异常的类"></a>4 - 表示向文件中增加Entry时发生的异常的类</h2><div class="code-wrapper"><pre><code>public class FileTreateMentException extends RuntimeException&#123;
 
-    public FileTreateMentException()&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">usage</span><span class="hljs-params">()</span></span>&#123;
+        System.out.println(<span class="hljs-string">&quot;Usage: java Main plain      编写纯文本文档&quot;</span>);
+        System.out.println(<span class="hljs-string">&quot;Usage: java Main html       编写HTML文档&quot;</span>);
     &#125;
+&#125;</code></pre></div>
 
-    public FileTreateMentException(String msg)&#123;
-        super(msg);
-    &#125;
-&#125;</code></pre></div><h2 id="5-测试程序行为的类"><a href="#5-测试程序行为的类" class="headerlink" title="5 - 测试程序行为的类"></a>5 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        try &#123;
-            System.out.println(&quot;Making root entries...&quot;);
-            Directory rootDir = new Directory(&quot;root&quot;);
-            Directory binDir = new Directory(&quot;bin&quot;);
-            Directory tmpDir = new Directory(&quot;tmp&quot;);
-            Directory usrDir = new Directory(&quot;usr&quot;);
-            rootDir.add(binDir);
-            rootDir.add(tmpDir);
-            rootDir.add(usrDir);
-            binDir.add(new File(&quot;vi&quot;, 10000));
-            binDir.add(new File(&quot;latex&quot;, 20000));
-            rootDir.printList();
+<h2 id="6-输出示例"><a href="#6-输出示例" class="headerlink" title="6 - 输出示例"></a>6 - 输出示例</h2><h3 id="6-1-Usage-java-Main-plain-编写纯文本文档"><a href="#6-1-Usage-java-Main-plain-编写纯文本文档" class="headerlink" title="6.1 Usage: java Main plain      编写纯文本文档"></a>6.1 Usage: java Main plain      编写纯文本文档</h3><div class="code-wrapper"><pre><code class="hljs java">=================================
+    [Greeting]
 
-            System.out.println(&quot;&quot;);
-            System.out.println(&quot;Making user entries...&quot;);
-            Directory yuki = new Directory(&quot;yuki&quot;);
-            Directory hanako = new Directory(&quot;hanako&quot;);
-            Directory tomura = new Directory(&quot;tomura&quot;);
-            usrDir.add(yuki);
-            usrDir.add(hanako);
-            usrDir.add(tomura);
-            yuki.add(new File(&quot;diary.html&quot;, 100));
-            yuki.add(new File(&quot;Composite.java&quot;, 200));
-            hanako.add(new File(&quot;memo.tex&quot;, 300));
-            tomura.add(new File(&quot;game.doc&quot;, 400));
-            tomura.add(new File(&quot;junk.mail&quot;, 500));
-            rootDir.printList();
-        &#125;catch (FileTreateMentException e)&#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="6-输出示例"><a href="#6-输出示例" class="headerlink" title="6 - 输出示例"></a>6 - 输出示例</h2><div class="code-wrapper"><pre><code>Making root entries...
-/root (30000)
-/root/bin (30000)
-/root/bin/vi (10000)
-/root/bin/latex (20000)
-/root/tmp (0)
-/root/usr (0)
+    *从早上至下午
 
-Making user entries...
-/root (31500)
-/root/bin (30000)
-/root/bin/vi (10000)
-/root/bin/latex (20000)
-/root/tmp (0)
-/root/usr (1500)
-/root/usr/yuki (300)
-/root/usr/yuki/diary.html (100)
-/root/usr/yuki/Composite.java (200)
-/root/usr/hanako (300)
-/root/usr/hanako/memo.tex (300)
-/root/usr/tomura (900)
-/root/usr/tomura/game.doc (400)
-/root/usr/tomura/junk.mail (500)</code></pre></div>]]></content>
+    -早上好.
+    -下午好.
+
+    *晚上
+
+    -晚上好.
+    -晚安.
+    -再见.
+
+=================================</code></pre></div>
+
+<h3 id="6-2-Usage-java-Main-html-编写HTML文档"><a href="#6-2-Usage-java-Main-html-编写HTML文档" class="headerlink" title="6.2 Usage: java Main html       编写HTML文档"></a>6.2 Usage: java Main html       编写HTML文档</h3><div class="code-wrapper"><pre><code class="hljs java">Greeting.html文件编写完成
+
+****HTML文本****
+ &lt;html&gt;&lt;head&gt;&lt;title&gt;Greeting&lt;/title&gt;&lt;/head&gt;&lt;body&gt;
+&lt;h1&gt;Greeting&lt;/h1&gt;
+&lt;p&gt;从早上至下午&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;早上好.&lt;/li&gt;
+&lt;li&gt;下午好.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;晚上&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;晚上好.&lt;/li&gt;
+&lt;li&gt;晚安.&lt;/li&gt;
+&lt;li&gt;再见.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/body&gt;&lt;/html&gt;</code></pre></div>
+
+<p>在进行一些复杂实例的组装中我们经常用到如下模式</p>
+]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -1587,160 +1183,418 @@ Making user entries...
       </categories>
   </entry>
   <entry>
-    <title>JavaFlyweight模式</title>
-    <url>/2020/10/08/JavaFlyweight%E6%A8%A1%E5%BC%8F/</url>
+    <title>JavaChainOfResponsibility模式</title>
+    <url>/2020/09/24/JavaChainOfResponsibility%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
-<p>  共享对象,避免浪费</p>
+<p>  推卸责任</p>
 </blockquote>
-<h2 id="1-表示”大型字符”的类"><a href="#1-表示”大型字符”的类" class="headerlink" title="1 - 表示”大型字符”的类"></a>1 - 表示”大型字符”的类</h2><div class="code-wrapper"><pre><code>public class BigChar &#123;
-    // 字符名字
-    private char charName;
-    // 大型字符对应的字符串(由&apos;#&apos;&apos;.&apos;&apos;\n&apos;组成)
-    private String fontData;
+<h2 id="1-表示发生的问题的类-它带有问题编号-number"><a href="#1-表示发生的问题的类-它带有问题编号-number" class="headerlink" title="1 - 表示发生的问题的类.它带有问题编号(number)"></a>1 - 表示发生的问题的类.它带有问题编号(number)</h2><div class="code-wrapper"><pre><code>public class Trouble &#123;
+    private int number; // 问题编号
 
-    private String filePath = &quot;大型字符文件路径&quot;;
+    public Trouble(int number)&#123; // 生成问题
+        this.number = number;
+    &#125;
 
-    // 构造函数
-    public BigChar(char charName) &#123;
-        this.charName = charName;
+    public int getNumber()&#123;
+        return number;
+    &#125;
 
+    @Override
+    public String toString()&#123;
+        return &quot;[Trouble &quot; + number + &quot;]&quot;;
+    &#125;
+&#125;</code></pre></div><h2 id="2-用来解决问题的抽象类"><a href="#2-用来解决问题的抽象类" class="headerlink" title="2 - 用来解决问题的抽象类"></a>2 - 用来解决问题的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class Support &#123;
+    private String name;    // 解决问题的实例的名字
+    private Support next;   // 要推卸给的对象
+
+    public Support(String name)&#123;
+        this.name = name;
+    &#125;
+
+    public Support setNext(Support next)&#123;
+        this.next = next;
+        return next;
+    &#125;
+
+    public final void support(Trouble trouble)&#123; // 解决问题的步骤
+        if (resolve(trouble))&#123;
+            done(trouble);
+        &#125;else if(next != null)&#123;
+            next.support(trouble);
+        &#125;else&#123;
+            fail(trouble);
+        &#125;
+    &#125;
+
+    @Override
+    public String toString()&#123;
+        return &quot;[&quot; + name + &quot;]&quot;;
+    &#125;
+
+    protected abstract boolean resolve(Trouble trouble);
+
+    protected  void done(Trouble trouble)&#123;  // 解决
+        System.out.println(trouble + &quot; is resolved by &quot; + this + &quot;.&quot;);
+    &#125;
+
+    protected void fail(Trouble trouble)&#123;   // 未解决
+        System.out.println(trouble + &quot;cannot be resolved.&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="3-用来解决问题的具体类-永远-“-不处理问题-“"><a href="#3-用来解决问题的具体类-永远-“-不处理问题-“" class="headerlink" title="3 - 用来解决问题的具体类(永远 “ 不处理问题 “)"></a>3 - 用来解决问题的具体类(永远 “ 不处理问题 “)</h2><div class="code-wrapper"><pre><code>public class NoSupport extends Support&#123;
+    public NoSupport(String name)&#123;
+        super(name);
+    &#125;
+
+    @Override
+    protected boolean resolve(Trouble trouble) &#123;    // 解决问题的方法
+        return false;                               // 自己什么也不做
+    &#125;
+&#125;</code></pre></div><h2 id="4-用来解决问题的具体类-仅解决编号小于指定编号的问题"><a href="#4-用来解决问题的具体类-仅解决编号小于指定编号的问题" class="headerlink" title="4 - 用来解决问题的具体类(仅解决编号小于指定编号的问题)"></a>4 - 用来解决问题的具体类(仅解决编号小于指定编号的问题)</h2><div class="code-wrapper"><pre><code>public class LimitSupport extends Support&#123;
+    private int limit;
+    public LimitSupport(String name, int limit) &#123;
+        super(name);
+        this.limit = limit;
+    &#125;
+
+    @Override
+    protected boolean resolve(Trouble trouble) &#123;
+        return trouble.getNumber() &lt; limit;
+    &#125;
+&#125;</code></pre></div><h2 id="5-用来解决问题的具体类-仅解决奇数编号的问题"><a href="#5-用来解决问题的具体类-仅解决奇数编号的问题" class="headerlink" title="5 - 用来解决问题的具体类(仅解决奇数编号的问题)"></a>5 - 用来解决问题的具体类(仅解决奇数编号的问题)</h2><div class="code-wrapper"><pre><code>public class OddSupport extends Support&#123;
+    public OddSupport(String name) &#123;
+        super(name);
+    &#125;
+
+    @Override
+    protected boolean resolve(Trouble trouble) &#123;
+        return trouble.getNumber() % 2 == 1;
+    &#125;
+&#125;</code></pre></div><h2 id="6-用来解决问题的具体类-仅解决指定编号的问题"><a href="#6-用来解决问题的具体类-仅解决指定编号的问题" class="headerlink" title="6 - 用来解决问题的具体类(仅解决指定编号的问题)"></a>6 - 用来解决问题的具体类(仅解决指定编号的问题)</h2><div class="code-wrapper"><pre><code>public class SpecialSupport extends Support&#123;
+    private int number;
+    public SpecialSupport(String name, int number) &#123;
+        super(name);
+        this.number = number;
+    &#125;
+
+    @Override
+    protected boolean resolve(Trouble trouble) &#123;
+        return trouble.getNumber() == number;
+    &#125;
+&#125;</code></pre></div><h2 id="7-制作Support的职责链-制造问题并测试程序行为"><a href="#7-制作Support的职责链-制造问题并测试程序行为" class="headerlink" title="7 - 制作Support的职责链, 制造问题并测试程序行为"></a>7 - 制作Support的职责链, 制造问题并测试程序行为</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        Support alice = new NoSupport(&quot;Alice&quot;);
+        Support bob = new LimitSupport(&quot;Bob&quot;, 10);
+        Support charlie = new SpecialSupport(&quot;Charlie&quot;, 29);
+        Support diana = new LimitSupport(&quot;Diana&quot;, 20);
+        Support elmo = new OddSupport(&quot;Elmo&quot;);
+        Support fred = new LimitSupport(&quot;Fred&quot;, 30);
+        // 形成职责链
+        alice.setNext(bob).setNext(charlie).setNext(diana).setNext(elmo).setNext(fred);
+        for (int i = 0; i &lt; 50; i++) &#123;
+            alice.support(new Trouble(i));
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="8-输出示例"><a href="#8-输出示例" class="headerlink" title="8 - 输出示例"></a>8 - 输出示例</h2><div class="code-wrapper"><pre><code>[Trouble 0] is resolved by [Bob].
+[Trouble 1] is resolved by [Bob].
+[Trouble 2] is resolved by [Bob].
+[Trouble 3] is resolved by [Bob].
+[Trouble 4] is resolved by [Bob].
+[Trouble 5] is resolved by [Bob].
+[Trouble 6] is resolved by [Bob].
+[Trouble 7] is resolved by [Bob].
+[Trouble 8] is resolved by [Bob].
+[Trouble 9] is resolved by [Bob].
+[Trouble 10] is resolved by [Diana].
+[Trouble 11] is resolved by [Diana].
+[Trouble 12] is resolved by [Diana].
+[Trouble 13] is resolved by [Diana].
+[Trouble 14] is resolved by [Diana].
+[Trouble 15] is resolved by [Diana].
+[Trouble 16] is resolved by [Diana].
+[Trouble 17] is resolved by [Diana].
+[Trouble 18] is resolved by [Diana].
+[Trouble 19] is resolved by [Diana].
+[Trouble 20] is resolved by [Fred].
+[Trouble 21] is resolved by [Elmo].
+[Trouble 22] is resolved by [Fred].
+[Trouble 23] is resolved by [Elmo].
+[Trouble 24] is resolved by [Fred].
+[Trouble 25] is resolved by [Elmo].
+[Trouble 26] is resolved by [Fred].
+[Trouble 27] is resolved by [Elmo].
+[Trouble 28] is resolved by [Fred].
+[Trouble 29] is resolved by [Charlie].
+[Trouble 30]cannot be resolved.
+[Trouble 31] is resolved by [Elmo].
+[Trouble 32]cannot be resolved.
+[Trouble 33] is resolved by [Elmo].
+[Trouble 34]cannot be resolved.
+[Trouble 35] is resolved by [Elmo].
+[Trouble 36]cannot be resolved.
+[Trouble 37] is resolved by [Elmo].
+[Trouble 38]cannot be resolved.
+[Trouble 39] is resolved by [Elmo].
+[Trouble 40]cannot be resolved.
+[Trouble 41] is resolved by [Elmo].
+[Trouble 42]cannot be resolved.
+[Trouble 43] is resolved by [Elmo].
+[Trouble 44]cannot be resolved.
+[Trouble 45] is resolved by [Elmo].
+[Trouble 46]cannot be resolved.
+[Trouble 47] is resolved by [Elmo].
+[Trouble 48]cannot be resolved.
+[Trouble 49] is resolved by [Elmo].</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JavaComposite模式</title>
+    <url>/2020/09/20/JavaComposite%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  容器与内容的一致性</p>
+</blockquote>
+<h2 id="1-抽象类-用来实现File类和Directory类的一致性"><a href="#1-抽象类-用来实现File类和Directory类的一致性" class="headerlink" title="1- 抽象类, 用来实现File类和Directory类的一致性"></a>1- 抽象类, 用来实现File类和Directory类的一致性</h2><div class="code-wrapper"><pre><code>public abstract class Entry &#123;
+    public abstract String getName();   // 获取名字
+    public abstract int getSize();      // 获取大小
+    public Entry add(Entry entry) throws FileTreateMentException&#123; // 加入条目目录
+        throw new FileTreateMentException();
+    &#125;
+
+    public void printList()&#123;    // 显示目录条目一览
+        printList(&quot;&quot;);
+    &#125;
+
+    protected abstract void printList(String prefix);   // 为一览加上前缀
+                                                        // 显示条目一览
+    @Override                                           // 显示代表类的文字
+    public String toString()&#123;
+        return getName() + &quot; (&quot; + getSize() + &quot;)&quot;;
+    &#125;
+&#125;</code></pre></div><h2 id="2-表示文件的类"><a href="#2-表示文件的类" class="headerlink" title="2 - 表示文件的类"></a>2 - 表示文件的类</h2><div class="code-wrapper"><pre><code>public class File extends Entry&#123;
+    private String name;
+    private int size;
+
+    public File(String name, int size)&#123;
+        this.name = name;
+        this.size = size;
+    &#125;
+
+    @Override
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    @Override
+    public int getSize() &#123;
+        return size;
+    &#125;
+
+    @Override
+    protected void printList(String prefix) &#123;
+        System.out.println(prefix + &quot;/&quot; + this);
+    &#125;
+&#125;</code></pre></div><h2 id="3-表示文件夹的类"><a href="#3-表示文件夹的类" class="headerlink" title="3 - 表示文件夹的类"></a>3 - 表示文件夹的类</h2><div class="code-wrapper"><pre><code>public class Directory extends Entry&#123;
+    private String name;
+    private ArrayList directory = new ArrayList();
+    public Directory(String name)&#123;
+        this.name = name;
+    &#125;
+
+    @Override
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    @Override
+    public int getSize() &#123;
+        int size = 0;
+        Iterator it = directory.iterator();
+        while (it.hasNext())&#123;
+            Entry entry = (Entry)it.next();
+            size += entry.getSize();
+        &#125;
+        return size;
+    &#125;
+
+    public Entry add(Entry entry)&#123;
+        directory.add(entry);
+        return this;
+    &#125;
+
+    @Override
+    protected void printList(String prefix) &#123;
+        System.out.println(prefix + &quot;/&quot; + this);
+        Iterator it = directory.iterator();
+        while (it.hasNext())&#123;
+            Entry entry = (Entry)it.next();
+            entry.printList(prefix + &quot;/&quot; + name);
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="4-表示向文件中增加Entry时发生的异常的类"><a href="#4-表示向文件中增加Entry时发生的异常的类" class="headerlink" title="4 - 表示向文件中增加Entry时发生的异常的类"></a>4 - 表示向文件中增加Entry时发生的异常的类</h2><div class="code-wrapper"><pre><code>public class FileTreateMentException extends RuntimeException&#123;
+
+    public FileTreateMentException()&#123;
+    &#125;
+
+    public FileTreateMentException(String msg)&#123;
+        super(msg);
+    &#125;
+&#125;</code></pre></div><h2 id="5-测试程序行为的类"><a href="#5-测试程序行为的类" class="headerlink" title="5 - 测试程序行为的类"></a>5 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
         try &#123;
-            BufferedReader reader = new BufferedReader(
-                    new FileReader(filePath+ &quot;big&quot; + charName + &quot;.txt&quot;)
-            );
-            String line;
-            StringBuffer buf = new StringBuffer();
-            while ((line = reader.readLine()) != null) &#123;
-                buf.append(line);
-                buf.append(&quot;\n&quot;);
-            &#125;
-            reader.close();
-            this.fontData = buf.toString();
-        &#125;catch (IOException e)&#123;
-            this.fontData = charName + &quot;?&quot;;
+            System.out.println(&quot;Making root entries...&quot;);
+            Directory rootDir = new Directory(&quot;root&quot;);
+            Directory binDir = new Directory(&quot;bin&quot;);
+            Directory tmpDir = new Directory(&quot;tmp&quot;);
+            Directory usrDir = new Directory(&quot;usr&quot;);
+            rootDir.add(binDir);
+            rootDir.add(tmpDir);
+            rootDir.add(usrDir);
+            binDir.add(new File(&quot;vi&quot;, 10000));
+            binDir.add(new File(&quot;latex&quot;, 20000));
+            rootDir.printList();
+
+            System.out.println(&quot;&quot;);
+            System.out.println(&quot;Making user entries...&quot;);
+            Directory yuki = new Directory(&quot;yuki&quot;);
+            Directory hanako = new Directory(&quot;hanako&quot;);
+            Directory tomura = new Directory(&quot;tomura&quot;);
+            usrDir.add(yuki);
+            usrDir.add(hanako);
+            usrDir.add(tomura);
+            yuki.add(new File(&quot;diary.html&quot;, 100));
+            yuki.add(new File(&quot;Composite.java&quot;, 200));
+            hanako.add(new File(&quot;memo.tex&quot;, 300));
+            tomura.add(new File(&quot;game.doc&quot;, 400));
+            tomura.add(new File(&quot;junk.mail&quot;, 500));
+            rootDir.printList();
+        &#125;catch (FileTreateMentException e)&#123;
             e.printStackTrace();
         &#125;
     &#125;
+&#125;</code></pre></div><h2 id="6-输出示例"><a href="#6-输出示例" class="headerlink" title="6 - 输出示例"></a>6 - 输出示例</h2><div class="code-wrapper"><pre><code>Making root entries...
+/root (30000)
+/root/bin (30000)
+/root/bin/vi (10000)
+/root/bin/latex (20000)
+/root/tmp (0)
+/root/usr (0)
 
-    // 显示大型字符
-    public void print() &#123;
-        System.out.println(fontData);
+Making user entries...
+/root (31500)
+/root/bin (30000)
+/root/bin/vi (10000)
+/root/bin/latex (20000)
+/root/tmp (0)
+/root/usr (1500)
+/root/usr/yuki (300)
+/root/usr/yuki/diary.html (100)
+/root/usr/yuki/Composite.java (200)
+/root/usr/hanako (300)
+/root/usr/hanako/memo.tex (300)
+/root/usr/tomura (900)
+/root/usr/tomura/game.doc (400)
+/root/usr/tomura/junk.mail (500)</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JavaFacade模式</title>
+    <url>/2020/09/25/JavaFacade%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  简单窗口</p>
+</blockquote>
+<h2 id="1-从邮件地址中获取用户名的类"><a href="#1-从邮件地址中获取用户名的类" class="headerlink" title="1- 从邮件地址中获取用户名的类"></a>1- 从邮件地址中获取用户名的类</h2><div class="code-wrapper"><pre><code>// 需要配置相应的数据库
+public class Database &#123;
+    private Database() &#123;    // 防止外部new出Database的实例,所以声明为private
     &#125;
-&#125;</code></pre></div><p>需要提前准备大型字符文件<br>例如字符’1’ ,文件名以”big1.txt”为标准</p>
-<div class="code-wrapper"><pre><code>..................
-........##........
-....######........
-........##........
-........##........
-........##........
-........##........
-..##############..
-..................</code></pre></div><h2 id="2-表示生成和共用BigChar类的实例的类"><a href="#2-表示生成和共用BigChar类的实例的类" class="headerlink" title="2 - 表示生成和共用BigChar类的实例的类"></a>2 - 表示生成和共用BigChar类的实例的类</h2><div class="code-wrapper"><pre><code>public class BigCharFactory &#123;
-    // 管理已经生成的BigChar的实例
-    private HashMap&lt;String, BigChar&gt; pool = new HashMap&lt;&gt;();
 
-    // Singleton模式
-    private static BigCharFactory singleton = new BigCharFactory();
-
-    // 构造函数
-    private BigCharFactory() &#123;&#125;
-
-    // 获取唯一实例
-    public static BigCharFactory getInstance() &#123;
-        return singleton;
-    &#125;
-
-    // 生成(共享)BigChar类的实例
-    public synchronized BigChar getBigChar(char charName) &#123;
-        BigChar bc = pool.get(&quot;&quot; + charName);
-        if (bc == null) &#123;
-            bc = new BigChar(charName);
-            pool.put(&quot;&quot; + charName, bc);
+    public static Properties getProperties(String dbname)&#123;  // 根据数据库名获取Properties
+        String filename = dbname + &quot;.txt&quot;;
+        Properties prop = new Properties();
+        try &#123;
+            prop.load(new FileInputStream(filename));
+        &#125;catch (IOException e)&#123;
+            System.out.println(&quot;Warning: &quot; + filename + &quot; is not found.&quot;);
         &#125;
-        return bc;
+        return prop;
     &#125;
-&#125;</code></pre></div><h2 id="3-表示多个BigChar组成的”大型字符串”的类"><a href="#3-表示多个BigChar组成的”大型字符串”的类" class="headerlink" title="3 - 表示多个BigChar组成的”大型字符串”的类"></a>3 - 表示多个BigChar组成的”大型字符串”的类</h2><div class="code-wrapper"><pre><code>public class BigString &#123;
-    // &quot;大型字符&quot;的数组
-    private BigChar[] bigChars;
-
-    // 构造函数
-    public BigString(String string) &#123;
-        bigChars = new BigChar[string.length()];
-        BigCharFactory factory = BigCharFactory.getInstance();
-        for (int i = 0; i &lt; bigChars.length; i++) &#123;
-            bigChars[i] = factory.getBigChar(string.charAt(i));
-        &#125;
+&#125;</code></pre></div><h2 id="2-编写HTML文件的类"><a href="#2-编写HTML文件的类" class="headerlink" title="2 - 编写HTML文件的类"></a>2 - 编写HTML文件的类</h2><div class="code-wrapper"><pre><code>public class HtmlWriter &#123;
+    private Writer writer;
+    public HtmlWriter(Writer writer)&#123;
+        this.writer = writer;
     &#125;
 
-    // 显示
-    public void print() &#123;
-        for (BigChar bigChar : bigChars) &#123;
-            bigChar.print();
+    public void title(String title) throws IOException&#123;
+        writer.write(&quot;&lt;html&gt;&quot;);
+        writer.write(&quot;&lt;head&gt;&quot;);
+        writer.write(&quot;&lt;title&gt;&quot; + title + &quot;&lt;/title&gt;&quot;);
+        writer.write(&quot;&lt;/head&gt;&quot;);
+        writer.write(&quot;&lt;body&gt;\n&quot;);
+        writer.write(&quot;&lt;h1&gt;&quot; + title + &quot;&lt;/h1&gt;&quot;);
+    &#125;
+
+    public void paragraph(String msg) throws IOException&#123;
+        writer.write(&quot;&lt;p&gt;&quot; + msg + &quot;&lt;/p&gt;\n&quot;);
+    &#125;
+
+    public void link(String href, String caption) throws IOException&#123;
+        paragraph(&quot;&lt;a href=\&quot;&quot; + href + &quot;\&quot;&gt;&quot; + caption + &quot;&lt;/a&gt;&quot;);
+    &#125;
+
+    public void mailto(String mailAddr, String userName) throws IOException&#123;
+        link(&quot;mailto: &quot; + mailAddr, userName);
+    &#125;
+
+    public void close() throws IOException&#123;
+        writer.write(&quot;&lt;/body&gt;&quot;);
+        writer.write(&quot;&lt;/html&gt;&quot;);
+        writer.close();
+    &#125;
+&#125;</code></pre></div><h2 id="3-根据邮件地址编写该用户的Web页面"><a href="#3-根据邮件地址编写该用户的Web页面" class="headerlink" title="3 - 根据邮件地址编写该用户的Web页面"></a>3 - 根据邮件地址编写该用户的Web页面</h2><div class="code-wrapper"><pre><code>public class PageMaker &#123;
+    private PageMaker() &#123;    // 防止外部new出PageMaker的实例,所以声明为private
+    &#125;
+
+    public static void makeWelcomePage(String mailAddr, String filename)&#123;
+        try &#123;
+            Properties mailProp = Database.getProperties(&quot;mailData&quot;);
+            String userName = mailProp.getProperty(mailAddr);
+            HtmlWriter writer = new HtmlWriter(new FileWriter(filename));
+            writer.title(&quot;Welcome to &quot; + userName + &quot;`s page!&quot;);
+            writer.paragraph(userName + &quot;欢迎来到&quot; + userName + &quot;的主页&quot;);
+            writer.paragraph(&quot;等着你的邮件哦!&quot;);
+            writer.mailto(mailAddr, userName);
+            writer.close();
+            System.out.println(filename + &quot; is created for &quot; + mailAddr + &quot; (&quot; +
+                    userName + &quot;)&quot;);
+        &#125;catch (IOException e)&#123;
+            e.printStackTrace();
         &#125;
+
     &#125;
 &#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
     public static void main(String[] args) &#123;
-        if (args.length == 0) &#123;
-            System.out.println(&quot;Usage: java Main digits&quot;);
-            System.out.println(&quot;Example: java Main 1212123&quot;);
-            System.exit(0);
-        &#125;
-
-        BigString bs = new BigString(args[0]);
-        bs.print();
+        PageMaker.makeWelcomePage(&quot;hyuki@hyuki.com&quot;, &quot;welcome.html&quot;);
     &#125;
-&#125;</code></pre></div><p>需要提前设置参数 args[0] = ‘12123’</p>
-<h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>..................
-........##........
-....######........
-........##........
-........##........
-........##........
-........##........
-..##############..
-..................
+&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><html><head><title>Welcome to Hiroshi Yuki`s page!</title></head><body>
+<h1>Welcome to Hiroshi Yuki`s page!</h1><p>null欢迎来到null的主页</p>
+<p>等着你的邮件哦!</p>
+<p><a href="mailto: hyuki@hyuki.com">Hiroshi Yuki</a></p>
+</body></html>
 
-...................
-....########.......
-..##.........###...
-............###....
-..........###......
-........###........
-......###..........
-....###............
-..#############....
-...................
-
-..................
-........##........
-....######........
-........##........
-........##........
-........##........
-........##........
-..##############..
-..................
-
-...................
-....########.......
-..##.........###...
-............###....
-..........###......
-........###........
-......###..........
-....###............
-..#############....
-...................
-
-..................
-....#######.......
-..##.......##.....
-............##....
-....#######.......
-............##....
-..##.......##.....
-....######........
-..................</code></pre></div>]]></content>
+<div class="code-wrapper"><pre><code>// HTML源码
+&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to Hiroshi Yuki`s page!&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Welcome to Hiroshi Yuki`s page!&lt;/h1&gt;
+&lt;p&gt;null欢迎来到null的主页&lt;/p&gt;
+&lt;p&gt;等着你的邮件哦!&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;mailto: hyuki@hyuki.com&quot;&gt;Hiroshi Yuki&lt;/a&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -1926,6 +1780,166 @@ program repeat 4 repeat 3 go right go left end right end end</code></pre></div>]
       </categories>
   </entry>
   <entry>
+    <title>JavaFlyweight模式</title>
+    <url>/2020/10/08/JavaFlyweight%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  共享对象,避免浪费</p>
+</blockquote>
+<h2 id="1-表示”大型字符”的类"><a href="#1-表示”大型字符”的类" class="headerlink" title="1 - 表示”大型字符”的类"></a>1 - 表示”大型字符”的类</h2><div class="code-wrapper"><pre><code>public class BigChar &#123;
+    // 字符名字
+    private char charName;
+    // 大型字符对应的字符串(由&apos;#&apos;&apos;.&apos;&apos;\n&apos;组成)
+    private String fontData;
+
+    private String filePath = &quot;大型字符文件路径&quot;;
+
+    // 构造函数
+    public BigChar(char charName) &#123;
+        this.charName = charName;
+
+        try &#123;
+            BufferedReader reader = new BufferedReader(
+                    new FileReader(filePath+ &quot;big&quot; + charName + &quot;.txt&quot;)
+            );
+            String line;
+            StringBuffer buf = new StringBuffer();
+            while ((line = reader.readLine()) != null) &#123;
+                buf.append(line);
+                buf.append(&quot;\n&quot;);
+            &#125;
+            reader.close();
+            this.fontData = buf.toString();
+        &#125;catch (IOException e)&#123;
+            this.fontData = charName + &quot;?&quot;;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+    // 显示大型字符
+    public void print() &#123;
+        System.out.println(fontData);
+    &#125;
+&#125;</code></pre></div><p>需要提前准备大型字符文件<br>例如字符’1’ ,文件名以”big1.txt”为标准</p>
+<div class="code-wrapper"><pre><code>..................
+........##........
+....######........
+........##........
+........##........
+........##........
+........##........
+..##############..
+..................</code></pre></div><h2 id="2-表示生成和共用BigChar类的实例的类"><a href="#2-表示生成和共用BigChar类的实例的类" class="headerlink" title="2 - 表示生成和共用BigChar类的实例的类"></a>2 - 表示生成和共用BigChar类的实例的类</h2><div class="code-wrapper"><pre><code>public class BigCharFactory &#123;
+    // 管理已经生成的BigChar的实例
+    private HashMap&lt;String, BigChar&gt; pool = new HashMap&lt;&gt;();
+
+    // Singleton模式
+    private static BigCharFactory singleton = new BigCharFactory();
+
+    // 构造函数
+    private BigCharFactory() &#123;&#125;
+
+    // 获取唯一实例
+    public static BigCharFactory getInstance() &#123;
+        return singleton;
+    &#125;
+
+    // 生成(共享)BigChar类的实例
+    public synchronized BigChar getBigChar(char charName) &#123;
+        BigChar bc = pool.get(&quot;&quot; + charName);
+        if (bc == null) &#123;
+            bc = new BigChar(charName);
+            pool.put(&quot;&quot; + charName, bc);
+        &#125;
+        return bc;
+    &#125;
+&#125;</code></pre></div><h2 id="3-表示多个BigChar组成的”大型字符串”的类"><a href="#3-表示多个BigChar组成的”大型字符串”的类" class="headerlink" title="3 - 表示多个BigChar组成的”大型字符串”的类"></a>3 - 表示多个BigChar组成的”大型字符串”的类</h2><div class="code-wrapper"><pre><code>public class BigString &#123;
+    // &quot;大型字符&quot;的数组
+    private BigChar[] bigChars;
+
+    // 构造函数
+    public BigString(String string) &#123;
+        bigChars = new BigChar[string.length()];
+        BigCharFactory factory = BigCharFactory.getInstance();
+        for (int i = 0; i &lt; bigChars.length; i++) &#123;
+            bigChars[i] = factory.getBigChar(string.charAt(i));
+        &#125;
+    &#125;
+
+    // 显示
+    public void print() &#123;
+        for (BigChar bigChar : bigChars) &#123;
+            bigChar.print();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        if (args.length == 0) &#123;
+            System.out.println(&quot;Usage: java Main digits&quot;);
+            System.out.println(&quot;Example: java Main 1212123&quot;);
+            System.exit(0);
+        &#125;
+
+        BigString bs = new BigString(args[0]);
+        bs.print();
+    &#125;
+&#125;</code></pre></div><p>需要提前设置参数 args[0] = ‘12123’</p>
+<h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>..................
+........##........
+....######........
+........##........
+........##........
+........##........
+........##........
+..##############..
+..................
+
+...................
+....########.......
+..##.........###...
+............###....
+..........###......
+........###........
+......###..........
+....###............
+..#############....
+...................
+
+..................
+........##........
+....######........
+........##........
+........##........
+........##........
+........##........
+..##############..
+..................
+
+...................
+....########.......
+..##.........###...
+............###....
+..........###......
+........###........
+......###..........
+....###............
+..#############....
+...................
+
+..................
+....#######.......
+..##.......##.....
+............##....
+....#######.......
+............##....
+..##.......##.....
+....######........
+..................</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
     <title>JavaMediator模式</title>
     <url>/2020/09/26/JavaMediator%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -2105,306 +2119,198 @@ when=1601126737494,modifiers=] on button0</code></pre></div>]]></content>
       </categories>
   </entry>
   <entry>
-    <title>JavaPrototype模式</title>
-    <url>/2020/09/12/JavaPrototype%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  通过复制生成实例</p>
-</blockquote>
-<h2 id="1-声明了抽象方法use和createClone的接口"><a href="#1-声明了抽象方法use和createClone的接口" class="headerlink" title="1 - 声明了抽象方法use和createClone的接口"></a>1 - 声明了抽象方法use和createClone的接口</h2><div class="code-wrapper"><pre><code>public interface Product extends Cloneable&#123;
-    public abstract void use(String s);
-    public abstract Product createClone();
-&#125;</code></pre></div><h2 id="2-调用createClone方法复制实例的类"><a href="#2-调用createClone方法复制实例的类" class="headerlink" title="2 - 调用createClone方法复制实例的类"></a>2 - 调用createClone方法复制实例的类</h2><div class="code-wrapper"><pre><code>import java.util.*;
-public class Manager &#123;
-    private HashMap&lt;String, Product&gt; showcase = new HashMap&lt;String, Product&gt;();
-
-    public void register(String name, Product proto)&#123;
-        showcase.put(name, proto);
-    &#125;
-
-    public Product create(String protoname)&#123;
-        Product p = showcase.get(protoname);
-        return p.createClone();
-    &#125;
-&#125;</code></pre></div><p>被复制对象的类必须实现java.lang.Clonable接口</p>
-<h2 id="3-将字符串放入方框中并使其显示出来的类-实现了use方法和createClone方法"><a href="#3-将字符串放入方框中并使其显示出来的类-实现了use方法和createClone方法" class="headerlink" title="3 - 将字符串放入方框中并使其显示出来的类, 实现了use方法和createClone方法"></a>3 - 将字符串放入方框中并使其显示出来的类, 实现了use方法和createClone方法</h2><div class="code-wrapper"><pre><code>public class MessageBox implements Product &#123;
-    private char decochar;
-    public MessageBox(char decochar)&#123;
-        this.decochar = decochar;
-    &#125;
-
-    @Override
-    public void use(String s) &#123;
-        int length = s.getBytes().length;
-        for (int i = 0; i &lt; length + 4; i++) &#123;
-            System.out.print(decochar);
-        &#125;
-        System.out.println(&quot;&quot;);
-        System.out.println(decochar + &quot; &quot; + s + &quot; &quot; + decochar);
-        for (int i = 0; i &lt; length + 4; i++) &#123;
-            System.out.print(decochar);
-        &#125;
-        System.out.println(&quot;&quot;);
-    &#125;
-
-    @Override
-    public Product createClone() &#123;
-        Product p = null;
-        try &#123;
-            p = (Product)clone();
-        &#125;catch (CloneNotSupportedException e)&#123;
-            e.printStackTrace();
-        &#125;
-        return p;
-    &#125;
-&#125;</code></pre></div><h2 id="4-给字符串加下划线并使其显示出来的类-实现了use方法和createClone方法"><a href="#4-给字符串加下划线并使其显示出来的类-实现了use方法和createClone方法" class="headerlink" title="4 - 给字符串加下划线并使其显示出来的类,实现了use方法和createClone方法"></a>4 - 给字符串加下划线并使其显示出来的类,实现了use方法和createClone方法</h2><div class="code-wrapper"><pre><code>public class UnderlinePen implements Product &#123;
-    private char ulchar;
-
-    public UnderlinePen(char ulchar)&#123;
-        this.ulchar = ulchar;
-    &#125;
-
-    @Override
-    public void use(String s) &#123;
-        int length = s.getBytes().length;
-        System.out.println(&quot;\&quot;&quot; + s + &quot;\&quot;&quot;);
-        System.out.print(&quot; &quot;);
-        for (int i = 0; i &lt; length; i++) &#123;
-            System.out.print(ulchar);
-        &#125;
-        System.out.println(&quot;&quot;);
-    &#125;
-
-    @Override
-    public Product createClone() &#123;
-        Product p = null;
-        try &#123;
-            p = (Product)clone();
-        &#125;catch (CloneNotSupportedException e)&#123;
-            e.printStackTrace();
-        &#125;
-        return p;
-    &#125;
-&#125;</code></pre></div><h2 id="5-测试程序行为的类"><a href="#5-测试程序行为的类" class="headerlink" title="5 - 测试程序行为的类"></a>5 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args)&#123;
-        // 准备
-        Manager manager = new Manager();
-        UnderlinePen upen = new UnderlinePen(&apos;~&apos;);
-        MessageBox mbox = new MessageBox(&apos;*&apos;);
-        MessageBox sbox = new MessageBox(&apos;/&apos;);
-        manager.register(&quot;strong message&quot;, upen);
-        manager.register(&quot;warning box&quot;, mbox);
-        manager.register(&quot;slash box&quot;, sbox);
-
-        // 生成
-        Product p1 = manager.create(&quot;strong message&quot;);
-        p1.use(&quot;Hello, world.&quot;);
-
-        Product p2 = manager.create(&quot;warning box&quot;);
-        p2.use(&quot;Hello, world.&quot;);
-
-        Product p3 = manager.create(&quot;slash box&quot;);
-        p3.use(&quot;Hello, world.&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="6-输出示例"><a href="#6-输出示例" class="headerlink" title="6 - 输出示例"></a>6 - 输出示例</h2><div class="code-wrapper"><pre><code>&quot;Hello, world.&quot;
-~~~~~~~~~~~~~
-*****************
-* Hello, world. *
-*****************
-/////////////////
-/ Hello, world. /
-/////////////////</code></pre></div><p>在一些情况下,我们很难将种类繁多的对象整合到一个类中或者根据一个类来生成它的的实例,这个时候我们就可以以复制的方式,来根据实例生成新的实例.</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
     <title>JavaMemento模式</title>
     <url>/2020/09/29/JavaMemento%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
 <p>  保存对象状态</p>
 </blockquote>
-<h2 id="1-表示Gamer状态的类"><a href="#1-表示Gamer状态的类" class="headerlink" title="1 - 表示Gamer状态的类"></a>1 - 表示Gamer状态的类</h2><div class="code-wrapper"><pre><code>public class Memento &#123;
-    int money;  // 所持金钱
-    ArrayList fruits;   // 获得的水果
+<h2 id="1-表示Gamer状态的类"><a href="#1-表示Gamer状态的类" class="headerlink" title="1 - 表示Gamer状态的类"></a>1 - 表示Gamer状态的类</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Memento</span> </span>&#123;
+    <span class="hljs-keyword">int</span> money;  <span class="hljs-comment">// 所持金钱</span>
+    ArrayList fruits;   <span class="hljs-comment">// 获得的水果</span>
 
-    public int getMoney() &#123; // 获取当前所持有的金钱(narrow interface)
-        return money;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getMoney</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-comment">// 获取当前所持有的金钱(narrow interface)</span>
+        <span class="hljs-keyword">return</span> money;
     &#125;
 
-    Memento(int money) &#123;    // 构造函数
-        this.money = money;
-        this.fruits = new ArrayList();
+    Memento(<span class="hljs-keyword">int</span> money) &#123;    <span class="hljs-comment">// 构造函数</span>
+        <span class="hljs-keyword">this</span>.money = money;
+        <span class="hljs-keyword">this</span>.fruits = <span class="hljs-keyword">new</span> ArrayList();
     &#125;
 
-    void addFruits(String fruit) &#123;  // 添加水果
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">addFruits</span><span class="hljs-params">(String fruit)</span> </span>&#123;  <span class="hljs-comment">// 添加水果</span>
         fruits.add(fruit);
     &#125;
 
-    List getFruits() &#123;  // 获取当前所持有的所有水果(wide interface)
-        return (List)fruits.clone();
+    <span class="hljs-function">List <span class="hljs-title">getFruits</span><span class="hljs-params">()</span> </span>&#123;  <span class="hljs-comment">// 获取当前所持有的所有水果(wide interface)</span>
+        <span class="hljs-keyword">return</span> (List)fruits.clone();
     &#125;
-&#125;</code></pre></div><h2 id="2-表示游戏主人公的类-它会生成Memento的实例"><a href="#2-表示游戏主人公的类-它会生成Memento的实例" class="headerlink" title="2 - 表示游戏主人公的类.它会生成Memento的实例"></a>2 - 表示游戏主人公的类.它会生成Memento的实例</h2><div class="code-wrapper"><pre><code>public class Gamer &#123;
-    private int money;  //  所持金钱
-    private List fruits = new ArrayList&lt;&gt;();  // 获得的水果
-    private Random random = new Random();   // 随机数生成器
-    private static String [] fruitsName = &#123; // 表示水果种类的数组
-            &quot;苹果&quot;, &quot;葡萄&quot;, &quot;香蕉&quot;, &quot;橘子&quot;,
+&#125;</code></pre></div>
+
+<h2 id="2-表示游戏主人公的类-它会生成Memento的实例"><a href="#2-表示游戏主人公的类-它会生成Memento的实例" class="headerlink" title="2 - 表示游戏主人公的类.它会生成Memento的实例"></a>2 - 表示游戏主人公的类.它会生成Memento的实例</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Gamer</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> money;  <span class="hljs-comment">//  所持金钱</span>
+    <span class="hljs-keyword">private</span> List fruits = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();  <span class="hljs-comment">// 获得的水果</span>
+    <span class="hljs-keyword">private</span> Random random = <span class="hljs-keyword">new</span> Random();   <span class="hljs-comment">// 随机数生成器</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> String [] fruitsName = &#123; <span class="hljs-comment">// 表示水果种类的数组</span>
+            <span class="hljs-string">&quot;苹果&quot;</span>, <span class="hljs-string">&quot;葡萄&quot;</span>, <span class="hljs-string">&quot;香蕉&quot;</span>, <span class="hljs-string">&quot;橘子&quot;</span>,
     &#125;;
 
-    public Gamer(int money) &#123;
-        this.money = money;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Gamer</span><span class="hljs-params">(<span class="hljs-keyword">int</span> money)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.money = money;
     &#125;
 
-    public int getMoney() &#123;
-        return money;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getMoney</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> money;
     &#125;
 
-    public void bet() &#123;         // 投掷骰子进行游戏
-        int dice = random.nextInt(6) + 1;   // 骰子结果为1时,增加所持有的金钱.
-        if(dice == 1) &#123;
-            money += 100;
-            System.out.println(&quot;所持金钱增加了.&quot;);
-        &#125; else if (dice == 2) &#123; // 骰子结果为2时,所持金钱减半.
-            money /= 2;
-            System.out.println(&quot;所持金钱减半了.&quot;);
-        &#125; else if (dice == 6) &#123; // 骰子结果为6时,获得水果
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">bet</span><span class="hljs-params">()</span> </span>&#123;         <span class="hljs-comment">// 投掷骰子进行游戏</span>
+        <span class="hljs-keyword">int</span> dice = random.nextInt(<span class="hljs-number">6</span>) + <span class="hljs-number">1</span>;   <span class="hljs-comment">// 骰子结果为1时,增加所持有的金钱.</span>
+        <span class="hljs-keyword">if</span>(dice == <span class="hljs-number">1</span>) &#123;
+            money += <span class="hljs-number">100</span>;
+            System.out.println(<span class="hljs-string">&quot;所持金钱增加了.&quot;</span>);
+        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (dice == <span class="hljs-number">2</span>) &#123; <span class="hljs-comment">// 骰子结果为2时,所持金钱减半.</span>
+            money /= <span class="hljs-number">2</span>;
+            System.out.println(<span class="hljs-string">&quot;所持金钱减半了.&quot;</span>);
+        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (dice == <span class="hljs-number">6</span>) &#123; <span class="hljs-comment">// 骰子结果为6时,获得水果</span>
             String f = getFruit();
-            System.out.println(&quot;获得了水果 (&quot; + f + &quot;).&quot;);
+            System.out.println(<span class="hljs-string">&quot;获得了水果 (&quot;</span> + f + <span class="hljs-string">&quot;).&quot;</span>);
             fruits.add(f);
-        &#125; else &#123;    // 骰子结果为3,4,5则什么都不会发生
-            System.out.println(&quot;什么都没有发生&quot;);
+        &#125; <span class="hljs-keyword">else</span> &#123;    <span class="hljs-comment">// 骰子结果为3,4,5则什么都不会发生</span>
+            System.out.println(<span class="hljs-string">&quot;什么都没有发生&quot;</span>);
         &#125;
     &#125;
 
-    public Memento createMemento() &#123;    // 拍摄快照
-        Memento m = new Memento(money);
-        for (Object fruit : fruits) &#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Memento <span class="hljs-title">createMemento</span><span class="hljs-params">()</span> </span>&#123;    <span class="hljs-comment">// 拍摄快照</span>
+        Memento m = <span class="hljs-keyword">new</span> Memento(money);
+        <span class="hljs-keyword">for</span> (Object fruit : fruits) &#123;
             String f = (String) fruit;
-            if (f.startsWith(&quot;好吃的&quot;)) &#123;  // 只保存好吃的水果
+            <span class="hljs-keyword">if</span> (f.startsWith(<span class="hljs-string">&quot;好吃的&quot;</span>)) &#123;  <span class="hljs-comment">// 只保存好吃的水果</span>
                 m.addFruits((String) f);
             &#125;
         &#125;
-        return m;
+        <span class="hljs-keyword">return</span> m;
     &#125;
 
-    public void restoreMemento(Memento memento) &#123;   // 撤销
-        this.money = memento.money;
-        this.fruits = memento.getFruits();
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">restoreMemento</span><span class="hljs-params">(Memento memento)</span> </span>&#123;   <span class="hljs-comment">// 撤销</span>
+        <span class="hljs-keyword">this</span>.money = memento.money;
+        <span class="hljs-keyword">this</span>.fruits = memento.getFruits();
     &#125;
 
-    @Override
-    public String toString() &#123;
-        return &quot;[money = &quot; + money + &quot;,fruits = &quot; + fruits + &quot;]&quot;;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;[money = &quot;</span> + money + <span class="hljs-string">&quot;,fruits = &quot;</span> + fruits + <span class="hljs-string">&quot;]&quot;</span>;
     &#125;
 
-    private String getFruit() &#123;
-        String prefix = &quot;&quot;;
-        if (random.nextBoolean()) &#123;
-            prefix = &quot;好吃的&quot;;
+    <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getFruit</span><span class="hljs-params">()</span> </span>&#123;
+        String prefix = <span class="hljs-string">&quot;&quot;</span>;
+        <span class="hljs-keyword">if</span> (random.nextBoolean()) &#123;
+            prefix = <span class="hljs-string">&quot;好吃的&quot;</span>;
         &#125;
-        return prefix + fruitsName[random.nextInt(fruitsName.length)];
+        <span class="hljs-keyword">return</span> prefix + fruitsName[random.nextInt(fruitsName.length)];
     &#125;
-&#125;</code></pre></div><h2 id="3-进行游戏的类-它会事先保存Memento的实例-之后会根据需要恢复Gamer的状态"><a href="#3-进行游戏的类-它会事先保存Memento的实例-之后会根据需要恢复Gamer的状态" class="headerlink" title="3 - 进行游戏的类.它会事先保存Memento的实例, 之后会根据需要恢复Gamer的状态"></a>3 - 进行游戏的类.它会事先保存Memento的实例, 之后会根据需要恢复Gamer的状态</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        Gamer gamer = new Gamer(100);   // 最初的金钱数为100
-        Memento memento = gamer.createMemento();    // 保存最初的状态
-        for (int i = 0; i &lt; 100; i++) &#123;
-            System.out.println(&quot;===&quot; + i);  // 显示掷骰子的次数
-            System.out.println(&quot;当前状态: &quot; + gamer);   // 显示主人公当前的状态
+&#125;</code></pre></div>
 
-            gamer.bet();    // 进行游戏
+<h2 id="3-进行游戏的类-它会事先保存Memento的实例-之后会根据需要恢复Gamer的状态"><a href="#3-进行游戏的类-它会事先保存Memento的实例-之后会根据需要恢复Gamer的状态" class="headerlink" title="3 - 进行游戏的类.它会事先保存Memento的实例, 之后会根据需要恢复Gamer的状态"></a>3 - 进行游戏的类.它会事先保存Memento的实例, 之后会根据需要恢复Gamer的状态</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        Gamer gamer = <span class="hljs-keyword">new</span> Gamer(<span class="hljs-number">100</span>);   <span class="hljs-comment">// 最初的金钱数为100</span>
+        Memento memento = gamer.createMemento();    <span class="hljs-comment">// 保存最初的状态</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++) &#123;
+            System.out.println(<span class="hljs-string">&quot;===&quot;</span> + i);  <span class="hljs-comment">// 显示掷骰子的次数</span>
+            System.out.println(<span class="hljs-string">&quot;当前状态: &quot;</span> + gamer);   <span class="hljs-comment">// 显示主人公当前的状态</span>
 
-            System.out.println(&quot;所持金钱为&quot; + gamer.getMoney() + &quot;元&quot;);
-            // 决定如何处理Memento
-            if (gamer.getMoney() &gt; memento.getMoney()) &#123;
-                System.out.println(&quot;    (所持金钱增加了许多,因此保存游戏当前的状态)&quot;);
+            gamer.bet();    <span class="hljs-comment">// 进行游戏</span>
+
+            System.out.println(<span class="hljs-string">&quot;所持金钱为&quot;</span> + gamer.getMoney() + <span class="hljs-string">&quot;元&quot;</span>);
+            <span class="hljs-comment">// 决定如何处理Memento</span>
+            <span class="hljs-keyword">if</span> (gamer.getMoney() &gt; memento.getMoney()) &#123;
+                System.out.println(<span class="hljs-string">&quot;    (所持金钱增加了许多,因此保存游戏当前的状态)&quot;</span>);
                 memento = gamer.createMemento();
-            &#125; else if (gamer.getMoney() &lt; memento.getMoney() / 2) &#123;
-                System.out.println(&quot;   (所持金钱减少了许多,因此将游戏恢复至以前的状态)&quot;);
+            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (gamer.getMoney() &lt; memento.getMoney() / <span class="hljs-number">2</span>) &#123;
+                System.out.println(<span class="hljs-string">&quot;   (所持金钱减少了许多,因此将游戏恢复至以前的状态)&quot;</span>);
                 gamer.restoreMemento(memento);
             &#125;
 
-            // 等待一段时间
-            try &#123;
-                Thread.sleep(1000);
-            &#125;catch (InterruptedException ignored) &#123;
+            <span class="hljs-comment">// 等待一段时间</span>
+            <span class="hljs-keyword">try</span> &#123;
+                Thread.sleep(<span class="hljs-number">1000</span>);
+            &#125;<span class="hljs-keyword">catch</span> (InterruptedException ignored) &#123;
             &#125;
-            System.out.println(&quot;&quot;);
+            System.out.println(<span class="hljs-string">&quot;&quot;</span>);
         &#125;
     &#125;
-&#125;</code></pre></div><h2 id="4-输出示例"><a href="#4-输出示例" class="headerlink" title="4 - 输出示例"></a>4 - 输出示例</h2><div class="code-wrapper"><pre><code>===0
-当前状态: [money = 100,fruits = []]
-什么都没有发生
-所持金钱为100元
+&#125;</code></pre></div>
 
-===1
-当前状态: [money = 100,fruits = []]
+<h2 id="4-输出示例"><a href="#4-输出示例" class="headerlink" title="4 - 输出示例"></a>4 - 输出示例</h2><div class="code-wrapper"><pre><code class="hljs java">===<span class="hljs-number">0</span>
+当前状态: [money = <span class="hljs-number">100</span>,fruits = []]
+什么都没有发生
+所持金钱为<span class="hljs-number">100</span>元
+
+===<span class="hljs-number">1</span>
+当前状态: [money = <span class="hljs-number">100</span>,fruits = []]
 所持金钱减半了.
-所持金钱为50元
+所持金钱为<span class="hljs-number">50</span>元
 
-===2
-当前状态: [money = 50,fruits = []]
+===<span class="hljs-number">2</span>
+当前状态: [money = <span class="hljs-number">50</span>,fruits = []]
 什么都没有发生
-所持金钱为50元
+所持金钱为<span class="hljs-number">50</span>元
 
-===3
-当前状态: [money = 50,fruits = []]
+===<span class="hljs-number">3</span>
+当前状态: [money = <span class="hljs-number">50</span>,fruits = []]
 所持金钱增加了.
-所持金钱为150元
+所持金钱为<span class="hljs-number">150</span>元
     (所持金钱增加了许多,因此保存游戏当前的状态)
 
-===4
-当前状态: [money = 150,fruits = []]
+===<span class="hljs-number">4</span>
+当前状态: [money = <span class="hljs-number">150</span>,fruits = []]
 所持金钱增加了.
-所持金钱为250元
+所持金钱为<span class="hljs-number">250</span>元
     (所持金钱增加了许多,因此保存游戏当前的状态)
 
-===5
-当前状态: [money = 250,fruits = []]
+===<span class="hljs-number">5</span>
+当前状态: [money = <span class="hljs-number">250</span>,fruits = []]
 什么都没有发生
-所持金钱为250元
+所持金钱为<span class="hljs-number">250</span>元
 
-===6
-当前状态: [money = 250,fruits = []]
+===<span class="hljs-number">6</span>
+当前状态: [money = <span class="hljs-number">250</span>,fruits = []]
 什么都没有发生
-所持金钱为250元
+所持金钱为<span class="hljs-number">250</span>元
 
-===7
-当前状态: [money = 250,fruits = []]
+===<span class="hljs-number">7</span>
+当前状态: [money = <span class="hljs-number">250</span>,fruits = []]
 所持金钱减半了.
-所持金钱为125元
+所持金钱为<span class="hljs-number">125</span>元
 
-===8
-当前状态: [money = 125,fruits = []]
+===<span class="hljs-number">8</span>
+当前状态: [money = <span class="hljs-number">125</span>,fruits = []]
 获得了水果(好吃的苹果).
-所持金钱为125元
+所持金钱为<span class="hljs-number">125</span>元
 
-===9
-当前状态: [money = 125,fruits = [好吃的苹果]]
+===<span class="hljs-number">9</span>
+当前状态: [money = <span class="hljs-number">125</span>,fruits = [好吃的苹果]]
 什么都没有发生
-所持金钱为125元
+所持金钱为<span class="hljs-number">125</span>元
 
-===10
-当前状态: [money = 125,fruits = [好吃的苹果]]
+===<span class="hljs-number">10</span>
+当前状态: [money = <span class="hljs-number">125</span>,fruits = [好吃的苹果]]
 所持金钱减半了.
-所持金钱为62元
+所持金钱为<span class="hljs-number">62</span>元
 (所持金钱减少了许多,因此将游戏恢复至以前的状态)
 
 省略
-===49
-当前状态: [money = 525,fruits = [好吃的橘子, 橘子]]
+===<span class="hljs-number">49</span>
+当前状态: [money = <span class="hljs-number">525</span>,fruits = [好吃的橘子, 橘子]]
 什么都没有发生
-所持金钱为525元
+所持金钱为<span class="hljs-number">525</span>元
 
-===50
-当前状态: [money = 525,fruits = [好吃的橘子, 橘子]]
+===<span class="hljs-number">50</span>
+当前状态: [money = <span class="hljs-number">525</span>,fruits = [好吃的橘子, 橘子]]
 所持金钱减半了.
-所持金钱为262元
+所持金钱为<span class="hljs-number">262</span>元
 (所持金钱减少了许多,因此将游戏恢复至以前的状态)
 
-===51</code></pre></div>]]></content>
+===<span class="hljs-number">51</span></code></pre></div>
+]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -2534,97 +2440,115 @@ GraphObserver: **************************</code></pre></div>]]></content>
       </categories>
   </entry>
   <entry>
-    <title>JavaProxy模式</title>
-    <url>/2020/10/11/JavaProxy%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="1-Printer和PrinterProxy的共同接口"><a href="#1-Printer和PrinterProxy的共同接口" class="headerlink" title="1 - Printer和PrinterProxy的共同接口"></a>1 - Printer和PrinterProxy的共同接口</h2><div class="code-wrapper"><pre><code>public interface Printable &#123;
-    public abstract void setPrinterName(String name);
-    public abstract String getPrinterName();
-    public abstract void print(String string);
-&#125;</code></pre></div><h2 id="2-表示带名字的打印机类-本人"><a href="#2-表示带名字的打印机类-本人" class="headerlink" title="2 - 表示带名字的打印机类(本人)"></a>2 - 表示带名字的打印机类(本人)</h2><div class="code-wrapper"><pre><code>public class Printer implements Printable &#123;
-    private String name;
-    public Printer() &#123;
-        heavyJob(&quot;正在生成Printer的实例&quot;);
+    <title>JavaPrototype模式</title>
+    <url>/2020/09/12/JavaPrototype%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  通过复制生成实例</p>
+</blockquote>
+<h2 id="1-声明了抽象方法use和createClone的接口"><a href="#1-声明了抽象方法use和createClone的接口" class="headerlink" title="1 - 声明了抽象方法use和createClone的接口"></a>1 - 声明了抽象方法use和createClone的接口</h2><div class="code-wrapper"><pre><code>public interface Product extends Cloneable&#123;
+    public abstract void use(String s);
+    public abstract Product createClone();
+&#125;</code></pre></div><h2 id="2-调用createClone方法复制实例的类"><a href="#2-调用createClone方法复制实例的类" class="headerlink" title="2 - 调用createClone方法复制实例的类"></a>2 - 调用createClone方法复制实例的类</h2><div class="code-wrapper"><pre><code>import java.util.*;
+public class Manager &#123;
+    private HashMap&lt;String, Product&gt; showcase = new HashMap&lt;String, Product&gt;();
+
+    public void register(String name, Product proto)&#123;
+        showcase.put(name, proto);
     &#125;
 
-    public Printer(String name) &#123;
-        this.name = name;
-        heavyJob(&quot;正在生成Printer的实例(&quot; + name + &quot;)&quot;);
+    public Product create(String protoname)&#123;
+        Product p = showcase.get(protoname);
+        return p.createClone();
+    &#125;
+&#125;</code></pre></div><p>被复制对象的类必须实现java.lang.Clonable接口</p>
+<h2 id="3-将字符串放入方框中并使其显示出来的类-实现了use方法和createClone方法"><a href="#3-将字符串放入方框中并使其显示出来的类-实现了use方法和createClone方法" class="headerlink" title="3 - 将字符串放入方框中并使其显示出来的类, 实现了use方法和createClone方法"></a>3 - 将字符串放入方框中并使其显示出来的类, 实现了use方法和createClone方法</h2><div class="code-wrapper"><pre><code>public class MessageBox implements Product &#123;
+    private char decochar;
+    public MessageBox(char decochar)&#123;
+        this.decochar = decochar;
     &#125;
 
     @Override
-    public void setPrinterName(String name) &#123;
-        this.name = name;
-    &#125;
-
-    @Override
-    public String getPrinterName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public void print(String string) &#123;
-        System.out.println(&quot;===&quot; + name + &quot;===&quot;);
-        System.out.println(string);
-    &#125;
-
-    private void heavyJob(String msg) &#123;
-        System.out.print(msg);
-        for (int i = 0; i &lt; 5; i++) &#123;
-            try &#123;
-                Thread.sleep(1000);
-            &#125;catch (InterruptedException ignored) &#123;
-            &#125;
-            System.out.print(&apos;.&apos;);
+    public void use(String s) &#123;
+        int length = s.getBytes().length;
+        for (int i = 0; i &lt; length + 4; i++) &#123;
+            System.out.print(decochar);
         &#125;
-        System.out.println(&quot;结束!&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="3-表示带名字的打印机类-代理人"><a href="#3-表示带名字的打印机类-代理人" class="headerlink" title="3 - 表示带名字的打印机类(代理人)"></a>3 - 表示带名字的打印机类(代理人)</h2><div class="code-wrapper"><pre><code>public class PrinterProxy implements Printable&#123;
-    private String name;
-    private Printer real;
-
-    public PrinterProxy()&#123;&#125;
-
-    public PrinterProxy(String name) &#123;
-        this.name = name;
-    &#125;
-
-    @Override
-    public synchronized void setPrinterName(String name) &#123;
-        if (real != null) &#123;
-            real.setPrinterName(name);
+        System.out.println(&quot;&quot;);
+        System.out.println(decochar + &quot; &quot; + s + &quot; &quot; + decochar);
+        for (int i = 0; i &lt; length + 4; i++) &#123;
+            System.out.print(decochar);
         &#125;
-        this.name = name;
+        System.out.println(&quot;&quot;);
     &#125;
 
     @Override
-    public String getPrinterName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public void print(String string) &#123;
-        realize();
-        real.print(string);
-    &#125;
-
-    private synchronized void realize() &#123;
-        if (real == null) &#123;
-            real = new Printer(name);
+    public Product createClone() &#123;
+        Product p = null;
+        try &#123;
+            p = (Product)clone();
+        &#125;catch (CloneNotSupportedException e)&#123;
+            e.printStackTrace();
         &#125;
+        return p;
     &#125;
-&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        Printable p = new PrinterProxy(&quot;Alice&quot;);
-        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
-        p.setPrinterName(&quot;Bob&quot;);
-        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
-        p.print(&quot;Hello, world.&quot;);
+&#125;</code></pre></div><h2 id="4-给字符串加下划线并使其显示出来的类-实现了use方法和createClone方法"><a href="#4-给字符串加下划线并使其显示出来的类-实现了use方法和createClone方法" class="headerlink" title="4 - 给字符串加下划线并使其显示出来的类,实现了use方法和createClone方法"></a>4 - 给字符串加下划线并使其显示出来的类,实现了use方法和createClone方法</h2><div class="code-wrapper"><pre><code>public class UnderlinePen implements Product &#123;
+    private char ulchar;
+
+    public UnderlinePen(char ulchar)&#123;
+        this.ulchar = ulchar;
     &#125;
-&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>现在名字是Alice.
-现在名字是Bob.
-正在生成Printer的实例(Bob).....结束!
-===Bob===
-Hello, world.</code></pre></div>]]></content>
+
+    @Override
+    public void use(String s) &#123;
+        int length = s.getBytes().length;
+        System.out.println(&quot;\&quot;&quot; + s + &quot;\&quot;&quot;);
+        System.out.print(&quot; &quot;);
+        for (int i = 0; i &lt; length; i++) &#123;
+            System.out.print(ulchar);
+        &#125;
+        System.out.println(&quot;&quot;);
+    &#125;
+
+    @Override
+    public Product createClone() &#123;
+        Product p = null;
+        try &#123;
+            p = (Product)clone();
+        &#125;catch (CloneNotSupportedException e)&#123;
+            e.printStackTrace();
+        &#125;
+        return p;
+    &#125;
+&#125;</code></pre></div><h2 id="5-测试程序行为的类"><a href="#5-测试程序行为的类" class="headerlink" title="5 - 测试程序行为的类"></a>5 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args)&#123;
+        // 准备
+        Manager manager = new Manager();
+        UnderlinePen upen = new UnderlinePen(&apos;~&apos;);
+        MessageBox mbox = new MessageBox(&apos;*&apos;);
+        MessageBox sbox = new MessageBox(&apos;/&apos;);
+        manager.register(&quot;strong message&quot;, upen);
+        manager.register(&quot;warning box&quot;, mbox);
+        manager.register(&quot;slash box&quot;, sbox);
+
+        // 生成
+        Product p1 = manager.create(&quot;strong message&quot;);
+        p1.use(&quot;Hello, world.&quot;);
+
+        Product p2 = manager.create(&quot;warning box&quot;);
+        p2.use(&quot;Hello, world.&quot;);
+
+        Product p3 = manager.create(&quot;slash box&quot;);
+        p3.use(&quot;Hello, world.&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="6-输出示例"><a href="#6-输出示例" class="headerlink" title="6 - 输出示例"></a>6 - 输出示例</h2><div class="code-wrapper"><pre><code>&quot;Hello, world.&quot;
+~~~~~~~~~~~~~
+*****************
+* Hello, world. *
+*****************
+/////////////////
+/ Hello, world. /
+/////////////////</code></pre></div><p>在一些情况下,我们很难将种类繁多的对象整合到一个类中或者根据一个类来生成它的的实例,这个时候我们就可以以复制的方式,来根据实例生成新的实例.</p>
+]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -2835,6 +2759,103 @@ java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=按下警铃,when=1601985182892,
 java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=使用金库,when=1601985183407,modifiers=] on button2
 现在时间是05:00
 现在时间是06:00</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JavaProxy模式</title>
+    <url>/2020/10/11/JavaProxy%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="1-Printer和PrinterProxy的共同接口"><a href="#1-Printer和PrinterProxy的共同接口" class="headerlink" title="1 - Printer和PrinterProxy的共同接口"></a>1 - Printer和PrinterProxy的共同接口</h2><div class="code-wrapper"><pre><code>public interface Printable &#123;
+    public abstract void setPrinterName(String name);
+    public abstract String getPrinterName();
+    public abstract void print(String string);
+&#125;</code></pre></div><h2 id="2-表示带名字的打印机类-本人"><a href="#2-表示带名字的打印机类-本人" class="headerlink" title="2 - 表示带名字的打印机类(本人)"></a>2 - 表示带名字的打印机类(本人)</h2><div class="code-wrapper"><pre><code>public class Printer implements Printable &#123;
+    private String name;
+    public Printer() &#123;
+        heavyJob(&quot;正在生成Printer的实例&quot;);
+    &#125;
+
+    public Printer(String name) &#123;
+        this.name = name;
+        heavyJob(&quot;正在生成Printer的实例(&quot; + name + &quot;)&quot;);
+    &#125;
+
+    @Override
+    public void setPrinterName(String name) &#123;
+        this.name = name;
+    &#125;
+
+    @Override
+    public String getPrinterName() &#123;
+        return name;
+    &#125;
+
+    @Override
+    public void print(String string) &#123;
+        System.out.println(&quot;===&quot; + name + &quot;===&quot;);
+        System.out.println(string);
+    &#125;
+
+    private void heavyJob(String msg) &#123;
+        System.out.print(msg);
+        for (int i = 0; i &lt; 5; i++) &#123;
+            try &#123;
+                Thread.sleep(1000);
+            &#125;catch (InterruptedException ignored) &#123;
+            &#125;
+            System.out.print(&apos;.&apos;);
+        &#125;
+        System.out.println(&quot;结束!&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="3-表示带名字的打印机类-代理人"><a href="#3-表示带名字的打印机类-代理人" class="headerlink" title="3 - 表示带名字的打印机类(代理人)"></a>3 - 表示带名字的打印机类(代理人)</h2><div class="code-wrapper"><pre><code>public class PrinterProxy implements Printable&#123;
+    private String name;
+    private Printer real;
+
+    public PrinterProxy()&#123;&#125;
+
+    public PrinterProxy(String name) &#123;
+        this.name = name;
+    &#125;
+
+    @Override
+    public synchronized void setPrinterName(String name) &#123;
+        if (real != null) &#123;
+            real.setPrinterName(name);
+        &#125;
+        this.name = name;
+    &#125;
+
+    @Override
+    public String getPrinterName() &#123;
+        return name;
+    &#125;
+
+    @Override
+    public void print(String string) &#123;
+        realize();
+        real.print(string);
+    &#125;
+
+    private synchronized void realize() &#123;
+        if (real == null) &#123;
+            real = new Printer(name);
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        Printable p = new PrinterProxy(&quot;Alice&quot;);
+        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
+        p.setPrinterName(&quot;Bob&quot;);
+        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
+        p.print(&quot;Hello, world.&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>现在名字是Alice.
+现在名字是Bob.
+正在生成Printer的实例(Bob).....结束!
+===Bob===
+Hello, world.</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -3484,55 +3505,6 @@ class Person implements Serializable&#123;
       </tags>
   </entry>
   <entry>
-    <title>Java的注释接口</title>
-    <url>/2020/08/07/Java%E7%9A%84%E6%B3%A8%E9%87%8A%E6%8E%A5%E5%8F%A3/</url>
-    <content><![CDATA[<blockquote>
-</blockquote>
-<blockquote>
-<p>  注解 - 给编译器看的注释</p>
-</blockquote>
-<h2 id="1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的"><a href="#1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的" class="headerlink" title="1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的"></a>1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的</h2><div class="code-wrapper"><pre><code>class Message&#123;
-    @Override
-    public String toString()&#123;
-        return &quot;Hello world!&quot;;
-    &#125;
-&#125;</code></pre></div><p>如果改写的方法名，参数，类型有错误编译器会报错，可以给程序员提示。</p>
-<h2 id="2-Deprecated注释表示这个方法已经过时，不建议使用"><a href="#2-Deprecated注释表示这个方法已经过时，不建议使用" class="headerlink" title="2. @Deprecated注释表示这个方法已经过时，不建议使用"></a>2. @Deprecated注释表示这个方法已经过时，不建议使用</h2><div class="code-wrapper"><pre><code>class Info&#123;
-    @Deprecated
-    public String getInfo()&#123;
-        return &quot;Hello world.&quot;;
-    &#125;
-&#125;</code></pre></div><p>被注释的方法仍然可以使用，只是编译器不推荐而已</p>
-<h2 id="3-SuppressWarnings注释用来压制”某些”的警告信息"><a href="#3-SuppressWarnings注释用来压制”某些”的警告信息" class="headerlink" title="3. @SuppressWarnings注释用来压制”某些”的警告信息"></a>3. @SuppressWarnings注释用来压制”某些”的警告信息</h2><div class="code-wrapper"><pre><code>public class SuppressWarningsAnnotation &#123;
-    public static void main(String[] args) &#123;
-        // 用来压制&quot;未使用&quot;的警告信息
-        @SuppressWarnings(&quot;unused&quot;)
-        int i;
-        System.out.println(&quot;Hello world.&quot;);
-    &#125;
-&#125;</code></pre></div><p>在这个例子中我们通过往注释中添加“unused”参数，来压制变量未使用这一警告信息</p>
-<h2 id="4-实现我们自己自定义的注释，必须使用-interface接口来修饰"><a href="#4-实现我们自己自定义的注释，必须使用-interface接口来修饰" class="headerlink" title="4. 实现我们自己自定义的注释，必须使用@interface接口来修饰"></a>4. 实现我们自己自定义的注释，必须使用@interface接口来修饰</h2><div class="code-wrapper"><pre><code>@interface Anno&#123;
-    public String key();
-    public String value();
-&#125;
-
-public class TestAnno &#123;
-    @Anno(key = &quot;var1&quot;, value = &quot;test&quot;)
-    public static void main(String[] args) &#123;
-        System.out.println(&quot;Hello world!&quot;);
-    &#125;
-&#125;</code></pre></div><p>我们可以在自己实现的注释里添加属性或方法</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>注解</tag>
-        <tag>给编译器看的注释</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java操作MySQL数据库</title>
     <url>/2020/08/22/Java%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
     <content><![CDATA[<h2 id="1-首先-Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8-0-16-jar-并导入此包"><a href="#1-首先-Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8-0-16-jar-并导入此包" class="headerlink" title="1 - 首先, Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8.0.16.jar, 并导入此包"></a>1 - 首先, Java要连接MySQL数据库需要安装驱动包<a href="https://static.runoob.com/download/mysql-connector-java-8.0.16.jar">mysql-connector-java-8.0.16.jar</a>, 并导入此包</h2><h2 id="2-准备相应的数据"><a href="#2-准备相应的数据" class="headerlink" title="2 - 准备相应的数据"></a>2 - 准备相应的数据</h2><div class="code-wrapper"><pre><code>static final String USER = &quot;用户名&quot;;
@@ -3624,6 +3596,55 @@ public static void main(String[] args) &#123;
       <tags>
         <tag>Database</tag>
         <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java的注释接口</title>
+    <url>/2020/08/07/Java%E7%9A%84%E6%B3%A8%E9%87%8A%E6%8E%A5%E5%8F%A3/</url>
+    <content><![CDATA[<blockquote>
+</blockquote>
+<blockquote>
+<p>  注解 - 给编译器看的注释</p>
+</blockquote>
+<h2 id="1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的"><a href="#1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的" class="headerlink" title="1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的"></a>1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的</h2><div class="code-wrapper"><pre><code>class Message&#123;
+    @Override
+    public String toString()&#123;
+        return &quot;Hello world!&quot;;
+    &#125;
+&#125;</code></pre></div><p>如果改写的方法名，参数，类型有错误编译器会报错，可以给程序员提示。</p>
+<h2 id="2-Deprecated注释表示这个方法已经过时，不建议使用"><a href="#2-Deprecated注释表示这个方法已经过时，不建议使用" class="headerlink" title="2. @Deprecated注释表示这个方法已经过时，不建议使用"></a>2. @Deprecated注释表示这个方法已经过时，不建议使用</h2><div class="code-wrapper"><pre><code>class Info&#123;
+    @Deprecated
+    public String getInfo()&#123;
+        return &quot;Hello world.&quot;;
+    &#125;
+&#125;</code></pre></div><p>被注释的方法仍然可以使用，只是编译器不推荐而已</p>
+<h2 id="3-SuppressWarnings注释用来压制”某些”的警告信息"><a href="#3-SuppressWarnings注释用来压制”某些”的警告信息" class="headerlink" title="3. @SuppressWarnings注释用来压制”某些”的警告信息"></a>3. @SuppressWarnings注释用来压制”某些”的警告信息</h2><div class="code-wrapper"><pre><code>public class SuppressWarningsAnnotation &#123;
+    public static void main(String[] args) &#123;
+        // 用来压制&quot;未使用&quot;的警告信息
+        @SuppressWarnings(&quot;unused&quot;)
+        int i;
+        System.out.println(&quot;Hello world.&quot;);
+    &#125;
+&#125;</code></pre></div><p>在这个例子中我们通过往注释中添加“unused”参数，来压制变量未使用这一警告信息</p>
+<h2 id="4-实现我们自己自定义的注释，必须使用-interface接口来修饰"><a href="#4-实现我们自己自定义的注释，必须使用-interface接口来修饰" class="headerlink" title="4. 实现我们自己自定义的注释，必须使用@interface接口来修饰"></a>4. 实现我们自己自定义的注释，必须使用@interface接口来修饰</h2><div class="code-wrapper"><pre><code>@interface Anno&#123;
+    public String key();
+    public String value();
+&#125;
+
+public class TestAnno &#123;
+    @Anno(key = &quot;var1&quot;, value = &quot;test&quot;)
+    public static void main(String[] args) &#123;
+        System.out.println(&quot;Hello world!&quot;);
+    &#125;
+&#125;</code></pre></div><p>我们可以在自己实现的注释里添加属性或方法</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Tool</category>
+      </categories>
+      <tags>
+        <tag>注解</tag>
+        <tag>给编译器看的注释</tag>
       </tags>
   </entry>
   <entry>
@@ -4057,35 +4078,68 @@ Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide sh
       </tags>
   </entry>
   <entry>
-    <title>Python使用@property装饰器</title>
-    <url>/2020/09/09/Python%E4%BD%BF%E7%94%A8%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
-    <content><![CDATA[<h3 id="1-1-这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2-property装饰读值方法。3-实现特性的方法，其名称都与公开属性的名称一样——weight。4-真正的值存储在私有属性-weight中"><a href="#1-1-这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2-property装饰读值方法。3-实现特性的方法，其名称都与公开属性的名称一样——weight。4-真正的值存储在私有属性-weight中" class="headerlink" title="1 - 1 这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2@property装饰读值方法。3 实现特性的方法，其名称都与公开属性的名称一样——weight。4 真正的值存储在私有属性__weight中"></a>1 - 1 这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2@property装饰读值方法。3 实现特性的方法，其名称都与公开属性的名称一样——weight。4 真正的值存储在私有属性__weight中</h3><div class="code-wrapper"><pre><code>class LineItem:
-    &quot;&quot;&quot;使用@property装饰器实现可读写的特性&quot;&quot;&quot;
-    &quot;&quot;&quot;表示订单中商品的类&quot;&quot;&quot;
-    def __init__(self, description, weight, price):
-        self.description = description
-        self.weight = weight
-        self.price = price
-
-    def subtotal(self):
-        return self.weight * self.price
-
-    @property
-    def weight(self):
-        return self.__weight
-
-    @weight.setter
-    def weight(self, value):
-        if value &gt; 0:
-            self.__weight = value
-        else:
-            raise ValueError(&apos;value must be &gt; 0&apos;)</code></pre></div><h3 id="2-5-被装饰的读值方法有个-setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6-如果值大于零，设置私有属性-weight。7-否则，抛出ValueError异常"><a href="#2-5-被装饰的读值方法有个-setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6-如果值大于零，设置私有属性-weight。7-否则，抛出ValueError异常" class="headerlink" title="2 - 5 被装饰的读值方法有个.setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6 如果值大于零，设置私有属性__weight。7 否则，抛出ValueError异常"></a>2 - 5 被装饰的读值方法有个.setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6 如果值大于零，设置私有属性__weight。7 否则，抛出ValueError异常</h3>]]></content>
+    <title>MongoDB 学习</title>
+    <url>/2021/05/01/MongoDB%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="MongoDB-学习"><a href="#MongoDB-学习" class="headerlink" title="MongoDB 学习"></a>MongoDB 学习</h1>]]></content>
       <categories>
-        <category>Python</category>
+        <category>Technical</category>
+        <category>DB</category>
       </categories>
       <tags>
-        <tag>装饰器</tag>
-        <tag>可读性</tag>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Node.js的安装和环境变量的配置</title>
+    <url>/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="1-下载安装包"><a href="#1-下载安装包" class="headerlink" title="1, 下载安装包"></a>1, 下载安装包</h2><p>去 <a href="https://nodejs.org/en/">nodejs官网</a> 下载 找到 <a href="https://nodejs.org/dist/latest-v12.x/">node-v12</a> 的下载清单，找到 node-v12.22.1-x64.msi，下载即可。</p>
+<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413131804825.png" alt="image-20210413131804825"></p>
+<h2 id="2，安装"><a href="#2，安装" class="headerlink" title="2，安装"></a>2，安装</h2><p>除了要修改安装路径之外， 其他一切默认即可。</p>
+<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/20200224001033440.png" alt="img"></p>
+<h2 id="3，环境配置"><a href="#3，环境配置" class="headerlink" title="3，环境配置"></a>3，环境配置</h2><ul>
+<li>一般默认安装，都会将路径添加系统变量的path里，所以可以通过，node -v 和 npm -v 查看版本号。</li>
+</ul>
+<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413132613848.png" alt="image-20210413132613848"></p>
+<ul>
+<li><p>一般开始安装的npm 都是6.x 版本， 我们之后可以通过 npm install -g npm 来做npm的全局升级。</p>
+</li>
+<li><p>之后我们需要在 D:\PNCA\environment\nodejs\node-v12.22.0\ 新建两个包</p>
+<ul>
+<li><strong>node_cache</strong></li>
+<li><strong>node_global</strong></li>
+<li>因为开始默认是在 C:\Users\Administrator\AppData\Roaming\npm\node_modules 下，安装全局包的，所以我们修改到D盘下。</li>
+<li>可以通过 <strong>npm root -g</strong> 来查看全局包的路径</li>
+</ul>
+</li>
+<li><p>然后在命令行里运行两条命令</p>
+<ul>
+<li>npm config set prefix “D:\PNCA\environment\nodejs\node-v12.22.0\node_global”</li>
+<li>npm config set cache “D:\PNCA\environment\nodejs\node-v12.22.0\node_cache”</li>
+</ul>
+</li>
+<li><p>找到 D:\PNCA\environment\nodejs\node-v12.22.0\node_modules\npm\ 下的 .npmrc。</p>
+<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413133432356.png" alt="image-20210413133432356"></p>
+<ul>
+<li>修改其内容为：</li>
+<li>prefix=D:\PNCA\environment\nodejs\node-v12.22.0\node_global</li>
+<li>cache=D:\PNCA\environment\nodejs\node-v12.22.0\node_cache</li>
+</ul>
+</li>
+<li><p>修改用户变量</p>
+<p>D:\PNCA\environment\nodejs\node-v12.22.0\node_global</p>
+</li>
+<li><p>在系统变量里</p>
+<p>添加 NODE_HOME: D:\PNCA\environment\nodejs\node-v12.22.0\node_modules\</p>
+</li>
+</ul>
+<h2 id="4，测试"><a href="#4，测试" class="headerlink" title="4，测试"></a>4，测试</h2><p>npm install express -g</p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Win</category>
+      </categories>
+      <tags>
+        <tag>Node</tag>
       </tags>
   </entry>
   <entry>
@@ -4149,56 +4203,147 @@ def run(self, end_time):
       </tags>
   </entry>
   <entry>
-    <title>Node.js的安装和环境变量的配置</title>
-    <url>/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h2 id="1-下载安装包"><a href="#1-下载安装包" class="headerlink" title="1, 下载安装包"></a>1, 下载安装包</h2><p>去 <a href="https://nodejs.org/en/">nodejs官网</a> 下载 找到 <a href="https://nodejs.org/dist/latest-v12.x/">node-v12</a> 的下载清单，找到 node-v12.22.1-x64.msi，下载即可。</p>
-<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413131804825.png" alt="image-20210413131804825"></p>
-<h2 id="2，安装"><a href="#2，安装" class="headerlink" title="2，安装"></a>2，安装</h2><p>除了要修改安装路径之外， 其他一切默认即可。</p>
-<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/20200224001033440.png" alt="img"></p>
-<h2 id="3，环境配置"><a href="#3，环境配置" class="headerlink" title="3，环境配置"></a>3，环境配置</h2><ul>
-<li>一般默认安装，都会将路径添加系统变量的path里，所以可以通过，node -v 和 npm -v 查看版本号。</li>
-</ul>
-<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413132613848.png" alt="image-20210413132613848"></p>
-<ul>
-<li><p>一般开始安装的npm 都是6.x 版本， 我们之后可以通过 npm install -g npm 来做npm的全局升级。</p>
-</li>
-<li><p>之后我们需要在 D:\PNCA\environment\nodejs\node-v12.22.0\ 新建两个包</p>
-<ul>
-<li><strong>node_cache</strong></li>
-<li><strong>node_global</strong></li>
-<li>因为开始默认是在 C:\Users\Administrator\AppData\Roaming\npm\node_modules 下，安装全局包的，所以我们修改到D盘下。</li>
-<li>可以通过 <strong>npm root -g</strong> 来查看全局包的路径</li>
-</ul>
-</li>
-<li><p>然后在命令行里运行两条命令</p>
-<ul>
-<li>npm config set prefix “D:\PNCA\environment\nodejs\node-v12.22.0\node_global”</li>
-<li>npm config set cache “D:\PNCA\environment\nodejs\node-v12.22.0\node_cache”</li>
-</ul>
-</li>
-<li><p>找到 D:\PNCA\environment\nodejs\node-v12.22.0\node_modules\npm\ 下的 .npmrc。</p>
-<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413133432356.png" alt="image-20210413133432356"></p>
-<ul>
-<li>修改其内容为：</li>
-<li>prefix=D:\PNCA\environment\nodejs\node-v12.22.0\node_global</li>
-<li>cache=D:\PNCA\environment\nodejs\node-v12.22.0\node_cache</li>
-</ul>
-</li>
-<li><p>修改用户变量</p>
-<p>D:\PNCA\environment\nodejs\node-v12.22.0\node_global</p>
-</li>
-<li><p>在系统变量里</p>
-<p>添加 NODE_HOME: D:\PNCA\environment\nodejs\node-v12.22.0\node_modules\</p>
-</li>
-</ul>
-<h2 id="4，测试"><a href="#4，测试" class="headerlink" title="4，测试"></a>4，测试</h2><p>npm install express -g</p>
-]]></content>
+    <title>Python使用覆盖型描述符</title>
+    <url>/2020/09/10/Python%E4%BD%BF%E7%94%A8%E8%A6%86%E7%9B%96%E5%9E%8B%E6%8F%8F%E8%BF%B0%E7%AC%A6/</url>
+    <content><![CDATA[<h2 id="1-导入模块"><a href="#1-导入模块" class="headerlink" title="1- 导入模块"></a>1- 导入模块</h2><div class="code-wrapper"><pre><code>import abc</code></pre></div><h2 id="2-主要的几个基础类"><a href="#2-主要的几个基础类" class="headerlink" title="2 - 主要的几个基础类"></a>2 - 主要的几个基础类</h2><div class="code-wrapper"><pre><code>class AutoStorage:
+    __counter = 0
+    def __init__(self, ):
+        cls = self.__class__
+        prefix = cls.__name__
+        index = cls.__counter
+        self.storage_name = &apos;_&#123;&#125;#&#123;&#125;&apos;.format(prefix, index)
+        cls.__counter += 1
+
+    def __get__(self, instance, owner):
+        if instance is None:
+            return self
+        else:
+            return getattr(instance, self.storage_name)
+
+    def __set__(self, instance, value):
+        if value &gt; 0:
+            setattr(instance, self.storage_name, value)
+        else:
+            raise ValueError(&apos;value must be &gt; 0&apos;)
+
+
+class Validated(abc.ABC, AutoStorage):
+    def __set__(self, instance, value):
+        value = self.validate(instance, value)
+        super().__set__(instance, value)
+    @abc.abstractmethod
+    def validate(self, instance, value):
+        &quot;&quot;&quot;return validated value or raise ValueError&quot;&quot;&quot;
+
+class Quantity(Validated):
+    &quot;&quot;&quot;a number greater than zero&quot;&quot;&quot;
+    def validate(self, instance, value):
+        if value &lt;= 0:
+            raise ValueError(&apos;value must be &gt; 0&apos;)
+        return value
+
+class NonBlank(Validated):
+&quot;&quot;&quot;a string with at least one non-space character&quot;&quot;&quot;
+def validate(self, instance, value):
+    value = value.strip()
+    if len(value) == 0:
+        raise ValueError(&apos;value cannot be empty or blank&apos;)
+    return value</code></pre></div><p>AutoStorage自动管理储存属性的描述符类。Validated扩展AutoStorage类的抽象子类，覆盖<strong>set</strong>方法，调用必须由子类实现的validate方法。</p>
+<h2 id="3-主要实现的类"><a href="#3-主要实现的类" class="headerlink" title="3 - 主要实现的类"></a>3 - 主要实现的类</h2><div class="code-wrapper"><pre><code>class LineItem:
+    description = NonBlank()
+    weight = Quantity()
+    price = Quantity()
+
+    def __init__(self, description, weight, price):
+        self.description = description
+        self.weight = weight
+        self.price = price
+
+    def subtotal(self):
+        return self.weight * self.price</code></pre></div>]]></content>
+  </entry>
+  <entry>
+    <title>Python使用@property装饰器</title>
+    <url>/2020/09/09/Python%E4%BD%BF%E7%94%A8%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
+    <content><![CDATA[<h3 id="1-1-这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2-property装饰读值方法。3-实现特性的方法，其名称都与公开属性的名称一样——weight。4-真正的值存储在私有属性-weight中"><a href="#1-1-这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2-property装饰读值方法。3-实现特性的方法，其名称都与公开属性的名称一样——weight。4-真正的值存储在私有属性-weight中" class="headerlink" title="1 - 1 这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2@property装饰读值方法。3 实现特性的方法，其名称都与公开属性的名称一样——weight。4 真正的值存储在私有属性__weight中"></a>1 - 1 这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2@property装饰读值方法。3 实现特性的方法，其名称都与公开属性的名称一样——weight。4 真正的值存储在私有属性__weight中</h3><div class="code-wrapper"><pre><code>class LineItem:
+    &quot;&quot;&quot;使用@property装饰器实现可读写的特性&quot;&quot;&quot;
+    &quot;&quot;&quot;表示订单中商品的类&quot;&quot;&quot;
+    def __init__(self, description, weight, price):
+        self.description = description
+        self.weight = weight
+        self.price = price
+
+    def subtotal(self):
+        return self.weight * self.price
+
+    @property
+    def weight(self):
+        return self.__weight
+
+    @weight.setter
+    def weight(self, value):
+        if value &gt; 0:
+            self.__weight = value
+        else:
+            raise ValueError(&apos;value must be &gt; 0&apos;)</code></pre></div><h3 id="2-5-被装饰的读值方法有个-setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6-如果值大于零，设置私有属性-weight。7-否则，抛出ValueError异常"><a href="#2-5-被装饰的读值方法有个-setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6-如果值大于零，设置私有属性-weight。7-否则，抛出ValueError异常" class="headerlink" title="2 - 5 被装饰的读值方法有个.setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6 如果值大于零，设置私有属性__weight。7 否则，抛出ValueError异常"></a>2 - 5 被装饰的读值方法有个.setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6 如果值大于零，设置私有属性__weight。7 否则，抛出ValueError异常</h3>]]></content>
       <categories>
-        <category>Help</category>
-        <category>Win</category>
+        <category>Python</category>
       </categories>
       <tags>
-        <tag>Node</tag>
+        <tag>装饰器</tag>
+        <tag>可读性</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>函数参数的使用</title>
+    <url>/2020/07/25/Python%E5%8F%82%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="一，Python函数参数的使用"><a href="#一，Python函数参数的使用" class="headerlink" title="一，Python函数参数的使用"></a>一，Python函数参数的使用</h2><h2 id="1-不可变参数"><a href="#1-不可变参数" class="headerlink" title="1.不可变参数"></a>1.不可变参数</h2><h3 id="1-1-位置实参-参数顺序要一致"><a href="#1-1-位置实参-参数顺序要一致" class="headerlink" title="1.1 位置实参(参数顺序要一致)"></a>1.1 位置实参(参数顺序要一致)</h3><div class="code-wrapper"><pre><code>def describe_pet(animal_type, pet_name):
+   &quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
+   print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
+   print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
+
+describe_pet(&apos;hamster&apos;, &apos;harry&apos;)
+describe_pet(&apos;dog&apos;, &apos;willie&apos;)</code></pre></div><p>在参数的顺序上，实参与位置参数要一致，不然会出现一些无法预料到错误。</p>
+<h3 id="1-2-关键字参数"><a href="#1-2-关键字参数" class="headerlink" title="1.2 关键字参数"></a>1.2 关键字参数</h3><div class="code-wrapper"><pre><code>def describe_pet(animal_type, pet_name):
+&quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
+print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
+print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
+
+describe_pet(animal_type=&apos;hamster&apos;, pet_name=&apos;harry&apos;)
+describe_pet(animal_type=&apos;dog&apos;, pet_name=&apos;willie&apos;)</code></pre></div><p>关键字参数顺序可以改变，在没有默认值的情况下,必须提供全部的参数。</p>
+<h3 id="1-3-位置参数与关键字混用"><a href="#1-3-位置参数与关键字混用" class="headerlink" title="1.3 位置参数与关键字混用"></a>1.3 位置参数与关键字混用</h3><div class="code-wrapper"><pre><code>def describe_pet(pet_name, animal_type):
+    &quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
+    print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
+    print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
+
+describe_pet(&apos;wille&apos;,animal_type=&apos;dog&apos;)</code></pre></div><p>关键字参数必须在位置参数之后</p>
+<h2 id="2-可变参数"><a href="#2-可变参数" class="headerlink" title="2.可变参数"></a>2.可变参数</h2><h3 id="1-1使用任意数量的位置实参"><a href="#1-1使用任意数量的位置实参" class="headerlink" title="1. 1使用任意数量的位置实参"></a>1. 1使用任意数量的位置实参</h3><div class="code-wrapper"><pre><code>def make_pizza(size, *toppings):
+    &quot;&quot;&quot;概述要制作的比萨&quot;&quot;&quot;
+    print(&quot;\nMaking a &quot; + str(size) + &quot;-inch pizza with the following       toppings:&quot;)
+    for topping in toppings:
+        print(&quot;-&quot; + topping)
+
+make_pizza(16, &apos;pepperoni&apos;)
+make_pizza(12, &apos;mushrooms&apos;, &apos;green peppers&apos;, &apos;extra cheese&apos;)</code></pre></div><p> ‘*’ 是分隔符，可变参数实际上是将其组装成元组</p>
+<h3 id="1-2使用任意数量的关键字实参"><a href="#1-2使用任意数量的关键字实参" class="headerlink" title="1. 2使用任意数量的关键字实参"></a>1. 2使用任意数量的关键字实参</h3><div class="code-wrapper"><pre><code>def build_profile(first, last, **user_info):
+    &quot;&quot;&quot;创建一个字典，其中包含我们知道的有关用户的一切&quot;&quot;&quot;
+    profile = &#123;&#125;
+    profile[&apos;first_name&apos;] = first
+    profile[&apos;last_name&apos;] = last
+    for  key, value in user_info.items():
+        profile[key] = value
+    return profile
+
+user_profile = build_profile(&apos;albert&apos;, &apos;einstein&apos;,
+                            location=&apos;princeton&apos;,
+                            field=&apos;physics&apos;)
+print(user_profile)</code></pre></div><p> 参数组合在实际书写中，需要遵循一定的顺序：<br>位置参数-&gt;默认参数-&gt;边长参数-&gt;关键字参数-&gt;命名关键字参数</p>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>参数</tag>
       </tags>
   </entry>
   <entry>
@@ -4289,115 +4434,26 @@ class Sentence:
       </tags>
   </entry>
   <entry>
-    <title>Python使用覆盖型描述符</title>
-    <url>/2020/09/10/Python%E4%BD%BF%E7%94%A8%E8%A6%86%E7%9B%96%E5%9E%8B%E6%8F%8F%E8%BF%B0%E7%AC%A6/</url>
-    <content><![CDATA[<h2 id="1-导入模块"><a href="#1-导入模块" class="headerlink" title="1- 导入模块"></a>1- 导入模块</h2><div class="code-wrapper"><pre><code>import abc</code></pre></div><h2 id="2-主要的几个基础类"><a href="#2-主要的几个基础类" class="headerlink" title="2 - 主要的几个基础类"></a>2 - 主要的几个基础类</h2><div class="code-wrapper"><pre><code>class AutoStorage:
-    __counter = 0
-    def __init__(self, ):
-        cls = self.__class__
-        prefix = cls.__name__
-        index = cls.__counter
-        self.storage_name = &apos;_&#123;&#125;#&#123;&#125;&apos;.format(prefix, index)
-        cls.__counter += 1
+    <title>Python多线程实现程序并发</title>
+    <url>/2020/08/10/Python%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%A8%8B%E5%AE%9E%E7%8E%B0%E7%A8%8B%E5%BA%8F%E5%B9%B6%E5%8F%91/</url>
+    <content><![CDATA[<h3 id="第一步·导入相应的线程模块"><a href="#第一步·导入相应的线程模块" class="headerlink" title="第一步·导入相应的线程模块"></a>第一步·导入相应的线程模块</h3><div class="code-wrapper"><pre><code>import threading
+import time</code></pre></div><h3 id="第二步·编写两个测试函数"><a href="#第二步·编写两个测试函数" class="headerlink" title="第二步·编写两个测试函数"></a>第二步·编写两个测试函数</h3><div class="code-wrapper"><pre><code>def sing():
+    for i in range(3):
+        print(&apos;唱歌...&apos;)
+        time.sleep(0.5)
 
-    def __get__(self, instance, owner):
-        if instance is None:
-            return self
-        else:
-            return getattr(instance, self.storage_name)
-
-    def __set__(self, instance, value):
-        if value &gt; 0:
-            setattr(instance, self.storage_name, value)
-        else:
-            raise ValueError(&apos;value must be &gt; 0&apos;)
-
-
-class Validated(abc.ABC, AutoStorage):
-    def __set__(self, instance, value):
-        value = self.validate(instance, value)
-        super().__set__(instance, value)
-    @abc.abstractmethod
-    def validate(self, instance, value):
-        &quot;&quot;&quot;return validated value or raise ValueError&quot;&quot;&quot;
-
-class Quantity(Validated):
-    &quot;&quot;&quot;a number greater than zero&quot;&quot;&quot;
-    def validate(self, instance, value):
-        if value &lt;= 0:
-            raise ValueError(&apos;value must be &gt; 0&apos;)
-        return value
-
-class NonBlank(Validated):
-&quot;&quot;&quot;a string with at least one non-space character&quot;&quot;&quot;
-def validate(self, instance, value):
-    value = value.strip()
-    if len(value) == 0:
-        raise ValueError(&apos;value cannot be empty or blank&apos;)
-    return value</code></pre></div><p>AutoStorage自动管理储存属性的描述符类。Validated扩展AutoStorage类的抽象子类，覆盖<strong>set</strong>方法，调用必须由子类实现的validate方法。</p>
-<h2 id="3-主要实现的类"><a href="#3-主要实现的类" class="headerlink" title="3 - 主要实现的类"></a>3 - 主要实现的类</h2><div class="code-wrapper"><pre><code>class LineItem:
-    description = NonBlank()
-    weight = Quantity()
-    price = Quantity()
-
-    def __init__(self, description, weight, price):
-        self.description = description
-        self.weight = weight
-        self.price = price
-
-    def subtotal(self):
-        return self.weight * self.price</code></pre></div>]]></content>
-  </entry>
-  <entry>
-    <title>函数参数的使用</title>
-    <url>/2020/07/25/Python%E5%8F%82%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="一，Python函数参数的使用"><a href="#一，Python函数参数的使用" class="headerlink" title="一，Python函数参数的使用"></a>一，Python函数参数的使用</h2><h2 id="1-不可变参数"><a href="#1-不可变参数" class="headerlink" title="1.不可变参数"></a>1.不可变参数</h2><h3 id="1-1-位置实参-参数顺序要一致"><a href="#1-1-位置实参-参数顺序要一致" class="headerlink" title="1.1 位置实参(参数顺序要一致)"></a>1.1 位置实参(参数顺序要一致)</h3><div class="code-wrapper"><pre><code>def describe_pet(animal_type, pet_name):
-   &quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
-   print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
-   print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
-
-describe_pet(&apos;hamster&apos;, &apos;harry&apos;)
-describe_pet(&apos;dog&apos;, &apos;willie&apos;)</code></pre></div><p>在参数的顺序上，实参与位置参数要一致，不然会出现一些无法预料到错误。</p>
-<h3 id="1-2-关键字参数"><a href="#1-2-关键字参数" class="headerlink" title="1.2 关键字参数"></a>1.2 关键字参数</h3><div class="code-wrapper"><pre><code>def describe_pet(animal_type, pet_name):
-&quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
-print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
-print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
-
-describe_pet(animal_type=&apos;hamster&apos;, pet_name=&apos;harry&apos;)
-describe_pet(animal_type=&apos;dog&apos;, pet_name=&apos;willie&apos;)</code></pre></div><p>关键字参数顺序可以改变，在没有默认值的情况下,必须提供全部的参数。</p>
-<h3 id="1-3-位置参数与关键字混用"><a href="#1-3-位置参数与关键字混用" class="headerlink" title="1.3 位置参数与关键字混用"></a>1.3 位置参数与关键字混用</h3><div class="code-wrapper"><pre><code>def describe_pet(pet_name, animal_type):
-    &quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
-    print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
-    print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
-
-describe_pet(&apos;wille&apos;,animal_type=&apos;dog&apos;)</code></pre></div><p>关键字参数必须在位置参数之后</p>
-<h2 id="2-可变参数"><a href="#2-可变参数" class="headerlink" title="2.可变参数"></a>2.可变参数</h2><h3 id="1-1使用任意数量的位置实参"><a href="#1-1使用任意数量的位置实参" class="headerlink" title="1. 1使用任意数量的位置实参"></a>1. 1使用任意数量的位置实参</h3><div class="code-wrapper"><pre><code>def make_pizza(size, *toppings):
-    &quot;&quot;&quot;概述要制作的比萨&quot;&quot;&quot;
-    print(&quot;\nMaking a &quot; + str(size) + &quot;-inch pizza with the following       toppings:&quot;)
-    for topping in toppings:
-        print(&quot;-&quot; + topping)
-
-make_pizza(16, &apos;pepperoni&apos;)
-make_pizza(12, &apos;mushrooms&apos;, &apos;green peppers&apos;, &apos;extra cheese&apos;)</code></pre></div><p> ‘*’ 是分隔符，可变参数实际上是将其组装成元组</p>
-<h3 id="1-2使用任意数量的关键字实参"><a href="#1-2使用任意数量的关键字实参" class="headerlink" title="1. 2使用任意数量的关键字实参"></a>1. 2使用任意数量的关键字实参</h3><div class="code-wrapper"><pre><code>def build_profile(first, last, **user_info):
-    &quot;&quot;&quot;创建一个字典，其中包含我们知道的有关用户的一切&quot;&quot;&quot;
-    profile = &#123;&#125;
-    profile[&apos;first_name&apos;] = first
-    profile[&apos;last_name&apos;] = last
-    for  key, value in user_info.items():
-        profile[key] = value
-    return profile
-
-user_profile = build_profile(&apos;albert&apos;, &apos;einstein&apos;,
-                            location=&apos;princeton&apos;,
-                            field=&apos;physics&apos;)
-print(user_profile)</code></pre></div><p> 参数组合在实际书写中，需要遵循一定的顺序：<br>位置参数-&gt;默认参数-&gt;边长参数-&gt;关键字参数-&gt;命名关键字参数</p>
-]]></content>
+def dance():
+    for i in range(3):
+        print(&apos;跳舞...&apos;)
+        time.sleep(0.5)</code></pre></div><h3 id="第三步·使用进程类创建线程对象"><a href="#第三步·使用进程类创建线程对象" class="headerlink" title="第三步·使用进程类创建线程对象"></a>第三步·使用进程类创建线程对象</h3><div class="code-wrapper"><pre><code>sing_thread = threading.Thread(target=sing)
+dance_thread = threading.Thread(target=dance)</code></pre></div><h3 id="第四步·使用线程对象启动执行指定任务"><a href="#第四步·使用线程对象启动执行指定任务" class="headerlink" title="第四步·使用线程对象启动执行指定任务"></a>第四步·使用线程对象启动执行指定任务</h3><div class="code-wrapper"><pre><code>sing_thread.start()
+dance_thread.start()</code></pre></div>]]></content>
       <categories>
         <category>Python</category>
       </categories>
       <tags>
-        <tag>参数</tag>
+        <tag>多线程</tag>
+        <tag>并发</tag>
       </tags>
   </entry>
   <entry>
@@ -4419,43 +4475,8 @@ dance_process.start()</code></pre></div>]]></content>
         <category>Python</category>
       </categories>
       <tags>
+        <tag>并发</tag>
         <tag>多进程</tag>
-        <tag>并发</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MongoDB 学习</title>
-    <url>/2021/05/01/MongoDB%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="MongoDB-学习"><a href="#MongoDB-学习" class="headerlink" title="MongoDB 学习"></a>MongoDB 学习</h1>]]></content>
-      <categories>
-        <category>Technical</category>
-        <category>DB</category>
-      </categories>
-      <tags>
-        <tag>MongoDB</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python多线程实现程序并发</title>
-    <url>/2020/08/10/Python%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%A8%8B%E5%AE%9E%E7%8E%B0%E7%A8%8B%E5%BA%8F%E5%B9%B6%E5%8F%91/</url>
-    <content><![CDATA[<h3 id="第一步·导入相应的线程模块"><a href="#第一步·导入相应的线程模块" class="headerlink" title="第一步·导入相应的线程模块"></a>第一步·导入相应的线程模块</h3><div class="code-wrapper"><pre><code>import threading
-import time</code></pre></div><h3 id="第二步·编写两个测试函数"><a href="#第二步·编写两个测试函数" class="headerlink" title="第二步·编写两个测试函数"></a>第二步·编写两个测试函数</h3><div class="code-wrapper"><pre><code>def sing():
-    for i in range(3):
-        print(&apos;唱歌...&apos;)
-        time.sleep(0.5)
-
-def dance():
-    for i in range(3):
-        print(&apos;跳舞...&apos;)
-        time.sleep(0.5)</code></pre></div><h3 id="第三步·使用进程类创建线程对象"><a href="#第三步·使用进程类创建线程对象" class="headerlink" title="第三步·使用进程类创建线程对象"></a>第三步·使用进程类创建线程对象</h3><div class="code-wrapper"><pre><code>sing_thread = threading.Thread(target=sing)
-dance_thread = threading.Thread(target=dance)</code></pre></div><h3 id="第四步·使用线程对象启动执行指定任务"><a href="#第四步·使用线程对象启动执行指定任务" class="headerlink" title="第四步·使用线程对象启动执行指定任务"></a>第四步·使用线程对象启动执行指定任务</h3><div class="code-wrapper"><pre><code>sing_thread.start()
-dance_thread.start()</code></pre></div>]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>多线程</tag>
-        <tag>并发</tag>
       </tags>
   </entry>
   <entry>
@@ -4519,24 +4540,6 @@ app.exec_()</code></pre></div>]]></content>
       </categories>
       <tags>
         <tag>visualization</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python操控Mysql数据库</title>
-    <url>/2020/07/22/Python%E6%93%8D%E6%8E%A7Mysql%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
-    <content><![CDATA[<h2 id="1-首先导入所需要的包"><a href="#1-首先导入所需要的包" class="headerlink" title="1. 首先导入所需要的包"></a>1. 首先导入所需要的包</h2><div class="code-wrapper"><pre><code>import pymysql</code></pre></div><h2 id="2-链接mysql数据库服务"><a href="#2-链接mysql数据库服务" class="headerlink" title="2. 链接mysql数据库服务"></a>2. 链接mysql数据库服务</h2><div class="code-wrapper"><pre><code>connc = pymysql.Connect(
-# 默认只写用户名和密码以及数据库名称就足够了
-user=&apos;root&apos;,
-password=&quot;password&quot;,
-database=&apos;mydatabase&apos;,
-)</code></pre></div><h2 id="3-创建游标对象"><a href="#3-创建游标对象" class="headerlink" title="3. 创建游标对象"></a>3. 创建游标对象</h2><div class="code-wrapper"><pre><code>cur = connc.cursor()</code></pre></div><h2 id="4-编写SQL语句"><a href="#4-编写SQL语句" class="headerlink" title="4. 编写SQL语句"></a>4. 编写SQL语句</h2><div class="code-wrapper"><pre><code>sql = &apos;select * from students&apos;</code></pre></div><h2 id="5-使用游标对象去调用SQL"><a href="#5-使用游标对象去调用SQL" class="headerlink" title="5. 使用游标对象去调用SQL"></a>5. 使用游标对象去调用SQL</h2><div class="code-wrapper"><pre><code>cur.execute(sql)</code></pre></div><h2 id="6-获取查询结果并打印"><a href="#6-获取查询结果并打印" class="headerlink" title="6. 获取查询结果并打印"></a>6. 获取查询结果并打印</h2><div class="code-wrapper"><pre><code>result = cur.fetchall()
-print(result)</code></pre></div><h2 id="7-关闭游标和链接对象"><a href="#7-关闭游标和链接对象" class="headerlink" title="7. 关闭游标和链接对象"></a>7. 关闭游标和链接对象</h2><div class="code-wrapper"><pre><code>cur.close()
-connc.close()</code></pre></div>]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -4645,38 +4648,22 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       </tags>
   </entry>
   <entry>
-    <title>Stm32-F103-mini 学习</title>
-    <url>/2021/01/18/STM32F103MiNi/</url>
-    <content><![CDATA[<h1 id="stm32-F103-mini-学习"><a href="#stm32-F103-mini-学习" class="headerlink" title="stm32 F103 mini 学习"></a>stm32 F103 mini 学习</h1><h2 id="1-Stm32初探"><a href="#1-Stm32初探" class="headerlink" title="1 Stm32初探"></a>1 Stm32初探</h2><h3 id="1-1-stm32的优点"><a href="#1-1-stm32的优点" class="headerlink" title="1.1 stm32的优点"></a>1.1 stm32的优点</h3><ol>
-<li>使用ARM公司专为微控制器设计的Cortex-M内核;</li>
-<li>高性能,低电压,低功耗,创新的内核以及外设</li>
-<li>简单,易用</li>
-</ol>
-<h3 id="1-2-Cortex内核"><a href="#1-2-Cortex内核" class="headerlink" title="1.2 Cortex内核"></a>1.2 Cortex内核</h3><p>ARM架构定义了三个系列</p>
-<ol>
-<li>“A”: 面向操作系统和用户界面</li>
-<li>“R”: 针对实时系统</li>
-<li>“M”: 对微控制器</li>
-</ol>
-<p>STM32F1属于Cortex-M系列中的Cortex-M3内核,采用了ARMv7-M架构。Cortex-A5/A8采用了ARMv7-A架构。而传统的ARM7采用的是之前的ARMv4T架构,已经被逐渐淘汰。</p>
-<h3 id="1-3-STM32和ARM7"><a href="#1-3-STM32和ARM7" class="headerlink" title="1.3 STM32和ARM7"></a>1.3 STM32和ARM7</h3><p><img src="/2021/01/18/STM32F103MiNi/Stm32%E5%92%8CARM7%E6%AF%94%E8%BE%83.png" alt="image-20210118133817724"></p>
-<h2 id="2-STM32芯片解读"><a href="#2-STM32芯片解读" class="headerlink" title="2 STM32芯片解读"></a>2 STM32芯片解读</h2><h3 id="2-1-芯片内部资源"><a href="#2-1-芯片内部资源" class="headerlink" title="2.1 芯片内部资源"></a>2.1 芯片内部资源</h3><ul>
-<li>内核：Cortex-M3，高达72M，支持单周期乘法和硬件除法</li>
-<li>IO口：64引脚 51个IO， 大部分耐5v（模拟通道除外）</li>
-<li>存储器容量：256K FLASH ，48k SRAM</li>
-<li>时钟，复位和电源管理： 2.0-3.6v电源和IO电压；上电复位，掉电复位；强大的时钟系统</li>
-<li>低功耗</li>
-<li>AD：3个12位AD模数转换</li>
-<li>DA：2个12位的DA数模转换</li>
-<li>DMA：12个DMA通道</li>
-<li>定时器：多达11个定时器</li>
-<li>通信接口：多达13个通信接口</li>
-</ul>
-<h3 id="2-2-芯片内部结构"><a href="#2-2-芯片内部结构" class="headerlink" title="2.2 芯片内部结构"></a>2.2 芯片内部结构</h3>]]></content>
+    <title>Python操控Mysql数据库</title>
+    <url>/2020/07/22/Python%E6%93%8D%E6%8E%A7Mysql%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+    <content><![CDATA[<h2 id="1-首先导入所需要的包"><a href="#1-首先导入所需要的包" class="headerlink" title="1. 首先导入所需要的包"></a>1. 首先导入所需要的包</h2><div class="code-wrapper"><pre><code>import pymysql</code></pre></div><h2 id="2-链接mysql数据库服务"><a href="#2-链接mysql数据库服务" class="headerlink" title="2. 链接mysql数据库服务"></a>2. 链接mysql数据库服务</h2><div class="code-wrapper"><pre><code>connc = pymysql.Connect(
+# 默认只写用户名和密码以及数据库名称就足够了
+user=&apos;root&apos;,
+password=&quot;password&quot;,
+database=&apos;mydatabase&apos;,
+)</code></pre></div><h2 id="3-创建游标对象"><a href="#3-创建游标对象" class="headerlink" title="3. 创建游标对象"></a>3. 创建游标对象</h2><div class="code-wrapper"><pre><code>cur = connc.cursor()</code></pre></div><h2 id="4-编写SQL语句"><a href="#4-编写SQL语句" class="headerlink" title="4. 编写SQL语句"></a>4. 编写SQL语句</h2><div class="code-wrapper"><pre><code>sql = &apos;select * from students&apos;</code></pre></div><h2 id="5-使用游标对象去调用SQL"><a href="#5-使用游标对象去调用SQL" class="headerlink" title="5. 使用游标对象去调用SQL"></a>5. 使用游标对象去调用SQL</h2><div class="code-wrapper"><pre><code>cur.execute(sql)</code></pre></div><h2 id="6-获取查询结果并打印"><a href="#6-获取查询结果并打印" class="headerlink" title="6. 获取查询结果并打印"></a>6. 获取查询结果并打印</h2><div class="code-wrapper"><pre><code>result = cur.fetchall()
+print(result)</code></pre></div><h2 id="7-关闭游标和链接对象"><a href="#7-关闭游标和链接对象" class="headerlink" title="7. 关闭游标和链接对象"></a>7. 关闭游标和链接对象</h2><div class="code-wrapper"><pre><code>cur.close()
+connc.close()</code></pre></div>]]></content>
       <categories>
-        <category>Technical</category>
-        <category>Hardware</category>
+        <category>Python</category>
       </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
   </entry>
   <entry>
     <title>SSBuild创建遇到的问题</title>
@@ -4726,6 +4713,40 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       <categories>
         <category>Java</category>
         <category>Spring</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Stm32-F103-mini 学习</title>
+    <url>/2021/01/18/STM32F103MiNi/</url>
+    <content><![CDATA[<h1 id="stm32-F103-mini-学习"><a href="#stm32-F103-mini-学习" class="headerlink" title="stm32 F103 mini 学习"></a>stm32 F103 mini 学习</h1><h2 id="1-Stm32初探"><a href="#1-Stm32初探" class="headerlink" title="1 Stm32初探"></a>1 Stm32初探</h2><h3 id="1-1-stm32的优点"><a href="#1-1-stm32的优点" class="headerlink" title="1.1 stm32的优点"></a>1.1 stm32的优点</h3><ol>
+<li>使用ARM公司专为微控制器设计的Cortex-M内核;</li>
+<li>高性能,低电压,低功耗,创新的内核以及外设</li>
+<li>简单,易用</li>
+</ol>
+<h3 id="1-2-Cortex内核"><a href="#1-2-Cortex内核" class="headerlink" title="1.2 Cortex内核"></a>1.2 Cortex内核</h3><p>ARM架构定义了三个系列</p>
+<ol>
+<li>“A”: 面向操作系统和用户界面</li>
+<li>“R”: 针对实时系统</li>
+<li>“M”: 对微控制器</li>
+</ol>
+<p>STM32F1属于Cortex-M系列中的Cortex-M3内核,采用了ARMv7-M架构。Cortex-A5/A8采用了ARMv7-A架构。而传统的ARM7采用的是之前的ARMv4T架构,已经被逐渐淘汰。</p>
+<h3 id="1-3-STM32和ARM7"><a href="#1-3-STM32和ARM7" class="headerlink" title="1.3 STM32和ARM7"></a>1.3 STM32和ARM7</h3><p><img src="/2021/01/18/STM32F103MiNi/Stm32%E5%92%8CARM7%E6%AF%94%E8%BE%83.png" alt="image-20210118133817724"></p>
+<h2 id="2-STM32芯片解读"><a href="#2-STM32芯片解读" class="headerlink" title="2 STM32芯片解读"></a>2 STM32芯片解读</h2><h3 id="2-1-芯片内部资源"><a href="#2-1-芯片内部资源" class="headerlink" title="2.1 芯片内部资源"></a>2.1 芯片内部资源</h3><ul>
+<li>内核：Cortex-M3，高达72M，支持单周期乘法和硬件除法</li>
+<li>IO口：64引脚 51个IO， 大部分耐5v（模拟通道除外）</li>
+<li>存储器容量：256K FLASH ，48k SRAM</li>
+<li>时钟，复位和电源管理： 2.0-3.6v电源和IO电压；上电复位，掉电复位；强大的时钟系统</li>
+<li>低功耗</li>
+<li>AD：3个12位AD模数转换</li>
+<li>DA：2个12位的DA数模转换</li>
+<li>DMA：12个DMA通道</li>
+<li>定时器：多达11个定时器</li>
+<li>通信接口：多达13个通信接口</li>
+</ul>
+<h3 id="2-2-芯片内部结构"><a href="#2-2-芯片内部结构" class="headerlink" title="2.2 芯片内部结构"></a>2.2 芯片内部结构</h3>]]></content>
+      <categories>
+        <category>Technical</category>
+        <category>Hardware</category>
       </categories>
   </entry>
   <entry>
@@ -4794,6 +4815,91 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       </categories>
       <tags>
         <tag>创建一个简单的web项目</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Typora快捷键</title>
+    <url>/2021/04/09/Typora%E5%BF%AB%E6%8D%B7%E9%94%AE/</url>
+    <content><![CDATA[<h1 id="Typora快捷键"><a href="#Typora快捷键" class="headerlink" title="Typora快捷键"></a>Typora快捷键</h1><h2 id="windows快捷键："><a href="#windows快捷键：" class="headerlink" title="windows快捷键："></a>windows快捷键：</h2><ul>
+<li>无序列表：输入-之后输入空格</li>
+<li>有序列表：输入数字+“.”之后输入空格</li>
+<li>任务列表：-[空格]空格 文字</li>
+<li>隐藏侧边栏：ctrl+shift+L</li>
+<li>标题：ctrl+数字</li>
+<li>表格：ctrl+t</li>
+<li>生成目录：<code>[TOC]</code>按回车</li>
+<li>选中一整行：ctrl+l</li>
+<li>选中单词：ctrl+d</li>
+<li>选中相同格式的文字：ctrl+e</li>
+<li>跳转到文章开头：ctrl+home</li>
+<li>跳转到文章结尾：ctrl+end</li>
+<li>搜索：ctrl+f</li>
+<li>替换：ctrl+h</li>
+<li>引用：输入&gt;之后输入空格</li>
+<li>代码块：ctrl+alt+f</li>
+<li>加粗：ctrl+b</li>
+<li>倾斜：ctrl+i</li>
+<li>下划线：ctrl+u</li>
+<li>删除线：alt+shift+5</li>
+<li>插入图片：直接拖动到指定位置即可或者ctrl+shift+i</li>
+<li>插入链接：ctrl + k</li>
+</ul>
+<h2 id="给代码块设置快捷键"><a href="#给代码块设置快捷键" class="headerlink" title="给代码块设置快捷键:"></a>给代码块设置快捷键:</h2><p>偏好设置-&gt;打开高级设置-&gt;conf.user.json文件</p>
+<div class="code-wrapper"><pre><code class="hljs awk"> <span class="hljs-string">&quot;keyBinding&quot;</span>: &#123;
+   <span class="hljs-regexp">//</span> <span class="hljs-keyword">for</span> example: 
+   <span class="hljs-regexp">//</span> <span class="hljs-string">&quot;Always on Top&quot;</span>: <span class="hljs-string">&quot;Ctrl+Shift+P&quot;</span>
+<span class="hljs-string">&quot;Always on Top&quot;</span>: <span class="hljs-string">&quot;Ctrl+Shift+P&quot;</span>,  
+   <span class="hljs-string">&quot;Code Fences&quot;</span>: <span class="hljs-string">&quot;Ctrl+Shift+F&quot;</span>,  
+   <span class="hljs-string">&quot;Ordered List&quot;</span>:<span class="hljs-string">&quot;Ctrl+Alt+o&quot;</span>,  
+   <span class="hljs-string">&quot;Unordered List&quot;</span>: <span class="hljs-string">&quot;Ctrl+Alt+u&quot;</span>  
+ &#125;,</code></pre></div>
+
+<p>Code Fences 代码块</p>
+<p>Ordered List 数字有序列表</p>
+<p>Unordered List 无序列表</p>
+<h2 id="表情："><a href="#表情：" class="headerlink" title="表情："></a>表情：</h2><p>输出表情需要借助 <code>：</code>符号。</p>
+<p>栗子：<code>:smile</code> 显示为 😄,记住是左右两边都要冒号。</p>
+<p>使用者可以通过使用<code>ESC</code>键触发表情建议补全功能，也可在功能面板启用后自动触发此功能。同时，直接从菜单栏<code>Edit</code> -&gt; <code>Emoji &amp; Symbols</code>插入UTF8表情符号也是可以的。</p>
+<p>或者使用下面的方法</p>
+<p>访问网站 <a href="https://emojikeyboard.org/，找到需要的符号，鼠标左键单击，然后粘贴到需要的地方就行了！🆗">https://emojikeyboard.org/，找到需要的符号，鼠标左键单击，然后粘贴到需要的地方就行了！🆗</a></p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Win</category>
+      </categories>
+      <tags>
+        <tag>Typora</tag>
+        <tag>快捷键</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>WSL和VM不兼容</title>
+    <url>/2021/05/01/WSL%E5%92%8CVM/</url>
+    <content><![CDATA[<h3 id="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"><a href="#WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭" class="headerlink" title="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"></a>WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭</h3><ul>
+<li>CMD管理员模式启动，输入</li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs arduino">bcdedit /set hypervisorlaunchtype <span class="hljs-keyword">auto</span></code></pre></div>
+
+<ul>
+<li>开启，则可以使用WSL</li>
+</ul>
+<ul>
+<li>CMD管理员模式启动，输入</li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs cmake">bcdedit /<span class="hljs-keyword">set</span> hypervisorlaunchtype <span class="hljs-keyword">off</span></code></pre></div>
+
+<ul>
+<li>关闭，则可以使用VMware</li>
+</ul>
+<p>注意：不管是开还是关都需要重启电脑</p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>WSL</tag>
+        <tag>VM</tag>
       </tags>
   </entry>
   <entry>
@@ -4957,91 +5063,6 @@ torch.cuda.is_available()</code></pre></div>
         <tag>PyTorch</tag>
         <tag>Win10</tag>
         <tag>Deep learning</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Typora快捷键</title>
-    <url>/2021/04/09/Typora%E5%BF%AB%E6%8D%B7%E9%94%AE/</url>
-    <content><![CDATA[<h1 id="Typora快捷键"><a href="#Typora快捷键" class="headerlink" title="Typora快捷键"></a>Typora快捷键</h1><h2 id="windows快捷键："><a href="#windows快捷键：" class="headerlink" title="windows快捷键："></a>windows快捷键：</h2><ul>
-<li>无序列表：输入-之后输入空格</li>
-<li>有序列表：输入数字+“.”之后输入空格</li>
-<li>任务列表：-[空格]空格 文字</li>
-<li>隐藏侧边栏：ctrl+shift+L</li>
-<li>标题：ctrl+数字</li>
-<li>表格：ctrl+t</li>
-<li>生成目录：<code>[TOC]</code>按回车</li>
-<li>选中一整行：ctrl+l</li>
-<li>选中单词：ctrl+d</li>
-<li>选中相同格式的文字：ctrl+e</li>
-<li>跳转到文章开头：ctrl+home</li>
-<li>跳转到文章结尾：ctrl+end</li>
-<li>搜索：ctrl+f</li>
-<li>替换：ctrl+h</li>
-<li>引用：输入&gt;之后输入空格</li>
-<li>代码块：ctrl+alt+f</li>
-<li>加粗：ctrl+b</li>
-<li>倾斜：ctrl+i</li>
-<li>下划线：ctrl+u</li>
-<li>删除线：alt+shift+5</li>
-<li>插入图片：直接拖动到指定位置即可或者ctrl+shift+i</li>
-<li>插入链接：ctrl + k</li>
-</ul>
-<h2 id="给代码块设置快捷键"><a href="#给代码块设置快捷键" class="headerlink" title="给代码块设置快捷键:"></a>给代码块设置快捷键:</h2><p>偏好设置-&gt;打开高级设置-&gt;conf.user.json文件</p>
-<div class="code-wrapper"><pre><code class="hljs awk"> <span class="hljs-string">&quot;keyBinding&quot;</span>: &#123;
-   <span class="hljs-regexp">//</span> <span class="hljs-keyword">for</span> example: 
-   <span class="hljs-regexp">//</span> <span class="hljs-string">&quot;Always on Top&quot;</span>: <span class="hljs-string">&quot;Ctrl+Shift+P&quot;</span>
-<span class="hljs-string">&quot;Always on Top&quot;</span>: <span class="hljs-string">&quot;Ctrl+Shift+P&quot;</span>,  
-   <span class="hljs-string">&quot;Code Fences&quot;</span>: <span class="hljs-string">&quot;Ctrl+Shift+F&quot;</span>,  
-   <span class="hljs-string">&quot;Ordered List&quot;</span>:<span class="hljs-string">&quot;Ctrl+Alt+o&quot;</span>,  
-   <span class="hljs-string">&quot;Unordered List&quot;</span>: <span class="hljs-string">&quot;Ctrl+Alt+u&quot;</span>  
- &#125;,</code></pre></div>
-
-<p>Code Fences 代码块</p>
-<p>Ordered List 数字有序列表</p>
-<p>Unordered List 无序列表</p>
-<h2 id="表情："><a href="#表情：" class="headerlink" title="表情："></a>表情：</h2><p>输出表情需要借助 <code>：</code>符号。</p>
-<p>栗子：<code>:smile</code> 显示为 😄,记住是左右两边都要冒号。</p>
-<p>使用者可以通过使用<code>ESC</code>键触发表情建议补全功能，也可在功能面板启用后自动触发此功能。同时，直接从菜单栏<code>Edit</code> -&gt; <code>Emoji &amp; Symbols</code>插入UTF8表情符号也是可以的。</p>
-<p>或者使用下面的方法</p>
-<p>访问网站 <a href="https://emojikeyboard.org/，找到需要的符号，鼠标左键单击，然后粘贴到需要的地方就行了！🆗">https://emojikeyboard.org/，找到需要的符号，鼠标左键单击，然后粘贴到需要的地方就行了！🆗</a></p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Win</category>
-      </categories>
-      <tags>
-        <tag>Typora</tag>
-        <tag>快捷键</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>WSL和VM不兼容</title>
-    <url>/2021/05/01/WSL%E5%92%8CVM/</url>
-    <content><![CDATA[<h3 id="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"><a href="#WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭" class="headerlink" title="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"></a>WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭</h3><ul>
-<li>CMD管理员模式启动，输入</li>
-</ul>
-<div class="code-wrapper"><pre><code class="hljs arduino">bcdedit /set hypervisorlaunchtype <span class="hljs-keyword">auto</span></code></pre></div>
-
-<ul>
-<li>开启，则可以使用WSL</li>
-</ul>
-<ul>
-<li>CMD管理员模式启动，输入</li>
-</ul>
-<div class="code-wrapper"><pre><code class="hljs cmake">bcdedit /<span class="hljs-keyword">set</span> hypervisorlaunchtype <span class="hljs-keyword">off</span></code></pre></div>
-
-<ul>
-<li>关闭，则可以使用VMware</li>
-</ul>
-<p>注意：不管是开还是关都需要重启电脑</p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>WSL</tag>
-        <tag>VM</tag>
       </tags>
   </entry>
   <entry>
@@ -5355,19 +5376,6 @@ source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
       </categories>
   </entry>
   <entry>
-    <title>我的第一篇博客文章</title>
-    <url>/2019/12/15/%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/</url>
-    <content><![CDATA[<p>“list” 是给这个结构体起的别名，</p>
-<span id="more"></span>
-<p>为了使用方便。</p>
-<p>其次，这个结构体中的date是数值域，next是指针域。</p>
-<p>在这里我使用了递归定义。</p>
-<!-- more -->]]></content>
-      <tags>
-        <tag>博客</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>虚拟机 Ubuntu 安装 Tensorflow</title>
     <url>/2021/04/23/%E8%99%9A%E6%8B%9F%E6%9C%BAUbuntu%E5%AE%89%E8%A3%85Tensorflow/</url>
     <content><![CDATA[<h2 id="1-软件环境"><a href="#1-软件环境" class="headerlink" title="1 软件环境"></a>1 软件环境</h2><h5 id="1-1-ubuntu-18-04-desktop-amd64-iso"><a href="#1-1-ubuntu-18-04-desktop-amd64-iso" class="headerlink" title="1.1 ubuntu-18.04-desktop-amd64.iso"></a>1.1 <a href="https://releases.ubuntu.com/18.04/ubuntu-18.04.5-desktop-amd64.iso">ubuntu-18.04-desktop-amd64.iso</a></h5><h5 id="1-2-python3-7-10"><a href="#1-2-python3-7-10" class="headerlink" title="1.2 python3.7.10"></a>1.2 <a href="https://www.python.org/ftp/python/3.7.10/Python-3.7.10.tgz">python3.7.10</a></h5><h2 id="2-安装-ubuntu"><a href="#2-安装-ubuntu" class="headerlink" title="2 安装 ubuntu"></a>2 安装 ubuntu</h2><h5 id="2-1-由于存在简易安装，所以基本上都是傻瓜式操作"><a href="#2-1-由于存在简易安装，所以基本上都是傻瓜式操作" class="headerlink" title="2.1 由于存在简易安装，所以基本上都是傻瓜式操作"></a>2.1 由于存在简易安装，所以基本上都是傻瓜式操作</h5><h5 id="2-2-配置国内源"><a href="#2-2-配置国内源" class="headerlink" title="2.2 配置国内源"></a>2.2 配置国内源</h5><ul>
@@ -5565,6 +5573,49 @@ c.NotebookApp.port = <span class="hljs-number">8888</span>（端口设置）</co
       </tags>
   </entry>
   <entry>
+    <title>我的第一篇博客文章</title>
+    <url>/2019/12/15/%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/</url>
+    <content><![CDATA[<p>“list” 是给这个结构体起的别名，</p>
+<span id="more"></span>
+<p>为了使用方便。</p>
+<p>其次，这个结构体中的date是数值域，next是指针域。</p>
+<p>在这里我使用了递归定义。</p>
+<!-- more -->]]></content>
+      <tags>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>覆写Python的内置方法</title>
+    <url>/2020/08/06/%E8%A6%86%E5%86%99Python%E7%9A%84%E5%86%85%E7%BD%AE%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="1-我们可以通过覆写类的内置方法str，来控制print-函数的打印格式"><a href="#1-我们可以通过覆写类的内置方法str，来控制print-函数的打印格式" class="headerlink" title="1.我们可以通过覆写类的内置方法str，来控制print()函数的打印格式"></a>1.我们可以通过覆写类的内置方法<strong>str</strong>，来控制print()函数的打印格式</h2><div class="code-wrapper"><pre><code>class Point:
+&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
+def __init__(self, x=0, y=0):
+    self.x = x
+    self.y = y
+def __str__(self):
+    return &quot;&lt;&#123;&#125;,&#123;&#125;&gt;&quot;.format(self.x, self.y)
+
+    if __name__ == &apos;__main__&apos;:
+point = Point(1, 1)
+print(point)</code></pre></div><h3 id="1-1-没有覆写内置方法str时，print-函数的打印结果："><a href="#1-1-没有覆写内置方法str时，print-函数的打印结果：" class="headerlink" title="1.1 没有覆写内置方法str时，print()函数的打印结果："></a>1.1 没有覆写内置方法<strong>str</strong>时，print()函数的打印结果：</h3><div class="code-wrapper"><pre><code>&lt;__main__.Point object at 0x000001D7FD4EB610&gt;
+仅仅只会显示类Point的实例对象point的地址</code></pre></div><h3 id="1-2-覆写内置方法str时，print-函数的打印结果："><a href="#1-2-覆写内置方法str时，print-函数的打印结果：" class="headerlink" title="1.2 覆写内置方法str时，print()函数的打印结果："></a>1.2 覆写内置方法<strong>str</strong>时，print()函数的打印结果：</h3><div class="code-wrapper"><pre><code>&lt;1,1&gt;
+就会打印出我们预想的结果</code></pre></div><h2 id="2-我们可以通过覆写类内置方法init，来获得类似于C-Java的访问限制"><a href="#2-我们可以通过覆写类内置方法init，来获得类似于C-Java的访问限制" class="headerlink" title="2.我们可以通过覆写类内置方法init，来获得类似于C++/Java的访问限制"></a>2.我们可以通过覆写类内置方法<strong>init</strong>，来获得类似于C++/Java的访问限制</h2><h3 id="2-1-私有属性的设置"><a href="#2-1-私有属性的设置" class="headerlink" title="2.1 私有属性的设置"></a>2.1 私有属性的设置</h3><div class="code-wrapper"><pre><code>class Point:
+&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
+def __init__(self, x=0, y=0):
+    self.__x = x
+    self.__y = y</code></pre></div><p> 前面加两个下划线，表示该属性只能直接在类里面直接访问，或者由类自己的方法来直接访问，类以外的不可以直接访问，但是我们同样可以向C++/Java那样书写Set和Get方法来间接的访问类的私有属性。</p>
+<h3 id="2-2-受保护属性的设置"><a href="#2-2-受保护属性的设置" class="headerlink" title="2.2 受保护属性的设置"></a>2.2 受保护属性的设置</h3><div class="code-wrapper"><pre><code>class Point:
+&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
+def __init__(self, x=0, y=0):
+    self._x = x
+    self._y = y</code></pre></div><p>受保护属性前面只用加一个下划线，其他的和私有属性基本一致</p>
+<h3 id="2-3-以上设置，均属于程序员自己的自我约束-规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。"><a href="#2-3-以上设置，均属于程序员自己的自我约束-规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。" class="headerlink" title="2.3 以上设置，均属于程序员自己的自我约束/规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。"></a>2.3 以上设置，均属于程序员自己的自我约束/规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。</h3>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+  </entry>
+  <entry>
     <title>链表之创建空链表</title>
     <url>/2019/12/14/%E9%93%BE%E8%A1%A8%E4%B9%8B%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%93%BE%E8%A1%A8/</url>
     <content><![CDATA[<h3 id="链表之创建空链表"><a href="#链表之创建空链表" class="headerlink" title="链表之创建空链表"></a>链表之创建空链表</h3><span id="more"></span>
@@ -5596,36 +5647,6 @@ struct node *next;
       <categories>
         <category>Technical</category>
         <category>C/C++</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>覆写Python的内置方法</title>
-    <url>/2020/08/06/%E8%A6%86%E5%86%99Python%E7%9A%84%E5%86%85%E7%BD%AE%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="1-我们可以通过覆写类的内置方法str，来控制print-函数的打印格式"><a href="#1-我们可以通过覆写类的内置方法str，来控制print-函数的打印格式" class="headerlink" title="1.我们可以通过覆写类的内置方法str，来控制print()函数的打印格式"></a>1.我们可以通过覆写类的内置方法<strong>str</strong>，来控制print()函数的打印格式</h2><div class="code-wrapper"><pre><code>class Point:
-&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
-def __init__(self, x=0, y=0):
-    self.x = x
-    self.y = y
-def __str__(self):
-    return &quot;&lt;&#123;&#125;,&#123;&#125;&gt;&quot;.format(self.x, self.y)
-
-    if __name__ == &apos;__main__&apos;:
-point = Point(1, 1)
-print(point)</code></pre></div><h3 id="1-1-没有覆写内置方法str时，print-函数的打印结果："><a href="#1-1-没有覆写内置方法str时，print-函数的打印结果：" class="headerlink" title="1.1 没有覆写内置方法str时，print()函数的打印结果："></a>1.1 没有覆写内置方法<strong>str</strong>时，print()函数的打印结果：</h3><div class="code-wrapper"><pre><code>&lt;__main__.Point object at 0x000001D7FD4EB610&gt;
-仅仅只会显示类Point的实例对象point的地址</code></pre></div><h3 id="1-2-覆写内置方法str时，print-函数的打印结果："><a href="#1-2-覆写内置方法str时，print-函数的打印结果：" class="headerlink" title="1.2 覆写内置方法str时，print()函数的打印结果："></a>1.2 覆写内置方法<strong>str</strong>时，print()函数的打印结果：</h3><div class="code-wrapper"><pre><code>&lt;1,1&gt;
-就会打印出我们预想的结果</code></pre></div><h2 id="2-我们可以通过覆写类内置方法init，来获得类似于C-Java的访问限制"><a href="#2-我们可以通过覆写类内置方法init，来获得类似于C-Java的访问限制" class="headerlink" title="2.我们可以通过覆写类内置方法init，来获得类似于C++/Java的访问限制"></a>2.我们可以通过覆写类内置方法<strong>init</strong>，来获得类似于C++/Java的访问限制</h2><h3 id="2-1-私有属性的设置"><a href="#2-1-私有属性的设置" class="headerlink" title="2.1 私有属性的设置"></a>2.1 私有属性的设置</h3><div class="code-wrapper"><pre><code>class Point:
-&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
-def __init__(self, x=0, y=0):
-    self.__x = x
-    self.__y = y</code></pre></div><p> 前面加两个下划线，表示该属性只能直接在类里面直接访问，或者由类自己的方法来直接访问，类以外的不可以直接访问，但是我们同样可以向C++/Java那样书写Set和Get方法来间接的访问类的私有属性。</p>
-<h3 id="2-2-受保护属性的设置"><a href="#2-2-受保护属性的设置" class="headerlink" title="2.2 受保护属性的设置"></a>2.2 受保护属性的设置</h3><div class="code-wrapper"><pre><code>class Point:
-&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
-def __init__(self, x=0, y=0):
-    self._x = x
-    self._y = y</code></pre></div><p>受保护属性前面只用加一个下划线，其他的和私有属性基本一致</p>
-<h3 id="2-3-以上设置，均属于程序员自己的自我约束-规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。"><a href="#2-3-以上设置，均属于程序员自己的自我约束-规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。" class="headerlink" title="2.3 以上设置，均属于程序员自己的自我约束/规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。"></a>2.3 以上设置，均属于程序员自己的自我约束/规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。</h3>]]></content>
-      <categories>
-        <category>Python</category>
       </categories>
   </entry>
   <entry>
@@ -27784,6 +27805,102 @@ java.lang.OutOfMemoryError:Metaspace</code></pre></div>
 </ul>
 <p>例如：</p>
 <div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">java</span> -Xms<span class="hljs-number">1024</span>m -Xmx<span class="hljs-number">1024</span> -XX:UseG<span class="hljs-number">1</span>GC -jar   xxx.jar</code></pre></div>
+
+<h1 id="第-13-章Linux诊断原因"><a href="#第-13-章Linux诊断原因" class="headerlink" title="第 13 章Linux诊断原因"></a>第 13 章Linux诊断原因</h1><h3 id="1-整机：top，查看整机系统性能"><a href="#1-整机：top，查看整机系统性能" class="headerlink" title="1 整机：top，查看整机系统性能"></a>1 整机：top，查看整机系统性能</h3><p><img src="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326162329550.png" alt="image-20200326162329550"></p>
+<p>使用top命令的话，重点关注的是 %CPU、%MEM 、load average 三个指标</p>
+<ul>
+<li>load average三个指标：分别代表1、5、15分钟的负载情况</li>
+</ul>
+<p>在这个命令下，按1的话，可以看到每个CPU的占用情况</p>
+<p>uptime：系统性能命令的精简版</p>
+<h3 id="2-CPU：vmstat"><a href="#2-CPU：vmstat" class="headerlink" title="2 CPU：vmstat"></a>2 CPU：vmstat</h3><ul>
+<li>查看CPU（包含但是不限于）</li>
+<li>查看额外<ul>
+<li>查看所有CPU核信息：mpstat -p ALL 2</li>
+<li>每个进程使用CPU的用量分解信息：pidstat -u 1 -p 进程编号</li>
+</ul>
+</li>
+</ul>
+<p>命令格式：<code>vmstat -n 2 3</code></p>
+<p><img src="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326162803165.png" alt="image-20200326162803165"></p>
+<p>一般vmstat工具的使用是通过两个数字参数来完成的，第一个参数是残阳的时间间隔数（单位秒），第二个参数是采样的次数</p>
+<p><strong>procs</strong></p>
+<div class="code-wrapper"><pre><code>r：运行和等待的CPU时间片的进程数，原则上1核的CPU的运行队列不要超过2，整个系统的运行队列不超过总核数的2倍，否则代表系统压力过大，我们看蘑菇博客测试服务器，能发现都超过了2，说明现在压力过大
+
+b：等待资源的进程数，比如正在等待磁盘I/O、网络I/O等</code></pre></div><p><strong>cpu</strong></p>
+<div class="code-wrapper"><pre><code>us：用户进程消耗CPU时间百分比，us值高，用户进程消耗CPU时间多，如果长期大于50%，优化程序
+
+sy：内核进程消耗的CPU时间百分比</code></pre></div><p><img src="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326164521263.png" alt="image-20200326164521263"></p>
+<div class="code-wrapper"><pre><code>us + sy 参考值为80%，如果us + sy 大于80%，说明可能存在CPU不足，从上面的图片可以看出，us + sy还没有超过百分80，因此说明蘑菇博客的CPU消耗不是很高
+
+id：处于空闲的CPU百分比
+
+wa：系统等待IO的CPU时间百分比
+
+st：来自于一个虚拟机偷取的CPU时间比</code></pre></div><h3 id="3-内存：free"><a href="#3-内存：free" class="headerlink" title="3 内存：free"></a>3 内存：free</h3><ul>
+<li><p>应用程序可用内存数：free -m</p>
+</li>
+<li><p>应用程序可用内存/系统物理内存 &gt; 70% 内存充足</p>
+</li>
+<li><p>应用程序可用内存/系统物理内存 &lt; 20% 内存不足，需要增加内存</p>
+</li>
+<li><p>20% &lt;  应用程序可用内存/系统物理内存 &lt; 70%，表示内存基本够用</p>
+</li>
+</ul>
+<p>free -h：以人类能看懂的方式查看物理内存</p>
+<p><img src="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326170217637.png" alt="image-20200326170217637"></p>
+<p>free -m：以MB为单位，查看物理内存</p>
+<p><img src="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326165815071.png" alt="image-20200326165815071"></p>
+<p>free -g：以GB为单位，查看物理内存</p>
+<h3 id="4-硬盘：df"><a href="#4-硬盘：df" class="headerlink" title="4 硬盘：df"></a>4 硬盘：df</h3><p>格式：<code>df -h  /</code>  (-h：human，表示以人类能看到的方式换算)</p>
+<p><img src="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326170318733.png" alt="image-20200326170318733"></p>
+<ul>
+<li>硬盘IO：iostat</li>
+</ul>
+<p>系统慢有两种原因引起的，一个是CPU高，一个是大量IO操作</p>
+<p>格式：<code>iostat -xdk 2 3</code></p>
+<p><img src="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326170522559.png" alt="image-20200326170522559"></p>
+<p>磁盘块设备分布：</p>
+<p>rkB /s：每秒读取数据量kB；</p>
+<p>wkB/s：每秒写入数据量kB；</p>
+<p>svctm I/O：请求的平均服务时间，单位毫秒</p>
+<p>await I/O：请求的平均等待时间，单位毫秒，值越小，性能越好</p>
+<p>util：一秒钟有百分几的时间用于I/O操作。接近100%时，表示磁盘带宽跑满，需要优化程序或者增加磁盘；</p>
+<p>rkB/s，wkB/s根据系统应用不同会有不同的值，但有规律遵循：长期、超大数据读写，肯定不正常，需要优化程序读取。</p>
+<p>svctm的值与await的值很接近，表示几乎没有I/O等待，磁盘性能好，如果await的值远高于svctm的值，则表示I/O队列等待太长，需要优化程序或更换更快磁盘</p>
+<h3 id="5-网络IO：ifstat"><a href="#5-网络IO：ifstat" class="headerlink" title="5 网络IO：ifstat"></a>5 网络IO：ifstat</h3><ul>
+<li>默认本地没有，下载ifstat</li>
+</ul>
+<p><img src="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326171559406.png" alt="image-20200326171559406"></p>
+<h3 id="6-生产环境服务器变慢，诊断思路和性能评估"><a href="#6-生产环境服务器变慢，诊断思路和性能评估" class="headerlink" title="6 生产环境服务器变慢，诊断思路和性能评估"></a>6 生产环境服务器变慢，诊断思路和性能评估</h3><p>记一次印象深刻的故障？</p>
+<p>结合Linux 和 JDK命令一起分析，步骤如下</p>
+<ul>
+<li><p>使用top命令找出CPU占比最高的</p>
+</li>
+<li><p>ps -ef 或者 jps 进一步定位，得知是一个怎么样的后台程序出的问题</p>
+</li>
+<li><p>定位到具体线程或者代码</p>
+<ul>
+<li>ps -mp 进程  -o THREAD，tid，time</li>
+<li>参数解释<ul>
+<li>-m：显示所有的线程</li>
+<li>-p：pid进程使用CPU的时间</li>
+<li>-o：该参数后是用户自定义格式</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326173656164.png" alt="image-20200326173656164"></p>
+</li>
+<li><p>将需要的线程ID转换为16进制格式（英文小写格式）</p>
+<ul>
+<li>printf “%x\n” 有问题的线程ID</li>
+</ul>
+</li>
+<li><p>jstack 进程ID | grep tid（16进制线程ID小写英文） -A60</p>
+<p>精准定位到错误的地方</p>
+</li>
+</ul>
+<p><img src="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200326174107444.png" alt="image-20200326174107444"></p>
 ]]></content>
       <categories>
         <category>Java</category>
