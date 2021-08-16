@@ -191,7 +191,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.2k 字
+      1.3k 字
     </span>
   
 
@@ -201,7 +201,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      18
+      20
        分钟
     </span>
   
@@ -235,7 +235,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：16 天前
+                  本文最后更新于：1 分钟前
                 
               </p>
             
@@ -467,6 +467,25 @@ Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide sh
 <li>执行  <code>./vmware-install.pl</code></li>
 <li><code>第一步输入: y</code>, 剩下的按回车默认即可</li>
 </ol>
+<h1 id="7-运行-java-程序"><a href="#7-运行-java-程序" class="headerlink" title="7 运行 java 程序"></a>7 运行 java 程序</h1><p>在 <code>Linux</code>系统下运行 <code>java</code>程序</p>
+<p><code>Hello.java</code></p>
+<p>完整目录为 ：<code>/home/username/project/java/com/pnca/c17/Hello.java</code></p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.pnca.c17;
+
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Hello</span> </span>&#123;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+		System.out.println(<span class="hljs-string">&quot;hello&quot;</span>);
+	&#125;
+&#125;</code></pre></div>
+
+<p>如果带有包名，必须存在对应的目录，并把对应的 <code>.java</code> 文件存放到对应的包中。</p>
+<h2 id="编译-javac"><a href="#编译-javac" class="headerlink" title="编译 javac"></a>编译 javac</h2><div class="code-wrapper"><pre><code class="hljs shell">javac -encoding utf-8 -cp com/pnca/c17/Hello.java</code></pre></div>
+
+<h2 id="运行-java"><a href="#运行-java" class="headerlink" title="运行 java"></a>运行 java</h2><div class="code-wrapper"><pre><code class="hljs shell">java  -classpath . com.pnca.c17.Hello</code></pre></div>
+
+<p><code>.</code> 指的是当前目录，即为 /home/username/project/java</p>
+<p>如果有包名，则必须使用类的全限定名即：com.pnca.c17.Hello</p>
 
             </div>
             <hr>
