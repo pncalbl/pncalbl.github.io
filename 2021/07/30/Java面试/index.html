@@ -191,7 +191,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      48.3k 字
+      49.3k 字
     </span>
   
 
@@ -201,7 +201,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      596
+      608
        分钟
     </span>
   
@@ -235,7 +235,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：12 分钟前
+                  本文最后更新于：11 小时前
                 
               </p>
             
@@ -4995,6 +4995,111 @@ where id = 2 and version = 1</code></pre></div>
 &#125;</code></pre></div>
 
 <h2 id="3-悲观锁"><a href="#3-悲观锁" class="headerlink" title="3 悲观锁"></a>3 悲观锁</h2><p>顾名思义，就是十分悲观，它总是认为什么时候都会出现问题，无论什么操作都会上锁，再次操作</p>
+<h1 id="第3部分-框架"><a href="#第3部分-框架" class="headerlink" title="第3部分 框架"></a>第3部分 框架</h1><h1 id="第16-章-Spring-源码"><a href="#第16-章-Spring-源码" class="headerlink" title="第16 章 Spring 源码"></a>第16 章 Spring 源码</h1><h2 id="1-Spring源码方面的知识"><a href="#1-Spring源码方面的知识" class="headerlink" title="1 Spring源码方面的知识"></a>1 Spring源码方面的知识</h2><ul>
+<li>Spring bean的生命周期</li>
+<li>Spring 工厂，Spring容器，上下文 </li>
+<li>Spring BeanPostprocessor</li>
+<li>Spring 和 主流框架的源码</li>
+<li>Spring BeanFactory 和 FactoryBean的区别</li>
+</ul>
+<h2 id="2-谈谈你对Spring的理解"><a href="#2-谈谈你对Spring的理解" class="headerlink" title="2 谈谈你对Spring的理解"></a>2 谈谈你对Spring的理解</h2><p>IOC、AOP只是作为Spring Framework里面一部分，同时还有还有events，resources，i18n，validation，data binding，type conversion，SpEL</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200402092317669.png" alt="image-20200402092317669"></p>
+<h2 id="3-Spring上下文"><a href="#3-Spring上下文" class="headerlink" title="3 Spring上下文"></a>3 Spring上下文</h2><p>从代码级别来说，就是指Spring Context</p>
+<p>从源码级别，但我们初始化Spring Context的时候，一堆的Spring组件围绕在一起，使其能够正常工作，这个状态就被称为Spring环境</p>
+<h2 id="4-Spring初始化"><a href="#4-Spring初始化" class="headerlink" title="4 Spring初始化"></a>4 Spring初始化</h2><p>首先需要引入Spring的依赖，因为我们暂时只是初始化过程，只需要用到IOC</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-context<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>5.0.9.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>为了更加了解Spring初始化的过程，我们需要定义三个类</p>
+<p>1、AppConfig.java，可以当成是扫描类，也就是配置我们需要扫描的目录</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span>
+<span class="hljs-meta">@ComponentScan(&quot;com.pnca.interview.study.spring&quot;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppConfig</span> </span>&#123;
+&#125;
+</code></pre></div>
+
+<p>2、BeanTest.java，我们需要被扫描到的Bean</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BeanTest</span> </span>&#123;
+&#125;</code></pre></div>
+
+<p>3、Test.java，启动测试类</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-comment">// 初始化</span>
+        AnnotationConfigApplicationContext annotationConfigApplicationContext = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(AppConfig.class);
+
+        System.out.println(annotationConfigApplicationContext.getBean(BeanTest.class));
+    &#125;
+&#125;</code></pre></div>
+
+<p>最后我们通过注解的方式，来获取Spring IOC扫描到的Bean，最后打印出来</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200402091642787.png" alt="image-20200402091642787"></p>
+<p>tip：IDEA点击进去的源码目录，其实是IDEA反编译得到的，和原来的源码会存在一些出入，是IDEA专门优化过的，因此如果你需要修改源码的话，还是需要在官网下载对应的源码包</p>
+<div class="code-wrapper"><pre><code class="hljs http">https://github.com/spring-projects/spring-framework</code></pre></div>
+
+<h2 id="5-SpringBean的生命周期"><a href="#5-SpringBean的生命周期" class="headerlink" title="5 SpringBean的生命周期"></a>5 SpringBean的生命周期</h2><p>Spring中的Bean不可能是直接new关键字创建出来的</p>
+<ul>
+<li>把类扫描出来（扫描出来后做了什么？）</li>
+<li>把Bean实例化</li>
+</ul>
+<p>初始化Spring环境有两种方法，一种是通过注解的方式，一个是通过XML的方式</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 方式1，目前用的比较多</span>
+AnnotationConfigApplicationContext annotationConfigApplicationContext = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(AppConfig.class)</code></pre></div>
+
+<p>同时在这个方法的内部，使用了this()</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200402100813001.png" alt="image-20200402100813001"></p>
+<p>调用AnnotationConfigApplicationContext无参构造方法，同时因为该类又继承了一个父类 GenericApplicationContext，子类在初始化的时候，还会调用父类的无参构造方法，在父类中，我们能够看到它初始化了一个BeanFactory，这就是我们经常提到的Spring工厂</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200402100434794-16295172680416.png" alt="image-20200402100434794"></p>
+<p>这个工厂最重要的功能就是产生Bean</p>
+<p>同时在AnnotationConfigApplication方法的最后，还有一个refresh()方法，这个方法是整个Spring最核心的方法，这个方法的内部，同时调用了十多个方法，其中最重要的是 invokeBeanFactoryPostProcessors()</p>
+<div class="code-wrapper"><pre><code class="hljs java">invokeBeanFactoryPostProcessors() &#123;
+	<span class="hljs-comment">// 扫描类：</span>
+	<span class="hljs-comment">// 处理了各种import：例如@import(&quot;xxx.xml&quot;), @MapperScanner, @CompoentScanner ..... </span>
+&#125;</code></pre></div>
+
+<h3 id="普通类的实例化"><a href="#普通类的实例化" class="headerlink" title="普通类的实例化"></a>普通类的实例化</h3><p>普通类的实例化，就是通过javac编译成xxx.class文件，然后某一天通过new关键字进行实例化，JVM就会把这个class类加载到JVM内存中，这里面就涉及到了方法区，堆栈存储等。</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200402101551621.png" alt="image-20200402101551621"></p>
+<h3 id="Spring-Bean实例化过程"><a href="#Spring-Bean实例化过程" class="headerlink" title="Spring Bean实例化过程"></a>Spring Bean实例化过程</h3><ul>
+<li><p>首先Spring会将全部的Class类，通过classLoader加载到JVM中</p>
+</li>
+<li><p>然后在通过扫描，创建很多BeanDefinition，我们通过反射将对应Class的信息填充到BeanDefinition中</p>
+<ul>
+<li><p>这里的BeanDefinition是用来描述Bean的，也就是Bean的一些信息存储</p>
+<div class="code-wrapper"><pre><code class="hljs java">RootBeanDefinition rootBeanDefinition = <span class="hljs-keyword">new</span> RootBeanDefinition();
+rootBeanDefinition.setBeanClassName(<span class="hljs-string">&quot;BeanTest&quot;</span>);
+rootBeanDefinition.setBeanClass(BeanTest.class);
+rootBeanDefinition.setScope(<span class="hljs-string">&quot;prototype&quot;</span>);
+rootBeanDefinition.setLazyInit();</code></pre></div>
+
+
+
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>然后在把填充好的BeanDefinition一个个放入到Map中，Spring扫描了几个类，Map中就有几个类，这个Map被称为 BeanDefinitionMap</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200402102958645.png" alt="image-20200402102958645"></p>
+<ul>
+<li>最后我们将这个BeanDefinationMap放入了Spring单例池中</li>
+</ul>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200402104318234.png" alt="image-20200402104318234"></p>
+<p>完整的加载图，左边红色部分就是Spring的加载过程，然后开放的原则，它还提供了很多扩展接口，让你可以干扰到Sring的加载过程，使得</p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200402104306006.png" alt="image-20200402104306006"></p>
+<p>例如，很多需要对Spring进行扩展的，例如Mybatis，其实都是实现了 BeanFactoryPostProcessor接口</p>
+<p>在执行扫描的时候，它会扫描Spring 提供的 BeanFactoryPostProcessor，以及程序员扩展的</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestBeanFactoryPostProcessor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">BeanFactoryPostProcessor</span> </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">postProcessBeanFactory</span><span class="hljs-params">(ConfigurableListableBeanFactory beanFactory)</span> <span class="hljs-keyword">throws</span> BeansException </span>&#123;
+
+    &#125;
+&#125;</code></pre></div>
+
 
             </div>
             <hr>

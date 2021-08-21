@@ -177,65 +177,6 @@
       </categories>
   </entry>
   <entry>
-    <title>Java-I/O操作中管道流的使用</title>
-    <url>/2020/08/14/Java-IO%E6%93%8D%E4%BD%9C%E4%B8%AD%E7%AE%A1%E9%81%93%E6%B5%81%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="1-首先需要导入三个包"><a href="#1-首先需要导入三个包" class="headerlink" title="1-首先需要导入三个包"></a>1-首先需要导入三个包</h2><div class="code-wrapper"><pre><code>import java.io.IOException;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;</code></pre></div><h2 id="2-我们需要编写两个进行对话的线程类"><a href="#2-我们需要编写两个进行对话的线程类" class="headerlink" title="2- 我们需要编写两个进行对话的线程类"></a>2- 我们需要编写两个进行对话的线程类</h2><h3 id="2-1-发送消息的线程类-Sender"><a href="#2-1-发送消息的线程类-Sender" class="headerlink" title="2.1 - 发送消息的线程类 Sender"></a>2.1 - 发送消息的线程类 Sender</h3><div class="code-wrapper"><pre><code>class Sender extends Thread&#123;
-    private PipedOutputStream out = new PipedOutputStream();
-    public PipedOutputStream getOutputStream()&#123;return out;&#125;
-
-    @Override
-    public void run()&#123;
-        String s = new String(&quot;Receiver, 你好!&quot;);
-        try &#123;
-            out.write(s.getBytes()); // 写入(发送)
-            out.close();
-        &#125;catch (IOException e)&#123;
-            System.out.println(e.getMessage());
-        &#125;
-    &#125;
-&#125;</code></pre></div><h3 id="2-2-接收消息的线程类-Receiver"><a href="#2-2-接收消息的线程类-Receiver" class="headerlink" title="2.2 - 接收消息的线程类 Receiver"></a>2.2 - 接收消息的线程类 Receiver</h3><div class="code-wrapper"><pre><code>class Receiver extends Thread&#123;
-    private PipedInputStream in = new PipedInputStream();
-    public PipedInputStream getInputStream()&#123;return in;&#125;
-    @Override
-    public void run()&#123;
-        String s = null;
-        byte[] buf = new byte[1024];
-        try &#123;
-            int len = in.read(buf); // 读出信息
-            s = new String(buf, 0, len);
-            System.out.println(&quot;收到了以下信息: &quot; + s);
-            in.close();
-        &#125;catch (IOException e)&#123;
-            System.out.println(e.getMessage());
-        &#125;
-    &#125;
-&#125;</code></pre></div><p>声明的字节数组大小为1024原因是:类PipedInputStream运用的是一个1024字节固定大小的循环缓冲区。实际上，写入PipedOutputStream的数据保存到对应的PipedInputStream的内部缓冲区。</p>
-<h2 id="3-进行管道流测试的主类-管道流的使用"><a href="#3-进行管道流测试的主类-管道流的使用" class="headerlink" title="3 - 进行管道流测试的主类(管道流的使用)"></a>3 - 进行管道流测试的主类(管道流的使用)</h2><div class="code-wrapper"><pre><code>public class PipeStreamDemo &#123;
-    public static void main(String[] args) &#123;
-        try &#123;
-            Sender sender = new Sender();   // 创建线程对象sender
-            Receiver receiver = new Receiver(); // 创建线程对象receiver
-            PipedOutputStream out = sender.getOutputStream(); // 写入
-            PipedInputStream in = receiver.getInputStream(); // 读出
-            out.connect(in); // 将输出发送到输入
-            sender.start(); // 启动线程
-            receiver.start();
-        &#125;catch (IOException e)&#123;
-            System.out.println(e.getMessage());
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="4-输出示例"><a href="#4-输出示例" class="headerlink" title="4 - 输出示例"></a>4 - 输出示例</h2><div class="code-wrapper"><pre><code>收到了以下信息: Receiver, 你好!</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>IO流</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JavaAbstractFactory模式</title>
     <url>/2020/09/14/JavaAbstractFactory%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -478,6 +419,65 @@ Yahoo!
         <category>Java</category>
         <category>设计模式</category>
       </categories>
+  </entry>
+  <entry>
+    <title>Java-I/O操作中管道流的使用</title>
+    <url>/2020/08/14/Java-IO%E6%93%8D%E4%BD%9C%E4%B8%AD%E7%AE%A1%E9%81%93%E6%B5%81%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="1-首先需要导入三个包"><a href="#1-首先需要导入三个包" class="headerlink" title="1-首先需要导入三个包"></a>1-首先需要导入三个包</h2><div class="code-wrapper"><pre><code>import java.io.IOException;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;</code></pre></div><h2 id="2-我们需要编写两个进行对话的线程类"><a href="#2-我们需要编写两个进行对话的线程类" class="headerlink" title="2- 我们需要编写两个进行对话的线程类"></a>2- 我们需要编写两个进行对话的线程类</h2><h3 id="2-1-发送消息的线程类-Sender"><a href="#2-1-发送消息的线程类-Sender" class="headerlink" title="2.1 - 发送消息的线程类 Sender"></a>2.1 - 发送消息的线程类 Sender</h3><div class="code-wrapper"><pre><code>class Sender extends Thread&#123;
+    private PipedOutputStream out = new PipedOutputStream();
+    public PipedOutputStream getOutputStream()&#123;return out;&#125;
+
+    @Override
+    public void run()&#123;
+        String s = new String(&quot;Receiver, 你好!&quot;);
+        try &#123;
+            out.write(s.getBytes()); // 写入(发送)
+            out.close();
+        &#125;catch (IOException e)&#123;
+            System.out.println(e.getMessage());
+        &#125;
+    &#125;
+&#125;</code></pre></div><h3 id="2-2-接收消息的线程类-Receiver"><a href="#2-2-接收消息的线程类-Receiver" class="headerlink" title="2.2 - 接收消息的线程类 Receiver"></a>2.2 - 接收消息的线程类 Receiver</h3><div class="code-wrapper"><pre><code>class Receiver extends Thread&#123;
+    private PipedInputStream in = new PipedInputStream();
+    public PipedInputStream getInputStream()&#123;return in;&#125;
+    @Override
+    public void run()&#123;
+        String s = null;
+        byte[] buf = new byte[1024];
+        try &#123;
+            int len = in.read(buf); // 读出信息
+            s = new String(buf, 0, len);
+            System.out.println(&quot;收到了以下信息: &quot; + s);
+            in.close();
+        &#125;catch (IOException e)&#123;
+            System.out.println(e.getMessage());
+        &#125;
+    &#125;
+&#125;</code></pre></div><p>声明的字节数组大小为1024原因是:类PipedInputStream运用的是一个1024字节固定大小的循环缓冲区。实际上，写入PipedOutputStream的数据保存到对应的PipedInputStream的内部缓冲区。</p>
+<h2 id="3-进行管道流测试的主类-管道流的使用"><a href="#3-进行管道流测试的主类-管道流的使用" class="headerlink" title="3 - 进行管道流测试的主类(管道流的使用)"></a>3 - 进行管道流测试的主类(管道流的使用)</h2><div class="code-wrapper"><pre><code>public class PipeStreamDemo &#123;
+    public static void main(String[] args) &#123;
+        try &#123;
+            Sender sender = new Sender();   // 创建线程对象sender
+            Receiver receiver = new Receiver(); // 创建线程对象receiver
+            PipedOutputStream out = sender.getOutputStream(); // 写入
+            PipedInputStream in = receiver.getInputStream(); // 读出
+            out.connect(in); // 将输出发送到输入
+            sender.start(); // 启动线程
+            receiver.start();
+        &#125;catch (IOException e)&#123;
+            System.out.println(e.getMessage());
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="4-输出示例"><a href="#4-输出示例" class="headerlink" title="4 - 输出示例"></a>4 - 输出示例</h2><div class="code-wrapper"><pre><code>收到了以下信息: Receiver, 你好!</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Tool</category>
+      </categories>
+      <tags>
+        <tag>IO流</tag>
+      </tags>
   </entry>
   <entry>
     <title>JavaAbstractFactory模式表格化版本</title>
@@ -820,173 +820,6 @@ HTML文本效果图</code></pre></div><html><head><title>LinkPage</title></head>
       </categories>
   </entry>
   <entry>
-    <title>JavaChainOfResponsibility模式</title>
-    <url>/2020/09/24/JavaChainOfResponsibility%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  推卸责任</p>
-</blockquote>
-<h2 id="1-表示发生的问题的类-它带有问题编号-number"><a href="#1-表示发生的问题的类-它带有问题编号-number" class="headerlink" title="1 - 表示发生的问题的类.它带有问题编号(number)"></a>1 - 表示发生的问题的类.它带有问题编号(number)</h2><div class="code-wrapper"><pre><code>public class Trouble &#123;
-    private int number; // 问题编号
-
-    public Trouble(int number)&#123; // 生成问题
-        this.number = number;
-    &#125;
-
-    public int getNumber()&#123;
-        return number;
-    &#125;
-
-    @Override
-    public String toString()&#123;
-        return &quot;[Trouble &quot; + number + &quot;]&quot;;
-    &#125;
-&#125;</code></pre></div><h2 id="2-用来解决问题的抽象类"><a href="#2-用来解决问题的抽象类" class="headerlink" title="2 - 用来解决问题的抽象类"></a>2 - 用来解决问题的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class Support &#123;
-    private String name;    // 解决问题的实例的名字
-    private Support next;   // 要推卸给的对象
-
-    public Support(String name)&#123;
-        this.name = name;
-    &#125;
-
-    public Support setNext(Support next)&#123;
-        this.next = next;
-        return next;
-    &#125;
-
-    public final void support(Trouble trouble)&#123; // 解决问题的步骤
-        if (resolve(trouble))&#123;
-            done(trouble);
-        &#125;else if(next != null)&#123;
-            next.support(trouble);
-        &#125;else&#123;
-            fail(trouble);
-        &#125;
-    &#125;
-
-    @Override
-    public String toString()&#123;
-        return &quot;[&quot; + name + &quot;]&quot;;
-    &#125;
-
-    protected abstract boolean resolve(Trouble trouble);
-
-    protected  void done(Trouble trouble)&#123;  // 解决
-        System.out.println(trouble + &quot; is resolved by &quot; + this + &quot;.&quot;);
-    &#125;
-
-    protected void fail(Trouble trouble)&#123;   // 未解决
-        System.out.println(trouble + &quot;cannot be resolved.&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="3-用来解决问题的具体类-永远-“-不处理问题-“"><a href="#3-用来解决问题的具体类-永远-“-不处理问题-“" class="headerlink" title="3 - 用来解决问题的具体类(永远 “ 不处理问题 “)"></a>3 - 用来解决问题的具体类(永远 “ 不处理问题 “)</h2><div class="code-wrapper"><pre><code>public class NoSupport extends Support&#123;
-    public NoSupport(String name)&#123;
-        super(name);
-    &#125;
-
-    @Override
-    protected boolean resolve(Trouble trouble) &#123;    // 解决问题的方法
-        return false;                               // 自己什么也不做
-    &#125;
-&#125;</code></pre></div><h2 id="4-用来解决问题的具体类-仅解决编号小于指定编号的问题"><a href="#4-用来解决问题的具体类-仅解决编号小于指定编号的问题" class="headerlink" title="4 - 用来解决问题的具体类(仅解决编号小于指定编号的问题)"></a>4 - 用来解决问题的具体类(仅解决编号小于指定编号的问题)</h2><div class="code-wrapper"><pre><code>public class LimitSupport extends Support&#123;
-    private int limit;
-    public LimitSupport(String name, int limit) &#123;
-        super(name);
-        this.limit = limit;
-    &#125;
-
-    @Override
-    protected boolean resolve(Trouble trouble) &#123;
-        return trouble.getNumber() &lt; limit;
-    &#125;
-&#125;</code></pre></div><h2 id="5-用来解决问题的具体类-仅解决奇数编号的问题"><a href="#5-用来解决问题的具体类-仅解决奇数编号的问题" class="headerlink" title="5 - 用来解决问题的具体类(仅解决奇数编号的问题)"></a>5 - 用来解决问题的具体类(仅解决奇数编号的问题)</h2><div class="code-wrapper"><pre><code>public class OddSupport extends Support&#123;
-    public OddSupport(String name) &#123;
-        super(name);
-    &#125;
-
-    @Override
-    protected boolean resolve(Trouble trouble) &#123;
-        return trouble.getNumber() % 2 == 1;
-    &#125;
-&#125;</code></pre></div><h2 id="6-用来解决问题的具体类-仅解决指定编号的问题"><a href="#6-用来解决问题的具体类-仅解决指定编号的问题" class="headerlink" title="6 - 用来解决问题的具体类(仅解决指定编号的问题)"></a>6 - 用来解决问题的具体类(仅解决指定编号的问题)</h2><div class="code-wrapper"><pre><code>public class SpecialSupport extends Support&#123;
-    private int number;
-    public SpecialSupport(String name, int number) &#123;
-        super(name);
-        this.number = number;
-    &#125;
-
-    @Override
-    protected boolean resolve(Trouble trouble) &#123;
-        return trouble.getNumber() == number;
-    &#125;
-&#125;</code></pre></div><h2 id="7-制作Support的职责链-制造问题并测试程序行为"><a href="#7-制作Support的职责链-制造问题并测试程序行为" class="headerlink" title="7 - 制作Support的职责链, 制造问题并测试程序行为"></a>7 - 制作Support的职责链, 制造问题并测试程序行为</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        Support alice = new NoSupport(&quot;Alice&quot;);
-        Support bob = new LimitSupport(&quot;Bob&quot;, 10);
-        Support charlie = new SpecialSupport(&quot;Charlie&quot;, 29);
-        Support diana = new LimitSupport(&quot;Diana&quot;, 20);
-        Support elmo = new OddSupport(&quot;Elmo&quot;);
-        Support fred = new LimitSupport(&quot;Fred&quot;, 30);
-        // 形成职责链
-        alice.setNext(bob).setNext(charlie).setNext(diana).setNext(elmo).setNext(fred);
-        for (int i = 0; i &lt; 50; i++) &#123;
-            alice.support(new Trouble(i));
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="8-输出示例"><a href="#8-输出示例" class="headerlink" title="8 - 输出示例"></a>8 - 输出示例</h2><div class="code-wrapper"><pre><code>[Trouble 0] is resolved by [Bob].
-[Trouble 1] is resolved by [Bob].
-[Trouble 2] is resolved by [Bob].
-[Trouble 3] is resolved by [Bob].
-[Trouble 4] is resolved by [Bob].
-[Trouble 5] is resolved by [Bob].
-[Trouble 6] is resolved by [Bob].
-[Trouble 7] is resolved by [Bob].
-[Trouble 8] is resolved by [Bob].
-[Trouble 9] is resolved by [Bob].
-[Trouble 10] is resolved by [Diana].
-[Trouble 11] is resolved by [Diana].
-[Trouble 12] is resolved by [Diana].
-[Trouble 13] is resolved by [Diana].
-[Trouble 14] is resolved by [Diana].
-[Trouble 15] is resolved by [Diana].
-[Trouble 16] is resolved by [Diana].
-[Trouble 17] is resolved by [Diana].
-[Trouble 18] is resolved by [Diana].
-[Trouble 19] is resolved by [Diana].
-[Trouble 20] is resolved by [Fred].
-[Trouble 21] is resolved by [Elmo].
-[Trouble 22] is resolved by [Fred].
-[Trouble 23] is resolved by [Elmo].
-[Trouble 24] is resolved by [Fred].
-[Trouble 25] is resolved by [Elmo].
-[Trouble 26] is resolved by [Fred].
-[Trouble 27] is resolved by [Elmo].
-[Trouble 28] is resolved by [Fred].
-[Trouble 29] is resolved by [Charlie].
-[Trouble 30]cannot be resolved.
-[Trouble 31] is resolved by [Elmo].
-[Trouble 32]cannot be resolved.
-[Trouble 33] is resolved by [Elmo].
-[Trouble 34]cannot be resolved.
-[Trouble 35] is resolved by [Elmo].
-[Trouble 36]cannot be resolved.
-[Trouble 37] is resolved by [Elmo].
-[Trouble 38]cannot be resolved.
-[Trouble 39] is resolved by [Elmo].
-[Trouble 40]cannot be resolved.
-[Trouble 41] is resolved by [Elmo].
-[Trouble 42]cannot be resolved.
-[Trouble 43] is resolved by [Elmo].
-[Trouble 44]cannot be resolved.
-[Trouble 45] is resolved by [Elmo].
-[Trouble 46]cannot be resolved.
-[Trouble 47] is resolved by [Elmo].
-[Trouble 48]cannot be resolved.
-[Trouble 49] is resolved by [Elmo].</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
     <title>JavaBuilder模式</title>
     <url>/2020/09/13/JavaBuilder%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -1166,6 +999,173 @@ HTML文本效果图</code></pre></div><html><head><title>LinkPage</title></head>
 
 <p>在进行一些复杂实例的组装中我们经常用到如下模式</p>
 ]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JavaChainOfResponsibility模式</title>
+    <url>/2020/09/24/JavaChainOfResponsibility%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  推卸责任</p>
+</blockquote>
+<h2 id="1-表示发生的问题的类-它带有问题编号-number"><a href="#1-表示发生的问题的类-它带有问题编号-number" class="headerlink" title="1 - 表示发生的问题的类.它带有问题编号(number)"></a>1 - 表示发生的问题的类.它带有问题编号(number)</h2><div class="code-wrapper"><pre><code>public class Trouble &#123;
+    private int number; // 问题编号
+
+    public Trouble(int number)&#123; // 生成问题
+        this.number = number;
+    &#125;
+
+    public int getNumber()&#123;
+        return number;
+    &#125;
+
+    @Override
+    public String toString()&#123;
+        return &quot;[Trouble &quot; + number + &quot;]&quot;;
+    &#125;
+&#125;</code></pre></div><h2 id="2-用来解决问题的抽象类"><a href="#2-用来解决问题的抽象类" class="headerlink" title="2 - 用来解决问题的抽象类"></a>2 - 用来解决问题的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class Support &#123;
+    private String name;    // 解决问题的实例的名字
+    private Support next;   // 要推卸给的对象
+
+    public Support(String name)&#123;
+        this.name = name;
+    &#125;
+
+    public Support setNext(Support next)&#123;
+        this.next = next;
+        return next;
+    &#125;
+
+    public final void support(Trouble trouble)&#123; // 解决问题的步骤
+        if (resolve(trouble))&#123;
+            done(trouble);
+        &#125;else if(next != null)&#123;
+            next.support(trouble);
+        &#125;else&#123;
+            fail(trouble);
+        &#125;
+    &#125;
+
+    @Override
+    public String toString()&#123;
+        return &quot;[&quot; + name + &quot;]&quot;;
+    &#125;
+
+    protected abstract boolean resolve(Trouble trouble);
+
+    protected  void done(Trouble trouble)&#123;  // 解决
+        System.out.println(trouble + &quot; is resolved by &quot; + this + &quot;.&quot;);
+    &#125;
+
+    protected void fail(Trouble trouble)&#123;   // 未解决
+        System.out.println(trouble + &quot;cannot be resolved.&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="3-用来解决问题的具体类-永远-“-不处理问题-“"><a href="#3-用来解决问题的具体类-永远-“-不处理问题-“" class="headerlink" title="3 - 用来解决问题的具体类(永远 “ 不处理问题 “)"></a>3 - 用来解决问题的具体类(永远 “ 不处理问题 “)</h2><div class="code-wrapper"><pre><code>public class NoSupport extends Support&#123;
+    public NoSupport(String name)&#123;
+        super(name);
+    &#125;
+
+    @Override
+    protected boolean resolve(Trouble trouble) &#123;    // 解决问题的方法
+        return false;                               // 自己什么也不做
+    &#125;
+&#125;</code></pre></div><h2 id="4-用来解决问题的具体类-仅解决编号小于指定编号的问题"><a href="#4-用来解决问题的具体类-仅解决编号小于指定编号的问题" class="headerlink" title="4 - 用来解决问题的具体类(仅解决编号小于指定编号的问题)"></a>4 - 用来解决问题的具体类(仅解决编号小于指定编号的问题)</h2><div class="code-wrapper"><pre><code>public class LimitSupport extends Support&#123;
+    private int limit;
+    public LimitSupport(String name, int limit) &#123;
+        super(name);
+        this.limit = limit;
+    &#125;
+
+    @Override
+    protected boolean resolve(Trouble trouble) &#123;
+        return trouble.getNumber() &lt; limit;
+    &#125;
+&#125;</code></pre></div><h2 id="5-用来解决问题的具体类-仅解决奇数编号的问题"><a href="#5-用来解决问题的具体类-仅解决奇数编号的问题" class="headerlink" title="5 - 用来解决问题的具体类(仅解决奇数编号的问题)"></a>5 - 用来解决问题的具体类(仅解决奇数编号的问题)</h2><div class="code-wrapper"><pre><code>public class OddSupport extends Support&#123;
+    public OddSupport(String name) &#123;
+        super(name);
+    &#125;
+
+    @Override
+    protected boolean resolve(Trouble trouble) &#123;
+        return trouble.getNumber() % 2 == 1;
+    &#125;
+&#125;</code></pre></div><h2 id="6-用来解决问题的具体类-仅解决指定编号的问题"><a href="#6-用来解决问题的具体类-仅解决指定编号的问题" class="headerlink" title="6 - 用来解决问题的具体类(仅解决指定编号的问题)"></a>6 - 用来解决问题的具体类(仅解决指定编号的问题)</h2><div class="code-wrapper"><pre><code>public class SpecialSupport extends Support&#123;
+    private int number;
+    public SpecialSupport(String name, int number) &#123;
+        super(name);
+        this.number = number;
+    &#125;
+
+    @Override
+    protected boolean resolve(Trouble trouble) &#123;
+        return trouble.getNumber() == number;
+    &#125;
+&#125;</code></pre></div><h2 id="7-制作Support的职责链-制造问题并测试程序行为"><a href="#7-制作Support的职责链-制造问题并测试程序行为" class="headerlink" title="7 - 制作Support的职责链, 制造问题并测试程序行为"></a>7 - 制作Support的职责链, 制造问题并测试程序行为</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        Support alice = new NoSupport(&quot;Alice&quot;);
+        Support bob = new LimitSupport(&quot;Bob&quot;, 10);
+        Support charlie = new SpecialSupport(&quot;Charlie&quot;, 29);
+        Support diana = new LimitSupport(&quot;Diana&quot;, 20);
+        Support elmo = new OddSupport(&quot;Elmo&quot;);
+        Support fred = new LimitSupport(&quot;Fred&quot;, 30);
+        // 形成职责链
+        alice.setNext(bob).setNext(charlie).setNext(diana).setNext(elmo).setNext(fred);
+        for (int i = 0; i &lt; 50; i++) &#123;
+            alice.support(new Trouble(i));
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="8-输出示例"><a href="#8-输出示例" class="headerlink" title="8 - 输出示例"></a>8 - 输出示例</h2><div class="code-wrapper"><pre><code>[Trouble 0] is resolved by [Bob].
+[Trouble 1] is resolved by [Bob].
+[Trouble 2] is resolved by [Bob].
+[Trouble 3] is resolved by [Bob].
+[Trouble 4] is resolved by [Bob].
+[Trouble 5] is resolved by [Bob].
+[Trouble 6] is resolved by [Bob].
+[Trouble 7] is resolved by [Bob].
+[Trouble 8] is resolved by [Bob].
+[Trouble 9] is resolved by [Bob].
+[Trouble 10] is resolved by [Diana].
+[Trouble 11] is resolved by [Diana].
+[Trouble 12] is resolved by [Diana].
+[Trouble 13] is resolved by [Diana].
+[Trouble 14] is resolved by [Diana].
+[Trouble 15] is resolved by [Diana].
+[Trouble 16] is resolved by [Diana].
+[Trouble 17] is resolved by [Diana].
+[Trouble 18] is resolved by [Diana].
+[Trouble 19] is resolved by [Diana].
+[Trouble 20] is resolved by [Fred].
+[Trouble 21] is resolved by [Elmo].
+[Trouble 22] is resolved by [Fred].
+[Trouble 23] is resolved by [Elmo].
+[Trouble 24] is resolved by [Fred].
+[Trouble 25] is resolved by [Elmo].
+[Trouble 26] is resolved by [Fred].
+[Trouble 27] is resolved by [Elmo].
+[Trouble 28] is resolved by [Fred].
+[Trouble 29] is resolved by [Charlie].
+[Trouble 30]cannot be resolved.
+[Trouble 31] is resolved by [Elmo].
+[Trouble 32]cannot be resolved.
+[Trouble 33] is resolved by [Elmo].
+[Trouble 34]cannot be resolved.
+[Trouble 35] is resolved by [Elmo].
+[Trouble 36]cannot be resolved.
+[Trouble 37] is resolved by [Elmo].
+[Trouble 38]cannot be resolved.
+[Trouble 39] is resolved by [Elmo].
+[Trouble 40]cannot be resolved.
+[Trouble 41] is resolved by [Elmo].
+[Trouble 42]cannot be resolved.
+[Trouble 43] is resolved by [Elmo].
+[Trouble 44]cannot be resolved.
+[Trouble 45] is resolved by [Elmo].
+[Trouble 46]cannot be resolved.
+[Trouble 47] is resolved by [Elmo].
+[Trouble 48]cannot be resolved.
+[Trouble 49] is resolved by [Elmo].</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -1601,6 +1601,166 @@ public class Database &#123;
       </categories>
   </entry>
   <entry>
+    <title>JavaFlyweight模式</title>
+    <url>/2020/10/08/JavaFlyweight%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  共享对象,避免浪费</p>
+</blockquote>
+<h2 id="1-表示”大型字符”的类"><a href="#1-表示”大型字符”的类" class="headerlink" title="1 - 表示”大型字符”的类"></a>1 - 表示”大型字符”的类</h2><div class="code-wrapper"><pre><code>public class BigChar &#123;
+    // 字符名字
+    private char charName;
+    // 大型字符对应的字符串(由&apos;#&apos;&apos;.&apos;&apos;\n&apos;组成)
+    private String fontData;
+
+    private String filePath = &quot;大型字符文件路径&quot;;
+
+    // 构造函数
+    public BigChar(char charName) &#123;
+        this.charName = charName;
+
+        try &#123;
+            BufferedReader reader = new BufferedReader(
+                    new FileReader(filePath+ &quot;big&quot; + charName + &quot;.txt&quot;)
+            );
+            String line;
+            StringBuffer buf = new StringBuffer();
+            while ((line = reader.readLine()) != null) &#123;
+                buf.append(line);
+                buf.append(&quot;\n&quot;);
+            &#125;
+            reader.close();
+            this.fontData = buf.toString();
+        &#125;catch (IOException e)&#123;
+            this.fontData = charName + &quot;?&quot;;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+    // 显示大型字符
+    public void print() &#123;
+        System.out.println(fontData);
+    &#125;
+&#125;</code></pre></div><p>需要提前准备大型字符文件<br>例如字符’1’ ,文件名以”big1.txt”为标准</p>
+<div class="code-wrapper"><pre><code>..................
+........##........
+....######........
+........##........
+........##........
+........##........
+........##........
+..##############..
+..................</code></pre></div><h2 id="2-表示生成和共用BigChar类的实例的类"><a href="#2-表示生成和共用BigChar类的实例的类" class="headerlink" title="2 - 表示生成和共用BigChar类的实例的类"></a>2 - 表示生成和共用BigChar类的实例的类</h2><div class="code-wrapper"><pre><code>public class BigCharFactory &#123;
+    // 管理已经生成的BigChar的实例
+    private HashMap&lt;String, BigChar&gt; pool = new HashMap&lt;&gt;();
+
+    // Singleton模式
+    private static BigCharFactory singleton = new BigCharFactory();
+
+    // 构造函数
+    private BigCharFactory() &#123;&#125;
+
+    // 获取唯一实例
+    public static BigCharFactory getInstance() &#123;
+        return singleton;
+    &#125;
+
+    // 生成(共享)BigChar类的实例
+    public synchronized BigChar getBigChar(char charName) &#123;
+        BigChar bc = pool.get(&quot;&quot; + charName);
+        if (bc == null) &#123;
+            bc = new BigChar(charName);
+            pool.put(&quot;&quot; + charName, bc);
+        &#125;
+        return bc;
+    &#125;
+&#125;</code></pre></div><h2 id="3-表示多个BigChar组成的”大型字符串”的类"><a href="#3-表示多个BigChar组成的”大型字符串”的类" class="headerlink" title="3 - 表示多个BigChar组成的”大型字符串”的类"></a>3 - 表示多个BigChar组成的”大型字符串”的类</h2><div class="code-wrapper"><pre><code>public class BigString &#123;
+    // &quot;大型字符&quot;的数组
+    private BigChar[] bigChars;
+
+    // 构造函数
+    public BigString(String string) &#123;
+        bigChars = new BigChar[string.length()];
+        BigCharFactory factory = BigCharFactory.getInstance();
+        for (int i = 0; i &lt; bigChars.length; i++) &#123;
+            bigChars[i] = factory.getBigChar(string.charAt(i));
+        &#125;
+    &#125;
+
+    // 显示
+    public void print() &#123;
+        for (BigChar bigChar : bigChars) &#123;
+            bigChar.print();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        if (args.length == 0) &#123;
+            System.out.println(&quot;Usage: java Main digits&quot;);
+            System.out.println(&quot;Example: java Main 1212123&quot;);
+            System.exit(0);
+        &#125;
+
+        BigString bs = new BigString(args[0]);
+        bs.print();
+    &#125;
+&#125;</code></pre></div><p>需要提前设置参数 args[0] = ‘12123’</p>
+<h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>..................
+........##........
+....######........
+........##........
+........##........
+........##........
+........##........
+..##############..
+..................
+
+...................
+....########.......
+..##.........###...
+............###....
+..........###......
+........###........
+......###..........
+....###............
+..#############....
+...................
+
+..................
+........##........
+....######........
+........##........
+........##........
+........##........
+........##........
+..##############..
+..................
+
+...................
+....########.......
+..##.........###...
+............###....
+..........###......
+........###........
+......###..........
+....###............
+..#############....
+...................
+
+..................
+....#######.......
+..##.......##.....
+............##....
+....#######.......
+............##....
+..##.......##.....
+....######........
+..................</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
     <title>JavaInterpreter模式</title>
     <url>/2020/10/16/JavaInterpreter%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -1780,166 +1940,6 @@ program repeat 4 repeat 3 go right go left end right end end</code></pre></div>]
       </categories>
   </entry>
   <entry>
-    <title>JavaFlyweight模式</title>
-    <url>/2020/10/08/JavaFlyweight%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  共享对象,避免浪费</p>
-</blockquote>
-<h2 id="1-表示”大型字符”的类"><a href="#1-表示”大型字符”的类" class="headerlink" title="1 - 表示”大型字符”的类"></a>1 - 表示”大型字符”的类</h2><div class="code-wrapper"><pre><code>public class BigChar &#123;
-    // 字符名字
-    private char charName;
-    // 大型字符对应的字符串(由&apos;#&apos;&apos;.&apos;&apos;\n&apos;组成)
-    private String fontData;
-
-    private String filePath = &quot;大型字符文件路径&quot;;
-
-    // 构造函数
-    public BigChar(char charName) &#123;
-        this.charName = charName;
-
-        try &#123;
-            BufferedReader reader = new BufferedReader(
-                    new FileReader(filePath+ &quot;big&quot; + charName + &quot;.txt&quot;)
-            );
-            String line;
-            StringBuffer buf = new StringBuffer();
-            while ((line = reader.readLine()) != null) &#123;
-                buf.append(line);
-                buf.append(&quot;\n&quot;);
-            &#125;
-            reader.close();
-            this.fontData = buf.toString();
-        &#125;catch (IOException e)&#123;
-            this.fontData = charName + &quot;?&quot;;
-            e.printStackTrace();
-        &#125;
-    &#125;
-
-    // 显示大型字符
-    public void print() &#123;
-        System.out.println(fontData);
-    &#125;
-&#125;</code></pre></div><p>需要提前准备大型字符文件<br>例如字符’1’ ,文件名以”big1.txt”为标准</p>
-<div class="code-wrapper"><pre><code>..................
-........##........
-....######........
-........##........
-........##........
-........##........
-........##........
-..##############..
-..................</code></pre></div><h2 id="2-表示生成和共用BigChar类的实例的类"><a href="#2-表示生成和共用BigChar类的实例的类" class="headerlink" title="2 - 表示生成和共用BigChar类的实例的类"></a>2 - 表示生成和共用BigChar类的实例的类</h2><div class="code-wrapper"><pre><code>public class BigCharFactory &#123;
-    // 管理已经生成的BigChar的实例
-    private HashMap&lt;String, BigChar&gt; pool = new HashMap&lt;&gt;();
-
-    // Singleton模式
-    private static BigCharFactory singleton = new BigCharFactory();
-
-    // 构造函数
-    private BigCharFactory() &#123;&#125;
-
-    // 获取唯一实例
-    public static BigCharFactory getInstance() &#123;
-        return singleton;
-    &#125;
-
-    // 生成(共享)BigChar类的实例
-    public synchronized BigChar getBigChar(char charName) &#123;
-        BigChar bc = pool.get(&quot;&quot; + charName);
-        if (bc == null) &#123;
-            bc = new BigChar(charName);
-            pool.put(&quot;&quot; + charName, bc);
-        &#125;
-        return bc;
-    &#125;
-&#125;</code></pre></div><h2 id="3-表示多个BigChar组成的”大型字符串”的类"><a href="#3-表示多个BigChar组成的”大型字符串”的类" class="headerlink" title="3 - 表示多个BigChar组成的”大型字符串”的类"></a>3 - 表示多个BigChar组成的”大型字符串”的类</h2><div class="code-wrapper"><pre><code>public class BigString &#123;
-    // &quot;大型字符&quot;的数组
-    private BigChar[] bigChars;
-
-    // 构造函数
-    public BigString(String string) &#123;
-        bigChars = new BigChar[string.length()];
-        BigCharFactory factory = BigCharFactory.getInstance();
-        for (int i = 0; i &lt; bigChars.length; i++) &#123;
-            bigChars[i] = factory.getBigChar(string.charAt(i));
-        &#125;
-    &#125;
-
-    // 显示
-    public void print() &#123;
-        for (BigChar bigChar : bigChars) &#123;
-            bigChar.print();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        if (args.length == 0) &#123;
-            System.out.println(&quot;Usage: java Main digits&quot;);
-            System.out.println(&quot;Example: java Main 1212123&quot;);
-            System.exit(0);
-        &#125;
-
-        BigString bs = new BigString(args[0]);
-        bs.print();
-    &#125;
-&#125;</code></pre></div><p>需要提前设置参数 args[0] = ‘12123’</p>
-<h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>..................
-........##........
-....######........
-........##........
-........##........
-........##........
-........##........
-..##############..
-..................
-
-...................
-....########.......
-..##.........###...
-............###....
-..........###......
-........###........
-......###..........
-....###............
-..#############....
-...................
-
-..................
-........##........
-....######........
-........##........
-........##........
-........##........
-........##........
-..##############..
-..................
-
-...................
-....########.......
-..##.........###...
-............###....
-..........###......
-........###........
-......###..........
-....###............
-..#############....
-...................
-
-..................
-....#######.......
-..##.......##.....
-............##....
-....#######.......
-............##....
-..##.......##.....
-....######........
-..................</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
     <title>JavaMediator模式</title>
     <url>/2020/09/26/JavaMediator%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -2113,129 +2113,6 @@ program repeat 4 repeat 3 go right go left end right end end</code></pre></div>]
 &#125;</code></pre></div><h2 id="8-输出示例"><a href="#8-输出示例" class="headerlink" title="8 - 输出示例"></a>8 - 输出示例</h2><div class="code-wrapper"><pre><code>// 具体见窗口
 java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=OK,
 when=1601126737494,modifiers=] on button0</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>JavaObserver模式</title>
-    <url>/2020/09/28/JavaObserver%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  发送状态变化通知</p>
-</blockquote>
-<h2 id="1-表示观察者的接口"><a href="#1-表示观察者的接口" class="headerlink" title="1 - 表示观察者的接口"></a>1 - 表示观察者的接口</h2><div class="code-wrapper"><pre><code>public interface Observer &#123;
-    public abstract void update(NumberGenerator generator);
-&#125;</code></pre></div><h2 id="2-表示生成数值的对象的抽象类"><a href="#2-表示生成数值的对象的抽象类" class="headerlink" title="2 - 表示生成数值的对象的抽象类"></a>2 - 表示生成数值的对象的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class NumberGenerator &#123;
-    private ArrayList observers = new ArrayList();  // 保存Observer们
-
-    public void addObserver(Observer observer) &#123;    // 注册Observer
-        observers.add(observer);
-    &#125;
-
-    public void deleteObserver(Observer observer) &#123;    // 删除Observer
-        observers.remove(observer);
-    &#125;
-
-    public void notifyObservers() &#123;    // 向Observer发送通知
-        for (Object value : observers) &#123;
-            Observer o = (Observer) value;
-            o.update(this);
-        &#125;
-    &#125;
-
-    public abstract int getNumber();    // 获取数值
-    public abstract void execute();     // 生成数值
-&#125;</code></pre></div><h2 id="3-表示生成随机数的类"><a href="#3-表示生成随机数的类" class="headerlink" title="3 - 表示生成随机数的类"></a>3 - 表示生成随机数的类</h2><div class="code-wrapper"><pre><code>public class RandomNumberGenerator extends NumberGenerator&#123;
-    private Random random = new Random();   // 随机数生成器
-    private int number;     // 当前数值
-
-    @Override
-    public int getNumber() &#123;
-        return number;
-    &#125;
-
-    @Override
-    public void execute() &#123;
-        for (int i = 0; i &lt; 20; i++) &#123;
-            number = random.nextInt(50);
-            notifyObservers();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="4-表示以数字形式显示数值的类"><a href="#4-表示以数字形式显示数值的类" class="headerlink" title="4 - 表示以数字形式显示数值的类"></a>4 - 表示以数字形式显示数值的类</h2><div class="code-wrapper"><pre><code>public class DigitObserver implements Observer&#123;
-    @Override
-    public void update(NumberGenerator generator) &#123;
-        System.out.println(&quot;DigitObserver: &quot; + generator.getNumber());
-        try &#123;
-            Thread.sleep(100);
-        &#125;catch (InterruptedException e)&#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="5-表示以简单的图形显示数值的类"><a href="#5-表示以简单的图形显示数值的类" class="headerlink" title="5 - 表示以简单的图形显示数值的类"></a>5 - 表示以简单的图形显示数值的类</h2><div class="code-wrapper"><pre><code>public class GraphObserver implements Observer&#123;
-    @Override
-    public void update(NumberGenerator generator) &#123;
-        System.out.print(&quot;GraphObserver: &quot;);
-        int count = generator.getNumber();
-        for (int i = 0; i &lt; count; i++) &#123;
-            System.out.print(&apos;*&apos;);
-        &#125;
-        System.out.println();
-        try &#123;
-            Thread.sleep(100);
-        &#125;catch (InterruptedException e)&#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="6-测试程序行为的类"><a href="#6-测试程序行为的类" class="headerlink" title="6 - 测试程序行为的类"></a>6 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        NumberGenerator generator = new RandomNumberGenerator();
-        Observer observer1 = new DigitObserver();
-        Observer observer2 = new GraphObserver();
-        generator.addObserver(observer1);
-        generator.addObserver(observer2);
-        generator.execute();
-    &#125;
-&#125;</code></pre></div><h2 id="7-输出示例"><a href="#7-输出示例" class="headerlink" title="7 - 输出示例"></a>7 - 输出示例</h2><div class="code-wrapper"><pre><code>DigitObserver: 9
-GraphObserver: *********
-DigitObserver: 16
-GraphObserver: ****************
-DigitObserver: 40
-GraphObserver: ****************************************
-DigitObserver: 34
-GraphObserver: **********************************
-DigitObserver: 18
-GraphObserver: ******************
-DigitObserver: 6
-GraphObserver: ******
-DigitObserver: 34
-GraphObserver: **********************************
-DigitObserver: 31
-GraphObserver: *******************************
-DigitObserver: 17
-GraphObserver: *****************
-DigitObserver: 47
-GraphObserver: ***********************************************
-DigitObserver: 21
-GraphObserver: *********************
-DigitObserver: 34
-GraphObserver: **********************************
-DigitObserver: 18
-GraphObserver: ******************
-DigitObserver: 25
-GraphObserver: *************************
-DigitObserver: 39
-GraphObserver: ***************************************
-DigitObserver: 20
-GraphObserver: ********************
-DigitObserver: 9
-GraphObserver: *********
-DigitObserver: 4
-GraphObserver: ****
-DigitObserver: 8
-GraphObserver: ********
-DigitObserver: 26
-GraphObserver: **************************</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -2434,6 +2311,129 @@ GraphObserver: **************************</code></pre></div>]]></content>
 
 ===<span class="hljs-number">51</span></code></pre></div>
 ]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JavaObserver模式</title>
+    <url>/2020/09/28/JavaObserver%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  发送状态变化通知</p>
+</blockquote>
+<h2 id="1-表示观察者的接口"><a href="#1-表示观察者的接口" class="headerlink" title="1 - 表示观察者的接口"></a>1 - 表示观察者的接口</h2><div class="code-wrapper"><pre><code>public interface Observer &#123;
+    public abstract void update(NumberGenerator generator);
+&#125;</code></pre></div><h2 id="2-表示生成数值的对象的抽象类"><a href="#2-表示生成数值的对象的抽象类" class="headerlink" title="2 - 表示生成数值的对象的抽象类"></a>2 - 表示生成数值的对象的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class NumberGenerator &#123;
+    private ArrayList observers = new ArrayList();  // 保存Observer们
+
+    public void addObserver(Observer observer) &#123;    // 注册Observer
+        observers.add(observer);
+    &#125;
+
+    public void deleteObserver(Observer observer) &#123;    // 删除Observer
+        observers.remove(observer);
+    &#125;
+
+    public void notifyObservers() &#123;    // 向Observer发送通知
+        for (Object value : observers) &#123;
+            Observer o = (Observer) value;
+            o.update(this);
+        &#125;
+    &#125;
+
+    public abstract int getNumber();    // 获取数值
+    public abstract void execute();     // 生成数值
+&#125;</code></pre></div><h2 id="3-表示生成随机数的类"><a href="#3-表示生成随机数的类" class="headerlink" title="3 - 表示生成随机数的类"></a>3 - 表示生成随机数的类</h2><div class="code-wrapper"><pre><code>public class RandomNumberGenerator extends NumberGenerator&#123;
+    private Random random = new Random();   // 随机数生成器
+    private int number;     // 当前数值
+
+    @Override
+    public int getNumber() &#123;
+        return number;
+    &#125;
+
+    @Override
+    public void execute() &#123;
+        for (int i = 0; i &lt; 20; i++) &#123;
+            number = random.nextInt(50);
+            notifyObservers();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="4-表示以数字形式显示数值的类"><a href="#4-表示以数字形式显示数值的类" class="headerlink" title="4 - 表示以数字形式显示数值的类"></a>4 - 表示以数字形式显示数值的类</h2><div class="code-wrapper"><pre><code>public class DigitObserver implements Observer&#123;
+    @Override
+    public void update(NumberGenerator generator) &#123;
+        System.out.println(&quot;DigitObserver: &quot; + generator.getNumber());
+        try &#123;
+            Thread.sleep(100);
+        &#125;catch (InterruptedException e)&#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="5-表示以简单的图形显示数值的类"><a href="#5-表示以简单的图形显示数值的类" class="headerlink" title="5 - 表示以简单的图形显示数值的类"></a>5 - 表示以简单的图形显示数值的类</h2><div class="code-wrapper"><pre><code>public class GraphObserver implements Observer&#123;
+    @Override
+    public void update(NumberGenerator generator) &#123;
+        System.out.print(&quot;GraphObserver: &quot;);
+        int count = generator.getNumber();
+        for (int i = 0; i &lt; count; i++) &#123;
+            System.out.print(&apos;*&apos;);
+        &#125;
+        System.out.println();
+        try &#123;
+            Thread.sleep(100);
+        &#125;catch (InterruptedException e)&#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="6-测试程序行为的类"><a href="#6-测试程序行为的类" class="headerlink" title="6 - 测试程序行为的类"></a>6 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        NumberGenerator generator = new RandomNumberGenerator();
+        Observer observer1 = new DigitObserver();
+        Observer observer2 = new GraphObserver();
+        generator.addObserver(observer1);
+        generator.addObserver(observer2);
+        generator.execute();
+    &#125;
+&#125;</code></pre></div><h2 id="7-输出示例"><a href="#7-输出示例" class="headerlink" title="7 - 输出示例"></a>7 - 输出示例</h2><div class="code-wrapper"><pre><code>DigitObserver: 9
+GraphObserver: *********
+DigitObserver: 16
+GraphObserver: ****************
+DigitObserver: 40
+GraphObserver: ****************************************
+DigitObserver: 34
+GraphObserver: **********************************
+DigitObserver: 18
+GraphObserver: ******************
+DigitObserver: 6
+GraphObserver: ******
+DigitObserver: 34
+GraphObserver: **********************************
+DigitObserver: 31
+GraphObserver: *******************************
+DigitObserver: 17
+GraphObserver: *****************
+DigitObserver: 47
+GraphObserver: ***********************************************
+DigitObserver: 21
+GraphObserver: *********************
+DigitObserver: 34
+GraphObserver: **********************************
+DigitObserver: 18
+GraphObserver: ******************
+DigitObserver: 25
+GraphObserver: *************************
+DigitObserver: 39
+GraphObserver: ***************************************
+DigitObserver: 20
+GraphObserver: ********************
+DigitObserver: 9
+GraphObserver: *********
+DigitObserver: 4
+GraphObserver: ****
+DigitObserver: 8
+GraphObserver: ********
+DigitObserver: 26
+GraphObserver: **************************</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -3256,6 +3256,84 @@ Making user entries...
       </categories>
   </entry>
   <entry>
+    <title>Java多线程的同步问题</title>
+    <url>/2020/08/12/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="1-synchronized关键字对代码块的同步"><a href="#1-synchronized关键字对代码块的同步" class="headerlink" title="1 - synchronized关键字对代码块的同步"></a>1 - synchronized关键字对代码块的同步</h2><div class="code-wrapper"><pre><code>public class ThreadSynchronization &#123;
+    public static void main(String[] args) &#123;
+        TestThread  t = new TestThread();
+        // 启动四个线程,并实现资源共享
+
+        new Thread(t).start();
+        new Thread(t).start();
+        new Thread(t).start();
+        new Thread(t).start();
+    &#125;
+&#125;
+
+class TestThread implements Runnable&#123;
+    private int tickets = 5;
+    @Override
+    public void run()&#123;
+        while (true) &#123;
+            // 利用synchronized关键字对这一代码块进行同步,避免共享资源的随意访问
+            synchronized (this) &#123;
+                if (tickets &lt;= 0) break;
+                try &#123;
+                    Thread.sleep(1000);
+                &#125; catch (Exception e) &#123;
+                    e.printStackTrace();
+                &#125;
+
+                System.out.println(Thread.currentThread().getName()
+                 + &quot;出售票&quot; + tickets);
+                tickets -= 1;
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="2-synchronized关键字对方法的同步"><a href="#2-synchronized关键字对方法的同步" class="headerlink" title="2 - synchronized关键字对方法的同步"></a>2 - synchronized关键字对方法的同步</h2><div class="code-wrapper"><pre><code>public class ThreadSynchronization &#123;
+    public static void main(String[] args) &#123;
+        TestThread  t = new TestThread();
+        // 启动四个线程,并实现资源共享
+
+        new Thread(t).start();
+        new Thread(t).start();
+        new Thread(t).start();
+        new Thread(t).start();
+    &#125;
+&#125;
+
+class TestThread implements Runnable&#123;
+    private int tickets = 5;
+    @Override
+    public void run()&#123;
+        while (tickets &gt; 0)&#123;
+            sale();
+        &#125;
+    &#125;
+    // 利用synchronized关键字对这本方法进行同步,避免共享资源的随意访问
+    public synchronized void sale() &#123;
+        if (tickets &gt; 0) &#123;
+            try &#123;
+                Thread.sleep(1000);
+            &#125; catch (Exception e) &#123;
+                e.printStackTrace();
+            &#125;
+
+            System.out.println(Thread.currentThread().getName() + &quot;出售票&quot; + tickets);
+            tickets -= 1;
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="3-在Java中-synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1-5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java-util-concurrent-locks包中"><a href="#3-在Java中-synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1-5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java-util-concurrent-locks包中" class="headerlink" title="3 - 在Java中,synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1.5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java.util.concurrent.locks包中"></a>3 - 在Java中,synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1.5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java.util.concurrent.locks包中</h2><h2 id="4-当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用-synchronized-解决问题。若对性能要求较高的情况下，可考虑使用-ReadWriteLock-接口及其-ReentrantReadWriteLock-实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用-Lock-接口及其-ReentrantLock-实现类来替换以前的-synchronized-方法或代码块"><a href="#4-当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用-synchronized-解决问题。若对性能要求较高的情况下，可考虑使用-ReadWriteLock-接口及其-ReentrantReadWriteLock-实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用-Lock-接口及其-ReentrantLock-实现类来替换以前的-synchronized-方法或代码块" class="headerlink" title="4 - 当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用 synchronized 解决问题。若对性能要求较高的情况下，可考虑使用 ReadWriteLock 接口及其 ReentrantReadWriteLock 实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用 Lock 接口及其 ReentrantLock 实现类来替换以前的 synchronized 方法或代码块"></a>4 - 当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用 synchronized 解决问题。若对性能要求较高的情况下，可考虑使用 ReadWriteLock 接口及其 ReentrantReadWriteLock 实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用 Lock 接口及其 ReentrantLock 实现类来替换以前的 synchronized 方法或代码块</h2><p>以上, 3-4段内容,均引自&lt;&lt;Java从入门到精通(第二版)&gt;&gt; 张玉宏主编 </p>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Tool</category>
+      </categories>
+      <tags>
+        <tag>多线程同步</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java使用缓存流进行文件的复制</title>
     <url>/2020/09/08/Java%E4%BD%BF%E7%94%A8%E7%BC%93%E5%AD%98%E6%B5%81%E8%BF%9B%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84%E5%A4%8D%E5%88%B6/</url>
     <content><![CDATA[<h2 id="1-准备要复制的文件路径和复制后的路径"><a href="#1-准备要复制的文件路径和复制后的路径" class="headerlink" title="1- 准备要复制的文件路径和复制后的路径"></a>1- 准备要复制的文件路径和复制后的路径</h2><div class="code-wrapper"><pre><code>private static final String FilePath1 = &quot;D:/测试文件.txt&quot;;
@@ -3373,84 +3451,6 @@ End.</code></pre></div>]]></content>
       </categories>
   </entry>
   <entry>
-    <title>Java多线程的同步问题</title>
-    <url>/2020/08/12/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h2 id="1-synchronized关键字对代码块的同步"><a href="#1-synchronized关键字对代码块的同步" class="headerlink" title="1 - synchronized关键字对代码块的同步"></a>1 - synchronized关键字对代码块的同步</h2><div class="code-wrapper"><pre><code>public class ThreadSynchronization &#123;
-    public static void main(String[] args) &#123;
-        TestThread  t = new TestThread();
-        // 启动四个线程,并实现资源共享
-
-        new Thread(t).start();
-        new Thread(t).start();
-        new Thread(t).start();
-        new Thread(t).start();
-    &#125;
-&#125;
-
-class TestThread implements Runnable&#123;
-    private int tickets = 5;
-    @Override
-    public void run()&#123;
-        while (true) &#123;
-            // 利用synchronized关键字对这一代码块进行同步,避免共享资源的随意访问
-            synchronized (this) &#123;
-                if (tickets &lt;= 0) break;
-                try &#123;
-                    Thread.sleep(1000);
-                &#125; catch (Exception e) &#123;
-                    e.printStackTrace();
-                &#125;
-
-                System.out.println(Thread.currentThread().getName()
-                 + &quot;出售票&quot; + tickets);
-                tickets -= 1;
-            &#125;
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="2-synchronized关键字对方法的同步"><a href="#2-synchronized关键字对方法的同步" class="headerlink" title="2 - synchronized关键字对方法的同步"></a>2 - synchronized关键字对方法的同步</h2><div class="code-wrapper"><pre><code>public class ThreadSynchronization &#123;
-    public static void main(String[] args) &#123;
-        TestThread  t = new TestThread();
-        // 启动四个线程,并实现资源共享
-
-        new Thread(t).start();
-        new Thread(t).start();
-        new Thread(t).start();
-        new Thread(t).start();
-    &#125;
-&#125;
-
-class TestThread implements Runnable&#123;
-    private int tickets = 5;
-    @Override
-    public void run()&#123;
-        while (tickets &gt; 0)&#123;
-            sale();
-        &#125;
-    &#125;
-    // 利用synchronized关键字对这本方法进行同步,避免共享资源的随意访问
-    public synchronized void sale() &#123;
-        if (tickets &gt; 0) &#123;
-            try &#123;
-                Thread.sleep(1000);
-            &#125; catch (Exception e) &#123;
-                e.printStackTrace();
-            &#125;
-
-            System.out.println(Thread.currentThread().getName() + &quot;出售票&quot; + tickets);
-            tickets -= 1;
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="3-在Java中-synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1-5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java-util-concurrent-locks包中"><a href="#3-在Java中-synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1-5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java-util-concurrent-locks包中" class="headerlink" title="3 - 在Java中,synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1.5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java.util.concurrent.locks包中"></a>3 - 在Java中,synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1.5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java.util.concurrent.locks包中</h2><h2 id="4-当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用-synchronized-解决问题。若对性能要求较高的情况下，可考虑使用-ReadWriteLock-接口及其-ReentrantReadWriteLock-实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用-Lock-接口及其-ReentrantLock-实现类来替换以前的-synchronized-方法或代码块"><a href="#4-当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用-synchronized-解决问题。若对性能要求较高的情况下，可考虑使用-ReadWriteLock-接口及其-ReentrantReadWriteLock-实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用-Lock-接口及其-ReentrantLock-实现类来替换以前的-synchronized-方法或代码块" class="headerlink" title="4 - 当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用 synchronized 解决问题。若对性能要求较高的情况下，可考虑使用 ReadWriteLock 接口及其 ReentrantReadWriteLock 实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用 Lock 接口及其 ReentrantLock 实现类来替换以前的 synchronized 方法或代码块"></a>4 - 当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用 synchronized 解决问题。若对性能要求较高的情况下，可考虑使用 ReadWriteLock 接口及其 ReentrantReadWriteLock 实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用 Lock 接口及其 ReentrantLock 实现类来替换以前的 synchronized 方法或代码块</h2><p>以上, 3-4段内容,均引自&lt;&lt;Java从入门到精通(第二版)&gt;&gt; 张玉宏主编 </p>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>多线程同步</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java对象的序列化</title>
     <url>/2020/08/16/Java%E5%AF%B9%E8%B1%A1%E5%BA%8F%E5%88%97%E5%8C%96%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<h2 id="1-对象序列化"><a href="#1-对象序列化" class="headerlink" title="1 - 对象序列化"></a>1 - 对象序列化</h2><p>所谓的对象序列化（在某些书籍中也叫串行化），是指在内存之中保存的对象转化为二进制数据流的形式的一种操作。通过将对象序列化，可以方便地实现对象的传输及保存。但是在Java之中并不是所有的类的对象都可以被序列化，如果一个类对象需要被序列化，则此类一定要实现java. io.Serializable接口。但是这个接口里面也没有定义任何的方法，所以此接口依然属于标识接口，表示一种能力。</p>
@@ -3502,55 +3502,6 @@ class Person implements Serializable&#123;
       </categories>
       <tags>
         <tag>序列化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java的注释接口</title>
-    <url>/2020/08/07/Java%E7%9A%84%E6%B3%A8%E9%87%8A%E6%8E%A5%E5%8F%A3/</url>
-    <content><![CDATA[<blockquote>
-</blockquote>
-<blockquote>
-<p>  注解 - 给编译器看的注释</p>
-</blockquote>
-<h2 id="1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的"><a href="#1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的" class="headerlink" title="1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的"></a>1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的</h2><div class="code-wrapper"><pre><code>class Message&#123;
-    @Override
-    public String toString()&#123;
-        return &quot;Hello world!&quot;;
-    &#125;
-&#125;</code></pre></div><p>如果改写的方法名，参数，类型有错误编译器会报错，可以给程序员提示。</p>
-<h2 id="2-Deprecated注释表示这个方法已经过时，不建议使用"><a href="#2-Deprecated注释表示这个方法已经过时，不建议使用" class="headerlink" title="2. @Deprecated注释表示这个方法已经过时，不建议使用"></a>2. @Deprecated注释表示这个方法已经过时，不建议使用</h2><div class="code-wrapper"><pre><code>class Info&#123;
-    @Deprecated
-    public String getInfo()&#123;
-        return &quot;Hello world.&quot;;
-    &#125;
-&#125;</code></pre></div><p>被注释的方法仍然可以使用，只是编译器不推荐而已</p>
-<h2 id="3-SuppressWarnings注释用来压制”某些”的警告信息"><a href="#3-SuppressWarnings注释用来压制”某些”的警告信息" class="headerlink" title="3. @SuppressWarnings注释用来压制”某些”的警告信息"></a>3. @SuppressWarnings注释用来压制”某些”的警告信息</h2><div class="code-wrapper"><pre><code>public class SuppressWarningsAnnotation &#123;
-    public static void main(String[] args) &#123;
-        // 用来压制&quot;未使用&quot;的警告信息
-        @SuppressWarnings(&quot;unused&quot;)
-        int i;
-        System.out.println(&quot;Hello world.&quot;);
-    &#125;
-&#125;</code></pre></div><p>在这个例子中我们通过往注释中添加“unused”参数，来压制变量未使用这一警告信息</p>
-<h2 id="4-实现我们自己自定义的注释，必须使用-interface接口来修饰"><a href="#4-实现我们自己自定义的注释，必须使用-interface接口来修饰" class="headerlink" title="4. 实现我们自己自定义的注释，必须使用@interface接口来修饰"></a>4. 实现我们自己自定义的注释，必须使用@interface接口来修饰</h2><div class="code-wrapper"><pre><code>@interface Anno&#123;
-    public String key();
-    public String value();
-&#125;
-
-public class TestAnno &#123;
-    @Anno(key = &quot;var1&quot;, value = &quot;test&quot;)
-    public static void main(String[] args) &#123;
-        System.out.println(&quot;Hello world!&quot;);
-    &#125;
-&#125;</code></pre></div><p>我们可以在自己实现的注释里添加属性或方法</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>注解</tag>
-        <tag>给编译器看的注释</tag>
       </tags>
   </entry>
   <entry>
@@ -3645,6 +3596,55 @@ public static void main(String[] args) &#123;
       <tags>
         <tag>Database</tag>
         <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java的注释接口</title>
+    <url>/2020/08/07/Java%E7%9A%84%E6%B3%A8%E9%87%8A%E6%8E%A5%E5%8F%A3/</url>
+    <content><![CDATA[<blockquote>
+</blockquote>
+<blockquote>
+<p>  注解 - 给编译器看的注释</p>
+</blockquote>
+<h2 id="1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的"><a href="#1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的" class="headerlink" title="1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的"></a>1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的</h2><div class="code-wrapper"><pre><code>class Message&#123;
+    @Override
+    public String toString()&#123;
+        return &quot;Hello world!&quot;;
+    &#125;
+&#125;</code></pre></div><p>如果改写的方法名，参数，类型有错误编译器会报错，可以给程序员提示。</p>
+<h2 id="2-Deprecated注释表示这个方法已经过时，不建议使用"><a href="#2-Deprecated注释表示这个方法已经过时，不建议使用" class="headerlink" title="2. @Deprecated注释表示这个方法已经过时，不建议使用"></a>2. @Deprecated注释表示这个方法已经过时，不建议使用</h2><div class="code-wrapper"><pre><code>class Info&#123;
+    @Deprecated
+    public String getInfo()&#123;
+        return &quot;Hello world.&quot;;
+    &#125;
+&#125;</code></pre></div><p>被注释的方法仍然可以使用，只是编译器不推荐而已</p>
+<h2 id="3-SuppressWarnings注释用来压制”某些”的警告信息"><a href="#3-SuppressWarnings注释用来压制”某些”的警告信息" class="headerlink" title="3. @SuppressWarnings注释用来压制”某些”的警告信息"></a>3. @SuppressWarnings注释用来压制”某些”的警告信息</h2><div class="code-wrapper"><pre><code>public class SuppressWarningsAnnotation &#123;
+    public static void main(String[] args) &#123;
+        // 用来压制&quot;未使用&quot;的警告信息
+        @SuppressWarnings(&quot;unused&quot;)
+        int i;
+        System.out.println(&quot;Hello world.&quot;);
+    &#125;
+&#125;</code></pre></div><p>在这个例子中我们通过往注释中添加“unused”参数，来压制变量未使用这一警告信息</p>
+<h2 id="4-实现我们自己自定义的注释，必须使用-interface接口来修饰"><a href="#4-实现我们自己自定义的注释，必须使用-interface接口来修饰" class="headerlink" title="4. 实现我们自己自定义的注释，必须使用@interface接口来修饰"></a>4. 实现我们自己自定义的注释，必须使用@interface接口来修饰</h2><div class="code-wrapper"><pre><code>@interface Anno&#123;
+    public String key();
+    public String value();
+&#125;
+
+public class TestAnno &#123;
+    @Anno(key = &quot;var1&quot;, value = &quot;test&quot;)
+    public static void main(String[] args) &#123;
+        System.out.println(&quot;Hello world!&quot;);
+    &#125;
+&#125;</code></pre></div><p>我们可以在自己实现的注释里添加属性或方法</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Tool</category>
+      </categories>
+      <tags>
+        <tag>注解</tag>
+        <tag>给编译器看的注释</tag>
       </tags>
   </entry>
   <entry>
@@ -3981,6 +3981,18 @@ Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide sh
       </tags>
   </entry>
   <entry>
+    <title>MongoDB 学习</title>
+    <url>/2021/05/01/MongoDB%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="MongoDB-学习"><a href="#MongoDB-学习" class="headerlink" title="MongoDB 学习"></a>MongoDB 学习</h1>]]></content>
+      <categories>
+        <category>Technical</category>
+        <category>DB</category>
+      </categories>
+      <tags>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Liunx 配置静态IP</title>
     <url>/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/</url>
     <content><![CDATA[<h1 id="Liunx-配置静态IP-基于CentOS-7"><a href="#Liunx-配置静态IP-基于CentOS-7" class="headerlink" title="Liunx 配置静态IP (基于CentOS  7)"></a>Liunx 配置静态IP (基于CentOS  7)</h1><blockquote>
@@ -4097,18 +4109,6 @@ Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide sh
       </tags>
   </entry>
   <entry>
-    <title>MongoDB 学习</title>
-    <url>/2021/05/01/MongoDB%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="MongoDB-学习"><a href="#MongoDB-学习" class="headerlink" title="MongoDB 学习"></a>MongoDB 学习</h1>]]></content>
-      <categories>
-        <category>Technical</category>
-        <category>DB</category>
-      </categories>
-      <tags>
-        <tag>MongoDB</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Node.js的安装和环境变量的配置</title>
     <url>/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h2 id="1-下载安装包"><a href="#1-下载安装包" class="headerlink" title="1, 下载安装包"></a>1, 下载安装包</h2><p>去 <a href="https://nodejs.org/en/">nodejs官网</a> 下载 找到 <a href="https://nodejs.org/dist/latest-v12.x/">node-v12</a> 的下载清单，找到 node-v12.22.1-x64.msi，下载即可。</p>
@@ -4159,6 +4159,38 @@ Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide sh
       </categories>
       <tags>
         <tag>Node</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python使用@property装饰器</title>
+    <url>/2020/09/09/Python%E4%BD%BF%E7%94%A8%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
+    <content><![CDATA[<h3 id="1-1-这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2-property装饰读值方法。3-实现特性的方法，其名称都与公开属性的名称一样——weight。4-真正的值存储在私有属性-weight中"><a href="#1-1-这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2-property装饰读值方法。3-实现特性的方法，其名称都与公开属性的名称一样——weight。4-真正的值存储在私有属性-weight中" class="headerlink" title="1 - 1 这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2@property装饰读值方法。3 实现特性的方法，其名称都与公开属性的名称一样——weight。4 真正的值存储在私有属性__weight中"></a>1 - 1 这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2@property装饰读值方法。3 实现特性的方法，其名称都与公开属性的名称一样——weight。4 真正的值存储在私有属性__weight中</h3><div class="code-wrapper"><pre><code>class LineItem:
+    &quot;&quot;&quot;使用@property装饰器实现可读写的特性&quot;&quot;&quot;
+    &quot;&quot;&quot;表示订单中商品的类&quot;&quot;&quot;
+    def __init__(self, description, weight, price):
+        self.description = description
+        self.weight = weight
+        self.price = price
+
+    def subtotal(self):
+        return self.weight * self.price
+
+    @property
+    def weight(self):
+        return self.__weight
+
+    @weight.setter
+    def weight(self, value):
+        if value &gt; 0:
+            self.__weight = value
+        else:
+            raise ValueError(&apos;value must be &gt; 0&apos;)</code></pre></div><h3 id="2-5-被装饰的读值方法有个-setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6-如果值大于零，设置私有属性-weight。7-否则，抛出ValueError异常"><a href="#2-5-被装饰的读值方法有个-setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6-如果值大于零，设置私有属性-weight。7-否则，抛出ValueError异常" class="headerlink" title="2 - 5 被装饰的读值方法有个.setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6 如果值大于零，设置私有属性__weight。7 否则，抛出ValueError异常"></a>2 - 5 被装饰的读值方法有个.setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6 如果值大于零，设置私有属性__weight。7 否则，抛出ValueError异常</h3>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>装饰器</tag>
+        <tag>可读性</tag>
       </tags>
   </entry>
   <entry>
@@ -4222,36 +4254,64 @@ def run(self, end_time):
       </tags>
   </entry>
   <entry>
-    <title>Python使用@property装饰器</title>
-    <url>/2020/09/09/Python%E4%BD%BF%E7%94%A8%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
-    <content><![CDATA[<h3 id="1-1-这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2-property装饰读值方法。3-实现特性的方法，其名称都与公开属性的名称一样——weight。4-真正的值存储在私有属性-weight中"><a href="#1-1-这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2-property装饰读值方法。3-实现特性的方法，其名称都与公开属性的名称一样——weight。4-真正的值存储在私有属性-weight中" class="headerlink" title="1 - 1 这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2@property装饰读值方法。3 实现特性的方法，其名称都与公开属性的名称一样——weight。4 真正的值存储在私有属性__weight中"></a>1 - 1 这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2@property装饰读值方法。3 实现特性的方法，其名称都与公开属性的名称一样——weight。4 真正的值存储在私有属性__weight中</h3><div class="code-wrapper"><pre><code>class LineItem:
-    &quot;&quot;&quot;使用@property装饰器实现可读写的特性&quot;&quot;&quot;
-    &quot;&quot;&quot;表示订单中商品的类&quot;&quot;&quot;
+    <title>Python使用覆盖型描述符</title>
+    <url>/2020/09/10/Python%E4%BD%BF%E7%94%A8%E8%A6%86%E7%9B%96%E5%9E%8B%E6%8F%8F%E8%BF%B0%E7%AC%A6/</url>
+    <content><![CDATA[<h2 id="1-导入模块"><a href="#1-导入模块" class="headerlink" title="1- 导入模块"></a>1- 导入模块</h2><div class="code-wrapper"><pre><code>import abc</code></pre></div><h2 id="2-主要的几个基础类"><a href="#2-主要的几个基础类" class="headerlink" title="2 - 主要的几个基础类"></a>2 - 主要的几个基础类</h2><div class="code-wrapper"><pre><code>class AutoStorage:
+    __counter = 0
+    def __init__(self, ):
+        cls = self.__class__
+        prefix = cls.__name__
+        index = cls.__counter
+        self.storage_name = &apos;_&#123;&#125;#&#123;&#125;&apos;.format(prefix, index)
+        cls.__counter += 1
+
+    def __get__(self, instance, owner):
+        if instance is None:
+            return self
+        else:
+            return getattr(instance, self.storage_name)
+
+    def __set__(self, instance, value):
+        if value &gt; 0:
+            setattr(instance, self.storage_name, value)
+        else:
+            raise ValueError(&apos;value must be &gt; 0&apos;)
+
+
+class Validated(abc.ABC, AutoStorage):
+    def __set__(self, instance, value):
+        value = self.validate(instance, value)
+        super().__set__(instance, value)
+    @abc.abstractmethod
+    def validate(self, instance, value):
+        &quot;&quot;&quot;return validated value or raise ValueError&quot;&quot;&quot;
+
+class Quantity(Validated):
+    &quot;&quot;&quot;a number greater than zero&quot;&quot;&quot;
+    def validate(self, instance, value):
+        if value &lt;= 0:
+            raise ValueError(&apos;value must be &gt; 0&apos;)
+        return value
+
+class NonBlank(Validated):
+&quot;&quot;&quot;a string with at least one non-space character&quot;&quot;&quot;
+def validate(self, instance, value):
+    value = value.strip()
+    if len(value) == 0:
+        raise ValueError(&apos;value cannot be empty or blank&apos;)
+    return value</code></pre></div><p>AutoStorage自动管理储存属性的描述符类。Validated扩展AutoStorage类的抽象子类，覆盖<strong>set</strong>方法，调用必须由子类实现的validate方法。</p>
+<h2 id="3-主要实现的类"><a href="#3-主要实现的类" class="headerlink" title="3 - 主要实现的类"></a>3 - 主要实现的类</h2><div class="code-wrapper"><pre><code>class LineItem:
+    description = NonBlank()
+    weight = Quantity()
+    price = Quantity()
+
     def __init__(self, description, weight, price):
         self.description = description
         self.weight = weight
         self.price = price
 
     def subtotal(self):
-        return self.weight * self.price
-
-    @property
-    def weight(self):
-        return self.__weight
-
-    @weight.setter
-    def weight(self, value):
-        if value &gt; 0:
-            self.__weight = value
-        else:
-            raise ValueError(&apos;value must be &gt; 0&apos;)</code></pre></div><h3 id="2-5-被装饰的读值方法有个-setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6-如果值大于零，设置私有属性-weight。7-否则，抛出ValueError异常"><a href="#2-5-被装饰的读值方法有个-setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6-如果值大于零，设置私有属性-weight。7-否则，抛出ValueError异常" class="headerlink" title="2 - 5 被装饰的读值方法有个.setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6 如果值大于零，设置私有属性__weight。7 否则，抛出ValueError异常"></a>2 - 5 被装饰的读值方法有个.setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6 如果值大于零，设置私有属性__weight。7 否则，抛出ValueError异常</h3>]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>装饰器</tag>
-        <tag>可读性</tag>
-      </tags>
+        return self.weight * self.price</code></pre></div>]]></content>
   </entry>
   <entry>
     <title>Python关于迭代器和生成器</title>
@@ -4391,66 +4451,6 @@ print(user_profile)</code></pre></div><p> 参数组合在实际书写中，需�
       <tags>
         <tag>参数</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Python使用覆盖型描述符</title>
-    <url>/2020/09/10/Python%E4%BD%BF%E7%94%A8%E8%A6%86%E7%9B%96%E5%9E%8B%E6%8F%8F%E8%BF%B0%E7%AC%A6/</url>
-    <content><![CDATA[<h2 id="1-导入模块"><a href="#1-导入模块" class="headerlink" title="1- 导入模块"></a>1- 导入模块</h2><div class="code-wrapper"><pre><code>import abc</code></pre></div><h2 id="2-主要的几个基础类"><a href="#2-主要的几个基础类" class="headerlink" title="2 - 主要的几个基础类"></a>2 - 主要的几个基础类</h2><div class="code-wrapper"><pre><code>class AutoStorage:
-    __counter = 0
-    def __init__(self, ):
-        cls = self.__class__
-        prefix = cls.__name__
-        index = cls.__counter
-        self.storage_name = &apos;_&#123;&#125;#&#123;&#125;&apos;.format(prefix, index)
-        cls.__counter += 1
-
-    def __get__(self, instance, owner):
-        if instance is None:
-            return self
-        else:
-            return getattr(instance, self.storage_name)
-
-    def __set__(self, instance, value):
-        if value &gt; 0:
-            setattr(instance, self.storage_name, value)
-        else:
-            raise ValueError(&apos;value must be &gt; 0&apos;)
-
-
-class Validated(abc.ABC, AutoStorage):
-    def __set__(self, instance, value):
-        value = self.validate(instance, value)
-        super().__set__(instance, value)
-    @abc.abstractmethod
-    def validate(self, instance, value):
-        &quot;&quot;&quot;return validated value or raise ValueError&quot;&quot;&quot;
-
-class Quantity(Validated):
-    &quot;&quot;&quot;a number greater than zero&quot;&quot;&quot;
-    def validate(self, instance, value):
-        if value &lt;= 0:
-            raise ValueError(&apos;value must be &gt; 0&apos;)
-        return value
-
-class NonBlank(Validated):
-&quot;&quot;&quot;a string with at least one non-space character&quot;&quot;&quot;
-def validate(self, instance, value):
-    value = value.strip()
-    if len(value) == 0:
-        raise ValueError(&apos;value cannot be empty or blank&apos;)
-    return value</code></pre></div><p>AutoStorage自动管理储存属性的描述符类。Validated扩展AutoStorage类的抽象子类，覆盖<strong>set</strong>方法，调用必须由子类实现的validate方法。</p>
-<h2 id="3-主要实现的类"><a href="#3-主要实现的类" class="headerlink" title="3 - 主要实现的类"></a>3 - 主要实现的类</h2><div class="code-wrapper"><pre><code>class LineItem:
-    description = NonBlank()
-    weight = Quantity()
-    price = Quantity()
-
-    def __init__(self, description, weight, price):
-        self.description = description
-        self.weight = weight
-        self.price = price
-
-    def subtotal(self):
-        return self.weight * self.price</code></pre></div>]]></content>
   </entry>
   <entry>
     <title>Python多线程实现程序并发</title>
@@ -4685,40 +4685,6 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       </tags>
   </entry>
   <entry>
-    <title>Stm32-F103-mini 学习</title>
-    <url>/2021/01/18/STM32F103MiNi/</url>
-    <content><![CDATA[<h1 id="stm32-F103-mini-学习"><a href="#stm32-F103-mini-学习" class="headerlink" title="stm32 F103 mini 学习"></a>stm32 F103 mini 学习</h1><h2 id="1-Stm32初探"><a href="#1-Stm32初探" class="headerlink" title="1 Stm32初探"></a>1 Stm32初探</h2><h3 id="1-1-stm32的优点"><a href="#1-1-stm32的优点" class="headerlink" title="1.1 stm32的优点"></a>1.1 stm32的优点</h3><ol>
-<li>使用ARM公司专为微控制器设计的Cortex-M内核;</li>
-<li>高性能,低电压,低功耗,创新的内核以及外设</li>
-<li>简单,易用</li>
-</ol>
-<h3 id="1-2-Cortex内核"><a href="#1-2-Cortex内核" class="headerlink" title="1.2 Cortex内核"></a>1.2 Cortex内核</h3><p>ARM架构定义了三个系列</p>
-<ol>
-<li>“A”: 面向操作系统和用户界面</li>
-<li>“R”: 针对实时系统</li>
-<li>“M”: 对微控制器</li>
-</ol>
-<p>STM32F1属于Cortex-M系列中的Cortex-M3内核,采用了ARMv7-M架构。Cortex-A5/A8采用了ARMv7-A架构。而传统的ARM7采用的是之前的ARMv4T架构,已经被逐渐淘汰。</p>
-<h3 id="1-3-STM32和ARM7"><a href="#1-3-STM32和ARM7" class="headerlink" title="1.3 STM32和ARM7"></a>1.3 STM32和ARM7</h3><p><img src="/2021/01/18/STM32F103MiNi/Stm32%E5%92%8CARM7%E6%AF%94%E8%BE%83.png" alt="image-20210118133817724"></p>
-<h2 id="2-STM32芯片解读"><a href="#2-STM32芯片解读" class="headerlink" title="2 STM32芯片解读"></a>2 STM32芯片解读</h2><h3 id="2-1-芯片内部资源"><a href="#2-1-芯片内部资源" class="headerlink" title="2.1 芯片内部资源"></a>2.1 芯片内部资源</h3><ul>
-<li>内核：Cortex-M3，高达72M，支持单周期乘法和硬件除法</li>
-<li>IO口：64引脚 51个IO， 大部分耐5v（模拟通道除外）</li>
-<li>存储器容量：256K FLASH ，48k SRAM</li>
-<li>时钟，复位和电源管理： 2.0-3.6v电源和IO电压；上电复位，掉电复位；强大的时钟系统</li>
-<li>低功耗</li>
-<li>AD：3个12位AD模数转换</li>
-<li>DA：2个12位的DA数模转换</li>
-<li>DMA：12个DMA通道</li>
-<li>定时器：多达11个定时器</li>
-<li>通信接口：多达13个通信接口</li>
-</ul>
-<h3 id="2-2-芯片内部结构"><a href="#2-2-芯片内部结构" class="headerlink" title="2.2 芯片内部结构"></a>2.2 芯片内部结构</h3>]]></content>
-      <categories>
-        <category>Technical</category>
-        <category>Hardware</category>
-      </categories>
-  </entry>
-  <entry>
     <title>SSBuild创建遇到的问题</title>
     <url>/2021/03/28/SSMBuild%E9%A1%B9%E7%9B%AE/</url>
     <content><![CDATA[<h1 id="1，项目结构"><a href="#1，项目结构" class="headerlink" title="1，项目结构"></a>1，项目结构</h1><p><img src="/2021/03/28/SSMBuild%E9%A1%B9%E7%9B%AE/image-20210328154204364.png" alt="image-20210328154204364"></p>
@@ -4766,6 +4732,40 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       <categories>
         <category>Java</category>
         <category>Spring</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Stm32-F103-mini 学习</title>
+    <url>/2021/01/18/STM32F103MiNi/</url>
+    <content><![CDATA[<h1 id="stm32-F103-mini-学习"><a href="#stm32-F103-mini-学习" class="headerlink" title="stm32 F103 mini 学习"></a>stm32 F103 mini 学习</h1><h2 id="1-Stm32初探"><a href="#1-Stm32初探" class="headerlink" title="1 Stm32初探"></a>1 Stm32初探</h2><h3 id="1-1-stm32的优点"><a href="#1-1-stm32的优点" class="headerlink" title="1.1 stm32的优点"></a>1.1 stm32的优点</h3><ol>
+<li>使用ARM公司专为微控制器设计的Cortex-M内核;</li>
+<li>高性能,低电压,低功耗,创新的内核以及外设</li>
+<li>简单,易用</li>
+</ol>
+<h3 id="1-2-Cortex内核"><a href="#1-2-Cortex内核" class="headerlink" title="1.2 Cortex内核"></a>1.2 Cortex内核</h3><p>ARM架构定义了三个系列</p>
+<ol>
+<li>“A”: 面向操作系统和用户界面</li>
+<li>“R”: 针对实时系统</li>
+<li>“M”: 对微控制器</li>
+</ol>
+<p>STM32F1属于Cortex-M系列中的Cortex-M3内核,采用了ARMv7-M架构。Cortex-A5/A8采用了ARMv7-A架构。而传统的ARM7采用的是之前的ARMv4T架构,已经被逐渐淘汰。</p>
+<h3 id="1-3-STM32和ARM7"><a href="#1-3-STM32和ARM7" class="headerlink" title="1.3 STM32和ARM7"></a>1.3 STM32和ARM7</h3><p><img src="/2021/01/18/STM32F103MiNi/Stm32%E5%92%8CARM7%E6%AF%94%E8%BE%83.png" alt="image-20210118133817724"></p>
+<h2 id="2-STM32芯片解读"><a href="#2-STM32芯片解读" class="headerlink" title="2 STM32芯片解读"></a>2 STM32芯片解读</h2><h3 id="2-1-芯片内部资源"><a href="#2-1-芯片内部资源" class="headerlink" title="2.1 芯片内部资源"></a>2.1 芯片内部资源</h3><ul>
+<li>内核：Cortex-M3，高达72M，支持单周期乘法和硬件除法</li>
+<li>IO口：64引脚 51个IO， 大部分耐5v（模拟通道除外）</li>
+<li>存储器容量：256K FLASH ，48k SRAM</li>
+<li>时钟，复位和电源管理： 2.0-3.6v电源和IO电压；上电复位，掉电复位；强大的时钟系统</li>
+<li>低功耗</li>
+<li>AD：3个12位AD模数转换</li>
+<li>DA：2个12位的DA数模转换</li>
+<li>DMA：12个DMA通道</li>
+<li>定时器：多达11个定时器</li>
+<li>通信接口：多达13个通信接口</li>
+</ul>
+<h3 id="2-2-芯片内部结构"><a href="#2-2-芯片内部结构" class="headerlink" title="2.2 芯片内部结构"></a>2.2 芯片内部结构</h3>]]></content>
+      <categories>
+        <category>Technical</category>
+        <category>Hardware</category>
       </categories>
   </entry>
   <entry>
@@ -4889,6 +4889,32 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       <tags>
         <tag>Typora</tag>
         <tag>快捷键</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2019/12/14/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo server</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo generate</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo deploy</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Blog</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Blog</tag>
       </tags>
   </entry>
   <entry>
@@ -5085,106 +5111,6 @@ torch.cuda.is_available()</code></pre></div>
       </tags>
   </entry>
   <entry>
-    <title>Stm32CubeMx + Clion环境搭建</title>
-    <url>/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
-    <content><![CDATA[<h1 id="环境和所需工具"><a href="#环境和所需工具" class="headerlink" title="环境和所需工具"></a>环境和所需工具</h1><h2 id="一，-软件环境"><a href="#一，-软件环境" class="headerlink" title="一， 软件环境"></a>一， 软件环境</h2><h3 id="1-Windows-10"><a href="#1-Windows-10" class="headerlink" title="1. Windows 10"></a>1. Windows 10</h3><h3 id="2-stm32cubemx"><a href="#2-stm32cubemx" class="headerlink" title="2. stm32cubemx"></a>2. <a href="https://www.st.com/en/development-tools/stm32cubemx.html">stm32cubemx</a></h3><h3 id="3-CLion-2020"><a href="#3-CLion-2020" class="headerlink" title="3. CLion-2020"></a>3. <a href="https://www.jetbrains.com/clion/">CLion-2020</a></h3><h3 id="4-MinGW"><a href="#4-MinGW" class="headerlink" title="4. MinGW"></a>4. <a href="http://www.mingw-w64.org/doku.php">MinGW</a></h3><h3 id="5-arm-none-eabi-gcc"><a href="#5-arm-none-eabi-gcc" class="headerlink" title="5. arm-none-eabi-gcc"></a>5. <a href="https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads">arm-none-eabi-gcc</a></h3><h3 id="6-openOCD"><a href="#6-openOCD" class="headerlink" title="6. openOCD"></a>6. <a href="https://gnutoolchains.com/arm-eabi/openocd/">openOCD</a></h3><h3 id="7-stlink-v2"><a href="#7-stlink-v2" class="headerlink" title="7. stlink-v2"></a>7. <a href="https://www.st.com/en/development-tools/st-link-v2.html">stlink-v2</a></h3><h2 id="二，硬件环境"><a href="#二，硬件环境" class="headerlink" title="二，硬件环境"></a>二，硬件环境</h2><h3 id="1-单片机：正点原子STM32F103RCT6"><a href="#1-单片机：正点原子STM32F103RCT6" class="headerlink" title="1. 单片机：正点原子STM32F103RCT6"></a>1. 单片机：正点原子STM32F103RCT6</h3><h3 id="2-下载器：-StLink-V2"><a href="#2-下载器：-StLink-V2" class="headerlink" title="2. 下载器： StLink-V2"></a>2. 下载器： StLink-V2</h3><h2 id="三，工具安装"><a href="#三，工具安装" class="headerlink" title="三，工具安装"></a>三，工具安装</h2><p>工具安装部分正常安装就好了，注意安装目录的选择，尽量不要出现中文。</p>
-<h3 id="1，STM32CubeMX"><a href="#1，STM32CubeMX" class="headerlink" title="1，STM32CubeMX"></a>1，STM32CubeMX</h3><p>直接去官网下在就可以，安装之前需要安装Java运行环境</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421142019511.png" alt="image-20210421142019511"></p>
-<h3 id="2，CLion"><a href="#2，CLion" class="headerlink" title="2，CLion"></a>2，CLion</h3><p>官网下载2019以后的版本</p>
-<h3 id="3，MinGW"><a href="#3，MinGW" class="headerlink" title="3，MinGW"></a>3，MinGW</h3><p>Clion是基于CMake来管理项目的，所以首选需要配置好预设的MinGW和CMake环境。</p>
-<p>检查是否配置好环境</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421142250730.png" alt="image-20210421142250730"></p>
-<h3 id="4，arm-none-eabi-gcc4"><a href="#4，arm-none-eabi-gcc4" class="headerlink" title="4，arm-none-eabi-gcc4"></a>4，arm-none-eabi-gcc4</h3><p>需要编译arm架构的程序，所以编译工具使用这个。</p>
-<p>检查是否配置好环境</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421142358791.png" alt="image-20210421142358791"></p>
-<h3 id="5，openOCD"><a href="#5，openOCD" class="headerlink" title="5，openOCD"></a>5，openOCD</h3><p>OpenOCD是用于对STM32进行下载仿真的工具，是一个开源软件包，Windows版本下从这里下载，下载好解压到一个目录就行。</p>
-<p>注意，添加环境变量</p>
-<h3 id="6，CLion配置"><a href="#6，CLion配置" class="headerlink" title="6，CLion配置"></a>6，CLion配置</h3><p><strong>【重点】</strong></p>
-<p>Clion是基于CMake来管理项目的，所以首选我们需要配置好预设的MinGW和CMake环境。</p>
-<p>打开File-Settings-Build,Execution,Deployment选项卡，在Toolchains下面添加一个MinGW环境：</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421192108480.png" alt="image-20210421192108480"></p>
-<p>打开CMake选项栏查看工具链是否正确</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421192217660.png" alt="image-20210421192217660"></p>
-<p>至此Clion环境配置完成，可以创建STM32项目了。</p>
-<h2 id="四，CLion使用"><a href="#四，CLion使用" class="headerlink" title="四，CLion使用"></a>四，CLion使用</h2><h3 id="1，STM32CubeMX创建工程模板"><a href="#1，STM32CubeMX创建工程模板" class="headerlink" title="1，STM32CubeMX创建工程模板"></a>1，STM32CubeMX创建工程模板</h3><p>这里创建一个普通的STM32Cube工程。</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421192506773.png" alt="image-20210421192506773"></p>
-<p>接下来由于 OpenOCD 报错 Error: init mode failed (unable to connect to the target)</p>
-<hr>
-<p>** OpenOCD init failed **</p>
-<p>解决方法：这里是由于PA13和PA14被错误配置导致的。首先修复STM32CubeMX中的SYS设置，在SYS-Debug中选择Serial Wire。然后拉高Boot0和Boot1烧写一个正常固件，然后拉低他们，就能正常烧写了。</p>
-<p>所以需要在MX中设置SYS</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421192911551.png" alt="image-20210421192911551"></p>
-<p>修改项目名称和Toolchain /IDE </p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193052041.png" alt="image-20210421193052041"></p>
-<p>然后创建完成</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193114717.png" alt="image-20210421193114717"></p>
-<h3 id="2，通过CLion导入工程"><a href="#2，通过CLion导入工程" class="headerlink" title="2，通过CLion导入工程"></a>2，通过CLion导入工程</h3><p>通过CLion 导入此项目，直接Open打开即可</p>
-<p>第一次进入，需要设置对应的单片机设置</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193243099.png" alt="image-20210421193243099"></p>
-<p>根据自己的单片机，选择最接近的型号</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193312527.png" alt="image-20210421193312527"></p>
-<p>然后 Copy to Project &amp; Use</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193345457.png" alt="image-20210421193345457"></p>
-<p>其中的内容原本为</p>
-<div class="code-wrapper"><pre><code class="hljs routeros"><span class="hljs-comment"># This is an ST NUCLEO F103RB board with a single STM32F103RBT6 chip.</span>
-<span class="hljs-comment"># http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/LN1847/PF259875</span>
-
-source [<span class="hljs-builtin-name">find</span> interface/stlink.cfg]
-
-transport select hla_swd
-
-source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
-
-reset_config srst_only</code></pre></div>
-
-<p>修改为</p>
-<div class="code-wrapper"><pre><code class="hljs routeros"><span class="hljs-comment"># This is an ST NUCLEO F103RB board with a single STM32F103RBT6 chip.</span>
-<span class="hljs-comment"># http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/LN1847/PF259875</span>
-
-source [<span class="hljs-builtin-name">find</span> interface/stlink-v2.cfg]
-
-transport select hla_swd
-
-source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
-
-<span class="hljs-comment"># reset_config srst_only </span></code></pre></div>
-
-<h3 id="3，调试"><a href="#3，调试" class="headerlink" title="3，调试"></a>3，调试</h3><p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193854055.png" alt="image-20210421193854055"></p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193935417.png" alt="image-20210421193935417"></p>
-<p>出现** Programming Finished ** 就表示下载到开发板上了，不用管那些警告，只要不报错就OK！</p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Win</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2019/12/14/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo server</code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo generate</code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo deploy</code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Blog</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Blog</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>分析开源项目</title>
     <url>/2021/05/09/%E5%88%86%E6%9E%90%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/</url>
     <content><![CDATA[<h1 id="分析开源项目-EL-ADMIN"><a href="#分析开源项目-EL-ADMIN" class="headerlink" title="分析开源项目 (EL-ADMIN)"></a>分析开源项目 (EL-ADMIN)</h1><h2 id="1-观察开源项目"><a href="#1-观察开源项目" class="headerlink" title="1 观察开源项目"></a>1 观察开源项目</h2><ul>
@@ -5267,17 +5193,78 @@ source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
       </tags>
   </entry>
   <entry>
-    <title>我的第一篇博客文章</title>
-    <url>/2019/12/15/%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/</url>
-    <content><![CDATA[<p>“list” 是给这个结构体起的别名，</p>
-<span id="more"></span>
-<p>为了使用方便。</p>
-<p>其次，这个结构体中的date是数值域，next是指针域。</p>
-<p>在这里我使用了递归定义。</p>
-<!-- more -->]]></content>
-      <tags>
-        <tag>博客</tag>
-      </tags>
+    <title>Stm32CubeMx + Clion环境搭建</title>
+    <url>/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
+    <content><![CDATA[<h1 id="环境和所需工具"><a href="#环境和所需工具" class="headerlink" title="环境和所需工具"></a>环境和所需工具</h1><h2 id="一，-软件环境"><a href="#一，-软件环境" class="headerlink" title="一， 软件环境"></a>一， 软件环境</h2><h3 id="1-Windows-10"><a href="#1-Windows-10" class="headerlink" title="1. Windows 10"></a>1. Windows 10</h3><h3 id="2-stm32cubemx"><a href="#2-stm32cubemx" class="headerlink" title="2. stm32cubemx"></a>2. <a href="https://www.st.com/en/development-tools/stm32cubemx.html">stm32cubemx</a></h3><h3 id="3-CLion-2020"><a href="#3-CLion-2020" class="headerlink" title="3. CLion-2020"></a>3. <a href="https://www.jetbrains.com/clion/">CLion-2020</a></h3><h3 id="4-MinGW"><a href="#4-MinGW" class="headerlink" title="4. MinGW"></a>4. <a href="http://www.mingw-w64.org/doku.php">MinGW</a></h3><h3 id="5-arm-none-eabi-gcc"><a href="#5-arm-none-eabi-gcc" class="headerlink" title="5. arm-none-eabi-gcc"></a>5. <a href="https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads">arm-none-eabi-gcc</a></h3><h3 id="6-openOCD"><a href="#6-openOCD" class="headerlink" title="6. openOCD"></a>6. <a href="https://gnutoolchains.com/arm-eabi/openocd/">openOCD</a></h3><h3 id="7-stlink-v2"><a href="#7-stlink-v2" class="headerlink" title="7. stlink-v2"></a>7. <a href="https://www.st.com/en/development-tools/st-link-v2.html">stlink-v2</a></h3><h2 id="二，硬件环境"><a href="#二，硬件环境" class="headerlink" title="二，硬件环境"></a>二，硬件环境</h2><h3 id="1-单片机：正点原子STM32F103RCT6"><a href="#1-单片机：正点原子STM32F103RCT6" class="headerlink" title="1. 单片机：正点原子STM32F103RCT6"></a>1. 单片机：正点原子STM32F103RCT6</h3><h3 id="2-下载器：-StLink-V2"><a href="#2-下载器：-StLink-V2" class="headerlink" title="2. 下载器： StLink-V2"></a>2. 下载器： StLink-V2</h3><h2 id="三，工具安装"><a href="#三，工具安装" class="headerlink" title="三，工具安装"></a>三，工具安装</h2><p>工具安装部分正常安装就好了，注意安装目录的选择，尽量不要出现中文。</p>
+<h3 id="1，STM32CubeMX"><a href="#1，STM32CubeMX" class="headerlink" title="1，STM32CubeMX"></a>1，STM32CubeMX</h3><p>直接去官网下在就可以，安装之前需要安装Java运行环境</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421142019511.png" alt="image-20210421142019511"></p>
+<h3 id="2，CLion"><a href="#2，CLion" class="headerlink" title="2，CLion"></a>2，CLion</h3><p>官网下载2019以后的版本</p>
+<h3 id="3，MinGW"><a href="#3，MinGW" class="headerlink" title="3，MinGW"></a>3，MinGW</h3><p>Clion是基于CMake来管理项目的，所以首选需要配置好预设的MinGW和CMake环境。</p>
+<p>检查是否配置好环境</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421142250730.png" alt="image-20210421142250730"></p>
+<h3 id="4，arm-none-eabi-gcc4"><a href="#4，arm-none-eabi-gcc4" class="headerlink" title="4，arm-none-eabi-gcc4"></a>4，arm-none-eabi-gcc4</h3><p>需要编译arm架构的程序，所以编译工具使用这个。</p>
+<p>检查是否配置好环境</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421142358791.png" alt="image-20210421142358791"></p>
+<h3 id="5，openOCD"><a href="#5，openOCD" class="headerlink" title="5，openOCD"></a>5，openOCD</h3><p>OpenOCD是用于对STM32进行下载仿真的工具，是一个开源软件包，Windows版本下从这里下载，下载好解压到一个目录就行。</p>
+<p>注意，添加环境变量</p>
+<h3 id="6，CLion配置"><a href="#6，CLion配置" class="headerlink" title="6，CLion配置"></a>6，CLion配置</h3><p><strong>【重点】</strong></p>
+<p>Clion是基于CMake来管理项目的，所以首选我们需要配置好预设的MinGW和CMake环境。</p>
+<p>打开File-Settings-Build,Execution,Deployment选项卡，在Toolchains下面添加一个MinGW环境：</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421192108480.png" alt="image-20210421192108480"></p>
+<p>打开CMake选项栏查看工具链是否正确</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421192217660.png" alt="image-20210421192217660"></p>
+<p>至此Clion环境配置完成，可以创建STM32项目了。</p>
+<h2 id="四，CLion使用"><a href="#四，CLion使用" class="headerlink" title="四，CLion使用"></a>四，CLion使用</h2><h3 id="1，STM32CubeMX创建工程模板"><a href="#1，STM32CubeMX创建工程模板" class="headerlink" title="1，STM32CubeMX创建工程模板"></a>1，STM32CubeMX创建工程模板</h3><p>这里创建一个普通的STM32Cube工程。</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421192506773.png" alt="image-20210421192506773"></p>
+<p>接下来由于 OpenOCD 报错 Error: init mode failed (unable to connect to the target)</p>
+<hr>
+<p>** OpenOCD init failed **</p>
+<p>解决方法：这里是由于PA13和PA14被错误配置导致的。首先修复STM32CubeMX中的SYS设置，在SYS-Debug中选择Serial Wire。然后拉高Boot0和Boot1烧写一个正常固件，然后拉低他们，就能正常烧写了。</p>
+<p>所以需要在MX中设置SYS</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421192911551.png" alt="image-20210421192911551"></p>
+<p>修改项目名称和Toolchain /IDE </p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193052041.png" alt="image-20210421193052041"></p>
+<p>然后创建完成</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193114717.png" alt="image-20210421193114717"></p>
+<h3 id="2，通过CLion导入工程"><a href="#2，通过CLion导入工程" class="headerlink" title="2，通过CLion导入工程"></a>2，通过CLion导入工程</h3><p>通过CLion 导入此项目，直接Open打开即可</p>
+<p>第一次进入，需要设置对应的单片机设置</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193243099.png" alt="image-20210421193243099"></p>
+<p>根据自己的单片机，选择最接近的型号</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193312527.png" alt="image-20210421193312527"></p>
+<p>然后 Copy to Project &amp; Use</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193345457.png" alt="image-20210421193345457"></p>
+<p>其中的内容原本为</p>
+<div class="code-wrapper"><pre><code class="hljs routeros"><span class="hljs-comment"># This is an ST NUCLEO F103RB board with a single STM32F103RBT6 chip.</span>
+<span class="hljs-comment"># http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/LN1847/PF259875</span>
+
+source [<span class="hljs-builtin-name">find</span> interface/stlink.cfg]
+
+transport select hla_swd
+
+source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
+
+reset_config srst_only</code></pre></div>
+
+<p>修改为</p>
+<div class="code-wrapper"><pre><code class="hljs routeros"><span class="hljs-comment"># This is an ST NUCLEO F103RB board with a single STM32F103RBT6 chip.</span>
+<span class="hljs-comment"># http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/LN1847/PF259875</span>
+
+source [<span class="hljs-builtin-name">find</span> interface/stlink-v2.cfg]
+
+transport select hla_swd
+
+source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
+
+<span class="hljs-comment"># reset_config srst_only </span></code></pre></div>
+
+<h3 id="3，调试"><a href="#3，调试" class="headerlink" title="3，调试"></a>3，调试</h3><p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193854055.png" alt="image-20210421193854055"></p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193935417.png" alt="image-20210421193935417"></p>
+<p>出现** Programming Finished ** 就表示下载到开发板上了，不用管那些警告，只要不报错就OK！</p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Win</category>
+      </categories>
   </entry>
   <entry>
     <title>如何高效的在Github 上寻找项目</title>
@@ -5406,6 +5393,19 @@ source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
         <category>Help</category>
         <category>Linux</category>
       </categories>
+  </entry>
+  <entry>
+    <title>我的第一篇博客文章</title>
+    <url>/2019/12/15/%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/</url>
+    <content><![CDATA[<p>“list” 是给这个结构体起的别名，</p>
+<span id="more"></span>
+<p>为了使用方便。</p>
+<p>其次，这个结构体中的date是数值域，next是指针域。</p>
+<p>在这里我使用了递归定义。</p>
+<!-- more -->]]></content>
+      <tags>
+        <tag>博客</tag>
+      </tags>
   </entry>
   <entry>
     <title>虚拟机 Ubuntu 安装 Tensorflow</title>
@@ -28019,6 +28019,111 @@ where id = 2 and version = 1</code></pre></div>
 &#125;</code></pre></div>
 
 <h2 id="3-悲观锁"><a href="#3-悲观锁" class="headerlink" title="3 悲观锁"></a>3 悲观锁</h2><p>顾名思义，就是十分悲观，它总是认为什么时候都会出现问题，无论什么操作都会上锁，再次操作</p>
+<h1 id="第3部分-框架"><a href="#第3部分-框架" class="headerlink" title="第3部分 框架"></a>第3部分 框架</h1><h1 id="第16-章-Spring-源码"><a href="#第16-章-Spring-源码" class="headerlink" title="第16 章 Spring 源码"></a>第16 章 Spring 源码</h1><h2 id="1-Spring源码方面的知识"><a href="#1-Spring源码方面的知识" class="headerlink" title="1 Spring源码方面的知识"></a>1 Spring源码方面的知识</h2><ul>
+<li>Spring bean的生命周期</li>
+<li>Spring 工厂，Spring容器，上下文 </li>
+<li>Spring BeanPostprocessor</li>
+<li>Spring 和 主流框架的源码</li>
+<li>Spring BeanFactory 和 FactoryBean的区别</li>
+</ul>
+<h2 id="2-谈谈你对Spring的理解"><a href="#2-谈谈你对Spring的理解" class="headerlink" title="2 谈谈你对Spring的理解"></a>2 谈谈你对Spring的理解</h2><p>IOC、AOP只是作为Spring Framework里面一部分，同时还有还有events，resources，i18n，validation，data binding，type conversion，SpEL</p>
+<p><img src="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200402092317669.png" alt="image-20200402092317669"></p>
+<h2 id="3-Spring上下文"><a href="#3-Spring上下文" class="headerlink" title="3 Spring上下文"></a>3 Spring上下文</h2><p>从代码级别来说，就是指Spring Context</p>
+<p>从源码级别，但我们初始化Spring Context的时候，一堆的Spring组件围绕在一起，使其能够正常工作，这个状态就被称为Spring环境</p>
+<h2 id="4-Spring初始化"><a href="#4-Spring初始化" class="headerlink" title="4 Spring初始化"></a>4 Spring初始化</h2><p>首先需要引入Spring的依赖，因为我们暂时只是初始化过程，只需要用到IOC</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-context<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>5.0.9.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>为了更加了解Spring初始化的过程，我们需要定义三个类</p>
+<p>1、AppConfig.java，可以当成是扫描类，也就是配置我们需要扫描的目录</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span>
+<span class="hljs-meta">@ComponentScan(&quot;com.pnca.interview.study.spring&quot;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppConfig</span> </span>&#123;
+&#125;
+</code></pre></div>
+
+<p>2、BeanTest.java，我们需要被扫描到的Bean</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BeanTest</span> </span>&#123;
+&#125;</code></pre></div>
+
+<p>3、Test.java，启动测试类</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-comment">// 初始化</span>
+        AnnotationConfigApplicationContext annotationConfigApplicationContext = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(AppConfig.class);
+
+        System.out.println(annotationConfigApplicationContext.getBean(BeanTest.class));
+    &#125;
+&#125;</code></pre></div>
+
+<p>最后我们通过注解的方式，来获取Spring IOC扫描到的Bean，最后打印出来</p>
+<p><img src="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200402091642787.png" alt="image-20200402091642787"></p>
+<p>tip：IDEA点击进去的源码目录，其实是IDEA反编译得到的，和原来的源码会存在一些出入，是IDEA专门优化过的，因此如果你需要修改源码的话，还是需要在官网下载对应的源码包</p>
+<div class="code-wrapper"><pre><code class="hljs http">https://github.com/spring-projects/spring-framework</code></pre></div>
+
+<h2 id="5-SpringBean的生命周期"><a href="#5-SpringBean的生命周期" class="headerlink" title="5 SpringBean的生命周期"></a>5 SpringBean的生命周期</h2><p>Spring中的Bean不可能是直接new关键字创建出来的</p>
+<ul>
+<li>把类扫描出来（扫描出来后做了什么？）</li>
+<li>把Bean实例化</li>
+</ul>
+<p>初始化Spring环境有两种方法，一种是通过注解的方式，一个是通过XML的方式</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 方式1，目前用的比较多</span>
+AnnotationConfigApplicationContext annotationConfigApplicationContext = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(AppConfig.class)</code></pre></div>
+
+<p>同时在这个方法的内部，使用了this()</p>
+<p><img src="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200402100813001.png" alt="image-20200402100813001"></p>
+<p>调用AnnotationConfigApplicationContext无参构造方法，同时因为该类又继承了一个父类 GenericApplicationContext，子类在初始化的时候，还会调用父类的无参构造方法，在父类中，我们能够看到它初始化了一个BeanFactory，这就是我们经常提到的Spring工厂</p>
+<p><img src="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200402100434794-16295172680416.png" alt="image-20200402100434794"></p>
+<p>这个工厂最重要的功能就是产生Bean</p>
+<p>同时在AnnotationConfigApplication方法的最后，还有一个refresh()方法，这个方法是整个Spring最核心的方法，这个方法的内部，同时调用了十多个方法，其中最重要的是 invokeBeanFactoryPostProcessors()</p>
+<div class="code-wrapper"><pre><code class="hljs java">invokeBeanFactoryPostProcessors() &#123;
+	<span class="hljs-comment">// 扫描类：</span>
+	<span class="hljs-comment">// 处理了各种import：例如@import(&quot;xxx.xml&quot;), @MapperScanner, @CompoentScanner ..... </span>
+&#125;</code></pre></div>
+
+<h3 id="普通类的实例化"><a href="#普通类的实例化" class="headerlink" title="普通类的实例化"></a>普通类的实例化</h3><p>普通类的实例化，就是通过javac编译成xxx.class文件，然后某一天通过new关键字进行实例化，JVM就会把这个class类加载到JVM内存中，这里面就涉及到了方法区，堆栈存储等。</p>
+<p><img src="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200402101551621.png" alt="image-20200402101551621"></p>
+<h3 id="Spring-Bean实例化过程"><a href="#Spring-Bean实例化过程" class="headerlink" title="Spring Bean实例化过程"></a>Spring Bean实例化过程</h3><ul>
+<li><p>首先Spring会将全部的Class类，通过classLoader加载到JVM中</p>
+</li>
+<li><p>然后在通过扫描，创建很多BeanDefinition，我们通过反射将对应Class的信息填充到BeanDefinition中</p>
+<ul>
+<li><p>这里的BeanDefinition是用来描述Bean的，也就是Bean的一些信息存储</p>
+<div class="code-wrapper"><pre><code class="hljs java">RootBeanDefinition rootBeanDefinition = <span class="hljs-keyword">new</span> RootBeanDefinition();
+rootBeanDefinition.setBeanClassName(<span class="hljs-string">&quot;BeanTest&quot;</span>);
+rootBeanDefinition.setBeanClass(BeanTest.class);
+rootBeanDefinition.setScope(<span class="hljs-string">&quot;prototype&quot;</span>);
+rootBeanDefinition.setLazyInit();</code></pre></div>
+
+
+
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>然后在把填充好的BeanDefinition一个个放入到Map中，Spring扫描了几个类，Map中就有几个类，这个Map被称为 BeanDefinitionMap</li>
+</ul>
+<p><img src="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200402102958645.png" alt="image-20200402102958645"></p>
+<ul>
+<li>最后我们将这个BeanDefinationMap放入了Spring单例池中</li>
+</ul>
+<p><img src="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200402104318234.png" alt="image-20200402104318234"></p>
+<p>完整的加载图，左边红色部分就是Spring的加载过程，然后开放的原则，它还提供了很多扩展接口，让你可以干扰到Sring的加载过程，使得</p>
+<p><img src="/2021/07/30/Java%E9%9D%A2%E8%AF%95/image-20200402104306006.png" alt="image-20200402104306006"></p>
+<p>例如，很多需要对Spring进行扩展的，例如Mybatis，其实都是实现了 BeanFactoryPostProcessor接口</p>
+<p>在执行扫描的时候，它会扫描Spring 提供的 BeanFactoryPostProcessor，以及程序员扩展的</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestBeanFactoryPostProcessor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">BeanFactoryPostProcessor</span> </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">postProcessBeanFactory</span><span class="hljs-params">(ConfigurableListableBeanFactory beanFactory)</span> <span class="hljs-keyword">throws</span> BeansException </span>&#123;
+
+    &#125;
+&#125;</code></pre></div>
+
 ]]></content>
       <categories>
         <category>Java</category>
