@@ -578,14 +578,14 @@
 
   
   <url>
-    <loc>https://pncalbl.github.io/tags/Note/</loc>
+    <loc>https://pncalbl.github.io/tags/C/</loc>
     <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://pncalbl.github.io/tags/C/</loc>
+    <loc>https://pncalbl.github.io/tags/Note/</loc>
     <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -634,20 +634,6 @@
   </url>
   
   <url>
-    <loc>https://pncalbl.github.io/tags/Database/</loc>
-    <lastmod>2021-09-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://pncalbl.github.io/tags/MySQL/</loc>
-    <lastmod>2021-09-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://pncalbl.github.io/tags/%E6%B3%A8%E8%A7%A3/</loc>
     <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
@@ -656,6 +642,20 @@
   
   <url>
     <loc>https://pncalbl.github.io/tags/%E7%BB%99%E7%BC%96%E8%AF%91%E5%99%A8%E7%9C%8B%E7%9A%84%E6%B3%A8%E9%87%8A/</loc>
+    <lastmod>2021-09-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://pncalbl.github.io/tags/Database/</loc>
+    <lastmod>2021-09-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://pncalbl.github.io/tags/MySQL/</loc>
     <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -795,20 +795,6 @@
   </url>
   
   <url>
-    <loc>https://pncalbl.github.io/tags/Typora/</loc>
-    <lastmod>2021-09-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://pncalbl.github.io/tags/%E5%BF%AB%E6%8D%B7%E9%94%AE/</loc>
-    <lastmod>2021-09-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://pncalbl.github.io/tags/WSL/</loc>
     <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
@@ -817,6 +803,20 @@
   
   <url>
     <loc>https://pncalbl.github.io/tags/VM/</loc>
+    <lastmod>2021-09-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://pncalbl.github.io/tags/Typora/</loc>
+    <lastmod>2021-09-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://pncalbl.github.io/tags/%E5%BF%AB%E6%8D%B7%E9%94%AE/</loc>
     <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -972,13 +972,6 @@
 
   
   <url>
-    <loc>https://pncalbl.github.io/categories/Help/</loc>
-    <lastmod>2021-09-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://pncalbl.github.io/categories/Technical/</loc>
     <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
@@ -986,21 +979,7 @@
   </url>
   
   <url>
-    <loc>https://pncalbl.github.io/categories/Help/Git/</loc>
-    <lastmod>2021-09-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://pncalbl.github.io/categories/Help/Win/</loc>
-    <lastmod>2021-09-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://pncalbl.github.io/categories/Java/</loc>
+    <loc>https://pncalbl.github.io/categories/Help/</loc>
     <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1014,7 +993,28 @@
   </url>
   
   <url>
+    <loc>https://pncalbl.github.io/categories/Java/</loc>
+    <lastmod>2021-09-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://pncalbl.github.io/categories/Help/Win/</loc>
+    <lastmod>2021-09-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://pncalbl.github.io/categories/Technical/Note/</loc>
+    <lastmod>2021-09-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://pncalbl.github.io/categories/Help/Git/</loc>
     <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

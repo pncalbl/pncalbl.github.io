@@ -1,6 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>C 语言学习笔记</title>
+    <url>/2020/04/04/C%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="C-语言学习笔记"><a href="#C-语言学习笔记" class="headerlink" title="C 语言学习笔记"></a>C 语言学习笔记</h1><ol>
+<li>for 语句比较适合初始化和增加步长都是单条语句并且逻辑相关的情形，因为它将循环控制语句集中放在一起, 且比  while 语句更紧凑。</li>
+<li>EOF（end of file）是文件结束指示符。</li>
+<li>在该程序段中，for 循环语句的循环体是空的，这是因为所有工作都在测试（条件）部分与增加步长部分完成了。</li>
+<li>但 C 语言的语法规则要求 for 循环语句必须有一个循环体，因此用单独的分号代替。单独的分号称为空语句，它正好能满足 for 语句的这一要求。把它单独放在一行是为了更加醒目。</li>
+<li>单引号中的字符表示一个整型值，该值等于此字符在机器字符集中对应的数值，我们称之为字符常量。</li>
+<li>我们通常把函数定义中圆括号内列表中出现的变量称为形式参数，而把函数调用中与形式参数对应的值称为实际参数。</li>
+<li>函数不一定都有返回值。不带表达式的 return 语句将把控制权返回给调用者，但不返回有用的值。这等同于在到达函数的右终结花括号时，函数就“到达了尽头”。主调函数也可以忽 略函数返回的值。    </li>
+<li>对数组而言，const 限定符指定数组所有元素的值都不能被修改。</li>
+<li>C 语言提供了6 个位操作运算符。这些运算符只能作用于整型操作数，即只能作用于带符号或无符号 char、short、int、long 类型。</li>
+<li>栈是一种限定仅在表尾进行插入和删除操作的线性表。</li>
+<li><input disabled type="checkbox"> 的优先级高于按位&amp;，&amp;a[0] 等价于 a+0 (其中a是数组名)指的是a[0]的地址，*&amp;a[0] 等价于 a[0] 等价于 *a。</li>
+<li>int p 是指 p 是指向 int 类型的指针变量。</li>
+<li>数组传递一定是传指针。</li>
+<li>continue 语句只用于循环语句，不用于 switch 语句。</li>
+<li>作为一种良好的程序设计风格，在 switch 语句最后一个分支（即 default 分支）的后 面也加上一个 break 语句。这样做在逻辑上没有必要，但当我们需要向该 switch 语句后添加其它分支时，这种防范措施会降低犯错误的可能性。</li>
+<li>因此，如果两个函数必须共享某些数据，而这两个函数互不调用对方，这种情况下最方便的方式便是把这些共享数据定义为外部变量，而不是作为函数参数传递。</li>
+<li>名字的作用域指的是程序中可以使用该名字的部分。对于在函数开头声明的自动变量来说，其作用域是声明该变量名的函数。不同函数中声明的具有相同名字的各个局部变量之间没有任何关系。</li>
+<li>函数的参数也是这样的，实际上可以将它看作是局部变量。外部变量或函数的作用域从声明它的地方开始，到其所在的（待编译的）文件的末尾结束。</li>
+<li>在一个源程序的所有源文件中，一个外部变量只能在某个文件中定义一次，而其它文件可以通过 extern 声明来访问它（定义外部变量的源文件中也可以包含对该外部变量的extern 声明）。</li>
+<li>外部变量的定义中必须指定数组的长度，但 extern 声明则不一定要指定数组的长度。 外部变量的初始化只能出现在其定义中。</li>
+<li>在不进行显式初始化的情况下，外部变量和静态变量都将被初始化为 0，register 声明只适用于自动变量以及函数的形式参数，而自动变量和寄存器变量的初值则没有定义（即初值为无用的信息）。</li>
+<li>对于外部变量与静态变量来说，初始化表达式必须是常量表达式，且只初始化一次。</li>
+<li>对于自动变量与寄存器变量来说，初始化表达式可以不是常量表达式，表达式中可以包含任意在此表达式之前已经定义的值，包括函数调用。</li>
+<li>int days[ ] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};</li>
+<li>C++中，全局阈只能声明、初始化变量； 不能用于赋值、运算、调用函数等！</li>
+<li>.如果要在外部变量的定义之前使用该变量，或者外部变量的定义与变量的使用不在同一个源文件中，则必须在相应的变量声明中强制性地使用关键字 extern。</li>
+<li>我们可以得出这样一个结论：对于某些中等规模的程序，最好只用一个头文件存放程序中各部分共享的对象。较大的程序需要使用更多的头文件，我们需要精心地组织它们。</li>
+<li>变量的声明（包括初始化）除了可以紧跟在函数开始的花括号之后，还可以紧跟在任何其它标识复合语句开始的左花括号之后。以这 种方式声明的变量可以隐藏程序块外与之同名的变量，它们之间没有任何关系，并在与左花 括号匹配的右花括号出现之前一直存在。</li>
+<li>在不进行显式初始化的情况下，外部变量和静态变量都将被初始化为 0，而自动变量和寄存器变量的初值则没有定义（即初值为无用的信息）。</li>
+<li>如果文件名用引号引起来，则在源文件所在位置查找该文件；如果在该位置没有找到文件，或者如果文件名是用尖括号&lt;&gt;括起来的，则将根据相应的规则查找该文件，这个规则同具体的实现有关。</li>
+<li>宏替换只对记号进行，对括在引号中的字符串不起作用。</li>
+<li>在#if 语句中可以使用表达式defined(名字)，该表达式的值遵循下列规则：当名字已经定义时，其值为 1；否则，其值为 0。</li>
+<li>指向 void 类型的指针可以存放指向任何类型的指针，但它不能间接引用其自身。</li>
+<li>类似于和++这样的一元运算符遵循从右至左的结合顺序。</li>
+<li>gets（）是在stdio.h中是输入函数，使用类型：gets（str）。可以从标准输入类中读取一行字符到指定的字符串中，它在遇到EOF和回车换行键才会接受。但是由于功能强大，gets（）和scanf（）混合使用会导致gets（）无法接受字符串，因为scanf回车结束的时，回车键留在了缓冲区，这时gets就无法区分这个空格是否属于gets的输入。gets会接受到这个信号，无法直接接受后续的字符串。</li>
+<li>解决办法:(1)：先gets后scanf，不让那gets读取回车；(2)：利用getchar判断，获取\n，后执行gets.</li>
+<li>%g用来输出实数，它根据数值的大小，自动选f格式或e格式（选择输出时占宽度较小的一种），且不输出无意义的0。</li>
+<li>C 语言保证，0 永远不是有效的数据地址。</li>
+<li>指针与整数之间不能相互转换，但 0 是惟一的例外：常量 0 可以赋值给指针，指针也可以和常量 0 进行比较。程序中经常用符号常量 NULL 代替常量 0，这样便于更清晰地说明常量 0 是指针的一个特殊值。符号常量 NULL 定义在标准头文件&lt;stddef.h&gt;中。</li>
+<li>任何指针与 0 进行相等或不等的比较运算都有意义。但是，指向不同数组的元素的指针之间的算术或比较运算没有定义。（这里有一个特例：指针的算术运算中可使用数组最 后一个元素的下一个元素的地址。）</li>
+<li>字符串常量是一个字符数组。</li>
+<li>数组形字符串(例：char a[ ]=”hhhh”) 存放在全局数据区或栈区，可读可写。指针字符串(char  <em>p=”hhh” )存放在常量区，只读不能写。</em></li>
+<li>UNIX 系统中的 C 语言程序有一个公共的约定：以负号开头的参数表示一个可选标志或参数。</li>
+<li>因为[]与操作数的结合优先级比 * 和 ++ 高，* 和 ++ 优先级一样，但从右至左结合；* 是一个前缀运算符，其优先级低于()。</li>
+<li>运算符 . 和 -&gt; 都是从左至右结合的。</li>
+<li>在所有运算符中，下面 4 个运算符的优先级最高：结构运算符 “.” 和 “-&gt;” 、用于函数调用的 “()” 以及用于下标的 “[]” ，因此，它们同操作数之间的结合也最紧密。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Technical</category>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C</tag>
+        <tag>Note</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Clion搭建Gtest单元测试框架</title>
     <url>/2021/05/22/Clion%E6%90%AD%E5%BB%BAGtest%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/</url>
     <content><![CDATA[<h1 id="Clion搭建Gtest单元测试框架"><a href="#Clion搭建Gtest单元测试框架" class="headerlink" title="Clion搭建Gtest单元测试框架"></a>Clion搭建Gtest单元测试框架</h1><h2 id="1-下载GTest源码"><a href="#1-下载GTest源码" class="headerlink" title="1 下载GTest源码"></a>1 下载GTest源码</h2><div class="code-wrapper"><pre><code class="hljs shell">git clone https://github.com/google/googletest.git</code></pre></div>
@@ -82,67 +143,6 @@
       </categories>
       <tags>
         <tag>Note</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C 语言学习笔记</title>
-    <url>/2020/04/04/C%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="C-语言学习笔记"><a href="#C-语言学习笔记" class="headerlink" title="C 语言学习笔记"></a>C 语言学习笔记</h1><ol>
-<li>for 语句比较适合初始化和增加步长都是单条语句并且逻辑相关的情形，因为它将循环控制语句集中放在一起, 且比  while 语句更紧凑。</li>
-<li>EOF（end of file）是文件结束指示符。</li>
-<li>在该程序段中，for 循环语句的循环体是空的，这是因为所有工作都在测试（条件）部分与增加步长部分完成了。</li>
-<li>但 C 语言的语法规则要求 for 循环语句必须有一个循环体，因此用单独的分号代替。单独的分号称为空语句，它正好能满足 for 语句的这一要求。把它单独放在一行是为了更加醒目。</li>
-<li>单引号中的字符表示一个整型值，该值等于此字符在机器字符集中对应的数值，我们称之为字符常量。</li>
-<li>我们通常把函数定义中圆括号内列表中出现的变量称为形式参数，而把函数调用中与形式参数对应的值称为实际参数。</li>
-<li>函数不一定都有返回值。不带表达式的 return 语句将把控制权返回给调用者，但不返回有用的值。这等同于在到达函数的右终结花括号时，函数就“到达了尽头”。主调函数也可以忽 略函数返回的值。    </li>
-<li>对数组而言，const 限定符指定数组所有元素的值都不能被修改。</li>
-<li>C 语言提供了6 个位操作运算符。这些运算符只能作用于整型操作数，即只能作用于带符号或无符号 char、short、int、long 类型。</li>
-<li>栈是一种限定仅在表尾进行插入和删除操作的线性表。</li>
-<li><input disabled type="checkbox"> 的优先级高于按位&amp;，&amp;a[0] 等价于 a+0 (其中a是数组名)指的是a[0]的地址，*&amp;a[0] 等价于 a[0] 等价于 *a。</li>
-<li>int p 是指 p 是指向 int 类型的指针变量。</li>
-<li>数组传递一定是传指针。</li>
-<li>continue 语句只用于循环语句，不用于 switch 语句。</li>
-<li>作为一种良好的程序设计风格，在 switch 语句最后一个分支（即 default 分支）的后 面也加上一个 break 语句。这样做在逻辑上没有必要，但当我们需要向该 switch 语句后添加其它分支时，这种防范措施会降低犯错误的可能性。</li>
-<li>因此，如果两个函数必须共享某些数据，而这两个函数互不调用对方，这种情况下最方便的方式便是把这些共享数据定义为外部变量，而不是作为函数参数传递。</li>
-<li>名字的作用域指的是程序中可以使用该名字的部分。对于在函数开头声明的自动变量来说，其作用域是声明该变量名的函数。不同函数中声明的具有相同名字的各个局部变量之间没有任何关系。</li>
-<li>函数的参数也是这样的，实际上可以将它看作是局部变量。外部变量或函数的作用域从声明它的地方开始，到其所在的（待编译的）文件的末尾结束。</li>
-<li>在一个源程序的所有源文件中，一个外部变量只能在某个文件中定义一次，而其它文件可以通过 extern 声明来访问它（定义外部变量的源文件中也可以包含对该外部变量的extern 声明）。</li>
-<li>外部变量的定义中必须指定数组的长度，但 extern 声明则不一定要指定数组的长度。 外部变量的初始化只能出现在其定义中。</li>
-<li>在不进行显式初始化的情况下，外部变量和静态变量都将被初始化为 0，register 声明只适用于自动变量以及函数的形式参数，而自动变量和寄存器变量的初值则没有定义（即初值为无用的信息）。</li>
-<li>对于外部变量与静态变量来说，初始化表达式必须是常量表达式，且只初始化一次。</li>
-<li>对于自动变量与寄存器变量来说，初始化表达式可以不是常量表达式，表达式中可以包含任意在此表达式之前已经定义的值，包括函数调用。</li>
-<li>int days[ ] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};</li>
-<li>C++中，全局阈只能声明、初始化变量； 不能用于赋值、运算、调用函数等！</li>
-<li>.如果要在外部变量的定义之前使用该变量，或者外部变量的定义与变量的使用不在同一个源文件中，则必须在相应的变量声明中强制性地使用关键字 extern。</li>
-<li>我们可以得出这样一个结论：对于某些中等规模的程序，最好只用一个头文件存放程序中各部分共享的对象。较大的程序需要使用更多的头文件，我们需要精心地组织它们。</li>
-<li>变量的声明（包括初始化）除了可以紧跟在函数开始的花括号之后，还可以紧跟在任何其它标识复合语句开始的左花括号之后。以这 种方式声明的变量可以隐藏程序块外与之同名的变量，它们之间没有任何关系，并在与左花 括号匹配的右花括号出现之前一直存在。</li>
-<li>在不进行显式初始化的情况下，外部变量和静态变量都将被初始化为 0，而自动变量和寄存器变量的初值则没有定义（即初值为无用的信息）。</li>
-<li>如果文件名用引号引起来，则在源文件所在位置查找该文件；如果在该位置没有找到文件，或者如果文件名是用尖括号&lt;&gt;括起来的，则将根据相应的规则查找该文件，这个规则同具体的实现有关。</li>
-<li>宏替换只对记号进行，对括在引号中的字符串不起作用。</li>
-<li>在#if 语句中可以使用表达式defined(名字)，该表达式的值遵循下列规则：当名字已经定义时，其值为 1；否则，其值为 0。</li>
-<li>指向 void 类型的指针可以存放指向任何类型的指针，但它不能间接引用其自身。</li>
-<li>类似于和++这样的一元运算符遵循从右至左的结合顺序。</li>
-<li>gets（）是在stdio.h中是输入函数，使用类型：gets（str）。可以从标准输入类中读取一行字符到指定的字符串中，它在遇到EOF和回车换行键才会接受。但是由于功能强大，gets（）和scanf（）混合使用会导致gets（）无法接受字符串，因为scanf回车结束的时，回车键留在了缓冲区，这时gets就无法区分这个空格是否属于gets的输入。gets会接受到这个信号，无法直接接受后续的字符串。</li>
-<li>解决办法:(1)：先gets后scanf，不让那gets读取回车；(2)：利用getchar判断，获取\n，后执行gets.</li>
-<li>%g用来输出实数，它根据数值的大小，自动选f格式或e格式（选择输出时占宽度较小的一种），且不输出无意义的0。</li>
-<li>C 语言保证，0 永远不是有效的数据地址。</li>
-<li>指针与整数之间不能相互转换，但 0 是惟一的例外：常量 0 可以赋值给指针，指针也可以和常量 0 进行比较。程序中经常用符号常量 NULL 代替常量 0，这样便于更清晰地说明常量 0 是指针的一个特殊值。符号常量 NULL 定义在标准头文件&lt;stddef.h&gt;中。</li>
-<li>任何指针与 0 进行相等或不等的比较运算都有意义。但是，指向不同数组的元素的指针之间的算术或比较运算没有定义。（这里有一个特例：指针的算术运算中可使用数组最 后一个元素的下一个元素的地址。）</li>
-<li>字符串常量是一个字符数组。</li>
-<li>数组形字符串(例：char a[ ]=”hhhh”) 存放在全局数据区或栈区，可读可写。指针字符串(char  <em>p=”hhh” )存放在常量区，只读不能写。</em></li>
-<li>UNIX 系统中的 C 语言程序有一个公共的约定：以负号开头的参数表示一个可选标志或参数。</li>
-<li>因为[]与操作数的结合优先级比 * 和 ++ 高，* 和 ++ 优先级一样，但从右至左结合；* 是一个前缀运算符，其优先级低于()。</li>
-<li>运算符 . 和 -&gt; 都是从左至右结合的。</li>
-<li>在所有运算符中，下面 4 个运算符的优先级最高：结构运算符 “.” 和 “-&gt;” 、用于函数调用的 “()” 以及用于下标的 “[]” ，因此，它们同操作数之间的结合也最紧密。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Technical</category>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>Note</tag>
-        <tag>C</tag>
       </tags>
   </entry>
   <entry>
@@ -755,6 +755,173 @@ HTML文本效果图</code></pre></div><html><head><title>LinkPage</title></head>
       </categories>
   </entry>
   <entry>
+    <title>JavaChainOfResponsibility模式</title>
+    <url>/2020/09/24/JavaChainOfResponsibility%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  推卸责任</p>
+</blockquote>
+<h2 id="1-表示发生的问题的类-它带有问题编号-number"><a href="#1-表示发生的问题的类-它带有问题编号-number" class="headerlink" title="1 - 表示发生的问题的类.它带有问题编号(number)"></a>1 - 表示发生的问题的类.它带有问题编号(number)</h2><div class="code-wrapper"><pre><code>public class Trouble &#123;
+    private int number; // 问题编号
+
+    public Trouble(int number)&#123; // 生成问题
+        this.number = number;
+    &#125;
+
+    public int getNumber()&#123;
+        return number;
+    &#125;
+
+    @Override
+    public String toString()&#123;
+        return &quot;[Trouble &quot; + number + &quot;]&quot;;
+    &#125;
+&#125;</code></pre></div><h2 id="2-用来解决问题的抽象类"><a href="#2-用来解决问题的抽象类" class="headerlink" title="2 - 用来解决问题的抽象类"></a>2 - 用来解决问题的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class Support &#123;
+    private String name;    // 解决问题的实例的名字
+    private Support next;   // 要推卸给的对象
+
+    public Support(String name)&#123;
+        this.name = name;
+    &#125;
+
+    public Support setNext(Support next)&#123;
+        this.next = next;
+        return next;
+    &#125;
+
+    public final void support(Trouble trouble)&#123; // 解决问题的步骤
+        if (resolve(trouble))&#123;
+            done(trouble);
+        &#125;else if(next != null)&#123;
+            next.support(trouble);
+        &#125;else&#123;
+            fail(trouble);
+        &#125;
+    &#125;
+
+    @Override
+    public String toString()&#123;
+        return &quot;[&quot; + name + &quot;]&quot;;
+    &#125;
+
+    protected abstract boolean resolve(Trouble trouble);
+
+    protected  void done(Trouble trouble)&#123;  // 解决
+        System.out.println(trouble + &quot; is resolved by &quot; + this + &quot;.&quot;);
+    &#125;
+
+    protected void fail(Trouble trouble)&#123;   // 未解决
+        System.out.println(trouble + &quot;cannot be resolved.&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="3-用来解决问题的具体类-永远-“-不处理问题-“"><a href="#3-用来解决问题的具体类-永远-“-不处理问题-“" class="headerlink" title="3 - 用来解决问题的具体类(永远 “ 不处理问题 “)"></a>3 - 用来解决问题的具体类(永远 “ 不处理问题 “)</h2><div class="code-wrapper"><pre><code>public class NoSupport extends Support&#123;
+    public NoSupport(String name)&#123;
+        super(name);
+    &#125;
+
+    @Override
+    protected boolean resolve(Trouble trouble) &#123;    // 解决问题的方法
+        return false;                               // 自己什么也不做
+    &#125;
+&#125;</code></pre></div><h2 id="4-用来解决问题的具体类-仅解决编号小于指定编号的问题"><a href="#4-用来解决问题的具体类-仅解决编号小于指定编号的问题" class="headerlink" title="4 - 用来解决问题的具体类(仅解决编号小于指定编号的问题)"></a>4 - 用来解决问题的具体类(仅解决编号小于指定编号的问题)</h2><div class="code-wrapper"><pre><code>public class LimitSupport extends Support&#123;
+    private int limit;
+    public LimitSupport(String name, int limit) &#123;
+        super(name);
+        this.limit = limit;
+    &#125;
+
+    @Override
+    protected boolean resolve(Trouble trouble) &#123;
+        return trouble.getNumber() &lt; limit;
+    &#125;
+&#125;</code></pre></div><h2 id="5-用来解决问题的具体类-仅解决奇数编号的问题"><a href="#5-用来解决问题的具体类-仅解决奇数编号的问题" class="headerlink" title="5 - 用来解决问题的具体类(仅解决奇数编号的问题)"></a>5 - 用来解决问题的具体类(仅解决奇数编号的问题)</h2><div class="code-wrapper"><pre><code>public class OddSupport extends Support&#123;
+    public OddSupport(String name) &#123;
+        super(name);
+    &#125;
+
+    @Override
+    protected boolean resolve(Trouble trouble) &#123;
+        return trouble.getNumber() % 2 == 1;
+    &#125;
+&#125;</code></pre></div><h2 id="6-用来解决问题的具体类-仅解决指定编号的问题"><a href="#6-用来解决问题的具体类-仅解决指定编号的问题" class="headerlink" title="6 - 用来解决问题的具体类(仅解决指定编号的问题)"></a>6 - 用来解决问题的具体类(仅解决指定编号的问题)</h2><div class="code-wrapper"><pre><code>public class SpecialSupport extends Support&#123;
+    private int number;
+    public SpecialSupport(String name, int number) &#123;
+        super(name);
+        this.number = number;
+    &#125;
+
+    @Override
+    protected boolean resolve(Trouble trouble) &#123;
+        return trouble.getNumber() == number;
+    &#125;
+&#125;</code></pre></div><h2 id="7-制作Support的职责链-制造问题并测试程序行为"><a href="#7-制作Support的职责链-制造问题并测试程序行为" class="headerlink" title="7 - 制作Support的职责链, 制造问题并测试程序行为"></a>7 - 制作Support的职责链, 制造问题并测试程序行为</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        Support alice = new NoSupport(&quot;Alice&quot;);
+        Support bob = new LimitSupport(&quot;Bob&quot;, 10);
+        Support charlie = new SpecialSupport(&quot;Charlie&quot;, 29);
+        Support diana = new LimitSupport(&quot;Diana&quot;, 20);
+        Support elmo = new OddSupport(&quot;Elmo&quot;);
+        Support fred = new LimitSupport(&quot;Fred&quot;, 30);
+        // 形成职责链
+        alice.setNext(bob).setNext(charlie).setNext(diana).setNext(elmo).setNext(fred);
+        for (int i = 0; i &lt; 50; i++) &#123;
+            alice.support(new Trouble(i));
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="8-输出示例"><a href="#8-输出示例" class="headerlink" title="8 - 输出示例"></a>8 - 输出示例</h2><div class="code-wrapper"><pre><code>[Trouble 0] is resolved by [Bob].
+[Trouble 1] is resolved by [Bob].
+[Trouble 2] is resolved by [Bob].
+[Trouble 3] is resolved by [Bob].
+[Trouble 4] is resolved by [Bob].
+[Trouble 5] is resolved by [Bob].
+[Trouble 6] is resolved by [Bob].
+[Trouble 7] is resolved by [Bob].
+[Trouble 8] is resolved by [Bob].
+[Trouble 9] is resolved by [Bob].
+[Trouble 10] is resolved by [Diana].
+[Trouble 11] is resolved by [Diana].
+[Trouble 12] is resolved by [Diana].
+[Trouble 13] is resolved by [Diana].
+[Trouble 14] is resolved by [Diana].
+[Trouble 15] is resolved by [Diana].
+[Trouble 16] is resolved by [Diana].
+[Trouble 17] is resolved by [Diana].
+[Trouble 18] is resolved by [Diana].
+[Trouble 19] is resolved by [Diana].
+[Trouble 20] is resolved by [Fred].
+[Trouble 21] is resolved by [Elmo].
+[Trouble 22] is resolved by [Fred].
+[Trouble 23] is resolved by [Elmo].
+[Trouble 24] is resolved by [Fred].
+[Trouble 25] is resolved by [Elmo].
+[Trouble 26] is resolved by [Fred].
+[Trouble 27] is resolved by [Elmo].
+[Trouble 28] is resolved by [Fred].
+[Trouble 29] is resolved by [Charlie].
+[Trouble 30]cannot be resolved.
+[Trouble 31] is resolved by [Elmo].
+[Trouble 32]cannot be resolved.
+[Trouble 33] is resolved by [Elmo].
+[Trouble 34]cannot be resolved.
+[Trouble 35] is resolved by [Elmo].
+[Trouble 36]cannot be resolved.
+[Trouble 37] is resolved by [Elmo].
+[Trouble 38]cannot be resolved.
+[Trouble 39] is resolved by [Elmo].
+[Trouble 40]cannot be resolved.
+[Trouble 41] is resolved by [Elmo].
+[Trouble 42]cannot be resolved.
+[Trouble 43] is resolved by [Elmo].
+[Trouble 44]cannot be resolved.
+[Trouble 45] is resolved by [Elmo].
+[Trouble 46]cannot be resolved.
+[Trouble 47] is resolved by [Elmo].
+[Trouble 48]cannot be resolved.
+[Trouble 49] is resolved by [Elmo].</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
     <title>JavaBridge模式</title>
     <url>/2020/09/18/JavaBridge%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -1039,173 +1206,6 @@ HTML文本效果图</code></pre></div><html><head><title>LinkPage</title></head>
 
 <p>在进行一些复杂实例的组装中我们经常用到如下模式</p>
 ]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>JavaChainOfResponsibility模式</title>
-    <url>/2020/09/24/JavaChainOfResponsibility%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  推卸责任</p>
-</blockquote>
-<h2 id="1-表示发生的问题的类-它带有问题编号-number"><a href="#1-表示发生的问题的类-它带有问题编号-number" class="headerlink" title="1 - 表示发生的问题的类.它带有问题编号(number)"></a>1 - 表示发生的问题的类.它带有问题编号(number)</h2><div class="code-wrapper"><pre><code>public class Trouble &#123;
-    private int number; // 问题编号
-
-    public Trouble(int number)&#123; // 生成问题
-        this.number = number;
-    &#125;
-
-    public int getNumber()&#123;
-        return number;
-    &#125;
-
-    @Override
-    public String toString()&#123;
-        return &quot;[Trouble &quot; + number + &quot;]&quot;;
-    &#125;
-&#125;</code></pre></div><h2 id="2-用来解决问题的抽象类"><a href="#2-用来解决问题的抽象类" class="headerlink" title="2 - 用来解决问题的抽象类"></a>2 - 用来解决问题的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class Support &#123;
-    private String name;    // 解决问题的实例的名字
-    private Support next;   // 要推卸给的对象
-
-    public Support(String name)&#123;
-        this.name = name;
-    &#125;
-
-    public Support setNext(Support next)&#123;
-        this.next = next;
-        return next;
-    &#125;
-
-    public final void support(Trouble trouble)&#123; // 解决问题的步骤
-        if (resolve(trouble))&#123;
-            done(trouble);
-        &#125;else if(next != null)&#123;
-            next.support(trouble);
-        &#125;else&#123;
-            fail(trouble);
-        &#125;
-    &#125;
-
-    @Override
-    public String toString()&#123;
-        return &quot;[&quot; + name + &quot;]&quot;;
-    &#125;
-
-    protected abstract boolean resolve(Trouble trouble);
-
-    protected  void done(Trouble trouble)&#123;  // 解决
-        System.out.println(trouble + &quot; is resolved by &quot; + this + &quot;.&quot;);
-    &#125;
-
-    protected void fail(Trouble trouble)&#123;   // 未解决
-        System.out.println(trouble + &quot;cannot be resolved.&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="3-用来解决问题的具体类-永远-“-不处理问题-“"><a href="#3-用来解决问题的具体类-永远-“-不处理问题-“" class="headerlink" title="3 - 用来解决问题的具体类(永远 “ 不处理问题 “)"></a>3 - 用来解决问题的具体类(永远 “ 不处理问题 “)</h2><div class="code-wrapper"><pre><code>public class NoSupport extends Support&#123;
-    public NoSupport(String name)&#123;
-        super(name);
-    &#125;
-
-    @Override
-    protected boolean resolve(Trouble trouble) &#123;    // 解决问题的方法
-        return false;                               // 自己什么也不做
-    &#125;
-&#125;</code></pre></div><h2 id="4-用来解决问题的具体类-仅解决编号小于指定编号的问题"><a href="#4-用来解决问题的具体类-仅解决编号小于指定编号的问题" class="headerlink" title="4 - 用来解决问题的具体类(仅解决编号小于指定编号的问题)"></a>4 - 用来解决问题的具体类(仅解决编号小于指定编号的问题)</h2><div class="code-wrapper"><pre><code>public class LimitSupport extends Support&#123;
-    private int limit;
-    public LimitSupport(String name, int limit) &#123;
-        super(name);
-        this.limit = limit;
-    &#125;
-
-    @Override
-    protected boolean resolve(Trouble trouble) &#123;
-        return trouble.getNumber() &lt; limit;
-    &#125;
-&#125;</code></pre></div><h2 id="5-用来解决问题的具体类-仅解决奇数编号的问题"><a href="#5-用来解决问题的具体类-仅解决奇数编号的问题" class="headerlink" title="5 - 用来解决问题的具体类(仅解决奇数编号的问题)"></a>5 - 用来解决问题的具体类(仅解决奇数编号的问题)</h2><div class="code-wrapper"><pre><code>public class OddSupport extends Support&#123;
-    public OddSupport(String name) &#123;
-        super(name);
-    &#125;
-
-    @Override
-    protected boolean resolve(Trouble trouble) &#123;
-        return trouble.getNumber() % 2 == 1;
-    &#125;
-&#125;</code></pre></div><h2 id="6-用来解决问题的具体类-仅解决指定编号的问题"><a href="#6-用来解决问题的具体类-仅解决指定编号的问题" class="headerlink" title="6 - 用来解决问题的具体类(仅解决指定编号的问题)"></a>6 - 用来解决问题的具体类(仅解决指定编号的问题)</h2><div class="code-wrapper"><pre><code>public class SpecialSupport extends Support&#123;
-    private int number;
-    public SpecialSupport(String name, int number) &#123;
-        super(name);
-        this.number = number;
-    &#125;
-
-    @Override
-    protected boolean resolve(Trouble trouble) &#123;
-        return trouble.getNumber() == number;
-    &#125;
-&#125;</code></pre></div><h2 id="7-制作Support的职责链-制造问题并测试程序行为"><a href="#7-制作Support的职责链-制造问题并测试程序行为" class="headerlink" title="7 - 制作Support的职责链, 制造问题并测试程序行为"></a>7 - 制作Support的职责链, 制造问题并测试程序行为</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        Support alice = new NoSupport(&quot;Alice&quot;);
-        Support bob = new LimitSupport(&quot;Bob&quot;, 10);
-        Support charlie = new SpecialSupport(&quot;Charlie&quot;, 29);
-        Support diana = new LimitSupport(&quot;Diana&quot;, 20);
-        Support elmo = new OddSupport(&quot;Elmo&quot;);
-        Support fred = new LimitSupport(&quot;Fred&quot;, 30);
-        // 形成职责链
-        alice.setNext(bob).setNext(charlie).setNext(diana).setNext(elmo).setNext(fred);
-        for (int i = 0; i &lt; 50; i++) &#123;
-            alice.support(new Trouble(i));
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="8-输出示例"><a href="#8-输出示例" class="headerlink" title="8 - 输出示例"></a>8 - 输出示例</h2><div class="code-wrapper"><pre><code>[Trouble 0] is resolved by [Bob].
-[Trouble 1] is resolved by [Bob].
-[Trouble 2] is resolved by [Bob].
-[Trouble 3] is resolved by [Bob].
-[Trouble 4] is resolved by [Bob].
-[Trouble 5] is resolved by [Bob].
-[Trouble 6] is resolved by [Bob].
-[Trouble 7] is resolved by [Bob].
-[Trouble 8] is resolved by [Bob].
-[Trouble 9] is resolved by [Bob].
-[Trouble 10] is resolved by [Diana].
-[Trouble 11] is resolved by [Diana].
-[Trouble 12] is resolved by [Diana].
-[Trouble 13] is resolved by [Diana].
-[Trouble 14] is resolved by [Diana].
-[Trouble 15] is resolved by [Diana].
-[Trouble 16] is resolved by [Diana].
-[Trouble 17] is resolved by [Diana].
-[Trouble 18] is resolved by [Diana].
-[Trouble 19] is resolved by [Diana].
-[Trouble 20] is resolved by [Fred].
-[Trouble 21] is resolved by [Elmo].
-[Trouble 22] is resolved by [Fred].
-[Trouble 23] is resolved by [Elmo].
-[Trouble 24] is resolved by [Fred].
-[Trouble 25] is resolved by [Elmo].
-[Trouble 26] is resolved by [Fred].
-[Trouble 27] is resolved by [Elmo].
-[Trouble 28] is resolved by [Fred].
-[Trouble 29] is resolved by [Charlie].
-[Trouble 30]cannot be resolved.
-[Trouble 31] is resolved by [Elmo].
-[Trouble 32]cannot be resolved.
-[Trouble 33] is resolved by [Elmo].
-[Trouble 34]cannot be resolved.
-[Trouble 35] is resolved by [Elmo].
-[Trouble 36]cannot be resolved.
-[Trouble 37] is resolved by [Elmo].
-[Trouble 38]cannot be resolved.
-[Trouble 39] is resolved by [Elmo].
-[Trouble 40]cannot be resolved.
-[Trouble 41] is resolved by [Elmo].
-[Trouble 42]cannot be resolved.
-[Trouble 43] is resolved by [Elmo].
-[Trouble 44]cannot be resolved.
-[Trouble 45] is resolved by [Elmo].
-[Trouble 46]cannot be resolved.
-[Trouble 47] is resolved by [Elmo].
-[Trouble 48]cannot be resolved.
-[Trouble 49] is resolved by [Elmo].</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -2595,103 +2595,6 @@ public class Manager &#123;
       </categories>
   </entry>
   <entry>
-    <title>JavaProxy模式</title>
-    <url>/2020/10/11/JavaProxy%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="1-Printer和PrinterProxy的共同接口"><a href="#1-Printer和PrinterProxy的共同接口" class="headerlink" title="1 - Printer和PrinterProxy的共同接口"></a>1 - Printer和PrinterProxy的共同接口</h2><div class="code-wrapper"><pre><code>public interface Printable &#123;
-    public abstract void setPrinterName(String name);
-    public abstract String getPrinterName();
-    public abstract void print(String string);
-&#125;</code></pre></div><h2 id="2-表示带名字的打印机类-本人"><a href="#2-表示带名字的打印机类-本人" class="headerlink" title="2 - 表示带名字的打印机类(本人)"></a>2 - 表示带名字的打印机类(本人)</h2><div class="code-wrapper"><pre><code>public class Printer implements Printable &#123;
-    private String name;
-    public Printer() &#123;
-        heavyJob(&quot;正在生成Printer的实例&quot;);
-    &#125;
-
-    public Printer(String name) &#123;
-        this.name = name;
-        heavyJob(&quot;正在生成Printer的实例(&quot; + name + &quot;)&quot;);
-    &#125;
-
-    @Override
-    public void setPrinterName(String name) &#123;
-        this.name = name;
-    &#125;
-
-    @Override
-    public String getPrinterName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public void print(String string) &#123;
-        System.out.println(&quot;===&quot; + name + &quot;===&quot;);
-        System.out.println(string);
-    &#125;
-
-    private void heavyJob(String msg) &#123;
-        System.out.print(msg);
-        for (int i = 0; i &lt; 5; i++) &#123;
-            try &#123;
-                Thread.sleep(1000);
-            &#125;catch (InterruptedException ignored) &#123;
-            &#125;
-            System.out.print(&apos;.&apos;);
-        &#125;
-        System.out.println(&quot;结束!&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="3-表示带名字的打印机类-代理人"><a href="#3-表示带名字的打印机类-代理人" class="headerlink" title="3 - 表示带名字的打印机类(代理人)"></a>3 - 表示带名字的打印机类(代理人)</h2><div class="code-wrapper"><pre><code>public class PrinterProxy implements Printable&#123;
-    private String name;
-    private Printer real;
-
-    public PrinterProxy()&#123;&#125;
-
-    public PrinterProxy(String name) &#123;
-        this.name = name;
-    &#125;
-
-    @Override
-    public synchronized void setPrinterName(String name) &#123;
-        if (real != null) &#123;
-            real.setPrinterName(name);
-        &#125;
-        this.name = name;
-    &#125;
-
-    @Override
-    public String getPrinterName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public void print(String string) &#123;
-        realize();
-        real.print(string);
-    &#125;
-
-    private synchronized void realize() &#123;
-        if (real == null) &#123;
-            real = new Printer(name);
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        Printable p = new PrinterProxy(&quot;Alice&quot;);
-        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
-        p.setPrinterName(&quot;Bob&quot;);
-        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
-        p.print(&quot;Hello, world.&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>现在名字是Alice.
-现在名字是Bob.
-正在生成Printer的实例(Bob).....结束!
-===Bob===
-Hello, world.</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
     <title>JavaState模式</title>
     <url>/2020/10/06/JavaState%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -2902,174 +2805,97 @@ java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=使用金库,when=1601985183407,
       </categories>
   </entry>
   <entry>
-    <title>JavaVisitor模式</title>
-    <url>/2020/09/22/JavaVisitor%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  访问数据结构并处理数据</p>
-</blockquote>
-<h2 id="1-表示访问者的抽象类-它访问文件和文件夹"><a href="#1-表示访问者的抽象类-它访问文件和文件夹" class="headerlink" title="1 - 表示访问者的抽象类, 它访问文件和文件夹"></a>1 - 表示访问者的抽象类, 它访问文件和文件夹</h2><div class="code-wrapper"><pre><code>public abstract class Visitor &#123;
-    public abstract void visit(File file);
-    public abstract void visit(Directory directory);
-&#125;</code></pre></div><h2 id="2-表示数据结构的接口-它接受访问者的访问"><a href="#2-表示数据结构的接口-它接受访问者的访问" class="headerlink" title="2 - 表示数据结构的接口, 它接受访问者的访问"></a>2 - 表示数据结构的接口, 它接受访问者的访问</h2><div class="code-wrapper"><pre><code>public interface Element &#123;
-    public abstract void accept(Visitor v);
-&#125;</code></pre></div><h2 id="3-Visitor类的子类-显示文件和文件夹一览"><a href="#3-Visitor类的子类-显示文件和文件夹一览" class="headerlink" title="3 - Visitor类的子类, 显示文件和文件夹一览"></a>3 - Visitor类的子类, 显示文件和文件夹一览</h2><div class="code-wrapper"><pre><code>public class ListVisitor extends Visitor&#123;
-    private String currentDir = &quot;&quot;;
-
-    @Override
-    public void visit(File file) &#123;
-        System.out.println(currentDir + &quot;/&quot; + file);
-    &#125;
-
-    @Override
-    public void visit(Directory directory) &#123;
-        System.out.println(currentDir + &quot;/&quot; + directory);
-        String saveDir = currentDir;
-        currentDir = currentDir + &quot;/&quot; + directory.getName();
-        Iterator it = directory.iterator();
-        while (it.hasNext())&#123;
-            Entry entry = (Entry)it.next();
-            entry.accept(this);
-        &#125;
-        currentDir = saveDir;
-    &#125;
-&#125;</code></pre></div><h2 id="4-抽象类-File类和Directory类的父类-实现了Element接口"><a href="#4-抽象类-File类和Directory类的父类-实现了Element接口" class="headerlink" title="4 - 抽象类, File类和Directory类的父类, 实现了Element接口"></a>4 - 抽象类, File类和Directory类的父类, 实现了Element接口</h2><div class="code-wrapper"><pre><code>public abstract class Entry implements Element&#123;
-    public abstract String getName();   // 获取名字
-    public abstract int getSize();      // 获取大小
-    public Entry add(Entry entry) throws FileTreatMeantException &#123; // 加入条目目录
-        throw new FileTreatMeantException();
-    &#125;
-
-    public Iterator iterator() throws FileTreatMeantException &#123; // 生成Iterator
-        throw new FileTreatMeantException();
-    &#125;
-                                                        // 显示条目一览
-    @Override                                           // 显示代表类的文字
-    public String toString()&#123;
-        return getName() + &quot; (&quot; + getSize() + &quot;)&quot;;
-    &#125;
-&#125;</code></pre></div><h2 id="5-表示文件的类"><a href="#5-表示文件的类" class="headerlink" title="5 - 表示文件的类"></a>5 - 表示文件的类</h2><div class="code-wrapper"><pre><code>public class File extends Entry&#123;
+    <title>JavaProxy模式</title>
+    <url>/2020/10/11/JavaProxy%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="1-Printer和PrinterProxy的共同接口"><a href="#1-Printer和PrinterProxy的共同接口" class="headerlink" title="1 - Printer和PrinterProxy的共同接口"></a>1 - Printer和PrinterProxy的共同接口</h2><div class="code-wrapper"><pre><code>public interface Printable &#123;
+    public abstract void setPrinterName(String name);
+    public abstract String getPrinterName();
+    public abstract void print(String string);
+&#125;</code></pre></div><h2 id="2-表示带名字的打印机类-本人"><a href="#2-表示带名字的打印机类-本人" class="headerlink" title="2 - 表示带名字的打印机类(本人)"></a>2 - 表示带名字的打印机类(本人)</h2><div class="code-wrapper"><pre><code>public class Printer implements Printable &#123;
     private String name;
-    private int size;
+    public Printer() &#123;
+        heavyJob(&quot;正在生成Printer的实例&quot;);
+    &#125;
 
-    public File(String name, int size)&#123;
+    public Printer(String name) &#123;
         this.name = name;
-        this.size = size;
+        heavyJob(&quot;正在生成Printer的实例(&quot; + name + &quot;)&quot;);
     &#125;
 
     @Override
-    public String getName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public int getSize() &#123;
-        return size;
-    &#125;
-
-    @Override
-    public void accept(Visitor v) &#123;
-        v.visit(this);
-    &#125;
-&#125;</code></pre></div><h2 id="6-表示文件夹的类"><a href="#6-表示文件夹的类" class="headerlink" title="6 - 表示文件夹的类"></a>6 - 表示文件夹的类</h2><div class="code-wrapper"><pre><code>public class Directory extends Entry&#123;
-    private String name;
-    private ArrayList directory = new ArrayList();
-    public Directory(String name)&#123;
+    public void setPrinterName(String name) &#123;
         this.name = name;
     &#125;
 
     @Override
-    public String getName() &#123;
+    public String getPrinterName() &#123;
         return name;
     &#125;
 
     @Override
-    public int getSize() &#123;
-        int size = 0;
-        for (Object o : directory) &#123;
-            Entry entry = (Entry) o;
-            size += entry.getSize();
+    public void print(String string) &#123;
+        System.out.println(&quot;===&quot; + name + &quot;===&quot;);
+        System.out.println(string);
+    &#125;
+
+    private void heavyJob(String msg) &#123;
+        System.out.print(msg);
+        for (int i = 0; i &lt; 5; i++) &#123;
+            try &#123;
+                Thread.sleep(1000);
+            &#125;catch (InterruptedException ignored) &#123;
+            &#125;
+            System.out.print(&apos;.&apos;);
         &#125;
-        return size;
+        System.out.println(&quot;结束!&quot;);
     &#125;
+&#125;</code></pre></div><h2 id="3-表示带名字的打印机类-代理人"><a href="#3-表示带名字的打印机类-代理人" class="headerlink" title="3 - 表示带名字的打印机类(代理人)"></a>3 - 表示带名字的打印机类(代理人)</h2><div class="code-wrapper"><pre><code>public class PrinterProxy implements Printable&#123;
+    private String name;
+    private Printer real;
 
-    public Entry add(Entry entry)&#123;
-        directory.add(entry);
-        return this;
-    &#125;
+    public PrinterProxy()&#123;&#125;
 
-    public Iterator iterator()&#123;
-        return directory.iterator();
+    public PrinterProxy(String name) &#123;
+        this.name = name;
     &#125;
 
     @Override
-    public void accept(Visitor v) &#123;
-        v.visit(this);
+    public synchronized void setPrinterName(String name) &#123;
+        if (real != null) &#123;
+            real.setPrinterName(name);
+        &#125;
+        this.name = name;
     &#125;
-&#125;</code></pre></div><h2 id="7-表示向文件中增加Entry时发生的异常的类"><a href="#7-表示向文件中增加Entry时发生的异常的类" class="headerlink" title="7 - 表示向文件中增加Entry时发生的异常的类"></a>7 - 表示向文件中增加Entry时发生的异常的类</h2><div class="code-wrapper"><pre><code>public class FileTreatMeantException extends RuntimeException&#123;
 
-    public FileTreatMeantException()&#123;
+    @Override
+    public String getPrinterName() &#123;
+        return name;
     &#125;
 
-    public FileTreatMeantException(String msg)&#123;
-        super(msg);
+    @Override
+    public void print(String string) &#123;
+        realize();
+        real.print(string);
     &#125;
-&#125;</code></pre></div><h2 id="8-测试程序行为的类"><a href="#8-测试程序行为的类" class="headerlink" title="8 - 测试程序行为的类"></a>8 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+
+    private synchronized void realize() &#123;
+        if (real == null) &#123;
+            real = new Printer(name);
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
     public static void main(String[] args) &#123;
-        try &#123;
-            System.out.println(&quot;Making root entries...&quot;);
-            Directory rootDir = new Directory(&quot;root&quot;);
-            Directory binDir = new Directory(&quot;bin&quot;);
-            Directory tmpDir = new Directory(&quot;tmp&quot;);
-            Directory usrDir = new Directory(&quot;usr&quot;);
-            rootDir.add(binDir);
-            rootDir.add(tmpDir);
-            rootDir.add(usrDir);
-            binDir.add(new File(&quot;vi&quot;, 10000));
-            binDir.add(new File(&quot;latex&quot;, 20000));
-            rootDir.accept(new ListVisitor());
-
-            System.out.println(&quot;&quot;);
-            System.out.println(&quot;Making user entries...&quot;);
-            Directory yuki = new Directory(&quot;yuki&quot;);
-            Directory hanako = new Directory(&quot;hanako&quot;);
-            Directory tomura = new Directory(&quot;tomura&quot;);
-            usrDir.add(yuki);
-            usrDir.add(hanako);
-            usrDir.add(tomura);
-            yuki.add(new File(&quot;diary.html&quot;, 100));
-            yuki.add(new File(&quot;Composite.java&quot;, 200));
-            hanako.add(new File(&quot;memo.tex&quot;, 300));
-            tomura.add(new File(&quot;game.doc&quot;, 400));
-            tomura.add(new File(&quot;junk.mail&quot;, 500));
-            rootDir.accept(new ListVisitor());
-
-        &#125;catch (FileTreatMeantException e)&#123;
-            e.printStackTrace();
-        &#125;
+        Printable p = new PrinterProxy(&quot;Alice&quot;);
+        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
+        p.setPrinterName(&quot;Bob&quot;);
+        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
+        p.print(&quot;Hello, world.&quot;);
     &#125;
-&#125;</code></pre></div><h2 id="9-输出样例"><a href="#9-输出样例" class="headerlink" title="9 - 输出样例"></a>9 - 输出样例</h2><div class="code-wrapper"><pre><code>Making root entries...
-/root (30000)
-/root/bin (30000)
-/root/bin/vi (10000)
-/root/bin/latex (20000)
-/root/tmp (0)
-/root/usr (0)
-
-Making user entries...
-/root (31500)
-/root/bin (30000)
-/root/bin/vi (10000)
-/root/bin/latex (20000)
-/root/tmp (0)
-/root/usr (1500)
-/root/usr/yuki (300)
-/root/usr/yuki/diary.html (100)
-/root/usr/yuki/Composite.java (200)
-/root/usr/hanako (300)
-/root/usr/hanako/memo.tex (300)
-/root/usr/tomura (900)
-/root/usr/tomura/game.doc (400)
-/root/usr/tomura/junk.mail (500)</code></pre></div>]]></content>
+&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>现在名字是Alice.
+现在名字是Bob.
+正在生成Printer的实例(Bob).....结束!
+===Bob===
+Hello, world.</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -3290,6 +3116,180 @@ Winner: [Taro:14 games, 5 win, 7 lose ]
 Total result: 
 [Taro:15 games, 6 win, 7 lose ]
 [Hana:15 games, 7 win, 6 lose ]</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JavaVisitor模式</title>
+    <url>/2020/09/22/JavaVisitor%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  访问数据结构并处理数据</p>
+</blockquote>
+<h2 id="1-表示访问者的抽象类-它访问文件和文件夹"><a href="#1-表示访问者的抽象类-它访问文件和文件夹" class="headerlink" title="1 - 表示访问者的抽象类, 它访问文件和文件夹"></a>1 - 表示访问者的抽象类, 它访问文件和文件夹</h2><div class="code-wrapper"><pre><code>public abstract class Visitor &#123;
+    public abstract void visit(File file);
+    public abstract void visit(Directory directory);
+&#125;</code></pre></div><h2 id="2-表示数据结构的接口-它接受访问者的访问"><a href="#2-表示数据结构的接口-它接受访问者的访问" class="headerlink" title="2 - 表示数据结构的接口, 它接受访问者的访问"></a>2 - 表示数据结构的接口, 它接受访问者的访问</h2><div class="code-wrapper"><pre><code>public interface Element &#123;
+    public abstract void accept(Visitor v);
+&#125;</code></pre></div><h2 id="3-Visitor类的子类-显示文件和文件夹一览"><a href="#3-Visitor类的子类-显示文件和文件夹一览" class="headerlink" title="3 - Visitor类的子类, 显示文件和文件夹一览"></a>3 - Visitor类的子类, 显示文件和文件夹一览</h2><div class="code-wrapper"><pre><code>public class ListVisitor extends Visitor&#123;
+    private String currentDir = &quot;&quot;;
+
+    @Override
+    public void visit(File file) &#123;
+        System.out.println(currentDir + &quot;/&quot; + file);
+    &#125;
+
+    @Override
+    public void visit(Directory directory) &#123;
+        System.out.println(currentDir + &quot;/&quot; + directory);
+        String saveDir = currentDir;
+        currentDir = currentDir + &quot;/&quot; + directory.getName();
+        Iterator it = directory.iterator();
+        while (it.hasNext())&#123;
+            Entry entry = (Entry)it.next();
+            entry.accept(this);
+        &#125;
+        currentDir = saveDir;
+    &#125;
+&#125;</code></pre></div><h2 id="4-抽象类-File类和Directory类的父类-实现了Element接口"><a href="#4-抽象类-File类和Directory类的父类-实现了Element接口" class="headerlink" title="4 - 抽象类, File类和Directory类的父类, 实现了Element接口"></a>4 - 抽象类, File类和Directory类的父类, 实现了Element接口</h2><div class="code-wrapper"><pre><code>public abstract class Entry implements Element&#123;
+    public abstract String getName();   // 获取名字
+    public abstract int getSize();      // 获取大小
+    public Entry add(Entry entry) throws FileTreatMeantException &#123; // 加入条目目录
+        throw new FileTreatMeantException();
+    &#125;
+
+    public Iterator iterator() throws FileTreatMeantException &#123; // 生成Iterator
+        throw new FileTreatMeantException();
+    &#125;
+                                                        // 显示条目一览
+    @Override                                           // 显示代表类的文字
+    public String toString()&#123;
+        return getName() + &quot; (&quot; + getSize() + &quot;)&quot;;
+    &#125;
+&#125;</code></pre></div><h2 id="5-表示文件的类"><a href="#5-表示文件的类" class="headerlink" title="5 - 表示文件的类"></a>5 - 表示文件的类</h2><div class="code-wrapper"><pre><code>public class File extends Entry&#123;
+    private String name;
+    private int size;
+
+    public File(String name, int size)&#123;
+        this.name = name;
+        this.size = size;
+    &#125;
+
+    @Override
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    @Override
+    public int getSize() &#123;
+        return size;
+    &#125;
+
+    @Override
+    public void accept(Visitor v) &#123;
+        v.visit(this);
+    &#125;
+&#125;</code></pre></div><h2 id="6-表示文件夹的类"><a href="#6-表示文件夹的类" class="headerlink" title="6 - 表示文件夹的类"></a>6 - 表示文件夹的类</h2><div class="code-wrapper"><pre><code>public class Directory extends Entry&#123;
+    private String name;
+    private ArrayList directory = new ArrayList();
+    public Directory(String name)&#123;
+        this.name = name;
+    &#125;
+
+    @Override
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    @Override
+    public int getSize() &#123;
+        int size = 0;
+        for (Object o : directory) &#123;
+            Entry entry = (Entry) o;
+            size += entry.getSize();
+        &#125;
+        return size;
+    &#125;
+
+    public Entry add(Entry entry)&#123;
+        directory.add(entry);
+        return this;
+    &#125;
+
+    public Iterator iterator()&#123;
+        return directory.iterator();
+    &#125;
+
+    @Override
+    public void accept(Visitor v) &#123;
+        v.visit(this);
+    &#125;
+&#125;</code></pre></div><h2 id="7-表示向文件中增加Entry时发生的异常的类"><a href="#7-表示向文件中增加Entry时发生的异常的类" class="headerlink" title="7 - 表示向文件中增加Entry时发生的异常的类"></a>7 - 表示向文件中增加Entry时发生的异常的类</h2><div class="code-wrapper"><pre><code>public class FileTreatMeantException extends RuntimeException&#123;
+
+    public FileTreatMeantException()&#123;
+    &#125;
+
+    public FileTreatMeantException(String msg)&#123;
+        super(msg);
+    &#125;
+&#125;</code></pre></div><h2 id="8-测试程序行为的类"><a href="#8-测试程序行为的类" class="headerlink" title="8 - 测试程序行为的类"></a>8 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        try &#123;
+            System.out.println(&quot;Making root entries...&quot;);
+            Directory rootDir = new Directory(&quot;root&quot;);
+            Directory binDir = new Directory(&quot;bin&quot;);
+            Directory tmpDir = new Directory(&quot;tmp&quot;);
+            Directory usrDir = new Directory(&quot;usr&quot;);
+            rootDir.add(binDir);
+            rootDir.add(tmpDir);
+            rootDir.add(usrDir);
+            binDir.add(new File(&quot;vi&quot;, 10000));
+            binDir.add(new File(&quot;latex&quot;, 20000));
+            rootDir.accept(new ListVisitor());
+
+            System.out.println(&quot;&quot;);
+            System.out.println(&quot;Making user entries...&quot;);
+            Directory yuki = new Directory(&quot;yuki&quot;);
+            Directory hanako = new Directory(&quot;hanako&quot;);
+            Directory tomura = new Directory(&quot;tomura&quot;);
+            usrDir.add(yuki);
+            usrDir.add(hanako);
+            usrDir.add(tomura);
+            yuki.add(new File(&quot;diary.html&quot;, 100));
+            yuki.add(new File(&quot;Composite.java&quot;, 200));
+            hanako.add(new File(&quot;memo.tex&quot;, 300));
+            tomura.add(new File(&quot;game.doc&quot;, 400));
+            tomura.add(new File(&quot;junk.mail&quot;, 500));
+            rootDir.accept(new ListVisitor());
+
+        &#125;catch (FileTreatMeantException e)&#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="9-输出样例"><a href="#9-输出样例" class="headerlink" title="9 - 输出样例"></a>9 - 输出样例</h2><div class="code-wrapper"><pre><code>Making root entries...
+/root (30000)
+/root/bin (30000)
+/root/bin/vi (10000)
+/root/bin/latex (20000)
+/root/tmp (0)
+/root/usr (0)
+
+Making user entries...
+/root (31500)
+/root/bin (30000)
+/root/bin/vi (10000)
+/root/bin/latex (20000)
+/root/tmp (0)
+/root/usr (1500)
+/root/usr/yuki (300)
+/root/usr/yuki/diary.html (100)
+/root/usr/yuki/Composite.java (200)
+/root/usr/hanako (300)
+/root/usr/hanako/memo.tex (300)
+/root/usr/tomura (900)
+/root/usr/tomura/game.doc (400)
+/root/usr/tomura/junk.mail (500)</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -3545,6 +3545,55 @@ class Person implements Serializable&#123;
       </tags>
   </entry>
   <entry>
+    <title>Java的注释接口</title>
+    <url>/2020/08/07/Java%E7%9A%84%E6%B3%A8%E9%87%8A%E6%8E%A5%E5%8F%A3/</url>
+    <content><![CDATA[<blockquote>
+</blockquote>
+<blockquote>
+<p>  注解 - 给编译器看的注释</p>
+</blockquote>
+<h2 id="1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的"><a href="#1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的" class="headerlink" title="1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的"></a>1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的</h2><div class="code-wrapper"><pre><code>class Message&#123;
+    @Override
+    public String toString()&#123;
+        return &quot;Hello world!&quot;;
+    &#125;
+&#125;</code></pre></div><p>如果改写的方法名，参数，类型有错误编译器会报错，可以给程序员提示。</p>
+<h2 id="2-Deprecated注释表示这个方法已经过时，不建议使用"><a href="#2-Deprecated注释表示这个方法已经过时，不建议使用" class="headerlink" title="2. @Deprecated注释表示这个方法已经过时，不建议使用"></a>2. @Deprecated注释表示这个方法已经过时，不建议使用</h2><div class="code-wrapper"><pre><code>class Info&#123;
+    @Deprecated
+    public String getInfo()&#123;
+        return &quot;Hello world.&quot;;
+    &#125;
+&#125;</code></pre></div><p>被注释的方法仍然可以使用，只是编译器不推荐而已</p>
+<h2 id="3-SuppressWarnings注释用来压制”某些”的警告信息"><a href="#3-SuppressWarnings注释用来压制”某些”的警告信息" class="headerlink" title="3. @SuppressWarnings注释用来压制”某些”的警告信息"></a>3. @SuppressWarnings注释用来压制”某些”的警告信息</h2><div class="code-wrapper"><pre><code>public class SuppressWarningsAnnotation &#123;
+    public static void main(String[] args) &#123;
+        // 用来压制&quot;未使用&quot;的警告信息
+        @SuppressWarnings(&quot;unused&quot;)
+        int i;
+        System.out.println(&quot;Hello world.&quot;);
+    &#125;
+&#125;</code></pre></div><p>在这个例子中我们通过往注释中添加“unused”参数，来压制变量未使用这一警告信息</p>
+<h2 id="4-实现我们自己自定义的注释，必须使用-interface接口来修饰"><a href="#4-实现我们自己自定义的注释，必须使用-interface接口来修饰" class="headerlink" title="4. 实现我们自己自定义的注释，必须使用@interface接口来修饰"></a>4. 实现我们自己自定义的注释，必须使用@interface接口来修饰</h2><div class="code-wrapper"><pre><code>@interface Anno&#123;
+    public String key();
+    public String value();
+&#125;
+
+public class TestAnno &#123;
+    @Anno(key = &quot;var1&quot;, value = &quot;test&quot;)
+    public static void main(String[] args) &#123;
+        System.out.println(&quot;Hello world!&quot;);
+    &#125;
+&#125;</code></pre></div><p>我们可以在自己实现的注释里添加属性或方法</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Tool</category>
+      </categories>
+      <tags>
+        <tag>注解</tag>
+        <tag>给编译器看的注释</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java操作MySQL数据库</title>
     <url>/2020/08/22/Java%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
     <content><![CDATA[<h2 id="1-首先-Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8-0-16-jar-并导入此包"><a href="#1-首先-Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8-0-16-jar-并导入此包" class="headerlink" title="1 - 首先, Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8.0.16.jar, 并导入此包"></a>1 - 首先, Java要连接MySQL数据库需要安装驱动包<a href="https://static.runoob.com/download/mysql-connector-java-8.0.16.jar">mysql-connector-java-8.0.16.jar</a>, 并导入此包</h2><h2 id="2-准备相应的数据"><a href="#2-准备相应的数据" class="headerlink" title="2 - 准备相应的数据"></a>2 - 准备相应的数据</h2><div class="code-wrapper"><pre><code>static final String USER = &quot;用户名&quot;;
@@ -3636,55 +3685,6 @@ public static void main(String[] args) &#123;
       <tags>
         <tag>Database</tag>
         <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java的注释接口</title>
-    <url>/2020/08/07/Java%E7%9A%84%E6%B3%A8%E9%87%8A%E6%8E%A5%E5%8F%A3/</url>
-    <content><![CDATA[<blockquote>
-</blockquote>
-<blockquote>
-<p>  注解 - 给编译器看的注释</p>
-</blockquote>
-<h2 id="1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的"><a href="#1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的" class="headerlink" title="1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的"></a>1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的</h2><div class="code-wrapper"><pre><code>class Message&#123;
-    @Override
-    public String toString()&#123;
-        return &quot;Hello world!&quot;;
-    &#125;
-&#125;</code></pre></div><p>如果改写的方法名，参数，类型有错误编译器会报错，可以给程序员提示。</p>
-<h2 id="2-Deprecated注释表示这个方法已经过时，不建议使用"><a href="#2-Deprecated注释表示这个方法已经过时，不建议使用" class="headerlink" title="2. @Deprecated注释表示这个方法已经过时，不建议使用"></a>2. @Deprecated注释表示这个方法已经过时，不建议使用</h2><div class="code-wrapper"><pre><code>class Info&#123;
-    @Deprecated
-    public String getInfo()&#123;
-        return &quot;Hello world.&quot;;
-    &#125;
-&#125;</code></pre></div><p>被注释的方法仍然可以使用，只是编译器不推荐而已</p>
-<h2 id="3-SuppressWarnings注释用来压制”某些”的警告信息"><a href="#3-SuppressWarnings注释用来压制”某些”的警告信息" class="headerlink" title="3. @SuppressWarnings注释用来压制”某些”的警告信息"></a>3. @SuppressWarnings注释用来压制”某些”的警告信息</h2><div class="code-wrapper"><pre><code>public class SuppressWarningsAnnotation &#123;
-    public static void main(String[] args) &#123;
-        // 用来压制&quot;未使用&quot;的警告信息
-        @SuppressWarnings(&quot;unused&quot;)
-        int i;
-        System.out.println(&quot;Hello world.&quot;);
-    &#125;
-&#125;</code></pre></div><p>在这个例子中我们通过往注释中添加“unused”参数，来压制变量未使用这一警告信息</p>
-<h2 id="4-实现我们自己自定义的注释，必须使用-interface接口来修饰"><a href="#4-实现我们自己自定义的注释，必须使用-interface接口来修饰" class="headerlink" title="4. 实现我们自己自定义的注释，必须使用@interface接口来修饰"></a>4. 实现我们自己自定义的注释，必须使用@interface接口来修饰</h2><div class="code-wrapper"><pre><code>@interface Anno&#123;
-    public String key();
-    public String value();
-&#125;
-
-public class TestAnno &#123;
-    @Anno(key = &quot;var1&quot;, value = &quot;test&quot;)
-    public static void main(String[] args) &#123;
-        System.out.println(&quot;Hello world!&quot;);
-    &#125;
-&#125;</code></pre></div><p>我们可以在自己实现的注释里添加属性或方法</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>注解</tag>
-        <tag>给编译器看的注释</tag>
       </tags>
   </entry>
   <entry>
@@ -4318,69 +4318,6 @@ def run(self, end_time):
       </tags>
   </entry>
   <entry>
-    <title>Python使用覆盖型描述符</title>
-    <url>/2020/09/10/Python%E4%BD%BF%E7%94%A8%E8%A6%86%E7%9B%96%E5%9E%8B%E6%8F%8F%E8%BF%B0%E7%AC%A6/</url>
-    <content><![CDATA[<h2 id="1-导入模块"><a href="#1-导入模块" class="headerlink" title="1- 导入模块"></a>1- 导入模块</h2><div class="code-wrapper"><pre><code>import abc</code></pre></div><h2 id="2-主要的几个基础类"><a href="#2-主要的几个基础类" class="headerlink" title="2 - 主要的几个基础类"></a>2 - 主要的几个基础类</h2><div class="code-wrapper"><pre><code>class AutoStorage:
-    __counter = 0
-    def __init__(self, ):
-        cls = self.__class__
-        prefix = cls.__name__
-        index = cls.__counter
-        self.storage_name = &apos;_&#123;&#125;#&#123;&#125;&apos;.format(prefix, index)
-        cls.__counter += 1
-
-    def __get__(self, instance, owner):
-        if instance is None:
-            return self
-        else:
-            return getattr(instance, self.storage_name)
-
-    def __set__(self, instance, value):
-        if value &gt; 0:
-            setattr(instance, self.storage_name, value)
-        else:
-            raise ValueError(&apos;value must be &gt; 0&apos;)
-
-
-class Validated(abc.ABC, AutoStorage):
-    def __set__(self, instance, value):
-        value = self.validate(instance, value)
-        super().__set__(instance, value)
-    @abc.abstractmethod
-    def validate(self, instance, value):
-        &quot;&quot;&quot;return validated value or raise ValueError&quot;&quot;&quot;
-
-class Quantity(Validated):
-    &quot;&quot;&quot;a number greater than zero&quot;&quot;&quot;
-    def validate(self, instance, value):
-        if value &lt;= 0:
-            raise ValueError(&apos;value must be &gt; 0&apos;)
-        return value
-
-class NonBlank(Validated):
-&quot;&quot;&quot;a string with at least one non-space character&quot;&quot;&quot;
-def validate(self, instance, value):
-    value = value.strip()
-    if len(value) == 0:
-        raise ValueError(&apos;value cannot be empty or blank&apos;)
-    return value</code></pre></div><p>AutoStorage自动管理储存属性的描述符类。Validated扩展AutoStorage类的抽象子类，覆盖<strong>set</strong>方法，调用必须由子类实现的validate方法。</p>
-<h2 id="3-主要实现的类"><a href="#3-主要实现的类" class="headerlink" title="3 - 主要实现的类"></a>3 - 主要实现的类</h2><div class="code-wrapper"><pre><code>class LineItem:
-    description = NonBlank()
-    weight = Quantity()
-    price = Quantity()
-
-    def __init__(self, description, weight, price):
-        self.description = description
-        self.weight = weight
-        self.price = price
-
-    def subtotal(self):
-        return self.weight * self.price</code></pre></div>]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Python关于迭代器和生成器</title>
     <url>/2020/08/24/Python%E5%85%B3%E4%BA%8E%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/</url>
     <content><![CDATA[<h2 id="1-使用迭代器实现Sentence类"><a href="#1-使用迭代器实现Sentence类" class="headerlink" title="1 - 使用迭代器实现Sentence类"></a>1 - 使用迭代器实现Sentence类</h2><h3 id="1-1-具体的实现代码"><a href="#1-1-具体的实现代码" class="headerlink" title="1.1 具体的实现代码"></a>1.1 具体的实现代码</h3><div class="code-wrapper"><pre><code>import re
@@ -4466,6 +4403,69 @@ class Sentence:
         <tag>迭代器</tag>
         <tag>生成器</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Python使用覆盖型描述符</title>
+    <url>/2020/09/10/Python%E4%BD%BF%E7%94%A8%E8%A6%86%E7%9B%96%E5%9E%8B%E6%8F%8F%E8%BF%B0%E7%AC%A6/</url>
+    <content><![CDATA[<h2 id="1-导入模块"><a href="#1-导入模块" class="headerlink" title="1- 导入模块"></a>1- 导入模块</h2><div class="code-wrapper"><pre><code>import abc</code></pre></div><h2 id="2-主要的几个基础类"><a href="#2-主要的几个基础类" class="headerlink" title="2 - 主要的几个基础类"></a>2 - 主要的几个基础类</h2><div class="code-wrapper"><pre><code>class AutoStorage:
+    __counter = 0
+    def __init__(self, ):
+        cls = self.__class__
+        prefix = cls.__name__
+        index = cls.__counter
+        self.storage_name = &apos;_&#123;&#125;#&#123;&#125;&apos;.format(prefix, index)
+        cls.__counter += 1
+
+    def __get__(self, instance, owner):
+        if instance is None:
+            return self
+        else:
+            return getattr(instance, self.storage_name)
+
+    def __set__(self, instance, value):
+        if value &gt; 0:
+            setattr(instance, self.storage_name, value)
+        else:
+            raise ValueError(&apos;value must be &gt; 0&apos;)
+
+
+class Validated(abc.ABC, AutoStorage):
+    def __set__(self, instance, value):
+        value = self.validate(instance, value)
+        super().__set__(instance, value)
+    @abc.abstractmethod
+    def validate(self, instance, value):
+        &quot;&quot;&quot;return validated value or raise ValueError&quot;&quot;&quot;
+
+class Quantity(Validated):
+    &quot;&quot;&quot;a number greater than zero&quot;&quot;&quot;
+    def validate(self, instance, value):
+        if value &lt;= 0:
+            raise ValueError(&apos;value must be &gt; 0&apos;)
+        return value
+
+class NonBlank(Validated):
+&quot;&quot;&quot;a string with at least one non-space character&quot;&quot;&quot;
+def validate(self, instance, value):
+    value = value.strip()
+    if len(value) == 0:
+        raise ValueError(&apos;value cannot be empty or blank&apos;)
+    return value</code></pre></div><p>AutoStorage自动管理储存属性的描述符类。Validated扩展AutoStorage类的抽象子类，覆盖<strong>set</strong>方法，调用必须由子类实现的validate方法。</p>
+<h2 id="3-主要实现的类"><a href="#3-主要实现的类" class="headerlink" title="3 - 主要实现的类"></a>3 - 主要实现的类</h2><div class="code-wrapper"><pre><code>class LineItem:
+    description = NonBlank()
+    weight = Quantity()
+    price = Quantity()
+
+    def __init__(self, description, weight, price):
+        self.description = description
+        self.weight = weight
+        self.price = price
+
+    def subtotal(self):
+        return self.weight * self.price</code></pre></div>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
   </entry>
   <entry>
     <title>函数参数的使用</title>
@@ -4904,6 +4904,36 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       </tags>
   </entry>
   <entry>
+    <title>WSL和VM不兼容</title>
+    <url>/2021/05/01/WSL%E5%92%8CVM/</url>
+    <content><![CDATA[<h3 id="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"><a href="#WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭" class="headerlink" title="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"></a>WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭</h3><ul>
+<li>CMD管理员模式启动，输入</li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs arduino">bcdedit /set hypervisorlaunchtype <span class="hljs-keyword">auto</span></code></pre></div>
+
+<ul>
+<li>开启，则可以使用WSL</li>
+</ul>
+<ul>
+<li>CMD管理员模式启动，输入</li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs cmake">bcdedit /<span class="hljs-keyword">set</span> hypervisorlaunchtype <span class="hljs-keyword">off</span></code></pre></div>
+
+<ul>
+<li>关闭，则可以使用VMware</li>
+</ul>
+<p>注意：不管是开还是关都需要重启电脑</p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>WSL</tag>
+        <tag>VM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Typora快捷键</title>
     <url>/2021/04/09/Typora%E5%BF%AB%E6%8D%B7%E9%94%AE/</url>
     <content><![CDATA[<h1 id="Typora快捷键"><a href="#Typora快捷键" class="headerlink" title="Typora快捷键"></a>Typora快捷键</h1><h2 id="windows快捷键："><a href="#windows快捷键：" class="headerlink" title="windows快捷键："></a>windows快捷键：</h2><ul>
@@ -4956,36 +4986,6 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       <tags>
         <tag>Typora</tag>
         <tag>快捷键</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>WSL和VM不兼容</title>
-    <url>/2021/05/01/WSL%E5%92%8CVM/</url>
-    <content><![CDATA[<h3 id="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"><a href="#WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭" class="headerlink" title="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"></a>WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭</h3><ul>
-<li>CMD管理员模式启动，输入</li>
-</ul>
-<div class="code-wrapper"><pre><code class="hljs arduino">bcdedit /set hypervisorlaunchtype <span class="hljs-keyword">auto</span></code></pre></div>
-
-<ul>
-<li>开启，则可以使用WSL</li>
-</ul>
-<ul>
-<li>CMD管理员模式启动，输入</li>
-</ul>
-<div class="code-wrapper"><pre><code class="hljs cmake">bcdedit /<span class="hljs-keyword">set</span> hypervisorlaunchtype <span class="hljs-keyword">off</span></code></pre></div>
-
-<ul>
-<li>关闭，则可以使用VMware</li>
-</ul>
-<p>注意：不管是开还是关都需要重启电脑</p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>WSL</tag>
-        <tag>VM</tag>
       </tags>
   </entry>
   <entry>
