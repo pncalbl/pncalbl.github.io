@@ -146,6 +146,46 @@
       </tags>
   </entry>
   <entry>
+    <title>Effective Debugging Note</title>
+    <url>/2021/09/02/Effective%20Debugging%20Note/</url>
+    <content><![CDATA[<h1 id="第1章-宏观策略"><a href="#第1章-宏观策略" class="headerlink" title="第1章 宏观策略"></a>第1章 宏观策略</h1><h2 id="第1条：通过事务追踪系统处理所有的问题"><a href="#第1条：通过事务追踪系统处理所有的问题" class="headerlink" title="第1条：通过事务追踪系统处理所有的问题"></a>第1条：通过事务追踪系统处理所有的问题</h2><ul>
+<li><p>通过事务追踪系统来处理所有的问题。</p>
+</li>
+<li><p>确保每项事务都能够以短小、自足而又正确的范例（SSCCE），精确地描述出该问题的重现方式。</p>
+</li>
+<li><p>对事务进行分类，并根据每项事务的优先级与严重程度来安排工作。</p>
+</li>
+<li><p>通过事务追踪系统来记录进度。</p>
+</li>
+</ul>
+<h2 id="第2条：在网上确切地查询你所遇到的问题，以寻求解决问题的灵感"><a href="#第2条：在网上确切地查询你所遇到的问题，以寻求解决问题的灵感" class="headerlink" title="第2条：在网上确切地查询你所遇到的问题，以寻求解决问题的灵感"></a>第2条：在网上确切地查询你所遇到的问题，以寻求解决问题的灵感</h2><ul>
+<li>把错误消息打上双引号，以便在网上准确地进行搜索。可以在<a href="https://searchcode.com/">源代码搜索引擎 </a>准确搜索有关具体代码的解决方案。</li>
+<li>认真查看StackExchange系列网站上面的回答。</li>
+<li>如果上述两种办法都不见效，那你可以自己提问或提交事务。自己提问注意：凡是在论坛发问，都应该遵循该SSCCE原则。</li>
+</ul>
+<h2 id="第3条：确保前置条件与后置条件都能够得到满足"><a href="#第3条：确保前置条件与后置条件都能够得到满足" class="headerlink" title="第3条：确保前置条件与后置条件都能够得到满足"></a>第3条：确保前置条件与后置条件都能够得到满足</h2><ul>
+<li>仔细检查例程的前置条件与后置条件。</li>
+<li>例如：数学函数的参数是否在其定义域之内，数据库建表是否成功，可以手动验证。</li>
+</ul>
+<h2 id="第4条：从具体问题入手向上追查bug，或从高层程序入手向下追查bug"><a href="#第4条：从具体问题入手向上追查bug，或从高层程序入手向下追查bug" class="headerlink" title="第4条：从具体问题入手向上追查bug，或从高层程序入手向下追查bug"></a>第4条：从具体问题入手向上追查bug，或从高层程序入手向下追查bug</h2><ul>
+<li>如果能够明确指出故障的原因，那么应该从下往上查找错误，例如，在程序崩溃、程序冻结以及程序发出错误消息等情况下，就应该如此。</li>
+<li>如果故障的原因很难锁定，那么应该从上往下查找错误，例如，在遇到性能问题、安全问题以及可靠性问题的时候，就应该如此。</li>
+</ul>
+<h2 id="第5条：在能够正常运作的系统与发生故障的系统之间寻找差别"><a href="#第5条：在能够正常运作的系统与发生故障的系统之间寻找差别" class="headerlink" title="第5条：在能够正常运作的系统与发生故障的系统之间寻找差别"></a>第5条：在能够正常运作的系统与发生故障的系统之间寻找差别</h2><ul>
+<li>在能够正常运作的系统与出现故障的系统之间对比，找出行为上的区别，以求发现故障的原因。</li>
+<li>影响系统行为的所有因素都要考虑到，包括代码、输入、调用时的参数、环境变量、服务以及动态链接库。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Technical</category>
+        <category>Note</category>
+      </categories>
+      <tags>
+        <tag>Debugging</tag>
+        <tag>Crash</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Github 使用的基本操作</title>
     <url>/2020/08/03/Github%E4%BD%BF%E7%94%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<p>#Github 使用的基本操作</p>
@@ -175,6 +215,65 @@
         <category>Help</category>
         <category>Git</category>
       </categories>
+  </entry>
+  <entry>
+    <title>Java-I/O操作中管道流的使用</title>
+    <url>/2020/08/14/Java-IO%E6%93%8D%E4%BD%9C%E4%B8%AD%E7%AE%A1%E9%81%93%E6%B5%81%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="1-首先需要导入三个包"><a href="#1-首先需要导入三个包" class="headerlink" title="1-首先需要导入三个包"></a>1-首先需要导入三个包</h2><div class="code-wrapper"><pre><code>import java.io.IOException;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;</code></pre></div><h2 id="2-我们需要编写两个进行对话的线程类"><a href="#2-我们需要编写两个进行对话的线程类" class="headerlink" title="2- 我们需要编写两个进行对话的线程类"></a>2- 我们需要编写两个进行对话的线程类</h2><h3 id="2-1-发送消息的线程类-Sender"><a href="#2-1-发送消息的线程类-Sender" class="headerlink" title="2.1 - 发送消息的线程类 Sender"></a>2.1 - 发送消息的线程类 Sender</h3><div class="code-wrapper"><pre><code>class Sender extends Thread&#123;
+    private PipedOutputStream out = new PipedOutputStream();
+    public PipedOutputStream getOutputStream()&#123;return out;&#125;
+
+    @Override
+    public void run()&#123;
+        String s = new String(&quot;Receiver, 你好!&quot;);
+        try &#123;
+            out.write(s.getBytes()); // 写入(发送)
+            out.close();
+        &#125;catch (IOException e)&#123;
+            System.out.println(e.getMessage());
+        &#125;
+    &#125;
+&#125;</code></pre></div><h3 id="2-2-接收消息的线程类-Receiver"><a href="#2-2-接收消息的线程类-Receiver" class="headerlink" title="2.2 - 接收消息的线程类 Receiver"></a>2.2 - 接收消息的线程类 Receiver</h3><div class="code-wrapper"><pre><code>class Receiver extends Thread&#123;
+    private PipedInputStream in = new PipedInputStream();
+    public PipedInputStream getInputStream()&#123;return in;&#125;
+    @Override
+    public void run()&#123;
+        String s = null;
+        byte[] buf = new byte[1024];
+        try &#123;
+            int len = in.read(buf); // 读出信息
+            s = new String(buf, 0, len);
+            System.out.println(&quot;收到了以下信息: &quot; + s);
+            in.close();
+        &#125;catch (IOException e)&#123;
+            System.out.println(e.getMessage());
+        &#125;
+    &#125;
+&#125;</code></pre></div><p>声明的字节数组大小为1024原因是:类PipedInputStream运用的是一个1024字节固定大小的循环缓冲区。实际上，写入PipedOutputStream的数据保存到对应的PipedInputStream的内部缓冲区。</p>
+<h2 id="3-进行管道流测试的主类-管道流的使用"><a href="#3-进行管道流测试的主类-管道流的使用" class="headerlink" title="3 - 进行管道流测试的主类(管道流的使用)"></a>3 - 进行管道流测试的主类(管道流的使用)</h2><div class="code-wrapper"><pre><code>public class PipeStreamDemo &#123;
+    public static void main(String[] args) &#123;
+        try &#123;
+            Sender sender = new Sender();   // 创建线程对象sender
+            Receiver receiver = new Receiver(); // 创建线程对象receiver
+            PipedOutputStream out = sender.getOutputStream(); // 写入
+            PipedInputStream in = receiver.getInputStream(); // 读出
+            out.connect(in); // 将输出发送到输入
+            sender.start(); // 启动线程
+            receiver.start();
+        &#125;catch (IOException e)&#123;
+            System.out.println(e.getMessage());
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="4-输出示例"><a href="#4-输出示例" class="headerlink" title="4 - 输出示例"></a>4 - 输出示例</h2><div class="code-wrapper"><pre><code>收到了以下信息: Receiver, 你好!</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Tool</category>
+      </categories>
+      <tags>
+        <tag>IO流</tag>
+      </tags>
   </entry>
   <entry>
     <title>JavaAbstractFactory模式</title>
@@ -419,65 +518,6 @@ Yahoo!
         <category>Java</category>
         <category>设计模式</category>
       </categories>
-  </entry>
-  <entry>
-    <title>Java-I/O操作中管道流的使用</title>
-    <url>/2020/08/14/Java-IO%E6%93%8D%E4%BD%9C%E4%B8%AD%E7%AE%A1%E9%81%93%E6%B5%81%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="1-首先需要导入三个包"><a href="#1-首先需要导入三个包" class="headerlink" title="1-首先需要导入三个包"></a>1-首先需要导入三个包</h2><div class="code-wrapper"><pre><code>import java.io.IOException;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;</code></pre></div><h2 id="2-我们需要编写两个进行对话的线程类"><a href="#2-我们需要编写两个进行对话的线程类" class="headerlink" title="2- 我们需要编写两个进行对话的线程类"></a>2- 我们需要编写两个进行对话的线程类</h2><h3 id="2-1-发送消息的线程类-Sender"><a href="#2-1-发送消息的线程类-Sender" class="headerlink" title="2.1 - 发送消息的线程类 Sender"></a>2.1 - 发送消息的线程类 Sender</h3><div class="code-wrapper"><pre><code>class Sender extends Thread&#123;
-    private PipedOutputStream out = new PipedOutputStream();
-    public PipedOutputStream getOutputStream()&#123;return out;&#125;
-
-    @Override
-    public void run()&#123;
-        String s = new String(&quot;Receiver, 你好!&quot;);
-        try &#123;
-            out.write(s.getBytes()); // 写入(发送)
-            out.close();
-        &#125;catch (IOException e)&#123;
-            System.out.println(e.getMessage());
-        &#125;
-    &#125;
-&#125;</code></pre></div><h3 id="2-2-接收消息的线程类-Receiver"><a href="#2-2-接收消息的线程类-Receiver" class="headerlink" title="2.2 - 接收消息的线程类 Receiver"></a>2.2 - 接收消息的线程类 Receiver</h3><div class="code-wrapper"><pre><code>class Receiver extends Thread&#123;
-    private PipedInputStream in = new PipedInputStream();
-    public PipedInputStream getInputStream()&#123;return in;&#125;
-    @Override
-    public void run()&#123;
-        String s = null;
-        byte[] buf = new byte[1024];
-        try &#123;
-            int len = in.read(buf); // 读出信息
-            s = new String(buf, 0, len);
-            System.out.println(&quot;收到了以下信息: &quot; + s);
-            in.close();
-        &#125;catch (IOException e)&#123;
-            System.out.println(e.getMessage());
-        &#125;
-    &#125;
-&#125;</code></pre></div><p>声明的字节数组大小为1024原因是:类PipedInputStream运用的是一个1024字节固定大小的循环缓冲区。实际上，写入PipedOutputStream的数据保存到对应的PipedInputStream的内部缓冲区。</p>
-<h2 id="3-进行管道流测试的主类-管道流的使用"><a href="#3-进行管道流测试的主类-管道流的使用" class="headerlink" title="3 - 进行管道流测试的主类(管道流的使用)"></a>3 - 进行管道流测试的主类(管道流的使用)</h2><div class="code-wrapper"><pre><code>public class PipeStreamDemo &#123;
-    public static void main(String[] args) &#123;
-        try &#123;
-            Sender sender = new Sender();   // 创建线程对象sender
-            Receiver receiver = new Receiver(); // 创建线程对象receiver
-            PipedOutputStream out = sender.getOutputStream(); // 写入
-            PipedInputStream in = receiver.getInputStream(); // 读出
-            out.connect(in); // 将输出发送到输入
-            sender.start(); // 启动线程
-            receiver.start();
-        &#125;catch (IOException e)&#123;
-            System.out.println(e.getMessage());
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="4-输出示例"><a href="#4-输出示例" class="headerlink" title="4 - 输出示例"></a>4 - 输出示例</h2><div class="code-wrapper"><pre><code>收到了以下信息: Receiver, 你好!</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>IO流</tag>
-      </tags>
   </entry>
   <entry>
     <title>JavaAbstractFactory模式表格化版本</title>
@@ -2862,6 +2902,180 @@ java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=使用金库,when=1601985183407,
       </categories>
   </entry>
   <entry>
+    <title>JavaVisitor模式</title>
+    <url>/2020/09/22/JavaVisitor%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  访问数据结构并处理数据</p>
+</blockquote>
+<h2 id="1-表示访问者的抽象类-它访问文件和文件夹"><a href="#1-表示访问者的抽象类-它访问文件和文件夹" class="headerlink" title="1 - 表示访问者的抽象类, 它访问文件和文件夹"></a>1 - 表示访问者的抽象类, 它访问文件和文件夹</h2><div class="code-wrapper"><pre><code>public abstract class Visitor &#123;
+    public abstract void visit(File file);
+    public abstract void visit(Directory directory);
+&#125;</code></pre></div><h2 id="2-表示数据结构的接口-它接受访问者的访问"><a href="#2-表示数据结构的接口-它接受访问者的访问" class="headerlink" title="2 - 表示数据结构的接口, 它接受访问者的访问"></a>2 - 表示数据结构的接口, 它接受访问者的访问</h2><div class="code-wrapper"><pre><code>public interface Element &#123;
+    public abstract void accept(Visitor v);
+&#125;</code></pre></div><h2 id="3-Visitor类的子类-显示文件和文件夹一览"><a href="#3-Visitor类的子类-显示文件和文件夹一览" class="headerlink" title="3 - Visitor类的子类, 显示文件和文件夹一览"></a>3 - Visitor类的子类, 显示文件和文件夹一览</h2><div class="code-wrapper"><pre><code>public class ListVisitor extends Visitor&#123;
+    private String currentDir = &quot;&quot;;
+
+    @Override
+    public void visit(File file) &#123;
+        System.out.println(currentDir + &quot;/&quot; + file);
+    &#125;
+
+    @Override
+    public void visit(Directory directory) &#123;
+        System.out.println(currentDir + &quot;/&quot; + directory);
+        String saveDir = currentDir;
+        currentDir = currentDir + &quot;/&quot; + directory.getName();
+        Iterator it = directory.iterator();
+        while (it.hasNext())&#123;
+            Entry entry = (Entry)it.next();
+            entry.accept(this);
+        &#125;
+        currentDir = saveDir;
+    &#125;
+&#125;</code></pre></div><h2 id="4-抽象类-File类和Directory类的父类-实现了Element接口"><a href="#4-抽象类-File类和Directory类的父类-实现了Element接口" class="headerlink" title="4 - 抽象类, File类和Directory类的父类, 实现了Element接口"></a>4 - 抽象类, File类和Directory类的父类, 实现了Element接口</h2><div class="code-wrapper"><pre><code>public abstract class Entry implements Element&#123;
+    public abstract String getName();   // 获取名字
+    public abstract int getSize();      // 获取大小
+    public Entry add(Entry entry) throws FileTreatMeantException &#123; // 加入条目目录
+        throw new FileTreatMeantException();
+    &#125;
+
+    public Iterator iterator() throws FileTreatMeantException &#123; // 生成Iterator
+        throw new FileTreatMeantException();
+    &#125;
+                                                        // 显示条目一览
+    @Override                                           // 显示代表类的文字
+    public String toString()&#123;
+        return getName() + &quot; (&quot; + getSize() + &quot;)&quot;;
+    &#125;
+&#125;</code></pre></div><h2 id="5-表示文件的类"><a href="#5-表示文件的类" class="headerlink" title="5 - 表示文件的类"></a>5 - 表示文件的类</h2><div class="code-wrapper"><pre><code>public class File extends Entry&#123;
+    private String name;
+    private int size;
+
+    public File(String name, int size)&#123;
+        this.name = name;
+        this.size = size;
+    &#125;
+
+    @Override
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    @Override
+    public int getSize() &#123;
+        return size;
+    &#125;
+
+    @Override
+    public void accept(Visitor v) &#123;
+        v.visit(this);
+    &#125;
+&#125;</code></pre></div><h2 id="6-表示文件夹的类"><a href="#6-表示文件夹的类" class="headerlink" title="6 - 表示文件夹的类"></a>6 - 表示文件夹的类</h2><div class="code-wrapper"><pre><code>public class Directory extends Entry&#123;
+    private String name;
+    private ArrayList directory = new ArrayList();
+    public Directory(String name)&#123;
+        this.name = name;
+    &#125;
+
+    @Override
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    @Override
+    public int getSize() &#123;
+        int size = 0;
+        for (Object o : directory) &#123;
+            Entry entry = (Entry) o;
+            size += entry.getSize();
+        &#125;
+        return size;
+    &#125;
+
+    public Entry add(Entry entry)&#123;
+        directory.add(entry);
+        return this;
+    &#125;
+
+    public Iterator iterator()&#123;
+        return directory.iterator();
+    &#125;
+
+    @Override
+    public void accept(Visitor v) &#123;
+        v.visit(this);
+    &#125;
+&#125;</code></pre></div><h2 id="7-表示向文件中增加Entry时发生的异常的类"><a href="#7-表示向文件中增加Entry时发生的异常的类" class="headerlink" title="7 - 表示向文件中增加Entry时发生的异常的类"></a>7 - 表示向文件中增加Entry时发生的异常的类</h2><div class="code-wrapper"><pre><code>public class FileTreatMeantException extends RuntimeException&#123;
+
+    public FileTreatMeantException()&#123;
+    &#125;
+
+    public FileTreatMeantException(String msg)&#123;
+        super(msg);
+    &#125;
+&#125;</code></pre></div><h2 id="8-测试程序行为的类"><a href="#8-测试程序行为的类" class="headerlink" title="8 - 测试程序行为的类"></a>8 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        try &#123;
+            System.out.println(&quot;Making root entries...&quot;);
+            Directory rootDir = new Directory(&quot;root&quot;);
+            Directory binDir = new Directory(&quot;bin&quot;);
+            Directory tmpDir = new Directory(&quot;tmp&quot;);
+            Directory usrDir = new Directory(&quot;usr&quot;);
+            rootDir.add(binDir);
+            rootDir.add(tmpDir);
+            rootDir.add(usrDir);
+            binDir.add(new File(&quot;vi&quot;, 10000));
+            binDir.add(new File(&quot;latex&quot;, 20000));
+            rootDir.accept(new ListVisitor());
+
+            System.out.println(&quot;&quot;);
+            System.out.println(&quot;Making user entries...&quot;);
+            Directory yuki = new Directory(&quot;yuki&quot;);
+            Directory hanako = new Directory(&quot;hanako&quot;);
+            Directory tomura = new Directory(&quot;tomura&quot;);
+            usrDir.add(yuki);
+            usrDir.add(hanako);
+            usrDir.add(tomura);
+            yuki.add(new File(&quot;diary.html&quot;, 100));
+            yuki.add(new File(&quot;Composite.java&quot;, 200));
+            hanako.add(new File(&quot;memo.tex&quot;, 300));
+            tomura.add(new File(&quot;game.doc&quot;, 400));
+            tomura.add(new File(&quot;junk.mail&quot;, 500));
+            rootDir.accept(new ListVisitor());
+
+        &#125;catch (FileTreatMeantException e)&#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="9-输出样例"><a href="#9-输出样例" class="headerlink" title="9 - 输出样例"></a>9 - 输出样例</h2><div class="code-wrapper"><pre><code>Making root entries...
+/root (30000)
+/root/bin (30000)
+/root/bin/vi (10000)
+/root/bin/latex (20000)
+/root/tmp (0)
+/root/usr (0)
+
+Making user entries...
+/root (31500)
+/root/bin (30000)
+/root/bin/vi (10000)
+/root/bin/latex (20000)
+/root/tmp (0)
+/root/usr (1500)
+/root/usr/yuki (300)
+/root/usr/yuki/diary.html (100)
+/root/usr/yuki/Composite.java (200)
+/root/usr/hanako (300)
+/root/usr/hanako/memo.tex (300)
+/root/usr/tomura (900)
+/root/usr/tomura/game.doc (400)
+/root/usr/tomura/junk.mail (500)</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
     <title>JavaStrategy模式</title>
     <url>/2020/09/19/JavaStrategy%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -3082,258 +3296,6 @@ Total result:
       </categories>
   </entry>
   <entry>
-    <title>JavaVisitor模式</title>
-    <url>/2020/09/22/JavaVisitor%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  访问数据结构并处理数据</p>
-</blockquote>
-<h2 id="1-表示访问者的抽象类-它访问文件和文件夹"><a href="#1-表示访问者的抽象类-它访问文件和文件夹" class="headerlink" title="1 - 表示访问者的抽象类, 它访问文件和文件夹"></a>1 - 表示访问者的抽象类, 它访问文件和文件夹</h2><div class="code-wrapper"><pre><code>public abstract class Visitor &#123;
-    public abstract void visit(File file);
-    public abstract void visit(Directory directory);
-&#125;</code></pre></div><h2 id="2-表示数据结构的接口-它接受访问者的访问"><a href="#2-表示数据结构的接口-它接受访问者的访问" class="headerlink" title="2 - 表示数据结构的接口, 它接受访问者的访问"></a>2 - 表示数据结构的接口, 它接受访问者的访问</h2><div class="code-wrapper"><pre><code>public interface Element &#123;
-    public abstract void accept(Visitor v);
-&#125;</code></pre></div><h2 id="3-Visitor类的子类-显示文件和文件夹一览"><a href="#3-Visitor类的子类-显示文件和文件夹一览" class="headerlink" title="3 - Visitor类的子类, 显示文件和文件夹一览"></a>3 - Visitor类的子类, 显示文件和文件夹一览</h2><div class="code-wrapper"><pre><code>public class ListVisitor extends Visitor&#123;
-    private String currentDir = &quot;&quot;;
-
-    @Override
-    public void visit(File file) &#123;
-        System.out.println(currentDir + &quot;/&quot; + file);
-    &#125;
-
-    @Override
-    public void visit(Directory directory) &#123;
-        System.out.println(currentDir + &quot;/&quot; + directory);
-        String saveDir = currentDir;
-        currentDir = currentDir + &quot;/&quot; + directory.getName();
-        Iterator it = directory.iterator();
-        while (it.hasNext())&#123;
-            Entry entry = (Entry)it.next();
-            entry.accept(this);
-        &#125;
-        currentDir = saveDir;
-    &#125;
-&#125;</code></pre></div><h2 id="4-抽象类-File类和Directory类的父类-实现了Element接口"><a href="#4-抽象类-File类和Directory类的父类-实现了Element接口" class="headerlink" title="4 - 抽象类, File类和Directory类的父类, 实现了Element接口"></a>4 - 抽象类, File类和Directory类的父类, 实现了Element接口</h2><div class="code-wrapper"><pre><code>public abstract class Entry implements Element&#123;
-    public abstract String getName();   // 获取名字
-    public abstract int getSize();      // 获取大小
-    public Entry add(Entry entry) throws FileTreatMeantException &#123; // 加入条目目录
-        throw new FileTreatMeantException();
-    &#125;
-
-    public Iterator iterator() throws FileTreatMeantException &#123; // 生成Iterator
-        throw new FileTreatMeantException();
-    &#125;
-                                                        // 显示条目一览
-    @Override                                           // 显示代表类的文字
-    public String toString()&#123;
-        return getName() + &quot; (&quot; + getSize() + &quot;)&quot;;
-    &#125;
-&#125;</code></pre></div><h2 id="5-表示文件的类"><a href="#5-表示文件的类" class="headerlink" title="5 - 表示文件的类"></a>5 - 表示文件的类</h2><div class="code-wrapper"><pre><code>public class File extends Entry&#123;
-    private String name;
-    private int size;
-
-    public File(String name, int size)&#123;
-        this.name = name;
-        this.size = size;
-    &#125;
-
-    @Override
-    public String getName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public int getSize() &#123;
-        return size;
-    &#125;
-
-    @Override
-    public void accept(Visitor v) &#123;
-        v.visit(this);
-    &#125;
-&#125;</code></pre></div><h2 id="6-表示文件夹的类"><a href="#6-表示文件夹的类" class="headerlink" title="6 - 表示文件夹的类"></a>6 - 表示文件夹的类</h2><div class="code-wrapper"><pre><code>public class Directory extends Entry&#123;
-    private String name;
-    private ArrayList directory = new ArrayList();
-    public Directory(String name)&#123;
-        this.name = name;
-    &#125;
-
-    @Override
-    public String getName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public int getSize() &#123;
-        int size = 0;
-        for (Object o : directory) &#123;
-            Entry entry = (Entry) o;
-            size += entry.getSize();
-        &#125;
-        return size;
-    &#125;
-
-    public Entry add(Entry entry)&#123;
-        directory.add(entry);
-        return this;
-    &#125;
-
-    public Iterator iterator()&#123;
-        return directory.iterator();
-    &#125;
-
-    @Override
-    public void accept(Visitor v) &#123;
-        v.visit(this);
-    &#125;
-&#125;</code></pre></div><h2 id="7-表示向文件中增加Entry时发生的异常的类"><a href="#7-表示向文件中增加Entry时发生的异常的类" class="headerlink" title="7 - 表示向文件中增加Entry时发生的异常的类"></a>7 - 表示向文件中增加Entry时发生的异常的类</h2><div class="code-wrapper"><pre><code>public class FileTreatMeantException extends RuntimeException&#123;
-
-    public FileTreatMeantException()&#123;
-    &#125;
-
-    public FileTreatMeantException(String msg)&#123;
-        super(msg);
-    &#125;
-&#125;</code></pre></div><h2 id="8-测试程序行为的类"><a href="#8-测试程序行为的类" class="headerlink" title="8 - 测试程序行为的类"></a>8 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        try &#123;
-            System.out.println(&quot;Making root entries...&quot;);
-            Directory rootDir = new Directory(&quot;root&quot;);
-            Directory binDir = new Directory(&quot;bin&quot;);
-            Directory tmpDir = new Directory(&quot;tmp&quot;);
-            Directory usrDir = new Directory(&quot;usr&quot;);
-            rootDir.add(binDir);
-            rootDir.add(tmpDir);
-            rootDir.add(usrDir);
-            binDir.add(new File(&quot;vi&quot;, 10000));
-            binDir.add(new File(&quot;latex&quot;, 20000));
-            rootDir.accept(new ListVisitor());
-
-            System.out.println(&quot;&quot;);
-            System.out.println(&quot;Making user entries...&quot;);
-            Directory yuki = new Directory(&quot;yuki&quot;);
-            Directory hanako = new Directory(&quot;hanako&quot;);
-            Directory tomura = new Directory(&quot;tomura&quot;);
-            usrDir.add(yuki);
-            usrDir.add(hanako);
-            usrDir.add(tomura);
-            yuki.add(new File(&quot;diary.html&quot;, 100));
-            yuki.add(new File(&quot;Composite.java&quot;, 200));
-            hanako.add(new File(&quot;memo.tex&quot;, 300));
-            tomura.add(new File(&quot;game.doc&quot;, 400));
-            tomura.add(new File(&quot;junk.mail&quot;, 500));
-            rootDir.accept(new ListVisitor());
-
-        &#125;catch (FileTreatMeantException e)&#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="9-输出样例"><a href="#9-输出样例" class="headerlink" title="9 - 输出样例"></a>9 - 输出样例</h2><div class="code-wrapper"><pre><code>Making root entries...
-/root (30000)
-/root/bin (30000)
-/root/bin/vi (10000)
-/root/bin/latex (20000)
-/root/tmp (0)
-/root/usr (0)
-
-Making user entries...
-/root (31500)
-/root/bin (30000)
-/root/bin/vi (10000)
-/root/bin/latex (20000)
-/root/tmp (0)
-/root/usr (1500)
-/root/usr/yuki (300)
-/root/usr/yuki/diary.html (100)
-/root/usr/yuki/Composite.java (200)
-/root/usr/hanako (300)
-/root/usr/hanako/memo.tex (300)
-/root/usr/tomura (900)
-/root/usr/tomura/game.doc (400)
-/root/usr/tomura/junk.mail (500)</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Java多线程的同步问题</title>
-    <url>/2020/08/12/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h2 id="1-synchronized关键字对代码块的同步"><a href="#1-synchronized关键字对代码块的同步" class="headerlink" title="1 - synchronized关键字对代码块的同步"></a>1 - synchronized关键字对代码块的同步</h2><div class="code-wrapper"><pre><code>public class ThreadSynchronization &#123;
-    public static void main(String[] args) &#123;
-        TestThread  t = new TestThread();
-        // 启动四个线程,并实现资源共享
-
-        new Thread(t).start();
-        new Thread(t).start();
-        new Thread(t).start();
-        new Thread(t).start();
-    &#125;
-&#125;
-
-class TestThread implements Runnable&#123;
-    private int tickets = 5;
-    @Override
-    public void run()&#123;
-        while (true) &#123;
-            // 利用synchronized关键字对这一代码块进行同步,避免共享资源的随意访问
-            synchronized (this) &#123;
-                if (tickets &lt;= 0) break;
-                try &#123;
-                    Thread.sleep(1000);
-                &#125; catch (Exception e) &#123;
-                    e.printStackTrace();
-                &#125;
-
-                System.out.println(Thread.currentThread().getName()
-                 + &quot;出售票&quot; + tickets);
-                tickets -= 1;
-            &#125;
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="2-synchronized关键字对方法的同步"><a href="#2-synchronized关键字对方法的同步" class="headerlink" title="2 - synchronized关键字对方法的同步"></a>2 - synchronized关键字对方法的同步</h2><div class="code-wrapper"><pre><code>public class ThreadSynchronization &#123;
-    public static void main(String[] args) &#123;
-        TestThread  t = new TestThread();
-        // 启动四个线程,并实现资源共享
-
-        new Thread(t).start();
-        new Thread(t).start();
-        new Thread(t).start();
-        new Thread(t).start();
-    &#125;
-&#125;
-
-class TestThread implements Runnable&#123;
-    private int tickets = 5;
-    @Override
-    public void run()&#123;
-        while (tickets &gt; 0)&#123;
-            sale();
-        &#125;
-    &#125;
-    // 利用synchronized关键字对这本方法进行同步,避免共享资源的随意访问
-    public synchronized void sale() &#123;
-        if (tickets &gt; 0) &#123;
-            try &#123;
-                Thread.sleep(1000);
-            &#125; catch (Exception e) &#123;
-                e.printStackTrace();
-            &#125;
-
-            System.out.println(Thread.currentThread().getName() + &quot;出售票&quot; + tickets);
-            tickets -= 1;
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="3-在Java中-synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1-5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java-util-concurrent-locks包中"><a href="#3-在Java中-synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1-5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java-util-concurrent-locks包中" class="headerlink" title="3 - 在Java中,synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1.5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java.util.concurrent.locks包中"></a>3 - 在Java中,synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1.5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java.util.concurrent.locks包中</h2><h2 id="4-当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用-synchronized-解决问题。若对性能要求较高的情况下，可考虑使用-ReadWriteLock-接口及其-ReentrantReadWriteLock-实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用-Lock-接口及其-ReentrantLock-实现类来替换以前的-synchronized-方法或代码块"><a href="#4-当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用-synchronized-解决问题。若对性能要求较高的情况下，可考虑使用-ReadWriteLock-接口及其-ReentrantReadWriteLock-实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用-Lock-接口及其-ReentrantLock-实现类来替换以前的-synchronized-方法或代码块" class="headerlink" title="4 - 当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用 synchronized 解决问题。若对性能要求较高的情况下，可考虑使用 ReadWriteLock 接口及其 ReentrantReadWriteLock 实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用 Lock 接口及其 ReentrantLock 实现类来替换以前的 synchronized 方法或代码块"></a>4 - 当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用 synchronized 解决问题。若对性能要求较高的情况下，可考虑使用 ReadWriteLock 接口及其 ReentrantReadWriteLock 实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用 Lock 接口及其 ReentrantLock 实现类来替换以前的 synchronized 方法或代码块</h2><p>以上, 3-4段内容,均引自&lt;&lt;Java从入门到精通(第二版)&gt;&gt; 张玉宏主编 </p>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>多线程同步</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java使用缓存流进行文件的复制</title>
     <url>/2020/09/08/Java%E4%BD%BF%E7%94%A8%E7%BC%93%E5%AD%98%E6%B5%81%E8%BF%9B%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84%E5%A4%8D%E5%88%B6/</url>
     <content><![CDATA[<h2 id="1-准备要复制的文件路径和复制后的路径"><a href="#1-准备要复制的文件路径和复制后的路径" class="headerlink" title="1- 准备要复制的文件路径和复制后的路径"></a>1- 准备要复制的文件路径和复制后的路径</h2><div class="code-wrapper"><pre><code>private static final String FilePath1 = &quot;D:/测试文件.txt&quot;;
@@ -3449,6 +3411,84 @@ End.</code></pre></div>]]></content>
         <category>Java</category>
         <category>设计模式</category>
       </categories>
+  </entry>
+  <entry>
+    <title>Java多线程的同步问题</title>
+    <url>/2020/08/12/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="1-synchronized关键字对代码块的同步"><a href="#1-synchronized关键字对代码块的同步" class="headerlink" title="1 - synchronized关键字对代码块的同步"></a>1 - synchronized关键字对代码块的同步</h2><div class="code-wrapper"><pre><code>public class ThreadSynchronization &#123;
+    public static void main(String[] args) &#123;
+        TestThread  t = new TestThread();
+        // 启动四个线程,并实现资源共享
+
+        new Thread(t).start();
+        new Thread(t).start();
+        new Thread(t).start();
+        new Thread(t).start();
+    &#125;
+&#125;
+
+class TestThread implements Runnable&#123;
+    private int tickets = 5;
+    @Override
+    public void run()&#123;
+        while (true) &#123;
+            // 利用synchronized关键字对这一代码块进行同步,避免共享资源的随意访问
+            synchronized (this) &#123;
+                if (tickets &lt;= 0) break;
+                try &#123;
+                    Thread.sleep(1000);
+                &#125; catch (Exception e) &#123;
+                    e.printStackTrace();
+                &#125;
+
+                System.out.println(Thread.currentThread().getName()
+                 + &quot;出售票&quot; + tickets);
+                tickets -= 1;
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="2-synchronized关键字对方法的同步"><a href="#2-synchronized关键字对方法的同步" class="headerlink" title="2 - synchronized关键字对方法的同步"></a>2 - synchronized关键字对方法的同步</h2><div class="code-wrapper"><pre><code>public class ThreadSynchronization &#123;
+    public static void main(String[] args) &#123;
+        TestThread  t = new TestThread();
+        // 启动四个线程,并实现资源共享
+
+        new Thread(t).start();
+        new Thread(t).start();
+        new Thread(t).start();
+        new Thread(t).start();
+    &#125;
+&#125;
+
+class TestThread implements Runnable&#123;
+    private int tickets = 5;
+    @Override
+    public void run()&#123;
+        while (tickets &gt; 0)&#123;
+            sale();
+        &#125;
+    &#125;
+    // 利用synchronized关键字对这本方法进行同步,避免共享资源的随意访问
+    public synchronized void sale() &#123;
+        if (tickets &gt; 0) &#123;
+            try &#123;
+                Thread.sleep(1000);
+            &#125; catch (Exception e) &#123;
+                e.printStackTrace();
+            &#125;
+
+            System.out.println(Thread.currentThread().getName() + &quot;出售票&quot; + tickets);
+            tickets -= 1;
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="3-在Java中-synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1-5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java-util-concurrent-locks包中"><a href="#3-在Java中-synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1-5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java-util-concurrent-locks包中" class="headerlink" title="3 - 在Java中,synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1.5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java.util.concurrent.locks包中"></a>3 - 在Java中,synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1.5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java.util.concurrent.locks包中</h2><h2 id="4-当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用-synchronized-解决问题。若对性能要求较高的情况下，可考虑使用-ReadWriteLock-接口及其-ReentrantReadWriteLock-实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用-Lock-接口及其-ReentrantLock-实现类来替换以前的-synchronized-方法或代码块"><a href="#4-当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用-synchronized-解决问题。若对性能要求较高的情况下，可考虑使用-ReadWriteLock-接口及其-ReentrantReadWriteLock-实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用-Lock-接口及其-ReentrantLock-实现类来替换以前的-synchronized-方法或代码块" class="headerlink" title="4 - 当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用 synchronized 解决问题。若对性能要求较高的情况下，可考虑使用 ReadWriteLock 接口及其 ReentrantReadWriteLock 实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用 Lock 接口及其 ReentrantLock 实现类来替换以前的 synchronized 方法或代码块"></a>4 - 当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用 synchronized 解决问题。若对性能要求较高的情况下，可考虑使用 ReadWriteLock 接口及其 ReentrantReadWriteLock 实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用 Lock 接口及其 ReentrantLock 实现类来替换以前的 synchronized 方法或代码块</h2><p>以上, 3-4段内容,均引自&lt;&lt;Java从入门到精通(第二版)&gt;&gt; 张玉宏主编 </p>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Tool</category>
+      </categories>
+      <tags>
+        <tag>多线程同步</tag>
+      </tags>
   </entry>
   <entry>
     <title>Java对象的序列化</title>
@@ -3724,7 +3764,7 @@ class TestThread implements Runnable&#123;
   <entry>
     <title>Liunx 一般配置与命令</title>
     <url>/2021/05/10/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="1-Liunx-常用命令"><a href="#1-Liunx-常用命令" class="headerlink" title="1 Liunx 常用命令"></a>1 Liunx 常用命令</h1><h2 id="命令行"><a href="#命令行" class="headerlink" title="命令行"></a>命令行</h2><table>
+    <content><![CDATA[<h1 id="1-Liunx-常用命令"><a href="#1-Liunx-常用命令" class="headerlink" title="1 Liunx 常用命令"></a>1 Liunx 常用命令</h1><h2 id="1-命令行"><a href="#1-命令行" class="headerlink" title="1 命令行"></a>1 命令行</h2><table>
 <thead>
 <tr>
 <th>描述</th>
@@ -3784,7 +3824,7 @@ class TestThread implements Runnable&#123;
 <td>hostnamectl set-hostname pncalbl-pc</td>
 </tr>
 </tbody></table>
-<h2 id="Vim"><a href="#Vim" class="headerlink" title="Vim"></a>Vim</h2><table>
+<h2 id="2-Vim"><a href="#2-Vim" class="headerlink" title="2 Vim"></a>2 Vim</h2><table>
 <thead>
 <tr>
 <th>描述</th>
@@ -3824,6 +3864,26 @@ class TestThread implements Runnable&#123;
 </tr>
 <tr>
 <td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="3-Deepin-终端命令"><a href="#3-Deepin-终端命令" class="headerlink" title="3 Deepin 终端命令"></a>3 Deepin 终端命令</h2><table>
+<thead>
+<tr>
+<th>描述</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>在终端使用默认文件管理器打开当前路径</td>
+<td>xdg-open .</td>
+</tr>
+<tr>
+<td>在终端使用默认文本编辑器打开当前路径</td>
+<td>deepin-editor</td>
+</tr>
+<tr>
 <td></td>
 <td></td>
 </tr>
@@ -3970,6 +4030,7 @@ Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide sh
 
 <p><code>.</code> 指的是当前目录，即为 /home/username/project/java</p>
 <p>如果有包名，则必须使用类的全限定名即：com.pnca.c17.Hello</p>
+<h1 id="8-Linux-配置-vpn"><a href="#8-Linux-配置-vpn" class="headerlink" title="8 Linux 配置 vpn"></a>8 Linux 配置 vpn</h1><p><a href="https://xugaoxiang.com/2020/10/17/qv2ray/#ubuntu平台使用">Qv2ray基本使用 - 迷途小书童的Note迷途小书童的Note (xugaoxiang.com)</a></p>
 ]]></content>
       <categories>
         <category>Help</category>
@@ -3978,18 +4039,6 @@ Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide sh
       <tags>
         <tag>Linux</tag>
         <tag>命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MongoDB 学习</title>
-    <url>/2021/05/01/MongoDB%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="MongoDB-学习"><a href="#MongoDB-学习" class="headerlink" title="MongoDB 学习"></a>MongoDB 学习</h1>]]></content>
-      <categories>
-        <category>Technical</category>
-        <category>DB</category>
-      </categories>
-      <tags>
-        <tag>MongoDB</tag>
       </tags>
   </entry>
   <entry>
@@ -4109,6 +4158,18 @@ Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide sh
       </tags>
   </entry>
   <entry>
+    <title>MongoDB 学习</title>
+    <url>/2021/05/01/MongoDB%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="MongoDB-学习"><a href="#MongoDB-学习" class="headerlink" title="MongoDB 学习"></a>MongoDB 学习</h1>]]></content>
+      <categories>
+        <category>Technical</category>
+        <category>DB</category>
+      </categories>
+      <tags>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Node.js的安装和环境变量的配置</title>
     <url>/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h2 id="1-下载安装包"><a href="#1-下载安装包" class="headerlink" title="1, 下载安装包"></a>1, 下载安装包</h2><p>去 <a href="https://nodejs.org/en/">nodejs官网</a> 下载 找到 <a href="https://nodejs.org/dist/latest-v12.x/">node-v12</a> 的下载清单，找到 node-v12.22.1-x64.msi，下载即可。</p>
@@ -4159,38 +4220,6 @@ Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide sh
       </categories>
       <tags>
         <tag>Node</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python使用@property装饰器</title>
-    <url>/2020/09/09/Python%E4%BD%BF%E7%94%A8%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
-    <content><![CDATA[<h3 id="1-1-这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2-property装饰读值方法。3-实现特性的方法，其名称都与公开属性的名称一样——weight。4-真正的值存储在私有属性-weight中"><a href="#1-1-这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2-property装饰读值方法。3-实现特性的方法，其名称都与公开属性的名称一样——weight。4-真正的值存储在私有属性-weight中" class="headerlink" title="1 - 1 这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2@property装饰读值方法。3 实现特性的方法，其名称都与公开属性的名称一样——weight。4 真正的值存储在私有属性__weight中"></a>1 - 1 这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2@property装饰读值方法。3 实现特性的方法，其名称都与公开属性的名称一样——weight。4 真正的值存储在私有属性__weight中</h3><div class="code-wrapper"><pre><code>class LineItem:
-    &quot;&quot;&quot;使用@property装饰器实现可读写的特性&quot;&quot;&quot;
-    &quot;&quot;&quot;表示订单中商品的类&quot;&quot;&quot;
-    def __init__(self, description, weight, price):
-        self.description = description
-        self.weight = weight
-        self.price = price
-
-    def subtotal(self):
-        return self.weight * self.price
-
-    @property
-    def weight(self):
-        return self.__weight
-
-    @weight.setter
-    def weight(self, value):
-        if value &gt; 0:
-            self.__weight = value
-        else:
-            raise ValueError(&apos;value must be &gt; 0&apos;)</code></pre></div><h3 id="2-5-被装饰的读值方法有个-setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6-如果值大于零，设置私有属性-weight。7-否则，抛出ValueError异常"><a href="#2-5-被装饰的读值方法有个-setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6-如果值大于零，设置私有属性-weight。7-否则，抛出ValueError异常" class="headerlink" title="2 - 5 被装饰的读值方法有个.setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6 如果值大于零，设置私有属性__weight。7 否则，抛出ValueError异常"></a>2 - 5 被装饰的读值方法有个.setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6 如果值大于零，设置私有属性__weight。7 否则，抛出ValueError异常</h3>]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>装饰器</tag>
-        <tag>可读性</tag>
       </tags>
   </entry>
   <entry>
@@ -4249,8 +4278,43 @@ def run(self, end_time):
     taxi = taxi_process(ident=13, trips=2, start_time=0)
     print(next(taxi))
     print(taxi.send(_.time + 7))</code></pre></div>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
       <tags>
         <tag>出租车队运营仿真</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python使用@property装饰器</title>
+    <url>/2020/09/09/Python%E4%BD%BF%E7%94%A8%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
+    <content><![CDATA[<h3 id="1-1-这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2-property装饰读值方法。3-实现特性的方法，其名称都与公开属性的名称一样——weight。4-真正的值存储在私有属性-weight中"><a href="#1-1-这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2-property装饰读值方法。3-实现特性的方法，其名称都与公开属性的名称一样——weight。4-真正的值存储在私有属性-weight中" class="headerlink" title="1 - 1 这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2@property装饰读值方法。3 实现特性的方法，其名称都与公开属性的名称一样——weight。4 真正的值存储在私有属性__weight中"></a>1 - 1 这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2@property装饰读值方法。3 实现特性的方法，其名称都与公开属性的名称一样——weight。4 真正的值存储在私有属性__weight中</h3><div class="code-wrapper"><pre><code>class LineItem:
+    &quot;&quot;&quot;使用@property装饰器实现可读写的特性&quot;&quot;&quot;
+    &quot;&quot;&quot;表示订单中商品的类&quot;&quot;&quot;
+    def __init__(self, description, weight, price):
+        self.description = description
+        self.weight = weight
+        self.price = price
+
+    def subtotal(self):
+        return self.weight * self.price
+
+    @property
+    def weight(self):
+        return self.__weight
+
+    @weight.setter
+    def weight(self, value):
+        if value &gt; 0:
+            self.__weight = value
+        else:
+            raise ValueError(&apos;value must be &gt; 0&apos;)</code></pre></div><h3 id="2-5-被装饰的读值方法有个-setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6-如果值大于零，设置私有属性-weight。7-否则，抛出ValueError异常"><a href="#2-5-被装饰的读值方法有个-setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6-如果值大于零，设置私有属性-weight。7-否则，抛出ValueError异常" class="headerlink" title="2 - 5 被装饰的读值方法有个.setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6 如果值大于零，设置私有属性__weight。7 否则，抛出ValueError异常"></a>2 - 5 被装饰的读值方法有个.setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6 如果值大于零，设置私有属性__weight。7 否则，抛出ValueError异常</h3>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>装饰器</tag>
+        <tag>可读性</tag>
       </tags>
   </entry>
   <entry>
@@ -4312,6 +4376,9 @@ def validate(self, instance, value):
 
     def subtotal(self):
         return self.weight * self.price</code></pre></div>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
   </entry>
   <entry>
     <title>Python关于迭代器和生成器</title>
@@ -4892,32 +4959,6 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2019/12/14/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo server</code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo generate</code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo deploy</code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Blog</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Blog</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>WSL和VM不兼容</title>
     <url>/2021/05/01/WSL%E5%92%8CVM/</url>
     <content><![CDATA[<h3 id="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"><a href="#WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭" class="headerlink" title="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"></a>WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭</h3><ul>
@@ -5111,6 +5152,106 @@ torch.cuda.is_available()</code></pre></div>
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2019/12/14/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo server</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo generate</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo deploy</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Blog</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Blog</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Stm32CubeMx + Clion环境搭建</title>
+    <url>/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
+    <content><![CDATA[<h1 id="环境和所需工具"><a href="#环境和所需工具" class="headerlink" title="环境和所需工具"></a>环境和所需工具</h1><h2 id="一，-软件环境"><a href="#一，-软件环境" class="headerlink" title="一， 软件环境"></a>一， 软件环境</h2><h3 id="1-Windows-10"><a href="#1-Windows-10" class="headerlink" title="1. Windows 10"></a>1. Windows 10</h3><h3 id="2-stm32cubemx"><a href="#2-stm32cubemx" class="headerlink" title="2. stm32cubemx"></a>2. <a href="https://www.st.com/en/development-tools/stm32cubemx.html">stm32cubemx</a></h3><h3 id="3-CLion-2020"><a href="#3-CLion-2020" class="headerlink" title="3. CLion-2020"></a>3. <a href="https://www.jetbrains.com/clion/">CLion-2020</a></h3><h3 id="4-MinGW"><a href="#4-MinGW" class="headerlink" title="4. MinGW"></a>4. <a href="http://www.mingw-w64.org/doku.php">MinGW</a></h3><h3 id="5-arm-none-eabi-gcc"><a href="#5-arm-none-eabi-gcc" class="headerlink" title="5. arm-none-eabi-gcc"></a>5. <a href="https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads">arm-none-eabi-gcc</a></h3><h3 id="6-openOCD"><a href="#6-openOCD" class="headerlink" title="6. openOCD"></a>6. <a href="https://gnutoolchains.com/arm-eabi/openocd/">openOCD</a></h3><h3 id="7-stlink-v2"><a href="#7-stlink-v2" class="headerlink" title="7. stlink-v2"></a>7. <a href="https://www.st.com/en/development-tools/st-link-v2.html">stlink-v2</a></h3><h2 id="二，硬件环境"><a href="#二，硬件环境" class="headerlink" title="二，硬件环境"></a>二，硬件环境</h2><h3 id="1-单片机：正点原子STM32F103RCT6"><a href="#1-单片机：正点原子STM32F103RCT6" class="headerlink" title="1. 单片机：正点原子STM32F103RCT6"></a>1. 单片机：正点原子STM32F103RCT6</h3><h3 id="2-下载器：-StLink-V2"><a href="#2-下载器：-StLink-V2" class="headerlink" title="2. 下载器： StLink-V2"></a>2. 下载器： StLink-V2</h3><h2 id="三，工具安装"><a href="#三，工具安装" class="headerlink" title="三，工具安装"></a>三，工具安装</h2><p>工具安装部分正常安装就好了，注意安装目录的选择，尽量不要出现中文。</p>
+<h3 id="1，STM32CubeMX"><a href="#1，STM32CubeMX" class="headerlink" title="1，STM32CubeMX"></a>1，STM32CubeMX</h3><p>直接去官网下在就可以，安装之前需要安装Java运行环境</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421142019511.png" alt="image-20210421142019511"></p>
+<h3 id="2，CLion"><a href="#2，CLion" class="headerlink" title="2，CLion"></a>2，CLion</h3><p>官网下载2019以后的版本</p>
+<h3 id="3，MinGW"><a href="#3，MinGW" class="headerlink" title="3，MinGW"></a>3，MinGW</h3><p>Clion是基于CMake来管理项目的，所以首选需要配置好预设的MinGW和CMake环境。</p>
+<p>检查是否配置好环境</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421142250730.png" alt="image-20210421142250730"></p>
+<h3 id="4，arm-none-eabi-gcc4"><a href="#4，arm-none-eabi-gcc4" class="headerlink" title="4，arm-none-eabi-gcc4"></a>4，arm-none-eabi-gcc4</h3><p>需要编译arm架构的程序，所以编译工具使用这个。</p>
+<p>检查是否配置好环境</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421142358791.png" alt="image-20210421142358791"></p>
+<h3 id="5，openOCD"><a href="#5，openOCD" class="headerlink" title="5，openOCD"></a>5，openOCD</h3><p>OpenOCD是用于对STM32进行下载仿真的工具，是一个开源软件包，Windows版本下从这里下载，下载好解压到一个目录就行。</p>
+<p>注意，添加环境变量</p>
+<h3 id="6，CLion配置"><a href="#6，CLion配置" class="headerlink" title="6，CLion配置"></a>6，CLion配置</h3><p><strong>【重点】</strong></p>
+<p>Clion是基于CMake来管理项目的，所以首选我们需要配置好预设的MinGW和CMake环境。</p>
+<p>打开File-Settings-Build,Execution,Deployment选项卡，在Toolchains下面添加一个MinGW环境：</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421192108480.png" alt="image-20210421192108480"></p>
+<p>打开CMake选项栏查看工具链是否正确</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421192217660.png" alt="image-20210421192217660"></p>
+<p>至此Clion环境配置完成，可以创建STM32项目了。</p>
+<h2 id="四，CLion使用"><a href="#四，CLion使用" class="headerlink" title="四，CLion使用"></a>四，CLion使用</h2><h3 id="1，STM32CubeMX创建工程模板"><a href="#1，STM32CubeMX创建工程模板" class="headerlink" title="1，STM32CubeMX创建工程模板"></a>1，STM32CubeMX创建工程模板</h3><p>这里创建一个普通的STM32Cube工程。</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421192506773.png" alt="image-20210421192506773"></p>
+<p>接下来由于 OpenOCD 报错 Error: init mode failed (unable to connect to the target)</p>
+<hr>
+<p>** OpenOCD init failed **</p>
+<p>解决方法：这里是由于PA13和PA14被错误配置导致的。首先修复STM32CubeMX中的SYS设置，在SYS-Debug中选择Serial Wire。然后拉高Boot0和Boot1烧写一个正常固件，然后拉低他们，就能正常烧写了。</p>
+<p>所以需要在MX中设置SYS</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421192911551.png" alt="image-20210421192911551"></p>
+<p>修改项目名称和Toolchain /IDE </p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193052041.png" alt="image-20210421193052041"></p>
+<p>然后创建完成</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193114717.png" alt="image-20210421193114717"></p>
+<h3 id="2，通过CLion导入工程"><a href="#2，通过CLion导入工程" class="headerlink" title="2，通过CLion导入工程"></a>2，通过CLion导入工程</h3><p>通过CLion 导入此项目，直接Open打开即可</p>
+<p>第一次进入，需要设置对应的单片机设置</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193243099.png" alt="image-20210421193243099"></p>
+<p>根据自己的单片机，选择最接近的型号</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193312527.png" alt="image-20210421193312527"></p>
+<p>然后 Copy to Project &amp; Use</p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193345457.png" alt="image-20210421193345457"></p>
+<p>其中的内容原本为</p>
+<div class="code-wrapper"><pre><code class="hljs routeros"><span class="hljs-comment"># This is an ST NUCLEO F103RB board with a single STM32F103RBT6 chip.</span>
+<span class="hljs-comment"># http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/LN1847/PF259875</span>
+
+source [<span class="hljs-builtin-name">find</span> interface/stlink.cfg]
+
+transport select hla_swd
+
+source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
+
+reset_config srst_only</code></pre></div>
+
+<p>修改为</p>
+<div class="code-wrapper"><pre><code class="hljs routeros"><span class="hljs-comment"># This is an ST NUCLEO F103RB board with a single STM32F103RBT6 chip.</span>
+<span class="hljs-comment"># http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/LN1847/PF259875</span>
+
+source [<span class="hljs-builtin-name">find</span> interface/stlink-v2.cfg]
+
+transport select hla_swd
+
+source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
+
+<span class="hljs-comment"># reset_config srst_only </span></code></pre></div>
+
+<h3 id="3，调试"><a href="#3，调试" class="headerlink" title="3，调试"></a>3，调试</h3><p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193854055.png" alt="image-20210421193854055"></p>
+<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193935417.png" alt="image-20210421193935417"></p>
+<p>出现** Programming Finished ** 就表示下载到开发板上了，不用管那些警告，只要不报错就OK！</p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Win</category>
+      </categories>
+  </entry>
+  <entry>
     <title>分析开源项目</title>
     <url>/2021/05/09/%E5%88%86%E6%9E%90%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/</url>
     <content><![CDATA[<h1 id="分析开源项目-EL-ADMIN"><a href="#分析开源项目-EL-ADMIN" class="headerlink" title="分析开源项目 (EL-ADMIN)"></a>分析开源项目 (EL-ADMIN)</h1><h2 id="1-观察开源项目"><a href="#1-观察开源项目" class="headerlink" title="1 观察开源项目"></a>1 观察开源项目</h2><ul>
@@ -5191,80 +5332,6 @@ torch.cuda.is_available()</code></pre></div>
       <tags>
         <tag>开源</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Stm32CubeMx + Clion环境搭建</title>
-    <url>/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
-    <content><![CDATA[<h1 id="环境和所需工具"><a href="#环境和所需工具" class="headerlink" title="环境和所需工具"></a>环境和所需工具</h1><h2 id="一，-软件环境"><a href="#一，-软件环境" class="headerlink" title="一， 软件环境"></a>一， 软件环境</h2><h3 id="1-Windows-10"><a href="#1-Windows-10" class="headerlink" title="1. Windows 10"></a>1. Windows 10</h3><h3 id="2-stm32cubemx"><a href="#2-stm32cubemx" class="headerlink" title="2. stm32cubemx"></a>2. <a href="https://www.st.com/en/development-tools/stm32cubemx.html">stm32cubemx</a></h3><h3 id="3-CLion-2020"><a href="#3-CLion-2020" class="headerlink" title="3. CLion-2020"></a>3. <a href="https://www.jetbrains.com/clion/">CLion-2020</a></h3><h3 id="4-MinGW"><a href="#4-MinGW" class="headerlink" title="4. MinGW"></a>4. <a href="http://www.mingw-w64.org/doku.php">MinGW</a></h3><h3 id="5-arm-none-eabi-gcc"><a href="#5-arm-none-eabi-gcc" class="headerlink" title="5. arm-none-eabi-gcc"></a>5. <a href="https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads">arm-none-eabi-gcc</a></h3><h3 id="6-openOCD"><a href="#6-openOCD" class="headerlink" title="6. openOCD"></a>6. <a href="https://gnutoolchains.com/arm-eabi/openocd/">openOCD</a></h3><h3 id="7-stlink-v2"><a href="#7-stlink-v2" class="headerlink" title="7. stlink-v2"></a>7. <a href="https://www.st.com/en/development-tools/st-link-v2.html">stlink-v2</a></h3><h2 id="二，硬件环境"><a href="#二，硬件环境" class="headerlink" title="二，硬件环境"></a>二，硬件环境</h2><h3 id="1-单片机：正点原子STM32F103RCT6"><a href="#1-单片机：正点原子STM32F103RCT6" class="headerlink" title="1. 单片机：正点原子STM32F103RCT6"></a>1. 单片机：正点原子STM32F103RCT6</h3><h3 id="2-下载器：-StLink-V2"><a href="#2-下载器：-StLink-V2" class="headerlink" title="2. 下载器： StLink-V2"></a>2. 下载器： StLink-V2</h3><h2 id="三，工具安装"><a href="#三，工具安装" class="headerlink" title="三，工具安装"></a>三，工具安装</h2><p>工具安装部分正常安装就好了，注意安装目录的选择，尽量不要出现中文。</p>
-<h3 id="1，STM32CubeMX"><a href="#1，STM32CubeMX" class="headerlink" title="1，STM32CubeMX"></a>1，STM32CubeMX</h3><p>直接去官网下在就可以，安装之前需要安装Java运行环境</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421142019511.png" alt="image-20210421142019511"></p>
-<h3 id="2，CLion"><a href="#2，CLion" class="headerlink" title="2，CLion"></a>2，CLion</h3><p>官网下载2019以后的版本</p>
-<h3 id="3，MinGW"><a href="#3，MinGW" class="headerlink" title="3，MinGW"></a>3，MinGW</h3><p>Clion是基于CMake来管理项目的，所以首选需要配置好预设的MinGW和CMake环境。</p>
-<p>检查是否配置好环境</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421142250730.png" alt="image-20210421142250730"></p>
-<h3 id="4，arm-none-eabi-gcc4"><a href="#4，arm-none-eabi-gcc4" class="headerlink" title="4，arm-none-eabi-gcc4"></a>4，arm-none-eabi-gcc4</h3><p>需要编译arm架构的程序，所以编译工具使用这个。</p>
-<p>检查是否配置好环境</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421142358791.png" alt="image-20210421142358791"></p>
-<h3 id="5，openOCD"><a href="#5，openOCD" class="headerlink" title="5，openOCD"></a>5，openOCD</h3><p>OpenOCD是用于对STM32进行下载仿真的工具，是一个开源软件包，Windows版本下从这里下载，下载好解压到一个目录就行。</p>
-<p>注意，添加环境变量</p>
-<h3 id="6，CLion配置"><a href="#6，CLion配置" class="headerlink" title="6，CLion配置"></a>6，CLion配置</h3><p><strong>【重点】</strong></p>
-<p>Clion是基于CMake来管理项目的，所以首选我们需要配置好预设的MinGW和CMake环境。</p>
-<p>打开File-Settings-Build,Execution,Deployment选项卡，在Toolchains下面添加一个MinGW环境：</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421192108480.png" alt="image-20210421192108480"></p>
-<p>打开CMake选项栏查看工具链是否正确</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421192217660.png" alt="image-20210421192217660"></p>
-<p>至此Clion环境配置完成，可以创建STM32项目了。</p>
-<h2 id="四，CLion使用"><a href="#四，CLion使用" class="headerlink" title="四，CLion使用"></a>四，CLion使用</h2><h3 id="1，STM32CubeMX创建工程模板"><a href="#1，STM32CubeMX创建工程模板" class="headerlink" title="1，STM32CubeMX创建工程模板"></a>1，STM32CubeMX创建工程模板</h3><p>这里创建一个普通的STM32Cube工程。</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421192506773.png" alt="image-20210421192506773"></p>
-<p>接下来由于 OpenOCD 报错 Error: init mode failed (unable to connect to the target)</p>
-<hr>
-<p>** OpenOCD init failed **</p>
-<p>解决方法：这里是由于PA13和PA14被错误配置导致的。首先修复STM32CubeMX中的SYS设置，在SYS-Debug中选择Serial Wire。然后拉高Boot0和Boot1烧写一个正常固件，然后拉低他们，就能正常烧写了。</p>
-<p>所以需要在MX中设置SYS</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421192911551.png" alt="image-20210421192911551"></p>
-<p>修改项目名称和Toolchain /IDE </p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193052041.png" alt="image-20210421193052041"></p>
-<p>然后创建完成</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193114717.png" alt="image-20210421193114717"></p>
-<h3 id="2，通过CLion导入工程"><a href="#2，通过CLion导入工程" class="headerlink" title="2，通过CLion导入工程"></a>2，通过CLion导入工程</h3><p>通过CLion 导入此项目，直接Open打开即可</p>
-<p>第一次进入，需要设置对应的单片机设置</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193243099.png" alt="image-20210421193243099"></p>
-<p>根据自己的单片机，选择最接近的型号</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193312527.png" alt="image-20210421193312527"></p>
-<p>然后 Copy to Project &amp; Use</p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193345457.png" alt="image-20210421193345457"></p>
-<p>其中的内容原本为</p>
-<div class="code-wrapper"><pre><code class="hljs routeros"><span class="hljs-comment"># This is an ST NUCLEO F103RB board with a single STM32F103RBT6 chip.</span>
-<span class="hljs-comment"># http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/LN1847/PF259875</span>
-
-source [<span class="hljs-builtin-name">find</span> interface/stlink.cfg]
-
-transport select hla_swd
-
-source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
-
-reset_config srst_only</code></pre></div>
-
-<p>修改为</p>
-<div class="code-wrapper"><pre><code class="hljs routeros"><span class="hljs-comment"># This is an ST NUCLEO F103RB board with a single STM32F103RBT6 chip.</span>
-<span class="hljs-comment"># http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/LN1847/PF259875</span>
-
-source [<span class="hljs-builtin-name">find</span> interface/stlink-v2.cfg]
-
-transport select hla_swd
-
-source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
-
-<span class="hljs-comment"># reset_config srst_only </span></code></pre></div>
-
-<h3 id="3，调试"><a href="#3，调试" class="headerlink" title="3，调试"></a>3，调试</h3><p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193854055.png" alt="image-20210421193854055"></p>
-<p><img src="/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20210421193935417.png" alt="image-20210421193935417"></p>
-<p>出现** Programming Finished ** 就表示下载到开发板上了，不用管那些警告，只要不报错就OK！</p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Win</category>
-      </categories>
   </entry>
   <entry>
     <title>如何高效的在Github 上寻找项目</title>

@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://pncalbl.github.io/2021/07/30/Java%E9%9D%A2%E8%AF%95/</loc>
-    <lastmod>2021-08-21</lastmod>
+    <loc>https://pncalbl.github.io/2021/09/02/Effective%20Debugging%20Note/</loc>
+    <lastmod>2021-09-02</lastmod>
+  </url>
+  <url>
+    <loc>https://pncalbl.github.io/2020/09/10/Python%E4%BD%BF%E7%94%A8%E8%A6%86%E7%9B%96%E5%9E%8B%E6%8F%8F%E8%BF%B0%E7%AC%A6/</loc>
+    <lastmod>2021-09-02</lastmod>
+  </url>
+  <url>
+    <loc>https://pncalbl.github.io/2020/08/28/Python%E4%BD%BF%E7%94%A8%E5%8D%8F%E7%A8%8B%E5%81%9A%E7%A6%BB%E6%95%A3%E4%BA%8B%E4%BB%B6%E4%BB%BF%E7%9C%9F/</loc>
+    <lastmod>2021-09-02</lastmod>
   </url>
   <url>
     <loc>https://pncalbl.github.io/2021/05/10/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</loc>
-    <lastmod>2021-08-16</lastmod>
+    <lastmod>2021-08-22</lastmod>
+  </url>
+  <url>
+    <loc>https://pncalbl.github.io/2021/07/30/Java%E9%9D%A2%E8%AF%95/</loc>
+    <lastmod>2021-08-21</lastmod>
   </url>
   <url>
     <loc>https://pncalbl.github.io/2020/09/29/JavaMemento%E6%A8%A1%E5%BC%8F/</loc>
@@ -218,14 +230,6 @@
   </url>
   <url>
     <loc>https://pncalbl.github.io/2020/08/24/Python%E5%85%B3%E4%BA%8E%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/</loc>
-    <lastmod>2021-04-15</lastmod>
-  </url>
-  <url>
-    <loc>https://pncalbl.github.io/2020/09/10/Python%E4%BD%BF%E7%94%A8%E8%A6%86%E7%9B%96%E5%9E%8B%E6%8F%8F%E8%BF%B0%E7%AC%A6/</loc>
-    <lastmod>2021-04-15</lastmod>
-  </url>
-  <url>
-    <loc>https://pncalbl.github.io/2020/08/28/Python%E4%BD%BF%E7%94%A8%E5%8D%8F%E7%A8%8B%E5%81%9A%E7%A6%BB%E6%95%A3%E4%BA%8B%E4%BB%B6%E4%BB%BF%E7%9C%9F/</loc>
     <lastmod>2021-04-15</lastmod>
   </url>
   <url>
