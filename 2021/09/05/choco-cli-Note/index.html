@@ -18,7 +18,7 @@
   <meta name="author" content="pncalbl">
   <meta name="keywords" content="计算机,开发,编程,代码,博客,技术">
   
-  <title>Python使用覆盖型描述符 - pncalbl</title>
+  <title>Chocolatey Note - pncalbl</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -164,7 +164,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Python使用覆盖型描述符">
+            <span class="h2" id="subtitle" title="Chocolatey Note">
               
             </span>
 
@@ -179,8 +179,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2020-09-10 00:00" pubdate>
-        2020年9月10日 凌晨
+      <time datetime="2021-09-05 00:00" pubdate>
+        2021年9月5日 凌晨
       </time>
     </span>
   
@@ -191,7 +191,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      279 字
+      1.3k 字
     </span>
   
 
@@ -201,7 +201,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      5
+      20
        分钟
     </span>
   
@@ -231,71 +231,176 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Python使用覆盖型描述符</h1>
+            <h1 style="display: none">Chocolatey Note</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：3 天前
+                  本文最后更新于：4 分钟前
                 
               </p>
             
             <div class="markdown-body">
-              <h2 id="1-导入模块"><a href="#1-导入模块" class="headerlink" title="1- 导入模块"></a>1- 导入模块</h2><div class="code-wrapper"><pre><code>import abc</code></pre></div><h2 id="2-主要的几个基础类"><a href="#2-主要的几个基础类" class="headerlink" title="2 - 主要的几个基础类"></a>2 - 主要的几个基础类</h2><div class="code-wrapper"><pre><code>class AutoStorage:
-    __counter = 0
-    def __init__(self, ):
-        cls = self.__class__
-        prefix = cls.__name__
-        index = cls.__counter
-        self.storage_name = &apos;_&#123;&#125;#&#123;&#125;&apos;.format(prefix, index)
-        cls.__counter += 1
+              <h1 id="第1章-简介"><a href="#第1章-简介" class="headerlink" title="第1章 简介"></a>第1章 简介</h1><p><a target="_blank" rel="noopener" href="https://chocolatey.org/"><a target="_blank" rel="noopener" href="https://chocolatey.org/">巧克力软件|巧克力 - Windows 的包装经理 (chocolatey.org)</a></a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.chocolatey.org/en-us/">巧克力软件文档|巧克力 - 窗口软件管理 (chocolatey.org)</a></p>
+<p>Chocolatey 是一种软件管理解决方案，不同于您在 Windows 上体验过的任何其他解决方案。Chocolatey 带来了真正的包装管理概念，让您能够对事物进行版本化、管理依赖性和安装顺序、更好的库存管理以及其他功能。</p>
+<p>Chocolatey 是一种软件管理解决方案，不同于您在 Windows 上体验过的任何其他解决方案。它侧重于简单性、安全性和无限可扩展性。您在 PowerShell 中为任何软件（而不仅仅是安装人员）编写一次软件部署，然后您可以在 Windows 的任何地方部署该软件，并提供任何解决方案来管理系统（配置管理、端点管理等），并随着时间的推移跟踪和管理该软件的更新。在”云”中或在带有巧克力的<a target="_blank" rel="noopener" href="https://github.com/Microsoft/vsts-agent-docker/blob/f870fbf259a803c6a6d902e1c01f631936069d66/windows/servercore/10.0.14393/standard/VS2017/Dockerfile">Docker 容器</a>中管理软件。</p>
+<h1 id="第-2-章-chocolatey-软件安装"><a href="#第-2-章-chocolatey-软件安装" class="headerlink" title="第 2 章 chocolatey 软件安装"></a>第 2 章 chocolatey 软件安装</h1><h2 id="1-chocolatey-cli-命令行工具"><a href="#1-chocolatey-cli-命令行工具" class="headerlink" title="1 chocolatey cli 命令行工具"></a>1 chocolatey cli 命令行工具</h2><ul>
+<li><p>使用 cmd.exe 执行安装脚本</p>
+<div class="code-wrapper"><pre><code class="hljs shell">@&quot;%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe&quot; -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command &quot;[System.Net.ServicePointManager]::SecurityProtocol = 3072; iex ((New-Object System.Net.WebClient).DownloadString(&#x27;https://community.chocolatey.org/install.ps1&#x27;))&quot; &amp;&amp; SET &quot;PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin&quot;</code></pre></div>
+</li>
+<li><p>使用 PowerShell.exe 执行安装脚本</p>
+<div class="code-wrapper"><pre><code class="hljs shell">Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString(&#x27;https://community.chocolatey.org/install.ps1&#x27;))</code></pre></div>
+</li>
+<li><p>升级 chocolatey</p>
+<div class="code-wrapper"><pre><code class="hljs shell">choco upgrade chocolatey</code></pre></div>
+</li>
+<li><p>卸载</p>
+<div class="code-wrapper"><pre><code class="hljs shell">如果您决定不喜欢巧克力，只需删除文件夹（以及它创建的环境变量），即可卸载它。由于它实际上并没有安装在程序和功能中，因此您不必担心它会弄乱您的注册表（但是，对于使用 Chocolatey 或手动安装的应用程序来说，情况就不一样了）。
+大部分巧克力都包含在或任何评估。您可以简单地删除该文件夹。C:\ProgramData\chocolatey$env:ChocolateyInstall</code></pre></div>
 
-    def __get__(self, instance, owner):
-        if instance is None:
-            return self
-        else:
-            return getattr(instance, self.storage_name)
+<blockquote>
+<p>  📝<strong>注</strong></p>
+<p>  您可以首先备后子文件夹，以防您发现删除巧克力的不良结果。请记住，并不是每个巧克力包都是安装包，这些子折中可能包含一些未安装的应用程序可能会丢失。备份将允许您测试这一方面。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="2-chocolatey-GUI-图形化工具"><a href="#2-chocolatey-GUI-图形化工具" class="headerlink" title="2 chocolatey GUI 图形化工具"></a>2 chocolatey GUI 图形化工具</h2><div class="code-wrapper"><pre><code class="hljs shell">choco install chocolateygui --install-directory &#x27;D:\Program Files\chocolateygui&#x27; -y # 最完整的指定目录安装
+choco install chocolateygui --dir &#x27;D:\Program Files\chocolateygui&#x27; -y	# 简写的命令
+choco install chocolateygui -y	# 采用默认安装路径
+choco upgrade chocolateygui -y  # 升级 chocolateygui
+注修改安装目录需要付费
+可以通过修改 win 默认安装路径，来避免安装在 C:\Program Files
+建议改为 D:\Program Files</code></pre></div>
 
-    def __set__(self, instance, value):
-        if value &gt; 0:
-            setattr(instance, self.storage_name, value)
-        else:
-            raise ValueError(&apos;value must be &gt; 0&apos;)
+<h1 id="第-3-章-CLI-命令"><a href="#第-3-章-CLI-命令" class="headerlink" title="第 3 章 CLI 命令"></a>第 3 章 CLI 命令</h1><h2 id="1-list-软件列表"><a href="#1-list-软件列表" class="headerlink" title="1 list - 软件列表"></a>1 list - 软件列表</h2><ul>
+<li><p>用法</p>
+<div class="code-wrapper"><pre><code class="hljs shell">choco find &lt;filter&gt; [&lt;options/switches&gt;]
+choco list &lt;filter&gt; [&lt;options/switches&gt;]
+clist &lt;filter&gt; [&lt;options/switches&gt;]</code></pre></div>
 
 
-class Validated(abc.ABC, AutoStorage):
-    def __set__(self, instance, value):
-        value = self.validate(instance, value)
-        super().__set__(instance, value)
-    @abc.abstractmethod
-    def validate(self, instance, value):
-        &quot;&quot;&quot;return validated value or raise ValueError&quot;&quot;&quot;
 
-class Quantity(Validated):
-    &quot;&quot;&quot;a number greater than zero&quot;&quot;&quot;
-    def validate(self, instance, value):
-        if value &lt;= 0:
-            raise ValueError(&apos;value must be &gt; 0&apos;)
-        return value
+</li>
+</ul>
+<ul>
+<li><p>例子</p>
+<div class="code-wrapper"><pre><code class="hljs shell">choco list --local-only
+choco list -li
+choco list -lai
+choco list --page=0 --page-size=25
+choco search git
+choco search git --source=&quot;&#x27;https://somewhere/out/there&#x27;&quot;
+choco search bob -s &quot;&#x27;https://somewhere/protected&#x27;&quot; -u user -p pass</code></pre></div>
 
-class NonBlank(Validated):
-&quot;&quot;&quot;a string with at least one non-space character&quot;&quot;&quot;
-def validate(self, instance, value):
-    value = value.strip()
-    if len(value) == 0:
-        raise ValueError(&apos;value cannot be empty or blank&apos;)
-    return value</code></pre></div><p>AutoStorage自动管理储存属性的描述符类。Validated扩展AutoStorage类的抽象子类，覆盖<strong>set</strong>方法，调用必须由子类实现的validate方法。</p>
-<h2 id="3-主要实现的类"><a href="#3-主要实现的类" class="headerlink" title="3 - 主要实现的类"></a>3 - 主要实现的类</h2><div class="code-wrapper"><pre><code>class LineItem:
-    description = NonBlank()
-    weight = Quantity()
-    price = Quantity()
+</li>
+</ul>
+<h2 id="2-install-安装"><a href="#2-install-安装" class="headerlink" title="2 install - 安装"></a>2 install - 安装</h2><ul>
+<li><p>用法</p>
+<div class="code-wrapper"><pre><code class="hljs shell">choco install &lt;pkg|packages.config&gt; [&lt;pkg2&gt; &lt;pkgN&gt;] [&lt;options/switches&gt;]
+cinst &lt;pkg|packages.config&gt; [&lt;pkg2&gt; &lt;pkgN&gt;] [&lt;options/switches&gt;]</code></pre></div>
 
-    def __init__(self, description, weight, price):
-        self.description = description
-        self.weight = weight
-        self.price = price
 
-    def subtotal(self):
-        return self.weight * self.price</code></pre></div>
+
+</li>
+</ul>
+<ul>
+<li><p>例子</p>
+<div class="code-wrapper"><pre><code class="hljs shell">choco install sysinternals
+choco install notepadplusplus googlechrome atom 7zip
+choco install notepadplusplus --force --force-dependencies
+choco install notepadplusplus googlechrome atom 7zip -dvfy
+choco install git -y --params=&quot;&#x27;/GitAndUnixToolsOnPath /NoAutoCrlf&#x27;&quot;
+choco install git -y --params=&quot;&#x27;/GitAndUnixToolsOnPath /NoAutoCrlf&#x27;&quot; --install-arguments=&quot;&#x27;/DIR=C:\git&#x27;&quot;
+<span class="hljs-meta">#</span><span class="bash"> Params are package parameters, passed to the package</span>
+<span class="hljs-meta">#</span><span class="bash"> Install args are installer arguments, appended to the silentArgs</span> 
+<span class="hljs-meta">#</span><span class="bash">  <span class="hljs-keyword">in</span> the package <span class="hljs-keyword">for</span> the installer itself</span>
+choco install nodejs.install --version 0.10.35
+choco install git -s &quot;&#x27;https://somewhere/out/there&#x27;&quot;
+choco install git -s &quot;&#x27;https://somewhere/protected&#x27;&quot; -u user -p pass</code></pre></div>
+
+
+</li>
+</ul>
+<h2 id="3-upgrade-升级"><a href="#3-upgrade-升级" class="headerlink" title="3 upgrade - 升级"></a>3 upgrade - 升级</h2><ul>
+<li><p>用法</p>
+<div class="code-wrapper"><pre><code class="hljs shell">choco upgrade &lt;pkg|all&gt; [&lt;pkg2&gt; &lt;pkgN&gt;] [&lt;options/switches&gt;]
+cup &lt;pkg|all&gt; [&lt;pkg2&gt; &lt;pkgN&gt;] [&lt;options/switches&gt;]</code></pre></div>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>例子</p>
+<div class="code-wrapper"><pre><code class="hljs shell">choco upgrade chocolatey
+choco upgrade notepadplusplus googlechrome atom 7zip
+choco upgrade notepadplusplus googlechrome atom 7zip -dvfy
+choco upgrade git -y --params=&quot;&#x27;/GitAndUnixToolsOnPath /NoAutoCrlf&#x27;&quot;
+choco upgrade git -y --params=&quot;&#x27;/GitAndUnixToolsOnPath /NoAutoCrlf&#x27;&quot; --install-args=&quot;&#x27;/DIR=C:\git&#x27;&quot;
+<span class="hljs-meta">#</span><span class="bash"> Params are package parameters, passed to the package</span>
+<span class="hljs-meta">#</span><span class="bash"> Install args are installer arguments, appended to the silentArgs</span> 
+<span class="hljs-meta">#</span><span class="bash">  <span class="hljs-keyword">in</span> the package <span class="hljs-keyword">for</span> the installer itself</span>
+choco upgrade nodejs.install --version 0.10.35
+choco upgrade git -s &quot;&#x27;https://somewhere/out/there&#x27;&quot;
+choco upgrade git -s &quot;&#x27;https://somewhere/protected&#x27;&quot; -u user -p pass
+choco upgrade all
+choco upgrade all --except=&quot;&#x27;skype,conemu&#x27;&quot;</code></pre></div>
+
+
+</li>
+</ul>
+<h2 id="4-uninstall-卸载"><a href="#4-uninstall-卸载" class="headerlink" title="4 uninstall - 卸载"></a>4 uninstall - 卸载</h2><ul>
+<li><p>用法</p>
+<div class="code-wrapper"><pre><code class="hljs shell">choco uninstall &lt;pkg|all&gt; [pkg2 pkgN] [options/switches]
+cuninst &lt;pkg|all&gt; [pkg2 pkgN] [options/switches]</code></pre></div>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>例子</p>
+<div class="code-wrapper"><pre><code class="hljs shell">choco uninstall git
+choco uninstall notepadplusplus googlechrome atom 7zip
+choco uninstall notepadplusplus googlechrome atom 7zip -dv
+choco uninstall ruby --version 1.8.7.37402
+choco uninstall nodejs.install --all-versions</code></pre></div>
+
+
+</li>
+</ul>
+<h2 id="5-download-下载"><a href="#5-download-下载" class="headerlink" title="5 download - 下载"></a>5 download - 下载</h2><ul>
+<li><p>用法</p>
+<div class="code-wrapper"><pre><code class="hljs shell">choco download &lt;pkg&gt; [&lt;options/switches&gt;] [install_script_variable=value]
+
+Install script variables are values that are discovered in the 
+ chocolateyInstall.ps1 (or a script it calls). When you find values
+ there maybe don&#x27;t get found and replaced or they use a default 
+ value and you want to provide a value for them to use instead, you
+ can find them and then provide the value you want to pass instead.
+ For example, in the Firefox package, it uses a default value of 
+ &#x27;en-US&#x27; for `$locale`. If you want to change that, you can add 
+ `locale` and a value, which will replace `$locale` in the script,
+ e.g. `choco download firefox --internalize locale=en-GB`.</code></pre></div>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>例子</p>
+<div class="code-wrapper"><pre><code class="hljs shell">choco download sysinternals
+
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-comment">### [Chocolatey for Business](https://chocolatey.org/compare) / Chocolatey for MSP</span></span>
+choco download notepadplusplus --internalize
+choco download notepadplusplus.install --internalize --resources-location \\server\share
+choco download notepadplusplus.install --internalize --resources-location http://somewhere/internal --append-useoriginallocation
+choco download KB3033929 --internalize -internalize-all-urls --append-useoriginallocation
+choco download firefox --internalize locale=es-AR</code></pre></div>
+
+</li>
+</ul>
+
             </div>
             <hr>
             <div>
@@ -304,10 +409,21 @@ def validate(self, instance, value):
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/Python/">Python</a>
+                      <a class="hover-with-bg" href="/categories/Technical/">Technical</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Technical/Note/">Note</a>
                     
                   </div>
                 
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/choco/">choco</a>
+                    
+                      <a class="hover-with-bg" href="/tags/win-software-management/">win software management</a>
+                    
+                  </div>
                 
               </div>
               
@@ -322,18 +438,12 @@ def validate(self, instance, value):
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2020/09/11/Java%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Java单例模式Singleton</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2020/09/09/Python%E4%BD%BF%E7%94%A8%E8%A3%85%E9%A5%B0%E5%99%A8/">
-                        <span class="hidden-mobile">Python使用@property装饰器</span>
+                      <a href="/2021/09/02/Effective%20Debugging%20Note/">
+                        <span class="hidden-mobile">Effective Debugging Note</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

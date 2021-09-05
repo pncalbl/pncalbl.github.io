@@ -183,6 +183,57 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2020/10/06/JavaState%E6%A8%A1%E5%BC%8F/" target="_self">
+          JavaState模式
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/10/06/JavaState%E6%A8%A1%E5%BC%8F/" target="_self">
+          
+          
+            
+          
+          
+  用类表示状态
+
+1 - 表示金库状态的接口public interface State &#123;
+    public abstract void doClock(Context context, int hour);    // 设置时间
+    public abstract void doUse(Context context);                // 使用金库
+  
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-10-06 00:00" pubdate>
+              2020-10-06
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/09/29/JavaMemento%E6%A8%A1%E5%BC%8F/" target="_self">
           JavaMemento模式
         </a>
@@ -630,61 +681,6 @@ public class Database &#123;
             <i class="iconfont icon-date"></i>
             <time datetime="2020-09-18 00:00" pubdate>
               2020-09-18
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/09/17/JavaAbstractFactory%E6%A8%A1%E5%BC%8F%E8%A1%A8%E6%A0%BC%E5%8C%96%E7%89%88%E6%9C%AC/" target="_self">
-          JavaAbstractFactory模式表格化版本
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/09/17/JavaAbstractFactory%E6%A8%A1%E5%BC%8F%E8%A1%A8%E6%A0%BC%E5%8C%96%E7%89%88%E6%9C%AC/" target="_self">
-          
-          
-            
-          
-          
-  将关联零件组装成产品
-
-1 - 方便统一处理Link和Tray的类public abstract class Item &#123;
-    protected String caption;
-
-    public Item(String caption)&#123;
-        this.caption = caption;
-    &#125;
-
-    public abstra
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-09-17 00:00" pubdate>
-              2020-09-17
             </time>
           </div>
         
