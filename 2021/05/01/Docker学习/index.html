@@ -191,7 +191,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      16.6k 字
+      16.8k 字
     </span>
   
 
@@ -201,7 +201,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      225
+      227
        分钟
     </span>
   
@@ -235,7 +235,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：11 天前
+                  本文最后更新于：1 分钟前
                 
               </p>
             
@@ -431,6 +431,16 @@ HostOS：物理机里的系统（OS）</code></pre></div>
 <p>因此,当新建一个 容器时,docker不需要和虚拟机一样重新加载一个操作系统内核。因而避免引导、加载操作系统内核返个比较费时费资源的过程,当新建一个虚拟机时,虚拟机软件需要加载GuestOS,返个新建过程是分钟级别的。而docker由于直接利用宿主机的操作系统,则省略了这个复杂的过程,因此新建一个docker容器只需要几秒钟。</p>
 </li>
 </ul>
+<h3 id="2-5-注意非-root-用户的权限问题"><a href="#2-5-注意非-root-用户的权限问题" class="headerlink" title="2.5 注意非 root 用户的权限问题"></a>2.5 注意非 root 用户的权限问题</h3><p>在用户权限下docker 命令需要 sudo 否则出现以下问题</p>
+<div class="code-wrapper"><pre><code class="hljs shell">Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get &quot;http://%2Fvar%2Frun%2Fdocker.sock/v1.40/version&quot;: dial unix /var/run/docker.sock: connect: permission denied</code></pre></div>
+
+<p>通过将用户添加到docker用户组可以将sudo去掉，命令如下</p>
+<div class="code-wrapper"><pre><code class="hljs shell">sudo groupadd docker #添加docker用户组
+
+sudo gpasswd -a $USER docker #将登陆用户加入到docker用户组中
+
+newgrp docker #更新用户组</code></pre></div>
+
 <h2 id="3-Docker-命令"><a href="#3-Docker-命令" class="headerlink" title="3 Docker 命令"></a>3 Docker 命令</h2><h3 id="3-1-帮助命令"><a href="#3-1-帮助命令" class="headerlink" title="3.1 帮助命令"></a>3.1 帮助命令</h3><div class="code-wrapper"><pre><code class="hljs dockerfile">docker version    <span class="hljs-comment">#显示docker的版本信息。</span>
 docker info       <span class="hljs-comment">#显示docker的系统信息，包括镜像和容器的数量</span>
 docker 命令 --help <span class="hljs-comment">#帮助命令</span></code></pre></div>
