@@ -273,6 +273,31 @@
 <li>适当地配置自己所用的工具，以提升工作效率。</li>
 <li>通过版本控制系统，在各台计算机之间共用同一套环境配置方案。</li>
 </ul>
+<h2 id="第26条：用版本控制系统寻找bug发生的原因及经过"><a href="#第26条：用版本控制系统寻找bug发生的原因及经过" class="headerlink" title="第26条：用版本控制系统寻找bug发生的原因及经过"></a>第26条：用版本控制系统寻找bug发生的原因及经过</h2><ul>
+<li>用版本控制系统来查看文件的修订记录，以确定bug是在什么时候、以何种方式引入的。</li>
+<li>用版本控制系统来查看正常运行的版本与出现故障的版本之间有何区别。</li>
+</ul>
+<h2 id="第27条：用工具监测由多个独立程序所构成的系统"><a href="#第27条：用工具监测由多个独立程序所构成的系统" class="headerlink" title="第27条：用工具监测由多个独立程序所构成的系统"></a>第27条：用工具监测由多个独立程序所构成的系统</h2><ul>
+<li>设定一套基础设施监测机制，以检查你所提供的服务中的各个部分，是否都在正常地运作。</li>
+<li>使自己能够在服务发生故障时迅速得到通知，以便在该状态下调试系统。</li>
+<li>查阅故障记录，并试着从中发现一些规律，这样或许能够帮助你找到问题的原因。</li>
+</ul>
+<h1 id="第4章-调试器的使用技巧"><a href="#第4章-调试器的使用技巧" class="headerlink" title="第4章 调试器的使用技巧"></a>第4章 调试器的使用技巧</h1><h2 id="第28条：编译代码时把符号信息包含进来，以便于调试"><a href="#第28条：编译代码时把符号信息包含进来，以便于调试" class="headerlink" title="第28条：编译代码时把符号信息包含进来，以便于调试"></a>第28条：编译代码时把符号信息包含进来，以便于调试</h2><ul>
+<li>对构建程序所用的配置选项进行调整，使得调试信息的详细程度与你的需要相符。</li>
+<li>禁用编译器的代码优化功能，以便使生成出来的代码能够与你所要调试的代码相对应。</li>
+</ul>
+<h2 id="第29条：对代码进行单步调试"><a href="#第29条：对代码进行单步调试" class="headerlink" title="第29条：对代码进行单步调试"></a>第29条：对代码进行单步调试</h2><ul>
+<li>通过单步调试来查看语句的执行顺序及程序的状态。</li>
+<li>为了提升调试速度，我们可以直接经过某些与bug无关的部分，而不用进入其中。</li>
+<li>如果发现程序所经过的某个例程有问题，那就给该例程设置断点，重新运行程序，并进入例程中进行单步调试，以求缩小有待排查的范围。</li>
+</ul>
+<h2 id="第30条：设置代码断点和数据断点"><a href="#第30条：设置代码断点和数据断点" class="headerlink" title="第30条：设置代码断点和数据断点"></a>第30条：设置代码断点和数据断点</h2><ul>
+<li>通过代码断点来缩减需要关注的代码范围。</li>
+<li>如果某段代码会执行很多次，而其中只有少数几次是你所关心的，那么就先在其执行路径的上游设置断点，等程序暂停之后，再给这段代码设置断点。</li>
+<li>如果要对非正常退出的情况进行调试，那么就针对异常或针对程序在退出时所调用的例程来设置断点。</li>
+<li>如果程序失去了响应，那么可以在调试器里面令其停止执行。</li>
+<li>用数据断点来锁定那些导致变量值意外改变的bug。</li>
+</ul>
 ]]></content>
       <categories>
         <category>Technical</category>
@@ -853,173 +878,6 @@ HTML文本效果图</code></pre></div><html><head><title>LinkPage</title></head>
       </categories>
   </entry>
   <entry>
-    <title>JavaChainOfResponsibility模式</title>
-    <url>/2020/09/24/JavaChainOfResponsibility%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  推卸责任</p>
-</blockquote>
-<h2 id="1-表示发生的问题的类-它带有问题编号-number"><a href="#1-表示发生的问题的类-它带有问题编号-number" class="headerlink" title="1 - 表示发生的问题的类.它带有问题编号(number)"></a>1 - 表示发生的问题的类.它带有问题编号(number)</h2><div class="code-wrapper"><pre><code>public class Trouble &#123;
-    private int number; // 问题编号
-
-    public Trouble(int number)&#123; // 生成问题
-        this.number = number;
-    &#125;
-
-    public int getNumber()&#123;
-        return number;
-    &#125;
-
-    @Override
-    public String toString()&#123;
-        return &quot;[Trouble &quot; + number + &quot;]&quot;;
-    &#125;
-&#125;</code></pre></div><h2 id="2-用来解决问题的抽象类"><a href="#2-用来解决问题的抽象类" class="headerlink" title="2 - 用来解决问题的抽象类"></a>2 - 用来解决问题的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class Support &#123;
-    private String name;    // 解决问题的实例的名字
-    private Support next;   // 要推卸给的对象
-
-    public Support(String name)&#123;
-        this.name = name;
-    &#125;
-
-    public Support setNext(Support next)&#123;
-        this.next = next;
-        return next;
-    &#125;
-
-    public final void support(Trouble trouble)&#123; // 解决问题的步骤
-        if (resolve(trouble))&#123;
-            done(trouble);
-        &#125;else if(next != null)&#123;
-            next.support(trouble);
-        &#125;else&#123;
-            fail(trouble);
-        &#125;
-    &#125;
-
-    @Override
-    public String toString()&#123;
-        return &quot;[&quot; + name + &quot;]&quot;;
-    &#125;
-
-    protected abstract boolean resolve(Trouble trouble);
-
-    protected  void done(Trouble trouble)&#123;  // 解决
-        System.out.println(trouble + &quot; is resolved by &quot; + this + &quot;.&quot;);
-    &#125;
-
-    protected void fail(Trouble trouble)&#123;   // 未解决
-        System.out.println(trouble + &quot;cannot be resolved.&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="3-用来解决问题的具体类-永远-“-不处理问题-“"><a href="#3-用来解决问题的具体类-永远-“-不处理问题-“" class="headerlink" title="3 - 用来解决问题的具体类(永远 “ 不处理问题 “)"></a>3 - 用来解决问题的具体类(永远 “ 不处理问题 “)</h2><div class="code-wrapper"><pre><code>public class NoSupport extends Support&#123;
-    public NoSupport(String name)&#123;
-        super(name);
-    &#125;
-
-    @Override
-    protected boolean resolve(Trouble trouble) &#123;    // 解决问题的方法
-        return false;                               // 自己什么也不做
-    &#125;
-&#125;</code></pre></div><h2 id="4-用来解决问题的具体类-仅解决编号小于指定编号的问题"><a href="#4-用来解决问题的具体类-仅解决编号小于指定编号的问题" class="headerlink" title="4 - 用来解决问题的具体类(仅解决编号小于指定编号的问题)"></a>4 - 用来解决问题的具体类(仅解决编号小于指定编号的问题)</h2><div class="code-wrapper"><pre><code>public class LimitSupport extends Support&#123;
-    private int limit;
-    public LimitSupport(String name, int limit) &#123;
-        super(name);
-        this.limit = limit;
-    &#125;
-
-    @Override
-    protected boolean resolve(Trouble trouble) &#123;
-        return trouble.getNumber() &lt; limit;
-    &#125;
-&#125;</code></pre></div><h2 id="5-用来解决问题的具体类-仅解决奇数编号的问题"><a href="#5-用来解决问题的具体类-仅解决奇数编号的问题" class="headerlink" title="5 - 用来解决问题的具体类(仅解决奇数编号的问题)"></a>5 - 用来解决问题的具体类(仅解决奇数编号的问题)</h2><div class="code-wrapper"><pre><code>public class OddSupport extends Support&#123;
-    public OddSupport(String name) &#123;
-        super(name);
-    &#125;
-
-    @Override
-    protected boolean resolve(Trouble trouble) &#123;
-        return trouble.getNumber() % 2 == 1;
-    &#125;
-&#125;</code></pre></div><h2 id="6-用来解决问题的具体类-仅解决指定编号的问题"><a href="#6-用来解决问题的具体类-仅解决指定编号的问题" class="headerlink" title="6 - 用来解决问题的具体类(仅解决指定编号的问题)"></a>6 - 用来解决问题的具体类(仅解决指定编号的问题)</h2><div class="code-wrapper"><pre><code>public class SpecialSupport extends Support&#123;
-    private int number;
-    public SpecialSupport(String name, int number) &#123;
-        super(name);
-        this.number = number;
-    &#125;
-
-    @Override
-    protected boolean resolve(Trouble trouble) &#123;
-        return trouble.getNumber() == number;
-    &#125;
-&#125;</code></pre></div><h2 id="7-制作Support的职责链-制造问题并测试程序行为"><a href="#7-制作Support的职责链-制造问题并测试程序行为" class="headerlink" title="7 - 制作Support的职责链, 制造问题并测试程序行为"></a>7 - 制作Support的职责链, 制造问题并测试程序行为</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        Support alice = new NoSupport(&quot;Alice&quot;);
-        Support bob = new LimitSupport(&quot;Bob&quot;, 10);
-        Support charlie = new SpecialSupport(&quot;Charlie&quot;, 29);
-        Support diana = new LimitSupport(&quot;Diana&quot;, 20);
-        Support elmo = new OddSupport(&quot;Elmo&quot;);
-        Support fred = new LimitSupport(&quot;Fred&quot;, 30);
-        // 形成职责链
-        alice.setNext(bob).setNext(charlie).setNext(diana).setNext(elmo).setNext(fred);
-        for (int i = 0; i &lt; 50; i++) &#123;
-            alice.support(new Trouble(i));
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="8-输出示例"><a href="#8-输出示例" class="headerlink" title="8 - 输出示例"></a>8 - 输出示例</h2><div class="code-wrapper"><pre><code>[Trouble 0] is resolved by [Bob].
-[Trouble 1] is resolved by [Bob].
-[Trouble 2] is resolved by [Bob].
-[Trouble 3] is resolved by [Bob].
-[Trouble 4] is resolved by [Bob].
-[Trouble 5] is resolved by [Bob].
-[Trouble 6] is resolved by [Bob].
-[Trouble 7] is resolved by [Bob].
-[Trouble 8] is resolved by [Bob].
-[Trouble 9] is resolved by [Bob].
-[Trouble 10] is resolved by [Diana].
-[Trouble 11] is resolved by [Diana].
-[Trouble 12] is resolved by [Diana].
-[Trouble 13] is resolved by [Diana].
-[Trouble 14] is resolved by [Diana].
-[Trouble 15] is resolved by [Diana].
-[Trouble 16] is resolved by [Diana].
-[Trouble 17] is resolved by [Diana].
-[Trouble 18] is resolved by [Diana].
-[Trouble 19] is resolved by [Diana].
-[Trouble 20] is resolved by [Fred].
-[Trouble 21] is resolved by [Elmo].
-[Trouble 22] is resolved by [Fred].
-[Trouble 23] is resolved by [Elmo].
-[Trouble 24] is resolved by [Fred].
-[Trouble 25] is resolved by [Elmo].
-[Trouble 26] is resolved by [Fred].
-[Trouble 27] is resolved by [Elmo].
-[Trouble 28] is resolved by [Fred].
-[Trouble 29] is resolved by [Charlie].
-[Trouble 30]cannot be resolved.
-[Trouble 31] is resolved by [Elmo].
-[Trouble 32]cannot be resolved.
-[Trouble 33] is resolved by [Elmo].
-[Trouble 34]cannot be resolved.
-[Trouble 35] is resolved by [Elmo].
-[Trouble 36]cannot be resolved.
-[Trouble 37] is resolved by [Elmo].
-[Trouble 38]cannot be resolved.
-[Trouble 39] is resolved by [Elmo].
-[Trouble 40]cannot be resolved.
-[Trouble 41] is resolved by [Elmo].
-[Trouble 42]cannot be resolved.
-[Trouble 43] is resolved by [Elmo].
-[Trouble 44]cannot be resolved.
-[Trouble 45] is resolved by [Elmo].
-[Trouble 46]cannot be resolved.
-[Trouble 47] is resolved by [Elmo].
-[Trouble 48]cannot be resolved.
-[Trouble 49] is resolved by [Elmo].</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
     <title>JavaBridge模式</title>
     <url>/2020/09/18/JavaBridge%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -1310,99 +1168,167 @@ HTML文本效果图</code></pre></div><html><head><title>LinkPage</title></head>
       </categories>
   </entry>
   <entry>
-    <title>JavaFacade模式</title>
-    <url>/2020/09/25/JavaFacade%E6%A8%A1%E5%BC%8F/</url>
+    <title>JavaChainOfResponsibility模式</title>
+    <url>/2020/09/24/JavaChainOfResponsibility%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
-<p>  简单窗口</p>
+<p>  推卸责任</p>
 </blockquote>
-<h2 id="1-从邮件地址中获取用户名的类"><a href="#1-从邮件地址中获取用户名的类" class="headerlink" title="1- 从邮件地址中获取用户名的类"></a>1- 从邮件地址中获取用户名的类</h2><div class="code-wrapper"><pre><code>// 需要配置相应的数据库
-public class Database &#123;
-    private Database() &#123;    // 防止外部new出Database的实例,所以声明为private
+<h2 id="1-表示发生的问题的类-它带有问题编号-number"><a href="#1-表示发生的问题的类-它带有问题编号-number" class="headerlink" title="1 - 表示发生的问题的类.它带有问题编号(number)"></a>1 - 表示发生的问题的类.它带有问题编号(number)</h2><div class="code-wrapper"><pre><code>public class Trouble &#123;
+    private int number; // 问题编号
+
+    public Trouble(int number)&#123; // 生成问题
+        this.number = number;
     &#125;
 
-    public static Properties getProperties(String dbname)&#123;  // 根据数据库名获取Properties
-        String filename = dbname + &quot;.txt&quot;;
-        Properties prop = new Properties();
-        try &#123;
-            prop.load(new FileInputStream(filename));
-        &#125;catch (IOException e)&#123;
-            System.out.println(&quot;Warning: &quot; + filename + &quot; is not found.&quot;);
+    public int getNumber()&#123;
+        return number;
+    &#125;
+
+    @Override
+    public String toString()&#123;
+        return &quot;[Trouble &quot; + number + &quot;]&quot;;
+    &#125;
+&#125;</code></pre></div><h2 id="2-用来解决问题的抽象类"><a href="#2-用来解决问题的抽象类" class="headerlink" title="2 - 用来解决问题的抽象类"></a>2 - 用来解决问题的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class Support &#123;
+    private String name;    // 解决问题的实例的名字
+    private Support next;   // 要推卸给的对象
+
+    public Support(String name)&#123;
+        this.name = name;
+    &#125;
+
+    public Support setNext(Support next)&#123;
+        this.next = next;
+        return next;
+    &#125;
+
+    public final void support(Trouble trouble)&#123; // 解决问题的步骤
+        if (resolve(trouble))&#123;
+            done(trouble);
+        &#125;else if(next != null)&#123;
+            next.support(trouble);
+        &#125;else&#123;
+            fail(trouble);
         &#125;
-        return prop;
-    &#125;
-&#125;</code></pre></div><h2 id="2-编写HTML文件的类"><a href="#2-编写HTML文件的类" class="headerlink" title="2 - 编写HTML文件的类"></a>2 - 编写HTML文件的类</h2><div class="code-wrapper"><pre><code>public class HtmlWriter &#123;
-    private Writer writer;
-    public HtmlWriter(Writer writer)&#123;
-        this.writer = writer;
     &#125;
 
-    public void title(String title) throws IOException&#123;
-        writer.write(&quot;&lt;html&gt;&quot;);
-        writer.write(&quot;&lt;head&gt;&quot;);
-        writer.write(&quot;&lt;title&gt;&quot; + title + &quot;&lt;/title&gt;&quot;);
-        writer.write(&quot;&lt;/head&gt;&quot;);
-        writer.write(&quot;&lt;body&gt;\n&quot;);
-        writer.write(&quot;&lt;h1&gt;&quot; + title + &quot;&lt;/h1&gt;&quot;);
+    @Override
+    public String toString()&#123;
+        return &quot;[&quot; + name + &quot;]&quot;;
     &#125;
 
-    public void paragraph(String msg) throws IOException&#123;
-        writer.write(&quot;&lt;p&gt;&quot; + msg + &quot;&lt;/p&gt;\n&quot;);
+    protected abstract boolean resolve(Trouble trouble);
+
+    protected  void done(Trouble trouble)&#123;  // 解决
+        System.out.println(trouble + &quot; is resolved by &quot; + this + &quot;.&quot;);
     &#125;
 
-    public void link(String href, String caption) throws IOException&#123;
-        paragraph(&quot;&lt;a href=\&quot;&quot; + href + &quot;\&quot;&gt;&quot; + caption + &quot;&lt;/a&gt;&quot;);
+    protected void fail(Trouble trouble)&#123;   // 未解决
+        System.out.println(trouble + &quot;cannot be resolved.&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="3-用来解决问题的具体类-永远-“-不处理问题-“"><a href="#3-用来解决问题的具体类-永远-“-不处理问题-“" class="headerlink" title="3 - 用来解决问题的具体类(永远 “ 不处理问题 “)"></a>3 - 用来解决问题的具体类(永远 “ 不处理问题 “)</h2><div class="code-wrapper"><pre><code>public class NoSupport extends Support&#123;
+    public NoSupport(String name)&#123;
+        super(name);
     &#125;
 
-    public void mailto(String mailAddr, String userName) throws IOException&#123;
-        link(&quot;mailto: &quot; + mailAddr, userName);
+    @Override
+    protected boolean resolve(Trouble trouble) &#123;    // 解决问题的方法
+        return false;                               // 自己什么也不做
+    &#125;
+&#125;</code></pre></div><h2 id="4-用来解决问题的具体类-仅解决编号小于指定编号的问题"><a href="#4-用来解决问题的具体类-仅解决编号小于指定编号的问题" class="headerlink" title="4 - 用来解决问题的具体类(仅解决编号小于指定编号的问题)"></a>4 - 用来解决问题的具体类(仅解决编号小于指定编号的问题)</h2><div class="code-wrapper"><pre><code>public class LimitSupport extends Support&#123;
+    private int limit;
+    public LimitSupport(String name, int limit) &#123;
+        super(name);
+        this.limit = limit;
     &#125;
 
-    public void close() throws IOException&#123;
-        writer.write(&quot;&lt;/body&gt;&quot;);
-        writer.write(&quot;&lt;/html&gt;&quot;);
-        writer.close();
+    @Override
+    protected boolean resolve(Trouble trouble) &#123;
+        return trouble.getNumber() &lt; limit;
     &#125;
-&#125;</code></pre></div><h2 id="3-根据邮件地址编写该用户的Web页面"><a href="#3-根据邮件地址编写该用户的Web页面" class="headerlink" title="3 - 根据邮件地址编写该用户的Web页面"></a>3 - 根据邮件地址编写该用户的Web页面</h2><div class="code-wrapper"><pre><code>public class PageMaker &#123;
-    private PageMaker() &#123;    // 防止外部new出PageMaker的实例,所以声明为private
+&#125;</code></pre></div><h2 id="5-用来解决问题的具体类-仅解决奇数编号的问题"><a href="#5-用来解决问题的具体类-仅解决奇数编号的问题" class="headerlink" title="5 - 用来解决问题的具体类(仅解决奇数编号的问题)"></a>5 - 用来解决问题的具体类(仅解决奇数编号的问题)</h2><div class="code-wrapper"><pre><code>public class OddSupport extends Support&#123;
+    public OddSupport(String name) &#123;
+        super(name);
     &#125;
 
-    public static void makeWelcomePage(String mailAddr, String filename)&#123;
-        try &#123;
-            Properties mailProp = Database.getProperties(&quot;mailData&quot;);
-            String userName = mailProp.getProperty(mailAddr);
-            HtmlWriter writer = new HtmlWriter(new FileWriter(filename));
-            writer.title(&quot;Welcome to &quot; + userName + &quot;`s page!&quot;);
-            writer.paragraph(userName + &quot;欢迎来到&quot; + userName + &quot;的主页&quot;);
-            writer.paragraph(&quot;等着你的邮件哦!&quot;);
-            writer.mailto(mailAddr, userName);
-            writer.close();
-            System.out.println(filename + &quot; is created for &quot; + mailAddr + &quot; (&quot; +
-                    userName + &quot;)&quot;);
-        &#125;catch (IOException e)&#123;
-            e.printStackTrace();
-        &#125;
-
+    @Override
+    protected boolean resolve(Trouble trouble) &#123;
+        return trouble.getNumber() % 2 == 1;
     &#125;
-&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+&#125;</code></pre></div><h2 id="6-用来解决问题的具体类-仅解决指定编号的问题"><a href="#6-用来解决问题的具体类-仅解决指定编号的问题" class="headerlink" title="6 - 用来解决问题的具体类(仅解决指定编号的问题)"></a>6 - 用来解决问题的具体类(仅解决指定编号的问题)</h2><div class="code-wrapper"><pre><code>public class SpecialSupport extends Support&#123;
+    private int number;
+    public SpecialSupport(String name, int number) &#123;
+        super(name);
+        this.number = number;
+    &#125;
+
+    @Override
+    protected boolean resolve(Trouble trouble) &#123;
+        return trouble.getNumber() == number;
+    &#125;
+&#125;</code></pre></div><h2 id="7-制作Support的职责链-制造问题并测试程序行为"><a href="#7-制作Support的职责链-制造问题并测试程序行为" class="headerlink" title="7 - 制作Support的职责链, 制造问题并测试程序行为"></a>7 - 制作Support的职责链, 制造问题并测试程序行为</h2><div class="code-wrapper"><pre><code>public class Main &#123;
     public static void main(String[] args) &#123;
-        PageMaker.makeWelcomePage(&quot;hyuki@hyuki.com&quot;, &quot;welcome.html&quot;);
+        Support alice = new NoSupport(&quot;Alice&quot;);
+        Support bob = new LimitSupport(&quot;Bob&quot;, 10);
+        Support charlie = new SpecialSupport(&quot;Charlie&quot;, 29);
+        Support diana = new LimitSupport(&quot;Diana&quot;, 20);
+        Support elmo = new OddSupport(&quot;Elmo&quot;);
+        Support fred = new LimitSupport(&quot;Fred&quot;, 30);
+        // 形成职责链
+        alice.setNext(bob).setNext(charlie).setNext(diana).setNext(elmo).setNext(fred);
+        for (int i = 0; i &lt; 50; i++) &#123;
+            alice.support(new Trouble(i));
+        &#125;
     &#125;
-&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><html><head><title>Welcome to Hiroshi Yuki`s page!</title></head><body>
-<h1>Welcome to Hiroshi Yuki`s page!</h1><p>null欢迎来到null的主页</p>
-<p>等着你的邮件哦!</p>
-<p><a href="mailto: hyuki@hyuki.com">Hiroshi Yuki</a></p>
-</body></html>
-
-<div class="code-wrapper"><pre><code>// HTML源码
-&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to Hiroshi Yuki`s page!&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h1&gt;Welcome to Hiroshi Yuki`s page!&lt;/h1&gt;
-&lt;p&gt;null欢迎来到null的主页&lt;/p&gt;
-&lt;p&gt;等着你的邮件哦!&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;mailto: hyuki@hyuki.com&quot;&gt;Hiroshi Yuki&lt;/a&gt;&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre></div>]]></content>
+&#125;</code></pre></div><h2 id="8-输出示例"><a href="#8-输出示例" class="headerlink" title="8 - 输出示例"></a>8 - 输出示例</h2><div class="code-wrapper"><pre><code>[Trouble 0] is resolved by [Bob].
+[Trouble 1] is resolved by [Bob].
+[Trouble 2] is resolved by [Bob].
+[Trouble 3] is resolved by [Bob].
+[Trouble 4] is resolved by [Bob].
+[Trouble 5] is resolved by [Bob].
+[Trouble 6] is resolved by [Bob].
+[Trouble 7] is resolved by [Bob].
+[Trouble 8] is resolved by [Bob].
+[Trouble 9] is resolved by [Bob].
+[Trouble 10] is resolved by [Diana].
+[Trouble 11] is resolved by [Diana].
+[Trouble 12] is resolved by [Diana].
+[Trouble 13] is resolved by [Diana].
+[Trouble 14] is resolved by [Diana].
+[Trouble 15] is resolved by [Diana].
+[Trouble 16] is resolved by [Diana].
+[Trouble 17] is resolved by [Diana].
+[Trouble 18] is resolved by [Diana].
+[Trouble 19] is resolved by [Diana].
+[Trouble 20] is resolved by [Fred].
+[Trouble 21] is resolved by [Elmo].
+[Trouble 22] is resolved by [Fred].
+[Trouble 23] is resolved by [Elmo].
+[Trouble 24] is resolved by [Fred].
+[Trouble 25] is resolved by [Elmo].
+[Trouble 26] is resolved by [Fred].
+[Trouble 27] is resolved by [Elmo].
+[Trouble 28] is resolved by [Fred].
+[Trouble 29] is resolved by [Charlie].
+[Trouble 30]cannot be resolved.
+[Trouble 31] is resolved by [Elmo].
+[Trouble 32]cannot be resolved.
+[Trouble 33] is resolved by [Elmo].
+[Trouble 34]cannot be resolved.
+[Trouble 35] is resolved by [Elmo].
+[Trouble 36]cannot be resolved.
+[Trouble 37] is resolved by [Elmo].
+[Trouble 38]cannot be resolved.
+[Trouble 39] is resolved by [Elmo].
+[Trouble 40]cannot be resolved.
+[Trouble 41] is resolved by [Elmo].
+[Trouble 42]cannot be resolved.
+[Trouble 43] is resolved by [Elmo].
+[Trouble 44]cannot be resolved.
+[Trouble 45] is resolved by [Elmo].
+[Trouble 46]cannot be resolved.
+[Trouble 47] is resolved by [Elmo].
+[Trouble 48]cannot be resolved.
+[Trouble 49] is resolved by [Elmo].</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -1739,6 +1665,105 @@ Making user entries...
       </categories>
   </entry>
   <entry>
+    <title>JavaFacade模式</title>
+    <url>/2020/09/25/JavaFacade%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  简单窗口</p>
+</blockquote>
+<h2 id="1-从邮件地址中获取用户名的类"><a href="#1-从邮件地址中获取用户名的类" class="headerlink" title="1- 从邮件地址中获取用户名的类"></a>1- 从邮件地址中获取用户名的类</h2><div class="code-wrapper"><pre><code>// 需要配置相应的数据库
+public class Database &#123;
+    private Database() &#123;    // 防止外部new出Database的实例,所以声明为private
+    &#125;
+
+    public static Properties getProperties(String dbname)&#123;  // 根据数据库名获取Properties
+        String filename = dbname + &quot;.txt&quot;;
+        Properties prop = new Properties();
+        try &#123;
+            prop.load(new FileInputStream(filename));
+        &#125;catch (IOException e)&#123;
+            System.out.println(&quot;Warning: &quot; + filename + &quot; is not found.&quot;);
+        &#125;
+        return prop;
+    &#125;
+&#125;</code></pre></div><h2 id="2-编写HTML文件的类"><a href="#2-编写HTML文件的类" class="headerlink" title="2 - 编写HTML文件的类"></a>2 - 编写HTML文件的类</h2><div class="code-wrapper"><pre><code>public class HtmlWriter &#123;
+    private Writer writer;
+    public HtmlWriter(Writer writer)&#123;
+        this.writer = writer;
+    &#125;
+
+    public void title(String title) throws IOException&#123;
+        writer.write(&quot;&lt;html&gt;&quot;);
+        writer.write(&quot;&lt;head&gt;&quot;);
+        writer.write(&quot;&lt;title&gt;&quot; + title + &quot;&lt;/title&gt;&quot;);
+        writer.write(&quot;&lt;/head&gt;&quot;);
+        writer.write(&quot;&lt;body&gt;\n&quot;);
+        writer.write(&quot;&lt;h1&gt;&quot; + title + &quot;&lt;/h1&gt;&quot;);
+    &#125;
+
+    public void paragraph(String msg) throws IOException&#123;
+        writer.write(&quot;&lt;p&gt;&quot; + msg + &quot;&lt;/p&gt;\n&quot;);
+    &#125;
+
+    public void link(String href, String caption) throws IOException&#123;
+        paragraph(&quot;&lt;a href=\&quot;&quot; + href + &quot;\&quot;&gt;&quot; + caption + &quot;&lt;/a&gt;&quot;);
+    &#125;
+
+    public void mailto(String mailAddr, String userName) throws IOException&#123;
+        link(&quot;mailto: &quot; + mailAddr, userName);
+    &#125;
+
+    public void close() throws IOException&#123;
+        writer.write(&quot;&lt;/body&gt;&quot;);
+        writer.write(&quot;&lt;/html&gt;&quot;);
+        writer.close();
+    &#125;
+&#125;</code></pre></div><h2 id="3-根据邮件地址编写该用户的Web页面"><a href="#3-根据邮件地址编写该用户的Web页面" class="headerlink" title="3 - 根据邮件地址编写该用户的Web页面"></a>3 - 根据邮件地址编写该用户的Web页面</h2><div class="code-wrapper"><pre><code>public class PageMaker &#123;
+    private PageMaker() &#123;    // 防止外部new出PageMaker的实例,所以声明为private
+    &#125;
+
+    public static void makeWelcomePage(String mailAddr, String filename)&#123;
+        try &#123;
+            Properties mailProp = Database.getProperties(&quot;mailData&quot;);
+            String userName = mailProp.getProperty(mailAddr);
+            HtmlWriter writer = new HtmlWriter(new FileWriter(filename));
+            writer.title(&quot;Welcome to &quot; + userName + &quot;`s page!&quot;);
+            writer.paragraph(userName + &quot;欢迎来到&quot; + userName + &quot;的主页&quot;);
+            writer.paragraph(&quot;等着你的邮件哦!&quot;);
+            writer.mailto(mailAddr, userName);
+            writer.close();
+            System.out.println(filename + &quot; is created for &quot; + mailAddr + &quot; (&quot; +
+                    userName + &quot;)&quot;);
+        &#125;catch (IOException e)&#123;
+            e.printStackTrace();
+        &#125;
+
+    &#125;
+&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        PageMaker.makeWelcomePage(&quot;hyuki@hyuki.com&quot;, &quot;welcome.html&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><html><head><title>Welcome to Hiroshi Yuki`s page!</title></head><body>
+<h1>Welcome to Hiroshi Yuki`s page!</h1><p>null欢迎来到null的主页</p>
+<p>等着你的邮件哦!</p>
+<p><a href="mailto: hyuki@hyuki.com">Hiroshi Yuki</a></p>
+</body></html>
+
+<div class="code-wrapper"><pre><code>// HTML源码
+&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to Hiroshi Yuki`s page!&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Welcome to Hiroshi Yuki`s page!&lt;/h1&gt;
+&lt;p&gt;null欢迎来到null的主页&lt;/p&gt;
+&lt;p&gt;等着你的邮件哦!&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;mailto: hyuki@hyuki.com&quot;&gt;Hiroshi Yuki&lt;/a&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
     <title>JavaFlyweight模式</title>
     <url>/2020/10/08/JavaFlyweight%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -1893,6 +1918,185 @@ Making user entries...
 ..##.......##.....
 ....######........
 ..................</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JavaInterpreter模式</title>
+    <url>/2020/10/16/JavaInterpreter%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  语法规则也是类</p>
+</blockquote>
+<h2 id="1-表示语法树”节点”的类"><a href="#1-表示语法树”节点”的类" class="headerlink" title="1 - 表示语法树”节点”的类"></a>1 - 表示语法树”节点”的类</h2><div class="code-wrapper"><pre><code>public abstract class Node &#123;
+    public abstract void parse(Context context) throws ParseException;
+&#125;</code></pre></div><h2 id="2-对应program的类"><a href="#2-对应program的类" class="headerlink" title="2 - 对应program的类"></a>2 - 对应program的类</h2><div class="code-wrapper"><pre><code>// &lt;program&gt; ::= program &lt;command list&gt;
+public class ProgramNode extends Node&#123;
+    private Node commandListNode;
+
+    @Override
+    public void parse(Context context) throws ParseException &#123;
+        context.skipToken(&quot;program&quot;);
+        commandListNode = new CommandListNode();
+        commandListNode.parse(context);
+    &#125;
+
+    @Override
+    public String toString() &#123;
+        return &quot;[program &quot; + commandListNode + &quot;]&quot;;
+    &#125;
+&#125;</code></pre></div><h2 id="3-对应command-List的类"><a href="#3-对应command-List的类" class="headerlink" title="3 - 对应command List的类"></a>3 - 对应command List的类</h2><div class="code-wrapper"><pre><code>// &lt;command list&gt; ::= &lt;command&gt;* end
+public class CommandListNode extends Node&#123;
+    private ArrayList&lt;Node&gt; list = new ArrayList&lt;&gt;();
+
+    @Override
+    public void parse(Context context) throws ParseException &#123;
+        while (true) &#123;
+            if (context.CurrentToken() == null) &#123;
+                throw new ParseException(&quot;Missing &apos;end&apos;&quot;);
+            &#125; else if (context.CurrentToken().equals(&quot;end&quot;)) &#123;
+                context.skipToken(&quot;end&quot;);
+                break;
+            &#125; else &#123;
+                Node commandNode = new CommandNode();
+                commandNode.parse(context);
+                list.add(commandNode);
+            &#125;
+        &#125;
+    &#125;
+
+    @Override
+    public String toString() &#123;
+        return list.toString();
+    &#125;
+&#125;</code></pre></div><h2 id="4-对应command的类"><a href="#4-对应command的类" class="headerlink" title="4 - 对应command的类"></a>4 - 对应command的类</h2><div class="code-wrapper"><pre><code>// &lt;command&gt; ::= &lt;repeat command&gt; | &lt;primitive command&gt;
+public class CommandNode extends Node&#123;
+    private Node node;
+
+    @Override
+    public void parse(Context context) throws ParseException &#123;
+        if (context.CurrentToken().equals(&quot;repeat&quot;))&#123;
+            node = new RepeatCommandNode();
+            node.parse(context);
+        &#125; else &#123;
+            node = new PrimitiveCommandNode();
+            node.parse(context);
+        &#125;
+    &#125;
+
+    @Override
+    public String toString() &#123;
+        return node.toString();
+    &#125;
+&#125;</code></pre></div><h2 id="5-对应repeat-command的类"><a href="#5-对应repeat-command的类" class="headerlink" title="5 - 对应repeat command的类"></a>5 - 对应repeat command的类</h2><div class="code-wrapper"><pre><code>// &lt;repeat command&gt; ::= repeat &lt;number&gt; &lt;command list&gt;
+public class RepeatCommandNode extends Node&#123;
+    private int number;
+    private Node commandListNode;
+
+    @Override
+    public void parse(Context context) throws ParseException &#123;
+        context.skipToken(&quot;repeat&quot;);
+        number = context.currentNumber();
+        context.nextToken();
+        commandListNode = new CommandListNode();
+        commandListNode.parse(context);
+    &#125;
+
+    @Override
+    public String toString() &#123;
+        return &quot;[repeat &quot; + number + &quot; &quot; + commandListNode + &quot;]&quot;;
+    &#125;
+&#125;</code></pre></div><h2 id="6-对应primitive-command的类"><a href="#6-对应primitive-command的类" class="headerlink" title="6 - 对应primitive command的类"></a>6 - 对应primitive command的类</h2><div class="code-wrapper"><pre><code>// &lt;primitive command&gt; ::= go | right | left
+public class PrimitiveCommandNode extends Node&#123;
+    private String name;
+
+    @Override
+    public void parse(Context context) throws ParseException &#123;
+        name = context.CurrentToken();
+        context.skipToken(name);
+        if (!name.equals(&quot;go&quot;) &amp;&amp; !name.equals(&quot;right&quot;) &amp;&amp; !name.equals(&quot;left&quot;)) &#123;
+            throw new ParseException(name + &quot;is undefined&quot;);
+        &#125;
+    &#125;
+
+    @Override
+    public String toString() &#123;
+        return name;
+    &#125;
+&#125;</code></pre></div><h2 id="7-表示语法解析上下文的类"><a href="#7-表示语法解析上下文的类" class="headerlink" title="7 - 表示语法解析上下文的类"></a>7 - 表示语法解析上下文的类</h2><div class="code-wrapper"><pre><code>public class Context &#123;
+    private StringTokenizer tokenizer;
+    private String currentToken;
+
+    public Context(String text) &#123;
+        tokenizer = new StringTokenizer(text);
+        nextToken();
+    &#125;
+
+    public void nextToken() &#123;
+        if (tokenizer.hasMoreElements()) &#123;
+            currentToken = tokenizer.nextToken();
+        &#125; else &#123;
+            currentToken = null;
+        &#125;
+    &#125;
+
+    public String CurrentToken() &#123;
+        return currentToken;
+    &#125;
+
+    public void skipToken(String token) throws ParseException &#123;
+        if (!token.equals(currentToken)) &#123;
+            throw new ParseException(&quot;Warning: &quot; + token +
+                    &quot; is expected, but &quot; + currentToken + &quot; is found.&quot;);
+        &#125;
+        nextToken();
+    &#125;
+
+    public int currentNumber() throws ParseException &#123;
+        int number = 0;
+        try &#123;
+            number = Integer.parseInt(currentToken);
+        &#125; catch (NumberFormatException e) &#123;
+            throw new ParseException(&quot;Warning: &quot; + e);
+        &#125;
+        return number;
+    &#125;
+&#125;</code></pre></div><h2 id="8-表示语法解析中可能会发生的异常的类"><a href="#8-表示语法解析中可能会发生的异常的类" class="headerlink" title="8 -表示语法解析中可能会发生的异常的类"></a>8 -表示语法解析中可能会发生的异常的类</h2><div class="code-wrapper"><pre><code>public class ParseException extends Exception&#123;
+    public ParseException(String msg) &#123;
+        super(msg);
+    &#125;
+&#125;</code></pre></div><h2 id="9-测试程序行为的类"><a href="#9-测试程序行为的类" class="headerlink" title="9 - 测试程序行为的类"></a>9 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        String filePath = &quot;Program文件路径&quot;;
+        try &#123;
+            BufferedReader reader = new BufferedReader(new FileReader(filePath + &quot;Program.txt&quot;));
+            String text;
+            while ((text = reader.readLine()) != null) &#123;
+                System.out.println(&quot;text =\&quot;&quot; + text + &quot;\&quot;&quot;);
+                Node node = new ProgramNode();
+                node.parse(new Context(text));
+                System.out.println(&quot;node = &quot; +node);
+            &#125;
+            reader.close();
+        &#125; catch (IOException | ParseException e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="10-输出示例"><a href="#10-输出示例" class="headerlink" title="10 - 输出示例"></a>10 - 输出示例</h2><div class="code-wrapper"><pre><code>text =&quot;program end&quot;
+node = [program []]
+text =&quot;program go end&quot;
+node = [program [go]]
+text =&quot;program go right go right go right go right end&quot;
+node = [program [go, right, go, right, go, right, go, right]]
+text =&quot;program repeat 4 go right end end&quot;
+node = [program [[repeat 4 [go, right]]]]
+text =&quot;program repeat 4 repeat 3 go right go left end right end end&quot;
+node = [program [[repeat 4 [[repeat 3 [go, right, go, left]], right]]]]</code></pre></div><h2 id="11-Program-txt"><a href="#11-Program-txt" class="headerlink" title="11 - Program.txt"></a>11 - Program.txt</h2><div class="code-wrapper"><pre><code>program end
+program go end
+program go right go right go right go right end
+program repeat 4 go right end end
+program repeat 4 repeat 3 go right go left end right end end</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -2078,179 +2282,123 @@ when=1601126737494,modifiers=] on button0</code></pre></div>]]></content>
       </categories>
   </entry>
   <entry>
-    <title>JavaInterpreter模式</title>
-    <url>/2020/10/16/JavaInterpreter%E6%A8%A1%E5%BC%8F/</url>
+    <title>JavaObserver模式</title>
+    <url>/2020/09/28/JavaObserver%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
-<p>  语法规则也是类</p>
+<p>  发送状态变化通知</p>
 </blockquote>
-<h2 id="1-表示语法树”节点”的类"><a href="#1-表示语法树”节点”的类" class="headerlink" title="1 - 表示语法树”节点”的类"></a>1 - 表示语法树”节点”的类</h2><div class="code-wrapper"><pre><code>public abstract class Node &#123;
-    public abstract void parse(Context context) throws ParseException;
-&#125;</code></pre></div><h2 id="2-对应program的类"><a href="#2-对应program的类" class="headerlink" title="2 - 对应program的类"></a>2 - 对应program的类</h2><div class="code-wrapper"><pre><code>// &lt;program&gt; ::= program &lt;command list&gt;
-public class ProgramNode extends Node&#123;
-    private Node commandListNode;
+<h2 id="1-表示观察者的接口"><a href="#1-表示观察者的接口" class="headerlink" title="1 - 表示观察者的接口"></a>1 - 表示观察者的接口</h2><div class="code-wrapper"><pre><code>public interface Observer &#123;
+    public abstract void update(NumberGenerator generator);
+&#125;</code></pre></div><h2 id="2-表示生成数值的对象的抽象类"><a href="#2-表示生成数值的对象的抽象类" class="headerlink" title="2 - 表示生成数值的对象的抽象类"></a>2 - 表示生成数值的对象的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class NumberGenerator &#123;
+    private ArrayList observers = new ArrayList();  // 保存Observer们
 
-    @Override
-    public void parse(Context context) throws ParseException &#123;
-        context.skipToken(&quot;program&quot;);
-        commandListNode = new CommandListNode();
-        commandListNode.parse(context);
+    public void addObserver(Observer observer) &#123;    // 注册Observer
+        observers.add(observer);
     &#125;
 
-    @Override
-    public String toString() &#123;
-        return &quot;[program &quot; + commandListNode + &quot;]&quot;;
+    public void deleteObserver(Observer observer) &#123;    // 删除Observer
+        observers.remove(observer);
     &#125;
-&#125;</code></pre></div><h2 id="3-对应command-List的类"><a href="#3-对应command-List的类" class="headerlink" title="3 - 对应command List的类"></a>3 - 对应command List的类</h2><div class="code-wrapper"><pre><code>// &lt;command list&gt; ::= &lt;command&gt;* end
-public class CommandListNode extends Node&#123;
-    private ArrayList&lt;Node&gt; list = new ArrayList&lt;&gt;();
 
-    @Override
-    public void parse(Context context) throws ParseException &#123;
-        while (true) &#123;
-            if (context.CurrentToken() == null) &#123;
-                throw new ParseException(&quot;Missing &apos;end&apos;&quot;);
-            &#125; else if (context.CurrentToken().equals(&quot;end&quot;)) &#123;
-                context.skipToken(&quot;end&quot;);
-                break;
-            &#125; else &#123;
-                Node commandNode = new CommandNode();
-                commandNode.parse(context);
-                list.add(commandNode);
-            &#125;
+    public void notifyObservers() &#123;    // 向Observer发送通知
+        for (Object value : observers) &#123;
+            Observer o = (Observer) value;
+            o.update(this);
         &#125;
     &#125;
 
-    @Override
-    public String toString() &#123;
-        return list.toString();
-    &#125;
-&#125;</code></pre></div><h2 id="4-对应command的类"><a href="#4-对应command的类" class="headerlink" title="4 - 对应command的类"></a>4 - 对应command的类</h2><div class="code-wrapper"><pre><code>// &lt;command&gt; ::= &lt;repeat command&gt; | &lt;primitive command&gt;
-public class CommandNode extends Node&#123;
-    private Node node;
+    public abstract int getNumber();    // 获取数值
+    public abstract void execute();     // 生成数值
+&#125;</code></pre></div><h2 id="3-表示生成随机数的类"><a href="#3-表示生成随机数的类" class="headerlink" title="3 - 表示生成随机数的类"></a>3 - 表示生成随机数的类</h2><div class="code-wrapper"><pre><code>public class RandomNumberGenerator extends NumberGenerator&#123;
+    private Random random = new Random();   // 随机数生成器
+    private int number;     // 当前数值
 
     @Override
-    public void parse(Context context) throws ParseException &#123;
-        if (context.CurrentToken().equals(&quot;repeat&quot;))&#123;
-            node = new RepeatCommandNode();
-            node.parse(context);
-        &#125; else &#123;
-            node = new PrimitiveCommandNode();
-            node.parse(context);
-        &#125;
-    &#125;
-
-    @Override
-    public String toString() &#123;
-        return node.toString();
-    &#125;
-&#125;</code></pre></div><h2 id="5-对应repeat-command的类"><a href="#5-对应repeat-command的类" class="headerlink" title="5 - 对应repeat command的类"></a>5 - 对应repeat command的类</h2><div class="code-wrapper"><pre><code>// &lt;repeat command&gt; ::= repeat &lt;number&gt; &lt;command list&gt;
-public class RepeatCommandNode extends Node&#123;
-    private int number;
-    private Node commandListNode;
-
-    @Override
-    public void parse(Context context) throws ParseException &#123;
-        context.skipToken(&quot;repeat&quot;);
-        number = context.currentNumber();
-        context.nextToken();
-        commandListNode = new CommandListNode();
-        commandListNode.parse(context);
-    &#125;
-
-    @Override
-    public String toString() &#123;
-        return &quot;[repeat &quot; + number + &quot; &quot; + commandListNode + &quot;]&quot;;
-    &#125;
-&#125;</code></pre></div><h2 id="6-对应primitive-command的类"><a href="#6-对应primitive-command的类" class="headerlink" title="6 - 对应primitive command的类"></a>6 - 对应primitive command的类</h2><div class="code-wrapper"><pre><code>// &lt;primitive command&gt; ::= go | right | left
-public class PrimitiveCommandNode extends Node&#123;
-    private String name;
-
-    @Override
-    public void parse(Context context) throws ParseException &#123;
-        name = context.CurrentToken();
-        context.skipToken(name);
-        if (!name.equals(&quot;go&quot;) &amp;&amp; !name.equals(&quot;right&quot;) &amp;&amp; !name.equals(&quot;left&quot;)) &#123;
-            throw new ParseException(name + &quot;is undefined&quot;);
-        &#125;
-    &#125;
-
-    @Override
-    public String toString() &#123;
-        return name;
-    &#125;
-&#125;</code></pre></div><h2 id="7-表示语法解析上下文的类"><a href="#7-表示语法解析上下文的类" class="headerlink" title="7 - 表示语法解析上下文的类"></a>7 - 表示语法解析上下文的类</h2><div class="code-wrapper"><pre><code>public class Context &#123;
-    private StringTokenizer tokenizer;
-    private String currentToken;
-
-    public Context(String text) &#123;
-        tokenizer = new StringTokenizer(text);
-        nextToken();
-    &#125;
-
-    public void nextToken() &#123;
-        if (tokenizer.hasMoreElements()) &#123;
-            currentToken = tokenizer.nextToken();
-        &#125; else &#123;
-            currentToken = null;
-        &#125;
-    &#125;
-
-    public String CurrentToken() &#123;
-        return currentToken;
-    &#125;
-
-    public void skipToken(String token) throws ParseException &#123;
-        if (!token.equals(currentToken)) &#123;
-            throw new ParseException(&quot;Warning: &quot; + token +
-                    &quot; is expected, but &quot; + currentToken + &quot; is found.&quot;);
-        &#125;
-        nextToken();
-    &#125;
-
-    public int currentNumber() throws ParseException &#123;
-        int number = 0;
-        try &#123;
-            number = Integer.parseInt(currentToken);
-        &#125; catch (NumberFormatException e) &#123;
-            throw new ParseException(&quot;Warning: &quot; + e);
-        &#125;
+    public int getNumber() &#123;
         return number;
     &#125;
-&#125;</code></pre></div><h2 id="8-表示语法解析中可能会发生的异常的类"><a href="#8-表示语法解析中可能会发生的异常的类" class="headerlink" title="8 -表示语法解析中可能会发生的异常的类"></a>8 -表示语法解析中可能会发生的异常的类</h2><div class="code-wrapper"><pre><code>public class ParseException extends Exception&#123;
-    public ParseException(String msg) &#123;
-        super(msg);
+
+    @Override
+    public void execute() &#123;
+        for (int i = 0; i &lt; 20; i++) &#123;
+            number = random.nextInt(50);
+            notifyObservers();
+        &#125;
     &#125;
-&#125;</code></pre></div><h2 id="9-测试程序行为的类"><a href="#9-测试程序行为的类" class="headerlink" title="9 - 测试程序行为的类"></a>9 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        String filePath = &quot;Program文件路径&quot;;
+&#125;</code></pre></div><h2 id="4-表示以数字形式显示数值的类"><a href="#4-表示以数字形式显示数值的类" class="headerlink" title="4 - 表示以数字形式显示数值的类"></a>4 - 表示以数字形式显示数值的类</h2><div class="code-wrapper"><pre><code>public class DigitObserver implements Observer&#123;
+    @Override
+    public void update(NumberGenerator generator) &#123;
+        System.out.println(&quot;DigitObserver: &quot; + generator.getNumber());
         try &#123;
-            BufferedReader reader = new BufferedReader(new FileReader(filePath + &quot;Program.txt&quot;));
-            String text;
-            while ((text = reader.readLine()) != null) &#123;
-                System.out.println(&quot;text =\&quot;&quot; + text + &quot;\&quot;&quot;);
-                Node node = new ProgramNode();
-                node.parse(new Context(text));
-                System.out.println(&quot;node = &quot; +node);
-            &#125;
-            reader.close();
-        &#125; catch (IOException | ParseException e) &#123;
+            Thread.sleep(100);
+        &#125;catch (InterruptedException e)&#123;
             e.printStackTrace();
         &#125;
     &#125;
-&#125;</code></pre></div><h2 id="10-输出示例"><a href="#10-输出示例" class="headerlink" title="10 - 输出示例"></a>10 - 输出示例</h2><div class="code-wrapper"><pre><code>text =&quot;program end&quot;
-node = [program []]
-text =&quot;program go end&quot;
-node = [program [go]]
-text =&quot;program go right go right go right go right end&quot;
-node = [program [go, right, go, right, go, right, go, right]]
-text =&quot;program repeat 4 go right end end&quot;
-node = [program [[repeat 4 [go, right]]]]
-text =&quot;program repeat 4 repeat 3 go right go left end right end end&quot;
-node = [program [[repeat 4 [[repeat 3 [go, right, go, left]], right]]]]</code></pre></div><h2 id="11-Program-txt"><a href="#11-Program-txt" class="headerlink" title="11 - Program.txt"></a>11 - Program.txt</h2><div class="code-wrapper"><pre><code>program end
-program go end
-program go right go right go right go right end
-program repeat 4 go right end end
-program repeat 4 repeat 3 go right go left end right end end</code></pre></div>]]></content>
+&#125;</code></pre></div><h2 id="5-表示以简单的图形显示数值的类"><a href="#5-表示以简单的图形显示数值的类" class="headerlink" title="5 - 表示以简单的图形显示数值的类"></a>5 - 表示以简单的图形显示数值的类</h2><div class="code-wrapper"><pre><code>public class GraphObserver implements Observer&#123;
+    @Override
+    public void update(NumberGenerator generator) &#123;
+        System.out.print(&quot;GraphObserver: &quot;);
+        int count = generator.getNumber();
+        for (int i = 0; i &lt; count; i++) &#123;
+            System.out.print(&apos;*&apos;);
+        &#125;
+        System.out.println();
+        try &#123;
+            Thread.sleep(100);
+        &#125;catch (InterruptedException e)&#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="6-测试程序行为的类"><a href="#6-测试程序行为的类" class="headerlink" title="6 - 测试程序行为的类"></a>6 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        NumberGenerator generator = new RandomNumberGenerator();
+        Observer observer1 = new DigitObserver();
+        Observer observer2 = new GraphObserver();
+        generator.addObserver(observer1);
+        generator.addObserver(observer2);
+        generator.execute();
+    &#125;
+&#125;</code></pre></div><h2 id="7-输出示例"><a href="#7-输出示例" class="headerlink" title="7 - 输出示例"></a>7 - 输出示例</h2><div class="code-wrapper"><pre><code>DigitObserver: 9
+GraphObserver: *********
+DigitObserver: 16
+GraphObserver: ****************
+DigitObserver: 40
+GraphObserver: ****************************************
+DigitObserver: 34
+GraphObserver: **********************************
+DigitObserver: 18
+GraphObserver: ******************
+DigitObserver: 6
+GraphObserver: ******
+DigitObserver: 34
+GraphObserver: **********************************
+DigitObserver: 31
+GraphObserver: *******************************
+DigitObserver: 17
+GraphObserver: *****************
+DigitObserver: 47
+GraphObserver: ***********************************************
+DigitObserver: 21
+GraphObserver: *********************
+DigitObserver: 34
+GraphObserver: **********************************
+DigitObserver: 18
+GraphObserver: ******************
+DigitObserver: 25
+GraphObserver: *************************
+DigitObserver: 39
+GraphObserver: ***************************************
+DigitObserver: 20
+GraphObserver: ********************
+DigitObserver: 9
+GraphObserver: *********
+DigitObserver: 4
+GraphObserver: ****
+DigitObserver: 8
+GraphObserver: ********
+DigitObserver: 26
+GraphObserver: **************************</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -2455,129 +2603,6 @@ program repeat 4 repeat 3 go right go left end right end end</code></pre></div>]
       </categories>
   </entry>
   <entry>
-    <title>JavaObserver模式</title>
-    <url>/2020/09/28/JavaObserver%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  发送状态变化通知</p>
-</blockquote>
-<h2 id="1-表示观察者的接口"><a href="#1-表示观察者的接口" class="headerlink" title="1 - 表示观察者的接口"></a>1 - 表示观察者的接口</h2><div class="code-wrapper"><pre><code>public interface Observer &#123;
-    public abstract void update(NumberGenerator generator);
-&#125;</code></pre></div><h2 id="2-表示生成数值的对象的抽象类"><a href="#2-表示生成数值的对象的抽象类" class="headerlink" title="2 - 表示生成数值的对象的抽象类"></a>2 - 表示生成数值的对象的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class NumberGenerator &#123;
-    private ArrayList observers = new ArrayList();  // 保存Observer们
-
-    public void addObserver(Observer observer) &#123;    // 注册Observer
-        observers.add(observer);
-    &#125;
-
-    public void deleteObserver(Observer observer) &#123;    // 删除Observer
-        observers.remove(observer);
-    &#125;
-
-    public void notifyObservers() &#123;    // 向Observer发送通知
-        for (Object value : observers) &#123;
-            Observer o = (Observer) value;
-            o.update(this);
-        &#125;
-    &#125;
-
-    public abstract int getNumber();    // 获取数值
-    public abstract void execute();     // 生成数值
-&#125;</code></pre></div><h2 id="3-表示生成随机数的类"><a href="#3-表示生成随机数的类" class="headerlink" title="3 - 表示生成随机数的类"></a>3 - 表示生成随机数的类</h2><div class="code-wrapper"><pre><code>public class RandomNumberGenerator extends NumberGenerator&#123;
-    private Random random = new Random();   // 随机数生成器
-    private int number;     // 当前数值
-
-    @Override
-    public int getNumber() &#123;
-        return number;
-    &#125;
-
-    @Override
-    public void execute() &#123;
-        for (int i = 0; i &lt; 20; i++) &#123;
-            number = random.nextInt(50);
-            notifyObservers();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="4-表示以数字形式显示数值的类"><a href="#4-表示以数字形式显示数值的类" class="headerlink" title="4 - 表示以数字形式显示数值的类"></a>4 - 表示以数字形式显示数值的类</h2><div class="code-wrapper"><pre><code>public class DigitObserver implements Observer&#123;
-    @Override
-    public void update(NumberGenerator generator) &#123;
-        System.out.println(&quot;DigitObserver: &quot; + generator.getNumber());
-        try &#123;
-            Thread.sleep(100);
-        &#125;catch (InterruptedException e)&#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="5-表示以简单的图形显示数值的类"><a href="#5-表示以简单的图形显示数值的类" class="headerlink" title="5 - 表示以简单的图形显示数值的类"></a>5 - 表示以简单的图形显示数值的类</h2><div class="code-wrapper"><pre><code>public class GraphObserver implements Observer&#123;
-    @Override
-    public void update(NumberGenerator generator) &#123;
-        System.out.print(&quot;GraphObserver: &quot;);
-        int count = generator.getNumber();
-        for (int i = 0; i &lt; count; i++) &#123;
-            System.out.print(&apos;*&apos;);
-        &#125;
-        System.out.println();
-        try &#123;
-            Thread.sleep(100);
-        &#125;catch (InterruptedException e)&#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="6-测试程序行为的类"><a href="#6-测试程序行为的类" class="headerlink" title="6 - 测试程序行为的类"></a>6 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        NumberGenerator generator = new RandomNumberGenerator();
-        Observer observer1 = new DigitObserver();
-        Observer observer2 = new GraphObserver();
-        generator.addObserver(observer1);
-        generator.addObserver(observer2);
-        generator.execute();
-    &#125;
-&#125;</code></pre></div><h2 id="7-输出示例"><a href="#7-输出示例" class="headerlink" title="7 - 输出示例"></a>7 - 输出示例</h2><div class="code-wrapper"><pre><code>DigitObserver: 9
-GraphObserver: *********
-DigitObserver: 16
-GraphObserver: ****************
-DigitObserver: 40
-GraphObserver: ****************************************
-DigitObserver: 34
-GraphObserver: **********************************
-DigitObserver: 18
-GraphObserver: ******************
-DigitObserver: 6
-GraphObserver: ******
-DigitObserver: 34
-GraphObserver: **********************************
-DigitObserver: 31
-GraphObserver: *******************************
-DigitObserver: 17
-GraphObserver: *****************
-DigitObserver: 47
-GraphObserver: ***********************************************
-DigitObserver: 21
-GraphObserver: *********************
-DigitObserver: 34
-GraphObserver: **********************************
-DigitObserver: 18
-GraphObserver: ******************
-DigitObserver: 25
-GraphObserver: *************************
-DigitObserver: 39
-GraphObserver: ***************************************
-DigitObserver: 20
-GraphObserver: ********************
-DigitObserver: 9
-GraphObserver: *********
-DigitObserver: 4
-GraphObserver: ****
-DigitObserver: 8
-GraphObserver: ********
-DigitObserver: 26
-GraphObserver: **************************</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
     <title>JavaPrototype模式</title>
     <url>/2020/09/12/JavaPrototype%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -2687,103 +2712,6 @@ public class Manager &#123;
 / Hello, world. /
 /////////////////</code></pre></div><p>在一些情况下,我们很难将种类繁多的对象整合到一个类中或者根据一个类来生成它的的实例,这个时候我们就可以以复制的方式,来根据实例生成新的实例.</p>
 ]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>JavaProxy模式</title>
-    <url>/2020/10/11/JavaProxy%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="1-Printer和PrinterProxy的共同接口"><a href="#1-Printer和PrinterProxy的共同接口" class="headerlink" title="1 - Printer和PrinterProxy的共同接口"></a>1 - Printer和PrinterProxy的共同接口</h2><div class="code-wrapper"><pre><code>public interface Printable &#123;
-    public abstract void setPrinterName(String name);
-    public abstract String getPrinterName();
-    public abstract void print(String string);
-&#125;</code></pre></div><h2 id="2-表示带名字的打印机类-本人"><a href="#2-表示带名字的打印机类-本人" class="headerlink" title="2 - 表示带名字的打印机类(本人)"></a>2 - 表示带名字的打印机类(本人)</h2><div class="code-wrapper"><pre><code>public class Printer implements Printable &#123;
-    private String name;
-    public Printer() &#123;
-        heavyJob(&quot;正在生成Printer的实例&quot;);
-    &#125;
-
-    public Printer(String name) &#123;
-        this.name = name;
-        heavyJob(&quot;正在生成Printer的实例(&quot; + name + &quot;)&quot;);
-    &#125;
-
-    @Override
-    public void setPrinterName(String name) &#123;
-        this.name = name;
-    &#125;
-
-    @Override
-    public String getPrinterName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public void print(String string) &#123;
-        System.out.println(&quot;===&quot; + name + &quot;===&quot;);
-        System.out.println(string);
-    &#125;
-
-    private void heavyJob(String msg) &#123;
-        System.out.print(msg);
-        for (int i = 0; i &lt; 5; i++) &#123;
-            try &#123;
-                Thread.sleep(1000);
-            &#125;catch (InterruptedException ignored) &#123;
-            &#125;
-            System.out.print(&apos;.&apos;);
-        &#125;
-        System.out.println(&quot;结束!&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="3-表示带名字的打印机类-代理人"><a href="#3-表示带名字的打印机类-代理人" class="headerlink" title="3 - 表示带名字的打印机类(代理人)"></a>3 - 表示带名字的打印机类(代理人)</h2><div class="code-wrapper"><pre><code>public class PrinterProxy implements Printable&#123;
-    private String name;
-    private Printer real;
-
-    public PrinterProxy()&#123;&#125;
-
-    public PrinterProxy(String name) &#123;
-        this.name = name;
-    &#125;
-
-    @Override
-    public synchronized void setPrinterName(String name) &#123;
-        if (real != null) &#123;
-            real.setPrinterName(name);
-        &#125;
-        this.name = name;
-    &#125;
-
-    @Override
-    public String getPrinterName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public void print(String string) &#123;
-        realize();
-        real.print(string);
-    &#125;
-
-    private synchronized void realize() &#123;
-        if (real == null) &#123;
-            real = new Printer(name);
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        Printable p = new PrinterProxy(&quot;Alice&quot;);
-        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
-        p.setPrinterName(&quot;Bob&quot;);
-        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
-        p.print(&quot;Hello, world.&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>现在名字是Alice.
-现在名字是Bob.
-正在生成Printer的实例(Bob).....结束!
-===Bob===
-Hello, world.</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -2994,6 +2922,103 @@ java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=按下警铃,when=1601985182892,
 java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=使用金库,when=1601985183407,modifiers=] on button2
 现在时间是05:00
 现在时间是06:00</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JavaProxy模式</title>
+    <url>/2020/10/11/JavaProxy%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="1-Printer和PrinterProxy的共同接口"><a href="#1-Printer和PrinterProxy的共同接口" class="headerlink" title="1 - Printer和PrinterProxy的共同接口"></a>1 - Printer和PrinterProxy的共同接口</h2><div class="code-wrapper"><pre><code>public interface Printable &#123;
+    public abstract void setPrinterName(String name);
+    public abstract String getPrinterName();
+    public abstract void print(String string);
+&#125;</code></pre></div><h2 id="2-表示带名字的打印机类-本人"><a href="#2-表示带名字的打印机类-本人" class="headerlink" title="2 - 表示带名字的打印机类(本人)"></a>2 - 表示带名字的打印机类(本人)</h2><div class="code-wrapper"><pre><code>public class Printer implements Printable &#123;
+    private String name;
+    public Printer() &#123;
+        heavyJob(&quot;正在生成Printer的实例&quot;);
+    &#125;
+
+    public Printer(String name) &#123;
+        this.name = name;
+        heavyJob(&quot;正在生成Printer的实例(&quot; + name + &quot;)&quot;);
+    &#125;
+
+    @Override
+    public void setPrinterName(String name) &#123;
+        this.name = name;
+    &#125;
+
+    @Override
+    public String getPrinterName() &#123;
+        return name;
+    &#125;
+
+    @Override
+    public void print(String string) &#123;
+        System.out.println(&quot;===&quot; + name + &quot;===&quot;);
+        System.out.println(string);
+    &#125;
+
+    private void heavyJob(String msg) &#123;
+        System.out.print(msg);
+        for (int i = 0; i &lt; 5; i++) &#123;
+            try &#123;
+                Thread.sleep(1000);
+            &#125;catch (InterruptedException ignored) &#123;
+            &#125;
+            System.out.print(&apos;.&apos;);
+        &#125;
+        System.out.println(&quot;结束!&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="3-表示带名字的打印机类-代理人"><a href="#3-表示带名字的打印机类-代理人" class="headerlink" title="3 - 表示带名字的打印机类(代理人)"></a>3 - 表示带名字的打印机类(代理人)</h2><div class="code-wrapper"><pre><code>public class PrinterProxy implements Printable&#123;
+    private String name;
+    private Printer real;
+
+    public PrinterProxy()&#123;&#125;
+
+    public PrinterProxy(String name) &#123;
+        this.name = name;
+    &#125;
+
+    @Override
+    public synchronized void setPrinterName(String name) &#123;
+        if (real != null) &#123;
+            real.setPrinterName(name);
+        &#125;
+        this.name = name;
+    &#125;
+
+    @Override
+    public String getPrinterName() &#123;
+        return name;
+    &#125;
+
+    @Override
+    public void print(String string) &#123;
+        realize();
+        real.print(string);
+    &#125;
+
+    private synchronized void realize() &#123;
+        if (real == null) &#123;
+            real = new Printer(name);
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        Printable p = new PrinterProxy(&quot;Alice&quot;);
+        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
+        p.setPrinterName(&quot;Bob&quot;);
+        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
+        p.print(&quot;Hello, world.&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>现在名字是Alice.
+现在名字是Bob.
+正在生成Printer的实例(Bob).....结束!
+===Bob===
+Hello, world.</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -3565,6 +3590,84 @@ class Person implements Serializable&#123;
       </tags>
   </entry>
   <entry>
+    <title>Java多线程的同步问题</title>
+    <url>/2020/08/12/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="1-synchronized关键字对代码块的同步"><a href="#1-synchronized关键字对代码块的同步" class="headerlink" title="1 - synchronized关键字对代码块的同步"></a>1 - synchronized关键字对代码块的同步</h2><div class="code-wrapper"><pre><code>public class ThreadSynchronization &#123;
+    public static void main(String[] args) &#123;
+        TestThread  t = new TestThread();
+        // 启动四个线程,并实现资源共享
+
+        new Thread(t).start();
+        new Thread(t).start();
+        new Thread(t).start();
+        new Thread(t).start();
+    &#125;
+&#125;
+
+class TestThread implements Runnable&#123;
+    private int tickets = 5;
+    @Override
+    public void run()&#123;
+        while (true) &#123;
+            // 利用synchronized关键字对这一代码块进行同步,避免共享资源的随意访问
+            synchronized (this) &#123;
+                if (tickets &lt;= 0) break;
+                try &#123;
+                    Thread.sleep(1000);
+                &#125; catch (Exception e) &#123;
+                    e.printStackTrace();
+                &#125;
+
+                System.out.println(Thread.currentThread().getName()
+                 + &quot;出售票&quot; + tickets);
+                tickets -= 1;
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="2-synchronized关键字对方法的同步"><a href="#2-synchronized关键字对方法的同步" class="headerlink" title="2 - synchronized关键字对方法的同步"></a>2 - synchronized关键字对方法的同步</h2><div class="code-wrapper"><pre><code>public class ThreadSynchronization &#123;
+    public static void main(String[] args) &#123;
+        TestThread  t = new TestThread();
+        // 启动四个线程,并实现资源共享
+
+        new Thread(t).start();
+        new Thread(t).start();
+        new Thread(t).start();
+        new Thread(t).start();
+    &#125;
+&#125;
+
+class TestThread implements Runnable&#123;
+    private int tickets = 5;
+    @Override
+    public void run()&#123;
+        while (tickets &gt; 0)&#123;
+            sale();
+        &#125;
+    &#125;
+    // 利用synchronized关键字对这本方法进行同步,避免共享资源的随意访问
+    public synchronized void sale() &#123;
+        if (tickets &gt; 0) &#123;
+            try &#123;
+                Thread.sleep(1000);
+            &#125; catch (Exception e) &#123;
+                e.printStackTrace();
+            &#125;
+
+            System.out.println(Thread.currentThread().getName() + &quot;出售票&quot; + tickets);
+            tickets -= 1;
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="3-在Java中-synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1-5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java-util-concurrent-locks包中"><a href="#3-在Java中-synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1-5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java-util-concurrent-locks包中" class="headerlink" title="3 - 在Java中,synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1.5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java.util.concurrent.locks包中"></a>3 - 在Java中,synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1.5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java.util.concurrent.locks包中</h2><h2 id="4-当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用-synchronized-解决问题。若对性能要求较高的情况下，可考虑使用-ReadWriteLock-接口及其-ReentrantReadWriteLock-实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用-Lock-接口及其-ReentrantLock-实现类来替换以前的-synchronized-方法或代码块"><a href="#4-当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用-synchronized-解决问题。若对性能要求较高的情况下，可考虑使用-ReadWriteLock-接口及其-ReentrantReadWriteLock-实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用-Lock-接口及其-ReentrantLock-实现类来替换以前的-synchronized-方法或代码块" class="headerlink" title="4 - 当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用 synchronized 解决问题。若对性能要求较高的情况下，可考虑使用 ReadWriteLock 接口及其 ReentrantReadWriteLock 实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用 Lock 接口及其 ReentrantLock 实现类来替换以前的 synchronized 方法或代码块"></a>4 - 当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用 synchronized 解决问题。若对性能要求较高的情况下，可考虑使用 ReadWriteLock 接口及其 ReentrantReadWriteLock 实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用 Lock 接口及其 ReentrantLock 实现类来替换以前的 synchronized 方法或代码块</h2><p>以上, 3-4段内容,均引自&lt;&lt;Java从入门到精通(第二版)&gt;&gt; 张玉宏主编 </p>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Tool</category>
+      </categories>
+      <tags>
+        <tag>多线程同步</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java操作MySQL数据库</title>
     <url>/2020/08/22/Java%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
     <content><![CDATA[<h2 id="1-首先-Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8-0-16-jar-并导入此包"><a href="#1-首先-Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8-0-16-jar-并导入此包" class="headerlink" title="1 - 首先, Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8.0.16.jar, 并导入此包"></a>1 - 首先, Java要连接MySQL数据库需要安装驱动包<a href="https://static.runoob.com/download/mysql-connector-java-8.0.16.jar">mysql-connector-java-8.0.16.jar</a>, 并导入此包</h2><h2 id="2-准备相应的数据"><a href="#2-准备相应的数据" class="headerlink" title="2 - 准备相应的数据"></a>2 - 准备相应的数据</h2><div class="code-wrapper"><pre><code>static final String USER = &quot;用户名&quot;;
@@ -3659,81 +3762,52 @@ public static void main(String[] args) &#123;
       </tags>
   </entry>
   <entry>
-    <title>Java多线程的同步问题</title>
-    <url>/2020/08/12/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h2 id="1-synchronized关键字对代码块的同步"><a href="#1-synchronized关键字对代码块的同步" class="headerlink" title="1 - synchronized关键字对代码块的同步"></a>1 - synchronized关键字对代码块的同步</h2><div class="code-wrapper"><pre><code>public class ThreadSynchronization &#123;
-    public static void main(String[] args) &#123;
-        TestThread  t = new TestThread();
-        // 启动四个线程,并实现资源共享
-
-        new Thread(t).start();
-        new Thread(t).start();
-        new Thread(t).start();
-        new Thread(t).start();
+    <title>Java的注释接口</title>
+    <url>/2020/08/07/Java%E7%9A%84%E6%B3%A8%E9%87%8A%E6%8E%A5%E5%8F%A3/</url>
+    <content><![CDATA[<blockquote>
+</blockquote>
+<blockquote>
+<p>  注解 - 给编译器看的注释</p>
+</blockquote>
+<h2 id="1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的"><a href="#1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的" class="headerlink" title="1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的"></a>1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的</h2><div class="code-wrapper"><pre><code>class Message&#123;
+    @Override
+    public String toString()&#123;
+        return &quot;Hello world!&quot;;
     &#125;
+&#125;</code></pre></div><p>如果改写的方法名，参数，类型有错误编译器会报错，可以给程序员提示。</p>
+<h2 id="2-Deprecated注释表示这个方法已经过时，不建议使用"><a href="#2-Deprecated注释表示这个方法已经过时，不建议使用" class="headerlink" title="2. @Deprecated注释表示这个方法已经过时，不建议使用"></a>2. @Deprecated注释表示这个方法已经过时，不建议使用</h2><div class="code-wrapper"><pre><code>class Info&#123;
+    @Deprecated
+    public String getInfo()&#123;
+        return &quot;Hello world.&quot;;
+    &#125;
+&#125;</code></pre></div><p>被注释的方法仍然可以使用，只是编译器不推荐而已</p>
+<h2 id="3-SuppressWarnings注释用来压制”某些”的警告信息"><a href="#3-SuppressWarnings注释用来压制”某些”的警告信息" class="headerlink" title="3. @SuppressWarnings注释用来压制”某些”的警告信息"></a>3. @SuppressWarnings注释用来压制”某些”的警告信息</h2><div class="code-wrapper"><pre><code>public class SuppressWarningsAnnotation &#123;
+    public static void main(String[] args) &#123;
+        // 用来压制&quot;未使用&quot;的警告信息
+        @SuppressWarnings(&quot;unused&quot;)
+        int i;
+        System.out.println(&quot;Hello world.&quot;);
+    &#125;
+&#125;</code></pre></div><p>在这个例子中我们通过往注释中添加“unused”参数，来压制变量未使用这一警告信息</p>
+<h2 id="4-实现我们自己自定义的注释，必须使用-interface接口来修饰"><a href="#4-实现我们自己自定义的注释，必须使用-interface接口来修饰" class="headerlink" title="4. 实现我们自己自定义的注释，必须使用@interface接口来修饰"></a>4. 实现我们自己自定义的注释，必须使用@interface接口来修饰</h2><div class="code-wrapper"><pre><code>@interface Anno&#123;
+    public String key();
+    public String value();
 &#125;
 
-class TestThread implements Runnable&#123;
-    private int tickets = 5;
-    @Override
-    public void run()&#123;
-        while (true) &#123;
-            // 利用synchronized关键字对这一代码块进行同步,避免共享资源的随意访问
-            synchronized (this) &#123;
-                if (tickets &lt;= 0) break;
-                try &#123;
-                    Thread.sleep(1000);
-                &#125; catch (Exception e) &#123;
-                    e.printStackTrace();
-                &#125;
-
-                System.out.println(Thread.currentThread().getName()
-                 + &quot;出售票&quot; + tickets);
-                tickets -= 1;
-            &#125;
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="2-synchronized关键字对方法的同步"><a href="#2-synchronized关键字对方法的同步" class="headerlink" title="2 - synchronized关键字对方法的同步"></a>2 - synchronized关键字对方法的同步</h2><div class="code-wrapper"><pre><code>public class ThreadSynchronization &#123;
+public class TestAnno &#123;
+    @Anno(key = &quot;var1&quot;, value = &quot;test&quot;)
     public static void main(String[] args) &#123;
-        TestThread  t = new TestThread();
-        // 启动四个线程,并实现资源共享
-
-        new Thread(t).start();
-        new Thread(t).start();
-        new Thread(t).start();
-        new Thread(t).start();
+        System.out.println(&quot;Hello world!&quot;);
     &#125;
-&#125;
-
-class TestThread implements Runnable&#123;
-    private int tickets = 5;
-    @Override
-    public void run()&#123;
-        while (tickets &gt; 0)&#123;
-            sale();
-        &#125;
-    &#125;
-    // 利用synchronized关键字对这本方法进行同步,避免共享资源的随意访问
-    public synchronized void sale() &#123;
-        if (tickets &gt; 0) &#123;
-            try &#123;
-                Thread.sleep(1000);
-            &#125; catch (Exception e) &#123;
-                e.printStackTrace();
-            &#125;
-
-            System.out.println(Thread.currentThread().getName() + &quot;出售票&quot; + tickets);
-            tickets -= 1;
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="3-在Java中-synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1-5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java-util-concurrent-locks包中"><a href="#3-在Java中-synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1-5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java-util-concurrent-locks包中" class="headerlink" title="3 - 在Java中,synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1.5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java.util.concurrent.locks包中"></a>3 - 在Java中,synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1.5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java.util.concurrent.locks包中</h2><h2 id="4-当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用-synchronized-解决问题。若对性能要求较高的情况下，可考虑使用-ReadWriteLock-接口及其-ReentrantReadWriteLock-实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用-Lock-接口及其-ReentrantLock-实现类来替换以前的-synchronized-方法或代码块"><a href="#4-当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用-synchronized-解决问题。若对性能要求较高的情况下，可考虑使用-ReadWriteLock-接口及其-ReentrantReadWriteLock-实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用-Lock-接口及其-ReentrantLock-实现类来替换以前的-synchronized-方法或代码块" class="headerlink" title="4 - 当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用 synchronized 解决问题。若对性能要求较高的情况下，可考虑使用 ReadWriteLock 接口及其 ReentrantReadWriteLock 实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用 Lock 接口及其 ReentrantLock 实现类来替换以前的 synchronized 方法或代码块"></a>4 - 当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用 synchronized 解决问题。若对性能要求较高的情况下，可考虑使用 ReadWriteLock 接口及其 ReentrantReadWriteLock 实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用 Lock 接口及其 ReentrantLock 实现类来替换以前的 synchronized 方法或代码块</h2><p>以上, 3-4段内容,均引自&lt;&lt;Java从入门到精通(第二版)&gt;&gt; 张玉宏主编 </p>
+&#125;</code></pre></div><p>我们可以在自己实现的注释里添加属性或方法</p>
 ]]></content>
       <categories>
         <category>Java</category>
         <category>Tool</category>
       </categories>
       <tags>
-        <tag>多线程同步</tag>
+        <tag>注解</tag>
+        <tag>给编译器看的注释</tag>
       </tags>
   </entry>
   <entry>
@@ -3811,52 +3885,119 @@ class TestThread implements Runnable&#123;
       </tags>
   </entry>
   <entry>
-    <title>Java的注释接口</title>
-    <url>/2020/08/07/Java%E7%9A%84%E6%B3%A8%E9%87%8A%E6%8E%A5%E5%8F%A3/</url>
-    <content><![CDATA[<blockquote>
+    <title>Liunx 配置静态IP</title>
+    <url>/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/</url>
+    <content><![CDATA[<h1 id="Liunx-配置静态IP-基于CentOS-7"><a href="#Liunx-配置静态IP-基于CentOS-7" class="headerlink" title="Liunx 配置静态IP (基于CentOS  7)"></a>Liunx 配置静态IP (基于CentOS  7)</h1><blockquote>
+<p>  只要Vmware的虚拟网络编辑器配置好, 其他liunx系统配置基本一样, 只是有些命令不同而已</p>
 </blockquote>
-<blockquote>
-<p>  注解 - 给编译器看的注释</p>
+<h2 id="1-原理"><a href="#1-原理" class="headerlink" title="1 原理"></a>1 原理</h2><ul>
+<li>先看看虚拟机和主机连接的条件：</li>
+</ul>
+<ul>
+<li>需要主机的Vmware8的ip、Vmware8网关ip、虚拟机(centOs)网卡eth0的ip在同一网段下，如图（都是192.168.145.x）：</li>
+</ul>
+<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/20201201012406421.png" alt="img"></p>
+<p>图片来自网络, 侵权请联系<a href="pncalbl@qq.com">author</a>删除</p>
+<ul>
+<li>一般地，如果虚拟机与主机通信走的是虚线，访问外网则走的实线，其控制程序在虚拟机网关设备中实现</li>
+</ul>
+<ul>
+<li>但是，一般由于工作环境的变化，导致网络的改变，有时候会导致虚拟机网段改变，从而与主机连不通，在CentOs下使用ifconfig发现ens33 ip不再192.168.145这个段上，这时，重置eth0的ip即可，方法：ifconfig ens33 192.168.145.xxx</li>
+</ul>
+<h2 id="2-修改虚拟机网络编辑器"><a href="#2-修改虚拟机网络编辑器" class="headerlink" title="2 修改虚拟机网络编辑器"></a>2 修改虚拟机网络编辑器</h2><ul>
+<li><p>点击 编辑-&gt;虚拟机网络编辑器</p>
+<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430180711181.png" alt="image-20210430180711181"></p>
+<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430181747517.png" alt="image-20210430181747517"></p>
+</li>
+</ul>
+<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430181845286.png" alt="image-20210430181845286"></p>
+<ul>
+<li><p>如果子网不对, 可以还原默认设置</p>
+<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430182036414.png" alt="image-20210430182036414"></p>
+</li>
+</ul>
+<h2 id="3-更改网络适配器"><a href="#3-更改网络适配器" class="headerlink" title="3 更改网络适配器"></a>3 更改网络适配器</h2><blockquote>
+<p>  VMware Virtual Ethernet Adapter for VMnet8 (NAT)</p>
 </blockquote>
-<h2 id="1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的"><a href="#1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的" class="headerlink" title="1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的"></a>1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的</h2><div class="code-wrapper"><pre><code>class Message&#123;
-    @Override
-    public String toString()&#123;
-        return &quot;Hello world!&quot;;
-    &#125;
-&#125;</code></pre></div><p>如果改写的方法名，参数，类型有错误编译器会报错，可以给程序员提示。</p>
-<h2 id="2-Deprecated注释表示这个方法已经过时，不建议使用"><a href="#2-Deprecated注释表示这个方法已经过时，不建议使用" class="headerlink" title="2. @Deprecated注释表示这个方法已经过时，不建议使用"></a>2. @Deprecated注释表示这个方法已经过时，不建议使用</h2><div class="code-wrapper"><pre><code>class Info&#123;
-    @Deprecated
-    public String getInfo()&#123;
-        return &quot;Hello world.&quot;;
-    &#125;
-&#125;</code></pre></div><p>被注释的方法仍然可以使用，只是编译器不推荐而已</p>
-<h2 id="3-SuppressWarnings注释用来压制”某些”的警告信息"><a href="#3-SuppressWarnings注释用来压制”某些”的警告信息" class="headerlink" title="3. @SuppressWarnings注释用来压制”某些”的警告信息"></a>3. @SuppressWarnings注释用来压制”某些”的警告信息</h2><div class="code-wrapper"><pre><code>public class SuppressWarningsAnnotation &#123;
-    public static void main(String[] args) &#123;
-        // 用来压制&quot;未使用&quot;的警告信息
-        @SuppressWarnings(&quot;unused&quot;)
-        int i;
-        System.out.println(&quot;Hello world.&quot;);
-    &#125;
-&#125;</code></pre></div><p>在这个例子中我们通过往注释中添加“unused”参数，来压制变量未使用这一警告信息</p>
-<h2 id="4-实现我们自己自定义的注释，必须使用-interface接口来修饰"><a href="#4-实现我们自己自定义的注释，必须使用-interface接口来修饰" class="headerlink" title="4. 实现我们自己自定义的注释，必须使用@interface接口来修饰"></a>4. 实现我们自己自定义的注释，必须使用@interface接口来修饰</h2><div class="code-wrapper"><pre><code>@interface Anno&#123;
-    public String key();
-    public String value();
-&#125;
+<ul>
+<li><p>点击IPv4</p>
+<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430190450485.png" alt="image-20210430190450485"></p>
+</li>
+<li><p>修改</p>
+<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430190551654.png" alt="image-20210430190551654"></p>
+</li>
+</ul>
+<h2 id="4-修改ens33"><a href="#4-修改ens33" class="headerlink" title="4 修改ens33"></a>4 修改ens33</h2><ul>
+<li><p>进入 网卡配置</p>
+<ul>
+<li><p>centOS</p>
+<div class="code-wrapper"><pre><code class="hljs awk">vim <span class="hljs-regexp">/etc/</span>sysconfig<span class="hljs-regexp">/network-scripts/i</span>fcfg-ens33</code></pre></div>
+</li>
+<li><p>ubunto</p>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">gedit</span> /etc/netplan/<span class="hljs-number">01</span>-network-manager-<span class="hljs-literal">all</span>.yaml</code></pre></div>
+</li>
+</ul>
+</li>
+<li><p>修改参数</p>
+<ul>
+<li><p>centOS</p>
+<div class="code-wrapper"><pre><code class="hljs ini"><span class="hljs-attr">HWADDR</span>=<span class="hljs-number">00</span>:<span class="hljs-number">0</span>C:<span class="hljs-number">29</span>:<span class="hljs-number">0</span>D:<span class="hljs-number">73</span>:CF
+<span class="hljs-attr">TYPE</span>=Ethernet
+<span class="hljs-attr">PROXY_METHOD</span>=none
+<span class="hljs-attr">BROWSER_ONLY</span>=<span class="hljs-literal">no</span>
+<span class="hljs-attr">BOOTPROTO</span>=static	<span class="hljs-comment"># 静态IP</span>
+<span class="hljs-attr">DEFROUTE</span>=<span class="hljs-literal">yes</span>
+<span class="hljs-attr">IPV4_FAILURE_FATAL</span>=<span class="hljs-literal">no</span>
+<span class="hljs-attr">IPV6INIT</span>=<span class="hljs-literal">yes</span>
+<span class="hljs-attr">IPV6_AUTOCONF</span>=<span class="hljs-literal">yes</span>
+<span class="hljs-attr">IPV6_DEFROUTE</span>=<span class="hljs-literal">yes</span>
+<span class="hljs-attr">IPV6_FAILURE_FATAL</span>=<span class="hljs-literal">no</span>
+<span class="hljs-attr">IPV6_ADDR_GEN_MODE</span>=stable-privacy
+<span class="hljs-attr">NAME</span>=ens33
+<span class="hljs-attr">UUID</span>=<span class="hljs-number">13000</span>fee-<span class="hljs-number">503</span>a-<span class="hljs-number">350</span>c-<span class="hljs-number">9462</span>-d70dd1ede195
+<span class="hljs-attr">ONBOOT</span>=<span class="hljs-literal">yes</span>	<span class="hljs-comment">#开机启用本配置</span>
+<span class="hljs-attr">AUTOCONNECT_PRIORITY</span>=-<span class="hljs-number">999</span>
+<span class="hljs-attr">IPADDR</span>=ipv4	<span class="hljs-comment">#ipv4</span>
+<span class="hljs-attr">PREFIX</span>=<span class="hljs-number">24</span>
+<span class="hljs-attr">GATEWAY</span>=网关 <span class="hljs-comment">#网关</span>
+<span class="hljs-attr">DNS1</span>=<span class="hljs-number">119.29</span>.<span class="hljs-number">29.29</span>	<span class="hljs-comment"># 域名解析</span></code></pre></div>
+</li>
+<li><p>ubunto</p>
+<div class="code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">network:</span>
+  <span class="hljs-attr">version:</span> <span class="hljs-number">2</span>
+  <span class="hljs-attr">renderer:</span> <span class="hljs-string">NetworkManager</span>
+  <span class="hljs-attr">ethernets:</span>
+          <span class="hljs-attr">ens33:</span>
+                  <span class="hljs-attr">dhcp4:</span> <span class="hljs-literal">no</span>
+                  <span class="hljs-attr">dhcp6:</span> <span class="hljs-literal">no</span>
+                  <span class="hljs-attr">addresses:</span> [<span class="hljs-string">ipv4</span>]
+                  <span class="hljs-attr">gateway4:</span> <span class="hljs-string">网关</span>
+                  <span class="hljs-attr">nameservers:</span>
+                          <span class="hljs-attr">addresses:</span> [<span class="hljs-number">119.29</span><span class="hljs-number">.29</span><span class="hljs-number">.29</span>, <span class="hljs-number">8.8</span><span class="hljs-number">.8</span><span class="hljs-number">.8</span>]</code></pre></div>
+</li>
+</ul>
+</li>
+<li><p>重启网络服务</p>
+<div class="code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">service network restart</span></code></pre></div>
+</li>
+<li><p>查看ip</p>
+<div class="code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">ifconfig</span></code></pre></div>
+</li>
+<li><p>测试</p>
+<div class="code-wrapper"><pre><code class="hljs autoit"><span class="hljs-built_in">ping</span> www.baidu.com</code></pre></div>
 
-public class TestAnno &#123;
-    @Anno(key = &quot;var1&quot;, value = &quot;test&quot;)
-    public static void main(String[] args) &#123;
-        System.out.println(&quot;Hello world!&quot;);
-    &#125;
-&#125;</code></pre></div><p>我们可以在自己实现的注释里添加属性或方法</p>
+
+
+</li>
+</ul>
 ]]></content>
       <categories>
-        <category>Java</category>
-        <category>Tool</category>
+        <category>Help</category>
+        <category>Linux</category>
       </categories>
       <tags>
-        <tag>注解</tag>
-        <tag>给编译器看的注释</tag>
+        <tag>Linux</tag>
+        <tag>静态IP</tag>
       </tags>
   </entry>
   <entry>
@@ -4140,122 +4281,6 @@ Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide sh
       </tags>
   </entry>
   <entry>
-    <title>Liunx 配置静态IP</title>
-    <url>/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/</url>
-    <content><![CDATA[<h1 id="Liunx-配置静态IP-基于CentOS-7"><a href="#Liunx-配置静态IP-基于CentOS-7" class="headerlink" title="Liunx 配置静态IP (基于CentOS  7)"></a>Liunx 配置静态IP (基于CentOS  7)</h1><blockquote>
-<p>  只要Vmware的虚拟网络编辑器配置好, 其他liunx系统配置基本一样, 只是有些命令不同而已</p>
-</blockquote>
-<h2 id="1-原理"><a href="#1-原理" class="headerlink" title="1 原理"></a>1 原理</h2><ul>
-<li>先看看虚拟机和主机连接的条件：</li>
-</ul>
-<ul>
-<li>需要主机的Vmware8的ip、Vmware8网关ip、虚拟机(centOs)网卡eth0的ip在同一网段下，如图（都是192.168.145.x）：</li>
-</ul>
-<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/20201201012406421.png" alt="img"></p>
-<p>图片来自网络, 侵权请联系<a href="pncalbl@qq.com">author</a>删除</p>
-<ul>
-<li>一般地，如果虚拟机与主机通信走的是虚线，访问外网则走的实线，其控制程序在虚拟机网关设备中实现</li>
-</ul>
-<ul>
-<li>但是，一般由于工作环境的变化，导致网络的改变，有时候会导致虚拟机网段改变，从而与主机连不通，在CentOs下使用ifconfig发现ens33 ip不再192.168.145这个段上，这时，重置eth0的ip即可，方法：ifconfig ens33 192.168.145.xxx</li>
-</ul>
-<h2 id="2-修改虚拟机网络编辑器"><a href="#2-修改虚拟机网络编辑器" class="headerlink" title="2 修改虚拟机网络编辑器"></a>2 修改虚拟机网络编辑器</h2><ul>
-<li><p>点击 编辑-&gt;虚拟机网络编辑器</p>
-<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430180711181.png" alt="image-20210430180711181"></p>
-<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430181747517.png" alt="image-20210430181747517"></p>
-</li>
-</ul>
-<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430181845286.png" alt="image-20210430181845286"></p>
-<ul>
-<li><p>如果子网不对, 可以还原默认设置</p>
-<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430182036414.png" alt="image-20210430182036414"></p>
-</li>
-</ul>
-<h2 id="3-更改网络适配器"><a href="#3-更改网络适配器" class="headerlink" title="3 更改网络适配器"></a>3 更改网络适配器</h2><blockquote>
-<p>  VMware Virtual Ethernet Adapter for VMnet8 (NAT)</p>
-</blockquote>
-<ul>
-<li><p>点击IPv4</p>
-<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430190450485.png" alt="image-20210430190450485"></p>
-</li>
-<li><p>修改</p>
-<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430190551654.png" alt="image-20210430190551654"></p>
-</li>
-</ul>
-<h2 id="4-修改ens33"><a href="#4-修改ens33" class="headerlink" title="4 修改ens33"></a>4 修改ens33</h2><ul>
-<li><p>进入 网卡配置</p>
-<ul>
-<li><p>centOS</p>
-<div class="code-wrapper"><pre><code class="hljs awk">vim <span class="hljs-regexp">/etc/</span>sysconfig<span class="hljs-regexp">/network-scripts/i</span>fcfg-ens33</code></pre></div>
-</li>
-<li><p>ubunto</p>
-<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">gedit</span> /etc/netplan/<span class="hljs-number">01</span>-network-manager-<span class="hljs-literal">all</span>.yaml</code></pre></div>
-</li>
-</ul>
-</li>
-<li><p>修改参数</p>
-<ul>
-<li><p>centOS</p>
-<div class="code-wrapper"><pre><code class="hljs ini"><span class="hljs-attr">HWADDR</span>=<span class="hljs-number">00</span>:<span class="hljs-number">0</span>C:<span class="hljs-number">29</span>:<span class="hljs-number">0</span>D:<span class="hljs-number">73</span>:CF
-<span class="hljs-attr">TYPE</span>=Ethernet
-<span class="hljs-attr">PROXY_METHOD</span>=none
-<span class="hljs-attr">BROWSER_ONLY</span>=<span class="hljs-literal">no</span>
-<span class="hljs-attr">BOOTPROTO</span>=static	<span class="hljs-comment"># 静态IP</span>
-<span class="hljs-attr">DEFROUTE</span>=<span class="hljs-literal">yes</span>
-<span class="hljs-attr">IPV4_FAILURE_FATAL</span>=<span class="hljs-literal">no</span>
-<span class="hljs-attr">IPV6INIT</span>=<span class="hljs-literal">yes</span>
-<span class="hljs-attr">IPV6_AUTOCONF</span>=<span class="hljs-literal">yes</span>
-<span class="hljs-attr">IPV6_DEFROUTE</span>=<span class="hljs-literal">yes</span>
-<span class="hljs-attr">IPV6_FAILURE_FATAL</span>=<span class="hljs-literal">no</span>
-<span class="hljs-attr">IPV6_ADDR_GEN_MODE</span>=stable-privacy
-<span class="hljs-attr">NAME</span>=ens33
-<span class="hljs-attr">UUID</span>=<span class="hljs-number">13000</span>fee-<span class="hljs-number">503</span>a-<span class="hljs-number">350</span>c-<span class="hljs-number">9462</span>-d70dd1ede195
-<span class="hljs-attr">ONBOOT</span>=<span class="hljs-literal">yes</span>	<span class="hljs-comment">#开机启用本配置</span>
-<span class="hljs-attr">AUTOCONNECT_PRIORITY</span>=-<span class="hljs-number">999</span>
-<span class="hljs-attr">IPADDR</span>=ipv4	<span class="hljs-comment">#ipv4</span>
-<span class="hljs-attr">PREFIX</span>=<span class="hljs-number">24</span>
-<span class="hljs-attr">GATEWAY</span>=网关 <span class="hljs-comment">#网关</span>
-<span class="hljs-attr">DNS1</span>=<span class="hljs-number">119.29</span>.<span class="hljs-number">29.29</span>	<span class="hljs-comment"># 域名解析</span></code></pre></div>
-</li>
-<li><p>ubunto</p>
-<div class="code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">network:</span>
-  <span class="hljs-attr">version:</span> <span class="hljs-number">2</span>
-  <span class="hljs-attr">renderer:</span> <span class="hljs-string">NetworkManager</span>
-  <span class="hljs-attr">ethernets:</span>
-          <span class="hljs-attr">ens33:</span>
-                  <span class="hljs-attr">dhcp4:</span> <span class="hljs-literal">no</span>
-                  <span class="hljs-attr">dhcp6:</span> <span class="hljs-literal">no</span>
-                  <span class="hljs-attr">addresses:</span> [<span class="hljs-string">ipv4</span>]
-                  <span class="hljs-attr">gateway4:</span> <span class="hljs-string">网关</span>
-                  <span class="hljs-attr">nameservers:</span>
-                          <span class="hljs-attr">addresses:</span> [<span class="hljs-number">119.29</span><span class="hljs-number">.29</span><span class="hljs-number">.29</span>, <span class="hljs-number">8.8</span><span class="hljs-number">.8</span><span class="hljs-number">.8</span>]</code></pre></div>
-</li>
-</ul>
-</li>
-<li><p>重启网络服务</p>
-<div class="code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">service network restart</span></code></pre></div>
-</li>
-<li><p>查看ip</p>
-<div class="code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">ifconfig</span></code></pre></div>
-</li>
-<li><p>测试</p>
-<div class="code-wrapper"><pre><code class="hljs autoit"><span class="hljs-built_in">ping</span> www.baidu.com</code></pre></div>
-
-
-
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>静态IP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>MongoDB 学习</title>
     <url>/2021/05/01/MongoDB%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h1 id="MongoDB-学习"><a href="#MongoDB-学习" class="headerlink" title="MongoDB 学习"></a>MongoDB 学习</h1>]]></content>
@@ -4321,6 +4346,38 @@ Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide sh
       </tags>
   </entry>
   <entry>
+    <title>Python使用@property装饰器</title>
+    <url>/2020/09/09/Python%E4%BD%BF%E7%94%A8%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
+    <content><![CDATA[<h3 id="1-1-这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2-property装饰读值方法。3-实现特性的方法，其名称都与公开属性的名称一样——weight。4-真正的值存储在私有属性-weight中"><a href="#1-1-这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2-property装饰读值方法。3-实现特性的方法，其名称都与公开属性的名称一样——weight。4-真正的值存储在私有属性-weight中" class="headerlink" title="1 - 1 这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2@property装饰读值方法。3 实现特性的方法，其名称都与公开属性的名称一样——weight。4 真正的值存储在私有属性__weight中"></a>1 - 1 这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2@property装饰读值方法。3 实现特性的方法，其名称都与公开属性的名称一样——weight。4 真正的值存储在私有属性__weight中</h3><div class="code-wrapper"><pre><code>class LineItem:
+    &quot;&quot;&quot;使用@property装饰器实现可读写的特性&quot;&quot;&quot;
+    &quot;&quot;&quot;表示订单中商品的类&quot;&quot;&quot;
+    def __init__(self, description, weight, price):
+        self.description = description
+        self.weight = weight
+        self.price = price
+
+    def subtotal(self):
+        return self.weight * self.price
+
+    @property
+    def weight(self):
+        return self.__weight
+
+    @weight.setter
+    def weight(self, value):
+        if value &gt; 0:
+            self.__weight = value
+        else:
+            raise ValueError(&apos;value must be &gt; 0&apos;)</code></pre></div><h3 id="2-5-被装饰的读值方法有个-setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6-如果值大于零，设置私有属性-weight。7-否则，抛出ValueError异常"><a href="#2-5-被装饰的读值方法有个-setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6-如果值大于零，设置私有属性-weight。7-否则，抛出ValueError异常" class="headerlink" title="2 - 5 被装饰的读值方法有个.setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6 如果值大于零，设置私有属性__weight。7 否则，抛出ValueError异常"></a>2 - 5 被装饰的读值方法有个.setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6 如果值大于零，设置私有属性__weight。7 否则，抛出ValueError异常</h3>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>装饰器</tag>
+        <tag>可读性</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python使用协程做离散事件仿真</title>
     <url>/2020/08/28/Python%E4%BD%BF%E7%94%A8%E5%8D%8F%E7%A8%8B%E5%81%9A%E7%A6%BB%E6%95%A3%E4%BA%8B%E4%BB%B6%E4%BB%BF%E7%9C%9F/</url>
     <content><![CDATA[<h2 id="1-需要导入的库"><a href="#1-需要导入的库" class="headerlink" title="1 - 需要导入的库"></a>1 - 需要导入的库</h2><div class="code-wrapper"><pre><code>import collections
@@ -4381,38 +4438,6 @@ def run(self, end_time):
       </categories>
       <tags>
         <tag>出租车队运营仿真</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python使用@property装饰器</title>
-    <url>/2020/09/09/Python%E4%BD%BF%E7%94%A8%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
-    <content><![CDATA[<h3 id="1-1-这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2-property装饰读值方法。3-实现特性的方法，其名称都与公开属性的名称一样——weight。4-真正的值存储在私有属性-weight中"><a href="#1-1-这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2-property装饰读值方法。3-实现特性的方法，其名称都与公开属性的名称一样——weight。4-真正的值存储在私有属性-weight中" class="headerlink" title="1 - 1 这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2@property装饰读值方法。3 实现特性的方法，其名称都与公开属性的名称一样——weight。4 真正的值存储在私有属性__weight中"></a>1 - 1 这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2@property装饰读值方法。3 实现特性的方法，其名称都与公开属性的名称一样——weight。4 真正的值存储在私有属性__weight中</h3><div class="code-wrapper"><pre><code>class LineItem:
-    &quot;&quot;&quot;使用@property装饰器实现可读写的特性&quot;&quot;&quot;
-    &quot;&quot;&quot;表示订单中商品的类&quot;&quot;&quot;
-    def __init__(self, description, weight, price):
-        self.description = description
-        self.weight = weight
-        self.price = price
-
-    def subtotal(self):
-        return self.weight * self.price
-
-    @property
-    def weight(self):
-        return self.__weight
-
-    @weight.setter
-    def weight(self, value):
-        if value &gt; 0:
-            self.__weight = value
-        else:
-            raise ValueError(&apos;value must be &gt; 0&apos;)</code></pre></div><h3 id="2-5-被装饰的读值方法有个-setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6-如果值大于零，设置私有属性-weight。7-否则，抛出ValueError异常"><a href="#2-5-被装饰的读值方法有个-setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6-如果值大于零，设置私有属性-weight。7-否则，抛出ValueError异常" class="headerlink" title="2 - 5 被装饰的读值方法有个.setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6 如果值大于零，设置私有属性__weight。7 否则，抛出ValueError异常"></a>2 - 5 被装饰的读值方法有个.setter属性，这个属性也是装饰器；这个装饰器把读值方法和设值方法绑定在一起。6 如果值大于零，设置私有属性__weight。7 否则，抛出ValueError异常</h3>]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>装饰器</tag>
-        <tag>可读性</tag>
       </tags>
   </entry>
   <entry>
@@ -4566,6 +4591,58 @@ def validate(self, instance, value):
       </categories>
   </entry>
   <entry>
+    <title>函数参数的使用</title>
+    <url>/2020/07/25/Python%E5%8F%82%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="一，Python函数参数的使用"><a href="#一，Python函数参数的使用" class="headerlink" title="一，Python函数参数的使用"></a>一，Python函数参数的使用</h2><h2 id="1-不可变参数"><a href="#1-不可变参数" class="headerlink" title="1.不可变参数"></a>1.不可变参数</h2><h3 id="1-1-位置实参-参数顺序要一致"><a href="#1-1-位置实参-参数顺序要一致" class="headerlink" title="1.1 位置实参(参数顺序要一致)"></a>1.1 位置实参(参数顺序要一致)</h3><div class="code-wrapper"><pre><code>def describe_pet(animal_type, pet_name):
+   &quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
+   print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
+   print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
+
+describe_pet(&apos;hamster&apos;, &apos;harry&apos;)
+describe_pet(&apos;dog&apos;, &apos;willie&apos;)</code></pre></div><p>在参数的顺序上，实参与位置参数要一致，不然会出现一些无法预料到错误。</p>
+<h3 id="1-2-关键字参数"><a href="#1-2-关键字参数" class="headerlink" title="1.2 关键字参数"></a>1.2 关键字参数</h3><div class="code-wrapper"><pre><code>def describe_pet(animal_type, pet_name):
+&quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
+print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
+print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
+
+describe_pet(animal_type=&apos;hamster&apos;, pet_name=&apos;harry&apos;)
+describe_pet(animal_type=&apos;dog&apos;, pet_name=&apos;willie&apos;)</code></pre></div><p>关键字参数顺序可以改变，在没有默认值的情况下,必须提供全部的参数。</p>
+<h3 id="1-3-位置参数与关键字混用"><a href="#1-3-位置参数与关键字混用" class="headerlink" title="1.3 位置参数与关键字混用"></a>1.3 位置参数与关键字混用</h3><div class="code-wrapper"><pre><code>def describe_pet(pet_name, animal_type):
+    &quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
+    print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
+    print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
+
+describe_pet(&apos;wille&apos;,animal_type=&apos;dog&apos;)</code></pre></div><p>关键字参数必须在位置参数之后</p>
+<h2 id="2-可变参数"><a href="#2-可变参数" class="headerlink" title="2.可变参数"></a>2.可变参数</h2><h3 id="1-1使用任意数量的位置实参"><a href="#1-1使用任意数量的位置实参" class="headerlink" title="1. 1使用任意数量的位置实参"></a>1. 1使用任意数量的位置实参</h3><div class="code-wrapper"><pre><code>def make_pizza(size, *toppings):
+    &quot;&quot;&quot;概述要制作的比萨&quot;&quot;&quot;
+    print(&quot;\nMaking a &quot; + str(size) + &quot;-inch pizza with the following       toppings:&quot;)
+    for topping in toppings:
+        print(&quot;-&quot; + topping)
+
+make_pizza(16, &apos;pepperoni&apos;)
+make_pizza(12, &apos;mushrooms&apos;, &apos;green peppers&apos;, &apos;extra cheese&apos;)</code></pre></div><p> ‘*’ 是分隔符，可变参数实际上是将其组装成元组</p>
+<h3 id="1-2使用任意数量的关键字实参"><a href="#1-2使用任意数量的关键字实参" class="headerlink" title="1. 2使用任意数量的关键字实参"></a>1. 2使用任意数量的关键字实参</h3><div class="code-wrapper"><pre><code>def build_profile(first, last, **user_info):
+    &quot;&quot;&quot;创建一个字典，其中包含我们知道的有关用户的一切&quot;&quot;&quot;
+    profile = &#123;&#125;
+    profile[&apos;first_name&apos;] = first
+    profile[&apos;last_name&apos;] = last
+    for  key, value in user_info.items():
+        profile[key] = value
+    return profile
+
+user_profile = build_profile(&apos;albert&apos;, &apos;einstein&apos;,
+                            location=&apos;princeton&apos;,
+                            field=&apos;physics&apos;)
+print(user_profile)</code></pre></div><p> 参数组合在实际书写中，需要遵循一定的顺序：<br>位置参数-&gt;默认参数-&gt;边长参数-&gt;关键字参数-&gt;命名关键字参数</p>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>参数</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python多线程实现程序并发</title>
     <url>/2020/08/10/Python%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%A8%8B%E5%AE%9E%E7%8E%B0%E7%A8%8B%E5%BA%8F%E5%B9%B6%E5%8F%91/</url>
     <content><![CDATA[<h3 id="第一步·导入相应的线程模块"><a href="#第一步·导入相应的线程模块" class="headerlink" title="第一步·导入相应的线程模块"></a>第一步·导入相应的线程模块</h3><div class="code-wrapper"><pre><code>import threading
@@ -4690,58 +4767,6 @@ connc.close()</code></pre></div>]]></content>
       </categories>
       <tags>
         <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>函数参数的使用</title>
-    <url>/2020/07/25/Python%E5%8F%82%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="一，Python函数参数的使用"><a href="#一，Python函数参数的使用" class="headerlink" title="一，Python函数参数的使用"></a>一，Python函数参数的使用</h2><h2 id="1-不可变参数"><a href="#1-不可变参数" class="headerlink" title="1.不可变参数"></a>1.不可变参数</h2><h3 id="1-1-位置实参-参数顺序要一致"><a href="#1-1-位置实参-参数顺序要一致" class="headerlink" title="1.1 位置实参(参数顺序要一致)"></a>1.1 位置实参(参数顺序要一致)</h3><div class="code-wrapper"><pre><code>def describe_pet(animal_type, pet_name):
-   &quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
-   print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
-   print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
-
-describe_pet(&apos;hamster&apos;, &apos;harry&apos;)
-describe_pet(&apos;dog&apos;, &apos;willie&apos;)</code></pre></div><p>在参数的顺序上，实参与位置参数要一致，不然会出现一些无法预料到错误。</p>
-<h3 id="1-2-关键字参数"><a href="#1-2-关键字参数" class="headerlink" title="1.2 关键字参数"></a>1.2 关键字参数</h3><div class="code-wrapper"><pre><code>def describe_pet(animal_type, pet_name):
-&quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
-print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
-print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
-
-describe_pet(animal_type=&apos;hamster&apos;, pet_name=&apos;harry&apos;)
-describe_pet(animal_type=&apos;dog&apos;, pet_name=&apos;willie&apos;)</code></pre></div><p>关键字参数顺序可以改变，在没有默认值的情况下,必须提供全部的参数。</p>
-<h3 id="1-3-位置参数与关键字混用"><a href="#1-3-位置参数与关键字混用" class="headerlink" title="1.3 位置参数与关键字混用"></a>1.3 位置参数与关键字混用</h3><div class="code-wrapper"><pre><code>def describe_pet(pet_name, animal_type):
-    &quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
-    print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
-    print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
-
-describe_pet(&apos;wille&apos;,animal_type=&apos;dog&apos;)</code></pre></div><p>关键字参数必须在位置参数之后</p>
-<h2 id="2-可变参数"><a href="#2-可变参数" class="headerlink" title="2.可变参数"></a>2.可变参数</h2><h3 id="1-1使用任意数量的位置实参"><a href="#1-1使用任意数量的位置实参" class="headerlink" title="1. 1使用任意数量的位置实参"></a>1. 1使用任意数量的位置实参</h3><div class="code-wrapper"><pre><code>def make_pizza(size, *toppings):
-    &quot;&quot;&quot;概述要制作的比萨&quot;&quot;&quot;
-    print(&quot;\nMaking a &quot; + str(size) + &quot;-inch pizza with the following       toppings:&quot;)
-    for topping in toppings:
-        print(&quot;-&quot; + topping)
-
-make_pizza(16, &apos;pepperoni&apos;)
-make_pizza(12, &apos;mushrooms&apos;, &apos;green peppers&apos;, &apos;extra cheese&apos;)</code></pre></div><p> ‘*’ 是分隔符，可变参数实际上是将其组装成元组</p>
-<h3 id="1-2使用任意数量的关键字实参"><a href="#1-2使用任意数量的关键字实参" class="headerlink" title="1. 2使用任意数量的关键字实参"></a>1. 2使用任意数量的关键字实参</h3><div class="code-wrapper"><pre><code>def build_profile(first, last, **user_info):
-    &quot;&quot;&quot;创建一个字典，其中包含我们知道的有关用户的一切&quot;&quot;&quot;
-    profile = &#123;&#125;
-    profile[&apos;first_name&apos;] = first
-    profile[&apos;last_name&apos;] = last
-    for  key, value in user_info.items():
-        profile[key] = value
-    return profile
-
-user_profile = build_profile(&apos;albert&apos;, &apos;einstein&apos;,
-                            location=&apos;princeton&apos;,
-                            field=&apos;physics&apos;)
-print(user_profile)</code></pre></div><p> 参数组合在实际书写中，需要遵循一定的顺序：<br>位置参数-&gt;默认参数-&gt;边长参数-&gt;关键字参数-&gt;命名关键字参数</p>
-]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>参数</tag>
       </tags>
   </entry>
   <entry>
@@ -5002,6 +5027,36 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       </tags>
   </entry>
   <entry>
+    <title>WSL和VM不兼容</title>
+    <url>/2021/05/01/WSL%E5%92%8CVM/</url>
+    <content><![CDATA[<h3 id="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"><a href="#WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭" class="headerlink" title="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"></a>WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭</h3><ul>
+<li>CMD管理员模式启动，输入</li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs arduino">bcdedit /set hypervisorlaunchtype <span class="hljs-keyword">auto</span></code></pre></div>
+
+<ul>
+<li>开启，则可以使用WSL</li>
+</ul>
+<ul>
+<li>CMD管理员模式启动，输入</li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs cmake">bcdedit /<span class="hljs-keyword">set</span> hypervisorlaunchtype <span class="hljs-keyword">off</span></code></pre></div>
+
+<ul>
+<li>关闭，则可以使用VMware</li>
+</ul>
+<p>注意：不管是开还是关都需要重启电脑</p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>WSL</tag>
+        <tag>VM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Typora快捷键</title>
     <url>/2021/04/09/Typora%E5%BF%AB%E6%8D%B7%E9%94%AE/</url>
     <content><![CDATA[<h1 id="Typora快捷键"><a href="#Typora快捷键" class="headerlink" title="Typora快捷键"></a>Typora快捷键</h1><h2 id="windows快捷键："><a href="#windows快捷键：" class="headerlink" title="windows快捷键："></a>windows快捷键：</h2><ul>
@@ -5057,33 +5112,192 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       </tags>
   </entry>
   <entry>
-    <title>WSL和VM不兼容</title>
-    <url>/2021/05/01/WSL%E5%92%8CVM/</url>
-    <content><![CDATA[<h3 id="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"><a href="#WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭" class="headerlink" title="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"></a>WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭</h3><ul>
-<li>CMD管理员模式启动，输入</li>
-</ul>
-<div class="code-wrapper"><pre><code class="hljs arduino">bcdedit /set hypervisorlaunchtype <span class="hljs-keyword">auto</span></code></pre></div>
+    <title>Win10 搭建 PyTorch 环境</title>
+    <url>/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<h1 id="Win10-搭建-PyTorch-环境"><a href="#Win10-搭建-PyTorch-环境" class="headerlink" title="Win10 搭建 PyTorch 环境"></a>Win10 搭建 PyTorch 环境</h1><h2 id="0-说明"><a href="#0-说明" class="headerlink" title="0 说明"></a>0 说明</h2><p>为了进行深度学习，需要电脑上安装相应的软件，pytorch 就是其中一种。至于 pytorch 是什么的科普，建议去网上搜索。</p>
+<p>而为了安装好 pytorch，需要安装众多软件，网上一搜一大把流程。但事实上随着技术的更新，很多流程都会变得过时，就像我现在这篇，因此我也特意标注了时间。</p>
+<p>本流程的目的是：在 win 10 上安装 pytorch 且能调用 GPU（你需要英伟达的显卡）。</p>
+<p>本流程涉及的程序有：conda，CUDA，cuDNN，pytorch。注意一定要按流程来，如果跳过了 cuDNN 安装 pytorch，是不会成功调用 GPU 的。</p>
+<h2 id="1-Miniconda3"><a href="#1-Miniconda3" class="headerlink" title="1 Miniconda3"></a>1 Miniconda3</h2><p>清华源镜像已经没有维护 miniconda，所以我们使用北外源。</p>
+<ul>
+<li><p><strong>下载地址</strong></p>
+<p><a href="https://mirrors.bfsu.edu.cn/anaconda/miniconda/">Index of /anaconda/miniconda</a></p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521111325301.png" alt="image-20210521111325301"></p>
+</li>
+<li><p><strong>配置环境变量</strong></p>
+<p>一般来说，安装程序会自动把四个 path 变量，写入系统变量的path变量中，但是会写入第一行，我们可以手动下移位置。</p>
+<ul>
+<li><p>打开 cmd（win+R，输入 cmd 后回车），输入 conda info，如果正确无误的话，会显示 conda 的信息。</p>
+</li>
+<li><p>为了 conda 的下载速度，需要添加国内的北外源，输入：</p>
+<div class="code-wrapper"><pre><code class="hljs shell">conda config --set show_channel_urls yes</code></pre></div>
 
-<ul>
-<li>开启，则可以使用WSL</li>
+<p>创建配置文件 .condarc，该文件位于：C:\Users\你的用户名\ 下。</p>
+<p>用文本编辑器打开它，然后复制以下内容完全覆盖已有内容：</p>
+<div class="code-wrapper"><pre><code class="hljs shell">channels:
+  - defaults
+show_channel_urls: true
+default_channels:
+  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/main
+  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/r
+  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/msys2
+custom_channels:
+  conda-forge: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  msys2: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  bioconda: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  menpo: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  pytorch: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  simpleitk: https://mirrors.bfsu.edu.cn/anaconda/cloud</code></pre></div>
+</li>
 </ul>
+</li>
+<li><p><strong>生成并进入环境</strong></p>
 <ul>
-<li>CMD管理员模式启动，输入</li>
-</ul>
-<div class="code-wrapper"><pre><code class="hljs cmake">bcdedit /<span class="hljs-keyword">set</span> hypervisorlaunchtype <span class="hljs-keyword">off</span></code></pre></div>
+<li><p>使用命令创建环境：</p>
+<div class="code-wrapper"><pre><code class="hljs shell">conda create --name py37 python=3.7</code></pre></div>
+</li>
+<li><p>即创建了名为 py37 的环境，你可以自定义名字，python 设定用的版本。</p>
+<p>随后进入环境</p>
+<div class="code-wrapper"><pre><code class="hljs shell">conda activate py37</code></pre></div>
+</li>
+<li><p><strong>避坑：操作需要在 cmd 里做，而不是 powershell，不知道原理，但会报错。</strong></p>
+<p>如果在 powershell 里运行的话，会报错：</p>
+<div class="code-wrapper"><pre><code class="hljs powershell">CommandNotFoundError: Your shell has not been properly configured to use <span class="hljs-string">&#x27;conda activate&#x27;</span>.</code></pre></div>
 
-<ul>
-<li>关闭，则可以使用VMware</li>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/v2-e641b91a6a360410b575d83c3030daf4_1440w.jpg" alt="img"></p>
+</li>
 </ul>
-<p>注意：不管是开还是关都需要重启电脑</p>
+</li>
+<li><p><strong>安装 ipython</strong></p>
+<ul>
+<li><p>ipython 的操作比 python 用起来舒服多了，具体介绍搜索网上</p>
+<div class="code-wrapper"><pre><code class="hljs shell">conda install ipython</code></pre></div>
+</li>
+<li><p>之后输入 ipython 进入 python。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-CUDA"><a href="#2-CUDA" class="headerlink" title="2 CUDA"></a>2 CUDA</h2><ul>
+<li><p>下载</p>
+<p>链接：<a href="https://developer.nvidia.com/cuda-10.2-download-archive">https://developer.nvidia.com/cuda-downloads</a></p>
+<p>依次选择：Windows -&gt; x86_64 -&gt; 10 -&gt; exe(local)，点击 Download。下载的为适合PyTorch的 <em>cuda_10.2.89_441.22_win10.exe</em></p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521112724889.png" alt="image-20210521112724889"></p>
+<p><strong>避坑：复制下载链接后用迅雷下载，比直接下载快数倍。</strong></p>
+</li>
+<li><p>安装</p>
+<ul>
+<li><p>注意，不要修改安装路径，因为改了没有用，安装程序还是会安装在 C盘下的 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA</p>
+</li>
+<li><p>必须手动添加环境变量。一般来说，CUDA_PATH，安装程序会自动写入。</p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521113202277.png" alt="image-20210521113202277"></p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521113121745.png" alt="image-20210521113121745"></p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>测试</strong></p>
+<ul>
+<li><p>如果安装成功，在 cmd 里输入：</p>
+<div class="code-wrapper"><pre><code class="hljs shell">nvcc -V</code></pre></div>
+
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521113321717.png" alt="image-20210521113321717"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-cuDNN"><a href="#3-cuDNN" class="headerlink" title="3 cuDNN"></a>3 cuDNN</h2><ul>
+<li><p><strong>下载</strong></p>
+<p><strong>避坑：建议在翻墙的情况下操作，注册时的验证码是谷歌的。</strong></p>
+<p>你需要注册账号后才能继续。现在可以<strong>微信登录</strong>，方便了不少。</p>
+<p>链接：<a href="/compute/machine-learning/cudnn/secure/8.0.2.39/10.2_20200724/cudnn-10.2-windows10-x64-v8.0.2.39.zip">https://developer.nvidia.com</a></p>
+</li>
+<li><p><strong>安装</strong></p>
+<p>说是安装，其实是复制文件。</p>
+<p>下载后是一个压缩文件夹，解压文件夹，将里面的 3 个文件夹：bin，include，lib 里面的内容分别放入 CUDA 安装位置的对应文件夹。</p>
+<p>CUDA 安装的位置在：</p>
+<p>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.0</p>
+<p>不会出现覆盖的警告，因为是新增的文件。</p>
+</li>
+</ul>
+<h2 id="4-PyTorch"><a href="#4-PyTorch" class="headerlink" title="4 PyTorch"></a>4 PyTorch</h2><ul>
+<li><p><strong>1. 下载与安装</strong></p>
+<p><strong>避坑：务必在完成以上步骤后才进行。</strong></p>
+<p>网址：<a href="https://link.zhihu.com/?target=https%3A//pytorch.org/get-started/locally/">https://pytorch.org/get-started/locally/</a>，根据实际情况选择。</p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114119171.png" alt="image-20210521114119171"></p>
+<p>得到下载安装的命令：</p>
+<div class="code-wrapper"><pre><code class="hljs shell">conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch</code></pre></div>
+
+<p>使用 cmd 进入了我们之前设置的环境 py37 后，输入以上命令，开始安装 pytorch，如下图：</p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/v2-58b3d7c11020aca95ab177253cf5d1b0_1440w.jpg" alt="img"></p>
+<p><strong>避坑：很多教程里说，去掉 -c pytorch 后，可以加速下载。可以加速没错，但下载的东西却不是我们要的 gpu 版本，而是 cpu 版本，这也是很多人照着教程做，最终都无法使用 gpu 的，却百思不得其解。</strong></p>
+</li>
+<li><p><strong>2. 测试</strong></p>
+<ul>
+<li><p>等待安装完成后，输入 ipython 进入 python，输入：</p>
+<div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch
+torch.cuda.is_available()</code></pre></div>
+
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/v2-6acee085f9449a931afaee3cdd36336a_1440w.jpg" alt="img"></p>
+</li>
+<li><p>显示 True 即表明启用了 pytorch 的 gpu，到此安装结束。</p>
+</li>
+<li><p>如果 torch.cuda.isavailable() 是 False，你可能需要看看前面哪个步骤不对。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="5-Pycharm"><a href="#5-Pycharm" class="headerlink" title="5 Pycharm"></a>5 Pycharm</h2><ul>
+<li><p>创建一个项目 PyTorchTest</p>
+</li>
+<li><p>打开设置 Ctrl + Alt + s</p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114808829.png" alt="image-20210521114808829"></p>
+</li>
+<li><p>引入 py37 </p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114859777.png" alt="image-20210521114859777"></p>
+</li>
+<li><p>切换环境为 py37</p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114957218.png" alt="image-20210521114957218"></p>
+</li>
+<li><p>重启 Pycharm</p>
+</li>
+</ul>
 ]]></content>
       <categories>
         <category>Help</category>
-        <category>Linux</category>
+        <category>Win</category>
       </categories>
       <tags>
-        <tag>WSL</tag>
-        <tag>VM</tag>
+        <tag>PyTorch</tag>
+        <tag>Win10</tag>
+        <tag>Deep learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2019/12/14/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo server</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo generate</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo deploy</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Blog</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Blog</tag>
       </tags>
   </entry>
   <entry>
@@ -5260,169 +5474,6 @@ choco download firefox --internalize locale=es-AR</code></pre></div>
       </tags>
   </entry>
   <entry>
-    <title>Win10 搭建 PyTorch 环境</title>
-    <url>/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<h1 id="Win10-搭建-PyTorch-环境"><a href="#Win10-搭建-PyTorch-环境" class="headerlink" title="Win10 搭建 PyTorch 环境"></a>Win10 搭建 PyTorch 环境</h1><h2 id="0-说明"><a href="#0-说明" class="headerlink" title="0 说明"></a>0 说明</h2><p>为了进行深度学习，需要电脑上安装相应的软件，pytorch 就是其中一种。至于 pytorch 是什么的科普，建议去网上搜索。</p>
-<p>而为了安装好 pytorch，需要安装众多软件，网上一搜一大把流程。但事实上随着技术的更新，很多流程都会变得过时，就像我现在这篇，因此我也特意标注了时间。</p>
-<p>本流程的目的是：在 win 10 上安装 pytorch 且能调用 GPU（你需要英伟达的显卡）。</p>
-<p>本流程涉及的程序有：conda，CUDA，cuDNN，pytorch。注意一定要按流程来，如果跳过了 cuDNN 安装 pytorch，是不会成功调用 GPU 的。</p>
-<h2 id="1-Miniconda3"><a href="#1-Miniconda3" class="headerlink" title="1 Miniconda3"></a>1 Miniconda3</h2><p>清华源镜像已经没有维护 miniconda，所以我们使用北外源。</p>
-<ul>
-<li><p><strong>下载地址</strong></p>
-<p><a href="https://mirrors.bfsu.edu.cn/anaconda/miniconda/">Index of /anaconda/miniconda</a></p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521111325301.png" alt="image-20210521111325301"></p>
-</li>
-<li><p><strong>配置环境变量</strong></p>
-<p>一般来说，安装程序会自动把四个 path 变量，写入系统变量的path变量中，但是会写入第一行，我们可以手动下移位置。</p>
-<ul>
-<li><p>打开 cmd（win+R，输入 cmd 后回车），输入 conda info，如果正确无误的话，会显示 conda 的信息。</p>
-</li>
-<li><p>为了 conda 的下载速度，需要添加国内的北外源，输入：</p>
-<div class="code-wrapper"><pre><code class="hljs shell">conda config --set show_channel_urls yes</code></pre></div>
-
-<p>创建配置文件 .condarc，该文件位于：C:\Users\你的用户名\ 下。</p>
-<p>用文本编辑器打开它，然后复制以下内容完全覆盖已有内容：</p>
-<div class="code-wrapper"><pre><code class="hljs shell">channels:
-  - defaults
-show_channel_urls: true
-default_channels:
-  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/main
-  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/r
-  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/msys2
-custom_channels:
-  conda-forge: https://mirrors.bfsu.edu.cn/anaconda/cloud
-  msys2: https://mirrors.bfsu.edu.cn/anaconda/cloud
-  bioconda: https://mirrors.bfsu.edu.cn/anaconda/cloud
-  menpo: https://mirrors.bfsu.edu.cn/anaconda/cloud
-  pytorch: https://mirrors.bfsu.edu.cn/anaconda/cloud
-  simpleitk: https://mirrors.bfsu.edu.cn/anaconda/cloud</code></pre></div>
-</li>
-</ul>
-</li>
-<li><p><strong>生成并进入环境</strong></p>
-<ul>
-<li><p>使用命令创建环境：</p>
-<div class="code-wrapper"><pre><code class="hljs shell">conda create --name py37 python=3.7</code></pre></div>
-</li>
-<li><p>即创建了名为 py37 的环境，你可以自定义名字，python 设定用的版本。</p>
-<p>随后进入环境</p>
-<div class="code-wrapper"><pre><code class="hljs shell">conda activate py37</code></pre></div>
-</li>
-<li><p><strong>避坑：操作需要在 cmd 里做，而不是 powershell，不知道原理，但会报错。</strong></p>
-<p>如果在 powershell 里运行的话，会报错：</p>
-<div class="code-wrapper"><pre><code class="hljs powershell">CommandNotFoundError: Your shell has not been properly configured to use <span class="hljs-string">&#x27;conda activate&#x27;</span>.</code></pre></div>
-
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/v2-e641b91a6a360410b575d83c3030daf4_1440w.jpg" alt="img"></p>
-</li>
-</ul>
-</li>
-<li><p><strong>安装 ipython</strong></p>
-<ul>
-<li><p>ipython 的操作比 python 用起来舒服多了，具体介绍搜索网上</p>
-<div class="code-wrapper"><pre><code class="hljs shell">conda install ipython</code></pre></div>
-</li>
-<li><p>之后输入 ipython 进入 python。</p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="2-CUDA"><a href="#2-CUDA" class="headerlink" title="2 CUDA"></a>2 CUDA</h2><ul>
-<li><p>下载</p>
-<p>链接：<a href="https://developer.nvidia.com/cuda-10.2-download-archive">https://developer.nvidia.com/cuda-downloads</a></p>
-<p>依次选择：Windows -&gt; x86_64 -&gt; 10 -&gt; exe(local)，点击 Download。下载的为适合PyTorch的 <em>cuda_10.2.89_441.22_win10.exe</em></p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521112724889.png" alt="image-20210521112724889"></p>
-<p><strong>避坑：复制下载链接后用迅雷下载，比直接下载快数倍。</strong></p>
-</li>
-<li><p>安装</p>
-<ul>
-<li><p>注意，不要修改安装路径，因为改了没有用，安装程序还是会安装在 C盘下的 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA</p>
-</li>
-<li><p>必须手动添加环境变量。一般来说，CUDA_PATH，安装程序会自动写入。</p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521113202277.png" alt="image-20210521113202277"></p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521113121745.png" alt="image-20210521113121745"></p>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p><strong>测试</strong></p>
-<ul>
-<li><p>如果安装成功，在 cmd 里输入：</p>
-<div class="code-wrapper"><pre><code class="hljs shell">nvcc -V</code></pre></div>
-
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521113321717.png" alt="image-20210521113321717"></p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="3-cuDNN"><a href="#3-cuDNN" class="headerlink" title="3 cuDNN"></a>3 cuDNN</h2><ul>
-<li><p><strong>下载</strong></p>
-<p><strong>避坑：建议在翻墙的情况下操作，注册时的验证码是谷歌的。</strong></p>
-<p>你需要注册账号后才能继续。现在可以<strong>微信登录</strong>，方便了不少。</p>
-<p>链接：<a href="/compute/machine-learning/cudnn/secure/8.0.2.39/10.2_20200724/cudnn-10.2-windows10-x64-v8.0.2.39.zip">https://developer.nvidia.com</a></p>
-</li>
-<li><p><strong>安装</strong></p>
-<p>说是安装，其实是复制文件。</p>
-<p>下载后是一个压缩文件夹，解压文件夹，将里面的 3 个文件夹：bin，include，lib 里面的内容分别放入 CUDA 安装位置的对应文件夹。</p>
-<p>CUDA 安装的位置在：</p>
-<p>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.0</p>
-<p>不会出现覆盖的警告，因为是新增的文件。</p>
-</li>
-</ul>
-<h2 id="4-PyTorch"><a href="#4-PyTorch" class="headerlink" title="4 PyTorch"></a>4 PyTorch</h2><ul>
-<li><p><strong>1. 下载与安装</strong></p>
-<p><strong>避坑：务必在完成以上步骤后才进行。</strong></p>
-<p>网址：<a href="https://link.zhihu.com/?target=https%3A//pytorch.org/get-started/locally/">https://pytorch.org/get-started/locally/</a>，根据实际情况选择。</p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114119171.png" alt="image-20210521114119171"></p>
-<p>得到下载安装的命令：</p>
-<div class="code-wrapper"><pre><code class="hljs shell">conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch</code></pre></div>
-
-<p>使用 cmd 进入了我们之前设置的环境 py37 后，输入以上命令，开始安装 pytorch，如下图：</p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/v2-58b3d7c11020aca95ab177253cf5d1b0_1440w.jpg" alt="img"></p>
-<p><strong>避坑：很多教程里说，去掉 -c pytorch 后，可以加速下载。可以加速没错，但下载的东西却不是我们要的 gpu 版本，而是 cpu 版本，这也是很多人照着教程做，最终都无法使用 gpu 的，却百思不得其解。</strong></p>
-</li>
-<li><p><strong>2. 测试</strong></p>
-<ul>
-<li><p>等待安装完成后，输入 ipython 进入 python，输入：</p>
-<div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch
-torch.cuda.is_available()</code></pre></div>
-
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/v2-6acee085f9449a931afaee3cdd36336a_1440w.jpg" alt="img"></p>
-</li>
-<li><p>显示 True 即表明启用了 pytorch 的 gpu，到此安装结束。</p>
-</li>
-<li><p>如果 torch.cuda.isavailable() 是 False，你可能需要看看前面哪个步骤不对。</p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="5-Pycharm"><a href="#5-Pycharm" class="headerlink" title="5 Pycharm"></a>5 Pycharm</h2><ul>
-<li><p>创建一个项目 PyTorchTest</p>
-</li>
-<li><p>打开设置 Ctrl + Alt + s</p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114808829.png" alt="image-20210521114808829"></p>
-</li>
-<li><p>引入 py37 </p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114859777.png" alt="image-20210521114859777"></p>
-</li>
-<li><p>切换环境为 py37</p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114957218.png" alt="image-20210521114957218"></p>
-</li>
-<li><p>重启 Pycharm</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Win</category>
-      </categories>
-      <tags>
-        <tag>PyTorch</tag>
-        <tag>Win10</tag>
-        <tag>Deep learning</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Stm32CubeMx + Clion环境搭建</title>
     <url>/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
     <content><![CDATA[<h1 id="环境和所需工具"><a href="#环境和所需工具" class="headerlink" title="环境和所需工具"></a>环境和所需工具</h1><h2 id="一，-软件环境"><a href="#一，-软件环境" class="headerlink" title="一， 软件环境"></a>一， 软件环境</h2><h3 id="1-Windows-10"><a href="#1-Windows-10" class="headerlink" title="1. Windows 10"></a>1. Windows 10</h3><h3 id="2-stm32cubemx"><a href="#2-stm32cubemx" class="headerlink" title="2. stm32cubemx"></a>2. <a href="https://www.st.com/en/development-tools/stm32cubemx.html">stm32cubemx</a></h3><h3 id="3-CLion-2020"><a href="#3-CLion-2020" class="headerlink" title="3. CLion-2020"></a>3. <a href="https://www.jetbrains.com/clion/">CLion-2020</a></h3><h3 id="4-MinGW"><a href="#4-MinGW" class="headerlink" title="4. MinGW"></a>4. <a href="http://www.mingw-w64.org/doku.php">MinGW</a></h3><h3 id="5-arm-none-eabi-gcc"><a href="#5-arm-none-eabi-gcc" class="headerlink" title="5. arm-none-eabi-gcc"></a>5. <a href="https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads">arm-none-eabi-gcc</a></h3><h3 id="6-openOCD"><a href="#6-openOCD" class="headerlink" title="6. openOCD"></a>6. <a href="https://gnutoolchains.com/arm-eabi/openocd/">openOCD</a></h3><h3 id="7-stlink-v2"><a href="#7-stlink-v2" class="headerlink" title="7. stlink-v2"></a>7. <a href="https://www.st.com/en/development-tools/st-link-v2.html">stlink-v2</a></h3><h2 id="二，硬件环境"><a href="#二，硬件环境" class="headerlink" title="二，硬件环境"></a>二，硬件环境</h2><h3 id="1-单片机：正点原子STM32F103RCT6"><a href="#1-单片机：正点原子STM32F103RCT6" class="headerlink" title="1. 单片机：正点原子STM32F103RCT6"></a>1. 单片机：正点原子STM32F103RCT6</h3><h3 id="2-下载器：-StLink-V2"><a href="#2-下载器：-StLink-V2" class="headerlink" title="2. 下载器： StLink-V2"></a>2. 下载器： StLink-V2</h3><h2 id="三，工具安装"><a href="#三，工具安装" class="headerlink" title="三，工具安装"></a>三，工具安装</h2><p>工具安装部分正常安装就好了，注意安装目录的选择，尽量不要出现中文。</p>
@@ -5495,32 +5546,6 @@ source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
         <category>Help</category>
         <category>Win</category>
       </categories>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2019/12/14/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo server</code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo generate</code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo deploy</code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Blog</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Blog</tag>
-      </tags>
   </entry>
   <entry>
     <title>分析开源项目</title>
@@ -5654,6 +5679,19 @@ source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
       </tags>
   </entry>
   <entry>
+    <title>我的第一篇博客文章</title>
+    <url>/2019/12/15/%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/</url>
+    <content><![CDATA[<p>“list” 是给这个结构体起的别名，</p>
+<span id="more"></span>
+<p>为了使用方便。</p>
+<p>其次，这个结构体中的date是数值域，next是指针域。</p>
+<p>在这里我使用了递归定义。</p>
+<!-- more -->]]></content>
+      <tags>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>常见的压缩文件压缩和解压缩</title>
     <url>/2021/04/23/%E5%B8%B8%E8%A7%81%E7%9A%84%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E5%92%8C%E8%A7%A3%E5%8E%8B%E7%BC%A9/</url>
     <content><![CDATA[<h2 id="常见的压缩文件压缩和解压缩"><a href="#常见的压缩文件压缩和解压缩" class="headerlink" title="常见的压缩文件压缩和解压缩"></a>常见的压缩文件压缩和解压缩</h2><table>
@@ -5731,19 +5769,6 @@ source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
         <category>Help</category>
         <category>Linux</category>
       </categories>
-  </entry>
-  <entry>
-    <title>我的第一篇博客文章</title>
-    <url>/2019/12/15/%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/</url>
-    <content><![CDATA[<p>“list” 是给这个结构体起的别名，</p>
-<span id="more"></span>
-<p>为了使用方便。</p>
-<p>其次，这个结构体中的date是数值域，next是指针域。</p>
-<p>在这里我使用了递归定义。</p>
-<!-- more -->]]></content>
-      <tags>
-        <tag>博客</tag>
-      </tags>
   </entry>
   <entry>
     <title>虚拟机 Ubuntu 安装 Tensorflow</title>
@@ -5943,6 +5968,36 @@ c.NotebookApp.port = <span class="hljs-number">8888</span>（端口设置）</co
       </tags>
   </entry>
   <entry>
+    <title>覆写Python的内置方法</title>
+    <url>/2020/08/06/%E8%A6%86%E5%86%99Python%E7%9A%84%E5%86%85%E7%BD%AE%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="1-我们可以通过覆写类的内置方法str，来控制print-函数的打印格式"><a href="#1-我们可以通过覆写类的内置方法str，来控制print-函数的打印格式" class="headerlink" title="1.我们可以通过覆写类的内置方法str，来控制print()函数的打印格式"></a>1.我们可以通过覆写类的内置方法<strong>str</strong>，来控制print()函数的打印格式</h2><div class="code-wrapper"><pre><code>class Point:
+&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
+def __init__(self, x=0, y=0):
+    self.x = x
+    self.y = y
+def __str__(self):
+    return &quot;&lt;&#123;&#125;,&#123;&#125;&gt;&quot;.format(self.x, self.y)
+
+    if __name__ == &apos;__main__&apos;:
+point = Point(1, 1)
+print(point)</code></pre></div><h3 id="1-1-没有覆写内置方法str时，print-函数的打印结果："><a href="#1-1-没有覆写内置方法str时，print-函数的打印结果：" class="headerlink" title="1.1 没有覆写内置方法str时，print()函数的打印结果："></a>1.1 没有覆写内置方法<strong>str</strong>时，print()函数的打印结果：</h3><div class="code-wrapper"><pre><code>&lt;__main__.Point object at 0x000001D7FD4EB610&gt;
+仅仅只会显示类Point的实例对象point的地址</code></pre></div><h3 id="1-2-覆写内置方法str时，print-函数的打印结果："><a href="#1-2-覆写内置方法str时，print-函数的打印结果：" class="headerlink" title="1.2 覆写内置方法str时，print()函数的打印结果："></a>1.2 覆写内置方法<strong>str</strong>时，print()函数的打印结果：</h3><div class="code-wrapper"><pre><code>&lt;1,1&gt;
+就会打印出我们预想的结果</code></pre></div><h2 id="2-我们可以通过覆写类内置方法init，来获得类似于C-Java的访问限制"><a href="#2-我们可以通过覆写类内置方法init，来获得类似于C-Java的访问限制" class="headerlink" title="2.我们可以通过覆写类内置方法init，来获得类似于C++/Java的访问限制"></a>2.我们可以通过覆写类内置方法<strong>init</strong>，来获得类似于C++/Java的访问限制</h2><h3 id="2-1-私有属性的设置"><a href="#2-1-私有属性的设置" class="headerlink" title="2.1 私有属性的设置"></a>2.1 私有属性的设置</h3><div class="code-wrapper"><pre><code>class Point:
+&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
+def __init__(self, x=0, y=0):
+    self.__x = x
+    self.__y = y</code></pre></div><p> 前面加两个下划线，表示该属性只能直接在类里面直接访问，或者由类自己的方法来直接访问，类以外的不可以直接访问，但是我们同样可以向C++/Java那样书写Set和Get方法来间接的访问类的私有属性。</p>
+<h3 id="2-2-受保护属性的设置"><a href="#2-2-受保护属性的设置" class="headerlink" title="2.2 受保护属性的设置"></a>2.2 受保护属性的设置</h3><div class="code-wrapper"><pre><code>class Point:
+&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
+def __init__(self, x=0, y=0):
+    self._x = x
+    self._y = y</code></pre></div><p>受保护属性前面只用加一个下划线，其他的和私有属性基本一致</p>
+<h3 id="2-3-以上设置，均属于程序员自己的自我约束-规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。"><a href="#2-3-以上设置，均属于程序员自己的自我约束-规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。" class="headerlink" title="2.3 以上设置，均属于程序员自己的自我约束/规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。"></a>2.3 以上设置，均属于程序员自己的自我约束/规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。</h3>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+  </entry>
+  <entry>
     <title>链表之创建空链表</title>
     <url>/2019/12/14/%E9%93%BE%E8%A1%A8%E4%B9%8B%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%93%BE%E8%A1%A8/</url>
     <content><![CDATA[<h3 id="链表之创建空链表"><a href="#链表之创建空链表" class="headerlink" title="链表之创建空链表"></a>链表之创建空链表</h3><span id="more"></span>
@@ -5974,36 +6029,6 @@ struct node *next;
       <categories>
         <category>Technical</category>
         <category>C/C++</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>覆写Python的内置方法</title>
-    <url>/2020/08/06/%E8%A6%86%E5%86%99Python%E7%9A%84%E5%86%85%E7%BD%AE%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="1-我们可以通过覆写类的内置方法str，来控制print-函数的打印格式"><a href="#1-我们可以通过覆写类的内置方法str，来控制print-函数的打印格式" class="headerlink" title="1.我们可以通过覆写类的内置方法str，来控制print()函数的打印格式"></a>1.我们可以通过覆写类的内置方法<strong>str</strong>，来控制print()函数的打印格式</h2><div class="code-wrapper"><pre><code>class Point:
-&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
-def __init__(self, x=0, y=0):
-    self.x = x
-    self.y = y
-def __str__(self):
-    return &quot;&lt;&#123;&#125;,&#123;&#125;&gt;&quot;.format(self.x, self.y)
-
-    if __name__ == &apos;__main__&apos;:
-point = Point(1, 1)
-print(point)</code></pre></div><h3 id="1-1-没有覆写内置方法str时，print-函数的打印结果："><a href="#1-1-没有覆写内置方法str时，print-函数的打印结果：" class="headerlink" title="1.1 没有覆写内置方法str时，print()函数的打印结果："></a>1.1 没有覆写内置方法<strong>str</strong>时，print()函数的打印结果：</h3><div class="code-wrapper"><pre><code>&lt;__main__.Point object at 0x000001D7FD4EB610&gt;
-仅仅只会显示类Point的实例对象point的地址</code></pre></div><h3 id="1-2-覆写内置方法str时，print-函数的打印结果："><a href="#1-2-覆写内置方法str时，print-函数的打印结果：" class="headerlink" title="1.2 覆写内置方法str时，print()函数的打印结果："></a>1.2 覆写内置方法<strong>str</strong>时，print()函数的打印结果：</h3><div class="code-wrapper"><pre><code>&lt;1,1&gt;
-就会打印出我们预想的结果</code></pre></div><h2 id="2-我们可以通过覆写类内置方法init，来获得类似于C-Java的访问限制"><a href="#2-我们可以通过覆写类内置方法init，来获得类似于C-Java的访问限制" class="headerlink" title="2.我们可以通过覆写类内置方法init，来获得类似于C++/Java的访问限制"></a>2.我们可以通过覆写类内置方法<strong>init</strong>，来获得类似于C++/Java的访问限制</h2><h3 id="2-1-私有属性的设置"><a href="#2-1-私有属性的设置" class="headerlink" title="2.1 私有属性的设置"></a>2.1 私有属性的设置</h3><div class="code-wrapper"><pre><code>class Point:
-&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
-def __init__(self, x=0, y=0):
-    self.__x = x
-    self.__y = y</code></pre></div><p> 前面加两个下划线，表示该属性只能直接在类里面直接访问，或者由类自己的方法来直接访问，类以外的不可以直接访问，但是我们同样可以向C++/Java那样书写Set和Get方法来间接的访问类的私有属性。</p>
-<h3 id="2-2-受保护属性的设置"><a href="#2-2-受保护属性的设置" class="headerlink" title="2.2 受保护属性的设置"></a>2.2 受保护属性的设置</h3><div class="code-wrapper"><pre><code>class Point:
-&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
-def __init__(self, x=0, y=0):
-    self._x = x
-    self._y = y</code></pre></div><p>受保护属性前面只用加一个下划线，其他的和私有属性基本一致</p>
-<h3 id="2-3-以上设置，均属于程序员自己的自我约束-规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。"><a href="#2-3-以上设置，均属于程序员自己的自我约束-规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。" class="headerlink" title="2.3 以上设置，均属于程序员自己的自我约束/规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。"></a>2.3 以上设置，均属于程序员自己的自我约束/规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。</h3>]]></content>
-      <categories>
-        <category>Python</category>
       </categories>
   </entry>
   <entry>
