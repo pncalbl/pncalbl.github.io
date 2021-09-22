@@ -1037,6 +1037,184 @@ HTML文本效果图</code></pre></div><html><head><title>LinkPage</title></head>
       </categories>
   </entry>
   <entry>
+    <title>JavaCommand模式</title>
+    <url>/2020/10/13/JavaCommand%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  命令也是类</p>
+</blockquote>
+<h2 id="1-表示”命令”的接口"><a href="#1-表示”命令”的接口" class="headerlink" title="1 - 表示”命令”的接口"></a>1 - 表示”命令”的接口</h2><div class="code-wrapper"><pre><code>public interface Command &#123;
+    public abstract void execute();
+&#125;</code></pre></div><h2 id="2-表示”由多条命令整合成的命令”的类"><a href="#2-表示”由多条命令整合成的命令”的类" class="headerlink" title="2 - 表示”由多条命令整合成的命令”的类"></a>2 - 表示”由多条命令整合成的命令”的类</h2><div class="code-wrapper"><pre><code>public class MacroCommand implements Command&#123;
+    // 命令的集合
+    private Stack&lt;Command&gt; commands = new Stack&lt;Command&gt;();
+
+    // 执行
+    @Override
+    public void execute() &#123;
+        for (Object command : commands) &#123;
+            ((Command) command).execute();
+        &#125;
+    &#125;
+
+    // 添加命令
+    public void append(Command cmd) &#123;
+        if (cmd != this) &#123;
+            commands.push(cmd);
+        &#125;
+    &#125;
+
+    // 删除最后一条命令
+    public void undo() &#123;
+        if (!commands.empty()) &#123;
+            commands.pop();
+        &#125;
+    &#125;
+
+    // 删除所有命令
+    public void clear() &#123;
+        commands.clear();
+    &#125;
+&#125;</code></pre></div><h2 id="3-表示”绘制一个点的命令”的类"><a href="#3-表示”绘制一个点的命令”的类" class="headerlink" title="3 - 表示”绘制一个点的命令”的类"></a>3 - 表示”绘制一个点的命令”的类</h2><div class="code-wrapper"><pre><code>public class DrawCommand implements Command &#123;
+    // 绘制对象
+    protected Drawable drawable;
+    // 绘制位置
+    private Point position;
+
+    // 构造函数
+    public DrawCommand(Drawable drawable, Point position) &#123;
+        this.drawable = drawable;
+        this.position = position;
+    &#125;
+
+    // 执行
+    @Override
+    public void execute() &#123;
+        drawable.draw(position.x, position.y);
+    &#125;
+
+&#125;</code></pre></div><h2 id="4-示”绘制对象”的类"><a href="#4-示”绘制对象”的类" class="headerlink" title="4 - 示”绘制对象”的类"></a>4 - 示”绘制对象”的类</h2><div class="code-wrapper"><pre><code>public interface Drawable &#123;
+    public abstract void draw(int x, int y);
+&#125;</code></pre></div><h2 id="5-实现”绘制对象”的类"><a href="#5-实现”绘制对象”的类" class="headerlink" title="5 - 实现”绘制对象”的类"></a>5 - 实现”绘制对象”的类</h2><div class="code-wrapper"><pre><code>public class DrawCanvas extends Canvas implements Drawable&#123;
+    // 颜色
+    private Color color = Color.gray;
+    // 命令的历史记录
+    private MacroCommand history;
+
+    // 构造函数
+    public DrawCanvas(int width, int height, MacroCommand history) &#123;
+        setSize(width, height);
+        setBackground(Color.white);
+        this.history = history;
+    &#125;
+
+    // 重新全部绘制
+    public void paint(Graphics g) &#123;
+        history.execute();
+    &#125;
+
+    // 绘制
+    @Override
+    public void draw(int x, int y) &#123;
+        Graphics g = getGraphics();
+        g.setColor(color);
+        // 要绘制圆点的半径
+        int radius = 6;
+        g.fillOval(x - radius, y - radius, radius * 2, radius * 2);
+    &#125;
+&#125;</code></pre></div><h2 id="6-测试程序行为的类"><a href="#6-测试程序行为的类" class="headerlink" title="6 - 测试程序行为的类"></a>6 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main extends JFrame implements ActionListener, MouseMotionListener, WindowListener&#123;
+    // 绘制的历史记录
+    private MacroCommand history = new MacroCommand();
+    // 绘制区域
+    private DrawCanvas canvas = new DrawCanvas(800, 450, history);
+    // 删除按钮
+    private JButton clearButton = new JButton(&quot;clear&quot;);
+
+    // 构造函数
+    public Main(String title) &#123;
+        super(title);
+        this.addWindowListener(this);
+        canvas.addMouseMotionListener(this);
+        clearButton.addActionListener(this);
+
+        Box buttonBox = new Box(BoxLayout.X_AXIS);
+        buttonBox.add(clearButton);
+        Box mainBox = new Box(BoxLayout.Y_AXIS);
+        mainBox.add(buttonBox);
+        mainBox.add(canvas);
+        getContentPane().add(mainBox);
+
+        pack();
+        show();
+    &#125;
+
+    // ActionListener接口中的方法
+    @Override
+    public void actionPerformed(ActionEvent e) &#123;
+        if (e.getSource() == clearButton) &#123;
+            history.clear();
+            canvas.repaint();
+        &#125;
+    &#125;
+
+    // MouseMotionListener接口中的方法
+    @Override
+    public void mouseDragged(MouseEvent e) &#123;
+        Command cmd = new DrawCommand(canvas, e.getPoint());
+        history.append(cmd);
+        cmd.execute();
+    &#125;
+
+    @Override
+    public void mouseMoved(MouseEvent mouseEvent) &#123;
+
+    &#125;
+
+    // WindowListener接口中的方法
+    @Override
+    public void windowOpened(WindowEvent windowEvent) &#123;
+
+    &#125;
+
+    @Override
+    public void windowClosing(WindowEvent windowEvent) &#123;
+        System.exit(0);
+    &#125;
+
+    @Override
+    public void windowClosed(WindowEvent windowEvent) &#123;
+
+    &#125;
+
+    @Override
+    public void windowIconified(WindowEvent windowEvent) &#123;
+
+    &#125;
+
+    @Override
+    public void windowDeiconified(WindowEvent windowEvent) &#123;
+
+    &#125;
+
+    @Override
+    public void windowActivated(WindowEvent windowEvent) &#123;
+
+    &#125;
+
+    @Override
+    public void windowDeactivated(WindowEvent windowEvent) &#123;
+
+    &#125;
+
+    public static void main(String[] args) &#123;
+        new Main(&quot;Command Pattern Sample&quot;);
+    &#125;
+&#125;</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
     <title>JavaBuilder模式</title>
     <url>/2020/09/13/JavaBuilder%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -1389,178 +1567,259 @@ HTML文本效果图</code></pre></div><html><head><title>LinkPage</title></head>
       </categories>
   </entry>
   <entry>
-    <title>JavaCommand模式</title>
-    <url>/2020/10/13/JavaCommand%E6%A8%A1%E5%BC%8F/</url>
+    <title>JavaFacade模式</title>
+    <url>/2020/09/25/JavaFacade%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
-<p>  命令也是类</p>
+<p>  简单窗口</p>
 </blockquote>
-<h2 id="1-表示”命令”的接口"><a href="#1-表示”命令”的接口" class="headerlink" title="1 - 表示”命令”的接口"></a>1 - 表示”命令”的接口</h2><div class="code-wrapper"><pre><code>public interface Command &#123;
-    public abstract void execute();
-&#125;</code></pre></div><h2 id="2-表示”由多条命令整合成的命令”的类"><a href="#2-表示”由多条命令整合成的命令”的类" class="headerlink" title="2 - 表示”由多条命令整合成的命令”的类"></a>2 - 表示”由多条命令整合成的命令”的类</h2><div class="code-wrapper"><pre><code>public class MacroCommand implements Command&#123;
-    // 命令的集合
-    private Stack&lt;Command&gt; commands = new Stack&lt;Command&gt;();
+<h2 id="1-从邮件地址中获取用户名的类"><a href="#1-从邮件地址中获取用户名的类" class="headerlink" title="1- 从邮件地址中获取用户名的类"></a>1- 从邮件地址中获取用户名的类</h2><div class="code-wrapper"><pre><code>// 需要配置相应的数据库
+public class Database &#123;
+    private Database() &#123;    // 防止外部new出Database的实例,所以声明为private
+    &#125;
 
-    // 执行
-    @Override
-    public void execute() &#123;
-        for (Object command : commands) &#123;
-            ((Command) command).execute();
+    public static Properties getProperties(String dbname)&#123;  // 根据数据库名获取Properties
+        String filename = dbname + &quot;.txt&quot;;
+        Properties prop = new Properties();
+        try &#123;
+            prop.load(new FileInputStream(filename));
+        &#125;catch (IOException e)&#123;
+            System.out.println(&quot;Warning: &quot; + filename + &quot; is not found.&quot;);
         &#125;
+        return prop;
+    &#125;
+&#125;</code></pre></div><h2 id="2-编写HTML文件的类"><a href="#2-编写HTML文件的类" class="headerlink" title="2 - 编写HTML文件的类"></a>2 - 编写HTML文件的类</h2><div class="code-wrapper"><pre><code>public class HtmlWriter &#123;
+    private Writer writer;
+    public HtmlWriter(Writer writer)&#123;
+        this.writer = writer;
     &#125;
 
-    // 添加命令
-    public void append(Command cmd) &#123;
-        if (cmd != this) &#123;
-            commands.push(cmd);
+    public void title(String title) throws IOException&#123;
+        writer.write(&quot;&lt;html&gt;&quot;);
+        writer.write(&quot;&lt;head&gt;&quot;);
+        writer.write(&quot;&lt;title&gt;&quot; + title + &quot;&lt;/title&gt;&quot;);
+        writer.write(&quot;&lt;/head&gt;&quot;);
+        writer.write(&quot;&lt;body&gt;\n&quot;);
+        writer.write(&quot;&lt;h1&gt;&quot; + title + &quot;&lt;/h1&gt;&quot;);
+    &#125;
+
+    public void paragraph(String msg) throws IOException&#123;
+        writer.write(&quot;&lt;p&gt;&quot; + msg + &quot;&lt;/p&gt;\n&quot;);
+    &#125;
+
+    public void link(String href, String caption) throws IOException&#123;
+        paragraph(&quot;&lt;a href=\&quot;&quot; + href + &quot;\&quot;&gt;&quot; + caption + &quot;&lt;/a&gt;&quot;);
+    &#125;
+
+    public void mailto(String mailAddr, String userName) throws IOException&#123;
+        link(&quot;mailto: &quot; + mailAddr, userName);
+    &#125;
+
+    public void close() throws IOException&#123;
+        writer.write(&quot;&lt;/body&gt;&quot;);
+        writer.write(&quot;&lt;/html&gt;&quot;);
+        writer.close();
+    &#125;
+&#125;</code></pre></div><h2 id="3-根据邮件地址编写该用户的Web页面"><a href="#3-根据邮件地址编写该用户的Web页面" class="headerlink" title="3 - 根据邮件地址编写该用户的Web页面"></a>3 - 根据邮件地址编写该用户的Web页面</h2><div class="code-wrapper"><pre><code>public class PageMaker &#123;
+    private PageMaker() &#123;    // 防止外部new出PageMaker的实例,所以声明为private
+    &#125;
+
+    public static void makeWelcomePage(String mailAddr, String filename)&#123;
+        try &#123;
+            Properties mailProp = Database.getProperties(&quot;mailData&quot;);
+            String userName = mailProp.getProperty(mailAddr);
+            HtmlWriter writer = new HtmlWriter(new FileWriter(filename));
+            writer.title(&quot;Welcome to &quot; + userName + &quot;`s page!&quot;);
+            writer.paragraph(userName + &quot;欢迎来到&quot; + userName + &quot;的主页&quot;);
+            writer.paragraph(&quot;等着你的邮件哦!&quot;);
+            writer.mailto(mailAddr, userName);
+            writer.close();
+            System.out.println(filename + &quot; is created for &quot; + mailAddr + &quot; (&quot; +
+                    userName + &quot;)&quot;);
+        &#125;catch (IOException e)&#123;
+            e.printStackTrace();
         &#125;
-    &#125;
-
-    // 删除最后一条命令
-    public void undo() &#123;
-        if (!commands.empty()) &#123;
-            commands.pop();
-        &#125;
-    &#125;
-
-    // 删除所有命令
-    public void clear() &#123;
-        commands.clear();
-    &#125;
-&#125;</code></pre></div><h2 id="3-表示”绘制一个点的命令”的类"><a href="#3-表示”绘制一个点的命令”的类" class="headerlink" title="3 - 表示”绘制一个点的命令”的类"></a>3 - 表示”绘制一个点的命令”的类</h2><div class="code-wrapper"><pre><code>public class DrawCommand implements Command &#123;
-    // 绘制对象
-    protected Drawable drawable;
-    // 绘制位置
-    private Point position;
-
-    // 构造函数
-    public DrawCommand(Drawable drawable, Point position) &#123;
-        this.drawable = drawable;
-        this.position = position;
-    &#125;
-
-    // 执行
-    @Override
-    public void execute() &#123;
-        drawable.draw(position.x, position.y);
-    &#125;
-
-&#125;</code></pre></div><h2 id="4-示”绘制对象”的类"><a href="#4-示”绘制对象”的类" class="headerlink" title="4 - 示”绘制对象”的类"></a>4 - 示”绘制对象”的类</h2><div class="code-wrapper"><pre><code>public interface Drawable &#123;
-    public abstract void draw(int x, int y);
-&#125;</code></pre></div><h2 id="5-实现”绘制对象”的类"><a href="#5-实现”绘制对象”的类" class="headerlink" title="5 - 实现”绘制对象”的类"></a>5 - 实现”绘制对象”的类</h2><div class="code-wrapper"><pre><code>public class DrawCanvas extends Canvas implements Drawable&#123;
-    // 颜色
-    private Color color = Color.gray;
-    // 命令的历史记录
-    private MacroCommand history;
-
-    // 构造函数
-    public DrawCanvas(int width, int height, MacroCommand history) &#123;
-        setSize(width, height);
-        setBackground(Color.white);
-        this.history = history;
-    &#125;
-
-    // 重新全部绘制
-    public void paint(Graphics g) &#123;
-        history.execute();
-    &#125;
-
-    // 绘制
-    @Override
-    public void draw(int x, int y) &#123;
-        Graphics g = getGraphics();
-        g.setColor(color);
-        // 要绘制圆点的半径
-        int radius = 6;
-        g.fillOval(x - radius, y - radius, radius * 2, radius * 2);
-    &#125;
-&#125;</code></pre></div><h2 id="6-测试程序行为的类"><a href="#6-测试程序行为的类" class="headerlink" title="6 - 测试程序行为的类"></a>6 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main extends JFrame implements ActionListener, MouseMotionListener, WindowListener&#123;
-    // 绘制的历史记录
-    private MacroCommand history = new MacroCommand();
-    // 绘制区域
-    private DrawCanvas canvas = new DrawCanvas(800, 450, history);
-    // 删除按钮
-    private JButton clearButton = new JButton(&quot;clear&quot;);
-
-    // 构造函数
-    public Main(String title) &#123;
-        super(title);
-        this.addWindowListener(this);
-        canvas.addMouseMotionListener(this);
-        clearButton.addActionListener(this);
-
-        Box buttonBox = new Box(BoxLayout.X_AXIS);
-        buttonBox.add(clearButton);
-        Box mainBox = new Box(BoxLayout.Y_AXIS);
-        mainBox.add(buttonBox);
-        mainBox.add(canvas);
-        getContentPane().add(mainBox);
-
-        pack();
-        show();
-    &#125;
-
-    // ActionListener接口中的方法
-    @Override
-    public void actionPerformed(ActionEvent e) &#123;
-        if (e.getSource() == clearButton) &#123;
-            history.clear();
-            canvas.repaint();
-        &#125;
-    &#125;
-
-    // MouseMotionListener接口中的方法
-    @Override
-    public void mouseDragged(MouseEvent e) &#123;
-        Command cmd = new DrawCommand(canvas, e.getPoint());
-        history.append(cmd);
-        cmd.execute();
-    &#125;
-
-    @Override
-    public void mouseMoved(MouseEvent mouseEvent) &#123;
 
     &#125;
-
-    // WindowListener接口中的方法
-    @Override
-    public void windowOpened(WindowEvent windowEvent) &#123;
-
-    &#125;
-
-    @Override
-    public void windowClosing(WindowEvent windowEvent) &#123;
-        System.exit(0);
-    &#125;
-
-    @Override
-    public void windowClosed(WindowEvent windowEvent) &#123;
-
-    &#125;
-
-    @Override
-    public void windowIconified(WindowEvent windowEvent) &#123;
-
-    &#125;
-
-    @Override
-    public void windowDeiconified(WindowEvent windowEvent) &#123;
-
-    &#125;
-
-    @Override
-    public void windowActivated(WindowEvent windowEvent) &#123;
-
-    &#125;
-
-    @Override
-    public void windowDeactivated(WindowEvent windowEvent) &#123;
-
-    &#125;
-
+&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
     public static void main(String[] args) &#123;
-        new Main(&quot;Command Pattern Sample&quot;);
+        PageMaker.makeWelcomePage(&quot;hyuki@hyuki.com&quot;, &quot;welcome.html&quot;);
     &#125;
-&#125;</code></pre></div>]]></content>
+&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><html><head><title>Welcome to Hiroshi Yuki`s page!</title></head><body>
+<h1>Welcome to Hiroshi Yuki`s page!</h1><p>null欢迎来到null的主页</p>
+<p>等着你的邮件哦!</p>
+<p><a href="mailto: hyuki@hyuki.com">Hiroshi Yuki</a></p>
+</body></html>
+
+<div class="code-wrapper"><pre><code>// HTML源码
+&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to Hiroshi Yuki`s page!&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Welcome to Hiroshi Yuki`s page!&lt;/h1&gt;
+&lt;p&gt;null欢迎来到null的主页&lt;/p&gt;
+&lt;p&gt;等着你的邮件哦!&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;mailto: hyuki@hyuki.com&quot;&gt;Hiroshi Yuki&lt;/a&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JavaFlyweight模式</title>
+    <url>/2020/10/08/JavaFlyweight%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  共享对象,避免浪费</p>
+</blockquote>
+<h2 id="1-表示”大型字符”的类"><a href="#1-表示”大型字符”的类" class="headerlink" title="1 - 表示”大型字符”的类"></a>1 - 表示”大型字符”的类</h2><div class="code-wrapper"><pre><code>public class BigChar &#123;
+    // 字符名字
+    private char charName;
+    // 大型字符对应的字符串(由&apos;#&apos;&apos;.&apos;&apos;\n&apos;组成)
+    private String fontData;
+
+    private String filePath = &quot;大型字符文件路径&quot;;
+
+    // 构造函数
+    public BigChar(char charName) &#123;
+        this.charName = charName;
+
+        try &#123;
+            BufferedReader reader = new BufferedReader(
+                    new FileReader(filePath+ &quot;big&quot; + charName + &quot;.txt&quot;)
+            );
+            String line;
+            StringBuffer buf = new StringBuffer();
+            while ((line = reader.readLine()) != null) &#123;
+                buf.append(line);
+                buf.append(&quot;\n&quot;);
+            &#125;
+            reader.close();
+            this.fontData = buf.toString();
+        &#125;catch (IOException e)&#123;
+            this.fontData = charName + &quot;?&quot;;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+    // 显示大型字符
+    public void print() &#123;
+        System.out.println(fontData);
+    &#125;
+&#125;</code></pre></div><p>需要提前准备大型字符文件<br>例如字符’1’ ,文件名以”big1.txt”为标准</p>
+<div class="code-wrapper"><pre><code>..................
+........##........
+....######........
+........##........
+........##........
+........##........
+........##........
+..##############..
+..................</code></pre></div><h2 id="2-表示生成和共用BigChar类的实例的类"><a href="#2-表示生成和共用BigChar类的实例的类" class="headerlink" title="2 - 表示生成和共用BigChar类的实例的类"></a>2 - 表示生成和共用BigChar类的实例的类</h2><div class="code-wrapper"><pre><code>public class BigCharFactory &#123;
+    // 管理已经生成的BigChar的实例
+    private HashMap&lt;String, BigChar&gt; pool = new HashMap&lt;&gt;();
+
+    // Singleton模式
+    private static BigCharFactory singleton = new BigCharFactory();
+
+    // 构造函数
+    private BigCharFactory() &#123;&#125;
+
+    // 获取唯一实例
+    public static BigCharFactory getInstance() &#123;
+        return singleton;
+    &#125;
+
+    // 生成(共享)BigChar类的实例
+    public synchronized BigChar getBigChar(char charName) &#123;
+        BigChar bc = pool.get(&quot;&quot; + charName);
+        if (bc == null) &#123;
+            bc = new BigChar(charName);
+            pool.put(&quot;&quot; + charName, bc);
+        &#125;
+        return bc;
+    &#125;
+&#125;</code></pre></div><h2 id="3-表示多个BigChar组成的”大型字符串”的类"><a href="#3-表示多个BigChar组成的”大型字符串”的类" class="headerlink" title="3 - 表示多个BigChar组成的”大型字符串”的类"></a>3 - 表示多个BigChar组成的”大型字符串”的类</h2><div class="code-wrapper"><pre><code>public class BigString &#123;
+    // &quot;大型字符&quot;的数组
+    private BigChar[] bigChars;
+
+    // 构造函数
+    public BigString(String string) &#123;
+        bigChars = new BigChar[string.length()];
+        BigCharFactory factory = BigCharFactory.getInstance();
+        for (int i = 0; i &lt; bigChars.length; i++) &#123;
+            bigChars[i] = factory.getBigChar(string.charAt(i));
+        &#125;
+    &#125;
+
+    // 显示
+    public void print() &#123;
+        for (BigChar bigChar : bigChars) &#123;
+            bigChar.print();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        if (args.length == 0) &#123;
+            System.out.println(&quot;Usage: java Main digits&quot;);
+            System.out.println(&quot;Example: java Main 1212123&quot;);
+            System.exit(0);
+        &#125;
+
+        BigString bs = new BigString(args[0]);
+        bs.print();
+    &#125;
+&#125;</code></pre></div><p>需要提前设置参数 args[0] = ‘12123’</p>
+<h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>..................
+........##........
+....######........
+........##........
+........##........
+........##........
+........##........
+..##############..
+..................
+
+...................
+....########.......
+..##.........###...
+............###....
+..........###......
+........###........
+......###..........
+....###............
+..#############....
+...................
+
+..................
+........##........
+....######........
+........##........
+........##........
+........##........
+........##........
+..##############..
+..................
+
+...................
+....########.......
+..##.........###...
+............###....
+..........###......
+........###........
+......###..........
+....###............
+..#############....
+...................
+
+..................
+....#######.......
+..##.......##.....
+............##....
+....#######.......
+............##....
+..##.......##.....
+....######........
+..................</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -1713,105 +1972,6 @@ Making user entries...
 /root/usr/tomura (900)
 /root/usr/tomura/game.doc (400)
 /root/usr/tomura/junk.mail (500)</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>JavaFacade模式</title>
-    <url>/2020/09/25/JavaFacade%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  简单窗口</p>
-</blockquote>
-<h2 id="1-从邮件地址中获取用户名的类"><a href="#1-从邮件地址中获取用户名的类" class="headerlink" title="1- 从邮件地址中获取用户名的类"></a>1- 从邮件地址中获取用户名的类</h2><div class="code-wrapper"><pre><code>// 需要配置相应的数据库
-public class Database &#123;
-    private Database() &#123;    // 防止外部new出Database的实例,所以声明为private
-    &#125;
-
-    public static Properties getProperties(String dbname)&#123;  // 根据数据库名获取Properties
-        String filename = dbname + &quot;.txt&quot;;
-        Properties prop = new Properties();
-        try &#123;
-            prop.load(new FileInputStream(filename));
-        &#125;catch (IOException e)&#123;
-            System.out.println(&quot;Warning: &quot; + filename + &quot; is not found.&quot;);
-        &#125;
-        return prop;
-    &#125;
-&#125;</code></pre></div><h2 id="2-编写HTML文件的类"><a href="#2-编写HTML文件的类" class="headerlink" title="2 - 编写HTML文件的类"></a>2 - 编写HTML文件的类</h2><div class="code-wrapper"><pre><code>public class HtmlWriter &#123;
-    private Writer writer;
-    public HtmlWriter(Writer writer)&#123;
-        this.writer = writer;
-    &#125;
-
-    public void title(String title) throws IOException&#123;
-        writer.write(&quot;&lt;html&gt;&quot;);
-        writer.write(&quot;&lt;head&gt;&quot;);
-        writer.write(&quot;&lt;title&gt;&quot; + title + &quot;&lt;/title&gt;&quot;);
-        writer.write(&quot;&lt;/head&gt;&quot;);
-        writer.write(&quot;&lt;body&gt;\n&quot;);
-        writer.write(&quot;&lt;h1&gt;&quot; + title + &quot;&lt;/h1&gt;&quot;);
-    &#125;
-
-    public void paragraph(String msg) throws IOException&#123;
-        writer.write(&quot;&lt;p&gt;&quot; + msg + &quot;&lt;/p&gt;\n&quot;);
-    &#125;
-
-    public void link(String href, String caption) throws IOException&#123;
-        paragraph(&quot;&lt;a href=\&quot;&quot; + href + &quot;\&quot;&gt;&quot; + caption + &quot;&lt;/a&gt;&quot;);
-    &#125;
-
-    public void mailto(String mailAddr, String userName) throws IOException&#123;
-        link(&quot;mailto: &quot; + mailAddr, userName);
-    &#125;
-
-    public void close() throws IOException&#123;
-        writer.write(&quot;&lt;/body&gt;&quot;);
-        writer.write(&quot;&lt;/html&gt;&quot;);
-        writer.close();
-    &#125;
-&#125;</code></pre></div><h2 id="3-根据邮件地址编写该用户的Web页面"><a href="#3-根据邮件地址编写该用户的Web页面" class="headerlink" title="3 - 根据邮件地址编写该用户的Web页面"></a>3 - 根据邮件地址编写该用户的Web页面</h2><div class="code-wrapper"><pre><code>public class PageMaker &#123;
-    private PageMaker() &#123;    // 防止外部new出PageMaker的实例,所以声明为private
-    &#125;
-
-    public static void makeWelcomePage(String mailAddr, String filename)&#123;
-        try &#123;
-            Properties mailProp = Database.getProperties(&quot;mailData&quot;);
-            String userName = mailProp.getProperty(mailAddr);
-            HtmlWriter writer = new HtmlWriter(new FileWriter(filename));
-            writer.title(&quot;Welcome to &quot; + userName + &quot;`s page!&quot;);
-            writer.paragraph(userName + &quot;欢迎来到&quot; + userName + &quot;的主页&quot;);
-            writer.paragraph(&quot;等着你的邮件哦!&quot;);
-            writer.mailto(mailAddr, userName);
-            writer.close();
-            System.out.println(filename + &quot; is created for &quot; + mailAddr + &quot; (&quot; +
-                    userName + &quot;)&quot;);
-        &#125;catch (IOException e)&#123;
-            e.printStackTrace();
-        &#125;
-
-    &#125;
-&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        PageMaker.makeWelcomePage(&quot;hyuki@hyuki.com&quot;, &quot;welcome.html&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><html><head><title>Welcome to Hiroshi Yuki`s page!</title></head><body>
-<h1>Welcome to Hiroshi Yuki`s page!</h1><p>null欢迎来到null的主页</p>
-<p>等着你的邮件哦!</p>
-<p><a href="mailto: hyuki@hyuki.com">Hiroshi Yuki</a></p>
-</body></html>
-
-<div class="code-wrapper"><pre><code>// HTML源码
-&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to Hiroshi Yuki`s page!&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h1&gt;Welcome to Hiroshi Yuki`s page!&lt;/h1&gt;
-&lt;p&gt;null欢迎来到null的主页&lt;/p&gt;
-&lt;p&gt;等着你的邮件哦!&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;mailto: hyuki@hyuki.com&quot;&gt;Hiroshi Yuki&lt;/a&gt;&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -1991,166 +2151,6 @@ program go end
 program go right go right go right go right end
 program repeat 4 go right end end
 program repeat 4 repeat 3 go right go left end right end end</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>JavaFlyweight模式</title>
-    <url>/2020/10/08/JavaFlyweight%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  共享对象,避免浪费</p>
-</blockquote>
-<h2 id="1-表示”大型字符”的类"><a href="#1-表示”大型字符”的类" class="headerlink" title="1 - 表示”大型字符”的类"></a>1 - 表示”大型字符”的类</h2><div class="code-wrapper"><pre><code>public class BigChar &#123;
-    // 字符名字
-    private char charName;
-    // 大型字符对应的字符串(由&apos;#&apos;&apos;.&apos;&apos;\n&apos;组成)
-    private String fontData;
-
-    private String filePath = &quot;大型字符文件路径&quot;;
-
-    // 构造函数
-    public BigChar(char charName) &#123;
-        this.charName = charName;
-
-        try &#123;
-            BufferedReader reader = new BufferedReader(
-                    new FileReader(filePath+ &quot;big&quot; + charName + &quot;.txt&quot;)
-            );
-            String line;
-            StringBuffer buf = new StringBuffer();
-            while ((line = reader.readLine()) != null) &#123;
-                buf.append(line);
-                buf.append(&quot;\n&quot;);
-            &#125;
-            reader.close();
-            this.fontData = buf.toString();
-        &#125;catch (IOException e)&#123;
-            this.fontData = charName + &quot;?&quot;;
-            e.printStackTrace();
-        &#125;
-    &#125;
-
-    // 显示大型字符
-    public void print() &#123;
-        System.out.println(fontData);
-    &#125;
-&#125;</code></pre></div><p>需要提前准备大型字符文件<br>例如字符’1’ ,文件名以”big1.txt”为标准</p>
-<div class="code-wrapper"><pre><code>..................
-........##........
-....######........
-........##........
-........##........
-........##........
-........##........
-..##############..
-..................</code></pre></div><h2 id="2-表示生成和共用BigChar类的实例的类"><a href="#2-表示生成和共用BigChar类的实例的类" class="headerlink" title="2 - 表示生成和共用BigChar类的实例的类"></a>2 - 表示生成和共用BigChar类的实例的类</h2><div class="code-wrapper"><pre><code>public class BigCharFactory &#123;
-    // 管理已经生成的BigChar的实例
-    private HashMap&lt;String, BigChar&gt; pool = new HashMap&lt;&gt;();
-
-    // Singleton模式
-    private static BigCharFactory singleton = new BigCharFactory();
-
-    // 构造函数
-    private BigCharFactory() &#123;&#125;
-
-    // 获取唯一实例
-    public static BigCharFactory getInstance() &#123;
-        return singleton;
-    &#125;
-
-    // 生成(共享)BigChar类的实例
-    public synchronized BigChar getBigChar(char charName) &#123;
-        BigChar bc = pool.get(&quot;&quot; + charName);
-        if (bc == null) &#123;
-            bc = new BigChar(charName);
-            pool.put(&quot;&quot; + charName, bc);
-        &#125;
-        return bc;
-    &#125;
-&#125;</code></pre></div><h2 id="3-表示多个BigChar组成的”大型字符串”的类"><a href="#3-表示多个BigChar组成的”大型字符串”的类" class="headerlink" title="3 - 表示多个BigChar组成的”大型字符串”的类"></a>3 - 表示多个BigChar组成的”大型字符串”的类</h2><div class="code-wrapper"><pre><code>public class BigString &#123;
-    // &quot;大型字符&quot;的数组
-    private BigChar[] bigChars;
-
-    // 构造函数
-    public BigString(String string) &#123;
-        bigChars = new BigChar[string.length()];
-        BigCharFactory factory = BigCharFactory.getInstance();
-        for (int i = 0; i &lt; bigChars.length; i++) &#123;
-            bigChars[i] = factory.getBigChar(string.charAt(i));
-        &#125;
-    &#125;
-
-    // 显示
-    public void print() &#123;
-        for (BigChar bigChar : bigChars) &#123;
-            bigChar.print();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        if (args.length == 0) &#123;
-            System.out.println(&quot;Usage: java Main digits&quot;);
-            System.out.println(&quot;Example: java Main 1212123&quot;);
-            System.exit(0);
-        &#125;
-
-        BigString bs = new BigString(args[0]);
-        bs.print();
-    &#125;
-&#125;</code></pre></div><p>需要提前设置参数 args[0] = ‘12123’</p>
-<h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>..................
-........##........
-....######........
-........##........
-........##........
-........##........
-........##........
-..##############..
-..................
-
-...................
-....########.......
-..##.........###...
-............###....
-..........###......
-........###........
-......###..........
-....###............
-..#############....
-...................
-
-..................
-........##........
-....######........
-........##........
-........##........
-........##........
-........##........
-..##############..
-..................
-
-...................
-....########.......
-..##.........###...
-............###....
-..........###......
-........###........
-......###..........
-....###............
-..#############....
-...................
-
-..................
-....#######.......
-..##.......##.....
-............##....
-....#######.......
-............##....
-..##.......##.....
-....######........
-..................</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -2355,6 +2355,129 @@ program repeat 4 repeat 3 go right go left end right end end</code></pre></div>]
       </categories>
   </entry>
   <entry>
+    <title>JavaObserver模式</title>
+    <url>/2020/09/28/JavaObserver%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  发送状态变化通知</p>
+</blockquote>
+<h2 id="1-表示观察者的接口"><a href="#1-表示观察者的接口" class="headerlink" title="1 - 表示观察者的接口"></a>1 - 表示观察者的接口</h2><div class="code-wrapper"><pre><code>public interface Observer &#123;
+    public abstract void update(NumberGenerator generator);
+&#125;</code></pre></div><h2 id="2-表示生成数值的对象的抽象类"><a href="#2-表示生成数值的对象的抽象类" class="headerlink" title="2 - 表示生成数值的对象的抽象类"></a>2 - 表示生成数值的对象的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class NumberGenerator &#123;
+    private ArrayList observers = new ArrayList();  // 保存Observer们
+
+    public void addObserver(Observer observer) &#123;    // 注册Observer
+        observers.add(observer);
+    &#125;
+
+    public void deleteObserver(Observer observer) &#123;    // 删除Observer
+        observers.remove(observer);
+    &#125;
+
+    public void notifyObservers() &#123;    // 向Observer发送通知
+        for (Object value : observers) &#123;
+            Observer o = (Observer) value;
+            o.update(this);
+        &#125;
+    &#125;
+
+    public abstract int getNumber();    // 获取数值
+    public abstract void execute();     // 生成数值
+&#125;</code></pre></div><h2 id="3-表示生成随机数的类"><a href="#3-表示生成随机数的类" class="headerlink" title="3 - 表示生成随机数的类"></a>3 - 表示生成随机数的类</h2><div class="code-wrapper"><pre><code>public class RandomNumberGenerator extends NumberGenerator&#123;
+    private Random random = new Random();   // 随机数生成器
+    private int number;     // 当前数值
+
+    @Override
+    public int getNumber() &#123;
+        return number;
+    &#125;
+
+    @Override
+    public void execute() &#123;
+        for (int i = 0; i &lt; 20; i++) &#123;
+            number = random.nextInt(50);
+            notifyObservers();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="4-表示以数字形式显示数值的类"><a href="#4-表示以数字形式显示数值的类" class="headerlink" title="4 - 表示以数字形式显示数值的类"></a>4 - 表示以数字形式显示数值的类</h2><div class="code-wrapper"><pre><code>public class DigitObserver implements Observer&#123;
+    @Override
+    public void update(NumberGenerator generator) &#123;
+        System.out.println(&quot;DigitObserver: &quot; + generator.getNumber());
+        try &#123;
+            Thread.sleep(100);
+        &#125;catch (InterruptedException e)&#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="5-表示以简单的图形显示数值的类"><a href="#5-表示以简单的图形显示数值的类" class="headerlink" title="5 - 表示以简单的图形显示数值的类"></a>5 - 表示以简单的图形显示数值的类</h2><div class="code-wrapper"><pre><code>public class GraphObserver implements Observer&#123;
+    @Override
+    public void update(NumberGenerator generator) &#123;
+        System.out.print(&quot;GraphObserver: &quot;);
+        int count = generator.getNumber();
+        for (int i = 0; i &lt; count; i++) &#123;
+            System.out.print(&apos;*&apos;);
+        &#125;
+        System.out.println();
+        try &#123;
+            Thread.sleep(100);
+        &#125;catch (InterruptedException e)&#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="6-测试程序行为的类"><a href="#6-测试程序行为的类" class="headerlink" title="6 - 测试程序行为的类"></a>6 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        NumberGenerator generator = new RandomNumberGenerator();
+        Observer observer1 = new DigitObserver();
+        Observer observer2 = new GraphObserver();
+        generator.addObserver(observer1);
+        generator.addObserver(observer2);
+        generator.execute();
+    &#125;
+&#125;</code></pre></div><h2 id="7-输出示例"><a href="#7-输出示例" class="headerlink" title="7 - 输出示例"></a>7 - 输出示例</h2><div class="code-wrapper"><pre><code>DigitObserver: 9
+GraphObserver: *********
+DigitObserver: 16
+GraphObserver: ****************
+DigitObserver: 40
+GraphObserver: ****************************************
+DigitObserver: 34
+GraphObserver: **********************************
+DigitObserver: 18
+GraphObserver: ******************
+DigitObserver: 6
+GraphObserver: ******
+DigitObserver: 34
+GraphObserver: **********************************
+DigitObserver: 31
+GraphObserver: *******************************
+DigitObserver: 17
+GraphObserver: *****************
+DigitObserver: 47
+GraphObserver: ***********************************************
+DigitObserver: 21
+GraphObserver: *********************
+DigitObserver: 34
+GraphObserver: **********************************
+DigitObserver: 18
+GraphObserver: ******************
+DigitObserver: 25
+GraphObserver: *************************
+DigitObserver: 39
+GraphObserver: ***************************************
+DigitObserver: 20
+GraphObserver: ********************
+DigitObserver: 9
+GraphObserver: *********
+DigitObserver: 4
+GraphObserver: ****
+DigitObserver: 8
+GraphObserver: ********
+DigitObserver: 26
+GraphObserver: **************************</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
     <title>JavaMediator模式</title>
     <url>/2020/09/26/JavaMediator%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -2528,129 +2651,6 @@ program repeat 4 repeat 3 go right go left end right end end</code></pre></div>]
 &#125;</code></pre></div><h2 id="8-输出示例"><a href="#8-输出示例" class="headerlink" title="8 - 输出示例"></a>8 - 输出示例</h2><div class="code-wrapper"><pre><code>// 具体见窗口
 java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=OK,
 when=1601126737494,modifiers=] on button0</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>JavaObserver模式</title>
-    <url>/2020/09/28/JavaObserver%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  发送状态变化通知</p>
-</blockquote>
-<h2 id="1-表示观察者的接口"><a href="#1-表示观察者的接口" class="headerlink" title="1 - 表示观察者的接口"></a>1 - 表示观察者的接口</h2><div class="code-wrapper"><pre><code>public interface Observer &#123;
-    public abstract void update(NumberGenerator generator);
-&#125;</code></pre></div><h2 id="2-表示生成数值的对象的抽象类"><a href="#2-表示生成数值的对象的抽象类" class="headerlink" title="2 - 表示生成数值的对象的抽象类"></a>2 - 表示生成数值的对象的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class NumberGenerator &#123;
-    private ArrayList observers = new ArrayList();  // 保存Observer们
-
-    public void addObserver(Observer observer) &#123;    // 注册Observer
-        observers.add(observer);
-    &#125;
-
-    public void deleteObserver(Observer observer) &#123;    // 删除Observer
-        observers.remove(observer);
-    &#125;
-
-    public void notifyObservers() &#123;    // 向Observer发送通知
-        for (Object value : observers) &#123;
-            Observer o = (Observer) value;
-            o.update(this);
-        &#125;
-    &#125;
-
-    public abstract int getNumber();    // 获取数值
-    public abstract void execute();     // 生成数值
-&#125;</code></pre></div><h2 id="3-表示生成随机数的类"><a href="#3-表示生成随机数的类" class="headerlink" title="3 - 表示生成随机数的类"></a>3 - 表示生成随机数的类</h2><div class="code-wrapper"><pre><code>public class RandomNumberGenerator extends NumberGenerator&#123;
-    private Random random = new Random();   // 随机数生成器
-    private int number;     // 当前数值
-
-    @Override
-    public int getNumber() &#123;
-        return number;
-    &#125;
-
-    @Override
-    public void execute() &#123;
-        for (int i = 0; i &lt; 20; i++) &#123;
-            number = random.nextInt(50);
-            notifyObservers();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="4-表示以数字形式显示数值的类"><a href="#4-表示以数字形式显示数值的类" class="headerlink" title="4 - 表示以数字形式显示数值的类"></a>4 - 表示以数字形式显示数值的类</h2><div class="code-wrapper"><pre><code>public class DigitObserver implements Observer&#123;
-    @Override
-    public void update(NumberGenerator generator) &#123;
-        System.out.println(&quot;DigitObserver: &quot; + generator.getNumber());
-        try &#123;
-            Thread.sleep(100);
-        &#125;catch (InterruptedException e)&#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="5-表示以简单的图形显示数值的类"><a href="#5-表示以简单的图形显示数值的类" class="headerlink" title="5 - 表示以简单的图形显示数值的类"></a>5 - 表示以简单的图形显示数值的类</h2><div class="code-wrapper"><pre><code>public class GraphObserver implements Observer&#123;
-    @Override
-    public void update(NumberGenerator generator) &#123;
-        System.out.print(&quot;GraphObserver: &quot;);
-        int count = generator.getNumber();
-        for (int i = 0; i &lt; count; i++) &#123;
-            System.out.print(&apos;*&apos;);
-        &#125;
-        System.out.println();
-        try &#123;
-            Thread.sleep(100);
-        &#125;catch (InterruptedException e)&#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="6-测试程序行为的类"><a href="#6-测试程序行为的类" class="headerlink" title="6 - 测试程序行为的类"></a>6 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        NumberGenerator generator = new RandomNumberGenerator();
-        Observer observer1 = new DigitObserver();
-        Observer observer2 = new GraphObserver();
-        generator.addObserver(observer1);
-        generator.addObserver(observer2);
-        generator.execute();
-    &#125;
-&#125;</code></pre></div><h2 id="7-输出示例"><a href="#7-输出示例" class="headerlink" title="7 - 输出示例"></a>7 - 输出示例</h2><div class="code-wrapper"><pre><code>DigitObserver: 9
-GraphObserver: *********
-DigitObserver: 16
-GraphObserver: ****************
-DigitObserver: 40
-GraphObserver: ****************************************
-DigitObserver: 34
-GraphObserver: **********************************
-DigitObserver: 18
-GraphObserver: ******************
-DigitObserver: 6
-GraphObserver: ******
-DigitObserver: 34
-GraphObserver: **********************************
-DigitObserver: 31
-GraphObserver: *******************************
-DigitObserver: 17
-GraphObserver: *****************
-DigitObserver: 47
-GraphObserver: ***********************************************
-DigitObserver: 21
-GraphObserver: *********************
-DigitObserver: 34
-GraphObserver: **********************************
-DigitObserver: 18
-GraphObserver: ******************
-DigitObserver: 25
-GraphObserver: *************************
-DigitObserver: 39
-GraphObserver: ***************************************
-DigitObserver: 20
-GraphObserver: ********************
-DigitObserver: 9
-GraphObserver: *********
-DigitObserver: 4
-GraphObserver: ****
-DigitObserver: 8
-GraphObserver: ********
-DigitObserver: 26
-GraphObserver: **************************</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -2863,6 +2863,216 @@ public class Manager &#123;
 正在生成Printer的实例(Bob).....结束!
 ===Bob===
 Hello, world.</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JavaState模式</title>
+    <url>/2020/10/06/JavaState%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  用类表示状态</p>
+</blockquote>
+<h2 id="1-表示金库状态的接口"><a href="#1-表示金库状态的接口" class="headerlink" title="1 - 表示金库状态的接口"></a>1 - 表示金库状态的接口</h2><div class="code-wrapper"><pre><code>public interface State &#123;
+    public abstract void doClock(Context context, int hour);    // 设置时间
+    public abstract void doUse(Context context);                // 使用金库
+    public abstract void doAlarm(Context context);              // 按下警铃
+    public abstract void doPhone(Context context);              // 正常通话
+&#125;</code></pre></div><h2 id="2-表示”白天”状态的类-它实现了State接口"><a href="#2-表示”白天”状态的类-它实现了State接口" class="headerlink" title="2 - 表示”白天”状态的类.它实现了State接口"></a>2 - 表示”白天”状态的类.它实现了State接口</h2><div class="code-wrapper"><pre><code>public class DayState implements State&#123;
+    private static DayState singleton = new DayState();
+
+    private DayState() &#123;
+            // 构造函数是私有的
+    &#125;
+
+    public static State getInstance() &#123;
+        // 获取唯一实例
+        return singleton;
+    &#125;
+
+    @Override
+    public void doClock(Context context, int hour) &#123;    // 设置时间
+        if (hour &lt; 9 || hour &gt;= 17) &#123;
+            context.changeState(NightState.getInstance());
+        &#125;
+    &#125;
+
+    @Override
+    public void doUse(Context context) &#123;
+        context.recordLog(&quot;使用金库(白天)&quot;);
+    &#125;
+
+    @Override
+    public void doAlarm(Context context) &#123;
+        context.callSecurityCenter(&quot;按下警铃(白天)&quot;);
+    &#125;
+
+    @Override
+    public void doPhone(Context context) &#123;
+        context.callSecurityCenter(&quot;正常通话(白天)&quot;);
+    &#125;
+
+    @Override
+    public String toString() &#123;
+        return &quot;[白天]&quot;;
+    &#125;
+&#125;</code></pre></div><h2 id="3-表示”晚上”状态的类-它实现了State接口"><a href="#3-表示”晚上”状态的类-它实现了State接口" class="headerlink" title="3 - 表示”晚上”状态的类.它实现了State接口"></a>3 - 表示”晚上”状态的类.它实现了State接口</h2><div class="code-wrapper"><pre><code>public class NightState implements State &#123;
+    private static NightState singleton = new NightState();
+
+    private NightState() &#123;
+        // 构造函数是私有的
+    &#125;
+
+    public static State getInstance() &#123;
+        // 获取唯一实例
+        return singleton;
+    &#125;
+
+    @Override
+    public void doClock(Context context, int hour) &#123;
+        if (hour &gt;= 9 &amp;&amp; hour &lt; 17) &#123;
+            context.changeState(DayState.getInstance());
+        &#125;
+    &#125;
+
+    @Override
+    public void doUse(Context context) &#123;
+        context.callSecurityCenter(&quot;紧急:晚上使用金库! &quot;);
+    &#125;
+
+    @Override
+    public void doAlarm(Context context) &#123;
+        context.callSecurityCenter(&quot;按下警铃(晚上)&quot;);
+    &#125;
+
+    @Override
+    public void doPhone(Context context) &#123;
+        context.recordLog(&quot;晚上的通话录音&quot;);
+    &#125;
+
+    @Override
+    public String toString() &#123;
+        return &quot;[晚上]&quot;;
+    &#125;
+&#125;</code></pre></div><h2 id="4-表示管理金库状态-并与警报中心联系的接口"><a href="#4-表示管理金库状态-并与警报中心联系的接口" class="headerlink" title="4 - 表示管理金库状态, 并与警报中心联系的接口"></a>4 - 表示管理金库状态, 并与警报中心联系的接口</h2><div class="code-wrapper"><pre><code>public interface Context &#123;
+    public abstract void setClock(int hour);            // 设置时间
+    public abstract void changeState(State state);      // 改变状态
+    public abstract void callSecurityCenter(String msg); // 联系警报中心
+    public abstract void recordLog(String msg);         // 在警报中心留下记录
+&#125;</code></pre></div><h2 id="5-实现了Context接口-在它内部持有按钮和画面显示等UI信息"><a href="#5-实现了Context接口-在它内部持有按钮和画面显示等UI信息" class="headerlink" title="5 - 实现了Context接口.在它内部持有按钮和画面显示等UI信息"></a>5 - 实现了Context接口.在它内部持有按钮和画面显示等UI信息</h2><div class="code-wrapper"><pre><code>public class SafeFrame extends Frame implements ActionListener, Context &#123;
+    private TextField textClock = new TextField(60);        // 显示当前时间
+    private TextArea textScreen = new TextArea(10, 60); // 显示警报中心的记录
+    private Button buttonUse = new Button(&quot;使用金库&quot;);  // 使用金库按钮
+    private Button buttonAlarm = new Button(&quot;按下警铃&quot;);  // 按下警铃按钮
+    private Button buttonPhone = new Button(&quot;正常通话&quot;);  // 正常通话按钮
+    private Button buttonExit = new Button(&quot;结束&quot;);  // 结束按钮
+
+    private State state = DayState.getInstance();   // 当前的状态
+
+    // 构造函数
+    public SafeFrame(String title) &#123;
+        super(title);
+        setBackground(Color.lightGray);
+        setLayout(new BorderLayout());
+        // 配置textClock
+        add(textClock, BorderLayout.NORTH);
+        textClock.setEditable(false);
+        // 配置textScreen
+        add(textScreen, BorderLayout.CENTER);
+        textScreen.setEditable(false);
+        // 为界面添加按钮
+        Panel panel = new Panel();
+        panel.add(buttonUse);
+        panel.add(buttonAlarm);
+        panel.add(buttonPhone);
+        panel.add(buttonExit);
+        // 配置界面
+        add(panel, BorderLayout.SOUTH);
+        // 显示
+        pack();
+        show();
+        // 设置监听器
+        buttonUse.addActionListener(this);
+        buttonAlarm.addActionListener(this);
+        buttonPhone.addActionListener(this);
+        buttonExit.addActionListener(this);
+    &#125;
+
+    // 按钮被按下后该方法会调用
+    @Override
+    public void actionPerformed(ActionEvent e) &#123;
+        System.out.println(e.toString());
+        if (e.getSource() == buttonUse) &#123;
+            state.doUse(this);
+        &#125; else if (e.getSource() == buttonAlarm) &#123;
+            state.doAlarm(this);
+        &#125; else if (e.getSource() == buttonPhone) &#123;
+            state.doPhone(this);
+        &#125; else if (e.getSource() == buttonExit) &#123;
+            System.exit(0);
+        &#125; else &#123;
+            System.out.println(&quot;?&quot;);
+        &#125;
+    &#125;
+
+    // 设置时间
+    @Override
+    public void setClock(int hour) &#123;
+        String clockString = &quot; 现在时间是&quot;;
+        if (hour &lt; 10) &#123;
+            clockString += &quot;0&quot; + hour + &quot;:00&quot;;
+        &#125; else &#123;
+            clockString += hour + &quot;:00&quot;;
+        &#125;
+        System.out.println(clockString);
+        textClock.setText(clockString);
+        state.doClock(this, hour);
+    &#125;
+
+    // 改变状态
+    @Override
+    public void changeState(State state) &#123;
+        System.out.println(&quot;从&quot; + this.state + &quot;状态变为了&quot; + state + &quot;状态.&quot;);
+        this.state = state;
+    &#125;
+
+    // 联系警报中心
+    @Override
+    public void callSecurityCenter(String msg) &#123;
+        textScreen.append(&quot;call!&quot; + msg + &quot;\n&quot;);
+    &#125;
+
+    // 在警报中心留下记录
+    @Override
+    public void recordLog(String msg) &#123;
+        textScreen.append(&quot;record . . . &quot; + msg + &quot;\n&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="6-测试程序行为的类"><a href="#6-测试程序行为的类" class="headerlink" title="6 - 测试程序行为的类"></a>6 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        SafeFrame frame = new SafeFrame(&quot;State Sample&quot;);
+        while (true) &#123;
+            for (int hour = 0; hour &lt; 24; hour++) &#123;
+                frame.setClock(hour);
+                try &#123;
+                    Thread.sleep(1000);
+                &#125; catch (InterruptedException ignored)&#123;
+
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="7-输出示例"><a href="#7-输出示例" class="headerlink" title="7 - 输出示例"></a>7 - 输出示例</h2><div class="code-wrapper"><pre><code>现在时间是00:00
+从[白天]状态变为了[晚上]状态.
+现在时间是01:00
+现在时间是02:00
+现在时间是03:00
+java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=正常通话,when=1601985182012,modifiers=] on button0
+现在时间是04:00
+java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=按下警铃,when=1601985182892,modifiers=] on button1
+java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=使用金库,when=1601985183407,modifiers=] on button2
+现在时间是05:00
+现在时间是06:00</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -3083,216 +3293,6 @@ Winner: [Taro:14 games, 5 win, 7 lose ]
 Total result: 
 [Taro:15 games, 6 win, 7 lose ]
 [Hana:15 games, 7 win, 6 lose ]</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>JavaState模式</title>
-    <url>/2020/10/06/JavaState%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  用类表示状态</p>
-</blockquote>
-<h2 id="1-表示金库状态的接口"><a href="#1-表示金库状态的接口" class="headerlink" title="1 - 表示金库状态的接口"></a>1 - 表示金库状态的接口</h2><div class="code-wrapper"><pre><code>public interface State &#123;
-    public abstract void doClock(Context context, int hour);    // 设置时间
-    public abstract void doUse(Context context);                // 使用金库
-    public abstract void doAlarm(Context context);              // 按下警铃
-    public abstract void doPhone(Context context);              // 正常通话
-&#125;</code></pre></div><h2 id="2-表示”白天”状态的类-它实现了State接口"><a href="#2-表示”白天”状态的类-它实现了State接口" class="headerlink" title="2 - 表示”白天”状态的类.它实现了State接口"></a>2 - 表示”白天”状态的类.它实现了State接口</h2><div class="code-wrapper"><pre><code>public class DayState implements State&#123;
-    private static DayState singleton = new DayState();
-
-    private DayState() &#123;
-            // 构造函数是私有的
-    &#125;
-
-    public static State getInstance() &#123;
-        // 获取唯一实例
-        return singleton;
-    &#125;
-
-    @Override
-    public void doClock(Context context, int hour) &#123;    // 设置时间
-        if (hour &lt; 9 || hour &gt;= 17) &#123;
-            context.changeState(NightState.getInstance());
-        &#125;
-    &#125;
-
-    @Override
-    public void doUse(Context context) &#123;
-        context.recordLog(&quot;使用金库(白天)&quot;);
-    &#125;
-
-    @Override
-    public void doAlarm(Context context) &#123;
-        context.callSecurityCenter(&quot;按下警铃(白天)&quot;);
-    &#125;
-
-    @Override
-    public void doPhone(Context context) &#123;
-        context.callSecurityCenter(&quot;正常通话(白天)&quot;);
-    &#125;
-
-    @Override
-    public String toString() &#123;
-        return &quot;[白天]&quot;;
-    &#125;
-&#125;</code></pre></div><h2 id="3-表示”晚上”状态的类-它实现了State接口"><a href="#3-表示”晚上”状态的类-它实现了State接口" class="headerlink" title="3 - 表示”晚上”状态的类.它实现了State接口"></a>3 - 表示”晚上”状态的类.它实现了State接口</h2><div class="code-wrapper"><pre><code>public class NightState implements State &#123;
-    private static NightState singleton = new NightState();
-
-    private NightState() &#123;
-        // 构造函数是私有的
-    &#125;
-
-    public static State getInstance() &#123;
-        // 获取唯一实例
-        return singleton;
-    &#125;
-
-    @Override
-    public void doClock(Context context, int hour) &#123;
-        if (hour &gt;= 9 &amp;&amp; hour &lt; 17) &#123;
-            context.changeState(DayState.getInstance());
-        &#125;
-    &#125;
-
-    @Override
-    public void doUse(Context context) &#123;
-        context.callSecurityCenter(&quot;紧急:晚上使用金库! &quot;);
-    &#125;
-
-    @Override
-    public void doAlarm(Context context) &#123;
-        context.callSecurityCenter(&quot;按下警铃(晚上)&quot;);
-    &#125;
-
-    @Override
-    public void doPhone(Context context) &#123;
-        context.recordLog(&quot;晚上的通话录音&quot;);
-    &#125;
-
-    @Override
-    public String toString() &#123;
-        return &quot;[晚上]&quot;;
-    &#125;
-&#125;</code></pre></div><h2 id="4-表示管理金库状态-并与警报中心联系的接口"><a href="#4-表示管理金库状态-并与警报中心联系的接口" class="headerlink" title="4 - 表示管理金库状态, 并与警报中心联系的接口"></a>4 - 表示管理金库状态, 并与警报中心联系的接口</h2><div class="code-wrapper"><pre><code>public interface Context &#123;
-    public abstract void setClock(int hour);            // 设置时间
-    public abstract void changeState(State state);      // 改变状态
-    public abstract void callSecurityCenter(String msg); // 联系警报中心
-    public abstract void recordLog(String msg);         // 在警报中心留下记录
-&#125;</code></pre></div><h2 id="5-实现了Context接口-在它内部持有按钮和画面显示等UI信息"><a href="#5-实现了Context接口-在它内部持有按钮和画面显示等UI信息" class="headerlink" title="5 - 实现了Context接口.在它内部持有按钮和画面显示等UI信息"></a>5 - 实现了Context接口.在它内部持有按钮和画面显示等UI信息</h2><div class="code-wrapper"><pre><code>public class SafeFrame extends Frame implements ActionListener, Context &#123;
-    private TextField textClock = new TextField(60);        // 显示当前时间
-    private TextArea textScreen = new TextArea(10, 60); // 显示警报中心的记录
-    private Button buttonUse = new Button(&quot;使用金库&quot;);  // 使用金库按钮
-    private Button buttonAlarm = new Button(&quot;按下警铃&quot;);  // 按下警铃按钮
-    private Button buttonPhone = new Button(&quot;正常通话&quot;);  // 正常通话按钮
-    private Button buttonExit = new Button(&quot;结束&quot;);  // 结束按钮
-
-    private State state = DayState.getInstance();   // 当前的状态
-
-    // 构造函数
-    public SafeFrame(String title) &#123;
-        super(title);
-        setBackground(Color.lightGray);
-        setLayout(new BorderLayout());
-        // 配置textClock
-        add(textClock, BorderLayout.NORTH);
-        textClock.setEditable(false);
-        // 配置textScreen
-        add(textScreen, BorderLayout.CENTER);
-        textScreen.setEditable(false);
-        // 为界面添加按钮
-        Panel panel = new Panel();
-        panel.add(buttonUse);
-        panel.add(buttonAlarm);
-        panel.add(buttonPhone);
-        panel.add(buttonExit);
-        // 配置界面
-        add(panel, BorderLayout.SOUTH);
-        // 显示
-        pack();
-        show();
-        // 设置监听器
-        buttonUse.addActionListener(this);
-        buttonAlarm.addActionListener(this);
-        buttonPhone.addActionListener(this);
-        buttonExit.addActionListener(this);
-    &#125;
-
-    // 按钮被按下后该方法会调用
-    @Override
-    public void actionPerformed(ActionEvent e) &#123;
-        System.out.println(e.toString());
-        if (e.getSource() == buttonUse) &#123;
-            state.doUse(this);
-        &#125; else if (e.getSource() == buttonAlarm) &#123;
-            state.doAlarm(this);
-        &#125; else if (e.getSource() == buttonPhone) &#123;
-            state.doPhone(this);
-        &#125; else if (e.getSource() == buttonExit) &#123;
-            System.exit(0);
-        &#125; else &#123;
-            System.out.println(&quot;?&quot;);
-        &#125;
-    &#125;
-
-    // 设置时间
-    @Override
-    public void setClock(int hour) &#123;
-        String clockString = &quot; 现在时间是&quot;;
-        if (hour &lt; 10) &#123;
-            clockString += &quot;0&quot; + hour + &quot;:00&quot;;
-        &#125; else &#123;
-            clockString += hour + &quot;:00&quot;;
-        &#125;
-        System.out.println(clockString);
-        textClock.setText(clockString);
-        state.doClock(this, hour);
-    &#125;
-
-    // 改变状态
-    @Override
-    public void changeState(State state) &#123;
-        System.out.println(&quot;从&quot; + this.state + &quot;状态变为了&quot; + state + &quot;状态.&quot;);
-        this.state = state;
-    &#125;
-
-    // 联系警报中心
-    @Override
-    public void callSecurityCenter(String msg) &#123;
-        textScreen.append(&quot;call!&quot; + msg + &quot;\n&quot;);
-    &#125;
-
-    // 在警报中心留下记录
-    @Override
-    public void recordLog(String msg) &#123;
-        textScreen.append(&quot;record . . . &quot; + msg + &quot;\n&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="6-测试程序行为的类"><a href="#6-测试程序行为的类" class="headerlink" title="6 - 测试程序行为的类"></a>6 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        SafeFrame frame = new SafeFrame(&quot;State Sample&quot;);
-        while (true) &#123;
-            for (int hour = 0; hour &lt; 24; hour++) &#123;
-                frame.setClock(hour);
-                try &#123;
-                    Thread.sleep(1000);
-                &#125; catch (InterruptedException ignored)&#123;
-
-                &#125;
-            &#125;
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="7-输出示例"><a href="#7-输出示例" class="headerlink" title="7 - 输出示例"></a>7 - 输出示例</h2><div class="code-wrapper"><pre><code>现在时间是00:00
-从[白天]状态变为了[晚上]状态.
-现在时间是01:00
-现在时间是02:00
-现在时间是03:00
-java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=正常通话,when=1601985182012,modifiers=] on button0
-现在时间是04:00
-java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=按下警铃,when=1601985182892,modifiers=] on button1
-java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=使用金库,when=1601985183407,modifiers=] on button2
-现在时间是05:00
-现在时间是06:00</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -3816,6 +3816,55 @@ public static void main(String[] args) &#123;
       </tags>
   </entry>
   <entry>
+    <title>Java的注释接口</title>
+    <url>/2020/08/07/Java%E7%9A%84%E6%B3%A8%E9%87%8A%E6%8E%A5%E5%8F%A3/</url>
+    <content><![CDATA[<blockquote>
+</blockquote>
+<blockquote>
+<p>  注解 - 给编译器看的注释</p>
+</blockquote>
+<h2 id="1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的"><a href="#1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的" class="headerlink" title="1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的"></a>1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的</h2><div class="code-wrapper"><pre><code>class Message&#123;
+    @Override
+    public String toString()&#123;
+        return &quot;Hello world!&quot;;
+    &#125;
+&#125;</code></pre></div><p>如果改写的方法名，参数，类型有错误编译器会报错，可以给程序员提示。</p>
+<h2 id="2-Deprecated注释表示这个方法已经过时，不建议使用"><a href="#2-Deprecated注释表示这个方法已经过时，不建议使用" class="headerlink" title="2. @Deprecated注释表示这个方法已经过时，不建议使用"></a>2. @Deprecated注释表示这个方法已经过时，不建议使用</h2><div class="code-wrapper"><pre><code>class Info&#123;
+    @Deprecated
+    public String getInfo()&#123;
+        return &quot;Hello world.&quot;;
+    &#125;
+&#125;</code></pre></div><p>被注释的方法仍然可以使用，只是编译器不推荐而已</p>
+<h2 id="3-SuppressWarnings注释用来压制”某些”的警告信息"><a href="#3-SuppressWarnings注释用来压制”某些”的警告信息" class="headerlink" title="3. @SuppressWarnings注释用来压制”某些”的警告信息"></a>3. @SuppressWarnings注释用来压制”某些”的警告信息</h2><div class="code-wrapper"><pre><code>public class SuppressWarningsAnnotation &#123;
+    public static void main(String[] args) &#123;
+        // 用来压制&quot;未使用&quot;的警告信息
+        @SuppressWarnings(&quot;unused&quot;)
+        int i;
+        System.out.println(&quot;Hello world.&quot;);
+    &#125;
+&#125;</code></pre></div><p>在这个例子中我们通过往注释中添加“unused”参数，来压制变量未使用这一警告信息</p>
+<h2 id="4-实现我们自己自定义的注释，必须使用-interface接口来修饰"><a href="#4-实现我们自己自定义的注释，必须使用-interface接口来修饰" class="headerlink" title="4. 实现我们自己自定义的注释，必须使用@interface接口来修饰"></a>4. 实现我们自己自定义的注释，必须使用@interface接口来修饰</h2><div class="code-wrapper"><pre><code>@interface Anno&#123;
+    public String key();
+    public String value();
+&#125;
+
+public class TestAnno &#123;
+    @Anno(key = &quot;var1&quot;, value = &quot;test&quot;)
+    public static void main(String[] args) &#123;
+        System.out.println(&quot;Hello world!&quot;);
+    &#125;
+&#125;</code></pre></div><p>我们可以在自己实现的注释里添加属性或方法</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Tool</category>
+      </categories>
+      <tags>
+        <tag>注解</tag>
+        <tag>给编译器看的注释</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java简单实现多线程</title>
     <url>/2020/08/11/Java%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B/</url>
     <content><![CDATA[<h2 id="1-直接继承Thread类-来实现多线程"><a href="#1-直接继承Thread类-来实现多线程" class="headerlink" title="1- 直接继承Thread类,来实现多线程"></a>1- 直接继承Thread类,来实现多线程</h2><div class="code-wrapper"><pre><code>public class ThreadDemo &#123;
@@ -3887,55 +3936,6 @@ class TestThread implements Runnable&#123;
       </categories>
       <tags>
         <tag>多线程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java的注释接口</title>
-    <url>/2020/08/07/Java%E7%9A%84%E6%B3%A8%E9%87%8A%E6%8E%A5%E5%8F%A3/</url>
-    <content><![CDATA[<blockquote>
-</blockquote>
-<blockquote>
-<p>  注解 - 给编译器看的注释</p>
-</blockquote>
-<h2 id="1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的"><a href="#1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的" class="headerlink" title="1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的"></a>1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的</h2><div class="code-wrapper"><pre><code>class Message&#123;
-    @Override
-    public String toString()&#123;
-        return &quot;Hello world!&quot;;
-    &#125;
-&#125;</code></pre></div><p>如果改写的方法名，参数，类型有错误编译器会报错，可以给程序员提示。</p>
-<h2 id="2-Deprecated注释表示这个方法已经过时，不建议使用"><a href="#2-Deprecated注释表示这个方法已经过时，不建议使用" class="headerlink" title="2. @Deprecated注释表示这个方法已经过时，不建议使用"></a>2. @Deprecated注释表示这个方法已经过时，不建议使用</h2><div class="code-wrapper"><pre><code>class Info&#123;
-    @Deprecated
-    public String getInfo()&#123;
-        return &quot;Hello world.&quot;;
-    &#125;
-&#125;</code></pre></div><p>被注释的方法仍然可以使用，只是编译器不推荐而已</p>
-<h2 id="3-SuppressWarnings注释用来压制”某些”的警告信息"><a href="#3-SuppressWarnings注释用来压制”某些”的警告信息" class="headerlink" title="3. @SuppressWarnings注释用来压制”某些”的警告信息"></a>3. @SuppressWarnings注释用来压制”某些”的警告信息</h2><div class="code-wrapper"><pre><code>public class SuppressWarningsAnnotation &#123;
-    public static void main(String[] args) &#123;
-        // 用来压制&quot;未使用&quot;的警告信息
-        @SuppressWarnings(&quot;unused&quot;)
-        int i;
-        System.out.println(&quot;Hello world.&quot;);
-    &#125;
-&#125;</code></pre></div><p>在这个例子中我们通过往注释中添加“unused”参数，来压制变量未使用这一警告信息</p>
-<h2 id="4-实现我们自己自定义的注释，必须使用-interface接口来修饰"><a href="#4-实现我们自己自定义的注释，必须使用-interface接口来修饰" class="headerlink" title="4. 实现我们自己自定义的注释，必须使用@interface接口来修饰"></a>4. 实现我们自己自定义的注释，必须使用@interface接口来修饰</h2><div class="code-wrapper"><pre><code>@interface Anno&#123;
-    public String key();
-    public String value();
-&#125;
-
-public class TestAnno &#123;
-    @Anno(key = &quot;var1&quot;, value = &quot;test&quot;)
-    public static void main(String[] args) &#123;
-        System.out.println(&quot;Hello world!&quot;);
-    &#125;
-&#125;</code></pre></div><p>我们可以在自己实现的注释里添加属性或方法</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>注解</tag>
-        <tag>给编译器看的注释</tag>
       </tags>
   </entry>
   <entry>
@@ -4219,18 +4219,6 @@ Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide sh
       </tags>
   </entry>
   <entry>
-    <title>MongoDB 学习</title>
-    <url>/2021/05/01/MongoDB%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="MongoDB-学习"><a href="#MongoDB-学习" class="headerlink" title="MongoDB 学习"></a>MongoDB 学习</h1>]]></content>
-      <categories>
-        <category>Technical</category>
-        <category>DB</category>
-      </categories>
-      <tags>
-        <tag>MongoDB</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Liunx 配置静态IP</title>
     <url>/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/</url>
     <content><![CDATA[<h1 id="Liunx-配置静态IP-基于CentOS-7"><a href="#Liunx-配置静态IP-基于CentOS-7" class="headerlink" title="Liunx 配置静态IP (基于CentOS  7)"></a>Liunx 配置静态IP (基于CentOS  7)</h1><blockquote>
@@ -4344,6 +4332,18 @@ Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide sh
       <tags>
         <tag>Linux</tag>
         <tag>静态IP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MongoDB 学习</title>
+    <url>/2021/05/01/MongoDB%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="MongoDB-学习"><a href="#MongoDB-学习" class="headerlink" title="MongoDB 学习"></a>MongoDB 学习</h1>]]></content>
+      <categories>
+        <category>Technical</category>
+        <category>DB</category>
+      </categories>
+      <tags>
+        <tag>MongoDB</tag>
       </tags>
   </entry>
   <entry>
@@ -4645,6 +4645,29 @@ class Sentence:
       </tags>
   </entry>
   <entry>
+    <title>Python多进程实现程序并发</title>
+    <url>/2020/08/08/Python%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%AE%9E%E7%8E%B0%E7%A8%8B%E5%BA%8F%E5%B9%B6%E5%8F%91/</url>
+    <content><![CDATA[<h3 id="第一步·导入相应的进程模块"><a href="#第一步·导入相应的进程模块" class="headerlink" title="第一步·导入相应的进程模块"></a>第一步·导入相应的进程模块</h3><div class="code-wrapper"><pre><code>import multiprocessing
+import time</code></pre></div><h3 id="第二步·编写两个测试函数"><a href="#第二步·编写两个测试函数" class="headerlink" title="第二步·编写两个测试函数"></a>第二步·编写两个测试函数</h3><div class="code-wrapper"><pre><code>def sing():
+    for i in range(3):
+        print(&apos;唱歌...&apos;)
+        time.sleep(0.5)
+
+def dance():
+    for i in range(3):
+        print(&apos;跳舞...&apos;)
+        time.sleep(0.5)</code></pre></div><h3 id="第三步·使用进程类创建进程对象"><a href="#第三步·使用进程类创建进程对象" class="headerlink" title="第三步·使用进程类创建进程对象"></a>第三步·使用进程类创建进程对象</h3><div class="code-wrapper"><pre><code>sing_process = multiprocessing.Process(target=sing)
+dance_process = multiprocessing.Process(target=dance)</code></pre></div><h3 id="第四步·使用进程对象启动执行指定任务"><a href="#第四步·使用进程对象启动执行指定任务" class="headerlink" title="第四步·使用进程对象启动执行指定任务"></a>第四步·使用进程对象启动执行指定任务</h3><div class="code-wrapper"><pre><code>sing_process.start()
+dance_process.start()</code></pre></div>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>多进程</tag>
+        <tag>并发</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>函数参数的使用</title>
     <url>/2020/07/25/Python%E5%8F%82%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h2 id="一，Python函数参数的使用"><a href="#一，Python函数参数的使用" class="headerlink" title="一，Python函数参数的使用"></a>一，Python函数参数的使用</h2><h2 id="1-不可变参数"><a href="#1-不可变参数" class="headerlink" title="1.不可变参数"></a>1.不可变参数</h2><h3 id="1-1-位置实参-参数顺序要一致"><a href="#1-1-位置实参-参数顺序要一致" class="headerlink" title="1.1 位置实参(参数顺序要一致)"></a>1.1 位置实参(参数顺序要一致)</h3><div class="code-wrapper"><pre><code>def describe_pet(animal_type, pet_name):
@@ -4717,29 +4740,6 @@ dance_thread.start()</code></pre></div>]]></content>
       <tags>
         <tag>多线程</tag>
         <tag>并发</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python多进程实现程序并发</title>
-    <url>/2020/08/08/Python%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%AE%9E%E7%8E%B0%E7%A8%8B%E5%BA%8F%E5%B9%B6%E5%8F%91/</url>
-    <content><![CDATA[<h3 id="第一步·导入相应的进程模块"><a href="#第一步·导入相应的进程模块" class="headerlink" title="第一步·导入相应的进程模块"></a>第一步·导入相应的进程模块</h3><div class="code-wrapper"><pre><code>import multiprocessing
-import time</code></pre></div><h3 id="第二步·编写两个测试函数"><a href="#第二步·编写两个测试函数" class="headerlink" title="第二步·编写两个测试函数"></a>第二步·编写两个测试函数</h3><div class="code-wrapper"><pre><code>def sing():
-    for i in range(3):
-        print(&apos;唱歌...&apos;)
-        time.sleep(0.5)
-
-def dance():
-    for i in range(3):
-        print(&apos;跳舞...&apos;)
-        time.sleep(0.5)</code></pre></div><h3 id="第三步·使用进程类创建进程对象"><a href="#第三步·使用进程类创建进程对象" class="headerlink" title="第三步·使用进程类创建进程对象"></a>第三步·使用进程类创建进程对象</h3><div class="code-wrapper"><pre><code>sing_process = multiprocessing.Process(target=sing)
-dance_process = multiprocessing.Process(target=dance)</code></pre></div><h3 id="第四步·使用进程对象启动执行指定任务"><a href="#第四步·使用进程对象启动执行指定任务" class="headerlink" title="第四步·使用进程对象启动执行指定任务"></a>第四步·使用进程对象启动执行指定任务</h3><div class="code-wrapper"><pre><code>sing_process.start()
-dance_process.start()</code></pre></div>]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>并发</tag>
-        <tag>多进程</tag>
       </tags>
   </entry>
   <entry>
@@ -5136,6 +5136,36 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       </tags>
   </entry>
   <entry>
+    <title>WSL和VM不兼容</title>
+    <url>/2021/05/01/WSL%E5%92%8CVM/</url>
+    <content><![CDATA[<h3 id="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"><a href="#WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭" class="headerlink" title="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"></a>WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭</h3><ul>
+<li>CMD管理员模式启动，输入</li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs arduino">bcdedit /set hypervisorlaunchtype <span class="hljs-keyword">auto</span></code></pre></div>
+
+<ul>
+<li>开启，则可以使用WSL</li>
+</ul>
+<ul>
+<li>CMD管理员模式启动，输入</li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs cmake">bcdedit /<span class="hljs-keyword">set</span> hypervisorlaunchtype <span class="hljs-keyword">off</span></code></pre></div>
+
+<ul>
+<li>关闭，则可以使用VMware</li>
+</ul>
+<p>注意：不管是开还是关都需要重启电脑</p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>WSL</tag>
+        <tag>VM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Win10 搭建 PyTorch 环境</title>
     <url>/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<h1 id="Win10-搭建-PyTorch-环境"><a href="#Win10-搭建-PyTorch-环境" class="headerlink" title="Win10 搭建 PyTorch 环境"></a>Win10 搭建 PyTorch 环境</h1><h2 id="0-说明"><a href="#0-说明" class="headerlink" title="0 说明"></a>0 说明</h2><p>为了进行深度学习，需要电脑上安装相应的软件，pytorch 就是其中一种。至于 pytorch 是什么的科普，建议去网上搜索。</p>
@@ -5296,62 +5326,6 @@ torch.cuda.is_available()</code></pre></div>
         <tag>PyTorch</tag>
         <tag>Win10</tag>
         <tag>Deep learning</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2019/12/14/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo server</code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo generate</code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo deploy</code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Blog</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Blog</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>WSL和VM不兼容</title>
-    <url>/2021/05/01/WSL%E5%92%8CVM/</url>
-    <content><![CDATA[<h3 id="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"><a href="#WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭" class="headerlink" title="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"></a>WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭</h3><ul>
-<li>CMD管理员模式启动，输入</li>
-</ul>
-<div class="code-wrapper"><pre><code class="hljs arduino">bcdedit /set hypervisorlaunchtype <span class="hljs-keyword">auto</span></code></pre></div>
-
-<ul>
-<li>开启，则可以使用WSL</li>
-</ul>
-<ul>
-<li>CMD管理员模式启动，输入</li>
-</ul>
-<div class="code-wrapper"><pre><code class="hljs cmake">bcdedit /<span class="hljs-keyword">set</span> hypervisorlaunchtype <span class="hljs-keyword">off</span></code></pre></div>
-
-<ul>
-<li>关闭，则可以使用VMware</li>
-</ul>
-<p>注意：不管是开还是关都需要重启电脑</p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>WSL</tag>
-        <tag>VM</tag>
       </tags>
   </entry>
   <entry>
@@ -5525,6 +5499,32 @@ choco download firefox --internalize locale=es-AR</code></pre></div>
       <tags>
         <tag>choco</tag>
         <tag>win software management</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2019/12/14/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo server</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo generate</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo deploy</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Blog</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Blog</tag>
       </tags>
   </entry>
   <entry>
