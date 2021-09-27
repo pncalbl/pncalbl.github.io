@@ -1005,158 +1005,6 @@ HTML文本效果图</code></pre></div><html><head><title>LinkPage</title></head>
       </categories>
   </entry>
   <entry>
-    <title>JavaComposite模式</title>
-    <url>/2020/09/20/JavaComposite%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  容器与内容的一致性</p>
-</blockquote>
-<h2 id="1-抽象类-用来实现File类和Directory类的一致性"><a href="#1-抽象类-用来实现File类和Directory类的一致性" class="headerlink" title="1- 抽象类, 用来实现File类和Directory类的一致性"></a>1- 抽象类, 用来实现File类和Directory类的一致性</h2><div class="code-wrapper"><pre><code>public abstract class Entry &#123;
-    public abstract String getName();   // 获取名字
-    public abstract int getSize();      // 获取大小
-    public Entry add(Entry entry) throws FileTreateMentException&#123; // 加入条目目录
-        throw new FileTreateMentException();
-    &#125;
-
-    public void printList()&#123;    // 显示目录条目一览
-        printList(&quot;&quot;);
-    &#125;
-
-    protected abstract void printList(String prefix);   // 为一览加上前缀
-                                                        // 显示条目一览
-    @Override                                           // 显示代表类的文字
-    public String toString()&#123;
-        return getName() + &quot; (&quot; + getSize() + &quot;)&quot;;
-    &#125;
-&#125;</code></pre></div><h2 id="2-表示文件的类"><a href="#2-表示文件的类" class="headerlink" title="2 - 表示文件的类"></a>2 - 表示文件的类</h2><div class="code-wrapper"><pre><code>public class File extends Entry&#123;
-    private String name;
-    private int size;
-
-    public File(String name, int size)&#123;
-        this.name = name;
-        this.size = size;
-    &#125;
-
-    @Override
-    public String getName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public int getSize() &#123;
-        return size;
-    &#125;
-
-    @Override
-    protected void printList(String prefix) &#123;
-        System.out.println(prefix + &quot;/&quot; + this);
-    &#125;
-&#125;</code></pre></div><h2 id="3-表示文件夹的类"><a href="#3-表示文件夹的类" class="headerlink" title="3 - 表示文件夹的类"></a>3 - 表示文件夹的类</h2><div class="code-wrapper"><pre><code>public class Directory extends Entry&#123;
-    private String name;
-    private ArrayList directory = new ArrayList();
-    public Directory(String name)&#123;
-        this.name = name;
-    &#125;
-
-    @Override
-    public String getName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public int getSize() &#123;
-        int size = 0;
-        Iterator it = directory.iterator();
-        while (it.hasNext())&#123;
-            Entry entry = (Entry)it.next();
-            size += entry.getSize();
-        &#125;
-        return size;
-    &#125;
-
-    public Entry add(Entry entry)&#123;
-        directory.add(entry);
-        return this;
-    &#125;
-
-    @Override
-    protected void printList(String prefix) &#123;
-        System.out.println(prefix + &quot;/&quot; + this);
-        Iterator it = directory.iterator();
-        while (it.hasNext())&#123;
-            Entry entry = (Entry)it.next();
-            entry.printList(prefix + &quot;/&quot; + name);
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="4-表示向文件中增加Entry时发生的异常的类"><a href="#4-表示向文件中增加Entry时发生的异常的类" class="headerlink" title="4 - 表示向文件中增加Entry时发生的异常的类"></a>4 - 表示向文件中增加Entry时发生的异常的类</h2><div class="code-wrapper"><pre><code>public class FileTreateMentException extends RuntimeException&#123;
-
-    public FileTreateMentException()&#123;
-    &#125;
-
-    public FileTreateMentException(String msg)&#123;
-        super(msg);
-    &#125;
-&#125;</code></pre></div><h2 id="5-测试程序行为的类"><a href="#5-测试程序行为的类" class="headerlink" title="5 - 测试程序行为的类"></a>5 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        try &#123;
-            System.out.println(&quot;Making root entries...&quot;);
-            Directory rootDir = new Directory(&quot;root&quot;);
-            Directory binDir = new Directory(&quot;bin&quot;);
-            Directory tmpDir = new Directory(&quot;tmp&quot;);
-            Directory usrDir = new Directory(&quot;usr&quot;);
-            rootDir.add(binDir);
-            rootDir.add(tmpDir);
-            rootDir.add(usrDir);
-            binDir.add(new File(&quot;vi&quot;, 10000));
-            binDir.add(new File(&quot;latex&quot;, 20000));
-            rootDir.printList();
-
-            System.out.println(&quot;&quot;);
-            System.out.println(&quot;Making user entries...&quot;);
-            Directory yuki = new Directory(&quot;yuki&quot;);
-            Directory hanako = new Directory(&quot;hanako&quot;);
-            Directory tomura = new Directory(&quot;tomura&quot;);
-            usrDir.add(yuki);
-            usrDir.add(hanako);
-            usrDir.add(tomura);
-            yuki.add(new File(&quot;diary.html&quot;, 100));
-            yuki.add(new File(&quot;Composite.java&quot;, 200));
-            hanako.add(new File(&quot;memo.tex&quot;, 300));
-            tomura.add(new File(&quot;game.doc&quot;, 400));
-            tomura.add(new File(&quot;junk.mail&quot;, 500));
-            rootDir.printList();
-        &#125;catch (FileTreateMentException e)&#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="6-输出示例"><a href="#6-输出示例" class="headerlink" title="6 - 输出示例"></a>6 - 输出示例</h2><div class="code-wrapper"><pre><code>Making root entries...
-/root (30000)
-/root/bin (30000)
-/root/bin/vi (10000)
-/root/bin/latex (20000)
-/root/tmp (0)
-/root/usr (0)
-
-Making user entries...
-/root (31500)
-/root/bin (30000)
-/root/bin/vi (10000)
-/root/bin/latex (20000)
-/root/tmp (0)
-/root/usr (1500)
-/root/usr/yuki (300)
-/root/usr/yuki/diary.html (100)
-/root/usr/yuki/Composite.java (200)
-/root/usr/hanako (300)
-/root/usr/hanako/memo.tex (300)
-/root/usr/tomura (900)
-/root/usr/tomura/game.doc (400)
-/root/usr/tomura/junk.mail (500)</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
     <title>JavaChainOfResponsibility模式</title>
     <url>/2020/09/24/JavaChainOfResponsibility%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -1318,6 +1166,158 @@ Making user entries...
 [Trouble 47] is resolved by [Elmo].
 [Trouble 48]cannot be resolved.
 [Trouble 49] is resolved by [Elmo].</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JavaComposite模式</title>
+    <url>/2020/09/20/JavaComposite%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  容器与内容的一致性</p>
+</blockquote>
+<h2 id="1-抽象类-用来实现File类和Directory类的一致性"><a href="#1-抽象类-用来实现File类和Directory类的一致性" class="headerlink" title="1- 抽象类, 用来实现File类和Directory类的一致性"></a>1- 抽象类, 用来实现File类和Directory类的一致性</h2><div class="code-wrapper"><pre><code>public abstract class Entry &#123;
+    public abstract String getName();   // 获取名字
+    public abstract int getSize();      // 获取大小
+    public Entry add(Entry entry) throws FileTreateMentException&#123; // 加入条目目录
+        throw new FileTreateMentException();
+    &#125;
+
+    public void printList()&#123;    // 显示目录条目一览
+        printList(&quot;&quot;);
+    &#125;
+
+    protected abstract void printList(String prefix);   // 为一览加上前缀
+                                                        // 显示条目一览
+    @Override                                           // 显示代表类的文字
+    public String toString()&#123;
+        return getName() + &quot; (&quot; + getSize() + &quot;)&quot;;
+    &#125;
+&#125;</code></pre></div><h2 id="2-表示文件的类"><a href="#2-表示文件的类" class="headerlink" title="2 - 表示文件的类"></a>2 - 表示文件的类</h2><div class="code-wrapper"><pre><code>public class File extends Entry&#123;
+    private String name;
+    private int size;
+
+    public File(String name, int size)&#123;
+        this.name = name;
+        this.size = size;
+    &#125;
+
+    @Override
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    @Override
+    public int getSize() &#123;
+        return size;
+    &#125;
+
+    @Override
+    protected void printList(String prefix) &#123;
+        System.out.println(prefix + &quot;/&quot; + this);
+    &#125;
+&#125;</code></pre></div><h2 id="3-表示文件夹的类"><a href="#3-表示文件夹的类" class="headerlink" title="3 - 表示文件夹的类"></a>3 - 表示文件夹的类</h2><div class="code-wrapper"><pre><code>public class Directory extends Entry&#123;
+    private String name;
+    private ArrayList directory = new ArrayList();
+    public Directory(String name)&#123;
+        this.name = name;
+    &#125;
+
+    @Override
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    @Override
+    public int getSize() &#123;
+        int size = 0;
+        Iterator it = directory.iterator();
+        while (it.hasNext())&#123;
+            Entry entry = (Entry)it.next();
+            size += entry.getSize();
+        &#125;
+        return size;
+    &#125;
+
+    public Entry add(Entry entry)&#123;
+        directory.add(entry);
+        return this;
+    &#125;
+
+    @Override
+    protected void printList(String prefix) &#123;
+        System.out.println(prefix + &quot;/&quot; + this);
+        Iterator it = directory.iterator();
+        while (it.hasNext())&#123;
+            Entry entry = (Entry)it.next();
+            entry.printList(prefix + &quot;/&quot; + name);
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="4-表示向文件中增加Entry时发生的异常的类"><a href="#4-表示向文件中增加Entry时发生的异常的类" class="headerlink" title="4 - 表示向文件中增加Entry时发生的异常的类"></a>4 - 表示向文件中增加Entry时发生的异常的类</h2><div class="code-wrapper"><pre><code>public class FileTreateMentException extends RuntimeException&#123;
+
+    public FileTreateMentException()&#123;
+    &#125;
+
+    public FileTreateMentException(String msg)&#123;
+        super(msg);
+    &#125;
+&#125;</code></pre></div><h2 id="5-测试程序行为的类"><a href="#5-测试程序行为的类" class="headerlink" title="5 - 测试程序行为的类"></a>5 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        try &#123;
+            System.out.println(&quot;Making root entries...&quot;);
+            Directory rootDir = new Directory(&quot;root&quot;);
+            Directory binDir = new Directory(&quot;bin&quot;);
+            Directory tmpDir = new Directory(&quot;tmp&quot;);
+            Directory usrDir = new Directory(&quot;usr&quot;);
+            rootDir.add(binDir);
+            rootDir.add(tmpDir);
+            rootDir.add(usrDir);
+            binDir.add(new File(&quot;vi&quot;, 10000));
+            binDir.add(new File(&quot;latex&quot;, 20000));
+            rootDir.printList();
+
+            System.out.println(&quot;&quot;);
+            System.out.println(&quot;Making user entries...&quot;);
+            Directory yuki = new Directory(&quot;yuki&quot;);
+            Directory hanako = new Directory(&quot;hanako&quot;);
+            Directory tomura = new Directory(&quot;tomura&quot;);
+            usrDir.add(yuki);
+            usrDir.add(hanako);
+            usrDir.add(tomura);
+            yuki.add(new File(&quot;diary.html&quot;, 100));
+            yuki.add(new File(&quot;Composite.java&quot;, 200));
+            hanako.add(new File(&quot;memo.tex&quot;, 300));
+            tomura.add(new File(&quot;game.doc&quot;, 400));
+            tomura.add(new File(&quot;junk.mail&quot;, 500));
+            rootDir.printList();
+        &#125;catch (FileTreateMentException e)&#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="6-输出示例"><a href="#6-输出示例" class="headerlink" title="6 - 输出示例"></a>6 - 输出示例</h2><div class="code-wrapper"><pre><code>Making root entries...
+/root (30000)
+/root/bin (30000)
+/root/bin/vi (10000)
+/root/bin/latex (20000)
+/root/tmp (0)
+/root/usr (0)
+
+Making user entries...
+/root (31500)
+/root/bin (30000)
+/root/bin/vi (10000)
+/root/bin/latex (20000)
+/root/tmp (0)
+/root/usr (1500)
+/root/usr/yuki (300)
+/root/usr/yuki/diary.html (100)
+/root/usr/yuki/Composite.java (200)
+/root/usr/hanako (300)
+/root/usr/hanako/memo.tex (300)
+/root/usr/tomura (900)
+/root/usr/tomura/game.doc (400)
+/root/usr/tomura/junk.mail (500)</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -1502,105 +1502,6 @@ Making user entries...
       </categories>
   </entry>
   <entry>
-    <title>JavaFacade模式</title>
-    <url>/2020/09/25/JavaFacade%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  简单窗口</p>
-</blockquote>
-<h2 id="1-从邮件地址中获取用户名的类"><a href="#1-从邮件地址中获取用户名的类" class="headerlink" title="1- 从邮件地址中获取用户名的类"></a>1- 从邮件地址中获取用户名的类</h2><div class="code-wrapper"><pre><code>// 需要配置相应的数据库
-public class Database &#123;
-    private Database() &#123;    // 防止外部new出Database的实例,所以声明为private
-    &#125;
-
-    public static Properties getProperties(String dbname)&#123;  // 根据数据库名获取Properties
-        String filename = dbname + &quot;.txt&quot;;
-        Properties prop = new Properties();
-        try &#123;
-            prop.load(new FileInputStream(filename));
-        &#125;catch (IOException e)&#123;
-            System.out.println(&quot;Warning: &quot; + filename + &quot; is not found.&quot;);
-        &#125;
-        return prop;
-    &#125;
-&#125;</code></pre></div><h2 id="2-编写HTML文件的类"><a href="#2-编写HTML文件的类" class="headerlink" title="2 - 编写HTML文件的类"></a>2 - 编写HTML文件的类</h2><div class="code-wrapper"><pre><code>public class HtmlWriter &#123;
-    private Writer writer;
-    public HtmlWriter(Writer writer)&#123;
-        this.writer = writer;
-    &#125;
-
-    public void title(String title) throws IOException&#123;
-        writer.write(&quot;&lt;html&gt;&quot;);
-        writer.write(&quot;&lt;head&gt;&quot;);
-        writer.write(&quot;&lt;title&gt;&quot; + title + &quot;&lt;/title&gt;&quot;);
-        writer.write(&quot;&lt;/head&gt;&quot;);
-        writer.write(&quot;&lt;body&gt;\n&quot;);
-        writer.write(&quot;&lt;h1&gt;&quot; + title + &quot;&lt;/h1&gt;&quot;);
-    &#125;
-
-    public void paragraph(String msg) throws IOException&#123;
-        writer.write(&quot;&lt;p&gt;&quot; + msg + &quot;&lt;/p&gt;\n&quot;);
-    &#125;
-
-    public void link(String href, String caption) throws IOException&#123;
-        paragraph(&quot;&lt;a href=\&quot;&quot; + href + &quot;\&quot;&gt;&quot; + caption + &quot;&lt;/a&gt;&quot;);
-    &#125;
-
-    public void mailto(String mailAddr, String userName) throws IOException&#123;
-        link(&quot;mailto: &quot; + mailAddr, userName);
-    &#125;
-
-    public void close() throws IOException&#123;
-        writer.write(&quot;&lt;/body&gt;&quot;);
-        writer.write(&quot;&lt;/html&gt;&quot;);
-        writer.close();
-    &#125;
-&#125;</code></pre></div><h2 id="3-根据邮件地址编写该用户的Web页面"><a href="#3-根据邮件地址编写该用户的Web页面" class="headerlink" title="3 - 根据邮件地址编写该用户的Web页面"></a>3 - 根据邮件地址编写该用户的Web页面</h2><div class="code-wrapper"><pre><code>public class PageMaker &#123;
-    private PageMaker() &#123;    // 防止外部new出PageMaker的实例,所以声明为private
-    &#125;
-
-    public static void makeWelcomePage(String mailAddr, String filename)&#123;
-        try &#123;
-            Properties mailProp = Database.getProperties(&quot;mailData&quot;);
-            String userName = mailProp.getProperty(mailAddr);
-            HtmlWriter writer = new HtmlWriter(new FileWriter(filename));
-            writer.title(&quot;Welcome to &quot; + userName + &quot;`s page!&quot;);
-            writer.paragraph(userName + &quot;欢迎来到&quot; + userName + &quot;的主页&quot;);
-            writer.paragraph(&quot;等着你的邮件哦!&quot;);
-            writer.mailto(mailAddr, userName);
-            writer.close();
-            System.out.println(filename + &quot; is created for &quot; + mailAddr + &quot; (&quot; +
-                    userName + &quot;)&quot;);
-        &#125;catch (IOException e)&#123;
-            e.printStackTrace();
-        &#125;
-
-    &#125;
-&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        PageMaker.makeWelcomePage(&quot;hyuki@hyuki.com&quot;, &quot;welcome.html&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><html><head><title>Welcome to Hiroshi Yuki`s page!</title></head><body>
-<h1>Welcome to Hiroshi Yuki`s page!</h1><p>null欢迎来到null的主页</p>
-<p>等着你的邮件哦!</p>
-<p><a href="mailto: hyuki@hyuki.com">Hiroshi Yuki</a></p>
-</body></html>
-
-<div class="code-wrapper"><pre><code>// HTML源码
-&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to Hiroshi Yuki`s page!&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h1&gt;Welcome to Hiroshi Yuki`s page!&lt;/h1&gt;
-&lt;p&gt;null欢迎来到null的主页&lt;/p&gt;
-&lt;p&gt;等着你的邮件哦!&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;mailto: hyuki@hyuki.com&quot;&gt;Hiroshi Yuki&lt;/a&gt;&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
     <title>JavaFlyweight模式</title>
     <url>/2020/10/08/JavaFlyweight%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -1755,6 +1656,105 @@ public class Database &#123;
 ..##.......##.....
 ....######........
 ..................</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JavaFacade模式</title>
+    <url>/2020/09/25/JavaFacade%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  简单窗口</p>
+</blockquote>
+<h2 id="1-从邮件地址中获取用户名的类"><a href="#1-从邮件地址中获取用户名的类" class="headerlink" title="1- 从邮件地址中获取用户名的类"></a>1- 从邮件地址中获取用户名的类</h2><div class="code-wrapper"><pre><code>// 需要配置相应的数据库
+public class Database &#123;
+    private Database() &#123;    // 防止外部new出Database的实例,所以声明为private
+    &#125;
+
+    public static Properties getProperties(String dbname)&#123;  // 根据数据库名获取Properties
+        String filename = dbname + &quot;.txt&quot;;
+        Properties prop = new Properties();
+        try &#123;
+            prop.load(new FileInputStream(filename));
+        &#125;catch (IOException e)&#123;
+            System.out.println(&quot;Warning: &quot; + filename + &quot; is not found.&quot;);
+        &#125;
+        return prop;
+    &#125;
+&#125;</code></pre></div><h2 id="2-编写HTML文件的类"><a href="#2-编写HTML文件的类" class="headerlink" title="2 - 编写HTML文件的类"></a>2 - 编写HTML文件的类</h2><div class="code-wrapper"><pre><code>public class HtmlWriter &#123;
+    private Writer writer;
+    public HtmlWriter(Writer writer)&#123;
+        this.writer = writer;
+    &#125;
+
+    public void title(String title) throws IOException&#123;
+        writer.write(&quot;&lt;html&gt;&quot;);
+        writer.write(&quot;&lt;head&gt;&quot;);
+        writer.write(&quot;&lt;title&gt;&quot; + title + &quot;&lt;/title&gt;&quot;);
+        writer.write(&quot;&lt;/head&gt;&quot;);
+        writer.write(&quot;&lt;body&gt;\n&quot;);
+        writer.write(&quot;&lt;h1&gt;&quot; + title + &quot;&lt;/h1&gt;&quot;);
+    &#125;
+
+    public void paragraph(String msg) throws IOException&#123;
+        writer.write(&quot;&lt;p&gt;&quot; + msg + &quot;&lt;/p&gt;\n&quot;);
+    &#125;
+
+    public void link(String href, String caption) throws IOException&#123;
+        paragraph(&quot;&lt;a href=\&quot;&quot; + href + &quot;\&quot;&gt;&quot; + caption + &quot;&lt;/a&gt;&quot;);
+    &#125;
+
+    public void mailto(String mailAddr, String userName) throws IOException&#123;
+        link(&quot;mailto: &quot; + mailAddr, userName);
+    &#125;
+
+    public void close() throws IOException&#123;
+        writer.write(&quot;&lt;/body&gt;&quot;);
+        writer.write(&quot;&lt;/html&gt;&quot;);
+        writer.close();
+    &#125;
+&#125;</code></pre></div><h2 id="3-根据邮件地址编写该用户的Web页面"><a href="#3-根据邮件地址编写该用户的Web页面" class="headerlink" title="3 - 根据邮件地址编写该用户的Web页面"></a>3 - 根据邮件地址编写该用户的Web页面</h2><div class="code-wrapper"><pre><code>public class PageMaker &#123;
+    private PageMaker() &#123;    // 防止外部new出PageMaker的实例,所以声明为private
+    &#125;
+
+    public static void makeWelcomePage(String mailAddr, String filename)&#123;
+        try &#123;
+            Properties mailProp = Database.getProperties(&quot;mailData&quot;);
+            String userName = mailProp.getProperty(mailAddr);
+            HtmlWriter writer = new HtmlWriter(new FileWriter(filename));
+            writer.title(&quot;Welcome to &quot; + userName + &quot;`s page!&quot;);
+            writer.paragraph(userName + &quot;欢迎来到&quot; + userName + &quot;的主页&quot;);
+            writer.paragraph(&quot;等着你的邮件哦!&quot;);
+            writer.mailto(mailAddr, userName);
+            writer.close();
+            System.out.println(filename + &quot; is created for &quot; + mailAddr + &quot; (&quot; +
+                    userName + &quot;)&quot;);
+        &#125;catch (IOException e)&#123;
+            e.printStackTrace();
+        &#125;
+
+    &#125;
+&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        PageMaker.makeWelcomePage(&quot;hyuki@hyuki.com&quot;, &quot;welcome.html&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><html><head><title>Welcome to Hiroshi Yuki`s page!</title></head><body>
+<h1>Welcome to Hiroshi Yuki`s page!</h1><p>null欢迎来到null的主页</p>
+<p>等着你的邮件哦!</p>
+<p><a href="mailto: hyuki@hyuki.com">Hiroshi Yuki</a></p>
+</body></html>
+
+<div class="code-wrapper"><pre><code>// HTML源码
+&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to Hiroshi Yuki`s page!&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Welcome to Hiroshi Yuki`s page!&lt;/h1&gt;
+&lt;p&gt;null欢迎来到null的主页&lt;/p&gt;
+&lt;p&gt;等着你的邮件哦!&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;mailto: hyuki@hyuki.com&quot;&gt;Hiroshi Yuki&lt;/a&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -3505,6 +3505,55 @@ class Person implements Serializable&#123;
       </tags>
   </entry>
   <entry>
+    <title>Java的注释接口</title>
+    <url>/2020/08/07/Java%E7%9A%84%E6%B3%A8%E9%87%8A%E6%8E%A5%E5%8F%A3/</url>
+    <content><![CDATA[<blockquote>
+</blockquote>
+<blockquote>
+<p>  注解 - 给编译器看的注释</p>
+</blockquote>
+<h2 id="1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的"><a href="#1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的" class="headerlink" title="1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的"></a>1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的</h2><div class="code-wrapper"><pre><code>class Message&#123;
+    @Override
+    public String toString()&#123;
+        return &quot;Hello world!&quot;;
+    &#125;
+&#125;</code></pre></div><p>如果改写的方法名，参数，类型有错误编译器会报错，可以给程序员提示。</p>
+<h2 id="2-Deprecated注释表示这个方法已经过时，不建议使用"><a href="#2-Deprecated注释表示这个方法已经过时，不建议使用" class="headerlink" title="2. @Deprecated注释表示这个方法已经过时，不建议使用"></a>2. @Deprecated注释表示这个方法已经过时，不建议使用</h2><div class="code-wrapper"><pre><code>class Info&#123;
+    @Deprecated
+    public String getInfo()&#123;
+        return &quot;Hello world.&quot;;
+    &#125;
+&#125;</code></pre></div><p>被注释的方法仍然可以使用，只是编译器不推荐而已</p>
+<h2 id="3-SuppressWarnings注释用来压制”某些”的警告信息"><a href="#3-SuppressWarnings注释用来压制”某些”的警告信息" class="headerlink" title="3. @SuppressWarnings注释用来压制”某些”的警告信息"></a>3. @SuppressWarnings注释用来压制”某些”的警告信息</h2><div class="code-wrapper"><pre><code>public class SuppressWarningsAnnotation &#123;
+    public static void main(String[] args) &#123;
+        // 用来压制&quot;未使用&quot;的警告信息
+        @SuppressWarnings(&quot;unused&quot;)
+        int i;
+        System.out.println(&quot;Hello world.&quot;);
+    &#125;
+&#125;</code></pre></div><p>在这个例子中我们通过往注释中添加“unused”参数，来压制变量未使用这一警告信息</p>
+<h2 id="4-实现我们自己自定义的注释，必须使用-interface接口来修饰"><a href="#4-实现我们自己自定义的注释，必须使用-interface接口来修饰" class="headerlink" title="4. 实现我们自己自定义的注释，必须使用@interface接口来修饰"></a>4. 实现我们自己自定义的注释，必须使用@interface接口来修饰</h2><div class="code-wrapper"><pre><code>@interface Anno&#123;
+    public String key();
+    public String value();
+&#125;
+
+public class TestAnno &#123;
+    @Anno(key = &quot;var1&quot;, value = &quot;test&quot;)
+    public static void main(String[] args) &#123;
+        System.out.println(&quot;Hello world!&quot;);
+    &#125;
+&#125;</code></pre></div><p>我们可以在自己实现的注释里添加属性或方法</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Tool</category>
+      </categories>
+      <tags>
+        <tag>注解</tag>
+        <tag>给编译器看的注释</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java操作MySQL数据库</title>
     <url>/2020/08/22/Java%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
     <content><![CDATA[<h2 id="1-首先-Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8-0-16-jar-并导入此包"><a href="#1-首先-Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8-0-16-jar-并导入此包" class="headerlink" title="1 - 首先, Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8.0.16.jar, 并导入此包"></a>1 - 首先, Java要连接MySQL数据库需要安装驱动包<a href="https://static.runoob.com/download/mysql-connector-java-8.0.16.jar">mysql-connector-java-8.0.16.jar</a>, 并导入此包</h2><h2 id="2-准备相应的数据"><a href="#2-准备相应的数据" class="headerlink" title="2 - 准备相应的数据"></a>2 - 准备相应的数据</h2><div class="code-wrapper"><pre><code>static final String USER = &quot;用户名&quot;;
@@ -3670,55 +3719,6 @@ class TestThread implements Runnable&#123;
       </categories>
       <tags>
         <tag>多线程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java的注释接口</title>
-    <url>/2020/08/07/Java%E7%9A%84%E6%B3%A8%E9%87%8A%E6%8E%A5%E5%8F%A3/</url>
-    <content><![CDATA[<blockquote>
-</blockquote>
-<blockquote>
-<p>  注解 - 给编译器看的注释</p>
-</blockquote>
-<h2 id="1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的"><a href="#1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的" class="headerlink" title="1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的"></a>1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的</h2><div class="code-wrapper"><pre><code>class Message&#123;
-    @Override
-    public String toString()&#123;
-        return &quot;Hello world!&quot;;
-    &#125;
-&#125;</code></pre></div><p>如果改写的方法名，参数，类型有错误编译器会报错，可以给程序员提示。</p>
-<h2 id="2-Deprecated注释表示这个方法已经过时，不建议使用"><a href="#2-Deprecated注释表示这个方法已经过时，不建议使用" class="headerlink" title="2. @Deprecated注释表示这个方法已经过时，不建议使用"></a>2. @Deprecated注释表示这个方法已经过时，不建议使用</h2><div class="code-wrapper"><pre><code>class Info&#123;
-    @Deprecated
-    public String getInfo()&#123;
-        return &quot;Hello world.&quot;;
-    &#125;
-&#125;</code></pre></div><p>被注释的方法仍然可以使用，只是编译器不推荐而已</p>
-<h2 id="3-SuppressWarnings注释用来压制”某些”的警告信息"><a href="#3-SuppressWarnings注释用来压制”某些”的警告信息" class="headerlink" title="3. @SuppressWarnings注释用来压制”某些”的警告信息"></a>3. @SuppressWarnings注释用来压制”某些”的警告信息</h2><div class="code-wrapper"><pre><code>public class SuppressWarningsAnnotation &#123;
-    public static void main(String[] args) &#123;
-        // 用来压制&quot;未使用&quot;的警告信息
-        @SuppressWarnings(&quot;unused&quot;)
-        int i;
-        System.out.println(&quot;Hello world.&quot;);
-    &#125;
-&#125;</code></pre></div><p>在这个例子中我们通过往注释中添加“unused”参数，来压制变量未使用这一警告信息</p>
-<h2 id="4-实现我们自己自定义的注释，必须使用-interface接口来修饰"><a href="#4-实现我们自己自定义的注释，必须使用-interface接口来修饰" class="headerlink" title="4. 实现我们自己自定义的注释，必须使用@interface接口来修饰"></a>4. 实现我们自己自定义的注释，必须使用@interface接口来修饰</h2><div class="code-wrapper"><pre><code>@interface Anno&#123;
-    public String key();
-    public String value();
-&#125;
-
-public class TestAnno &#123;
-    @Anno(key = &quot;var1&quot;, value = &quot;test&quot;)
-    public static void main(String[] args) &#123;
-        System.out.println(&quot;Hello world!&quot;);
-    &#125;
-&#125;</code></pre></div><p>我们可以在自己实现的注释里添加属性或方法</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>注解</tag>
-        <tag>给编译器看的注释</tag>
       </tags>
   </entry>
   <entry>
@@ -4106,59 +4106,6 @@ Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide sh
       </tags>
   </entry>
   <entry>
-    <title>Node.js的安装和环境变量的配置</title>
-    <url>/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h2 id="1-下载安装包"><a href="#1-下载安装包" class="headerlink" title="1, 下载安装包"></a>1, 下载安装包</h2><p>去 <a href="https://nodejs.org/en/">nodejs官网</a> 下载 找到 <a href="https://nodejs.org/dist/latest-v12.x/">node-v12</a> 的下载清单，找到 node-v12.22.1-x64.msi，下载即可。</p>
-<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413131804825.png" alt="image-20210413131804825"></p>
-<h2 id="2，安装"><a href="#2，安装" class="headerlink" title="2，安装"></a>2，安装</h2><p>除了要修改安装路径之外， 其他一切默认即可。</p>
-<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/20200224001033440.png" alt="img"></p>
-<h2 id="3，环境配置"><a href="#3，环境配置" class="headerlink" title="3，环境配置"></a>3，环境配置</h2><ul>
-<li>一般默认安装，都会将路径添加系统变量的path里，所以可以通过，node -v 和 npm -v 查看版本号。</li>
-</ul>
-<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413132613848.png" alt="image-20210413132613848"></p>
-<ul>
-<li><p>一般开始安装的npm 都是6.x 版本， 我们之后可以通过 npm install -g npm 来做npm的全局升级。</p>
-</li>
-<li><p>之后我们需要在 D:\PNCA\environment\nodejs\node-v12.22.0\ 新建两个包</p>
-<ul>
-<li><strong>node_cache</strong></li>
-<li><strong>node_global</strong></li>
-<li>因为开始默认是在 C:\Users\Administrator\AppData\Roaming\npm\node_modules 下，安装全局包的，所以我们修改到D盘下。</li>
-<li>可以通过 <strong>npm root -g</strong> 来查看全局包的路径</li>
-</ul>
-</li>
-<li><p>然后在命令行里运行两条命令</p>
-<ul>
-<li>npm config set prefix “D:\PNCA\environment\nodejs\node-v12.22.0\node_global”</li>
-<li>npm config set cache “D:\PNCA\environment\nodejs\node-v12.22.0\node_cache”</li>
-</ul>
-</li>
-<li><p>找到 D:\PNCA\environment\nodejs\node-v12.22.0\node_modules\npm\ 下的 .npmrc。</p>
-<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413133432356.png" alt="image-20210413133432356"></p>
-<ul>
-<li>修改其内容为：</li>
-<li>prefix=D:\PNCA\environment\nodejs\node-v12.22.0\node_global</li>
-<li>cache=D:\PNCA\environment\nodejs\node-v12.22.0\node_cache</li>
-</ul>
-</li>
-<li><p>修改用户变量</p>
-<p>D:\PNCA\environment\nodejs\node-v12.22.0\node_global</p>
-</li>
-<li><p>在系统变量里</p>
-<p>添加 NODE_HOME: D:\PNCA\environment\nodejs\node-v12.22.0\node_modules\</p>
-</li>
-</ul>
-<h2 id="4，测试"><a href="#4，测试" class="headerlink" title="4，测试"></a>4，测试</h2><p>npm install express -g</p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Win</category>
-      </categories>
-      <tags>
-        <tag>Node</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python使用协程做离散事件仿真</title>
     <url>/2020/08/28/Python%E4%BD%BF%E7%94%A8%E5%8D%8F%E7%A8%8B%E5%81%9A%E7%A6%BB%E6%95%A3%E4%BA%8B%E4%BB%B6%E4%BB%BF%E7%9C%9F/</url>
     <content><![CDATA[<h2 id="1-需要导入的库"><a href="#1-需要导入的库" class="headerlink" title="1 - 需要导入的库"></a>1 - 需要导入的库</h2><div class="code-wrapper"><pre><code>import collections
@@ -4220,6 +4167,122 @@ def run(self, end_time):
       <tags>
         <tag>出租车队运营仿真</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Node.js的安装和环境变量的配置</title>
+    <url>/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="1-下载安装包"><a href="#1-下载安装包" class="headerlink" title="1, 下载安装包"></a>1, 下载安装包</h2><p>去 <a href="https://nodejs.org/en/">nodejs官网</a> 下载 找到 <a href="https://nodejs.org/dist/latest-v12.x/">node-v12</a> 的下载清单，找到 node-v12.22.1-x64.msi，下载即可。</p>
+<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413131804825.png" alt="image-20210413131804825"></p>
+<h2 id="2，安装"><a href="#2，安装" class="headerlink" title="2，安装"></a>2，安装</h2><p>除了要修改安装路径之外， 其他一切默认即可。</p>
+<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/20200224001033440.png" alt="img"></p>
+<h2 id="3，环境配置"><a href="#3，环境配置" class="headerlink" title="3，环境配置"></a>3，环境配置</h2><ul>
+<li>一般默认安装，都会将路径添加系统变量的path里，所以可以通过，node -v 和 npm -v 查看版本号。</li>
+</ul>
+<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413132613848.png" alt="image-20210413132613848"></p>
+<ul>
+<li><p>一般开始安装的npm 都是6.x 版本， 我们之后可以通过 npm install -g npm 来做npm的全局升级。</p>
+</li>
+<li><p>之后我们需要在 D:\PNCA\environment\nodejs\node-v12.22.0\ 新建两个包</p>
+<ul>
+<li><strong>node_cache</strong></li>
+<li><strong>node_global</strong></li>
+<li>因为开始默认是在 C:\Users\Administrator\AppData\Roaming\npm\node_modules 下，安装全局包的，所以我们修改到D盘下。</li>
+<li>可以通过 <strong>npm root -g</strong> 来查看全局包的路径</li>
+</ul>
+</li>
+<li><p>然后在命令行里运行两条命令</p>
+<ul>
+<li>npm config set prefix “D:\PNCA\environment\nodejs\node-v12.22.0\node_global”</li>
+<li>npm config set cache “D:\PNCA\environment\nodejs\node-v12.22.0\node_cache”</li>
+</ul>
+</li>
+<li><p>找到 D:\PNCA\environment\nodejs\node-v12.22.0\node_modules\npm\ 下的 .npmrc。</p>
+<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413133432356.png" alt="image-20210413133432356"></p>
+<ul>
+<li>修改其内容为：</li>
+<li>prefix=D:\PNCA\environment\nodejs\node-v12.22.0\node_global</li>
+<li>cache=D:\PNCA\environment\nodejs\node-v12.22.0\node_cache</li>
+</ul>
+</li>
+<li><p>修改用户变量</p>
+<p>D:\PNCA\environment\nodejs\node-v12.22.0\node_global</p>
+</li>
+<li><p>在系统变量里</p>
+<p>添加 NODE_HOME: D:\PNCA\environment\nodejs\node-v12.22.0\node_modules\</p>
+</li>
+</ul>
+<h2 id="4，测试"><a href="#4，测试" class="headerlink" title="4，测试"></a>4，测试</h2><p>npm install express -g</p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Win</category>
+      </categories>
+      <tags>
+        <tag>Node</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python使用覆盖型描述符</title>
+    <url>/2020/09/10/Python%E4%BD%BF%E7%94%A8%E8%A6%86%E7%9B%96%E5%9E%8B%E6%8F%8F%E8%BF%B0%E7%AC%A6/</url>
+    <content><![CDATA[<h2 id="1-导入模块"><a href="#1-导入模块" class="headerlink" title="1- 导入模块"></a>1- 导入模块</h2><div class="code-wrapper"><pre><code>import abc</code></pre></div><h2 id="2-主要的几个基础类"><a href="#2-主要的几个基础类" class="headerlink" title="2 - 主要的几个基础类"></a>2 - 主要的几个基础类</h2><div class="code-wrapper"><pre><code>class AutoStorage:
+    __counter = 0
+    def __init__(self, ):
+        cls = self.__class__
+        prefix = cls.__name__
+        index = cls.__counter
+        self.storage_name = &apos;_&#123;&#125;#&#123;&#125;&apos;.format(prefix, index)
+        cls.__counter += 1
+
+    def __get__(self, instance, owner):
+        if instance is None:
+            return self
+        else:
+            return getattr(instance, self.storage_name)
+
+    def __set__(self, instance, value):
+        if value &gt; 0:
+            setattr(instance, self.storage_name, value)
+        else:
+            raise ValueError(&apos;value must be &gt; 0&apos;)
+
+
+class Validated(abc.ABC, AutoStorage):
+    def __set__(self, instance, value):
+        value = self.validate(instance, value)
+        super().__set__(instance, value)
+    @abc.abstractmethod
+    def validate(self, instance, value):
+        &quot;&quot;&quot;return validated value or raise ValueError&quot;&quot;&quot;
+
+class Quantity(Validated):
+    &quot;&quot;&quot;a number greater than zero&quot;&quot;&quot;
+    def validate(self, instance, value):
+        if value &lt;= 0:
+            raise ValueError(&apos;value must be &gt; 0&apos;)
+        return value
+
+class NonBlank(Validated):
+&quot;&quot;&quot;a string with at least one non-space character&quot;&quot;&quot;
+def validate(self, instance, value):
+    value = value.strip()
+    if len(value) == 0:
+        raise ValueError(&apos;value cannot be empty or blank&apos;)
+    return value</code></pre></div><p>AutoStorage自动管理储存属性的描述符类。Validated扩展AutoStorage类的抽象子类，覆盖<strong>set</strong>方法，调用必须由子类实现的validate方法。</p>
+<h2 id="3-主要实现的类"><a href="#3-主要实现的类" class="headerlink" title="3 - 主要实现的类"></a>3 - 主要实现的类</h2><div class="code-wrapper"><pre><code>class LineItem:
+    description = NonBlank()
+    weight = Quantity()
+    price = Quantity()
+
+    def __init__(self, description, weight, price):
+        self.description = description
+        self.weight = weight
+        self.price = price
+
+    def subtotal(self):
+        return self.weight * self.price</code></pre></div>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
   </entry>
   <entry>
     <title>Python使用@property装饰器</title>
@@ -4341,69 +4404,6 @@ class Sentence:
       </tags>
   </entry>
   <entry>
-    <title>Python使用覆盖型描述符</title>
-    <url>/2020/09/10/Python%E4%BD%BF%E7%94%A8%E8%A6%86%E7%9B%96%E5%9E%8B%E6%8F%8F%E8%BF%B0%E7%AC%A6/</url>
-    <content><![CDATA[<h2 id="1-导入模块"><a href="#1-导入模块" class="headerlink" title="1- 导入模块"></a>1- 导入模块</h2><div class="code-wrapper"><pre><code>import abc</code></pre></div><h2 id="2-主要的几个基础类"><a href="#2-主要的几个基础类" class="headerlink" title="2 - 主要的几个基础类"></a>2 - 主要的几个基础类</h2><div class="code-wrapper"><pre><code>class AutoStorage:
-    __counter = 0
-    def __init__(self, ):
-        cls = self.__class__
-        prefix = cls.__name__
-        index = cls.__counter
-        self.storage_name = &apos;_&#123;&#125;#&#123;&#125;&apos;.format(prefix, index)
-        cls.__counter += 1
-
-    def __get__(self, instance, owner):
-        if instance is None:
-            return self
-        else:
-            return getattr(instance, self.storage_name)
-
-    def __set__(self, instance, value):
-        if value &gt; 0:
-            setattr(instance, self.storage_name, value)
-        else:
-            raise ValueError(&apos;value must be &gt; 0&apos;)
-
-
-class Validated(abc.ABC, AutoStorage):
-    def __set__(self, instance, value):
-        value = self.validate(instance, value)
-        super().__set__(instance, value)
-    @abc.abstractmethod
-    def validate(self, instance, value):
-        &quot;&quot;&quot;return validated value or raise ValueError&quot;&quot;&quot;
-
-class Quantity(Validated):
-    &quot;&quot;&quot;a number greater than zero&quot;&quot;&quot;
-    def validate(self, instance, value):
-        if value &lt;= 0:
-            raise ValueError(&apos;value must be &gt; 0&apos;)
-        return value
-
-class NonBlank(Validated):
-&quot;&quot;&quot;a string with at least one non-space character&quot;&quot;&quot;
-def validate(self, instance, value):
-    value = value.strip()
-    if len(value) == 0:
-        raise ValueError(&apos;value cannot be empty or blank&apos;)
-    return value</code></pre></div><p>AutoStorage自动管理储存属性的描述符类。Validated扩展AutoStorage类的抽象子类，覆盖<strong>set</strong>方法，调用必须由子类实现的validate方法。</p>
-<h2 id="3-主要实现的类"><a href="#3-主要实现的类" class="headerlink" title="3 - 主要实现的类"></a>3 - 主要实现的类</h2><div class="code-wrapper"><pre><code>class LineItem:
-    description = NonBlank()
-    weight = Quantity()
-    price = Quantity()
-
-    def __init__(self, description, weight, price):
-        self.description = description
-        self.weight = weight
-        self.price = price
-
-    def subtotal(self):
-        return self.weight * self.price</code></pre></div>]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-  </entry>
-  <entry>
     <title>函数参数的使用</title>
     <url>/2020/07/25/Python%E5%8F%82%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h2 id="一，Python函数参数的使用"><a href="#一，Python函数参数的使用" class="headerlink" title="一，Python函数参数的使用"></a>一，Python函数参数的使用</h2><h2 id="1-不可变参数"><a href="#1-不可变参数" class="headerlink" title="1.不可变参数"></a>1.不可变参数</h2><h3 id="1-1-位置实参-参数顺序要一致"><a href="#1-1-位置实参-参数顺序要一致" class="headerlink" title="1.1 位置实参(参数顺序要一致)"></a>1.1 位置实参(参数顺序要一致)</h3><div class="code-wrapper"><pre><code>def describe_pet(animal_type, pet_name):
@@ -4502,6 +4502,24 @@ dance_process.start()</code></pre></div>]]></content>
       </tags>
   </entry>
   <entry>
+    <title>Python操控Mysql数据库</title>
+    <url>/2020/07/22/Python%E6%93%8D%E6%8E%A7Mysql%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+    <content><![CDATA[<h2 id="1-首先导入所需要的包"><a href="#1-首先导入所需要的包" class="headerlink" title="1. 首先导入所需要的包"></a>1. 首先导入所需要的包</h2><div class="code-wrapper"><pre><code>import pymysql</code></pre></div><h2 id="2-链接mysql数据库服务"><a href="#2-链接mysql数据库服务" class="headerlink" title="2. 链接mysql数据库服务"></a>2. 链接mysql数据库服务</h2><div class="code-wrapper"><pre><code>connc = pymysql.Connect(
+# 默认只写用户名和密码以及数据库名称就足够了
+user=&apos;root&apos;,
+password=&quot;password&quot;,
+database=&apos;mydatabase&apos;,
+)</code></pre></div><h2 id="3-创建游标对象"><a href="#3-创建游标对象" class="headerlink" title="3. 创建游标对象"></a>3. 创建游标对象</h2><div class="code-wrapper"><pre><code>cur = connc.cursor()</code></pre></div><h2 id="4-编写SQL语句"><a href="#4-编写SQL语句" class="headerlink" title="4. 编写SQL语句"></a>4. 编写SQL语句</h2><div class="code-wrapper"><pre><code>sql = &apos;select * from students&apos;</code></pre></div><h2 id="5-使用游标对象去调用SQL"><a href="#5-使用游标对象去调用SQL" class="headerlink" title="5. 使用游标对象去调用SQL"></a>5. 使用游标对象去调用SQL</h2><div class="code-wrapper"><pre><code>cur.execute(sql)</code></pre></div><h2 id="6-获取查询结果并打印"><a href="#6-获取查询结果并打印" class="headerlink" title="6. 获取查询结果并打印"></a>6. 获取查询结果并打印</h2><div class="code-wrapper"><pre><code>result = cur.fetchall()
+print(result)</code></pre></div><h2 id="7-关闭游标和链接对象"><a href="#7-关闭游标和链接对象" class="headerlink" title="7. 关闭游标和链接对象"></a>7. 关闭游标和链接对象</h2><div class="code-wrapper"><pre><code>cur.close()
+connc.close()</code></pre></div>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python实现实时动态曲线</title>
     <url>/2021/04/09/Python%E5%AE%9E%E7%8E%B0%E5%AE%9E%E6%97%B6%E5%8A%A8%E6%80%81%E6%9B%B2%E7%BA%BF/</url>
     <content><![CDATA[<h2 id="1-效果展示"><a href="#1-效果展示" class="headerlink" title="1, 效果展示"></a>1, 效果展示</h2><p><img src="/2021/04/09/Python%E5%AE%9E%E7%8E%B0%E5%AE%9E%E6%97%B6%E5%8A%A8%E6%80%81%E6%9B%B2%E7%BA%BF/image-20210409214308795.png" alt="image-20210409214308795"></p>
@@ -4562,24 +4580,6 @@ app.exec_()</code></pre></div>]]></content>
       </categories>
       <tags>
         <tag>visualization</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python操控Mysql数据库</title>
-    <url>/2020/07/22/Python%E6%93%8D%E6%8E%A7Mysql%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
-    <content><![CDATA[<h2 id="1-首先导入所需要的包"><a href="#1-首先导入所需要的包" class="headerlink" title="1. 首先导入所需要的包"></a>1. 首先导入所需要的包</h2><div class="code-wrapper"><pre><code>import pymysql</code></pre></div><h2 id="2-链接mysql数据库服务"><a href="#2-链接mysql数据库服务" class="headerlink" title="2. 链接mysql数据库服务"></a>2. 链接mysql数据库服务</h2><div class="code-wrapper"><pre><code>connc = pymysql.Connect(
-# 默认只写用户名和密码以及数据库名称就足够了
-user=&apos;root&apos;,
-password=&quot;password&quot;,
-database=&apos;mydatabase&apos;,
-)</code></pre></div><h2 id="3-创建游标对象"><a href="#3-创建游标对象" class="headerlink" title="3. 创建游标对象"></a>3. 创建游标对象</h2><div class="code-wrapper"><pre><code>cur = connc.cursor()</code></pre></div><h2 id="4-编写SQL语句"><a href="#4-编写SQL语句" class="headerlink" title="4. 编写SQL语句"></a>4. 编写SQL语句</h2><div class="code-wrapper"><pre><code>sql = &apos;select * from students&apos;</code></pre></div><h2 id="5-使用游标对象去调用SQL"><a href="#5-使用游标对象去调用SQL" class="headerlink" title="5. 使用游标对象去调用SQL"></a>5. 使用游标对象去调用SQL</h2><div class="code-wrapper"><pre><code>cur.execute(sql)</code></pre></div><h2 id="6-获取查询结果并打印"><a href="#6-获取查询结果并打印" class="headerlink" title="6. 获取查询结果并打印"></a>6. 获取查询结果并打印</h2><div class="code-wrapper"><pre><code>result = cur.fetchall()
-print(result)</code></pre></div><h2 id="7-关闭游标和链接对象"><a href="#7-关闭游标和链接对象" class="headerlink" title="7. 关闭游标和链接对象"></a>7. 关闭游标和链接对象</h2><div class="code-wrapper"><pre><code>cur.close()
-connc.close()</code></pre></div>]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -4688,40 +4688,6 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       </tags>
   </entry>
   <entry>
-    <title>Stm32-F103-mini 学习</title>
-    <url>/2021/01/18/STM32F103MiNi/</url>
-    <content><![CDATA[<h1 id="stm32-F103-mini-学习"><a href="#stm32-F103-mini-学习" class="headerlink" title="stm32 F103 mini 学习"></a>stm32 F103 mini 学习</h1><h2 id="1-Stm32初探"><a href="#1-Stm32初探" class="headerlink" title="1 Stm32初探"></a>1 Stm32初探</h2><h3 id="1-1-stm32的优点"><a href="#1-1-stm32的优点" class="headerlink" title="1.1 stm32的优点"></a>1.1 stm32的优点</h3><ol>
-<li>使用ARM公司专为微控制器设计的Cortex-M内核;</li>
-<li>高性能,低电压,低功耗,创新的内核以及外设</li>
-<li>简单,易用</li>
-</ol>
-<h3 id="1-2-Cortex内核"><a href="#1-2-Cortex内核" class="headerlink" title="1.2 Cortex内核"></a>1.2 Cortex内核</h3><p>ARM架构定义了三个系列</p>
-<ol>
-<li>“A”: 面向操作系统和用户界面</li>
-<li>“R”: 针对实时系统</li>
-<li>“M”: 对微控制器</li>
-</ol>
-<p>STM32F1属于Cortex-M系列中的Cortex-M3内核,采用了ARMv7-M架构。Cortex-A5/A8采用了ARMv7-A架构。而传统的ARM7采用的是之前的ARMv4T架构,已经被逐渐淘汰。</p>
-<h3 id="1-3-STM32和ARM7"><a href="#1-3-STM32和ARM7" class="headerlink" title="1.3 STM32和ARM7"></a>1.3 STM32和ARM7</h3><p><img src="/2021/01/18/STM32F103MiNi/Stm32%E5%92%8CARM7%E6%AF%94%E8%BE%83.png" alt="image-20210118133817724"></p>
-<h2 id="2-STM32芯片解读"><a href="#2-STM32芯片解读" class="headerlink" title="2 STM32芯片解读"></a>2 STM32芯片解读</h2><h3 id="2-1-芯片内部资源"><a href="#2-1-芯片内部资源" class="headerlink" title="2.1 芯片内部资源"></a>2.1 芯片内部资源</h3><ul>
-<li>内核：Cortex-M3，高达72M，支持单周期乘法和硬件除法</li>
-<li>IO口：64引脚 51个IO， 大部分耐5v（模拟通道除外）</li>
-<li>存储器容量：256K FLASH ，48k SRAM</li>
-<li>时钟，复位和电源管理： 2.0-3.6v电源和IO电压；上电复位，掉电复位；强大的时钟系统</li>
-<li>低功耗</li>
-<li>AD：3个12位AD模数转换</li>
-<li>DA：2个12位的DA数模转换</li>
-<li>DMA：12个DMA通道</li>
-<li>定时器：多达11个定时器</li>
-<li>通信接口：多达13个通信接口</li>
-</ul>
-<h3 id="2-2-芯片内部结构"><a href="#2-2-芯片内部结构" class="headerlink" title="2.2 芯片内部结构"></a>2.2 芯片内部结构</h3>]]></content>
-      <categories>
-        <category>Technical</category>
-        <category>Hardware</category>
-      </categories>
-  </entry>
-  <entry>
     <title>SSBuild创建遇到的问题</title>
     <url>/2021/03/28/SSMBuild%E9%A1%B9%E7%9B%AE/</url>
     <content><![CDATA[<h1 id="1，项目结构"><a href="#1，项目结构" class="headerlink" title="1，项目结构"></a>1，项目结构</h1><p><img src="/2021/03/28/SSMBuild%E9%A1%B9%E7%9B%AE/image-20210328154204364.png" alt="image-20210328154204364"></p>
@@ -4770,6 +4736,95 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
         <category>Java</category>
         <category>Spring</category>
       </categories>
+  </entry>
+  <entry>
+    <title>Stm32-F103-mini 学习</title>
+    <url>/2021/01/18/STM32F103MiNi/</url>
+    <content><![CDATA[<h1 id="stm32-F103-mini-学习"><a href="#stm32-F103-mini-学习" class="headerlink" title="stm32 F103 mini 学习"></a>stm32 F103 mini 学习</h1><h2 id="1-Stm32初探"><a href="#1-Stm32初探" class="headerlink" title="1 Stm32初探"></a>1 Stm32初探</h2><h3 id="1-1-stm32的优点"><a href="#1-1-stm32的优点" class="headerlink" title="1.1 stm32的优点"></a>1.1 stm32的优点</h3><ol>
+<li>使用ARM公司专为微控制器设计的Cortex-M内核;</li>
+<li>高性能,低电压,低功耗,创新的内核以及外设</li>
+<li>简单,易用</li>
+</ol>
+<h3 id="1-2-Cortex内核"><a href="#1-2-Cortex内核" class="headerlink" title="1.2 Cortex内核"></a>1.2 Cortex内核</h3><p>ARM架构定义了三个系列</p>
+<ol>
+<li>“A”: 面向操作系统和用户界面</li>
+<li>“R”: 针对实时系统</li>
+<li>“M”: 对微控制器</li>
+</ol>
+<p>STM32F1属于Cortex-M系列中的Cortex-M3内核,采用了ARMv7-M架构。Cortex-A5/A8采用了ARMv7-A架构。而传统的ARM7采用的是之前的ARMv4T架构,已经被逐渐淘汰。</p>
+<h3 id="1-3-STM32和ARM7"><a href="#1-3-STM32和ARM7" class="headerlink" title="1.3 STM32和ARM7"></a>1.3 STM32和ARM7</h3><p><img src="/2021/01/18/STM32F103MiNi/Stm32%E5%92%8CARM7%E6%AF%94%E8%BE%83.png" alt="image-20210118133817724"></p>
+<h2 id="2-STM32芯片解读"><a href="#2-STM32芯片解读" class="headerlink" title="2 STM32芯片解读"></a>2 STM32芯片解读</h2><h3 id="2-1-芯片内部资源"><a href="#2-1-芯片内部资源" class="headerlink" title="2.1 芯片内部资源"></a>2.1 芯片内部资源</h3><ul>
+<li>内核：Cortex-M3，高达72M，支持单周期乘法和硬件除法</li>
+<li>IO口：64引脚 51个IO， 大部分耐5v（模拟通道除外）</li>
+<li>存储器容量：256K FLASH ，48k SRAM</li>
+<li>时钟，复位和电源管理： 2.0-3.6v电源和IO电压；上电复位，掉电复位；强大的时钟系统</li>
+<li>低功耗</li>
+<li>AD：3个12位AD模数转换</li>
+<li>DA：2个12位的DA数模转换</li>
+<li>DMA：12个DMA通道</li>
+<li>定时器：多达11个定时器</li>
+<li>通信接口：多达13个通信接口</li>
+</ul>
+<h3 id="2-2-芯片内部结构"><a href="#2-2-芯片内部结构" class="headerlink" title="2.2 芯片内部结构"></a>2.2 芯片内部结构</h3>]]></content>
+      <categories>
+        <category>Technical</category>
+        <category>Hardware</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Typora快捷键</title>
+    <url>/2021/04/09/Typora%E5%BF%AB%E6%8D%B7%E9%94%AE/</url>
+    <content><![CDATA[<h1 id="Typora快捷键"><a href="#Typora快捷键" class="headerlink" title="Typora快捷键"></a>Typora快捷键</h1><h2 id="windows快捷键："><a href="#windows快捷键：" class="headerlink" title="windows快捷键："></a>windows快捷键：</h2><ul>
+<li>无序列表：输入-之后输入空格</li>
+<li>有序列表：输入数字+“.”之后输入空格</li>
+<li>任务列表：-[空格]空格 文字</li>
+<li>隐藏侧边栏：ctrl+shift+L</li>
+<li>标题：ctrl+数字</li>
+<li>表格：ctrl+t</li>
+<li>生成目录：<code>[TOC]</code>按回车</li>
+<li>选中一整行：ctrl+l</li>
+<li>选中单词：ctrl+d</li>
+<li>选中相同格式的文字：ctrl+e</li>
+<li>跳转到文章开头：ctrl+home</li>
+<li>跳转到文章结尾：ctrl+end</li>
+<li>搜索：ctrl+f</li>
+<li>替换：ctrl+h</li>
+<li>引用：输入&gt;之后输入空格</li>
+<li>代码块：ctrl+alt+f</li>
+<li>加粗：ctrl+b</li>
+<li>倾斜：ctrl+i</li>
+<li>下划线：ctrl+u</li>
+<li>删除线：alt+shift+5</li>
+<li>插入图片：直接拖动到指定位置即可或者ctrl+shift+i</li>
+<li>插入链接：ctrl + k</li>
+</ul>
+<h2 id="给代码块设置快捷键"><a href="#给代码块设置快捷键" class="headerlink" title="给代码块设置快捷键:"></a>给代码块设置快捷键:</h2><p>偏好设置-&gt;打开高级设置-&gt;conf.user.json文件</p>
+<div class="code-wrapper"><pre><code class="hljs awk"> <span class="hljs-string">&quot;keyBinding&quot;</span>: &#123;
+   <span class="hljs-regexp">//</span> <span class="hljs-keyword">for</span> example: 
+   <span class="hljs-regexp">//</span> <span class="hljs-string">&quot;Always on Top&quot;</span>: <span class="hljs-string">&quot;Ctrl+Shift+P&quot;</span>
+<span class="hljs-string">&quot;Always on Top&quot;</span>: <span class="hljs-string">&quot;Ctrl+Shift+P&quot;</span>,  
+   <span class="hljs-string">&quot;Code Fences&quot;</span>: <span class="hljs-string">&quot;Ctrl+Shift+F&quot;</span>,  
+   <span class="hljs-string">&quot;Ordered List&quot;</span>:<span class="hljs-string">&quot;Ctrl+Alt+o&quot;</span>,  
+   <span class="hljs-string">&quot;Unordered List&quot;</span>: <span class="hljs-string">&quot;Ctrl+Alt+u&quot;</span>  
+ &#125;,</code></pre></div>
+
+<p>Code Fences 代码块</p>
+<p>Ordered List 数字有序列表</p>
+<p>Unordered List 无序列表</p>
+<h2 id="表情："><a href="#表情：" class="headerlink" title="表情："></a>表情：</h2><p>输出表情需要借助 <code>：</code>符号。</p>
+<p>栗子：<code>:smile</code> 显示为 😄,记住是左右两边都要冒号。</p>
+<p>使用者可以通过使用<code>ESC</code>键触发表情建议补全功能，也可在功能面板启用后自动触发此功能。同时，直接从菜单栏<code>Edit</code> -&gt; <code>Emoji &amp; Symbols</code>插入UTF8表情符号也是可以的。</p>
+<p>或者使用下面的方法</p>
+<p>访问网站 <a href="https://emojikeyboard.org/，找到需要的符号，鼠标左键单击，然后粘贴到需要的地方就行了！🆗">https://emojikeyboard.org/，找到需要的符号，鼠标左键单击，然后粘贴到需要的地方就行了！🆗</a></p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Win</category>
+      </categories>
+      <tags>
+        <tag>Typora</tag>
+        <tag>快捷键</tag>
+      </tags>
   </entry>
   <entry>
     <title>SpringMVC 学习</title>
@@ -4837,61 +4892,6 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       </categories>
       <tags>
         <tag>创建一个简单的web项目</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Typora快捷键</title>
-    <url>/2021/04/09/Typora%E5%BF%AB%E6%8D%B7%E9%94%AE/</url>
-    <content><![CDATA[<h1 id="Typora快捷键"><a href="#Typora快捷键" class="headerlink" title="Typora快捷键"></a>Typora快捷键</h1><h2 id="windows快捷键："><a href="#windows快捷键：" class="headerlink" title="windows快捷键："></a>windows快捷键：</h2><ul>
-<li>无序列表：输入-之后输入空格</li>
-<li>有序列表：输入数字+“.”之后输入空格</li>
-<li>任务列表：-[空格]空格 文字</li>
-<li>隐藏侧边栏：ctrl+shift+L</li>
-<li>标题：ctrl+数字</li>
-<li>表格：ctrl+t</li>
-<li>生成目录：<code>[TOC]</code>按回车</li>
-<li>选中一整行：ctrl+l</li>
-<li>选中单词：ctrl+d</li>
-<li>选中相同格式的文字：ctrl+e</li>
-<li>跳转到文章开头：ctrl+home</li>
-<li>跳转到文章结尾：ctrl+end</li>
-<li>搜索：ctrl+f</li>
-<li>替换：ctrl+h</li>
-<li>引用：输入&gt;之后输入空格</li>
-<li>代码块：ctrl+alt+f</li>
-<li>加粗：ctrl+b</li>
-<li>倾斜：ctrl+i</li>
-<li>下划线：ctrl+u</li>
-<li>删除线：alt+shift+5</li>
-<li>插入图片：直接拖动到指定位置即可或者ctrl+shift+i</li>
-<li>插入链接：ctrl + k</li>
-</ul>
-<h2 id="给代码块设置快捷键"><a href="#给代码块设置快捷键" class="headerlink" title="给代码块设置快捷键:"></a>给代码块设置快捷键:</h2><p>偏好设置-&gt;打开高级设置-&gt;conf.user.json文件</p>
-<div class="code-wrapper"><pre><code class="hljs awk"> <span class="hljs-string">&quot;keyBinding&quot;</span>: &#123;
-   <span class="hljs-regexp">//</span> <span class="hljs-keyword">for</span> example: 
-   <span class="hljs-regexp">//</span> <span class="hljs-string">&quot;Always on Top&quot;</span>: <span class="hljs-string">&quot;Ctrl+Shift+P&quot;</span>
-<span class="hljs-string">&quot;Always on Top&quot;</span>: <span class="hljs-string">&quot;Ctrl+Shift+P&quot;</span>,  
-   <span class="hljs-string">&quot;Code Fences&quot;</span>: <span class="hljs-string">&quot;Ctrl+Shift+F&quot;</span>,  
-   <span class="hljs-string">&quot;Ordered List&quot;</span>:<span class="hljs-string">&quot;Ctrl+Alt+o&quot;</span>,  
-   <span class="hljs-string">&quot;Unordered List&quot;</span>: <span class="hljs-string">&quot;Ctrl+Alt+u&quot;</span>  
- &#125;,</code></pre></div>
-
-<p>Code Fences 代码块</p>
-<p>Ordered List 数字有序列表</p>
-<p>Unordered List 无序列表</p>
-<h2 id="表情："><a href="#表情：" class="headerlink" title="表情："></a>表情：</h2><p>输出表情需要借助 <code>：</code>符号。</p>
-<p>栗子：<code>:smile</code> 显示为 😄,记住是左右两边都要冒号。</p>
-<p>使用者可以通过使用<code>ESC</code>键触发表情建议补全功能，也可在功能面板启用后自动触发此功能。同时，直接从菜单栏<code>Edit</code> -&gt; <code>Emoji &amp; Symbols</code>插入UTF8表情符号也是可以的。</p>
-<p>或者使用下面的方法</p>
-<p>访问网站 <a href="https://emojikeyboard.org/，找到需要的符号，鼠标左键单击，然后粘贴到需要的地方就行了！🆗">https://emojikeyboard.org/，找到需要的符号，鼠标左键单击，然后粘贴到需要的地方就行了！🆗</a></p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Win</category>
-      </categories>
-      <tags>
-        <tag>Typora</tag>
-        <tag>快捷键</tag>
       </tags>
   </entry>
   <entry>
@@ -5098,6 +5098,32 @@ choco download firefox --internalize locale=es-AR</code></pre></div>
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2019/12/14/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo server</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo generate</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo deploy</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Blog</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Blog</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Win10 搭建 PyTorch 环境</title>
     <url>/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<h1 id="Win10-搭建-PyTorch-环境"><a href="#Win10-搭建-PyTorch-环境" class="headerlink" title="Win10 搭建 PyTorch 环境"></a>Win10 搭建 PyTorch 环境</h1><h2 id="0-说明"><a href="#0-说明" class="headerlink" title="0 说明"></a>0 说明</h2><p>为了进行深度学习，需要电脑上安装相应的软件，pytorch 就是其中一种。至于 pytorch 是什么的科普，建议去网上搜索。</p>
@@ -5261,32 +5287,6 @@ torch.cuda.is_available()</code></pre></div>
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2019/12/14/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo server</code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo generate</code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo deploy</code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Blog</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Blog</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Stm32CubeMx + Clion环境搭建</title>
     <url>/2021/04/21/stm32cubemx+clion%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
     <content><![CDATA[<h1 id="环境和所需工具"><a href="#环境和所需工具" class="headerlink" title="环境和所需工具"></a>环境和所需工具</h1><h2 id="一，-软件环境"><a href="#一，-软件环境" class="headerlink" title="一， 软件环境"></a>一， 软件环境</h2><h3 id="1-Windows-10"><a href="#1-Windows-10" class="headerlink" title="1. Windows 10"></a>1. Windows 10</h3><h3 id="2-stm32cubemx"><a href="#2-stm32cubemx" class="headerlink" title="2. stm32cubemx"></a>2. <a href="https://www.st.com/en/development-tools/stm32cubemx.html">stm32cubemx</a></h3><h3 id="3-CLion-2020"><a href="#3-CLion-2020" class="headerlink" title="3. CLion-2020"></a>3. <a href="https://www.jetbrains.com/clion/">CLion-2020</a></h3><h3 id="4-MinGW"><a href="#4-MinGW" class="headerlink" title="4. MinGW"></a>4. <a href="http://www.mingw-w64.org/doku.php">MinGW</a></h3><h3 id="5-arm-none-eabi-gcc"><a href="#5-arm-none-eabi-gcc" class="headerlink" title="5. arm-none-eabi-gcc"></a>5. <a href="https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads">arm-none-eabi-gcc</a></h3><h3 id="6-openOCD"><a href="#6-openOCD" class="headerlink" title="6. openOCD"></a>6. <a href="https://gnutoolchains.com/arm-eabi/openocd/">openOCD</a></h3><h3 id="7-stlink-v2"><a href="#7-stlink-v2" class="headerlink" title="7. stlink-v2"></a>7. <a href="https://www.st.com/en/development-tools/st-link-v2.html">stlink-v2</a></h3><h2 id="二，硬件环境"><a href="#二，硬件环境" class="headerlink" title="二，硬件环境"></a>二，硬件环境</h2><h3 id="1-单片机：正点原子STM32F103RCT6"><a href="#1-单片机：正点原子STM32F103RCT6" class="headerlink" title="1. 单片机：正点原子STM32F103RCT6"></a>1. 单片机：正点原子STM32F103RCT6</h3><h3 id="2-下载器：-StLink-V2"><a href="#2-下载器：-StLink-V2" class="headerlink" title="2. 下载器： StLink-V2"></a>2. 下载器： StLink-V2</h3><h2 id="三，工具安装"><a href="#三，工具安装" class="headerlink" title="三，工具安装"></a>三，工具安装</h2><p>工具安装部分正常安装就好了，注意安装目录的选择，尽量不要出现中文。</p>
@@ -5443,6 +5443,55 @@ source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
       </tags>
   </entry>
   <entry>
+    <title>如何高效的在Github 上寻找项目</title>
+    <url>/2021/03/29/%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E7%9A%84Github%E4%B8%8A%E5%AF%BB%E6%89%BE%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>in:name 爬虫</td>
+<td>搜索名字中带有”爬虫”的</td>
+</tr>
+<tr>
+<td>in:readme 爬虫</td>
+<td>搜索readme中带有”爬虫”的</td>
+</tr>
+<tr>
+<td>in:description 爬虫</td>
+<td>搜索描述中带有”爬虫”的</td>
+</tr>
+<tr>
+<td>stars:&gt;1000</td>
+<td>搜索stars&gt;1000的</td>
+</tr>
+<tr>
+<td>forks:&gt;1000</td>
+<td>搜索forks&gt;1000的</td>
+</tr>
+<tr>
+<td>pushed:&gt;2019-09-01</td>
+<td>搜索最近更新于2019年9月1日之后的</td>
+</tr>
+<tr>
+<td>language:Python</td>
+<td>搜索Python的项目</td>
+</tr>
+</tbody></table>
+<p><strong>以上条件可以组合使用, 每个条件以空格区分</strong></p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Git</category>
+      </categories>
+      <tags>
+        <tag>Github</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>常见的压缩文件压缩和解压缩</title>
     <url>/2021/04/23/%E5%B8%B8%E8%A7%81%E7%9A%84%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E5%92%8C%E8%A7%A3%E5%8E%8B%E7%BC%A9/</url>
     <content><![CDATA[<h2 id="常见的压缩文件压缩和解压缩"><a href="#常见的压缩文件压缩和解压缩" class="headerlink" title="常见的压缩文件压缩和解压缩"></a>常见的压缩文件压缩和解压缩</h2><table>
@@ -5520,55 +5569,6 @@ source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
         <category>Help</category>
         <category>Linux</category>
       </categories>
-  </entry>
-  <entry>
-    <title>如何高效的在Github 上寻找项目</title>
-    <url>/2021/03/29/%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E7%9A%84Github%E4%B8%8A%E5%AF%BB%E6%89%BE%E9%A1%B9%E7%9B%AE/</url>
-    <content><![CDATA[<table>
-<thead>
-<tr>
-<th>条件</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>in:name 爬虫</td>
-<td>搜索名字中带有”爬虫”的</td>
-</tr>
-<tr>
-<td>in:readme 爬虫</td>
-<td>搜索readme中带有”爬虫”的</td>
-</tr>
-<tr>
-<td>in:description 爬虫</td>
-<td>搜索描述中带有”爬虫”的</td>
-</tr>
-<tr>
-<td>stars:&gt;1000</td>
-<td>搜索stars&gt;1000的</td>
-</tr>
-<tr>
-<td>forks:&gt;1000</td>
-<td>搜索forks&gt;1000的</td>
-</tr>
-<tr>
-<td>pushed:&gt;2019-09-01</td>
-<td>搜索最近更新于2019年9月1日之后的</td>
-</tr>
-<tr>
-<td>language:Python</td>
-<td>搜索Python的项目</td>
-</tr>
-</tbody></table>
-<p><strong>以上条件可以组合使用, 每个条件以空格区分</strong></p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Git</category>
-      </categories>
-      <tags>
-        <tag>Github</tag>
-      </tags>
   </entry>
   <entry>
     <title>我的第一篇博客文章</title>
