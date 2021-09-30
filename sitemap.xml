@@ -613,13 +613,6 @@
   </url>
   
   <url>
-    <loc>https://pncalbl.github.io/tags/%E5%BA%8F%E5%88%97%E5%8C%96/</loc>
-    <lastmod>2021-09-30</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://pncalbl.github.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5/</loc>
     <lastmod>2021-09-30</lastmod>
     <changefreq>daily</changefreq>
@@ -627,14 +620,7 @@
   </url>
   
   <url>
-    <loc>https://pncalbl.github.io/tags/%E6%B3%A8%E8%A7%A3/</loc>
-    <lastmod>2021-09-30</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://pncalbl.github.io/tags/%E7%BB%99%E7%BC%96%E8%AF%91%E5%99%A8%E7%9C%8B%E7%9A%84%E6%B3%A8%E9%87%8A/</loc>
+    <loc>https://pncalbl.github.io/tags/%E5%BA%8F%E5%88%97%E5%8C%96/</loc>
     <lastmod>2021-09-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -656,6 +642,20 @@
   
   <url>
     <loc>https://pncalbl.github.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
+    <lastmod>2021-09-30</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://pncalbl.github.io/tags/%E6%B3%A8%E8%A7%A3/</loc>
+    <lastmod>2021-09-30</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://pncalbl.github.io/tags/%E7%BB%99%E7%BC%96%E8%AF%91%E5%99%A8%E7%9C%8B%E7%9A%84%E6%B3%A8%E9%87%8A/</loc>
     <lastmod>2021-09-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -732,14 +732,14 @@
   </url>
   
   <url>
-    <loc>https://pncalbl.github.io/tags/%E5%8F%82%E6%95%B0/</loc>
+    <loc>https://pncalbl.github.io/tags/%E5%B9%B6%E5%8F%91/</loc>
     <lastmod>2021-09-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://pncalbl.github.io/tags/%E5%B9%B6%E5%8F%91/</loc>
+    <loc>https://pncalbl.github.io/tags/%E5%8F%82%E6%95%B0/</loc>
     <lastmod>2021-09-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -816,6 +816,20 @@
   </url>
   
   <url>
+    <loc>https://pncalbl.github.io/tags/choco/</loc>
+    <lastmod>2021-09-30</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://pncalbl.github.io/tags/win-software-management/</loc>
+    <lastmod>2021-09-30</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://pncalbl.github.io/tags/PyTorch/</loc>
     <lastmod>2021-09-30</lastmod>
     <changefreq>daily</changefreq>
@@ -831,20 +845,6 @@
   
   <url>
     <loc>https://pncalbl.github.io/tags/Deep-learning/</loc>
-    <lastmod>2021-09-30</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://pncalbl.github.io/tags/choco/</loc>
-    <lastmod>2021-09-30</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://pncalbl.github.io/tags/win-software-management/</loc>
     <lastmod>2021-09-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
