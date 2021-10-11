@@ -1761,6 +1761,185 @@ public class Database &#123;
       </categories>
   </entry>
   <entry>
+    <title>JavaInterpreter模式</title>
+    <url>/2020/10/16/JavaInterpreter%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  语法规则也是类</p>
+</blockquote>
+<h2 id="1-表示语法树”节点”的类"><a href="#1-表示语法树”节点”的类" class="headerlink" title="1 - 表示语法树”节点”的类"></a>1 - 表示语法树”节点”的类</h2><div class="code-wrapper"><pre><code>public abstract class Node &#123;
+    public abstract void parse(Context context) throws ParseException;
+&#125;</code></pre></div><h2 id="2-对应program的类"><a href="#2-对应program的类" class="headerlink" title="2 - 对应program的类"></a>2 - 对应program的类</h2><div class="code-wrapper"><pre><code>// &lt;program&gt; ::= program &lt;command list&gt;
+public class ProgramNode extends Node&#123;
+    private Node commandListNode;
+
+    @Override
+    public void parse(Context context) throws ParseException &#123;
+        context.skipToken(&quot;program&quot;);
+        commandListNode = new CommandListNode();
+        commandListNode.parse(context);
+    &#125;
+
+    @Override
+    public String toString() &#123;
+        return &quot;[program &quot; + commandListNode + &quot;]&quot;;
+    &#125;
+&#125;</code></pre></div><h2 id="3-对应command-List的类"><a href="#3-对应command-List的类" class="headerlink" title="3 - 对应command List的类"></a>3 - 对应command List的类</h2><div class="code-wrapper"><pre><code>// &lt;command list&gt; ::= &lt;command&gt;* end
+public class CommandListNode extends Node&#123;
+    private ArrayList&lt;Node&gt; list = new ArrayList&lt;&gt;();
+
+    @Override
+    public void parse(Context context) throws ParseException &#123;
+        while (true) &#123;
+            if (context.CurrentToken() == null) &#123;
+                throw new ParseException(&quot;Missing &apos;end&apos;&quot;);
+            &#125; else if (context.CurrentToken().equals(&quot;end&quot;)) &#123;
+                context.skipToken(&quot;end&quot;);
+                break;
+            &#125; else &#123;
+                Node commandNode = new CommandNode();
+                commandNode.parse(context);
+                list.add(commandNode);
+            &#125;
+        &#125;
+    &#125;
+
+    @Override
+    public String toString() &#123;
+        return list.toString();
+    &#125;
+&#125;</code></pre></div><h2 id="4-对应command的类"><a href="#4-对应command的类" class="headerlink" title="4 - 对应command的类"></a>4 - 对应command的类</h2><div class="code-wrapper"><pre><code>// &lt;command&gt; ::= &lt;repeat command&gt; | &lt;primitive command&gt;
+public class CommandNode extends Node&#123;
+    private Node node;
+
+    @Override
+    public void parse(Context context) throws ParseException &#123;
+        if (context.CurrentToken().equals(&quot;repeat&quot;))&#123;
+            node = new RepeatCommandNode();
+            node.parse(context);
+        &#125; else &#123;
+            node = new PrimitiveCommandNode();
+            node.parse(context);
+        &#125;
+    &#125;
+
+    @Override
+    public String toString() &#123;
+        return node.toString();
+    &#125;
+&#125;</code></pre></div><h2 id="5-对应repeat-command的类"><a href="#5-对应repeat-command的类" class="headerlink" title="5 - 对应repeat command的类"></a>5 - 对应repeat command的类</h2><div class="code-wrapper"><pre><code>// &lt;repeat command&gt; ::= repeat &lt;number&gt; &lt;command list&gt;
+public class RepeatCommandNode extends Node&#123;
+    private int number;
+    private Node commandListNode;
+
+    @Override
+    public void parse(Context context) throws ParseException &#123;
+        context.skipToken(&quot;repeat&quot;);
+        number = context.currentNumber();
+        context.nextToken();
+        commandListNode = new CommandListNode();
+        commandListNode.parse(context);
+    &#125;
+
+    @Override
+    public String toString() &#123;
+        return &quot;[repeat &quot; + number + &quot; &quot; + commandListNode + &quot;]&quot;;
+    &#125;
+&#125;</code></pre></div><h2 id="6-对应primitive-command的类"><a href="#6-对应primitive-command的类" class="headerlink" title="6 - 对应primitive command的类"></a>6 - 对应primitive command的类</h2><div class="code-wrapper"><pre><code>// &lt;primitive command&gt; ::= go | right | left
+public class PrimitiveCommandNode extends Node&#123;
+    private String name;
+
+    @Override
+    public void parse(Context context) throws ParseException &#123;
+        name = context.CurrentToken();
+        context.skipToken(name);
+        if (!name.equals(&quot;go&quot;) &amp;&amp; !name.equals(&quot;right&quot;) &amp;&amp; !name.equals(&quot;left&quot;)) &#123;
+            throw new ParseException(name + &quot;is undefined&quot;);
+        &#125;
+    &#125;
+
+    @Override
+    public String toString() &#123;
+        return name;
+    &#125;
+&#125;</code></pre></div><h2 id="7-表示语法解析上下文的类"><a href="#7-表示语法解析上下文的类" class="headerlink" title="7 - 表示语法解析上下文的类"></a>7 - 表示语法解析上下文的类</h2><div class="code-wrapper"><pre><code>public class Context &#123;
+    private StringTokenizer tokenizer;
+    private String currentToken;
+
+    public Context(String text) &#123;
+        tokenizer = new StringTokenizer(text);
+        nextToken();
+    &#125;
+
+    public void nextToken() &#123;
+        if (tokenizer.hasMoreElements()) &#123;
+            currentToken = tokenizer.nextToken();
+        &#125; else &#123;
+            currentToken = null;
+        &#125;
+    &#125;
+
+    public String CurrentToken() &#123;
+        return currentToken;
+    &#125;
+
+    public void skipToken(String token) throws ParseException &#123;
+        if (!token.equals(currentToken)) &#123;
+            throw new ParseException(&quot;Warning: &quot; + token +
+                    &quot; is expected, but &quot; + currentToken + &quot; is found.&quot;);
+        &#125;
+        nextToken();
+    &#125;
+
+    public int currentNumber() throws ParseException &#123;
+        int number = 0;
+        try &#123;
+            number = Integer.parseInt(currentToken);
+        &#125; catch (NumberFormatException e) &#123;
+            throw new ParseException(&quot;Warning: &quot; + e);
+        &#125;
+        return number;
+    &#125;
+&#125;</code></pre></div><h2 id="8-表示语法解析中可能会发生的异常的类"><a href="#8-表示语法解析中可能会发生的异常的类" class="headerlink" title="8 -表示语法解析中可能会发生的异常的类"></a>8 -表示语法解析中可能会发生的异常的类</h2><div class="code-wrapper"><pre><code>public class ParseException extends Exception&#123;
+    public ParseException(String msg) &#123;
+        super(msg);
+    &#125;
+&#125;</code></pre></div><h2 id="9-测试程序行为的类"><a href="#9-测试程序行为的类" class="headerlink" title="9 - 测试程序行为的类"></a>9 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        String filePath = &quot;Program文件路径&quot;;
+        try &#123;
+            BufferedReader reader = new BufferedReader(new FileReader(filePath + &quot;Program.txt&quot;));
+            String text;
+            while ((text = reader.readLine()) != null) &#123;
+                System.out.println(&quot;text =\&quot;&quot; + text + &quot;\&quot;&quot;);
+                Node node = new ProgramNode();
+                node.parse(new Context(text));
+                System.out.println(&quot;node = &quot; +node);
+            &#125;
+            reader.close();
+        &#125; catch (IOException | ParseException e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="10-输出示例"><a href="#10-输出示例" class="headerlink" title="10 - 输出示例"></a>10 - 输出示例</h2><div class="code-wrapper"><pre><code>text =&quot;program end&quot;
+node = [program []]
+text =&quot;program go end&quot;
+node = [program [go]]
+text =&quot;program go right go right go right go right end&quot;
+node = [program [go, right, go, right, go, right, go, right]]
+text =&quot;program repeat 4 go right end end&quot;
+node = [program [[repeat 4 [go, right]]]]
+text =&quot;program repeat 4 repeat 3 go right go left end right end end&quot;
+node = [program [[repeat 4 [[repeat 3 [go, right, go, left]], right]]]]</code></pre></div><h2 id="11-Program-txt"><a href="#11-Program-txt" class="headerlink" title="11 - Program.txt"></a>11 - Program.txt</h2><div class="code-wrapper"><pre><code>program end
+program go end
+program go right go right go right go right end
+program repeat 4 go right end end
+program repeat 4 repeat 3 go right go left end right end end</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
     <title>JavaMediator模式</title>
     <url>/2020/09/26/JavaMediator%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -1940,179 +2119,123 @@ when=1601126737494,modifiers=] on button0</code></pre></div>]]></content>
       </categories>
   </entry>
   <entry>
-    <title>JavaInterpreter模式</title>
-    <url>/2020/10/16/JavaInterpreter%E6%A8%A1%E5%BC%8F/</url>
+    <title>JavaObserver模式</title>
+    <url>/2020/09/28/JavaObserver%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
-<p>  语法规则也是类</p>
+<p>  发送状态变化通知</p>
 </blockquote>
-<h2 id="1-表示语法树”节点”的类"><a href="#1-表示语法树”节点”的类" class="headerlink" title="1 - 表示语法树”节点”的类"></a>1 - 表示语法树”节点”的类</h2><div class="code-wrapper"><pre><code>public abstract class Node &#123;
-    public abstract void parse(Context context) throws ParseException;
-&#125;</code></pre></div><h2 id="2-对应program的类"><a href="#2-对应program的类" class="headerlink" title="2 - 对应program的类"></a>2 - 对应program的类</h2><div class="code-wrapper"><pre><code>// &lt;program&gt; ::= program &lt;command list&gt;
-public class ProgramNode extends Node&#123;
-    private Node commandListNode;
+<h2 id="1-表示观察者的接口"><a href="#1-表示观察者的接口" class="headerlink" title="1 - 表示观察者的接口"></a>1 - 表示观察者的接口</h2><div class="code-wrapper"><pre><code>public interface Observer &#123;
+    public abstract void update(NumberGenerator generator);
+&#125;</code></pre></div><h2 id="2-表示生成数值的对象的抽象类"><a href="#2-表示生成数值的对象的抽象类" class="headerlink" title="2 - 表示生成数值的对象的抽象类"></a>2 - 表示生成数值的对象的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class NumberGenerator &#123;
+    private ArrayList observers = new ArrayList();  // 保存Observer们
 
-    @Override
-    public void parse(Context context) throws ParseException &#123;
-        context.skipToken(&quot;program&quot;);
-        commandListNode = new CommandListNode();
-        commandListNode.parse(context);
+    public void addObserver(Observer observer) &#123;    // 注册Observer
+        observers.add(observer);
     &#125;
 
-    @Override
-    public String toString() &#123;
-        return &quot;[program &quot; + commandListNode + &quot;]&quot;;
+    public void deleteObserver(Observer observer) &#123;    // 删除Observer
+        observers.remove(observer);
     &#125;
-&#125;</code></pre></div><h2 id="3-对应command-List的类"><a href="#3-对应command-List的类" class="headerlink" title="3 - 对应command List的类"></a>3 - 对应command List的类</h2><div class="code-wrapper"><pre><code>// &lt;command list&gt; ::= &lt;command&gt;* end
-public class CommandListNode extends Node&#123;
-    private ArrayList&lt;Node&gt; list = new ArrayList&lt;&gt;();
 
-    @Override
-    public void parse(Context context) throws ParseException &#123;
-        while (true) &#123;
-            if (context.CurrentToken() == null) &#123;
-                throw new ParseException(&quot;Missing &apos;end&apos;&quot;);
-            &#125; else if (context.CurrentToken().equals(&quot;end&quot;)) &#123;
-                context.skipToken(&quot;end&quot;);
-                break;
-            &#125; else &#123;
-                Node commandNode = new CommandNode();
-                commandNode.parse(context);
-                list.add(commandNode);
-            &#125;
+    public void notifyObservers() &#123;    // 向Observer发送通知
+        for (Object value : observers) &#123;
+            Observer o = (Observer) value;
+            o.update(this);
         &#125;
     &#125;
 
-    @Override
-    public String toString() &#123;
-        return list.toString();
-    &#125;
-&#125;</code></pre></div><h2 id="4-对应command的类"><a href="#4-对应command的类" class="headerlink" title="4 - 对应command的类"></a>4 - 对应command的类</h2><div class="code-wrapper"><pre><code>// &lt;command&gt; ::= &lt;repeat command&gt; | &lt;primitive command&gt;
-public class CommandNode extends Node&#123;
-    private Node node;
+    public abstract int getNumber();    // 获取数值
+    public abstract void execute();     // 生成数值
+&#125;</code></pre></div><h2 id="3-表示生成随机数的类"><a href="#3-表示生成随机数的类" class="headerlink" title="3 - 表示生成随机数的类"></a>3 - 表示生成随机数的类</h2><div class="code-wrapper"><pre><code>public class RandomNumberGenerator extends NumberGenerator&#123;
+    private Random random = new Random();   // 随机数生成器
+    private int number;     // 当前数值
 
     @Override
-    public void parse(Context context) throws ParseException &#123;
-        if (context.CurrentToken().equals(&quot;repeat&quot;))&#123;
-            node = new RepeatCommandNode();
-            node.parse(context);
-        &#125; else &#123;
-            node = new PrimitiveCommandNode();
-            node.parse(context);
-        &#125;
-    &#125;
-
-    @Override
-    public String toString() &#123;
-        return node.toString();
-    &#125;
-&#125;</code></pre></div><h2 id="5-对应repeat-command的类"><a href="#5-对应repeat-command的类" class="headerlink" title="5 - 对应repeat command的类"></a>5 - 对应repeat command的类</h2><div class="code-wrapper"><pre><code>// &lt;repeat command&gt; ::= repeat &lt;number&gt; &lt;command list&gt;
-public class RepeatCommandNode extends Node&#123;
-    private int number;
-    private Node commandListNode;
-
-    @Override
-    public void parse(Context context) throws ParseException &#123;
-        context.skipToken(&quot;repeat&quot;);
-        number = context.currentNumber();
-        context.nextToken();
-        commandListNode = new CommandListNode();
-        commandListNode.parse(context);
-    &#125;
-
-    @Override
-    public String toString() &#123;
-        return &quot;[repeat &quot; + number + &quot; &quot; + commandListNode + &quot;]&quot;;
-    &#125;
-&#125;</code></pre></div><h2 id="6-对应primitive-command的类"><a href="#6-对应primitive-command的类" class="headerlink" title="6 - 对应primitive command的类"></a>6 - 对应primitive command的类</h2><div class="code-wrapper"><pre><code>// &lt;primitive command&gt; ::= go | right | left
-public class PrimitiveCommandNode extends Node&#123;
-    private String name;
-
-    @Override
-    public void parse(Context context) throws ParseException &#123;
-        name = context.CurrentToken();
-        context.skipToken(name);
-        if (!name.equals(&quot;go&quot;) &amp;&amp; !name.equals(&quot;right&quot;) &amp;&amp; !name.equals(&quot;left&quot;)) &#123;
-            throw new ParseException(name + &quot;is undefined&quot;);
-        &#125;
-    &#125;
-
-    @Override
-    public String toString() &#123;
-        return name;
-    &#125;
-&#125;</code></pre></div><h2 id="7-表示语法解析上下文的类"><a href="#7-表示语法解析上下文的类" class="headerlink" title="7 - 表示语法解析上下文的类"></a>7 - 表示语法解析上下文的类</h2><div class="code-wrapper"><pre><code>public class Context &#123;
-    private StringTokenizer tokenizer;
-    private String currentToken;
-
-    public Context(String text) &#123;
-        tokenizer = new StringTokenizer(text);
-        nextToken();
-    &#125;
-
-    public void nextToken() &#123;
-        if (tokenizer.hasMoreElements()) &#123;
-            currentToken = tokenizer.nextToken();
-        &#125; else &#123;
-            currentToken = null;
-        &#125;
-    &#125;
-
-    public String CurrentToken() &#123;
-        return currentToken;
-    &#125;
-
-    public void skipToken(String token) throws ParseException &#123;
-        if (!token.equals(currentToken)) &#123;
-            throw new ParseException(&quot;Warning: &quot; + token +
-                    &quot; is expected, but &quot; + currentToken + &quot; is found.&quot;);
-        &#125;
-        nextToken();
-    &#125;
-
-    public int currentNumber() throws ParseException &#123;
-        int number = 0;
-        try &#123;
-            number = Integer.parseInt(currentToken);
-        &#125; catch (NumberFormatException e) &#123;
-            throw new ParseException(&quot;Warning: &quot; + e);
-        &#125;
+    public int getNumber() &#123;
         return number;
     &#125;
-&#125;</code></pre></div><h2 id="8-表示语法解析中可能会发生的异常的类"><a href="#8-表示语法解析中可能会发生的异常的类" class="headerlink" title="8 -表示语法解析中可能会发生的异常的类"></a>8 -表示语法解析中可能会发生的异常的类</h2><div class="code-wrapper"><pre><code>public class ParseException extends Exception&#123;
-    public ParseException(String msg) &#123;
-        super(msg);
+
+    @Override
+    public void execute() &#123;
+        for (int i = 0; i &lt; 20; i++) &#123;
+            number = random.nextInt(50);
+            notifyObservers();
+        &#125;
     &#125;
-&#125;</code></pre></div><h2 id="9-测试程序行为的类"><a href="#9-测试程序行为的类" class="headerlink" title="9 - 测试程序行为的类"></a>9 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        String filePath = &quot;Program文件路径&quot;;
+&#125;</code></pre></div><h2 id="4-表示以数字形式显示数值的类"><a href="#4-表示以数字形式显示数值的类" class="headerlink" title="4 - 表示以数字形式显示数值的类"></a>4 - 表示以数字形式显示数值的类</h2><div class="code-wrapper"><pre><code>public class DigitObserver implements Observer&#123;
+    @Override
+    public void update(NumberGenerator generator) &#123;
+        System.out.println(&quot;DigitObserver: &quot; + generator.getNumber());
         try &#123;
-            BufferedReader reader = new BufferedReader(new FileReader(filePath + &quot;Program.txt&quot;));
-            String text;
-            while ((text = reader.readLine()) != null) &#123;
-                System.out.println(&quot;text =\&quot;&quot; + text + &quot;\&quot;&quot;);
-                Node node = new ProgramNode();
-                node.parse(new Context(text));
-                System.out.println(&quot;node = &quot; +node);
-            &#125;
-            reader.close();
-        &#125; catch (IOException | ParseException e) &#123;
+            Thread.sleep(100);
+        &#125;catch (InterruptedException e)&#123;
             e.printStackTrace();
         &#125;
     &#125;
-&#125;</code></pre></div><h2 id="10-输出示例"><a href="#10-输出示例" class="headerlink" title="10 - 输出示例"></a>10 - 输出示例</h2><div class="code-wrapper"><pre><code>text =&quot;program end&quot;
-node = [program []]
-text =&quot;program go end&quot;
-node = [program [go]]
-text =&quot;program go right go right go right go right end&quot;
-node = [program [go, right, go, right, go, right, go, right]]
-text =&quot;program repeat 4 go right end end&quot;
-node = [program [[repeat 4 [go, right]]]]
-text =&quot;program repeat 4 repeat 3 go right go left end right end end&quot;
-node = [program [[repeat 4 [[repeat 3 [go, right, go, left]], right]]]]</code></pre></div><h2 id="11-Program-txt"><a href="#11-Program-txt" class="headerlink" title="11 - Program.txt"></a>11 - Program.txt</h2><div class="code-wrapper"><pre><code>program end
-program go end
-program go right go right go right go right end
-program repeat 4 go right end end
-program repeat 4 repeat 3 go right go left end right end end</code></pre></div>]]></content>
+&#125;</code></pre></div><h2 id="5-表示以简单的图形显示数值的类"><a href="#5-表示以简单的图形显示数值的类" class="headerlink" title="5 - 表示以简单的图形显示数值的类"></a>5 - 表示以简单的图形显示数值的类</h2><div class="code-wrapper"><pre><code>public class GraphObserver implements Observer&#123;
+    @Override
+    public void update(NumberGenerator generator) &#123;
+        System.out.print(&quot;GraphObserver: &quot;);
+        int count = generator.getNumber();
+        for (int i = 0; i &lt; count; i++) &#123;
+            System.out.print(&apos;*&apos;);
+        &#125;
+        System.out.println();
+        try &#123;
+            Thread.sleep(100);
+        &#125;catch (InterruptedException e)&#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="6-测试程序行为的类"><a href="#6-测试程序行为的类" class="headerlink" title="6 - 测试程序行为的类"></a>6 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        NumberGenerator generator = new RandomNumberGenerator();
+        Observer observer1 = new DigitObserver();
+        Observer observer2 = new GraphObserver();
+        generator.addObserver(observer1);
+        generator.addObserver(observer2);
+        generator.execute();
+    &#125;
+&#125;</code></pre></div><h2 id="7-输出示例"><a href="#7-输出示例" class="headerlink" title="7 - 输出示例"></a>7 - 输出示例</h2><div class="code-wrapper"><pre><code>DigitObserver: 9
+GraphObserver: *********
+DigitObserver: 16
+GraphObserver: ****************
+DigitObserver: 40
+GraphObserver: ****************************************
+DigitObserver: 34
+GraphObserver: **********************************
+DigitObserver: 18
+GraphObserver: ******************
+DigitObserver: 6
+GraphObserver: ******
+DigitObserver: 34
+GraphObserver: **********************************
+DigitObserver: 31
+GraphObserver: *******************************
+DigitObserver: 17
+GraphObserver: *****************
+DigitObserver: 47
+GraphObserver: ***********************************************
+DigitObserver: 21
+GraphObserver: *********************
+DigitObserver: 34
+GraphObserver: **********************************
+DigitObserver: 18
+GraphObserver: ******************
+DigitObserver: 25
+GraphObserver: *************************
+DigitObserver: 39
+GraphObserver: ***************************************
+DigitObserver: 20
+GraphObserver: ********************
+DigitObserver: 9
+GraphObserver: *********
+DigitObserver: 4
+GraphObserver: ****
+DigitObserver: 8
+GraphObserver: ********
+DigitObserver: 26
+GraphObserver: **************************</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -2432,129 +2555,6 @@ public class Manager &#123;
       </categories>
   </entry>
   <entry>
-    <title>JavaObserver模式</title>
-    <url>/2020/09/28/JavaObserver%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  发送状态变化通知</p>
-</blockquote>
-<h2 id="1-表示观察者的接口"><a href="#1-表示观察者的接口" class="headerlink" title="1 - 表示观察者的接口"></a>1 - 表示观察者的接口</h2><div class="code-wrapper"><pre><code>public interface Observer &#123;
-    public abstract void update(NumberGenerator generator);
-&#125;</code></pre></div><h2 id="2-表示生成数值的对象的抽象类"><a href="#2-表示生成数值的对象的抽象类" class="headerlink" title="2 - 表示生成数值的对象的抽象类"></a>2 - 表示生成数值的对象的抽象类</h2><div class="code-wrapper"><pre><code>public abstract class NumberGenerator &#123;
-    private ArrayList observers = new ArrayList();  // 保存Observer们
-
-    public void addObserver(Observer observer) &#123;    // 注册Observer
-        observers.add(observer);
-    &#125;
-
-    public void deleteObserver(Observer observer) &#123;    // 删除Observer
-        observers.remove(observer);
-    &#125;
-
-    public void notifyObservers() &#123;    // 向Observer发送通知
-        for (Object value : observers) &#123;
-            Observer o = (Observer) value;
-            o.update(this);
-        &#125;
-    &#125;
-
-    public abstract int getNumber();    // 获取数值
-    public abstract void execute();     // 生成数值
-&#125;</code></pre></div><h2 id="3-表示生成随机数的类"><a href="#3-表示生成随机数的类" class="headerlink" title="3 - 表示生成随机数的类"></a>3 - 表示生成随机数的类</h2><div class="code-wrapper"><pre><code>public class RandomNumberGenerator extends NumberGenerator&#123;
-    private Random random = new Random();   // 随机数生成器
-    private int number;     // 当前数值
-
-    @Override
-    public int getNumber() &#123;
-        return number;
-    &#125;
-
-    @Override
-    public void execute() &#123;
-        for (int i = 0; i &lt; 20; i++) &#123;
-            number = random.nextInt(50);
-            notifyObservers();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="4-表示以数字形式显示数值的类"><a href="#4-表示以数字形式显示数值的类" class="headerlink" title="4 - 表示以数字形式显示数值的类"></a>4 - 表示以数字形式显示数值的类</h2><div class="code-wrapper"><pre><code>public class DigitObserver implements Observer&#123;
-    @Override
-    public void update(NumberGenerator generator) &#123;
-        System.out.println(&quot;DigitObserver: &quot; + generator.getNumber());
-        try &#123;
-            Thread.sleep(100);
-        &#125;catch (InterruptedException e)&#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="5-表示以简单的图形显示数值的类"><a href="#5-表示以简单的图形显示数值的类" class="headerlink" title="5 - 表示以简单的图形显示数值的类"></a>5 - 表示以简单的图形显示数值的类</h2><div class="code-wrapper"><pre><code>public class GraphObserver implements Observer&#123;
-    @Override
-    public void update(NumberGenerator generator) &#123;
-        System.out.print(&quot;GraphObserver: &quot;);
-        int count = generator.getNumber();
-        for (int i = 0; i &lt; count; i++) &#123;
-            System.out.print(&apos;*&apos;);
-        &#125;
-        System.out.println();
-        try &#123;
-            Thread.sleep(100);
-        &#125;catch (InterruptedException e)&#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="6-测试程序行为的类"><a href="#6-测试程序行为的类" class="headerlink" title="6 - 测试程序行为的类"></a>6 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        NumberGenerator generator = new RandomNumberGenerator();
-        Observer observer1 = new DigitObserver();
-        Observer observer2 = new GraphObserver();
-        generator.addObserver(observer1);
-        generator.addObserver(observer2);
-        generator.execute();
-    &#125;
-&#125;</code></pre></div><h2 id="7-输出示例"><a href="#7-输出示例" class="headerlink" title="7 - 输出示例"></a>7 - 输出示例</h2><div class="code-wrapper"><pre><code>DigitObserver: 9
-GraphObserver: *********
-DigitObserver: 16
-GraphObserver: ****************
-DigitObserver: 40
-GraphObserver: ****************************************
-DigitObserver: 34
-GraphObserver: **********************************
-DigitObserver: 18
-GraphObserver: ******************
-DigitObserver: 6
-GraphObserver: ******
-DigitObserver: 34
-GraphObserver: **********************************
-DigitObserver: 31
-GraphObserver: *******************************
-DigitObserver: 17
-GraphObserver: *****************
-DigitObserver: 47
-GraphObserver: ***********************************************
-DigitObserver: 21
-GraphObserver: *********************
-DigitObserver: 34
-GraphObserver: **********************************
-DigitObserver: 18
-GraphObserver: ******************
-DigitObserver: 25
-GraphObserver: *************************
-DigitObserver: 39
-GraphObserver: ***************************************
-DigitObserver: 20
-GraphObserver: ********************
-DigitObserver: 9
-GraphObserver: *********
-DigitObserver: 4
-GraphObserver: ****
-DigitObserver: 8
-GraphObserver: ********
-DigitObserver: 26
-GraphObserver: **************************</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
     <title>JavaProxy模式</title>
     <url>/2020/10/11/JavaProxy%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<h2 id="1-Printer和PrinterProxy的共同接口"><a href="#1-Printer和PrinterProxy的共同接口" class="headerlink" title="1 - Printer和PrinterProxy的共同接口"></a>1 - Printer和PrinterProxy的共同接口</h2><div class="code-wrapper"><pre><code>public interface Printable &#123;
@@ -2646,226 +2646,6 @@ GraphObserver: **************************</code></pre></div>]]></content>
 正在生成Printer的实例(Bob).....结束!
 ===Bob===
 Hello, world.</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>JavaStrategy模式</title>
-    <url>/2020/09/19/JavaStrategy%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  整体的替换算法</p>
-</blockquote>
-<h2 id="1-表示猜拳游戏中的的”手势”类"><a href="#1-表示猜拳游戏中的的”手势”类" class="headerlink" title="1 - 表示猜拳游戏中的的”手势”类"></a>1 - 表示猜拳游戏中的的”手势”类</h2><div class="code-wrapper"><pre><code>public class Hand &#123;
-    public static final int HANDVALUE_GUU = 0; // 表示石头的值
-    public static final int HANDVALUE_CHO = 1; // 表示剪刀的值
-    public static final int HANDVALUE_PAA = 2; // 表示布的值
-
-    public static final Hand[] hand = &#123; // 表示猜拳中三种手势的实例
-            new Hand(HANDVALUE_GUU),
-            new Hand(HANDVALUE_CHO),
-            new Hand(HANDVALUE_PAA),
-    &#125;;
-
-    private static final String[] name = &#123; // 表示猜拳中手势所对应的字符串
-            &quot;石头&quot;, &quot;剪刀&quot;, &quot;布&quot;
-    &#125;;
-
-    private int handValue;  // 猜拳中出的手势的值
-    private Hand(int handValue)&#123;
-        this.handValue = handValue;
-    &#125;
-
-    public static Hand getHand(int handValue)&#123; // 根据手势的值获取对应的实例
-        return hand[handValue];
-    &#125;
-
-    public boolean isStrongerThan(Hand h)&#123; // 如果this战胜了h则返回true
-        return fight(h) == 1;
-    &#125;
-
-    public boolean isWeakerThan(Hand h)&#123; // 如果this战胜了h则返回false
-        return fight(h) == -1;
-    &#125;
-
-    private int fight(Hand h)&#123;
-        if(this == h)&#123;
-            return 0;
-        &#125;else if ((this.handValue + 1) % 3 == h.handValue)&#123;
-            return 1;
-        &#125;else&#123;
-            return -1;
-        &#125;
-    &#125;
-    @Override
-    public String toString()&#123;
-        return name[handValue];
-    &#125;
-&#125;</code></pre></div><h2 id="2-表示猜拳游戏中策略的类"><a href="#2-表示猜拳游戏中策略的类" class="headerlink" title="2 - 表示猜拳游戏中策略的类"></a>2 - 表示猜拳游戏中策略的类</h2><div class="code-wrapper"><pre><code>public interface Strategy &#123;
-    public abstract Hand nextHand();
-    public abstract void study(boolean win);
-&#125;</code></pre></div><h2 id="3-表示”如果这局猜拳获胜-那么下一局也出一样的手势”这一策略的类"><a href="#3-表示”如果这局猜拳获胜-那么下一局也出一样的手势”这一策略的类" class="headerlink" title="3 - 表示”如果这局猜拳获胜,那么下一局也出一样的手势”这一策略的类"></a>3 - 表示”如果这局猜拳获胜,那么下一局也出一样的手势”这一策略的类</h2><div class="code-wrapper"><pre><code>public class WinningStrategy implements Strategy&#123;
-    private Random random;
-    private boolean won = false;
-    private Hand prevHand;
-    public WinningStrategy(int seed)&#123;
-        random = new Random(seed);
-    &#125;
-
-    @Override
-    public Hand nextHand() &#123;
-        if (!won) &#123;
-            prevHand = Hand.getHand(random.nextInt(3));
-        &#125;
-        return prevHand;
-    &#125;
-
-    @Override
-    public void study(boolean win) &#123;
-        won = win;
-    &#125;
-&#125;</code></pre></div><h2 id="4-表示”根据上一局的手势从概率上计算出下一局的手势-从之前的猜拳结果计算下一局出各种拳的概率”这一策略类"><a href="#4-表示”根据上一局的手势从概率上计算出下一局的手势-从之前的猜拳结果计算下一局出各种拳的概率”这一策略类" class="headerlink" title="4 - 表示”根据上一局的手势从概率上计算出下一局的手势,从之前的猜拳结果计算下一局出各种拳的概率”这一策略类"></a>4 - 表示”根据上一局的手势从概率上计算出下一局的手势,从之前的猜拳结果计算下一局出各种拳的概率”这一策略类</h2><div class="code-wrapper"><pre><code>public class ProbStrategy implements Strategy&#123;
-    private Random random;
-    private int prevHandValue = 0;
-    private int currentHandValue = 0;
-
-    private int[][] history = &#123;
-            &#123;1, 1, 1&#125;,
-            &#123;1, 1, 1&#125;,
-            &#123;1, 1, 1&#125;,
-    &#125;;
-
-    public ProbStrategy(int seed)&#123;
-        random = new Random(seed);
-    &#125;
-
-    @Override
-    public Hand nextHand() &#123;
-        int bet = random.nextInt(getSum(currentHandValue));
-        int handValue = 0;
-        if (bet &lt; history[currentHandValue][0])&#123;
-            handValue = 0;
-        &#125;else if (bet &lt; history[currentHandValue][0] + history[currentHandValue][1])&#123;
-            handValue = 1;
-        &#125;else &#123;
-            handValue = 2;
-        &#125;
-
-        prevHandValue = currentHandValue;
-        currentHandValue = handValue;
-        return Hand.getHand(handValue);
-    &#125;
-
-    private int getSum(int hv)&#123;
-        int sum = 0;
-        for (int i = 0; i &lt; 3; i++) &#123;
-            sum += history[hv][i];
-        &#125;
-        return sum;
-    &#125;
-
-    @Override
-    public void study(boolean win) &#123;
-        if (win)&#123;
-            history[prevHandValue][currentHandValue]++;
-        &#125;else &#123;
-            history[prevHandValue][(currentHandValue + 1) % 3]++;
-            history[prevHandValue][(currentHandValue + 2) % 3]++;
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="5-表示进行猜拳游戏的选手的类"><a href="#5-表示进行猜拳游戏的选手的类" class="headerlink" title="5 - 表示进行猜拳游戏的选手的类"></a>5 - 表示进行猜拳游戏的选手的类</h2><div class="code-wrapper"><pre><code>public class Player &#123;
-    private String name;
-    private Strategy strategy;
-    private int winCount;
-    private int loseCount;
-    private int gameCount;
-
-    public Player(String name, Strategy strategy)&#123;
-        this.name = name;
-        this.strategy = strategy;
-    &#125;
-
-    public Hand nextHand()&#123;
-        return strategy.nextHand();
-    &#125;
-
-    public void win()&#123; // 胜
-        strategy.study(true);
-        winCount++;
-        gameCount++;
-    &#125;
-
-    public void lose()&#123; // 输
-        strategy.study(false);
-        loseCount++;
-        gameCount++;
-    &#125;
-
-    public void even()&#123; // 平
-        gameCount++;
-    &#125;
-
-    @Override
-    public String toString()&#123;
-        return &quot;[&quot; + name + &quot;:&quot; + gameCount + &quot; games, &quot;
-                + winCount + &quot; win, &quot; + loseCount + &quot; lose &quot; + &quot;]&quot;;
-    &#125;
-&#125;</code></pre></div><h2 id="6-测试程序行为的类"><a href="#6-测试程序行为的类" class="headerlink" title="6 - 测试程序行为的类"></a>6 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>// 需要提前设置好args的参数
-public class Main &#123;
-    public static void main(String[] args) &#123;
-        if (args.length != 2)&#123;
-            System.out.println(&quot;Usage: java Main randomSeed1 randomSeed2&quot;);
-            System.out.println(&quot;Example: java Main 314 15&quot;);
-            System.exit(0);
-        &#125;
-
-        int seed1 = Integer.parseInt(args[0]);
-        int seed2 = Integer.parseInt(args[1]);
-
-        Player player1 = new Player(&quot;Taro&quot;, new WinningStrategy(seed1));
-        Player player2 = new Player(&quot;Hana&quot;, new ProbStrategy(seed2));
-
-        for (int i = 0; i &lt; 15; i++) &#123;
-            Hand nextHand1 = player1.nextHand();
-            Hand nextHand2 = player2.nextHand();
-            if (nextHand1.isStrongerThan(nextHand2))&#123;
-                System.out.println(&quot;Winner: &quot; + player1);
-                player1.win();
-                player2.lose();
-            &#125;else if (nextHand2.isStrongerThan(nextHand1))&#123;
-                System.out.println(&quot;Winner: &quot; + player2);
-                player2.win();
-                player1.lose();
-            &#125;else &#123;
-                System.out.println(&quot;Even...&quot;);
-                player1.even();
-                player2.even();
-            &#125;
-        &#125;
-
-        System.out.println(&quot;Total result: &quot;);
-        System.out.println(player1.toString());
-        System.out.println(player2.toString());
-    &#125;
-&#125;</code></pre></div><h2 id="7-输出示例"><a href="#7-输出示例" class="headerlink" title="7 - 输出示例"></a>7 - 输出示例</h2><div class="code-wrapper"><pre><code>Winner: [Taro:0 games, 0 win, 0 lose ]
-Winner: [Taro:1 games, 1 win, 0 lose ]
-Even...
-Winner: [Hana:3 games, 0 win, 2 lose ]
-Winner: [Hana:4 games, 1 win, 2 lose ]
-Winner: [Hana:5 games, 2 win, 2 lose ]
-Winner: [Hana:6 games, 3 win, 2 lose ]
-Winner: [Taro:7 games, 2 win, 4 lose ]
-Even...
-Winner: [Hana:9 games, 4 win, 3 lose ]
-Winner: [Taro:10 games, 3 win, 5 lose ]
-Winner: [Taro:11 games, 4 win, 5 lose ]
-Winner: [Hana:12 games, 5 win, 5 lose ]
-Winner: [Hana:13 games, 6 win, 5 lose ]
-Winner: [Taro:14 games, 5 win, 7 lose ]
-Total result: 
-[Taro:15 games, 6 win, 7 lose ]
-[Hana:15 games, 7 win, 6 lose ]</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -3256,117 +3036,220 @@ Making user entries...
       </categories>
   </entry>
   <entry>
-    <title>Java使用缓存流进行文件的复制</title>
-    <url>/2020/09/08/Java%E4%BD%BF%E7%94%A8%E7%BC%93%E5%AD%98%E6%B5%81%E8%BF%9B%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84%E5%A4%8D%E5%88%B6/</url>
-    <content><![CDATA[<h2 id="1-准备要复制的文件路径和复制后的路径"><a href="#1-准备要复制的文件路径和复制后的路径" class="headerlink" title="1- 准备要复制的文件路径和复制后的路径"></a>1- 准备要复制的文件路径和复制后的路径</h2><div class="code-wrapper"><pre><code>private static final String FilePath1 = &quot;D:/测试文件.txt&quot;;
-private static final String FilePath2 = &quot;D:/测试文件_副本.txt&quot;;</code></pre></div><h2 id="2-导入IO库"><a href="#2-导入IO库" class="headerlink" title="2 - 导入IO库"></a>2 - 导入IO库</h2><p>   import java.io.*;</p>
-<h2 id="3-拷贝方法"><a href="#3-拷贝方法" class="headerlink" title="3 - 拷贝方法"></a>3 - 拷贝方法</h2><div class="code-wrapper"><pre><code>/**
-* 使用缓存流拷贝文件
-* @return 拷贝的耗时
-*/
-private static long copyFileByBufferedStream() throws IOException &#123;
-    File file = new File(FilePath1);
-    if (!file.exists())&#123;
-        System.out.println(&quot;文件不存在,复制失败!&quot;);
-    &#125;
-    // 记录开始时间
-    long startTime = System.currentTimeMillis();
-    // 读取的缓存流
-    InputStream inputStream = new FileInputStream(file);
-    BufferedInputStream bInStream = new BufferedInputStream(inputStream);
-    // 写入的缓存流
-    OutputStream outputStream = new FileOutputStream(FilePath2);
-    BufferedOutputStream bOutStream = new BufferedOutputStream(outputStream);
-    // 逐个字节的复制
-    int i = 1; // 读取的临时变量
-    while ((i = bInStream.read()) != -1)&#123;
-        bOutStream.write(i); // 读取一个字节,就写入缓存中!
-    &#125;
-    // 注意,一定要关闭缓存流对象,清空缓冲区,这样才可以复制成功
-    bInStream.close();
-    bOutStream.close();
-    System.out.println(&quot;文件复制成功!&quot;);
-    return System.currentTimeMillis() - startTime;
-&#125;</code></pre></div><p>使用缓存流,在比较大的文件中可以看到明显的效率提升</p>
-<h2 id="4-完整的代码"><a href="#4-完整的代码" class="headerlink" title="4 - 完整的代码"></a>4 - 完整的代码</h2><div class="code-wrapper"><pre><code>import java.io.*;
+    <title>JavaStrategy模式</title>
+    <url>/2020/09/19/JavaStrategy%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  整体的替换算法</p>
+</blockquote>
+<h2 id="1-表示猜拳游戏中的的”手势”类"><a href="#1-表示猜拳游戏中的的”手势”类" class="headerlink" title="1 - 表示猜拳游戏中的的”手势”类"></a>1 - 表示猜拳游戏中的的”手势”类</h2><div class="code-wrapper"><pre><code>public class Hand &#123;
+    public static final int HANDVALUE_GUU = 0; // 表示石头的值
+    public static final int HANDVALUE_CHO = 1; // 表示剪刀的值
+    public static final int HANDVALUE_PAA = 2; // 表示布的值
 
-public class BufferedStreamDemo &#123;
+    public static final Hand[] hand = &#123; // 表示猜拳中三种手势的实例
+            new Hand(HANDVALUE_GUU),
+            new Hand(HANDVALUE_CHO),
+            new Hand(HANDVALUE_PAA),
+    &#125;;
 
-    private static final String FilePath1 = &quot;D:/测试文件.txt&quot;;
-    private static final String FilePath2 = &quot;D:/测试文件_副本.txt&quot;;
+    private static final String[] name = &#123; // 表示猜拳中手势所对应的字符串
+            &quot;石头&quot;, &quot;剪刀&quot;, &quot;布&quot;
+    &#125;;
 
-    public static void main(String[] args) throws IOException &#123;
-    long time = copyFileByBufferedStream();
-    System.out.println(&quot;拷贝耗时: &quot; + time + &quot;毫秒&quot;;
+    private int handValue;  // 猜拳中出的手势的值
+    private Hand(int handValue)&#123;
+        this.handValue = handValue;
     &#125;
 
-    /**
-    * 使用缓存流拷贝文件
-    * @return 拷贝的耗时
-    */
-    private static long copyFileByBufferedStream() throws IOException &#123;
-        File file = new File(FilePath1);
-        if (!file.exists())&#123;
-            System.out.println(&quot;文件不存在,复制失败!&quot;);
+    public static Hand getHand(int handValue)&#123; // 根据手势的值获取对应的实例
+        return hand[handValue];
+    &#125;
+
+    public boolean isStrongerThan(Hand h)&#123; // 如果this战胜了h则返回true
+        return fight(h) == 1;
+    &#125;
+
+    public boolean isWeakerThan(Hand h)&#123; // 如果this战胜了h则返回false
+        return fight(h) == -1;
+    &#125;
+
+    private int fight(Hand h)&#123;
+        if(this == h)&#123;
+            return 0;
+        &#125;else if ((this.handValue + 1) % 3 == h.handValue)&#123;
+            return 1;
+        &#125;else&#123;
+            return -1;
         &#125;
-        // 记录开始时间
-        long startTime = System.currentTimeMillis();
-        // 读取的缓存流
-        InputStream inputStream = new FileInputStream(file);
-        BufferedInputStream bInStream = new BufferedInputStream(inputStream);
-        // 写入的缓存流
-        OutputStream outputStream = new FileOutputStream(FilePath2);
-        BufferedOutputStream bOutStream = new BufferedOutputStream(outputStream);
-        // 逐个字节的复制
-        int i = 1; // 读取的临时变量
-        while ((i = bInStream.read()) != -1)&#123;
-            bOutStream.write(i); // 读取一个字节,就写入缓存中!
-        &#125;
-        // 注意,一定要关闭缓存流对象,清空缓冲区,这样才可以复制成功
-        bInStream.close();
-        bOutStream.close();
-        System.out.println(&quot;文件复制成功!&quot;);
-        return System.currentTimeMillis() - startTime;
     &#125;
-&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>文件复制成功!
-拷贝耗时: 4019毫秒</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>文件复制</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java单例模式Singleton</title>
-    <url>/2020/09/11/Java%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="1-单例类"><a href="#1-单例类" class="headerlink" title="1 -  单例类"></a>1 -  单例类</h2><div class="code-wrapper"><pre><code>public class Singleton &#123;
-    private static Singleton singleton = new Singleton();
-    private Singleton()&#123;
-        System.out.println(&quot;生成了一个实例&quot;);
+    @Override
+    public String toString()&#123;
+        return name[handValue];
+    &#125;
+&#125;</code></pre></div><h2 id="2-表示猜拳游戏中策略的类"><a href="#2-表示猜拳游戏中策略的类" class="headerlink" title="2 - 表示猜拳游戏中策略的类"></a>2 - 表示猜拳游戏中策略的类</h2><div class="code-wrapper"><pre><code>public interface Strategy &#123;
+    public abstract Hand nextHand();
+    public abstract void study(boolean win);
+&#125;</code></pre></div><h2 id="3-表示”如果这局猜拳获胜-那么下一局也出一样的手势”这一策略的类"><a href="#3-表示”如果这局猜拳获胜-那么下一局也出一样的手势”这一策略的类" class="headerlink" title="3 - 表示”如果这局猜拳获胜,那么下一局也出一样的手势”这一策略的类"></a>3 - 表示”如果这局猜拳获胜,那么下一局也出一样的手势”这一策略的类</h2><div class="code-wrapper"><pre><code>public class WinningStrategy implements Strategy&#123;
+    private Random random;
+    private boolean won = false;
+    private Hand prevHand;
+    public WinningStrategy(int seed)&#123;
+        random = new Random(seed);
     &#125;
 
-    public static Singleton getInstance()&#123;
-        return singleton;
+    @Override
+    public Hand nextHand() &#123;
+        if (!won) &#123;
+            prevHand = Hand.getHand(random.nextInt(3));
+        &#125;
+        return prevHand;
     &#125;
-&#125;</code></pre></div><p>因为只允许存在一个实例,所以构造函数使用私有权限,可以利用getInstance来获得类的实例.</p>
-<h2 id="2-测试主类"><a href="#2-测试主类" class="headerlink" title="2 - 测试主类"></a>2 - 测试主类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        System.out.println(&quot;Start.&quot;);
-        Singleton obj1 = Singleton.getInstance();
-        Singleton obj2 = Singleton.getInstance();
-        if (obj1 == obj2)&#123;
-            System.out.println(&quot;obj1与obj2有相同的实列&quot;);
+
+    @Override
+    public void study(boolean win) &#123;
+        won = win;
+    &#125;
+&#125;</code></pre></div><h2 id="4-表示”根据上一局的手势从概率上计算出下一局的手势-从之前的猜拳结果计算下一局出各种拳的概率”这一策略类"><a href="#4-表示”根据上一局的手势从概率上计算出下一局的手势-从之前的猜拳结果计算下一局出各种拳的概率”这一策略类" class="headerlink" title="4 - 表示”根据上一局的手势从概率上计算出下一局的手势,从之前的猜拳结果计算下一局出各种拳的概率”这一策略类"></a>4 - 表示”根据上一局的手势从概率上计算出下一局的手势,从之前的猜拳结果计算下一局出各种拳的概率”这一策略类</h2><div class="code-wrapper"><pre><code>public class ProbStrategy implements Strategy&#123;
+    private Random random;
+    private int prevHandValue = 0;
+    private int currentHandValue = 0;
+
+    private int[][] history = &#123;
+            &#123;1, 1, 1&#125;,
+            &#123;1, 1, 1&#125;,
+            &#123;1, 1, 1&#125;,
+    &#125;;
+
+    public ProbStrategy(int seed)&#123;
+        random = new Random(seed);
+    &#125;
+
+    @Override
+    public Hand nextHand() &#123;
+        int bet = random.nextInt(getSum(currentHandValue));
+        int handValue = 0;
+        if (bet &lt; history[currentHandValue][0])&#123;
+            handValue = 0;
+        &#125;else if (bet &lt; history[currentHandValue][0] + history[currentHandValue][1])&#123;
+            handValue = 1;
         &#125;else &#123;
-            System.out.println(&quot;obj1与obj2有不同的实列&quot;);
+            handValue = 2;
         &#125;
-        System.out.println(&quot;End.&quot;);
+
+        prevHandValue = currentHandValue;
+        currentHandValue = handValue;
+        return Hand.getHand(handValue);
     &#125;
-&#125;</code></pre></div><h2 id="3-输出示例"><a href="#3-输出示例" class="headerlink" title="3 - 输出示例"></a>3 - 输出示例</h2><div class="code-wrapper"><pre><code>Start.
-生成了一个实例
-obj1与obj2有相同的实列
-End.</code></pre></div>]]></content>
+
+    private int getSum(int hv)&#123;
+        int sum = 0;
+        for (int i = 0; i &lt; 3; i++) &#123;
+            sum += history[hv][i];
+        &#125;
+        return sum;
+    &#125;
+
+    @Override
+    public void study(boolean win) &#123;
+        if (win)&#123;
+            history[prevHandValue][currentHandValue]++;
+        &#125;else &#123;
+            history[prevHandValue][(currentHandValue + 1) % 3]++;
+            history[prevHandValue][(currentHandValue + 2) % 3]++;
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="5-表示进行猜拳游戏的选手的类"><a href="#5-表示进行猜拳游戏的选手的类" class="headerlink" title="5 - 表示进行猜拳游戏的选手的类"></a>5 - 表示进行猜拳游戏的选手的类</h2><div class="code-wrapper"><pre><code>public class Player &#123;
+    private String name;
+    private Strategy strategy;
+    private int winCount;
+    private int loseCount;
+    private int gameCount;
+
+    public Player(String name, Strategy strategy)&#123;
+        this.name = name;
+        this.strategy = strategy;
+    &#125;
+
+    public Hand nextHand()&#123;
+        return strategy.nextHand();
+    &#125;
+
+    public void win()&#123; // 胜
+        strategy.study(true);
+        winCount++;
+        gameCount++;
+    &#125;
+
+    public void lose()&#123; // 输
+        strategy.study(false);
+        loseCount++;
+        gameCount++;
+    &#125;
+
+    public void even()&#123; // 平
+        gameCount++;
+    &#125;
+
+    @Override
+    public String toString()&#123;
+        return &quot;[&quot; + name + &quot;:&quot; + gameCount + &quot; games, &quot;
+                + winCount + &quot; win, &quot; + loseCount + &quot; lose &quot; + &quot;]&quot;;
+    &#125;
+&#125;</code></pre></div><h2 id="6-测试程序行为的类"><a href="#6-测试程序行为的类" class="headerlink" title="6 - 测试程序行为的类"></a>6 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>// 需要提前设置好args的参数
+public class Main &#123;
+    public static void main(String[] args) &#123;
+        if (args.length != 2)&#123;
+            System.out.println(&quot;Usage: java Main randomSeed1 randomSeed2&quot;);
+            System.out.println(&quot;Example: java Main 314 15&quot;);
+            System.exit(0);
+        &#125;
+
+        int seed1 = Integer.parseInt(args[0]);
+        int seed2 = Integer.parseInt(args[1]);
+
+        Player player1 = new Player(&quot;Taro&quot;, new WinningStrategy(seed1));
+        Player player2 = new Player(&quot;Hana&quot;, new ProbStrategy(seed2));
+
+        for (int i = 0; i &lt; 15; i++) &#123;
+            Hand nextHand1 = player1.nextHand();
+            Hand nextHand2 = player2.nextHand();
+            if (nextHand1.isStrongerThan(nextHand2))&#123;
+                System.out.println(&quot;Winner: &quot; + player1);
+                player1.win();
+                player2.lose();
+            &#125;else if (nextHand2.isStrongerThan(nextHand1))&#123;
+                System.out.println(&quot;Winner: &quot; + player2);
+                player2.win();
+                player1.lose();
+            &#125;else &#123;
+                System.out.println(&quot;Even...&quot;);
+                player1.even();
+                player2.even();
+            &#125;
+        &#125;
+
+        System.out.println(&quot;Total result: &quot;);
+        System.out.println(player1.toString());
+        System.out.println(player2.toString());
+    &#125;
+&#125;</code></pre></div><h2 id="7-输出示例"><a href="#7-输出示例" class="headerlink" title="7 - 输出示例"></a>7 - 输出示例</h2><div class="code-wrapper"><pre><code>Winner: [Taro:0 games, 0 win, 0 lose ]
+Winner: [Taro:1 games, 1 win, 0 lose ]
+Even...
+Winner: [Hana:3 games, 0 win, 2 lose ]
+Winner: [Hana:4 games, 1 win, 2 lose ]
+Winner: [Hana:5 games, 2 win, 2 lose ]
+Winner: [Hana:6 games, 3 win, 2 lose ]
+Winner: [Taro:7 games, 2 win, 4 lose ]
+Even...
+Winner: [Hana:9 games, 4 win, 3 lose ]
+Winner: [Taro:10 games, 3 win, 5 lose ]
+Winner: [Taro:11 games, 4 win, 5 lose ]
+Winner: [Hana:12 games, 5 win, 5 lose ]
+Winner: [Hana:13 games, 6 win, 5 lose ]
+Winner: [Taro:14 games, 5 win, 7 lose ]
+Total result: 
+[Taro:15 games, 6 win, 7 lose ]
+[Hana:15 games, 7 win, 6 lose ]</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -3451,6 +3334,89 @@ class TestThread implements Runnable&#123;
       </tags>
   </entry>
   <entry>
+    <title>Java使用缓存流进行文件的复制</title>
+    <url>/2020/09/08/Java%E4%BD%BF%E7%94%A8%E7%BC%93%E5%AD%98%E6%B5%81%E8%BF%9B%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84%E5%A4%8D%E5%88%B6/</url>
+    <content><![CDATA[<h2 id="1-准备要复制的文件路径和复制后的路径"><a href="#1-准备要复制的文件路径和复制后的路径" class="headerlink" title="1- 准备要复制的文件路径和复制后的路径"></a>1- 准备要复制的文件路径和复制后的路径</h2><div class="code-wrapper"><pre><code>private static final String FilePath1 = &quot;D:/测试文件.txt&quot;;
+private static final String FilePath2 = &quot;D:/测试文件_副本.txt&quot;;</code></pre></div><h2 id="2-导入IO库"><a href="#2-导入IO库" class="headerlink" title="2 - 导入IO库"></a>2 - 导入IO库</h2><p>   import java.io.*;</p>
+<h2 id="3-拷贝方法"><a href="#3-拷贝方法" class="headerlink" title="3 - 拷贝方法"></a>3 - 拷贝方法</h2><div class="code-wrapper"><pre><code>/**
+* 使用缓存流拷贝文件
+* @return 拷贝的耗时
+*/
+private static long copyFileByBufferedStream() throws IOException &#123;
+    File file = new File(FilePath1);
+    if (!file.exists())&#123;
+        System.out.println(&quot;文件不存在,复制失败!&quot;);
+    &#125;
+    // 记录开始时间
+    long startTime = System.currentTimeMillis();
+    // 读取的缓存流
+    InputStream inputStream = new FileInputStream(file);
+    BufferedInputStream bInStream = new BufferedInputStream(inputStream);
+    // 写入的缓存流
+    OutputStream outputStream = new FileOutputStream(FilePath2);
+    BufferedOutputStream bOutStream = new BufferedOutputStream(outputStream);
+    // 逐个字节的复制
+    int i = 1; // 读取的临时变量
+    while ((i = bInStream.read()) != -1)&#123;
+        bOutStream.write(i); // 读取一个字节,就写入缓存中!
+    &#125;
+    // 注意,一定要关闭缓存流对象,清空缓冲区,这样才可以复制成功
+    bInStream.close();
+    bOutStream.close();
+    System.out.println(&quot;文件复制成功!&quot;);
+    return System.currentTimeMillis() - startTime;
+&#125;</code></pre></div><p>使用缓存流,在比较大的文件中可以看到明显的效率提升</p>
+<h2 id="4-完整的代码"><a href="#4-完整的代码" class="headerlink" title="4 - 完整的代码"></a>4 - 完整的代码</h2><div class="code-wrapper"><pre><code>import java.io.*;
+
+public class BufferedStreamDemo &#123;
+
+    private static final String FilePath1 = &quot;D:/测试文件.txt&quot;;
+    private static final String FilePath2 = &quot;D:/测试文件_副本.txt&quot;;
+
+    public static void main(String[] args) throws IOException &#123;
+    long time = copyFileByBufferedStream();
+    System.out.println(&quot;拷贝耗时: &quot; + time + &quot;毫秒&quot;;
+    &#125;
+
+    /**
+    * 使用缓存流拷贝文件
+    * @return 拷贝的耗时
+    */
+    private static long copyFileByBufferedStream() throws IOException &#123;
+        File file = new File(FilePath1);
+        if (!file.exists())&#123;
+            System.out.println(&quot;文件不存在,复制失败!&quot;);
+        &#125;
+        // 记录开始时间
+        long startTime = System.currentTimeMillis();
+        // 读取的缓存流
+        InputStream inputStream = new FileInputStream(file);
+        BufferedInputStream bInStream = new BufferedInputStream(inputStream);
+        // 写入的缓存流
+        OutputStream outputStream = new FileOutputStream(FilePath2);
+        BufferedOutputStream bOutStream = new BufferedOutputStream(outputStream);
+        // 逐个字节的复制
+        int i = 1; // 读取的临时变量
+        while ((i = bInStream.read()) != -1)&#123;
+            bOutStream.write(i); // 读取一个字节,就写入缓存中!
+        &#125;
+        // 注意,一定要关闭缓存流对象,清空缓冲区,这样才可以复制成功
+        bInStream.close();
+        bOutStream.close();
+        System.out.println(&quot;文件复制成功!&quot;);
+        return System.currentTimeMillis() - startTime;
+    &#125;
+&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>文件复制成功!
+拷贝耗时: 4019毫秒</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Tool</category>
+      </categories>
+      <tags>
+        <tag>文件复制</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java对象的序列化</title>
     <url>/2020/08/16/Java%E5%AF%B9%E8%B1%A1%E5%BA%8F%E5%88%97%E5%8C%96%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<h2 id="1-对象序列化"><a href="#1-对象序列化" class="headerlink" title="1 - 对象序列化"></a>1 - 对象序列化</h2><p>所谓的对象序列化（在某些书籍中也叫串行化），是指在内存之中保存的对象转化为二进制数据流的形式的一种操作。通过将对象序列化，可以方便地实现对象的传输及保存。但是在Java之中并不是所有的类的对象都可以被序列化，如果一个类对象需要被序列化，则此类一定要实现java. io.Serializable接口。但是这个接口里面也没有定义任何的方法，所以此接口依然属于标识接口，表示一种能力。</p>
@@ -3503,6 +3469,40 @@ class Person implements Serializable&#123;
       <tags>
         <tag>序列化</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Java单例模式Singleton</title>
+    <url>/2020/09/11/Java%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="1-单例类"><a href="#1-单例类" class="headerlink" title="1 -  单例类"></a>1 -  单例类</h2><div class="code-wrapper"><pre><code>public class Singleton &#123;
+    private static Singleton singleton = new Singleton();
+    private Singleton()&#123;
+        System.out.println(&quot;生成了一个实例&quot;);
+    &#125;
+
+    public static Singleton getInstance()&#123;
+        return singleton;
+    &#125;
+&#125;</code></pre></div><p>因为只允许存在一个实例,所以构造函数使用私有权限,可以利用getInstance来获得类的实例.</p>
+<h2 id="2-测试主类"><a href="#2-测试主类" class="headerlink" title="2 - 测试主类"></a>2 - 测试主类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        System.out.println(&quot;Start.&quot;);
+        Singleton obj1 = Singleton.getInstance();
+        Singleton obj2 = Singleton.getInstance();
+        if (obj1 == obj2)&#123;
+            System.out.println(&quot;obj1与obj2有相同的实列&quot;);
+        &#125;else &#123;
+            System.out.println(&quot;obj1与obj2有不同的实列&quot;);
+        &#125;
+        System.out.println(&quot;End.&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="3-输出示例"><a href="#3-输出示例" class="headerlink" title="3 - 输出示例"></a>3 - 输出示例</h2><div class="code-wrapper"><pre><code>Start.
+生成了一个实例
+obj1与obj2有相同的实列
+End.</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
   </entry>
   <entry>
     <title>Java操作MySQL数据库</title>
@@ -4159,6 +4159,69 @@ Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide sh
       </tags>
   </entry>
   <entry>
+    <title>Python使用协程做离散事件仿真</title>
+    <url>/2020/08/28/Python%E4%BD%BF%E7%94%A8%E5%8D%8F%E7%A8%8B%E5%81%9A%E7%A6%BB%E6%95%A3%E4%BA%8B%E4%BB%B6%E4%BB%BF%E7%9C%9F/</url>
+    <content><![CDATA[<h2 id="1-需要导入的库"><a href="#1-需要导入的库" class="headerlink" title="1 - 需要导入的库"></a>1 - 需要导入的库</h2><div class="code-wrapper"><pre><code>import collections
+import queue
+Event = collections.namedtuple(&apos;Event&apos;, &apos;time proc action&apos;)</code></pre></div><h2 id="2-主类和主程序"><a href="#2-主类和主程序" class="headerlink" title="2 - 主类和主程序"></a>2 - 主类和主程序</h2><div class="code-wrapper"><pre><code>def taxi_process(ident, trips, start_time=0):
+    &quot;&quot;&quot;每次改变状态时创建事件,把控制权让给仿真器&quot;&quot;&quot;
+    time = yield Event(start_time, ident, &apos;leave garage&apos;)
+    for i in range(trips):
+        time = yield Event(time, ident, &apos;pick up passenger&apos;)
+        time = yield Event(time, ident, &apos;drop off passenger&apos;)
+    yield Event(time, ident, &apos;going home&apos;)
+    # 出租车进程结束
+
+def compute_duration(previous_action):
+    print()
+    # 未完成功能
+    pass
+
+class Simulator:
+def __init__(self, procs_map):
+    self.events = queue.PriorityQueue()
+    self.procs = dict(procs_map)
+
+def run(self, end_time):
+    &quot;&quot;&quot;排定并显示事件,直到时间结束&quot;&quot;&quot;
+
+    # 排定各俩出租车的第一个事件
+    for _, proc in sorted(self.procs.items()):
+        first_event = next(proc)
+        self.events.put(first_event)
+
+    # 这个仿真系统的主循环
+    sim_time = 0
+    while sim_time &lt; end_time:
+        if self.events.empty():
+            print(&apos;*** end of events ***&apos;)
+            break
+        current_event = self.events.get()
+        sim_time, proc_id, previous_action = current_event
+        print(&apos;taxi: &apos;, proc_id, proc_id * &apos; &apos;, current_event)
+        active_proc = self.procs[proc_id]
+        next_time = sim_time + compute_duration(previous_action)
+
+        try:
+            next_event = active_proc.send(next_time)
+        except StopIteration:
+            del self.procs[proc_id]
+        else:
+            self.events.put(next_event)
+    else:
+        msg = &apos;*** end of simulation time:&#123;&#125; events pending ***&apos;
+        print(msg.format(self.events.qsize()))</code></pre></div><h2 id="3-启动函数"><a href="#3-启动函数" class="headerlink" title="3 - 启动函数"></a>3 - 启动函数</h2><div class="code-wrapper"><pre><code>if __name__ == &apos;__main__&apos;:
+    taxi = taxi_process(ident=13, trips=2, start_time=0)
+    print(next(taxi))
+    print(taxi.send(_.time + 7))</code></pre></div>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>出租车队运营仿真</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python使用@property装饰器</title>
     <url>/2020/09/09/Python%E4%BD%BF%E7%94%A8%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
     <content><![CDATA[<h3 id="1-1-这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2-property装饰读值方法。3-实现特性的方法，其名称都与公开属性的名称一样——weight。4-真正的值存储在私有属性-weight中"><a href="#1-1-这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2-property装饰读值方法。3-实现特性的方法，其名称都与公开属性的名称一样——weight。4-真正的值存储在私有属性-weight中" class="headerlink" title="1 - 1 这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2@property装饰读值方法。3 实现特性的方法，其名称都与公开属性的名称一样——weight。4 真正的值存储在私有属性__weight中"></a>1 - 1 这里已经使用特性的设值方法了，确保所创建实例的weight属性不能为负值。2@property装饰读值方法。3 实现特性的方法，其名称都与公开属性的名称一样——weight。4 真正的值存储在私有属性__weight中</h3><div class="code-wrapper"><pre><code>class LineItem:
@@ -4252,69 +4315,6 @@ def validate(self, instance, value):
       <categories>
         <category>Python</category>
       </categories>
-  </entry>
-  <entry>
-    <title>Python使用协程做离散事件仿真</title>
-    <url>/2020/08/28/Python%E4%BD%BF%E7%94%A8%E5%8D%8F%E7%A8%8B%E5%81%9A%E7%A6%BB%E6%95%A3%E4%BA%8B%E4%BB%B6%E4%BB%BF%E7%9C%9F/</url>
-    <content><![CDATA[<h2 id="1-需要导入的库"><a href="#1-需要导入的库" class="headerlink" title="1 - 需要导入的库"></a>1 - 需要导入的库</h2><div class="code-wrapper"><pre><code>import collections
-import queue
-Event = collections.namedtuple(&apos;Event&apos;, &apos;time proc action&apos;)</code></pre></div><h2 id="2-主类和主程序"><a href="#2-主类和主程序" class="headerlink" title="2 - 主类和主程序"></a>2 - 主类和主程序</h2><div class="code-wrapper"><pre><code>def taxi_process(ident, trips, start_time=0):
-    &quot;&quot;&quot;每次改变状态时创建事件,把控制权让给仿真器&quot;&quot;&quot;
-    time = yield Event(start_time, ident, &apos;leave garage&apos;)
-    for i in range(trips):
-        time = yield Event(time, ident, &apos;pick up passenger&apos;)
-        time = yield Event(time, ident, &apos;drop off passenger&apos;)
-    yield Event(time, ident, &apos;going home&apos;)
-    # 出租车进程结束
-
-def compute_duration(previous_action):
-    print()
-    # 未完成功能
-    pass
-
-class Simulator:
-def __init__(self, procs_map):
-    self.events = queue.PriorityQueue()
-    self.procs = dict(procs_map)
-
-def run(self, end_time):
-    &quot;&quot;&quot;排定并显示事件,直到时间结束&quot;&quot;&quot;
-
-    # 排定各俩出租车的第一个事件
-    for _, proc in sorted(self.procs.items()):
-        first_event = next(proc)
-        self.events.put(first_event)
-
-    # 这个仿真系统的主循环
-    sim_time = 0
-    while sim_time &lt; end_time:
-        if self.events.empty():
-            print(&apos;*** end of events ***&apos;)
-            break
-        current_event = self.events.get()
-        sim_time, proc_id, previous_action = current_event
-        print(&apos;taxi: &apos;, proc_id, proc_id * &apos; &apos;, current_event)
-        active_proc = self.procs[proc_id]
-        next_time = sim_time + compute_duration(previous_action)
-
-        try:
-            next_event = active_proc.send(next_time)
-        except StopIteration:
-            del self.procs[proc_id]
-        else:
-            self.events.put(next_event)
-    else:
-        msg = &apos;*** end of simulation time:&#123;&#125; events pending ***&apos;
-        print(msg.format(self.events.qsize()))</code></pre></div><h2 id="3-启动函数"><a href="#3-启动函数" class="headerlink" title="3 - 启动函数"></a>3 - 启动函数</h2><div class="code-wrapper"><pre><code>if __name__ == &apos;__main__&apos;:
-    taxi = taxi_process(ident=13, trips=2, start_time=0)
-    print(next(taxi))
-    print(taxi.send(_.time + 7))</code></pre></div>]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>出租车队运营仿真</tag>
-      </tags>
   </entry>
   <entry>
     <title>Python关于迭代器和生成器</title>
@@ -4502,6 +4502,24 @@ dance_process.start()</code></pre></div>]]></content>
       </tags>
   </entry>
   <entry>
+    <title>Python操控Mysql数据库</title>
+    <url>/2020/07/22/Python%E6%93%8D%E6%8E%A7Mysql%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+    <content><![CDATA[<h2 id="1-首先导入所需要的包"><a href="#1-首先导入所需要的包" class="headerlink" title="1. 首先导入所需要的包"></a>1. 首先导入所需要的包</h2><div class="code-wrapper"><pre><code>import pymysql</code></pre></div><h2 id="2-链接mysql数据库服务"><a href="#2-链接mysql数据库服务" class="headerlink" title="2. 链接mysql数据库服务"></a>2. 链接mysql数据库服务</h2><div class="code-wrapper"><pre><code>connc = pymysql.Connect(
+# 默认只写用户名和密码以及数据库名称就足够了
+user=&apos;root&apos;,
+password=&quot;password&quot;,
+database=&apos;mydatabase&apos;,
+)</code></pre></div><h2 id="3-创建游标对象"><a href="#3-创建游标对象" class="headerlink" title="3. 创建游标对象"></a>3. 创建游标对象</h2><div class="code-wrapper"><pre><code>cur = connc.cursor()</code></pre></div><h2 id="4-编写SQL语句"><a href="#4-编写SQL语句" class="headerlink" title="4. 编写SQL语句"></a>4. 编写SQL语句</h2><div class="code-wrapper"><pre><code>sql = &apos;select * from students&apos;</code></pre></div><h2 id="5-使用游标对象去调用SQL"><a href="#5-使用游标对象去调用SQL" class="headerlink" title="5. 使用游标对象去调用SQL"></a>5. 使用游标对象去调用SQL</h2><div class="code-wrapper"><pre><code>cur.execute(sql)</code></pre></div><h2 id="6-获取查询结果并打印"><a href="#6-获取查询结果并打印" class="headerlink" title="6. 获取查询结果并打印"></a>6. 获取查询结果并打印</h2><div class="code-wrapper"><pre><code>result = cur.fetchall()
+print(result)</code></pre></div><h2 id="7-关闭游标和链接对象"><a href="#7-关闭游标和链接对象" class="headerlink" title="7. 关闭游标和链接对象"></a>7. 关闭游标和链接对象</h2><div class="code-wrapper"><pre><code>cur.close()
+connc.close()</code></pre></div>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python实现实时动态曲线</title>
     <url>/2021/04/09/Python%E5%AE%9E%E7%8E%B0%E5%AE%9E%E6%97%B6%E5%8A%A8%E6%80%81%E6%9B%B2%E7%BA%BF/</url>
     <content><![CDATA[<h2 id="1-效果展示"><a href="#1-效果展示" class="headerlink" title="1, 效果展示"></a>1, 效果展示</h2><p><img src="/2021/04/09/Python%E5%AE%9E%E7%8E%B0%E5%AE%9E%E6%97%B6%E5%8A%A8%E6%80%81%E6%9B%B2%E7%BA%BF/image-20210409214308795.png" alt="image-20210409214308795"></p>
@@ -4562,24 +4580,6 @@ app.exec_()</code></pre></div>]]></content>
       </categories>
       <tags>
         <tag>visualization</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python操控Mysql数据库</title>
-    <url>/2020/07/22/Python%E6%93%8D%E6%8E%A7Mysql%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
-    <content><![CDATA[<h2 id="1-首先导入所需要的包"><a href="#1-首先导入所需要的包" class="headerlink" title="1. 首先导入所需要的包"></a>1. 首先导入所需要的包</h2><div class="code-wrapper"><pre><code>import pymysql</code></pre></div><h2 id="2-链接mysql数据库服务"><a href="#2-链接mysql数据库服务" class="headerlink" title="2. 链接mysql数据库服务"></a>2. 链接mysql数据库服务</h2><div class="code-wrapper"><pre><code>connc = pymysql.Connect(
-# 默认只写用户名和密码以及数据库名称就足够了
-user=&apos;root&apos;,
-password=&quot;password&quot;,
-database=&apos;mydatabase&apos;,
-)</code></pre></div><h2 id="3-创建游标对象"><a href="#3-创建游标对象" class="headerlink" title="3. 创建游标对象"></a>3. 创建游标对象</h2><div class="code-wrapper"><pre><code>cur = connc.cursor()</code></pre></div><h2 id="4-编写SQL语句"><a href="#4-编写SQL语句" class="headerlink" title="4. 编写SQL语句"></a>4. 编写SQL语句</h2><div class="code-wrapper"><pre><code>sql = &apos;select * from students&apos;</code></pre></div><h2 id="5-使用游标对象去调用SQL"><a href="#5-使用游标对象去调用SQL" class="headerlink" title="5. 使用游标对象去调用SQL"></a>5. 使用游标对象去调用SQL</h2><div class="code-wrapper"><pre><code>cur.execute(sql)</code></pre></div><h2 id="6-获取查询结果并打印"><a href="#6-获取查询结果并打印" class="headerlink" title="6. 获取查询结果并打印"></a>6. 获取查询结果并打印</h2><div class="code-wrapper"><pre><code>result = cur.fetchall()
-print(result)</code></pre></div><h2 id="7-关闭游标和链接对象"><a href="#7-关闭游标和链接对象" class="headerlink" title="7. 关闭游标和链接对象"></a>7. 关闭游标和链接对象</h2><div class="code-wrapper"><pre><code>cur.close()
-connc.close()</code></pre></div>]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -6123,6 +6123,18 @@ struct node *next;
 </ul>
 <h2 id="第59条：使用动态程序分析工具"><a href="#第59条：使用动态程序分析工具" class="headerlink" title="第59条：使用动态程序分析工具"></a>第59条：使用动态程序分析工具</h2><p>用动态程序分析工具来寻找代码运行过程中的实际问题。</p>
 <h1 id="第8章-调试多线程的代码"><a href="#第8章-调试多线程的代码" class="headerlink" title="第8章 调试多线程的代码"></a>第8章 调试多线程的代码</h1><h2 id="第60条：通过事后调试来分析死锁问题"><a href="#第60条：通过事后调试来分析死锁问题" class="headerlink" title="第60条：通过事后调试来分析死锁问题"></a>第60条：通过事后调试来分析死锁问题</h2><p>要想调试死锁问题，就应该对死锁的程序做一份快照，看看究竟有哪些线程和代码，在争夺同一套资源时陷入了僵局。</p>
+<h2 id="第61条：捕获并重现"><a href="#第61条：捕获并重现" class="headerlink" title="第61条：捕获并重现"></a>第61条：捕获并重现</h2><p> 要想探查那种带有不确定因素的并发错误，首先应该把有问题的执行过程记录下来，然后对记录到的信息进行分析，接下来根据捕获到的记录文件，在调试器里面对程序的执行过程进行重放。</p>
+<h2 id="第62条：用专门的工具来探查死锁与竞争条件问题"><a href="#第62条：用专门的工具来探查死锁与竞争条件问题" class="headerlink" title="第62条：用专门的工具来探查死锁与竞争条件问题"></a>第62条：用专门的工具来探查死锁与竞争条件问题</h2><ul>
+<li>用静态分析工具来梳理多线程代码，以寻找有可能发生的同步及锁定错误。</li>
+<li>用动态分析工具来运行多线程代码，以寻找对API的误用现象，以及潜在的死锁与数据竞争问题。</li>
+</ul>
+<h2 id="第63条：把不确定的因素隔离出来，或将其移除"><a href="#第63条：把不确定的因素隔离出来，或将其移除" class="headerlink" title="第63条：把不确定的因素隔离出来，或将其移除"></a>第63条：把不确定的因素隔离出来，或将其移除</h2><ul>
+<li>把并发代码与其他代码隔开，使我们能够分别针对这两个方面来运用最为合适的调试工具与调试技术。</li>
+<li>创建一份专供测试与调试所用的配置方案，并通过模拟对象等技术，把代码的行为固定下来，从而令程序在每次执行的时候，都能够展示出同样的效果。</li>
+</ul>
+<h2 id="第64条：检查资源争用情况，以解决与可伸缩性有关的问题"><a href="#第64条：检查资源争用情况，以解决与可伸缩性有关的问题" class="headerlink" title="第64条：检查资源争用情况，以解决与可伸缩性有关的问题"></a>第64条：检查资源争用情况，以解决与可伸缩性有关的问题</h2><p>用profiling工具来探查引发竞争现象的原因，以解决多线程代码中与可伸缩性有关的问题。</p>
+<h2 id="第65条：用性能计数器寻找伪共享问题"><a href="#第65条：用性能计数器寻找伪共享问题" class="headerlink" title="第65条：用性能计数器寻找伪共享问题"></a>第65条：用性能计数器寻找伪共享问题</h2><p>用profiling工具来监控性能计数器，以寻找并解决程序中的伪共享问题。</p>
+<h2 id="第66条：考虑用更为高级的抽象机制来重写代码"><a href="#第66条：考虑用更为高级的抽象机制来重写代码" class="headerlink" title="第66条：考虑用更为高级的抽象机制来重写代码"></a>第66条：考虑用更为高级的抽象机制来重写代码</h2><p>为了避开并发方面的问题，可以考虑用特殊的编程语言、处理流程、工具、框架或程序库等更为高级的办法来重新实现那些含有bug的并发代码。</p>
 ]]></content>
       <categories>
         <category>Technical</category>
