@@ -15,8 +15,34 @@
     <atom:link href="https://pncalbl.github.io/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
-    <pubDate>Sun, 05 Sep 2021 01:41:59 GMT</pubDate>
+    <pubDate>Sun, 17 Oct 2021 13:35:33 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>2021大三第一学期第7周总结</title>
+      <link>https://pncalbl.github.io/2021/10/17/2021%E5%A4%A7%E4%B8%89%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%AC%AC7%E5%91%A8%E6%80%BB%E7%BB%93/</link>
+      <guid>https://pncalbl.github.io/2021/10/17/2021%E5%A4%A7%E4%B8%89%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%AC%AC7%E5%91%A8%E6%80%BB%E7%BB%93/</guid>
+      <pubDate>Sat, 16 Oct 2021 16:00:00 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;2021大三第一学期-第7周总结&quot;&gt;&lt;a href=&quot;#2021大三第一学期-第7周总结&quot; class=&quot;headerlink&quot; title=&quot;2021大三第一学期 第7周总结&quot;&gt;&lt;/a&gt;2021大三第一学期 第7周总结&lt;/h1&gt;&lt;h2 id=&quot;学习&quot;&gt;&lt;a hr</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<h1 id="2021大三第一学期-第7周总结"><a href="#2021大三第一学期-第7周总结" class="headerlink" title="2021大三第一学期 第7周总结"></a>2021大三第一学期 第7周总结</h1><h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><ul><li>计算机英语的进一步学习，Verilog-FPGA 的实验和控制逻辑。</li><li>嵌入式系统的进一步学习，数据库的 SQL 语句的学习。</li></ul><h2 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h2><ul><li>继续完善 coin-exchange 货币交易平台，完成主体项目搭建，完成公共模块和网关与授权等基础服务的搭建。</li><li>完善我的博客项目，进一步丰富博客的内容生态。</li></ul><h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><ul><li>阅读 《垃圾回收的算法与实现》，《Effective Debugging》，《Jenkins 2.x实践指南》，《Go语言高级编程》，《软技能2：软件开发者职业生涯指南》，《剑指Offer》。</li><li>阅读《基督山伯爵（全集）》，《安娜·卡列尼娜（经典译林）》，《战争与和平（全集）》，《小王子（英文版）》，《格列佛游记:Gulliver’s Travels（英文版）》。</li></ul>]]></content:encoded>
+      
+      
+      <category domain="https://pncalbl.github.io/categories/Technical/">Technical</category>
+      
+      <category domain="https://pncalbl.github.io/categories/Technical/Weekly/">Weekly</category>
+      
+      
+      
+      <comments>https://pncalbl.github.io/2021/10/17/2021%E5%A4%A7%E4%B8%89%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%AC%AC7%E5%91%A8%E6%80%BB%E7%BB%93/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>Chocolatey Note</title>
@@ -563,36 +589,6 @@
       
       
       <comments>https://pncalbl.github.io/2021/05/01/Docker%E5%AD%A6%E4%B9%A0/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>Liunx 配置静态IP</title>
-      <link>https://pncalbl.github.io/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/</link>
-      <guid>https://pncalbl.github.io/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/</guid>
-      <pubDate>Thu, 29 Apr 2021 16:00:00 GMT</pubDate>
-      
-        
-        
-      <description>&lt;h1 id=&quot;Liunx-配置静态IP-基于CentOS-7&quot;&gt;&lt;a href=&quot;#Liunx-配置静态IP-基于CentOS-7&quot; class=&quot;headerlink&quot; title=&quot;Liunx 配置静态IP (基于CentOS  7)&quot;&gt;&lt;/a&gt;Liunx 配置静态IP (</description>
-        
-      
-      
-      
-      <content:encoded><![CDATA[<h1 id="Liunx-配置静态IP-基于CentOS-7"><a href="#Liunx-配置静态IP-基于CentOS-7" class="headerlink" title="Liunx 配置静态IP (基于CentOS  7)"></a>Liunx 配置静态IP (基于CentOS  7)</h1><blockquote><p>  只要Vmware的虚拟网络编辑器配置好, 其他liunx系统配置基本一样, 只是有些命令不同而已</p></blockquote><h2 id="1-原理"><a href="#1-原理" class="headerlink" title="1 原理"></a>1 原理</h2><ul><li>先看看虚拟机和主机连接的条件：</li></ul><ul><li>需要主机的Vmware8的ip、Vmware8网关ip、虚拟机(centOs)网卡eth0的ip在同一网段下，如图（都是192.168.145.x）：</li></ul><p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/20201201012406421.png" alt="img"></p><p>图片来自网络, 侵权请联系<a href="pncalbl@qq.com">author</a>删除</p><ul><li>一般地，如果虚拟机与主机通信走的是虚线，访问外网则走的实线，其控制程序在虚拟机网关设备中实现</li></ul><ul><li>但是，一般由于工作环境的变化，导致网络的改变，有时候会导致虚拟机网段改变，从而与主机连不通，在CentOs下使用ifconfig发现ens33 ip不再192.168.145这个段上，这时，重置eth0的ip即可，方法：ifconfig ens33 192.168.145.xxx</li></ul><h2 id="2-修改虚拟机网络编辑器"><a href="#2-修改虚拟机网络编辑器" class="headerlink" title="2 修改虚拟机网络编辑器"></a>2 修改虚拟机网络编辑器</h2><ul><li><p>点击 编辑-&gt;虚拟机网络编辑器</p><p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430180711181.png" alt="image-20210430180711181"></p><p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430181747517.png" alt="image-20210430181747517"></p></li></ul><p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430181845286.png" alt="image-20210430181845286"></p><ul><li><p>如果子网不对, 可以还原默认设置</p><p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430182036414.png" alt="image-20210430182036414"></p></li></ul><h2 id="3-更改网络适配器"><a href="#3-更改网络适配器" class="headerlink" title="3 更改网络适配器"></a>3 更改网络适配器</h2><blockquote><p>  VMware Virtual Ethernet Adapter for VMnet8 (NAT)</p></blockquote><ul><li><p>点击IPv4</p><p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430190450485.png" alt="image-20210430190450485"></p></li><li><p>修改</p><p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430190551654.png" alt="image-20210430190551654"></p></li></ul><h2 id="4-修改ens33"><a href="#4-修改ens33" class="headerlink" title="4 修改ens33"></a>4 修改ens33</h2><ul><li><p>进入 网卡配置</p><ul><li><p>centOS</p><div class="code-wrapper"><pre><code class="hljs awk">vim <span class="hljs-regexp">/etc/</span>sysconfig<span class="hljs-regexp">/network-scripts/i</span>fcfg-ens33</code></pre></div></li><li><p>ubunto</p><div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">gedit</span> /etc/netplan/<span class="hljs-number">01</span>-network-manager-<span class="hljs-literal">all</span>.yaml</code></pre></div></li></ul></li><li><p>修改参数</p><ul><li><p>centOS</p><div class="code-wrapper"><pre><code class="hljs ini"><span class="hljs-attr">HWADDR</span>=<span class="hljs-number">00</span>:<span class="hljs-number">0</span>C:<span class="hljs-number">29</span>:<span class="hljs-number">0</span>D:<span class="hljs-number">73</span>:CF<span class="hljs-attr">TYPE</span>=Ethernet<span class="hljs-attr">PROXY_METHOD</span>=none<span class="hljs-attr">BROWSER_ONLY</span>=<span class="hljs-literal">no</span><span class="hljs-attr">BOOTPROTO</span>=static<span class="hljs-comment"># 静态IP</span><span class="hljs-attr">DEFROUTE</span>=<span class="hljs-literal">yes</span><span class="hljs-attr">IPV4_FAILURE_FATAL</span>=<span class="hljs-literal">no</span><span class="hljs-attr">IPV6INIT</span>=<span class="hljs-literal">yes</span><span class="hljs-attr">IPV6_AUTOCONF</span>=<span class="hljs-literal">yes</span><span class="hljs-attr">IPV6_DEFROUTE</span>=<span class="hljs-literal">yes</span><span class="hljs-attr">IPV6_FAILURE_FATAL</span>=<span class="hljs-literal">no</span><span class="hljs-attr">IPV6_ADDR_GEN_MODE</span>=stable-privacy<span class="hljs-attr">NAME</span>=ens33<span class="hljs-attr">UUID</span>=<span class="hljs-number">13000</span>fee-<span class="hljs-number">503</span>a-<span class="hljs-number">350</span>c-<span class="hljs-number">9462</span>-d70dd1ede195<span class="hljs-attr">ONBOOT</span>=<span class="hljs-literal">yes</span><span class="hljs-comment">#开机启用本配置</span><span class="hljs-attr">AUTOCONNECT_PRIORITY</span>=-<span class="hljs-number">999</span><span class="hljs-attr">IPADDR</span>=ipv4<span class="hljs-comment">#ipv4</span><span class="hljs-attr">PREFIX</span>=<span class="hljs-number">24</span><span class="hljs-attr">GATEWAY</span>=网关 <span class="hljs-comment">#网关</span><span class="hljs-attr">DNS1</span>=<span class="hljs-number">119.29</span>.<span class="hljs-number">29.29</span><span class="hljs-comment"># 域名解析</span></code></pre></div></li><li><p>ubunto</p><div class="code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">network:</span>  <span class="hljs-attr">version:</span> <span class="hljs-number">2</span>  <span class="hljs-attr">renderer:</span> <span class="hljs-string">NetworkManager</span>  <span class="hljs-attr">ethernets:</span>          <span class="hljs-attr">ens33:</span>                  <span class="hljs-attr">dhcp4:</span> <span class="hljs-literal">no</span>                  <span class="hljs-attr">dhcp6:</span> <span class="hljs-literal">no</span>                  <span class="hljs-attr">addresses:</span> [<span class="hljs-string">ipv4</span>]                  <span class="hljs-attr">gateway4:</span> <span class="hljs-string">网关</span>                  <span class="hljs-attr">nameservers:</span>                          <span class="hljs-attr">addresses:</span> [<span class="hljs-number">119.29</span><span class="hljs-number">.29</span><span class="hljs-number">.29</span>, <span class="hljs-number">8.8</span><span class="hljs-number">.8</span><span class="hljs-number">.8</span>]</code></pre></div></li></ul></li><li><p>重启网络服务</p><div class="code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">service network restart</span></code></pre></div></li><li><p>查看ip</p><div class="code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">ifconfig</span></code></pre></div></li><li><p>测试</p><div class="code-wrapper"><pre><code class="hljs autoit"><span class="hljs-built_in">ping</span> www.baidu.com</code></pre></div></li></ul>]]></content:encoded>
-      
-      
-      <category domain="https://pncalbl.github.io/categories/Help/">Help</category>
-      
-      <category domain="https://pncalbl.github.io/categories/Help/Linux/">Linux</category>
-      
-      
-      <category domain="https://pncalbl.github.io/tags/Linux/">Linux</category>
-      
-      <category domain="https://pncalbl.github.io/tags/%E9%9D%99%E6%80%81IP/">静态IP</category>
-      
-      
-      <comments>https://pncalbl.github.io/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/#disqus_thread</comments>
       
     </item>
     

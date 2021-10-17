@@ -183,6 +183,67 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2020/08/26/Python%E7%88%AC%E8%99%AB%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" target="_self">
+          Python爬虫的简单使用
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/08/26/Python%E7%88%AC%E8%99%AB%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" target="_self">
+          
+          
+            
+          
+          1 - 导入所需要的库# 时间库 
+import time
+
+# 获取网页请求的库
+import requests
+# 解析网页数据的库
+from lxml import html
+# 抵御反爬虫的用户申请头的库
+from fake_useragent import UserAgent2 - 两个主要的爬取函数2.1 获取请求页的text对象# 参数为需要请求网页的url
+# 本例中url = h
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-08-26 00:00" pubdate>
+              2020-08-26
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Python/">Python</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%88%AC%E8%99%AB/">爬虫</a>
+            
+              <a href="/tags/%E8%B1%86%E7%93%A3-250/">豆瓣 250</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/08/24/Python%E5%85%B3%E4%BA%8E%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" target="_self">
           Python关于迭代器和生成器
         </a>
@@ -693,55 +754,6 @@ def dance():
               <a href="/tags/%E7%BB%99%E7%BC%96%E8%AF%91%E5%99%A8%E7%9C%8B%E7%9A%84%E6%B3%A8%E9%87%8A/">给编译器看的注释</a>
             
           </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/08/06/%E8%A6%86%E5%86%99Python%E7%9A%84%E5%86%85%E7%BD%AE%E6%96%B9%E6%B3%95/" target="_self">
-          覆写Python的内置方法
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/08/06/%E8%A6%86%E5%86%99Python%E7%9A%84%E5%86%85%E7%BD%AE%E6%96%B9%E6%B3%95/" target="_self">
-          
-          
-            
-          
-          1.我们可以通过覆写类的内置方法str，来控制print()函数的打印格式class Point:
-&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
-def __init__(self, x=0, y=0):
-    self.x = x
-    self.y = y
-def __str__(self):
-    return &quot;&lt;&#123;&
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-08-06 00:00" pubdate>
-              2020-08-06
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Python/">Python</a>
-            
-          </div>
-        
         
       </div>
     </article>
