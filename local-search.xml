@@ -4,6 +4,27 @@
   
   
   <entry>
+    <title>2021大三第一学期第9周总结</title>
+    <link href="/2021/10/31/2021%E5%A4%A7%E4%B8%89%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%AC%AC9%E5%91%A8%E6%80%BB%E7%BB%93/"/>
+    <url>/2021/10/31/2021%E5%A4%A7%E4%B8%89%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%AC%AC9%E5%91%A8%E6%80%BB%E7%BB%93/</url>
+    
+    <content type="html"><![CDATA[<h1 id="2021大三第一学期-第9周总结"><a href="#2021大三第一学期-第9周总结" class="headerlink" title="2021大三第一学期 第9周总结"></a>2021大三第一学期 第9周总结</h1><h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><ul><li>计算机英语的进一步学习，Verilog-FPGA 的实验和控制逻辑。</li><li>嵌入式系统的进一步学习，数据库的安全控制的学习。</li></ul><h2 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h2><ul><li>继续完善 coin-exchange 货币交易平台，会员系统的登录功能实现。</li><li>完善我的博客项目，进一步丰富博客的内容生态。</li><li>投递实习简历。</li></ul><h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><ul><li>阅读《软技能2：软件开发者职业生涯指南》，《 Spark 编程基础》，《Spring 源码深度解析》。</li><li>阅读《太阳照常升起）》，《80天环游地球》，《安娜·卡列尼娜》。</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>Technical</category>
+      
+      <category>Weekly</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Spring 源码学习</title>
     <link href="/2021/10/29/Spring%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/"/>
     <url>/2021/10/29/Spring%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/</url>
@@ -16,6 +37,27 @@
       <category>Java</category>
       
       <category>Spring</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>2021大三第一学期第8周总结</title>
+    <link href="/2021/10/24/2021%E5%A4%A7%E4%B8%89%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%AC%AC8%E5%91%A8%E6%80%BB%E7%BB%93/"/>
+    <url>/2021/10/24/2021%E5%A4%A7%E4%B8%89%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%AC%AC8%E5%91%A8%E6%80%BB%E7%BB%93/</url>
+    
+    <content type="html"><![CDATA[<h1 id="2021大三第一学期-第8周总结"><a href="#2021大三第一学期-第8周总结" class="headerlink" title="2021大三第一学期 第8周总结"></a>2021大三第一学期 第8周总结</h1><h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><ul><li>计算机英语的进一步学习，Verilog-FPGA 的实验和控制逻辑。</li><li>嵌入式系统的进一步学习，数据库的  View 语句的学习。</li></ul><h2 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h2><ul><li>继续完善 coin-exchange 货币交易平台，完成后台管理模块开发。</li><li>完善我的博客项目，进一步丰富博客的内容生态。</li><li>完善实习简历。</li></ul><h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><ul><li>阅读 《垃圾回收的算法与实现》，《Go语言高级编程》，《软技能2：软件开发者职业生涯指南》，《剑指Offer》。</li><li>阅读《基督山伯爵（全集）》，《安娜·卡列尼娜（经典译林）》，《战争与和平（全集）》。</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>Technical</category>
+      
+      <category>Weekly</category>
       
     </categories>
     
@@ -1699,9 +1741,9 @@
     
     <tags>
       
-      <tag>多进程</tag>
-      
       <tag>并发</tag>
+      
+      <tag>多进程</tag>
       
     </tags>
     

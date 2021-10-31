@@ -183,6 +183,108 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2020/10/16/JavaInterpreter%E6%A8%A1%E5%BC%8F/" target="_self">
+          JavaInterpreter模式
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/10/16/JavaInterpreter%E6%A8%A1%E5%BC%8F/" target="_self">
+          
+          
+            
+          
+          
+  语法规则也是类
+
+1 - 表示语法树”节点”的类public abstract class Node &#123;
+    public abstract void parse(Context context) throws ParseException;
+&#125;2 - 对应program的类// &lt;program&gt; ::= program &lt;command list
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-10-16 00:00" pubdate>
+              2020-10-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/10/13/JavaCommand%E6%A8%A1%E5%BC%8F/" target="_self">
+          JavaCommand模式
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/10/13/JavaCommand%E6%A8%A1%E5%BC%8F/" target="_self">
+          
+          
+            
+          
+          
+  命令也是类
+
+1 - 表示”命令”的接口public interface Command &#123;
+    public abstract void execute();
+&#125;2 - 表示”由多条命令整合成的命令”的类public class MacroCommand implements Command&#123;
+    // 命令的集合
+    private Stack&
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-10-13 00:00" pubdate>
+              2020-10-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/10/11/JavaProxy%E6%A8%A1%E5%BC%8F/" target="_self">
           JavaProxy模式
         </a>
@@ -594,113 +696,11 @@ public class Database &#123;
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/09/22/JavaVisitor%E6%A8%A1%E5%BC%8F/" target="_self">
-          JavaVisitor模式
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/09/22/JavaVisitor%E6%A8%A1%E5%BC%8F/" target="_self">
-          
-          
-            
-          
-          
-  访问数据结构并处理数据
-
-1 - 表示访问者的抽象类, 它访问文件和文件夹public abstract class Visitor &#123;
-    public abstract void visit(File file);
-    public abstract void visit(Directory directory);
-&#125;2 - 表示数据结构的接口, 它接受访问者
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-09-22 00:00" pubdate>
-              2020-09-22
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/09/20/JavaComposite%E6%A8%A1%E5%BC%8F/" target="_self">
-          JavaComposite模式
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/09/20/JavaComposite%E6%A8%A1%E5%BC%8F/" target="_self">
-          
-          
-            
-          
-          
-  容器与内容的一致性
-
-1- 抽象类, 用来实现File类和Directory类的一致性public abstract class Entry &#123;
-    public abstract String getName();   // 获取名字
-    public abstract int getSize();      // 获取大小
-    public Entry add(En
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-09-20 00:00" pubdate>
-              2020-09-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/4/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/#board">6</a><a class="page-number" href="/page/7/#board">7</a><a class="page-number" href="/page/8/#board">8</a><a class="extend next" rel="next" href="/page/6/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/4/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/#board">6</a><a class="page-number" href="/page/7/#board">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/#board">9</a><a class="extend next" rel="next" href="/page/6/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
