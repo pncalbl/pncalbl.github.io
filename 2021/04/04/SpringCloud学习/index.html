@@ -191,7 +191,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      55k 字
+      55.1k 字
     </span>
   
 
@@ -201,7 +201,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      791
+      792
        分钟
     </span>
   
@@ -235,7 +235,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 分钟前
+                  本文最后更新于：4 分钟前
                 
               </p>
             
@@ -851,7 +851,7 @@
 <ul>
 <li>服务降级</li>
 <li>服务熔断</li>
-<li>接近实对的监控</li>
+<li>接近实时的监控</li>
 <li>…</li>
 </ul>
 </li>
@@ -1053,22 +1053,17 @@
 <li><p><strong>测试</strong></p>
 <ul>
 <li>启动eureka7001</li>
+<li>启动cloud-provider-hystrix-payment8001</li>
+<li>访问<ul>
+<li>success的方法 - <a target="_blank" rel="noopener" href="http://localhost:8001/payment/hystrix/ok/1">http://localhost:8001/payment/hystrix/ok/1</a></li>
+<li>每次调用耗费5秒钟 - <a target="_blank" rel="noopener" href="http://localhost:8001/payment/hystrix/timeout/1">http://localhost:8001/payment/hystrix/timeout/1</a></li>
+</ul>
+</li>
+<li>以上述为根基平台，从正确 -&gt; 错误 -&gt; 降级熔断 -&gt; 恢复。</li>
 </ul>
 </li>
 </ol>
-<div class="code-wrapper"><pre><code>-   启动cloud-provider-hystrix-payment8001
-
-
--   访问
-
-
--   success的方法 - http://localhost:8001/payment/hystrix/ok/1
--   每次调用耗费5秒钟 - http://localhost:8001/payment/hystrix/timeout/1
-
--   上述module均OK
-
-
--   以上述为根基平台，从正确 -&gt; 错误 -&gt; 降级熔断 -&gt; 恢复。</code></pre></div><h3 id="3-5-JMeter高并发压测后卡顿"><a href="#3-5-JMeter高并发压测后卡顿" class="headerlink" title="3.5 JMeter高并发压测后卡顿"></a>3.5 JMeter高并发压测后卡顿</h3><p><strong>上述在非高并发情形下，还能勉强满足</strong></p>
+<h3 id="3-5-JMeter高并发压测后卡顿"><a href="#3-5-JMeter高并发压测后卡顿" class="headerlink" title="3.5 JMeter高并发压测后卡顿"></a>3.5 JMeter高并发压测后卡顿</h3><p><strong>上述在非高并发情形下，还能勉强满足</strong></p>
 <p><strong>Jmeter压测测试</strong></p>
 <p><a target="_blank" rel="noopener" href="https://jmeter.apache.org/index.html">JMeter官网</a></p>
 <blockquote>
@@ -1076,9 +1071,9 @@
 </blockquote>
 <p>开启Jmeter，来20000个并发压死8001，20000个请求都去访问paymentInfo_TimeOut服务</p>
 <ol>
-<li><p>测试计划中右键添加-》线程-》线程组（线程组202102，线程数：200，线程数：100，其他参数默认）</p>
+<li><p>测试计划中右键添加 -&gt; 线程 -&gt; 线程组（线程组202102，线程数：200，线程数：100，其他参数默认）</p>
 </li>
-<li><p>刚刚新建线程组202102，右键它-》添加-》取样器-》Http请求-》基本 输入<a target="_blank" rel="noopener" href="http://localhost:8001/payment/hystrix/ok/1">http://localhost:8001/payment/hystrix/ok/1</a></p>
+<li><p>刚刚新建线程组202102，右键它 -&gt; 添加 -&gt; 取样器 -&gt; Http请求 -&gt; 基本 输入<a target="_blank" rel="noopener" href="http://localhost:8001/payment/hystrix/ok/1">http://localhost:8001/payment/hystrix/ok/1</a></p>
 </li>
 <li><p>点击绿色三角形图标启动。</p>
 </li>
@@ -1324,19 +1319,19 @@
 <p>但对@HystrixCommand内属性的修改建议重启微服务</p>
 <ul>
 <li><p>YML</p>
-<div class="code-wrapper"><pre><code class="hljs java">server:
-  port: <span class="hljs-number">80</span>
+<div class="code-wrapper"><pre><code class="hljs yml"><span class="hljs-attr">server:</span>
+  <span class="hljs-attr">port:</span> <span class="hljs-number">80</span>
 
-eureka:
-  client:
-    register-with-eureka: <span class="hljs-keyword">false</span>
-    service-url:
-      defaultZone: http:<span class="hljs-comment">//eureka7001.com:7001/eureka/</span>
+<span class="hljs-attr">eureka:</span>
+  <span class="hljs-attr">client:</span>
+    <span class="hljs-attr">register-with-eureka:</span> <span class="hljs-literal">false</span>
+    <span class="hljs-attr">service-url:</span>
+      <span class="hljs-attr">defaultZone:</span> <span class="hljs-string">http://eureka7001.com:7001/eureka/</span>
 
-#开启
-feign:
-  hystrix:
-    enabled: <span class="hljs-keyword">true</span></code></pre></div>
+<span class="hljs-comment">#开启</span>
+<span class="hljs-attr">feign:</span>
+  <span class="hljs-attr">hystrix:</span>
+    <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span></code></pre></div>
 </li>
 <li><p>主启动</p>
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.boot.SpringApplication;
@@ -1526,7 +1521,7 @@ feign:
 <p><strong>熔断机制概述</strong></p>
 <p>熔断机制是应对雪崩效应的一种微服务链路保护机制。当扇出链路的某个微服务出错不可用或者响应时间太长时，会进行服务的降级，进而熔断该节点微服务的调用，快速返回错误的响应信息。当检测到该<strong>节点微服务调用响应正常后，恢复调用链路。</strong></p>
 <p>在Spring Cloud框架里，熔断机制通过Hystrix实现。Hystrix会监控微服务间调用的状况，当失败的调用到一定阈值，缺省是5秒内20次调用失败，就会启动熔断机制。熔断机制的注解是@HystrixCommand。</p>
-<p><a target="_blank" rel="noopener" href="https://martinfowler.com/bliki/CircuitBreaker.html">Martin Fowler的相关论文</a>)</p>
+<p><a target="_blank" rel="noopener" href="https://martinfowler.com/bliki/CircuitBreaker.html">Martin Fowler的相关论文</a></p>
 <p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/state.png" alt="img"></p>
 <h3 id="3-13-Hystrix之服务熔断案例-上"><a href="#3-13-Hystrix之服务熔断案例-上" class="headerlink" title="3.13 Hystrix之服务熔断案例(上)"></a>3.13 Hystrix之服务熔断案例(上)</h3><p><a target="_blank" rel="noopener" href="https://hutool.cn/">Hutool国产工具类</a></p>
 <ul>
@@ -1886,22 +1881,35 @@ feign:
 </li>
 <li><p>启动cloud-consumer-hystrix-dashboard9001该微服务后续将监控微服务8001</p>
 <p>浏览器输入<a target="_blank" rel="noopener" href="http://localhost:9001/hystrix">http://localhost:9001/hystrix</a></p>
-<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/image-20210521103737389.png" alt="image-20210521103737389"></p>
+<p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/image-20210521103737389.png" alt></p>
 </li>
-<li><div class="code-wrapper"><pre><code class="java"><span class="keyword">import</span> org.springframework.boot.SpringApplication;
-<span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;
-<span class="keyword">import</span> org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
+<li><p>启动类</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.boot.SpringApplication;
+<span class="hljs-keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;
+<span class="hljs-keyword">import</span> org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 
-<span class="meta">@SpringBootApplication</span>
-<span class="meta">@EnableHystrixDashboard</span>
-<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HystrixDashboardMain9001</span></span>
-<span class="class"></span>&#123;
-    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;
-        SpringApplication.run(HystrixDashboardMain9001<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;
+<span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-meta">@EnableHystrixDashboard</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HystrixDashboardMain9001</span></span>
+<span class="hljs-class"></span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        SpringApplication.run(HystrixDashboardMain9001.class, args);
     &#125;
-&#125;
+&#125;</code></pre></div>
 
-&lt;!--code￼<span class="number">44</span>--&gt;</code></pre></div>
+
+
+</li>
+</ul>
+<h3 id="3-18-Hystrix图形化Dashboard监控实战"><a href="#3-18-Hystrix图形化Dashboard监控实战" class="headerlink" title="3.18 Hystrix图形化Dashboard监控实战"></a>3.18 Hystrix图形化Dashboard监控实战</h3><ul>
+<li><p><strong>修改cloud-provider-hystrix-payment8001</strong></p>
+<p>注意：新版本Hystrix需要在主启动类PaymentHystrixMain8001中指定监控路径</p>
+<div class="code-wrapper"><pre><code class="hljs yml"><span class="hljs-comment">#  官网建议在yml中配置</span>
+<span class="hljs-attr">management:</span>
+  <span class="hljs-attr">endpoints:</span>
+    <span class="hljs-attr">web:</span>
+      <span class="hljs-attr">exposure:</span>
+        <span class="hljs-attr">include:</span> <span class="hljs-string">hystrix.stream</span></code></pre></div>
 </li>
 <li><p>如果一直 Londing, 在dashboard项目中添加依赖</p>
 <div class="code-wrapper"><pre><code class="hljs yml"><span class="hljs-attr">hystrix:</span>

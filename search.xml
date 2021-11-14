@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>2021大三第一学期第10周总结</title>
-    <url>/2021/11/07/2021%E5%A4%A7%E4%B8%89%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%AC%AC10%E5%91%A8%E6%80%BB%E7%BB%93%20/</url>
+    <url>/2021/11/07/2021%E5%A4%A7%E4%B8%89%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%AC%AC10%E5%91%A8%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h1 id="2021大三第一学期-第10周总结"><a href="#2021大三第一学期-第10周总结" class="headerlink" title="2021大三第一学期 第10周总结"></a>2021大三第一学期 第10周总结</h1><h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><ul>
 <li>计算机英语的进一步学习，Verilog-FPGA 的实验和控制逻辑。</li>
 <li>嵌入式系统的进一步学习，数据库的View控制的学习。</li>
@@ -10,6 +10,50 @@
 <h2 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h2><ul>
 <li>完善我的博客项目，进一步丰富博客的内容生态。</li>
 <li>投递实习简历。</li>
+</ul>
+<h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><ul>
+<li>阅读《软技能2：软件开发者职业生涯指南》，《 Spark 编程基础》，《Spring 源码深度解析》。</li>
+<li>阅读《太阳照常升起）》，《80天环游地球》，《安娜·卡列尼娜》。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Technical</category>
+        <category>Weekly</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>2021大三第一学期第7周总结</title>
+    <url>/2021/10/17/2021%E5%A4%A7%E4%B8%89%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%AC%AC7%E5%91%A8%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h1 id="2021大三第一学期-第7周总结"><a href="#2021大三第一学期-第7周总结" class="headerlink" title="2021大三第一学期 第7周总结"></a>2021大三第一学期 第7周总结</h1><h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><ul>
+<li>计算机英语的进一步学习，Verilog-FPGA 的实验和控制逻辑。</li>
+<li>嵌入式系统的进一步学习，数据库的 SQL 语句的学习。</li>
+</ul>
+<h2 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h2><ul>
+<li>继续完善 coin-exchange 货币交易平台，完成主体项目搭建，完成公共模块和网关与授权等基础服务的搭建。</li>
+<li>完善我的博客项目，进一步丰富博客的内容生态。</li>
+</ul>
+<h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><ul>
+<li>阅读 《垃圾回收的算法与实现》，《Effective Debugging》，《Jenkins 2.x实践指南》，《Go语言高级编程》，《软技能2：软件开发者职业生涯指南》，《剑指Offer》。</li>
+<li>阅读《基督山伯爵（全集）》，《安娜·卡列尼娜（经典译林）》，《战争与和平（全集）》，《小王子（英文版）》，《格列佛游记:Gulliver’s Travels（英文版）》。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Technical</category>
+        <category>Weekly</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>2021大三第一学期第11周总结</title>
+    <url>/2021/11/14/2021%E5%A4%A7%E4%B8%89%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%AC%AC11%E5%91%A8%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h1 id="2021大三第一学期-第11周总结"><a href="#2021大三第一学期-第11周总结" class="headerlink" title="2021大三第一学期 第11周总结"></a>2021大三第一学期 第11周总结</h1><h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><ul>
+<li>计算机英语的进一步学习，Verilog-FPGA 的实验和控制逻辑。</li>
+<li>嵌入式系统的进一步学习，数据库的授权控制的学习。</li>
+</ul>
+<h2 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h2><ul>
+<li>完善我的博客项目，进一步丰富博客的内容生态。</li>
+</ul>
+<h2 id="找实习"><a href="#找实习" class="headerlink" title="找实习"></a>找实习</h2><ul>
+<li>面试了两个公司</li>
 </ul>
 <h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><ul>
 <li>阅读《软技能2：软件开发者职业生涯指南》，《 Spark 编程基础》，《Spring 源码深度解析》。</li>
@@ -44,27 +88,6 @@
       </categories>
   </entry>
   <entry>
-    <title>2021大三第一学期第7周总结</title>
-    <url>/2021/10/17/2021%E5%A4%A7%E4%B8%89%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%AC%AC7%E5%91%A8%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h1 id="2021大三第一学期-第7周总结"><a href="#2021大三第一学期-第7周总结" class="headerlink" title="2021大三第一学期 第7周总结"></a>2021大三第一学期 第7周总结</h1><h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><ul>
-<li>计算机英语的进一步学习，Verilog-FPGA 的实验和控制逻辑。</li>
-<li>嵌入式系统的进一步学习，数据库的 SQL 语句的学习。</li>
-</ul>
-<h2 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h2><ul>
-<li>继续完善 coin-exchange 货币交易平台，完成主体项目搭建，完成公共模块和网关与授权等基础服务的搭建。</li>
-<li>完善我的博客项目，进一步丰富博客的内容生态。</li>
-</ul>
-<h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><ul>
-<li>阅读 《垃圾回收的算法与实现》，《Effective Debugging》，《Jenkins 2.x实践指南》，《Go语言高级编程》，《软技能2：软件开发者职业生涯指南》，《剑指Offer》。</li>
-<li>阅读《基督山伯爵（全集）》，《安娜·卡列尼娜（经典译林）》，《战争与和平（全集）》，《小王子（英文版）》，《格列佛游记:Gulliver’s Travels（英文版）》。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Technical</category>
-        <category>Weekly</category>
-      </categories>
-  </entry>
-  <entry>
     <title>2021大三第一学期第9周总结</title>
     <url>/2021/10/31/2021%E5%A4%A7%E4%B8%89%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%AC%AC9%E5%91%A8%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h1 id="2021大三第一学期-第9周总结"><a href="#2021大三第一学期-第9周总结" class="headerlink" title="2021大三第一学期 第9周总结"></a>2021大三第一学期 第9周总结</h1><h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><ul>
@@ -85,67 +108,6 @@
         <category>Technical</category>
         <category>Weekly</category>
       </categories>
-  </entry>
-  <entry>
-    <title>C 语言学习笔记</title>
-    <url>/2020/04/04/C%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="C-语言学习笔记"><a href="#C-语言学习笔记" class="headerlink" title="C 语言学习笔记"></a>C 语言学习笔记</h1><ol>
-<li>for 语句比较适合初始化和增加步长都是单条语句并且逻辑相关的情形，因为它将循环控制语句集中放在一起, 且比  while 语句更紧凑。</li>
-<li>EOF（end of file）是文件结束指示符。</li>
-<li>在该程序段中，for 循环语句的循环体是空的，这是因为所有工作都在测试（条件）部分与增加步长部分完成了。</li>
-<li>但 C 语言的语法规则要求 for 循环语句必须有一个循环体，因此用单独的分号代替。单独的分号称为空语句，它正好能满足 for 语句的这一要求。把它单独放在一行是为了更加醒目。</li>
-<li>单引号中的字符表示一个整型值，该值等于此字符在机器字符集中对应的数值，我们称之为字符常量。</li>
-<li>我们通常把函数定义中圆括号内列表中出现的变量称为形式参数，而把函数调用中与形式参数对应的值称为实际参数。</li>
-<li>函数不一定都有返回值。不带表达式的 return 语句将把控制权返回给调用者，但不返回有用的值。这等同于在到达函数的右终结花括号时，函数就“到达了尽头”。主调函数也可以忽 略函数返回的值。    </li>
-<li>对数组而言，const 限定符指定数组所有元素的值都不能被修改。</li>
-<li>C 语言提供了6 个位操作运算符。这些运算符只能作用于整型操作数，即只能作用于带符号或无符号 char、short、int、long 类型。</li>
-<li>栈是一种限定仅在表尾进行插入和删除操作的线性表。</li>
-<li><input disabled type="checkbox"> 的优先级高于按位&amp;，&amp;a[0] 等价于 a+0 (其中a是数组名)指的是a[0]的地址，*&amp;a[0] 等价于 a[0] 等价于 *a。</li>
-<li>int p 是指 p 是指向 int 类型的指针变量。</li>
-<li>数组传递一定是传指针。</li>
-<li>continue 语句只用于循环语句，不用于 switch 语句。</li>
-<li>作为一种良好的程序设计风格，在 switch 语句最后一个分支（即 default 分支）的后 面也加上一个 break 语句。这样做在逻辑上没有必要，但当我们需要向该 switch 语句后添加其它分支时，这种防范措施会降低犯错误的可能性。</li>
-<li>因此，如果两个函数必须共享某些数据，而这两个函数互不调用对方，这种情况下最方便的方式便是把这些共享数据定义为外部变量，而不是作为函数参数传递。</li>
-<li>名字的作用域指的是程序中可以使用该名字的部分。对于在函数开头声明的自动变量来说，其作用域是声明该变量名的函数。不同函数中声明的具有相同名字的各个局部变量之间没有任何关系。</li>
-<li>函数的参数也是这样的，实际上可以将它看作是局部变量。外部变量或函数的作用域从声明它的地方开始，到其所在的（待编译的）文件的末尾结束。</li>
-<li>在一个源程序的所有源文件中，一个外部变量只能在某个文件中定义一次，而其它文件可以通过 extern 声明来访问它（定义外部变量的源文件中也可以包含对该外部变量的extern 声明）。</li>
-<li>外部变量的定义中必须指定数组的长度，但 extern 声明则不一定要指定数组的长度。 外部变量的初始化只能出现在其定义中。</li>
-<li>在不进行显式初始化的情况下，外部变量和静态变量都将被初始化为 0，register 声明只适用于自动变量以及函数的形式参数，而自动变量和寄存器变量的初值则没有定义（即初值为无用的信息）。</li>
-<li>对于外部变量与静态变量来说，初始化表达式必须是常量表达式，且只初始化一次。</li>
-<li>对于自动变量与寄存器变量来说，初始化表达式可以不是常量表达式，表达式中可以包含任意在此表达式之前已经定义的值，包括函数调用。</li>
-<li>int days[ ] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};</li>
-<li>C++中，全局阈只能声明、初始化变量； 不能用于赋值、运算、调用函数等！</li>
-<li>.如果要在外部变量的定义之前使用该变量，或者外部变量的定义与变量的使用不在同一个源文件中，则必须在相应的变量声明中强制性地使用关键字 extern。</li>
-<li>我们可以得出这样一个结论：对于某些中等规模的程序，最好只用一个头文件存放程序中各部分共享的对象。较大的程序需要使用更多的头文件，我们需要精心地组织它们。</li>
-<li>变量的声明（包括初始化）除了可以紧跟在函数开始的花括号之后，还可以紧跟在任何其它标识复合语句开始的左花括号之后。以这 种方式声明的变量可以隐藏程序块外与之同名的变量，它们之间没有任何关系，并在与左花 括号匹配的右花括号出现之前一直存在。</li>
-<li>在不进行显式初始化的情况下，外部变量和静态变量都将被初始化为 0，而自动变量和寄存器变量的初值则没有定义（即初值为无用的信息）。</li>
-<li>如果文件名用引号引起来，则在源文件所在位置查找该文件；如果在该位置没有找到文件，或者如果文件名是用尖括号&lt;&gt;括起来的，则将根据相应的规则查找该文件，这个规则同具体的实现有关。</li>
-<li>宏替换只对记号进行，对括在引号中的字符串不起作用。</li>
-<li>在#if 语句中可以使用表达式defined(名字)，该表达式的值遵循下列规则：当名字已经定义时，其值为 1；否则，其值为 0。</li>
-<li>指向 void 类型的指针可以存放指向任何类型的指针，但它不能间接引用其自身。</li>
-<li>类似于和++这样的一元运算符遵循从右至左的结合顺序。</li>
-<li>gets（）是在stdio.h中是输入函数，使用类型：gets（str）。可以从标准输入类中读取一行字符到指定的字符串中，它在遇到EOF和回车换行键才会接受。但是由于功能强大，gets（）和scanf（）混合使用会导致gets（）无法接受字符串，因为scanf回车结束的时，回车键留在了缓冲区，这时gets就无法区分这个空格是否属于gets的输入。gets会接受到这个信号，无法直接接受后续的字符串。</li>
-<li>解决办法:(1)：先gets后scanf，不让那gets读取回车；(2)：利用getchar判断，获取\n，后执行gets.</li>
-<li>%g用来输出实数，它根据数值的大小，自动选f格式或e格式（选择输出时占宽度较小的一种），且不输出无意义的0。</li>
-<li>C 语言保证，0 永远不是有效的数据地址。</li>
-<li>指针与整数之间不能相互转换，但 0 是惟一的例外：常量 0 可以赋值给指针，指针也可以和常量 0 进行比较。程序中经常用符号常量 NULL 代替常量 0，这样便于更清晰地说明常量 0 是指针的一个特殊值。符号常量 NULL 定义在标准头文件&lt;stddef.h&gt;中。</li>
-<li>任何指针与 0 进行相等或不等的比较运算都有意义。但是，指向不同数组的元素的指针之间的算术或比较运算没有定义。（这里有一个特例：指针的算术运算中可使用数组最 后一个元素的下一个元素的地址。）</li>
-<li>字符串常量是一个字符数组。</li>
-<li>数组形字符串(例：char a[ ]=”hhhh”) 存放在全局数据区或栈区，可读可写。指针字符串(char  <em>p=”hhh” )存放在常量区，只读不能写。</em></li>
-<li>UNIX 系统中的 C 语言程序有一个公共的约定：以负号开头的参数表示一个可选标志或参数。</li>
-<li>因为[]与操作数的结合优先级比 * 和 ++ 高，* 和 ++ 优先级一样，但从右至左结合；* 是一个前缀运算符，其优先级低于()。</li>
-<li>运算符 . 和 -&gt; 都是从左至右结合的。</li>
-<li>在所有运算符中，下面 4 个运算符的优先级最高：结构运算符 “.” 和 “-&gt;” 、用于函数调用的 “()” 以及用于下标的 “[]” ，因此，它们同操作数之间的结合也最紧密。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Technical</category>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>C</tag>
-        <tag>Note</tag>
-      </tags>
   </entry>
   <entry>
     <title>Clion搭建Gtest单元测试框架</title>
@@ -229,6 +191,67 @@
       </categories>
       <tags>
         <tag>Note</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C 语言学习笔记</title>
+    <url>/2020/04/04/C%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="C-语言学习笔记"><a href="#C-语言学习笔记" class="headerlink" title="C 语言学习笔记"></a>C 语言学习笔记</h1><ol>
+<li>for 语句比较适合初始化和增加步长都是单条语句并且逻辑相关的情形，因为它将循环控制语句集中放在一起, 且比  while 语句更紧凑。</li>
+<li>EOF（end of file）是文件结束指示符。</li>
+<li>在该程序段中，for 循环语句的循环体是空的，这是因为所有工作都在测试（条件）部分与增加步长部分完成了。</li>
+<li>但 C 语言的语法规则要求 for 循环语句必须有一个循环体，因此用单独的分号代替。单独的分号称为空语句，它正好能满足 for 语句的这一要求。把它单独放在一行是为了更加醒目。</li>
+<li>单引号中的字符表示一个整型值，该值等于此字符在机器字符集中对应的数值，我们称之为字符常量。</li>
+<li>我们通常把函数定义中圆括号内列表中出现的变量称为形式参数，而把函数调用中与形式参数对应的值称为实际参数。</li>
+<li>函数不一定都有返回值。不带表达式的 return 语句将把控制权返回给调用者，但不返回有用的值。这等同于在到达函数的右终结花括号时，函数就“到达了尽头”。主调函数也可以忽 略函数返回的值。    </li>
+<li>对数组而言，const 限定符指定数组所有元素的值都不能被修改。</li>
+<li>C 语言提供了6 个位操作运算符。这些运算符只能作用于整型操作数，即只能作用于带符号或无符号 char、short、int、long 类型。</li>
+<li>栈是一种限定仅在表尾进行插入和删除操作的线性表。</li>
+<li><input disabled type="checkbox"> 的优先级高于按位&amp;，&amp;a[0] 等价于 a+0 (其中a是数组名)指的是a[0]的地址，*&amp;a[0] 等价于 a[0] 等价于 *a。</li>
+<li>int p 是指 p 是指向 int 类型的指针变量。</li>
+<li>数组传递一定是传指针。</li>
+<li>continue 语句只用于循环语句，不用于 switch 语句。</li>
+<li>作为一种良好的程序设计风格，在 switch 语句最后一个分支（即 default 分支）的后 面也加上一个 break 语句。这样做在逻辑上没有必要，但当我们需要向该 switch 语句后添加其它分支时，这种防范措施会降低犯错误的可能性。</li>
+<li>因此，如果两个函数必须共享某些数据，而这两个函数互不调用对方，这种情况下最方便的方式便是把这些共享数据定义为外部变量，而不是作为函数参数传递。</li>
+<li>名字的作用域指的是程序中可以使用该名字的部分。对于在函数开头声明的自动变量来说，其作用域是声明该变量名的函数。不同函数中声明的具有相同名字的各个局部变量之间没有任何关系。</li>
+<li>函数的参数也是这样的，实际上可以将它看作是局部变量。外部变量或函数的作用域从声明它的地方开始，到其所在的（待编译的）文件的末尾结束。</li>
+<li>在一个源程序的所有源文件中，一个外部变量只能在某个文件中定义一次，而其它文件可以通过 extern 声明来访问它（定义外部变量的源文件中也可以包含对该外部变量的extern 声明）。</li>
+<li>外部变量的定义中必须指定数组的长度，但 extern 声明则不一定要指定数组的长度。 外部变量的初始化只能出现在其定义中。</li>
+<li>在不进行显式初始化的情况下，外部变量和静态变量都将被初始化为 0，register 声明只适用于自动变量以及函数的形式参数，而自动变量和寄存器变量的初值则没有定义（即初值为无用的信息）。</li>
+<li>对于外部变量与静态变量来说，初始化表达式必须是常量表达式，且只初始化一次。</li>
+<li>对于自动变量与寄存器变量来说，初始化表达式可以不是常量表达式，表达式中可以包含任意在此表达式之前已经定义的值，包括函数调用。</li>
+<li>int days[ ] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};</li>
+<li>C++中，全局阈只能声明、初始化变量； 不能用于赋值、运算、调用函数等！</li>
+<li>.如果要在外部变量的定义之前使用该变量，或者外部变量的定义与变量的使用不在同一个源文件中，则必须在相应的变量声明中强制性地使用关键字 extern。</li>
+<li>我们可以得出这样一个结论：对于某些中等规模的程序，最好只用一个头文件存放程序中各部分共享的对象。较大的程序需要使用更多的头文件，我们需要精心地组织它们。</li>
+<li>变量的声明（包括初始化）除了可以紧跟在函数开始的花括号之后，还可以紧跟在任何其它标识复合语句开始的左花括号之后。以这 种方式声明的变量可以隐藏程序块外与之同名的变量，它们之间没有任何关系，并在与左花 括号匹配的右花括号出现之前一直存在。</li>
+<li>在不进行显式初始化的情况下，外部变量和静态变量都将被初始化为 0，而自动变量和寄存器变量的初值则没有定义（即初值为无用的信息）。</li>
+<li>如果文件名用引号引起来，则在源文件所在位置查找该文件；如果在该位置没有找到文件，或者如果文件名是用尖括号&lt;&gt;括起来的，则将根据相应的规则查找该文件，这个规则同具体的实现有关。</li>
+<li>宏替换只对记号进行，对括在引号中的字符串不起作用。</li>
+<li>在#if 语句中可以使用表达式defined(名字)，该表达式的值遵循下列规则：当名字已经定义时，其值为 1；否则，其值为 0。</li>
+<li>指向 void 类型的指针可以存放指向任何类型的指针，但它不能间接引用其自身。</li>
+<li>类似于和++这样的一元运算符遵循从右至左的结合顺序。</li>
+<li>gets（）是在stdio.h中是输入函数，使用类型：gets（str）。可以从标准输入类中读取一行字符到指定的字符串中，它在遇到EOF和回车换行键才会接受。但是由于功能强大，gets（）和scanf（）混合使用会导致gets（）无法接受字符串，因为scanf回车结束的时，回车键留在了缓冲区，这时gets就无法区分这个空格是否属于gets的输入。gets会接受到这个信号，无法直接接受后续的字符串。</li>
+<li>解决办法:(1)：先gets后scanf，不让那gets读取回车；(2)：利用getchar判断，获取\n，后执行gets.</li>
+<li>%g用来输出实数，它根据数值的大小，自动选f格式或e格式（选择输出时占宽度较小的一种），且不输出无意义的0。</li>
+<li>C 语言保证，0 永远不是有效的数据地址。</li>
+<li>指针与整数之间不能相互转换，但 0 是惟一的例外：常量 0 可以赋值给指针，指针也可以和常量 0 进行比较。程序中经常用符号常量 NULL 代替常量 0，这样便于更清晰地说明常量 0 是指针的一个特殊值。符号常量 NULL 定义在标准头文件&lt;stddef.h&gt;中。</li>
+<li>任何指针与 0 进行相等或不等的比较运算都有意义。但是，指向不同数组的元素的指针之间的算术或比较运算没有定义。（这里有一个特例：指针的算术运算中可使用数组最 后一个元素的下一个元素的地址。）</li>
+<li>字符串常量是一个字符数组。</li>
+<li>数组形字符串(例：char a[ ]=”hhhh”) 存放在全局数据区或栈区，可读可写。指针字符串(char  <em>p=”hhh” )存放在常量区，只读不能写。</em></li>
+<li>UNIX 系统中的 C 语言程序有一个公共的约定：以负号开头的参数表示一个可选标志或参数。</li>
+<li>因为[]与操作数的结合优先级比 * 和 ++ 高，* 和 ++ 优先级一样，但从右至左结合；* 是一个前缀运算符，其优先级低于()。</li>
+<li>运算符 . 和 -&gt; 都是从左至右结合的。</li>
+<li>在所有运算符中，下面 4 个运算符的优先级最高：结构运算符 “.” 和 “-&gt;” 、用于函数调用的 “()” 以及用于下标的 “[]” ，因此，它们同操作数之间的结合也最紧密。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Technical</category>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>Note</tag>
+        <tag>C</tag>
       </tags>
   </entry>
   <entry>
@@ -801,111 +824,6 @@ HTML文本效果图</code></pre></div><html><head><title>LinkPage</title></head>
       </categories>
   </entry>
   <entry>
-    <title>JavaBridge模式</title>
-    <url>/2020/09/18/JavaBridge%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  类的功能层次结构和实现层次结构的分离</p>
-</blockquote>
-<h2 id="1-负责”显示”的类"><a href="#1-负责”显示”的类" class="headerlink" title="1 - 负责”显示”的类"></a>1 - 负责”显示”的类</h2><div class="code-wrapper"><pre><code>public class Display &#123;
-    private DisplayImpl impl;
-    public Display(DisplayImpl impl)&#123;
-        this.impl = impl;
-    &#125;
-
-    public void open()&#123;
-        impl.rawOpen();
-    &#125;
-
-    public void print()&#123;
-        impl.rawPrint();
-    &#125;
-
-    public void close()&#123;
-        impl.rawClose();
-    &#125;
-
-    public final void display()&#123;
-        open();
-        print();
-        close();
-    &#125;
-&#125;</code></pre></div><h2 id="2-增加了”只显示规定次数”这一功能的类"><a href="#2-增加了”只显示规定次数”这一功能的类" class="headerlink" title="2 - 增加了”只显示规定次数”这一功能的类"></a>2 - 增加了”只显示规定次数”这一功能的类</h2><div class="code-wrapper"><pre><code>public class CountDisplay extends Display&#123;
-    public CountDisplay(DisplayImpl impl) &#123;
-        super(impl);
-    &#125;
-
-    public void multiDisplay(int times)&#123;
-        open();
-        for (int i = 0; i &lt; times; i++) &#123;
-            print();
-        &#125;
-        close();
-    &#125;
-&#125;</code></pre></div><h2 id="3-负责”显示”的类"><a href="#3-负责”显示”的类" class="headerlink" title="3 - 负责”显示”的类"></a>3 - 负责”显示”的类</h2><div class="code-wrapper"><pre><code>public abstract class DisplayImpl &#123;
-    public abstract void rawOpen();
-    public abstract void rawPrint();
-    public abstract void rawClose();
-&#125;</code></pre></div><h2 id="4-“用字符串显示”的类"><a href="#4-“用字符串显示”的类" class="headerlink" title="4 -  “用字符串显示”的类"></a>4 -  “用字符串显示”的类</h2><div class="code-wrapper"><pre><code>public class StringDisplayImpl extends DisplayImpl&#123;
-    private String string;
-    private int width;
-
-    public StringDisplayImpl(String string)&#123;
-        this.string = string;
-        this.width = string.getBytes().length;
-    &#125;
-    @Override
-    public void rawOpen() &#123;
-        printLine();
-    &#125;
-
-    @Override
-    public void rawPrint() &#123;
-        System.out.println(&quot;|&quot; + string + &quot;|&quot;);
-    &#125;
-
-    @Override
-    public void rawClose() &#123;
-        printLine();
-    &#125;
-
-    private void printLine()&#123;
-        System.out.print(&quot;+&quot;);
-        for (int i = 0; i &lt; width; i++) &#123;
-            System.out.print(&quot;-&quot;);
-        &#125;
-        System.out.println(&quot;+&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="5-测试程序的类"><a href="#5-测试程序的类" class="headerlink" title="5 - 测试程序的类"></a>5 - 测试程序的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        Display d1 = new Display(new StringDisplayImpl(&quot;Hello, China.&quot;));
-        Display d2 = new CountDisplay(new StringDisplayImpl(&quot;Hello, World.&quot;));
-        CountDisplay d3 = new CountDisplay(new StringDisplayImpl(&quot;Hello, Universe.&quot;));
-
-        d1.display();
-        d2.display();
-        d3.display();
-        d3.multiDisplay(3);
-    &#125;
-&#125;</code></pre></div><h2 id="6-输出示例"><a href="#6-输出示例" class="headerlink" title="6 - 输出示例"></a>6 - 输出示例</h2><div class="code-wrapper"><pre><code>+-------------+
-|Hello, China.|
-+-------------+
-+-------------+
-|Hello, World.|
-+-------------+
-+----------------+
-|Hello, Universe.|
-+----------------+
-+----------------+
-|Hello, Universe.|
-|Hello, Universe.|
-|Hello, Universe.|
-+----------------+</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
     <title>JavaBuilder模式</title>
     <url>/2020/09/13/JavaBuilder%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -1085,6 +1003,111 @@ HTML文本效果图</code></pre></div><html><head><title>LinkPage</title></head>
 
 <p>在进行一些复杂实例的组装中我们经常用到如下模式</p>
 ]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JavaBridge模式</title>
+    <url>/2020/09/18/JavaBridge%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  类的功能层次结构和实现层次结构的分离</p>
+</blockquote>
+<h2 id="1-负责”显示”的类"><a href="#1-负责”显示”的类" class="headerlink" title="1 - 负责”显示”的类"></a>1 - 负责”显示”的类</h2><div class="code-wrapper"><pre><code>public class Display &#123;
+    private DisplayImpl impl;
+    public Display(DisplayImpl impl)&#123;
+        this.impl = impl;
+    &#125;
+
+    public void open()&#123;
+        impl.rawOpen();
+    &#125;
+
+    public void print()&#123;
+        impl.rawPrint();
+    &#125;
+
+    public void close()&#123;
+        impl.rawClose();
+    &#125;
+
+    public final void display()&#123;
+        open();
+        print();
+        close();
+    &#125;
+&#125;</code></pre></div><h2 id="2-增加了”只显示规定次数”这一功能的类"><a href="#2-增加了”只显示规定次数”这一功能的类" class="headerlink" title="2 - 增加了”只显示规定次数”这一功能的类"></a>2 - 增加了”只显示规定次数”这一功能的类</h2><div class="code-wrapper"><pre><code>public class CountDisplay extends Display&#123;
+    public CountDisplay(DisplayImpl impl) &#123;
+        super(impl);
+    &#125;
+
+    public void multiDisplay(int times)&#123;
+        open();
+        for (int i = 0; i &lt; times; i++) &#123;
+            print();
+        &#125;
+        close();
+    &#125;
+&#125;</code></pre></div><h2 id="3-负责”显示”的类"><a href="#3-负责”显示”的类" class="headerlink" title="3 - 负责”显示”的类"></a>3 - 负责”显示”的类</h2><div class="code-wrapper"><pre><code>public abstract class DisplayImpl &#123;
+    public abstract void rawOpen();
+    public abstract void rawPrint();
+    public abstract void rawClose();
+&#125;</code></pre></div><h2 id="4-“用字符串显示”的类"><a href="#4-“用字符串显示”的类" class="headerlink" title="4 -  “用字符串显示”的类"></a>4 -  “用字符串显示”的类</h2><div class="code-wrapper"><pre><code>public class StringDisplayImpl extends DisplayImpl&#123;
+    private String string;
+    private int width;
+
+    public StringDisplayImpl(String string)&#123;
+        this.string = string;
+        this.width = string.getBytes().length;
+    &#125;
+    @Override
+    public void rawOpen() &#123;
+        printLine();
+    &#125;
+
+    @Override
+    public void rawPrint() &#123;
+        System.out.println(&quot;|&quot; + string + &quot;|&quot;);
+    &#125;
+
+    @Override
+    public void rawClose() &#123;
+        printLine();
+    &#125;
+
+    private void printLine()&#123;
+        System.out.print(&quot;+&quot;);
+        for (int i = 0; i &lt; width; i++) &#123;
+            System.out.print(&quot;-&quot;);
+        &#125;
+        System.out.println(&quot;+&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="5-测试程序的类"><a href="#5-测试程序的类" class="headerlink" title="5 - 测试程序的类"></a>5 - 测试程序的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        Display d1 = new Display(new StringDisplayImpl(&quot;Hello, China.&quot;));
+        Display d2 = new CountDisplay(new StringDisplayImpl(&quot;Hello, World.&quot;));
+        CountDisplay d3 = new CountDisplay(new StringDisplayImpl(&quot;Hello, Universe.&quot;));
+
+        d1.display();
+        d2.display();
+        d3.display();
+        d3.multiDisplay(3);
+    &#125;
+&#125;</code></pre></div><h2 id="6-输出示例"><a href="#6-输出示例" class="headerlink" title="6 - 输出示例"></a>6 - 输出示例</h2><div class="code-wrapper"><pre><code>+-------------+
+|Hello, China.|
++-------------+
++-------------+
+|Hello, World.|
++-------------+
++----------------+
+|Hello, Universe.|
++----------------+
++----------------+
+|Hello, Universe.|
+|Hello, Universe.|
+|Hello, Universe.|
++----------------+</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -1436,105 +1459,6 @@ HTML文本效果图</code></pre></div><html><head><title>LinkPage</title></head>
       </categories>
   </entry>
   <entry>
-    <title>JavaFacade模式</title>
-    <url>/2020/09/25/JavaFacade%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  简单窗口</p>
-</blockquote>
-<h2 id="1-从邮件地址中获取用户名的类"><a href="#1-从邮件地址中获取用户名的类" class="headerlink" title="1- 从邮件地址中获取用户名的类"></a>1- 从邮件地址中获取用户名的类</h2><div class="code-wrapper"><pre><code>// 需要配置相应的数据库
-public class Database &#123;
-    private Database() &#123;    // 防止外部new出Database的实例,所以声明为private
-    &#125;
-
-    public static Properties getProperties(String dbname)&#123;  // 根据数据库名获取Properties
-        String filename = dbname + &quot;.txt&quot;;
-        Properties prop = new Properties();
-        try &#123;
-            prop.load(new FileInputStream(filename));
-        &#125;catch (IOException e)&#123;
-            System.out.println(&quot;Warning: &quot; + filename + &quot; is not found.&quot;);
-        &#125;
-        return prop;
-    &#125;
-&#125;</code></pre></div><h2 id="2-编写HTML文件的类"><a href="#2-编写HTML文件的类" class="headerlink" title="2 - 编写HTML文件的类"></a>2 - 编写HTML文件的类</h2><div class="code-wrapper"><pre><code>public class HtmlWriter &#123;
-    private Writer writer;
-    public HtmlWriter(Writer writer)&#123;
-        this.writer = writer;
-    &#125;
-
-    public void title(String title) throws IOException&#123;
-        writer.write(&quot;&lt;html&gt;&quot;);
-        writer.write(&quot;&lt;head&gt;&quot;);
-        writer.write(&quot;&lt;title&gt;&quot; + title + &quot;&lt;/title&gt;&quot;);
-        writer.write(&quot;&lt;/head&gt;&quot;);
-        writer.write(&quot;&lt;body&gt;\n&quot;);
-        writer.write(&quot;&lt;h1&gt;&quot; + title + &quot;&lt;/h1&gt;&quot;);
-    &#125;
-
-    public void paragraph(String msg) throws IOException&#123;
-        writer.write(&quot;&lt;p&gt;&quot; + msg + &quot;&lt;/p&gt;\n&quot;);
-    &#125;
-
-    public void link(String href, String caption) throws IOException&#123;
-        paragraph(&quot;&lt;a href=\&quot;&quot; + href + &quot;\&quot;&gt;&quot; + caption + &quot;&lt;/a&gt;&quot;);
-    &#125;
-
-    public void mailto(String mailAddr, String userName) throws IOException&#123;
-        link(&quot;mailto: &quot; + mailAddr, userName);
-    &#125;
-
-    public void close() throws IOException&#123;
-        writer.write(&quot;&lt;/body&gt;&quot;);
-        writer.write(&quot;&lt;/html&gt;&quot;);
-        writer.close();
-    &#125;
-&#125;</code></pre></div><h2 id="3-根据邮件地址编写该用户的Web页面"><a href="#3-根据邮件地址编写该用户的Web页面" class="headerlink" title="3 - 根据邮件地址编写该用户的Web页面"></a>3 - 根据邮件地址编写该用户的Web页面</h2><div class="code-wrapper"><pre><code>public class PageMaker &#123;
-    private PageMaker() &#123;    // 防止外部new出PageMaker的实例,所以声明为private
-    &#125;
-
-    public static void makeWelcomePage(String mailAddr, String filename)&#123;
-        try &#123;
-            Properties mailProp = Database.getProperties(&quot;mailData&quot;);
-            String userName = mailProp.getProperty(mailAddr);
-            HtmlWriter writer = new HtmlWriter(new FileWriter(filename));
-            writer.title(&quot;Welcome to &quot; + userName + &quot;`s page!&quot;);
-            writer.paragraph(userName + &quot;欢迎来到&quot; + userName + &quot;的主页&quot;);
-            writer.paragraph(&quot;等着你的邮件哦!&quot;);
-            writer.mailto(mailAddr, userName);
-            writer.close();
-            System.out.println(filename + &quot; is created for &quot; + mailAddr + &quot; (&quot; +
-                    userName + &quot;)&quot;);
-        &#125;catch (IOException e)&#123;
-            e.printStackTrace();
-        &#125;
-
-    &#125;
-&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        PageMaker.makeWelcomePage(&quot;hyuki@hyuki.com&quot;, &quot;welcome.html&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><html><head><title>Welcome to Hiroshi Yuki`s page!</title></head><body>
-<h1>Welcome to Hiroshi Yuki`s page!</h1><p>null欢迎来到null的主页</p>
-<p>等着你的邮件哦!</p>
-<p><a href="mailto: hyuki@hyuki.com">Hiroshi Yuki</a></p>
-</body></html>
-
-<div class="code-wrapper"><pre><code>// HTML源码
-&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to Hiroshi Yuki`s page!&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h1&gt;Welcome to Hiroshi Yuki`s page!&lt;/h1&gt;
-&lt;p&gt;null欢迎来到null的主页&lt;/p&gt;
-&lt;p&gt;等着你的邮件哦!&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;mailto: hyuki@hyuki.com&quot;&gt;Hiroshi Yuki&lt;/a&gt;&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
     <title>JavaComposite模式</title>
     <url>/2020/09/20/JavaComposite%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -1681,6 +1605,166 @@ Making user entries...
 /root/usr/tomura (900)
 /root/usr/tomura/game.doc (400)
 /root/usr/tomura/junk.mail (500)</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JavaFlyweight模式</title>
+    <url>/2020/10/08/JavaFlyweight%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  共享对象,避免浪费</p>
+</blockquote>
+<h2 id="1-表示”大型字符”的类"><a href="#1-表示”大型字符”的类" class="headerlink" title="1 - 表示”大型字符”的类"></a>1 - 表示”大型字符”的类</h2><div class="code-wrapper"><pre><code>public class BigChar &#123;
+    // 字符名字
+    private char charName;
+    // 大型字符对应的字符串(由&apos;#&apos;&apos;.&apos;&apos;\n&apos;组成)
+    private String fontData;
+
+    private String filePath = &quot;大型字符文件路径&quot;;
+
+    // 构造函数
+    public BigChar(char charName) &#123;
+        this.charName = charName;
+
+        try &#123;
+            BufferedReader reader = new BufferedReader(
+                    new FileReader(filePath+ &quot;big&quot; + charName + &quot;.txt&quot;)
+            );
+            String line;
+            StringBuffer buf = new StringBuffer();
+            while ((line = reader.readLine()) != null) &#123;
+                buf.append(line);
+                buf.append(&quot;\n&quot;);
+            &#125;
+            reader.close();
+            this.fontData = buf.toString();
+        &#125;catch (IOException e)&#123;
+            this.fontData = charName + &quot;?&quot;;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+    // 显示大型字符
+    public void print() &#123;
+        System.out.println(fontData);
+    &#125;
+&#125;</code></pre></div><p>需要提前准备大型字符文件<br>例如字符’1’ ,文件名以”big1.txt”为标准</p>
+<div class="code-wrapper"><pre><code>..................
+........##........
+....######........
+........##........
+........##........
+........##........
+........##........
+..##############..
+..................</code></pre></div><h2 id="2-表示生成和共用BigChar类的实例的类"><a href="#2-表示生成和共用BigChar类的实例的类" class="headerlink" title="2 - 表示生成和共用BigChar类的实例的类"></a>2 - 表示生成和共用BigChar类的实例的类</h2><div class="code-wrapper"><pre><code>public class BigCharFactory &#123;
+    // 管理已经生成的BigChar的实例
+    private HashMap&lt;String, BigChar&gt; pool = new HashMap&lt;&gt;();
+
+    // Singleton模式
+    private static BigCharFactory singleton = new BigCharFactory();
+
+    // 构造函数
+    private BigCharFactory() &#123;&#125;
+
+    // 获取唯一实例
+    public static BigCharFactory getInstance() &#123;
+        return singleton;
+    &#125;
+
+    // 生成(共享)BigChar类的实例
+    public synchronized BigChar getBigChar(char charName) &#123;
+        BigChar bc = pool.get(&quot;&quot; + charName);
+        if (bc == null) &#123;
+            bc = new BigChar(charName);
+            pool.put(&quot;&quot; + charName, bc);
+        &#125;
+        return bc;
+    &#125;
+&#125;</code></pre></div><h2 id="3-表示多个BigChar组成的”大型字符串”的类"><a href="#3-表示多个BigChar组成的”大型字符串”的类" class="headerlink" title="3 - 表示多个BigChar组成的”大型字符串”的类"></a>3 - 表示多个BigChar组成的”大型字符串”的类</h2><div class="code-wrapper"><pre><code>public class BigString &#123;
+    // &quot;大型字符&quot;的数组
+    private BigChar[] bigChars;
+
+    // 构造函数
+    public BigString(String string) &#123;
+        bigChars = new BigChar[string.length()];
+        BigCharFactory factory = BigCharFactory.getInstance();
+        for (int i = 0; i &lt; bigChars.length; i++) &#123;
+            bigChars[i] = factory.getBigChar(string.charAt(i));
+        &#125;
+    &#125;
+
+    // 显示
+    public void print() &#123;
+        for (BigChar bigChar : bigChars) &#123;
+            bigChar.print();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        if (args.length == 0) &#123;
+            System.out.println(&quot;Usage: java Main digits&quot;);
+            System.out.println(&quot;Example: java Main 1212123&quot;);
+            System.exit(0);
+        &#125;
+
+        BigString bs = new BigString(args[0]);
+        bs.print();
+    &#125;
+&#125;</code></pre></div><p>需要提前设置参数 args[0] = ‘12123’</p>
+<h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>..................
+........##........
+....######........
+........##........
+........##........
+........##........
+........##........
+..##############..
+..................
+
+...................
+....########.......
+..##.........###...
+............###....
+..........###......
+........###........
+......###..........
+....###............
+..#############....
+...................
+
+..................
+........##........
+....######........
+........##........
+........##........
+........##........
+........##........
+..##############..
+..................
+
+...................
+....########.......
+..##.........###...
+............###....
+..........###......
+........###........
+......###..........
+....###............
+..#############....
+...................
+
+..................
+....#######.......
+..##.......##.....
+............##....
+....#######.......
+............##....
+..##.......##.....
+....######........
+..................</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -1866,160 +1950,99 @@ program repeat 4 repeat 3 go right go left end right end end</code></pre></div>]
       </categories>
   </entry>
   <entry>
-    <title>JavaFlyweight模式</title>
-    <url>/2020/10/08/JavaFlyweight%E6%A8%A1%E5%BC%8F/</url>
+    <title>JavaFacade模式</title>
+    <url>/2020/09/25/JavaFacade%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
-<p>  共享对象,避免浪费</p>
+<p>  简单窗口</p>
 </blockquote>
-<h2 id="1-表示”大型字符”的类"><a href="#1-表示”大型字符”的类" class="headerlink" title="1 - 表示”大型字符”的类"></a>1 - 表示”大型字符”的类</h2><div class="code-wrapper"><pre><code>public class BigChar &#123;
-    // 字符名字
-    private char charName;
-    // 大型字符对应的字符串(由&apos;#&apos;&apos;.&apos;&apos;\n&apos;组成)
-    private String fontData;
+<h2 id="1-从邮件地址中获取用户名的类"><a href="#1-从邮件地址中获取用户名的类" class="headerlink" title="1- 从邮件地址中获取用户名的类"></a>1- 从邮件地址中获取用户名的类</h2><div class="code-wrapper"><pre><code>// 需要配置相应的数据库
+public class Database &#123;
+    private Database() &#123;    // 防止外部new出Database的实例,所以声明为private
+    &#125;
 
-    private String filePath = &quot;大型字符文件路径&quot;;
-
-    // 构造函数
-    public BigChar(char charName) &#123;
-        this.charName = charName;
-
+    public static Properties getProperties(String dbname)&#123;  // 根据数据库名获取Properties
+        String filename = dbname + &quot;.txt&quot;;
+        Properties prop = new Properties();
         try &#123;
-            BufferedReader reader = new BufferedReader(
-                    new FileReader(filePath+ &quot;big&quot; + charName + &quot;.txt&quot;)
-            );
-            String line;
-            StringBuffer buf = new StringBuffer();
-            while ((line = reader.readLine()) != null) &#123;
-                buf.append(line);
-                buf.append(&quot;\n&quot;);
-            &#125;
-            reader.close();
-            this.fontData = buf.toString();
+            prop.load(new FileInputStream(filename));
         &#125;catch (IOException e)&#123;
-            this.fontData = charName + &quot;?&quot;;
+            System.out.println(&quot;Warning: &quot; + filename + &quot; is not found.&quot;);
+        &#125;
+        return prop;
+    &#125;
+&#125;</code></pre></div><h2 id="2-编写HTML文件的类"><a href="#2-编写HTML文件的类" class="headerlink" title="2 - 编写HTML文件的类"></a>2 - 编写HTML文件的类</h2><div class="code-wrapper"><pre><code>public class HtmlWriter &#123;
+    private Writer writer;
+    public HtmlWriter(Writer writer)&#123;
+        this.writer = writer;
+    &#125;
+
+    public void title(String title) throws IOException&#123;
+        writer.write(&quot;&lt;html&gt;&quot;);
+        writer.write(&quot;&lt;head&gt;&quot;);
+        writer.write(&quot;&lt;title&gt;&quot; + title + &quot;&lt;/title&gt;&quot;);
+        writer.write(&quot;&lt;/head&gt;&quot;);
+        writer.write(&quot;&lt;body&gt;\n&quot;);
+        writer.write(&quot;&lt;h1&gt;&quot; + title + &quot;&lt;/h1&gt;&quot;);
+    &#125;
+
+    public void paragraph(String msg) throws IOException&#123;
+        writer.write(&quot;&lt;p&gt;&quot; + msg + &quot;&lt;/p&gt;\n&quot;);
+    &#125;
+
+    public void link(String href, String caption) throws IOException&#123;
+        paragraph(&quot;&lt;a href=\&quot;&quot; + href + &quot;\&quot;&gt;&quot; + caption + &quot;&lt;/a&gt;&quot;);
+    &#125;
+
+    public void mailto(String mailAddr, String userName) throws IOException&#123;
+        link(&quot;mailto: &quot; + mailAddr, userName);
+    &#125;
+
+    public void close() throws IOException&#123;
+        writer.write(&quot;&lt;/body&gt;&quot;);
+        writer.write(&quot;&lt;/html&gt;&quot;);
+        writer.close();
+    &#125;
+&#125;</code></pre></div><h2 id="3-根据邮件地址编写该用户的Web页面"><a href="#3-根据邮件地址编写该用户的Web页面" class="headerlink" title="3 - 根据邮件地址编写该用户的Web页面"></a>3 - 根据邮件地址编写该用户的Web页面</h2><div class="code-wrapper"><pre><code>public class PageMaker &#123;
+    private PageMaker() &#123;    // 防止外部new出PageMaker的实例,所以声明为private
+    &#125;
+
+    public static void makeWelcomePage(String mailAddr, String filename)&#123;
+        try &#123;
+            Properties mailProp = Database.getProperties(&quot;mailData&quot;);
+            String userName = mailProp.getProperty(mailAddr);
+            HtmlWriter writer = new HtmlWriter(new FileWriter(filename));
+            writer.title(&quot;Welcome to &quot; + userName + &quot;`s page!&quot;);
+            writer.paragraph(userName + &quot;欢迎来到&quot; + userName + &quot;的主页&quot;);
+            writer.paragraph(&quot;等着你的邮件哦!&quot;);
+            writer.mailto(mailAddr, userName);
+            writer.close();
+            System.out.println(filename + &quot; is created for &quot; + mailAddr + &quot; (&quot; +
+                    userName + &quot;)&quot;);
+        &#125;catch (IOException e)&#123;
             e.printStackTrace();
         &#125;
-    &#125;
 
-    // 显示大型字符
-    public void print() &#123;
-        System.out.println(fontData);
-    &#125;
-&#125;</code></pre></div><p>需要提前准备大型字符文件<br>例如字符’1’ ,文件名以”big1.txt”为标准</p>
-<div class="code-wrapper"><pre><code>..................
-........##........
-....######........
-........##........
-........##........
-........##........
-........##........
-..##############..
-..................</code></pre></div><h2 id="2-表示生成和共用BigChar类的实例的类"><a href="#2-表示生成和共用BigChar类的实例的类" class="headerlink" title="2 - 表示生成和共用BigChar类的实例的类"></a>2 - 表示生成和共用BigChar类的实例的类</h2><div class="code-wrapper"><pre><code>public class BigCharFactory &#123;
-    // 管理已经生成的BigChar的实例
-    private HashMap&lt;String, BigChar&gt; pool = new HashMap&lt;&gt;();
-
-    // Singleton模式
-    private static BigCharFactory singleton = new BigCharFactory();
-
-    // 构造函数
-    private BigCharFactory() &#123;&#125;
-
-    // 获取唯一实例
-    public static BigCharFactory getInstance() &#123;
-        return singleton;
-    &#125;
-
-    // 生成(共享)BigChar类的实例
-    public synchronized BigChar getBigChar(char charName) &#123;
-        BigChar bc = pool.get(&quot;&quot; + charName);
-        if (bc == null) &#123;
-            bc = new BigChar(charName);
-            pool.put(&quot;&quot; + charName, bc);
-        &#125;
-        return bc;
-    &#125;
-&#125;</code></pre></div><h2 id="3-表示多个BigChar组成的”大型字符串”的类"><a href="#3-表示多个BigChar组成的”大型字符串”的类" class="headerlink" title="3 - 表示多个BigChar组成的”大型字符串”的类"></a>3 - 表示多个BigChar组成的”大型字符串”的类</h2><div class="code-wrapper"><pre><code>public class BigString &#123;
-    // &quot;大型字符&quot;的数组
-    private BigChar[] bigChars;
-
-    // 构造函数
-    public BigString(String string) &#123;
-        bigChars = new BigChar[string.length()];
-        BigCharFactory factory = BigCharFactory.getInstance();
-        for (int i = 0; i &lt; bigChars.length; i++) &#123;
-            bigChars[i] = factory.getBigChar(string.charAt(i));
-        &#125;
-    &#125;
-
-    // 显示
-    public void print() &#123;
-        for (BigChar bigChar : bigChars) &#123;
-            bigChar.print();
-        &#125;
     &#125;
 &#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
     public static void main(String[] args) &#123;
-        if (args.length == 0) &#123;
-            System.out.println(&quot;Usage: java Main digits&quot;);
-            System.out.println(&quot;Example: java Main 1212123&quot;);
-            System.exit(0);
-        &#125;
-
-        BigString bs = new BigString(args[0]);
-        bs.print();
+        PageMaker.makeWelcomePage(&quot;hyuki@hyuki.com&quot;, &quot;welcome.html&quot;);
     &#125;
-&#125;</code></pre></div><p>需要提前设置参数 args[0] = ‘12123’</p>
-<h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>..................
-........##........
-....######........
-........##........
-........##........
-........##........
-........##........
-..##############..
-..................
+&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><html><head><title>Welcome to Hiroshi Yuki`s page!</title></head><body>
+<h1>Welcome to Hiroshi Yuki`s page!</h1><p>null欢迎来到null的主页</p>
+<p>等着你的邮件哦!</p>
+<p><a href="mailto: hyuki@hyuki.com">Hiroshi Yuki</a></p>
+</body></html>
 
-...................
-....########.......
-..##.........###...
-............###....
-..........###......
-........###........
-......###..........
-....###............
-..#############....
-...................
-
-..................
-........##........
-....######........
-........##........
-........##........
-........##........
-........##........
-..##############..
-..................
-
-...................
-....########.......
-..##.........###...
-............###....
-..........###......
-........###........
-......###..........
-....###............
-..#############....
-...................
-
-..................
-....#######.......
-..##.......##.....
-............##....
-....#######.......
-............##....
-..##.......##.....
-....######........
-..................</code></pre></div>]]></content>
+<div class="code-wrapper"><pre><code>// HTML源码
+&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to Hiroshi Yuki`s page!&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Welcome to Hiroshi Yuki`s page!&lt;/h1&gt;
+&lt;p&gt;null欢迎来到null的主页&lt;/p&gt;
+&lt;p&gt;等着你的邮件哦!&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;mailto: hyuki@hyuki.com&quot;&gt;Hiroshi Yuki&lt;/a&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -3808,6 +3831,122 @@ class TestThread implements Runnable&#123;
       </tags>
   </entry>
   <entry>
+    <title>Liunx 配置静态IP</title>
+    <url>/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/</url>
+    <content><![CDATA[<h1 id="Liunx-配置静态IP-基于CentOS-7"><a href="#Liunx-配置静态IP-基于CentOS-7" class="headerlink" title="Liunx 配置静态IP (基于CentOS  7)"></a>Liunx 配置静态IP (基于CentOS  7)</h1><blockquote>
+<p>  只要Vmware的虚拟网络编辑器配置好, 其他liunx系统配置基本一样, 只是有些命令不同而已</p>
+</blockquote>
+<h2 id="1-原理"><a href="#1-原理" class="headerlink" title="1 原理"></a>1 原理</h2><ul>
+<li>先看看虚拟机和主机连接的条件：</li>
+</ul>
+<ul>
+<li>需要主机的Vmware8的ip、Vmware8网关ip、虚拟机(centOs)网卡eth0的ip在同一网段下，如图（都是192.168.145.x）：</li>
+</ul>
+<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/20201201012406421.png" alt="img"></p>
+<p>图片来自网络, 侵权请联系<a href="pncalbl@qq.com">author</a>删除</p>
+<ul>
+<li>一般地，如果虚拟机与主机通信走的是虚线，访问外网则走的实线，其控制程序在虚拟机网关设备中实现</li>
+</ul>
+<ul>
+<li>但是，一般由于工作环境的变化，导致网络的改变，有时候会导致虚拟机网段改变，从而与主机连不通，在CentOs下使用ifconfig发现ens33 ip不再192.168.145这个段上，这时，重置eth0的ip即可，方法：ifconfig ens33 192.168.145.xxx</li>
+</ul>
+<h2 id="2-修改虚拟机网络编辑器"><a href="#2-修改虚拟机网络编辑器" class="headerlink" title="2 修改虚拟机网络编辑器"></a>2 修改虚拟机网络编辑器</h2><ul>
+<li><p>点击 编辑-&gt;虚拟机网络编辑器</p>
+<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430180711181.png" alt="image-20210430180711181"></p>
+<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430181747517.png" alt="image-20210430181747517"></p>
+</li>
+</ul>
+<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430181845286.png" alt="image-20210430181845286"></p>
+<ul>
+<li><p>如果子网不对, 可以还原默认设置</p>
+<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430182036414.png" alt="image-20210430182036414"></p>
+</li>
+</ul>
+<h2 id="3-更改网络适配器"><a href="#3-更改网络适配器" class="headerlink" title="3 更改网络适配器"></a>3 更改网络适配器</h2><blockquote>
+<p>  VMware Virtual Ethernet Adapter for VMnet8 (NAT)</p>
+</blockquote>
+<ul>
+<li><p>点击IPv4</p>
+<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430190450485.png" alt="image-20210430190450485"></p>
+</li>
+<li><p>修改</p>
+<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430190551654.png" alt="image-20210430190551654"></p>
+</li>
+</ul>
+<h2 id="4-修改ens33"><a href="#4-修改ens33" class="headerlink" title="4 修改ens33"></a>4 修改ens33</h2><ul>
+<li><p>进入 网卡配置</p>
+<ul>
+<li><p>centOS</p>
+<div class="code-wrapper"><pre><code class="hljs awk">vim <span class="hljs-regexp">/etc/</span>sysconfig<span class="hljs-regexp">/network-scripts/i</span>fcfg-ens33</code></pre></div>
+</li>
+<li><p>ubunto</p>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">gedit</span> /etc/netplan/<span class="hljs-number">01</span>-network-manager-<span class="hljs-literal">all</span>.yaml</code></pre></div>
+</li>
+</ul>
+</li>
+<li><p>修改参数</p>
+<ul>
+<li><p>centOS</p>
+<div class="code-wrapper"><pre><code class="hljs ini"><span class="hljs-attr">HWADDR</span>=<span class="hljs-number">00</span>:<span class="hljs-number">0</span>C:<span class="hljs-number">29</span>:<span class="hljs-number">0</span>D:<span class="hljs-number">73</span>:CF
+<span class="hljs-attr">TYPE</span>=Ethernet
+<span class="hljs-attr">PROXY_METHOD</span>=none
+<span class="hljs-attr">BROWSER_ONLY</span>=<span class="hljs-literal">no</span>
+<span class="hljs-attr">BOOTPROTO</span>=static	<span class="hljs-comment"># 静态IP</span>
+<span class="hljs-attr">DEFROUTE</span>=<span class="hljs-literal">yes</span>
+<span class="hljs-attr">IPV4_FAILURE_FATAL</span>=<span class="hljs-literal">no</span>
+<span class="hljs-attr">IPV6INIT</span>=<span class="hljs-literal">yes</span>
+<span class="hljs-attr">IPV6_AUTOCONF</span>=<span class="hljs-literal">yes</span>
+<span class="hljs-attr">IPV6_DEFROUTE</span>=<span class="hljs-literal">yes</span>
+<span class="hljs-attr">IPV6_FAILURE_FATAL</span>=<span class="hljs-literal">no</span>
+<span class="hljs-attr">IPV6_ADDR_GEN_MODE</span>=stable-privacy
+<span class="hljs-attr">NAME</span>=ens33
+<span class="hljs-attr">UUID</span>=<span class="hljs-number">13000</span>fee-<span class="hljs-number">503</span>a-<span class="hljs-number">350</span>c-<span class="hljs-number">9462</span>-d70dd1ede195
+<span class="hljs-attr">ONBOOT</span>=<span class="hljs-literal">yes</span>	<span class="hljs-comment">#开机启用本配置</span>
+<span class="hljs-attr">AUTOCONNECT_PRIORITY</span>=-<span class="hljs-number">999</span>
+<span class="hljs-attr">IPADDR</span>=ipv4	<span class="hljs-comment">#ipv4</span>
+<span class="hljs-attr">PREFIX</span>=<span class="hljs-number">24</span>
+<span class="hljs-attr">GATEWAY</span>=网关 <span class="hljs-comment">#网关</span>
+<span class="hljs-attr">DNS1</span>=<span class="hljs-number">119.29</span>.<span class="hljs-number">29.29</span>	<span class="hljs-comment"># 域名解析</span></code></pre></div>
+</li>
+<li><p>ubunto</p>
+<div class="code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">network:</span>
+  <span class="hljs-attr">version:</span> <span class="hljs-number">2</span>
+  <span class="hljs-attr">renderer:</span> <span class="hljs-string">NetworkManager</span>
+  <span class="hljs-attr">ethernets:</span>
+          <span class="hljs-attr">ens33:</span>
+                  <span class="hljs-attr">dhcp4:</span> <span class="hljs-literal">no</span>
+                  <span class="hljs-attr">dhcp6:</span> <span class="hljs-literal">no</span>
+                  <span class="hljs-attr">addresses:</span> [<span class="hljs-string">ipv4</span>]
+                  <span class="hljs-attr">gateway4:</span> <span class="hljs-string">网关</span>
+                  <span class="hljs-attr">nameservers:</span>
+                          <span class="hljs-attr">addresses:</span> [<span class="hljs-number">119.29</span><span class="hljs-number">.29</span><span class="hljs-number">.29</span>, <span class="hljs-number">8.8</span><span class="hljs-number">.8</span><span class="hljs-number">.8</span>]</code></pre></div>
+</li>
+</ul>
+</li>
+<li><p>重启网络服务</p>
+<div class="code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">service network restart</span></code></pre></div>
+</li>
+<li><p>查看ip</p>
+<div class="code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">ifconfig</span></code></pre></div>
+</li>
+<li><p>测试</p>
+<div class="code-wrapper"><pre><code class="hljs autoit"><span class="hljs-built_in">ping</span> www.baidu.com</code></pre></div>
+
+
+
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>静态IP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Liunx 一般配置与命令</title>
     <url>/2021/05/10/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h1 id="1-Liunx-常用命令"><a href="#1-Liunx-常用命令" class="headerlink" title="1 Liunx 常用命令"></a>1 Liunx 常用命令</h1><h2 id="1-命令行"><a href="#1-命令行" class="headerlink" title="1 命令行"></a>1 命令行</h2><table>
@@ -4064,122 +4203,6 @@ Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide sh
       </tags>
   </entry>
   <entry>
-    <title>Liunx 配置静态IP</title>
-    <url>/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/</url>
-    <content><![CDATA[<h1 id="Liunx-配置静态IP-基于CentOS-7"><a href="#Liunx-配置静态IP-基于CentOS-7" class="headerlink" title="Liunx 配置静态IP (基于CentOS  7)"></a>Liunx 配置静态IP (基于CentOS  7)</h1><blockquote>
-<p>  只要Vmware的虚拟网络编辑器配置好, 其他liunx系统配置基本一样, 只是有些命令不同而已</p>
-</blockquote>
-<h2 id="1-原理"><a href="#1-原理" class="headerlink" title="1 原理"></a>1 原理</h2><ul>
-<li>先看看虚拟机和主机连接的条件：</li>
-</ul>
-<ul>
-<li>需要主机的Vmware8的ip、Vmware8网关ip、虚拟机(centOs)网卡eth0的ip在同一网段下，如图（都是192.168.145.x）：</li>
-</ul>
-<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/20201201012406421.png" alt="img"></p>
-<p>图片来自网络, 侵权请联系<a href="pncalbl@qq.com">author</a>删除</p>
-<ul>
-<li>一般地，如果虚拟机与主机通信走的是虚线，访问外网则走的实线，其控制程序在虚拟机网关设备中实现</li>
-</ul>
-<ul>
-<li>但是，一般由于工作环境的变化，导致网络的改变，有时候会导致虚拟机网段改变，从而与主机连不通，在CentOs下使用ifconfig发现ens33 ip不再192.168.145这个段上，这时，重置eth0的ip即可，方法：ifconfig ens33 192.168.145.xxx</li>
-</ul>
-<h2 id="2-修改虚拟机网络编辑器"><a href="#2-修改虚拟机网络编辑器" class="headerlink" title="2 修改虚拟机网络编辑器"></a>2 修改虚拟机网络编辑器</h2><ul>
-<li><p>点击 编辑-&gt;虚拟机网络编辑器</p>
-<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430180711181.png" alt="image-20210430180711181"></p>
-<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430181747517.png" alt="image-20210430181747517"></p>
-</li>
-</ul>
-<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430181845286.png" alt="image-20210430181845286"></p>
-<ul>
-<li><p>如果子网不对, 可以还原默认设置</p>
-<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430182036414.png" alt="image-20210430182036414"></p>
-</li>
-</ul>
-<h2 id="3-更改网络适配器"><a href="#3-更改网络适配器" class="headerlink" title="3 更改网络适配器"></a>3 更改网络适配器</h2><blockquote>
-<p>  VMware Virtual Ethernet Adapter for VMnet8 (NAT)</p>
-</blockquote>
-<ul>
-<li><p>点击IPv4</p>
-<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430190450485.png" alt="image-20210430190450485"></p>
-</li>
-<li><p>修改</p>
-<p><img src="/2021/04/30/Linux%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/image-20210430190551654.png" alt="image-20210430190551654"></p>
-</li>
-</ul>
-<h2 id="4-修改ens33"><a href="#4-修改ens33" class="headerlink" title="4 修改ens33"></a>4 修改ens33</h2><ul>
-<li><p>进入 网卡配置</p>
-<ul>
-<li><p>centOS</p>
-<div class="code-wrapper"><pre><code class="hljs awk">vim <span class="hljs-regexp">/etc/</span>sysconfig<span class="hljs-regexp">/network-scripts/i</span>fcfg-ens33</code></pre></div>
-</li>
-<li><p>ubunto</p>
-<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">gedit</span> /etc/netplan/<span class="hljs-number">01</span>-network-manager-<span class="hljs-literal">all</span>.yaml</code></pre></div>
-</li>
-</ul>
-</li>
-<li><p>修改参数</p>
-<ul>
-<li><p>centOS</p>
-<div class="code-wrapper"><pre><code class="hljs ini"><span class="hljs-attr">HWADDR</span>=<span class="hljs-number">00</span>:<span class="hljs-number">0</span>C:<span class="hljs-number">29</span>:<span class="hljs-number">0</span>D:<span class="hljs-number">73</span>:CF
-<span class="hljs-attr">TYPE</span>=Ethernet
-<span class="hljs-attr">PROXY_METHOD</span>=none
-<span class="hljs-attr">BROWSER_ONLY</span>=<span class="hljs-literal">no</span>
-<span class="hljs-attr">BOOTPROTO</span>=static	<span class="hljs-comment"># 静态IP</span>
-<span class="hljs-attr">DEFROUTE</span>=<span class="hljs-literal">yes</span>
-<span class="hljs-attr">IPV4_FAILURE_FATAL</span>=<span class="hljs-literal">no</span>
-<span class="hljs-attr">IPV6INIT</span>=<span class="hljs-literal">yes</span>
-<span class="hljs-attr">IPV6_AUTOCONF</span>=<span class="hljs-literal">yes</span>
-<span class="hljs-attr">IPV6_DEFROUTE</span>=<span class="hljs-literal">yes</span>
-<span class="hljs-attr">IPV6_FAILURE_FATAL</span>=<span class="hljs-literal">no</span>
-<span class="hljs-attr">IPV6_ADDR_GEN_MODE</span>=stable-privacy
-<span class="hljs-attr">NAME</span>=ens33
-<span class="hljs-attr">UUID</span>=<span class="hljs-number">13000</span>fee-<span class="hljs-number">503</span>a-<span class="hljs-number">350</span>c-<span class="hljs-number">9462</span>-d70dd1ede195
-<span class="hljs-attr">ONBOOT</span>=<span class="hljs-literal">yes</span>	<span class="hljs-comment">#开机启用本配置</span>
-<span class="hljs-attr">AUTOCONNECT_PRIORITY</span>=-<span class="hljs-number">999</span>
-<span class="hljs-attr">IPADDR</span>=ipv4	<span class="hljs-comment">#ipv4</span>
-<span class="hljs-attr">PREFIX</span>=<span class="hljs-number">24</span>
-<span class="hljs-attr">GATEWAY</span>=网关 <span class="hljs-comment">#网关</span>
-<span class="hljs-attr">DNS1</span>=<span class="hljs-number">119.29</span>.<span class="hljs-number">29.29</span>	<span class="hljs-comment"># 域名解析</span></code></pre></div>
-</li>
-<li><p>ubunto</p>
-<div class="code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">network:</span>
-  <span class="hljs-attr">version:</span> <span class="hljs-number">2</span>
-  <span class="hljs-attr">renderer:</span> <span class="hljs-string">NetworkManager</span>
-  <span class="hljs-attr">ethernets:</span>
-          <span class="hljs-attr">ens33:</span>
-                  <span class="hljs-attr">dhcp4:</span> <span class="hljs-literal">no</span>
-                  <span class="hljs-attr">dhcp6:</span> <span class="hljs-literal">no</span>
-                  <span class="hljs-attr">addresses:</span> [<span class="hljs-string">ipv4</span>]
-                  <span class="hljs-attr">gateway4:</span> <span class="hljs-string">网关</span>
-                  <span class="hljs-attr">nameservers:</span>
-                          <span class="hljs-attr">addresses:</span> [<span class="hljs-number">119.29</span><span class="hljs-number">.29</span><span class="hljs-number">.29</span>, <span class="hljs-number">8.8</span><span class="hljs-number">.8</span><span class="hljs-number">.8</span>]</code></pre></div>
-</li>
-</ul>
-</li>
-<li><p>重启网络服务</p>
-<div class="code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">service network restart</span></code></pre></div>
-</li>
-<li><p>查看ip</p>
-<div class="code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">ifconfig</span></code></pre></div>
-</li>
-<li><p>测试</p>
-<div class="code-wrapper"><pre><code class="hljs autoit"><span class="hljs-built_in">ping</span> www.baidu.com</code></pre></div>
-
-
-
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>静态IP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>MongoDB 学习</title>
     <url>/2021/05/01/MongoDB%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h1 id="MongoDB-学习"><a href="#MongoDB-学习" class="headerlink" title="MongoDB 学习"></a>MongoDB 学习</h1>]]></content>
@@ -4403,6 +4426,58 @@ def validate(self, instance, value):
       </categories>
   </entry>
   <entry>
+    <title>函数参数的使用</title>
+    <url>/2020/07/25/Python%E5%8F%82%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="一，Python函数参数的使用"><a href="#一，Python函数参数的使用" class="headerlink" title="一，Python函数参数的使用"></a>一，Python函数参数的使用</h2><h2 id="1-不可变参数"><a href="#1-不可变参数" class="headerlink" title="1.不可变参数"></a>1.不可变参数</h2><h3 id="1-1-位置实参-参数顺序要一致"><a href="#1-1-位置实参-参数顺序要一致" class="headerlink" title="1.1 位置实参(参数顺序要一致)"></a>1.1 位置实参(参数顺序要一致)</h3><div class="code-wrapper"><pre><code>def describe_pet(animal_type, pet_name):
+   &quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
+   print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
+   print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
+
+describe_pet(&apos;hamster&apos;, &apos;harry&apos;)
+describe_pet(&apos;dog&apos;, &apos;willie&apos;)</code></pre></div><p>在参数的顺序上，实参与位置参数要一致，不然会出现一些无法预料到错误。</p>
+<h3 id="1-2-关键字参数"><a href="#1-2-关键字参数" class="headerlink" title="1.2 关键字参数"></a>1.2 关键字参数</h3><div class="code-wrapper"><pre><code>def describe_pet(animal_type, pet_name):
+&quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
+print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
+print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
+
+describe_pet(animal_type=&apos;hamster&apos;, pet_name=&apos;harry&apos;)
+describe_pet(animal_type=&apos;dog&apos;, pet_name=&apos;willie&apos;)</code></pre></div><p>关键字参数顺序可以改变，在没有默认值的情况下,必须提供全部的参数。</p>
+<h3 id="1-3-位置参数与关键字混用"><a href="#1-3-位置参数与关键字混用" class="headerlink" title="1.3 位置参数与关键字混用"></a>1.3 位置参数与关键字混用</h3><div class="code-wrapper"><pre><code>def describe_pet(pet_name, animal_type):
+    &quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
+    print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
+    print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
+
+describe_pet(&apos;wille&apos;,animal_type=&apos;dog&apos;)</code></pre></div><p>关键字参数必须在位置参数之后</p>
+<h2 id="2-可变参数"><a href="#2-可变参数" class="headerlink" title="2.可变参数"></a>2.可变参数</h2><h3 id="1-1使用任意数量的位置实参"><a href="#1-1使用任意数量的位置实参" class="headerlink" title="1. 1使用任意数量的位置实参"></a>1. 1使用任意数量的位置实参</h3><div class="code-wrapper"><pre><code>def make_pizza(size, *toppings):
+    &quot;&quot;&quot;概述要制作的比萨&quot;&quot;&quot;
+    print(&quot;\nMaking a &quot; + str(size) + &quot;-inch pizza with the following       toppings:&quot;)
+    for topping in toppings:
+        print(&quot;-&quot; + topping)
+
+make_pizza(16, &apos;pepperoni&apos;)
+make_pizza(12, &apos;mushrooms&apos;, &apos;green peppers&apos;, &apos;extra cheese&apos;)</code></pre></div><p> ‘*’ 是分隔符，可变参数实际上是将其组装成元组</p>
+<h3 id="1-2使用任意数量的关键字实参"><a href="#1-2使用任意数量的关键字实参" class="headerlink" title="1. 2使用任意数量的关键字实参"></a>1. 2使用任意数量的关键字实参</h3><div class="code-wrapper"><pre><code>def build_profile(first, last, **user_info):
+    &quot;&quot;&quot;创建一个字典，其中包含我们知道的有关用户的一切&quot;&quot;&quot;
+    profile = &#123;&#125;
+    profile[&apos;first_name&apos;] = first
+    profile[&apos;last_name&apos;] = last
+    for  key, value in user_info.items():
+        profile[key] = value
+    return profile
+
+user_profile = build_profile(&apos;albert&apos;, &apos;einstein&apos;,
+                            location=&apos;princeton&apos;,
+                            field=&apos;physics&apos;)
+print(user_profile)</code></pre></div><p> 参数组合在实际书写中，需要遵循一定的顺序：<br>位置参数-&gt;默认参数-&gt;边长参数-&gt;关键字参数-&gt;命名关键字参数</p>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>参数</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python关于迭代器和生成器</title>
     <url>/2020/08/24/Python%E5%85%B3%E4%BA%8E%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/</url>
     <content><![CDATA[<h2 id="1-使用迭代器实现Sentence类"><a href="#1-使用迭代器实现Sentence类" class="headerlink" title="1 - 使用迭代器实现Sentence类"></a>1 - 使用迭代器实现Sentence类</h2><h3 id="1-1-具体的实现代码"><a href="#1-1-具体的实现代码" class="headerlink" title="1.1 具体的实现代码"></a>1.1 具体的实现代码</h3><div class="code-wrapper"><pre><code>import re
@@ -4513,58 +4588,6 @@ dance_thread.start()</code></pre></div>]]></content>
       </tags>
   </entry>
   <entry>
-    <title>函数参数的使用</title>
-    <url>/2020/07/25/Python%E5%8F%82%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="一，Python函数参数的使用"><a href="#一，Python函数参数的使用" class="headerlink" title="一，Python函数参数的使用"></a>一，Python函数参数的使用</h2><h2 id="1-不可变参数"><a href="#1-不可变参数" class="headerlink" title="1.不可变参数"></a>1.不可变参数</h2><h3 id="1-1-位置实参-参数顺序要一致"><a href="#1-1-位置实参-参数顺序要一致" class="headerlink" title="1.1 位置实参(参数顺序要一致)"></a>1.1 位置实参(参数顺序要一致)</h3><div class="code-wrapper"><pre><code>def describe_pet(animal_type, pet_name):
-   &quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
-   print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
-   print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
-
-describe_pet(&apos;hamster&apos;, &apos;harry&apos;)
-describe_pet(&apos;dog&apos;, &apos;willie&apos;)</code></pre></div><p>在参数的顺序上，实参与位置参数要一致，不然会出现一些无法预料到错误。</p>
-<h3 id="1-2-关键字参数"><a href="#1-2-关键字参数" class="headerlink" title="1.2 关键字参数"></a>1.2 关键字参数</h3><div class="code-wrapper"><pre><code>def describe_pet(animal_type, pet_name):
-&quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
-print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
-print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
-
-describe_pet(animal_type=&apos;hamster&apos;, pet_name=&apos;harry&apos;)
-describe_pet(animal_type=&apos;dog&apos;, pet_name=&apos;willie&apos;)</code></pre></div><p>关键字参数顺序可以改变，在没有默认值的情况下,必须提供全部的参数。</p>
-<h3 id="1-3-位置参数与关键字混用"><a href="#1-3-位置参数与关键字混用" class="headerlink" title="1.3 位置参数与关键字混用"></a>1.3 位置参数与关键字混用</h3><div class="code-wrapper"><pre><code>def describe_pet(pet_name, animal_type):
-    &quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
-    print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
-    print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
-
-describe_pet(&apos;wille&apos;,animal_type=&apos;dog&apos;)</code></pre></div><p>关键字参数必须在位置参数之后</p>
-<h2 id="2-可变参数"><a href="#2-可变参数" class="headerlink" title="2.可变参数"></a>2.可变参数</h2><h3 id="1-1使用任意数量的位置实参"><a href="#1-1使用任意数量的位置实参" class="headerlink" title="1. 1使用任意数量的位置实参"></a>1. 1使用任意数量的位置实参</h3><div class="code-wrapper"><pre><code>def make_pizza(size, *toppings):
-    &quot;&quot;&quot;概述要制作的比萨&quot;&quot;&quot;
-    print(&quot;\nMaking a &quot; + str(size) + &quot;-inch pizza with the following       toppings:&quot;)
-    for topping in toppings:
-        print(&quot;-&quot; + topping)
-
-make_pizza(16, &apos;pepperoni&apos;)
-make_pizza(12, &apos;mushrooms&apos;, &apos;green peppers&apos;, &apos;extra cheese&apos;)</code></pre></div><p> ‘*’ 是分隔符，可变参数实际上是将其组装成元组</p>
-<h3 id="1-2使用任意数量的关键字实参"><a href="#1-2使用任意数量的关键字实参" class="headerlink" title="1. 2使用任意数量的关键字实参"></a>1. 2使用任意数量的关键字实参</h3><div class="code-wrapper"><pre><code>def build_profile(first, last, **user_info):
-    &quot;&quot;&quot;创建一个字典，其中包含我们知道的有关用户的一切&quot;&quot;&quot;
-    profile = &#123;&#125;
-    profile[&apos;first_name&apos;] = first
-    profile[&apos;last_name&apos;] = last
-    for  key, value in user_info.items():
-        profile[key] = value
-    return profile
-
-user_profile = build_profile(&apos;albert&apos;, &apos;einstein&apos;,
-                            location=&apos;princeton&apos;,
-                            field=&apos;physics&apos;)
-print(user_profile)</code></pre></div><p> 参数组合在实际书写中，需要遵循一定的顺序：<br>位置参数-&gt;默认参数-&gt;边长参数-&gt;关键字参数-&gt;命名关键字参数</p>
-]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>参数</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python多进程实现程序并发</title>
     <url>/2020/08/08/Python%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%AE%9E%E7%8E%B0%E7%A8%8B%E5%BA%8F%E5%B9%B6%E5%8F%91/</url>
     <content><![CDATA[<h3 id="第一步·导入相应的进程模块"><a href="#第一步·导入相应的进程模块" class="headerlink" title="第一步·导入相应的进程模块"></a>第一步·导入相应的进程模块</h3><div class="code-wrapper"><pre><code>import multiprocessing
@@ -4585,24 +4608,6 @@ dance_process.start()</code></pre></div>]]></content>
       <tags>
         <tag>并发</tag>
         <tag>多进程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python操控Mysql数据库</title>
-    <url>/2020/07/22/Python%E6%93%8D%E6%8E%A7Mysql%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
-    <content><![CDATA[<h2 id="1-首先导入所需要的包"><a href="#1-首先导入所需要的包" class="headerlink" title="1. 首先导入所需要的包"></a>1. 首先导入所需要的包</h2><div class="code-wrapper"><pre><code>import pymysql</code></pre></div><h2 id="2-链接mysql数据库服务"><a href="#2-链接mysql数据库服务" class="headerlink" title="2. 链接mysql数据库服务"></a>2. 链接mysql数据库服务</h2><div class="code-wrapper"><pre><code>connc = pymysql.Connect(
-# 默认只写用户名和密码以及数据库名称就足够了
-user=&apos;root&apos;,
-password=&quot;password&quot;,
-database=&apos;mydatabase&apos;,
-)</code></pre></div><h2 id="3-创建游标对象"><a href="#3-创建游标对象" class="headerlink" title="3. 创建游标对象"></a>3. 创建游标对象</h2><div class="code-wrapper"><pre><code>cur = connc.cursor()</code></pre></div><h2 id="4-编写SQL语句"><a href="#4-编写SQL语句" class="headerlink" title="4. 编写SQL语句"></a>4. 编写SQL语句</h2><div class="code-wrapper"><pre><code>sql = &apos;select * from students&apos;</code></pre></div><h2 id="5-使用游标对象去调用SQL"><a href="#5-使用游标对象去调用SQL" class="headerlink" title="5. 使用游标对象去调用SQL"></a>5. 使用游标对象去调用SQL</h2><div class="code-wrapper"><pre><code>cur.execute(sql)</code></pre></div><h2 id="6-获取查询结果并打印"><a href="#6-获取查询结果并打印" class="headerlink" title="6. 获取查询结果并打印"></a>6. 获取查询结果并打印</h2><div class="code-wrapper"><pre><code>result = cur.fetchall()
-print(result)</code></pre></div><h2 id="7-关闭游标和链接对象"><a href="#7-关闭游标和链接对象" class="headerlink" title="7. 关闭游标和链接对象"></a>7. 关闭游标和链接对象</h2><div class="code-wrapper"><pre><code>cur.close()
-connc.close()</code></pre></div>]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -4774,6 +4779,24 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       </tags>
   </entry>
   <entry>
+    <title>Python操控Mysql数据库</title>
+    <url>/2020/07/22/Python%E6%93%8D%E6%8E%A7Mysql%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+    <content><![CDATA[<h2 id="1-首先导入所需要的包"><a href="#1-首先导入所需要的包" class="headerlink" title="1. 首先导入所需要的包"></a>1. 首先导入所需要的包</h2><div class="code-wrapper"><pre><code>import pymysql</code></pre></div><h2 id="2-链接mysql数据库服务"><a href="#2-链接mysql数据库服务" class="headerlink" title="2. 链接mysql数据库服务"></a>2. 链接mysql数据库服务</h2><div class="code-wrapper"><pre><code>connc = pymysql.Connect(
+# 默认只写用户名和密码以及数据库名称就足够了
+user=&apos;root&apos;,
+password=&quot;password&quot;,
+database=&apos;mydatabase&apos;,
+)</code></pre></div><h2 id="3-创建游标对象"><a href="#3-创建游标对象" class="headerlink" title="3. 创建游标对象"></a>3. 创建游标对象</h2><div class="code-wrapper"><pre><code>cur = connc.cursor()</code></pre></div><h2 id="4-编写SQL语句"><a href="#4-编写SQL语句" class="headerlink" title="4. 编写SQL语句"></a>4. 编写SQL语句</h2><div class="code-wrapper"><pre><code>sql = &apos;select * from students&apos;</code></pre></div><h2 id="5-使用游标对象去调用SQL"><a href="#5-使用游标对象去调用SQL" class="headerlink" title="5. 使用游标对象去调用SQL"></a>5. 使用游标对象去调用SQL</h2><div class="code-wrapper"><pre><code>cur.execute(sql)</code></pre></div><h2 id="6-获取查询结果并打印"><a href="#6-获取查询结果并打印" class="headerlink" title="6. 获取查询结果并打印"></a>6. 获取查询结果并打印</h2><div class="code-wrapper"><pre><code>result = cur.fetchall()
+print(result)</code></pre></div><h2 id="7-关闭游标和链接对象"><a href="#7-关闭游标和链接对象" class="headerlink" title="7. 关闭游标和链接对象"></a>7. 关闭游标和链接对象</h2><div class="code-wrapper"><pre><code>cur.close()
+connc.close()</code></pre></div>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SSBuild创建遇到的问题</title>
     <url>/2021/03/28/SSMBuild%E9%A1%B9%E7%9B%AE/</url>
     <content><![CDATA[<h1 id="1，项目结构"><a href="#1，项目结构" class="headerlink" title="1，项目结构"></a>1，项目结构</h1><p><img src="/2021/03/28/SSMBuild%E9%A1%B9%E7%9B%AE/image-20210328154204364.png" alt="image-20210328154204364"></p>
@@ -4926,36 +4949,6 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       </tags>
   </entry>
   <entry>
-    <title>WSL和VM不兼容</title>
-    <url>/2021/05/01/WSL%E5%92%8CVM/</url>
-    <content><![CDATA[<h3 id="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"><a href="#WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭" class="headerlink" title="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"></a>WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭</h3><ul>
-<li>CMD管理员模式启动，输入</li>
-</ul>
-<div class="code-wrapper"><pre><code class="hljs arduino">bcdedit /set hypervisorlaunchtype <span class="hljs-keyword">auto</span></code></pre></div>
-
-<ul>
-<li>开启，则可以使用WSL</li>
-</ul>
-<ul>
-<li>CMD管理员模式启动，输入</li>
-</ul>
-<div class="code-wrapper"><pre><code class="hljs cmake">bcdedit /<span class="hljs-keyword">set</span> hypervisorlaunchtype <span class="hljs-keyword">off</span></code></pre></div>
-
-<ul>
-<li>关闭，则可以使用VMware</li>
-</ul>
-<p>注意：不管是开还是关都需要重启电脑</p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>WSL</tag>
-        <tag>VM</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Spring 源码学习</title>
     <url>/2021/10/29/Spring%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<h1 id="Spring-源码学习"><a href="#Spring-源码学习" class="headerlink" title="Spring 源码学习"></a>Spring 源码学习</h1><h2 id="一、搭建阅读环境"><a href="#一、搭建阅读环境" class="headerlink" title="一、搭建阅读环境"></a>一、搭建阅读环境</h2><h3 id="1-拉取源码"><a href="#1-拉取源码" class="headerlink" title="1 拉取源码"></a>1 拉取源码</h3><p><img src="/2021/10/29/Spring%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/image-20211029215505730-16355157103411.png" alt="image-20211029215505730"></p>
@@ -5099,29 +5092,33 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2019/12/14/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre></div>
+    <title>WSL和VM不兼容</title>
+    <url>/2021/05/01/WSL%E5%92%8CVM/</url>
+    <content><![CDATA[<h3 id="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"><a href="#WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭" class="headerlink" title="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"></a>WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭</h3><ul>
+<li>CMD管理员模式启动，输入</li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs arduino">bcdedit /set hypervisorlaunchtype <span class="hljs-keyword">auto</span></code></pre></div>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo server</code></pre></div>
+<ul>
+<li>开启，则可以使用WSL</li>
+</ul>
+<ul>
+<li>CMD管理员模式启动，输入</li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs cmake">bcdedit /<span class="hljs-keyword">set</span> hypervisorlaunchtype <span class="hljs-keyword">off</span></code></pre></div>
 
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo generate</code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo deploy</code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<ul>
+<li>关闭，则可以使用VMware</li>
+</ul>
+<p>注意：不管是开还是关都需要重启电脑</p>
 ]]></content>
       <categories>
         <category>Help</category>
-        <category>Blog</category>
+        <category>Linux</category>
       </categories>
       <tags>
-        <tag>Hexo</tag>
-        <tag>Blog</tag>
+        <tag>WSL</tag>
+        <tag>VM</tag>
       </tags>
   </entry>
   <entry>
@@ -5285,6 +5282,32 @@ torch.cuda.is_available()</code></pre></div>
         <tag>PyTorch</tag>
         <tag>Win10</tag>
         <tag>Deep learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2019/12/14/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo server</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo generate</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo deploy</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Blog</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Blog</tag>
       </tags>
   </entry>
   <entry>
@@ -5666,19 +5689,6 @@ source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
       </tags>
   </entry>
   <entry>
-    <title>我的第一篇博客文章</title>
-    <url>/2019/12/15/%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/</url>
-    <content><![CDATA[<p>“list” 是给这个结构体起的别名，</p>
-<span id="more"></span>
-<p>为了使用方便。</p>
-<p>其次，这个结构体中的date是数值域，next是指针域。</p>
-<p>在这里我使用了递归定义。</p>
-<!-- more -->]]></content>
-      <tags>
-        <tag>博客</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>常见的压缩文件压缩和解压缩</title>
     <url>/2021/04/23/%E5%B8%B8%E8%A7%81%E7%9A%84%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E5%92%8C%E8%A7%A3%E5%8E%8B%E7%BC%A9/</url>
     <content><![CDATA[<h2 id="常见的压缩文件压缩和解压缩"><a href="#常见的压缩文件压缩和解压缩" class="headerlink" title="常见的压缩文件压缩和解压缩"></a>常见的压缩文件压缩和解压缩</h2><table>
@@ -5758,34 +5768,17 @@ source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
       </categories>
   </entry>
   <entry>
-    <title>覆写Python的内置方法</title>
-    <url>/2020/08/06/%E8%A6%86%E5%86%99Python%E7%9A%84%E5%86%85%E7%BD%AE%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="1-我们可以通过覆写类的内置方法str，来控制print-函数的打印格式"><a href="#1-我们可以通过覆写类的内置方法str，来控制print-函数的打印格式" class="headerlink" title="1.我们可以通过覆写类的内置方法str，来控制print()函数的打印格式"></a>1.我们可以通过覆写类的内置方法<strong>str</strong>，来控制print()函数的打印格式</h2><div class="code-wrapper"><pre><code>class Point:
-&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
-def __init__(self, x=0, y=0):
-    self.x = x
-    self.y = y
-def __str__(self):
-    return &quot;&lt;&#123;&#125;,&#123;&#125;&gt;&quot;.format(self.x, self.y)
-
-    if __name__ == &apos;__main__&apos;:
-point = Point(1, 1)
-print(point)</code></pre></div><h3 id="1-1-没有覆写内置方法str时，print-函数的打印结果："><a href="#1-1-没有覆写内置方法str时，print-函数的打印结果：" class="headerlink" title="1.1 没有覆写内置方法str时，print()函数的打印结果："></a>1.1 没有覆写内置方法<strong>str</strong>时，print()函数的打印结果：</h3><div class="code-wrapper"><pre><code>&lt;__main__.Point object at 0x000001D7FD4EB610&gt;
-仅仅只会显示类Point的实例对象point的地址</code></pre></div><h3 id="1-2-覆写内置方法str时，print-函数的打印结果："><a href="#1-2-覆写内置方法str时，print-函数的打印结果：" class="headerlink" title="1.2 覆写内置方法str时，print()函数的打印结果："></a>1.2 覆写内置方法<strong>str</strong>时，print()函数的打印结果：</h3><div class="code-wrapper"><pre><code>&lt;1,1&gt;
-就会打印出我们预想的结果</code></pre></div><h2 id="2-我们可以通过覆写类内置方法init，来获得类似于C-Java的访问限制"><a href="#2-我们可以通过覆写类内置方法init，来获得类似于C-Java的访问限制" class="headerlink" title="2.我们可以通过覆写类内置方法init，来获得类似于C++/Java的访问限制"></a>2.我们可以通过覆写类内置方法<strong>init</strong>，来获得类似于C++/Java的访问限制</h2><h3 id="2-1-私有属性的设置"><a href="#2-1-私有属性的设置" class="headerlink" title="2.1 私有属性的设置"></a>2.1 私有属性的设置</h3><div class="code-wrapper"><pre><code>class Point:
-&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
-def __init__(self, x=0, y=0):
-    self.__x = x
-    self.__y = y</code></pre></div><p> 前面加两个下划线，表示该属性只能直接在类里面直接访问，或者由类自己的方法来直接访问，类以外的不可以直接访问，但是我们同样可以向C++/Java那样书写Set和Get方法来间接的访问类的私有属性。</p>
-<h3 id="2-2-受保护属性的设置"><a href="#2-2-受保护属性的设置" class="headerlink" title="2.2 受保护属性的设置"></a>2.2 受保护属性的设置</h3><div class="code-wrapper"><pre><code>class Point:
-&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
-def __init__(self, x=0, y=0):
-    self._x = x
-    self._y = y</code></pre></div><p>受保护属性前面只用加一个下划线，其他的和私有属性基本一致</p>
-<h3 id="2-3-以上设置，均属于程序员自己的自我约束-规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。"><a href="#2-3-以上设置，均属于程序员自己的自我约束-规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。" class="headerlink" title="2.3 以上设置，均属于程序员自己的自我约束/规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。"></a>2.3 以上设置，均属于程序员自己的自我约束/规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。</h3>]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
+    <title>我的第一篇博客文章</title>
+    <url>/2019/12/15/%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/</url>
+    <content><![CDATA[<p>“list” 是给这个结构体起的别名，</p>
+<span id="more"></span>
+<p>为了使用方便。</p>
+<p>其次，这个结构体中的date是数值域，next是指针域。</p>
+<p>在这里我使用了递归定义。</p>
+<!-- more -->]]></content>
+      <tags>
+        <tag>博客</tag>
+      </tags>
   </entry>
   <entry>
     <title>虚拟机 Ubuntu 安装 Tensorflow</title>
@@ -5983,6 +5976,36 @@ c.NotebookApp.port = <span class="hljs-number">8888</span>（端口设置）</co
         <tag>Tensorflow</tag>
         <tag>Ubuntu</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>覆写Python的内置方法</title>
+    <url>/2020/08/06/%E8%A6%86%E5%86%99Python%E7%9A%84%E5%86%85%E7%BD%AE%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="1-我们可以通过覆写类的内置方法str，来控制print-函数的打印格式"><a href="#1-我们可以通过覆写类的内置方法str，来控制print-函数的打印格式" class="headerlink" title="1.我们可以通过覆写类的内置方法str，来控制print()函数的打印格式"></a>1.我们可以通过覆写类的内置方法<strong>str</strong>，来控制print()函数的打印格式</h2><div class="code-wrapper"><pre><code>class Point:
+&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
+def __init__(self, x=0, y=0):
+    self.x = x
+    self.y = y
+def __str__(self):
+    return &quot;&lt;&#123;&#125;,&#123;&#125;&gt;&quot;.format(self.x, self.y)
+
+    if __name__ == &apos;__main__&apos;:
+point = Point(1, 1)
+print(point)</code></pre></div><h3 id="1-1-没有覆写内置方法str时，print-函数的打印结果："><a href="#1-1-没有覆写内置方法str时，print-函数的打印结果：" class="headerlink" title="1.1 没有覆写内置方法str时，print()函数的打印结果："></a>1.1 没有覆写内置方法<strong>str</strong>时，print()函数的打印结果：</h3><div class="code-wrapper"><pre><code>&lt;__main__.Point object at 0x000001D7FD4EB610&gt;
+仅仅只会显示类Point的实例对象point的地址</code></pre></div><h3 id="1-2-覆写内置方法str时，print-函数的打印结果："><a href="#1-2-覆写内置方法str时，print-函数的打印结果：" class="headerlink" title="1.2 覆写内置方法str时，print()函数的打印结果："></a>1.2 覆写内置方法<strong>str</strong>时，print()函数的打印结果：</h3><div class="code-wrapper"><pre><code>&lt;1,1&gt;
+就会打印出我们预想的结果</code></pre></div><h2 id="2-我们可以通过覆写类内置方法init，来获得类似于C-Java的访问限制"><a href="#2-我们可以通过覆写类内置方法init，来获得类似于C-Java的访问限制" class="headerlink" title="2.我们可以通过覆写类内置方法init，来获得类似于C++/Java的访问限制"></a>2.我们可以通过覆写类内置方法<strong>init</strong>，来获得类似于C++/Java的访问限制</h2><h3 id="2-1-私有属性的设置"><a href="#2-1-私有属性的设置" class="headerlink" title="2.1 私有属性的设置"></a>2.1 私有属性的设置</h3><div class="code-wrapper"><pre><code>class Point:
+&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
+def __init__(self, x=0, y=0):
+    self.__x = x
+    self.__y = y</code></pre></div><p> 前面加两个下划线，表示该属性只能直接在类里面直接访问，或者由类自己的方法来直接访问，类以外的不可以直接访问，但是我们同样可以向C++/Java那样书写Set和Get方法来间接的访问类的私有属性。</p>
+<h3 id="2-2-受保护属性的设置"><a href="#2-2-受保护属性的设置" class="headerlink" title="2.2 受保护属性的设置"></a>2.2 受保护属性的设置</h3><div class="code-wrapper"><pre><code>class Point:
+&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
+def __init__(self, x=0, y=0):
+    self._x = x
+    self._y = y</code></pre></div><p>受保护属性前面只用加一个下划线，其他的和私有属性基本一致</p>
+<h3 id="2-3-以上设置，均属于程序员自己的自我约束-规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。"><a href="#2-3-以上设置，均属于程序员自己的自我约束-规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。" class="headerlink" title="2.3 以上设置，均属于程序员自己的自我约束/规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。"></a>2.3 以上设置，均属于程序员自己的自我约束/规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。</h3>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
   </entry>
   <entry>
     <title>链表之创建空链表</title>
@@ -38378,7 +38401,7 @@ obj 是 <span class="hljs-keyword">null</span></code></pre></div>
 <ul>
 <li>服务降级</li>
 <li>服务熔断</li>
-<li>接近实对的监控</li>
+<li>接近实时的监控</li>
 <li>…</li>
 </ul>
 </li>
@@ -38580,22 +38603,17 @@ obj 是 <span class="hljs-keyword">null</span></code></pre></div>
 <li><p><strong>测试</strong></p>
 <ul>
 <li>启动eureka7001</li>
+<li>启动cloud-provider-hystrix-payment8001</li>
+<li>访问<ul>
+<li>success的方法 - <a href="http://localhost:8001/payment/hystrix/ok/1">http://localhost:8001/payment/hystrix/ok/1</a></li>
+<li>每次调用耗费5秒钟 - <a href="http://localhost:8001/payment/hystrix/timeout/1">http://localhost:8001/payment/hystrix/timeout/1</a></li>
+</ul>
+</li>
+<li>以上述为根基平台，从正确 -&gt; 错误 -&gt; 降级熔断 -&gt; 恢复。</li>
 </ul>
 </li>
 </ol>
-<div class="code-wrapper"><pre><code>-   启动cloud-provider-hystrix-payment8001
-
-
--   访问
-
-
--   success的方法 - http://localhost:8001/payment/hystrix/ok/1
--   每次调用耗费5秒钟 - http://localhost:8001/payment/hystrix/timeout/1
-
--   上述module均OK
-
-
--   以上述为根基平台，从正确 -&gt; 错误 -&gt; 降级熔断 -&gt; 恢复。</code></pre></div><h3 id="3-5-JMeter高并发压测后卡顿"><a href="#3-5-JMeter高并发压测后卡顿" class="headerlink" title="3.5 JMeter高并发压测后卡顿"></a>3.5 JMeter高并发压测后卡顿</h3><p><strong>上述在非高并发情形下，还能勉强满足</strong></p>
+<h3 id="3-5-JMeter高并发压测后卡顿"><a href="#3-5-JMeter高并发压测后卡顿" class="headerlink" title="3.5 JMeter高并发压测后卡顿"></a>3.5 JMeter高并发压测后卡顿</h3><p><strong>上述在非高并发情形下，还能勉强满足</strong></p>
 <p><strong>Jmeter压测测试</strong></p>
 <p><a href="https://jmeter.apache.org/index.html">JMeter官网</a></p>
 <blockquote>
@@ -38603,9 +38621,9 @@ obj 是 <span class="hljs-keyword">null</span></code></pre></div>
 </blockquote>
 <p>开启Jmeter，来20000个并发压死8001，20000个请求都去访问paymentInfo_TimeOut服务</p>
 <ol>
-<li><p>测试计划中右键添加-》线程-》线程组（线程组202102，线程数：200，线程数：100，其他参数默认）</p>
+<li><p>测试计划中右键添加 -&gt; 线程 -&gt; 线程组（线程组202102，线程数：200，线程数：100，其他参数默认）</p>
 </li>
-<li><p>刚刚新建线程组202102，右键它-》添加-》取样器-》Http请求-》基本 输入<a href="http://localhost:8001/payment/hystrix/ok/1">http://localhost:8001/payment/hystrix/ok/1</a></p>
+<li><p>刚刚新建线程组202102，右键它 -&gt; 添加 -&gt; 取样器 -&gt; Http请求 -&gt; 基本 输入<a href="http://localhost:8001/payment/hystrix/ok/1">http://localhost:8001/payment/hystrix/ok/1</a></p>
 </li>
 <li><p>点击绿色三角形图标启动。</p>
 </li>
@@ -38851,19 +38869,19 @@ obj 是 <span class="hljs-keyword">null</span></code></pre></div>
 <p>但对@HystrixCommand内属性的修改建议重启微服务</p>
 <ul>
 <li><p>YML</p>
-<div class="code-wrapper"><pre><code class="hljs java">server:
-  port: <span class="hljs-number">80</span>
+<div class="code-wrapper"><pre><code class="hljs yml"><span class="hljs-attr">server:</span>
+  <span class="hljs-attr">port:</span> <span class="hljs-number">80</span>
 
-eureka:
-  client:
-    register-with-eureka: <span class="hljs-keyword">false</span>
-    service-url:
-      defaultZone: http:<span class="hljs-comment">//eureka7001.com:7001/eureka/</span>
+<span class="hljs-attr">eureka:</span>
+  <span class="hljs-attr">client:</span>
+    <span class="hljs-attr">register-with-eureka:</span> <span class="hljs-literal">false</span>
+    <span class="hljs-attr">service-url:</span>
+      <span class="hljs-attr">defaultZone:</span> <span class="hljs-string">http://eureka7001.com:7001/eureka/</span>
 
-#开启
-feign:
-  hystrix:
-    enabled: <span class="hljs-keyword">true</span></code></pre></div>
+<span class="hljs-comment">#开启</span>
+<span class="hljs-attr">feign:</span>
+  <span class="hljs-attr">hystrix:</span>
+    <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span></code></pre></div>
 </li>
 <li><p>主启动</p>
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.boot.SpringApplication;
@@ -39053,7 +39071,7 @@ feign:
 <p><strong>熔断机制概述</strong></p>
 <p>熔断机制是应对雪崩效应的一种微服务链路保护机制。当扇出链路的某个微服务出错不可用或者响应时间太长时，会进行服务的降级，进而熔断该节点微服务的调用，快速返回错误的响应信息。当检测到该<strong>节点微服务调用响应正常后，恢复调用链路。</strong></p>
 <p>在Spring Cloud框架里，熔断机制通过Hystrix实现。Hystrix会监控微服务间调用的状况，当失败的调用到一定阈值，缺省是5秒内20次调用失败，就会启动熔断机制。熔断机制的注解是@HystrixCommand。</p>
-<p><a href="https://martinfowler.com/bliki/CircuitBreaker.html">Martin Fowler的相关论文</a>)</p>
+<p><a href="https://martinfowler.com/bliki/CircuitBreaker.html">Martin Fowler的相关论文</a></p>
 <p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/state.png" alt="img"></p>
 <h3 id="3-13-Hystrix之服务熔断案例-上"><a href="#3-13-Hystrix之服务熔断案例-上" class="headerlink" title="3.13 Hystrix之服务熔断案例(上)"></a>3.13 Hystrix之服务熔断案例(上)</h3><p><a href="https://hutool.cn/">Hutool国产工具类</a></p>
 <ul>
@@ -39413,22 +39431,35 @@ feign:
 </li>
 <li><p>启动cloud-consumer-hystrix-dashboard9001该微服务后续将监控微服务8001</p>
 <p>浏览器输入<a href="http://localhost:9001/hystrix">http://localhost:9001/hystrix</a></p>
-<p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/image-20210521103737389.png" alt="image-20210521103737389"></p>
+<p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/image-20210521103737389.png" alt></p>
 </li>
-<li><div class="code-wrapper"><pre><code class="java"><span class="keyword">import</span> org.springframework.boot.SpringApplication;
-<span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;
-<span class="keyword">import</span> org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
+<li><p>启动类</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.boot.SpringApplication;
+<span class="hljs-keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;
+<span class="hljs-keyword">import</span> org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 
-<span class="meta">@SpringBootApplication</span>
-<span class="meta">@EnableHystrixDashboard</span>
-<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HystrixDashboardMain9001</span></span>
-<span class="class"></span>&#123;
-    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;
-        SpringApplication.run(HystrixDashboardMain9001<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;
+<span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-meta">@EnableHystrixDashboard</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HystrixDashboardMain9001</span></span>
+<span class="hljs-class"></span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        SpringApplication.run(HystrixDashboardMain9001.class, args);
     &#125;
-&#125;
+&#125;</code></pre></div>
 
-&lt;!--code￼<span class="number">44</span>--&gt;</code></pre></div>
+
+
+</li>
+</ul>
+<h3 id="3-18-Hystrix图形化Dashboard监控实战"><a href="#3-18-Hystrix图形化Dashboard监控实战" class="headerlink" title="3.18 Hystrix图形化Dashboard监控实战"></a>3.18 Hystrix图形化Dashboard监控实战</h3><ul>
+<li><p><strong>修改cloud-provider-hystrix-payment8001</strong></p>
+<p>注意：新版本Hystrix需要在主启动类PaymentHystrixMain8001中指定监控路径</p>
+<div class="code-wrapper"><pre><code class="hljs yml"><span class="hljs-comment">#  官网建议在yml中配置</span>
+<span class="hljs-attr">management:</span>
+  <span class="hljs-attr">endpoints:</span>
+    <span class="hljs-attr">web:</span>
+      <span class="hljs-attr">exposure:</span>
+        <span class="hljs-attr">include:</span> <span class="hljs-string">hystrix.stream</span></code></pre></div>
 </li>
 <li><p>如果一直 Londing, 在dashboard项目中添加依赖</p>
 <div class="code-wrapper"><pre><code class="hljs yml"><span class="hljs-attr">hystrix:</span>
