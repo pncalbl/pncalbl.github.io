@@ -1611,105 +1611,6 @@ Making user entries...
       </categories>
   </entry>
   <entry>
-    <title>JavaFacade模式</title>
-    <url>/2020/09/25/JavaFacade%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  简单窗口</p>
-</blockquote>
-<h2 id="1-从邮件地址中获取用户名的类"><a href="#1-从邮件地址中获取用户名的类" class="headerlink" title="1- 从邮件地址中获取用户名的类"></a>1- 从邮件地址中获取用户名的类</h2><div class="code-wrapper"><pre><code>// 需要配置相应的数据库
-public class Database &#123;
-    private Database() &#123;    // 防止外部new出Database的实例,所以声明为private
-    &#125;
-
-    public static Properties getProperties(String dbname)&#123;  // 根据数据库名获取Properties
-        String filename = dbname + &quot;.txt&quot;;
-        Properties prop = new Properties();
-        try &#123;
-            prop.load(new FileInputStream(filename));
-        &#125;catch (IOException e)&#123;
-            System.out.println(&quot;Warning: &quot; + filename + &quot; is not found.&quot;);
-        &#125;
-        return prop;
-    &#125;
-&#125;</code></pre></div><h2 id="2-编写HTML文件的类"><a href="#2-编写HTML文件的类" class="headerlink" title="2 - 编写HTML文件的类"></a>2 - 编写HTML文件的类</h2><div class="code-wrapper"><pre><code>public class HtmlWriter &#123;
-    private Writer writer;
-    public HtmlWriter(Writer writer)&#123;
-        this.writer = writer;
-    &#125;
-
-    public void title(String title) throws IOException&#123;
-        writer.write(&quot;&lt;html&gt;&quot;);
-        writer.write(&quot;&lt;head&gt;&quot;);
-        writer.write(&quot;&lt;title&gt;&quot; + title + &quot;&lt;/title&gt;&quot;);
-        writer.write(&quot;&lt;/head&gt;&quot;);
-        writer.write(&quot;&lt;body&gt;\n&quot;);
-        writer.write(&quot;&lt;h1&gt;&quot; + title + &quot;&lt;/h1&gt;&quot;);
-    &#125;
-
-    public void paragraph(String msg) throws IOException&#123;
-        writer.write(&quot;&lt;p&gt;&quot; + msg + &quot;&lt;/p&gt;\n&quot;);
-    &#125;
-
-    public void link(String href, String caption) throws IOException&#123;
-        paragraph(&quot;&lt;a href=\&quot;&quot; + href + &quot;\&quot;&gt;&quot; + caption + &quot;&lt;/a&gt;&quot;);
-    &#125;
-
-    public void mailto(String mailAddr, String userName) throws IOException&#123;
-        link(&quot;mailto: &quot; + mailAddr, userName);
-    &#125;
-
-    public void close() throws IOException&#123;
-        writer.write(&quot;&lt;/body&gt;&quot;);
-        writer.write(&quot;&lt;/html&gt;&quot;);
-        writer.close();
-    &#125;
-&#125;</code></pre></div><h2 id="3-根据邮件地址编写该用户的Web页面"><a href="#3-根据邮件地址编写该用户的Web页面" class="headerlink" title="3 - 根据邮件地址编写该用户的Web页面"></a>3 - 根据邮件地址编写该用户的Web页面</h2><div class="code-wrapper"><pre><code>public class PageMaker &#123;
-    private PageMaker() &#123;    // 防止外部new出PageMaker的实例,所以声明为private
-    &#125;
-
-    public static void makeWelcomePage(String mailAddr, String filename)&#123;
-        try &#123;
-            Properties mailProp = Database.getProperties(&quot;mailData&quot;);
-            String userName = mailProp.getProperty(mailAddr);
-            HtmlWriter writer = new HtmlWriter(new FileWriter(filename));
-            writer.title(&quot;Welcome to &quot; + userName + &quot;`s page!&quot;);
-            writer.paragraph(userName + &quot;欢迎来到&quot; + userName + &quot;的主页&quot;);
-            writer.paragraph(&quot;等着你的邮件哦!&quot;);
-            writer.mailto(mailAddr, userName);
-            writer.close();
-            System.out.println(filename + &quot; is created for &quot; + mailAddr + &quot; (&quot; +
-                    userName + &quot;)&quot;);
-        &#125;catch (IOException e)&#123;
-            e.printStackTrace();
-        &#125;
-
-    &#125;
-&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        PageMaker.makeWelcomePage(&quot;hyuki@hyuki.com&quot;, &quot;welcome.html&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><html><head><title>Welcome to Hiroshi Yuki`s page!</title></head><body>
-<h1>Welcome to Hiroshi Yuki`s page!</h1><p>null欢迎来到null的主页</p>
-<p>等着你的邮件哦!</p>
-<p><a href="mailto: hyuki@hyuki.com">Hiroshi Yuki</a></p>
-</body></html>
-
-<div class="code-wrapper"><pre><code>// HTML源码
-&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to Hiroshi Yuki`s page!&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h1&gt;Welcome to Hiroshi Yuki`s page!&lt;/h1&gt;
-&lt;p&gt;null欢迎来到null的主页&lt;/p&gt;
-&lt;p&gt;等着你的邮件哦!&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;mailto: hyuki@hyuki.com&quot;&gt;Hiroshi Yuki&lt;/a&gt;&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
     <title>JavaFlyweight模式</title>
     <url>/2020/10/08/JavaFlyweight%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -1864,6 +1765,303 @@ public class Database &#123;
 ..##.......##.....
 ....######........
 ..................</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JavaFacade模式</title>
+    <url>/2020/09/25/JavaFacade%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  简单窗口</p>
+</blockquote>
+<h2 id="1-从邮件地址中获取用户名的类"><a href="#1-从邮件地址中获取用户名的类" class="headerlink" title="1- 从邮件地址中获取用户名的类"></a>1- 从邮件地址中获取用户名的类</h2><div class="code-wrapper"><pre><code>// 需要配置相应的数据库
+public class Database &#123;
+    private Database() &#123;    // 防止外部new出Database的实例,所以声明为private
+    &#125;
+
+    public static Properties getProperties(String dbname)&#123;  // 根据数据库名获取Properties
+        String filename = dbname + &quot;.txt&quot;;
+        Properties prop = new Properties();
+        try &#123;
+            prop.load(new FileInputStream(filename));
+        &#125;catch (IOException e)&#123;
+            System.out.println(&quot;Warning: &quot; + filename + &quot; is not found.&quot;);
+        &#125;
+        return prop;
+    &#125;
+&#125;</code></pre></div><h2 id="2-编写HTML文件的类"><a href="#2-编写HTML文件的类" class="headerlink" title="2 - 编写HTML文件的类"></a>2 - 编写HTML文件的类</h2><div class="code-wrapper"><pre><code>public class HtmlWriter &#123;
+    private Writer writer;
+    public HtmlWriter(Writer writer)&#123;
+        this.writer = writer;
+    &#125;
+
+    public void title(String title) throws IOException&#123;
+        writer.write(&quot;&lt;html&gt;&quot;);
+        writer.write(&quot;&lt;head&gt;&quot;);
+        writer.write(&quot;&lt;title&gt;&quot; + title + &quot;&lt;/title&gt;&quot;);
+        writer.write(&quot;&lt;/head&gt;&quot;);
+        writer.write(&quot;&lt;body&gt;\n&quot;);
+        writer.write(&quot;&lt;h1&gt;&quot; + title + &quot;&lt;/h1&gt;&quot;);
+    &#125;
+
+    public void paragraph(String msg) throws IOException&#123;
+        writer.write(&quot;&lt;p&gt;&quot; + msg + &quot;&lt;/p&gt;\n&quot;);
+    &#125;
+
+    public void link(String href, String caption) throws IOException&#123;
+        paragraph(&quot;&lt;a href=\&quot;&quot; + href + &quot;\&quot;&gt;&quot; + caption + &quot;&lt;/a&gt;&quot;);
+    &#125;
+
+    public void mailto(String mailAddr, String userName) throws IOException&#123;
+        link(&quot;mailto: &quot; + mailAddr, userName);
+    &#125;
+
+    public void close() throws IOException&#123;
+        writer.write(&quot;&lt;/body&gt;&quot;);
+        writer.write(&quot;&lt;/html&gt;&quot;);
+        writer.close();
+    &#125;
+&#125;</code></pre></div><h2 id="3-根据邮件地址编写该用户的Web页面"><a href="#3-根据邮件地址编写该用户的Web页面" class="headerlink" title="3 - 根据邮件地址编写该用户的Web页面"></a>3 - 根据邮件地址编写该用户的Web页面</h2><div class="code-wrapper"><pre><code>public class PageMaker &#123;
+    private PageMaker() &#123;    // 防止外部new出PageMaker的实例,所以声明为private
+    &#125;
+
+    public static void makeWelcomePage(String mailAddr, String filename)&#123;
+        try &#123;
+            Properties mailProp = Database.getProperties(&quot;mailData&quot;);
+            String userName = mailProp.getProperty(mailAddr);
+            HtmlWriter writer = new HtmlWriter(new FileWriter(filename));
+            writer.title(&quot;Welcome to &quot; + userName + &quot;`s page!&quot;);
+            writer.paragraph(userName + &quot;欢迎来到&quot; + userName + &quot;的主页&quot;);
+            writer.paragraph(&quot;等着你的邮件哦!&quot;);
+            writer.mailto(mailAddr, userName);
+            writer.close();
+            System.out.println(filename + &quot; is created for &quot; + mailAddr + &quot; (&quot; +
+                    userName + &quot;)&quot;);
+        &#125;catch (IOException e)&#123;
+            e.printStackTrace();
+        &#125;
+
+    &#125;
+&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        PageMaker.makeWelcomePage(&quot;hyuki@hyuki.com&quot;, &quot;welcome.html&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><html><head><title>Welcome to Hiroshi Yuki`s page!</title></head><body>
+<h1>Welcome to Hiroshi Yuki`s page!</h1><p>null欢迎来到null的主页</p>
+<p>等着你的邮件哦!</p>
+<p><a href="mailto: hyuki@hyuki.com">Hiroshi Yuki</a></p>
+</body></html>
+
+<div class="code-wrapper"><pre><code>// HTML源码
+&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to Hiroshi Yuki`s page!&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Welcome to Hiroshi Yuki`s page!&lt;/h1&gt;
+&lt;p&gt;null欢迎来到null的主页&lt;/p&gt;
+&lt;p&gt;等着你的邮件哦!&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;mailto: hyuki@hyuki.com&quot;&gt;Hiroshi Yuki&lt;/a&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JavaMemento模式</title>
+    <url>/2020/09/29/JavaMemento%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  保存对象状态</p>
+</blockquote>
+<h2 id="1-表示Gamer状态的类"><a href="#1-表示Gamer状态的类" class="headerlink" title="1 - 表示Gamer状态的类"></a>1 - 表示Gamer状态的类</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Memento</span> </span>&#123;
+    <span class="hljs-keyword">int</span> money;  <span class="hljs-comment">// 所持金钱</span>
+    ArrayList fruits;   <span class="hljs-comment">// 获得的水果</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getMoney</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-comment">// 获取当前所持有的金钱(narrow interface)</span>
+        <span class="hljs-keyword">return</span> money;
+    &#125;
+
+    Memento(<span class="hljs-keyword">int</span> money) &#123;    <span class="hljs-comment">// 构造函数</span>
+        <span class="hljs-keyword">this</span>.money = money;
+        <span class="hljs-keyword">this</span>.fruits = <span class="hljs-keyword">new</span> ArrayList();
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">addFruits</span><span class="hljs-params">(String fruit)</span> </span>&#123;  <span class="hljs-comment">// 添加水果</span>
+        fruits.add(fruit);
+    &#125;
+
+    <span class="hljs-function">List <span class="hljs-title">getFruits</span><span class="hljs-params">()</span> </span>&#123;  <span class="hljs-comment">// 获取当前所持有的所有水果(wide interface)</span>
+        <span class="hljs-keyword">return</span> (List)fruits.clone();
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="2-表示游戏主人公的类-它会生成Memento的实例"><a href="#2-表示游戏主人公的类-它会生成Memento的实例" class="headerlink" title="2 - 表示游戏主人公的类.它会生成Memento的实例"></a>2 - 表示游戏主人公的类.它会生成Memento的实例</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Gamer</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> money;  <span class="hljs-comment">//  所持金钱</span>
+    <span class="hljs-keyword">private</span> List fruits = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();  <span class="hljs-comment">// 获得的水果</span>
+    <span class="hljs-keyword">private</span> Random random = <span class="hljs-keyword">new</span> Random();   <span class="hljs-comment">// 随机数生成器</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> String [] fruitsName = &#123; <span class="hljs-comment">// 表示水果种类的数组</span>
+            <span class="hljs-string">&quot;苹果&quot;</span>, <span class="hljs-string">&quot;葡萄&quot;</span>, <span class="hljs-string">&quot;香蕉&quot;</span>, <span class="hljs-string">&quot;橘子&quot;</span>,
+    &#125;;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Gamer</span><span class="hljs-params">(<span class="hljs-keyword">int</span> money)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.money = money;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getMoney</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> money;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">bet</span><span class="hljs-params">()</span> </span>&#123;         <span class="hljs-comment">// 投掷骰子进行游戏</span>
+        <span class="hljs-keyword">int</span> dice = random.nextInt(<span class="hljs-number">6</span>) + <span class="hljs-number">1</span>;   <span class="hljs-comment">// 骰子结果为1时,增加所持有的金钱.</span>
+        <span class="hljs-keyword">if</span>(dice == <span class="hljs-number">1</span>) &#123;
+            money += <span class="hljs-number">100</span>;
+            System.out.println(<span class="hljs-string">&quot;所持金钱增加了.&quot;</span>);
+        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (dice == <span class="hljs-number">2</span>) &#123; <span class="hljs-comment">// 骰子结果为2时,所持金钱减半.</span>
+            money /= <span class="hljs-number">2</span>;
+            System.out.println(<span class="hljs-string">&quot;所持金钱减半了.&quot;</span>);
+        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (dice == <span class="hljs-number">6</span>) &#123; <span class="hljs-comment">// 骰子结果为6时,获得水果</span>
+            String f = getFruit();
+            System.out.println(<span class="hljs-string">&quot;获得了水果 (&quot;</span> + f + <span class="hljs-string">&quot;).&quot;</span>);
+            fruits.add(f);
+        &#125; <span class="hljs-keyword">else</span> &#123;    <span class="hljs-comment">// 骰子结果为3,4,5则什么都不会发生</span>
+            System.out.println(<span class="hljs-string">&quot;什么都没有发生&quot;</span>);
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Memento <span class="hljs-title">createMemento</span><span class="hljs-params">()</span> </span>&#123;    <span class="hljs-comment">// 拍摄快照</span>
+        Memento m = <span class="hljs-keyword">new</span> Memento(money);
+        <span class="hljs-keyword">for</span> (Object fruit : fruits) &#123;
+            String f = (String) fruit;
+            <span class="hljs-keyword">if</span> (f.startsWith(<span class="hljs-string">&quot;好吃的&quot;</span>)) &#123;  <span class="hljs-comment">// 只保存好吃的水果</span>
+                m.addFruits((String) f);
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> m;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">restoreMemento</span><span class="hljs-params">(Memento memento)</span> </span>&#123;   <span class="hljs-comment">// 撤销</span>
+        <span class="hljs-keyword">this</span>.money = memento.money;
+        <span class="hljs-keyword">this</span>.fruits = memento.getFruits();
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;[money = &quot;</span> + money + <span class="hljs-string">&quot;,fruits = &quot;</span> + fruits + <span class="hljs-string">&quot;]&quot;</span>;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getFruit</span><span class="hljs-params">()</span> </span>&#123;
+        String prefix = <span class="hljs-string">&quot;&quot;</span>;
+        <span class="hljs-keyword">if</span> (random.nextBoolean()) &#123;
+            prefix = <span class="hljs-string">&quot;好吃的&quot;</span>;
+        &#125;
+        <span class="hljs-keyword">return</span> prefix + fruitsName[random.nextInt(fruitsName.length)];
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="3-进行游戏的类-它会事先保存Memento的实例-之后会根据需要恢复Gamer的状态"><a href="#3-进行游戏的类-它会事先保存Memento的实例-之后会根据需要恢复Gamer的状态" class="headerlink" title="3 - 进行游戏的类.它会事先保存Memento的实例, 之后会根据需要恢复Gamer的状态"></a>3 - 进行游戏的类.它会事先保存Memento的实例, 之后会根据需要恢复Gamer的状态</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        Gamer gamer = <span class="hljs-keyword">new</span> Gamer(<span class="hljs-number">100</span>);   <span class="hljs-comment">// 最初的金钱数为100</span>
+        Memento memento = gamer.createMemento();    <span class="hljs-comment">// 保存最初的状态</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++) &#123;
+            System.out.println(<span class="hljs-string">&quot;===&quot;</span> + i);  <span class="hljs-comment">// 显示掷骰子的次数</span>
+            System.out.println(<span class="hljs-string">&quot;当前状态: &quot;</span> + gamer);   <span class="hljs-comment">// 显示主人公当前的状态</span>
+
+            gamer.bet();    <span class="hljs-comment">// 进行游戏</span>
+
+            System.out.println(<span class="hljs-string">&quot;所持金钱为&quot;</span> + gamer.getMoney() + <span class="hljs-string">&quot;元&quot;</span>);
+            <span class="hljs-comment">// 决定如何处理Memento</span>
+            <span class="hljs-keyword">if</span> (gamer.getMoney() &gt; memento.getMoney()) &#123;
+                System.out.println(<span class="hljs-string">&quot;    (所持金钱增加了许多,因此保存游戏当前的状态)&quot;</span>);
+                memento = gamer.createMemento();
+            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (gamer.getMoney() &lt; memento.getMoney() / <span class="hljs-number">2</span>) &#123;
+                System.out.println(<span class="hljs-string">&quot;   (所持金钱减少了许多,因此将游戏恢复至以前的状态)&quot;</span>);
+                gamer.restoreMemento(memento);
+            &#125;
+
+            <span class="hljs-comment">// 等待一段时间</span>
+            <span class="hljs-keyword">try</span> &#123;
+                Thread.sleep(<span class="hljs-number">1000</span>);
+            &#125;<span class="hljs-keyword">catch</span> (InterruptedException ignored) &#123;
+            &#125;
+            System.out.println(<span class="hljs-string">&quot;&quot;</span>);
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="4-输出示例"><a href="#4-输出示例" class="headerlink" title="4 - 输出示例"></a>4 - 输出示例</h2><div class="code-wrapper"><pre><code class="hljs java">===<span class="hljs-number">0</span>
+当前状态: [money = <span class="hljs-number">100</span>,fruits = []]
+什么都没有发生
+所持金钱为<span class="hljs-number">100</span>元
+
+===<span class="hljs-number">1</span>
+当前状态: [money = <span class="hljs-number">100</span>,fruits = []]
+所持金钱减半了.
+所持金钱为<span class="hljs-number">50</span>元
+
+===<span class="hljs-number">2</span>
+当前状态: [money = <span class="hljs-number">50</span>,fruits = []]
+什么都没有发生
+所持金钱为<span class="hljs-number">50</span>元
+
+===<span class="hljs-number">3</span>
+当前状态: [money = <span class="hljs-number">50</span>,fruits = []]
+所持金钱增加了.
+所持金钱为<span class="hljs-number">150</span>元
+    (所持金钱增加了许多,因此保存游戏当前的状态)
+
+===<span class="hljs-number">4</span>
+当前状态: [money = <span class="hljs-number">150</span>,fruits = []]
+所持金钱增加了.
+所持金钱为<span class="hljs-number">250</span>元
+    (所持金钱增加了许多,因此保存游戏当前的状态)
+
+===<span class="hljs-number">5</span>
+当前状态: [money = <span class="hljs-number">250</span>,fruits = []]
+什么都没有发生
+所持金钱为<span class="hljs-number">250</span>元
+
+===<span class="hljs-number">6</span>
+当前状态: [money = <span class="hljs-number">250</span>,fruits = []]
+什么都没有发生
+所持金钱为<span class="hljs-number">250</span>元
+
+===<span class="hljs-number">7</span>
+当前状态: [money = <span class="hljs-number">250</span>,fruits = []]
+所持金钱减半了.
+所持金钱为<span class="hljs-number">125</span>元
+
+===<span class="hljs-number">8</span>
+当前状态: [money = <span class="hljs-number">125</span>,fruits = []]
+获得了水果(好吃的苹果).
+所持金钱为<span class="hljs-number">125</span>元
+
+===<span class="hljs-number">9</span>
+当前状态: [money = <span class="hljs-number">125</span>,fruits = [好吃的苹果]]
+什么都没有发生
+所持金钱为<span class="hljs-number">125</span>元
+
+===<span class="hljs-number">10</span>
+当前状态: [money = <span class="hljs-number">125</span>,fruits = [好吃的苹果]]
+所持金钱减半了.
+所持金钱为<span class="hljs-number">62</span>元
+(所持金钱减少了许多,因此将游戏恢复至以前的状态)
+
+省略
+===<span class="hljs-number">49</span>
+当前状态: [money = <span class="hljs-number">525</span>,fruits = [好吃的橘子, 橘子]]
+什么都没有发生
+所持金钱为<span class="hljs-number">525</span>元
+
+===<span class="hljs-number">50</span>
+当前状态: [money = <span class="hljs-number">525</span>,fruits = [好吃的橘子, 橘子]]
+所持金钱减半了.
+所持金钱为<span class="hljs-number">262</span>元
+(所持金钱减少了许多,因此将游戏恢复至以前的状态)
+
+===<span class="hljs-number">51</span></code></pre></div>
+]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -2222,204 +2420,6 @@ program repeat 4 repeat 3 go right go left end right end end</code></pre></div>]
 &#125;</code></pre></div><h2 id="8-输出示例"><a href="#8-输出示例" class="headerlink" title="8 - 输出示例"></a>8 - 输出示例</h2><div class="code-wrapper"><pre><code>// 具体见窗口
 java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=OK,
 when=1601126737494,modifiers=] on button0</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>JavaMemento模式</title>
-    <url>/2020/09/29/JavaMemento%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  保存对象状态</p>
-</blockquote>
-<h2 id="1-表示Gamer状态的类"><a href="#1-表示Gamer状态的类" class="headerlink" title="1 - 表示Gamer状态的类"></a>1 - 表示Gamer状态的类</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Memento</span> </span>&#123;
-    <span class="hljs-keyword">int</span> money;  <span class="hljs-comment">// 所持金钱</span>
-    ArrayList fruits;   <span class="hljs-comment">// 获得的水果</span>
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getMoney</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-comment">// 获取当前所持有的金钱(narrow interface)</span>
-        <span class="hljs-keyword">return</span> money;
-    &#125;
-
-    Memento(<span class="hljs-keyword">int</span> money) &#123;    <span class="hljs-comment">// 构造函数</span>
-        <span class="hljs-keyword">this</span>.money = money;
-        <span class="hljs-keyword">this</span>.fruits = <span class="hljs-keyword">new</span> ArrayList();
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">addFruits</span><span class="hljs-params">(String fruit)</span> </span>&#123;  <span class="hljs-comment">// 添加水果</span>
-        fruits.add(fruit);
-    &#125;
-
-    <span class="hljs-function">List <span class="hljs-title">getFruits</span><span class="hljs-params">()</span> </span>&#123;  <span class="hljs-comment">// 获取当前所持有的所有水果(wide interface)</span>
-        <span class="hljs-keyword">return</span> (List)fruits.clone();
-    &#125;
-&#125;</code></pre></div>
-
-<h2 id="2-表示游戏主人公的类-它会生成Memento的实例"><a href="#2-表示游戏主人公的类-它会生成Memento的实例" class="headerlink" title="2 - 表示游戏主人公的类.它会生成Memento的实例"></a>2 - 表示游戏主人公的类.它会生成Memento的实例</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Gamer</span> </span>&#123;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> money;  <span class="hljs-comment">//  所持金钱</span>
-    <span class="hljs-keyword">private</span> List fruits = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();  <span class="hljs-comment">// 获得的水果</span>
-    <span class="hljs-keyword">private</span> Random random = <span class="hljs-keyword">new</span> Random();   <span class="hljs-comment">// 随机数生成器</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> String [] fruitsName = &#123; <span class="hljs-comment">// 表示水果种类的数组</span>
-            <span class="hljs-string">&quot;苹果&quot;</span>, <span class="hljs-string">&quot;葡萄&quot;</span>, <span class="hljs-string">&quot;香蕉&quot;</span>, <span class="hljs-string">&quot;橘子&quot;</span>,
-    &#125;;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Gamer</span><span class="hljs-params">(<span class="hljs-keyword">int</span> money)</span> </span>&#123;
-        <span class="hljs-keyword">this</span>.money = money;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getMoney</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">return</span> money;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">bet</span><span class="hljs-params">()</span> </span>&#123;         <span class="hljs-comment">// 投掷骰子进行游戏</span>
-        <span class="hljs-keyword">int</span> dice = random.nextInt(<span class="hljs-number">6</span>) + <span class="hljs-number">1</span>;   <span class="hljs-comment">// 骰子结果为1时,增加所持有的金钱.</span>
-        <span class="hljs-keyword">if</span>(dice == <span class="hljs-number">1</span>) &#123;
-            money += <span class="hljs-number">100</span>;
-            System.out.println(<span class="hljs-string">&quot;所持金钱增加了.&quot;</span>);
-        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (dice == <span class="hljs-number">2</span>) &#123; <span class="hljs-comment">// 骰子结果为2时,所持金钱减半.</span>
-            money /= <span class="hljs-number">2</span>;
-            System.out.println(<span class="hljs-string">&quot;所持金钱减半了.&quot;</span>);
-        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (dice == <span class="hljs-number">6</span>) &#123; <span class="hljs-comment">// 骰子结果为6时,获得水果</span>
-            String f = getFruit();
-            System.out.println(<span class="hljs-string">&quot;获得了水果 (&quot;</span> + f + <span class="hljs-string">&quot;).&quot;</span>);
-            fruits.add(f);
-        &#125; <span class="hljs-keyword">else</span> &#123;    <span class="hljs-comment">// 骰子结果为3,4,5则什么都不会发生</span>
-            System.out.println(<span class="hljs-string">&quot;什么都没有发生&quot;</span>);
-        &#125;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> Memento <span class="hljs-title">createMemento</span><span class="hljs-params">()</span> </span>&#123;    <span class="hljs-comment">// 拍摄快照</span>
-        Memento m = <span class="hljs-keyword">new</span> Memento(money);
-        <span class="hljs-keyword">for</span> (Object fruit : fruits) &#123;
-            String f = (String) fruit;
-            <span class="hljs-keyword">if</span> (f.startsWith(<span class="hljs-string">&quot;好吃的&quot;</span>)) &#123;  <span class="hljs-comment">// 只保存好吃的水果</span>
-                m.addFruits((String) f);
-            &#125;
-        &#125;
-        <span class="hljs-keyword">return</span> m;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">restoreMemento</span><span class="hljs-params">(Memento memento)</span> </span>&#123;   <span class="hljs-comment">// 撤销</span>
-        <span class="hljs-keyword">this</span>.money = memento.money;
-        <span class="hljs-keyword">this</span>.fruits = memento.getFruits();
-    &#125;
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;[money = &quot;</span> + money + <span class="hljs-string">&quot;,fruits = &quot;</span> + fruits + <span class="hljs-string">&quot;]&quot;</span>;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getFruit</span><span class="hljs-params">()</span> </span>&#123;
-        String prefix = <span class="hljs-string">&quot;&quot;</span>;
-        <span class="hljs-keyword">if</span> (random.nextBoolean()) &#123;
-            prefix = <span class="hljs-string">&quot;好吃的&quot;</span>;
-        &#125;
-        <span class="hljs-keyword">return</span> prefix + fruitsName[random.nextInt(fruitsName.length)];
-    &#125;
-&#125;</code></pre></div>
-
-<h2 id="3-进行游戏的类-它会事先保存Memento的实例-之后会根据需要恢复Gamer的状态"><a href="#3-进行游戏的类-它会事先保存Memento的实例-之后会根据需要恢复Gamer的状态" class="headerlink" title="3 - 进行游戏的类.它会事先保存Memento的实例, 之后会根据需要恢复Gamer的状态"></a>3 - 进行游戏的类.它会事先保存Memento的实例, 之后会根据需要恢复Gamer的状态</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        Gamer gamer = <span class="hljs-keyword">new</span> Gamer(<span class="hljs-number">100</span>);   <span class="hljs-comment">// 最初的金钱数为100</span>
-        Memento memento = gamer.createMemento();    <span class="hljs-comment">// 保存最初的状态</span>
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++) &#123;
-            System.out.println(<span class="hljs-string">&quot;===&quot;</span> + i);  <span class="hljs-comment">// 显示掷骰子的次数</span>
-            System.out.println(<span class="hljs-string">&quot;当前状态: &quot;</span> + gamer);   <span class="hljs-comment">// 显示主人公当前的状态</span>
-
-            gamer.bet();    <span class="hljs-comment">// 进行游戏</span>
-
-            System.out.println(<span class="hljs-string">&quot;所持金钱为&quot;</span> + gamer.getMoney() + <span class="hljs-string">&quot;元&quot;</span>);
-            <span class="hljs-comment">// 决定如何处理Memento</span>
-            <span class="hljs-keyword">if</span> (gamer.getMoney() &gt; memento.getMoney()) &#123;
-                System.out.println(<span class="hljs-string">&quot;    (所持金钱增加了许多,因此保存游戏当前的状态)&quot;</span>);
-                memento = gamer.createMemento();
-            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (gamer.getMoney() &lt; memento.getMoney() / <span class="hljs-number">2</span>) &#123;
-                System.out.println(<span class="hljs-string">&quot;   (所持金钱减少了许多,因此将游戏恢复至以前的状态)&quot;</span>);
-                gamer.restoreMemento(memento);
-            &#125;
-
-            <span class="hljs-comment">// 等待一段时间</span>
-            <span class="hljs-keyword">try</span> &#123;
-                Thread.sleep(<span class="hljs-number">1000</span>);
-            &#125;<span class="hljs-keyword">catch</span> (InterruptedException ignored) &#123;
-            &#125;
-            System.out.println(<span class="hljs-string">&quot;&quot;</span>);
-        &#125;
-    &#125;
-&#125;</code></pre></div>
-
-<h2 id="4-输出示例"><a href="#4-输出示例" class="headerlink" title="4 - 输出示例"></a>4 - 输出示例</h2><div class="code-wrapper"><pre><code class="hljs java">===<span class="hljs-number">0</span>
-当前状态: [money = <span class="hljs-number">100</span>,fruits = []]
-什么都没有发生
-所持金钱为<span class="hljs-number">100</span>元
-
-===<span class="hljs-number">1</span>
-当前状态: [money = <span class="hljs-number">100</span>,fruits = []]
-所持金钱减半了.
-所持金钱为<span class="hljs-number">50</span>元
-
-===<span class="hljs-number">2</span>
-当前状态: [money = <span class="hljs-number">50</span>,fruits = []]
-什么都没有发生
-所持金钱为<span class="hljs-number">50</span>元
-
-===<span class="hljs-number">3</span>
-当前状态: [money = <span class="hljs-number">50</span>,fruits = []]
-所持金钱增加了.
-所持金钱为<span class="hljs-number">150</span>元
-    (所持金钱增加了许多,因此保存游戏当前的状态)
-
-===<span class="hljs-number">4</span>
-当前状态: [money = <span class="hljs-number">150</span>,fruits = []]
-所持金钱增加了.
-所持金钱为<span class="hljs-number">250</span>元
-    (所持金钱增加了许多,因此保存游戏当前的状态)
-
-===<span class="hljs-number">5</span>
-当前状态: [money = <span class="hljs-number">250</span>,fruits = []]
-什么都没有发生
-所持金钱为<span class="hljs-number">250</span>元
-
-===<span class="hljs-number">6</span>
-当前状态: [money = <span class="hljs-number">250</span>,fruits = []]
-什么都没有发生
-所持金钱为<span class="hljs-number">250</span>元
-
-===<span class="hljs-number">7</span>
-当前状态: [money = <span class="hljs-number">250</span>,fruits = []]
-所持金钱减半了.
-所持金钱为<span class="hljs-number">125</span>元
-
-===<span class="hljs-number">8</span>
-当前状态: [money = <span class="hljs-number">125</span>,fruits = []]
-获得了水果(好吃的苹果).
-所持金钱为<span class="hljs-number">125</span>元
-
-===<span class="hljs-number">9</span>
-当前状态: [money = <span class="hljs-number">125</span>,fruits = [好吃的苹果]]
-什么都没有发生
-所持金钱为<span class="hljs-number">125</span>元
-
-===<span class="hljs-number">10</span>
-当前状态: [money = <span class="hljs-number">125</span>,fruits = [好吃的苹果]]
-所持金钱减半了.
-所持金钱为<span class="hljs-number">62</span>元
-(所持金钱减少了许多,因此将游戏恢复至以前的状态)
-
-省略
-===<span class="hljs-number">49</span>
-当前状态: [money = <span class="hljs-number">525</span>,fruits = [好吃的橘子, 橘子]]
-什么都没有发生
-所持金钱为<span class="hljs-number">525</span>元
-
-===<span class="hljs-number">50</span>
-当前状态: [money = <span class="hljs-number">525</span>,fruits = [好吃的橘子, 橘子]]
-所持金钱减半了.
-所持金钱为<span class="hljs-number">262</span>元
-(所持金钱减少了许多,因此将游戏恢复至以前的状态)
-
-===<span class="hljs-number">51</span></code></pre></div>
-]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -3614,55 +3614,6 @@ class Person implements Serializable&#123;
       </tags>
   </entry>
   <entry>
-    <title>Java的注释接口</title>
-    <url>/2020/08/07/Java%E7%9A%84%E6%B3%A8%E9%87%8A%E6%8E%A5%E5%8F%A3/</url>
-    <content><![CDATA[<blockquote>
-</blockquote>
-<blockquote>
-<p>  注解 - 给编译器看的注释</p>
-</blockquote>
-<h2 id="1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的"><a href="#1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的" class="headerlink" title="1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的"></a>1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的</h2><div class="code-wrapper"><pre><code>class Message&#123;
-    @Override
-    public String toString()&#123;
-        return &quot;Hello world!&quot;;
-    &#125;
-&#125;</code></pre></div><p>如果改写的方法名，参数，类型有错误编译器会报错，可以给程序员提示。</p>
-<h2 id="2-Deprecated注释表示这个方法已经过时，不建议使用"><a href="#2-Deprecated注释表示这个方法已经过时，不建议使用" class="headerlink" title="2. @Deprecated注释表示这个方法已经过时，不建议使用"></a>2. @Deprecated注释表示这个方法已经过时，不建议使用</h2><div class="code-wrapper"><pre><code>class Info&#123;
-    @Deprecated
-    public String getInfo()&#123;
-        return &quot;Hello world.&quot;;
-    &#125;
-&#125;</code></pre></div><p>被注释的方法仍然可以使用，只是编译器不推荐而已</p>
-<h2 id="3-SuppressWarnings注释用来压制”某些”的警告信息"><a href="#3-SuppressWarnings注释用来压制”某些”的警告信息" class="headerlink" title="3. @SuppressWarnings注释用来压制”某些”的警告信息"></a>3. @SuppressWarnings注释用来压制”某些”的警告信息</h2><div class="code-wrapper"><pre><code>public class SuppressWarningsAnnotation &#123;
-    public static void main(String[] args) &#123;
-        // 用来压制&quot;未使用&quot;的警告信息
-        @SuppressWarnings(&quot;unused&quot;)
-        int i;
-        System.out.println(&quot;Hello world.&quot;);
-    &#125;
-&#125;</code></pre></div><p>在这个例子中我们通过往注释中添加“unused”参数，来压制变量未使用这一警告信息</p>
-<h2 id="4-实现我们自己自定义的注释，必须使用-interface接口来修饰"><a href="#4-实现我们自己自定义的注释，必须使用-interface接口来修饰" class="headerlink" title="4. 实现我们自己自定义的注释，必须使用@interface接口来修饰"></a>4. 实现我们自己自定义的注释，必须使用@interface接口来修饰</h2><div class="code-wrapper"><pre><code>@interface Anno&#123;
-    public String key();
-    public String value();
-&#125;
-
-public class TestAnno &#123;
-    @Anno(key = &quot;var1&quot;, value = &quot;test&quot;)
-    public static void main(String[] args) &#123;
-        System.out.println(&quot;Hello world!&quot;);
-    &#125;
-&#125;</code></pre></div><p>我们可以在自己实现的注释里添加属性或方法</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>注解</tag>
-        <tag>给编译器看的注释</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java操作MySQL数据库</title>
     <url>/2020/08/22/Java%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
     <content><![CDATA[<h2 id="1-首先-Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8-0-16-jar-并导入此包"><a href="#1-首先-Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8-0-16-jar-并导入此包" class="headerlink" title="1 - 首先, Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8.0.16.jar, 并导入此包"></a>1 - 首先, Java要连接MySQL数据库需要安装驱动包<a href="https://static.runoob.com/download/mysql-connector-java-8.0.16.jar">mysql-connector-java-8.0.16.jar</a>, 并导入此包</h2><h2 id="2-准备相应的数据"><a href="#2-准备相应的数据" class="headerlink" title="2 - 准备相应的数据"></a>2 - 准备相应的数据</h2><div class="code-wrapper"><pre><code>static final String USER = &quot;用户名&quot;;
@@ -3828,6 +3779,55 @@ class TestThread implements Runnable&#123;
       </categories>
       <tags>
         <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java的注释接口</title>
+    <url>/2020/08/07/Java%E7%9A%84%E6%B3%A8%E9%87%8A%E6%8E%A5%E5%8F%A3/</url>
+    <content><![CDATA[<blockquote>
+</blockquote>
+<blockquote>
+<p>  注解 - 给编译器看的注释</p>
+</blockquote>
+<h2 id="1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的"><a href="#1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的" class="headerlink" title="1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的"></a>1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的</h2><div class="code-wrapper"><pre><code>class Message&#123;
+    @Override
+    public String toString()&#123;
+        return &quot;Hello world!&quot;;
+    &#125;
+&#125;</code></pre></div><p>如果改写的方法名，参数，类型有错误编译器会报错，可以给程序员提示。</p>
+<h2 id="2-Deprecated注释表示这个方法已经过时，不建议使用"><a href="#2-Deprecated注释表示这个方法已经过时，不建议使用" class="headerlink" title="2. @Deprecated注释表示这个方法已经过时，不建议使用"></a>2. @Deprecated注释表示这个方法已经过时，不建议使用</h2><div class="code-wrapper"><pre><code>class Info&#123;
+    @Deprecated
+    public String getInfo()&#123;
+        return &quot;Hello world.&quot;;
+    &#125;
+&#125;</code></pre></div><p>被注释的方法仍然可以使用，只是编译器不推荐而已</p>
+<h2 id="3-SuppressWarnings注释用来压制”某些”的警告信息"><a href="#3-SuppressWarnings注释用来压制”某些”的警告信息" class="headerlink" title="3. @SuppressWarnings注释用来压制”某些”的警告信息"></a>3. @SuppressWarnings注释用来压制”某些”的警告信息</h2><div class="code-wrapper"><pre><code>public class SuppressWarningsAnnotation &#123;
+    public static void main(String[] args) &#123;
+        // 用来压制&quot;未使用&quot;的警告信息
+        @SuppressWarnings(&quot;unused&quot;)
+        int i;
+        System.out.println(&quot;Hello world.&quot;);
+    &#125;
+&#125;</code></pre></div><p>在这个例子中我们通过往注释中添加“unused”参数，来压制变量未使用这一警告信息</p>
+<h2 id="4-实现我们自己自定义的注释，必须使用-interface接口来修饰"><a href="#4-实现我们自己自定义的注释，必须使用-interface接口来修饰" class="headerlink" title="4. 实现我们自己自定义的注释，必须使用@interface接口来修饰"></a>4. 实现我们自己自定义的注释，必须使用@interface接口来修饰</h2><div class="code-wrapper"><pre><code>@interface Anno&#123;
+    public String key();
+    public String value();
+&#125;
+
+public class TestAnno &#123;
+    @Anno(key = &quot;var1&quot;, value = &quot;test&quot;)
+    public static void main(String[] args) &#123;
+        System.out.println(&quot;Hello world!&quot;);
+    &#125;
+&#125;</code></pre></div><p>我们可以在自己实现的注释里添加属性或方法</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Tool</category>
+      </categories>
+      <tags>
+        <tag>注解</tag>
+        <tag>给编译器看的注释</tag>
       </tags>
   </entry>
   <entry>
@@ -4426,6 +4426,58 @@ def validate(self, instance, value):
       </categories>
   </entry>
   <entry>
+    <title>函数参数的使用</title>
+    <url>/2020/07/25/Python%E5%8F%82%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="一，Python函数参数的使用"><a href="#一，Python函数参数的使用" class="headerlink" title="一，Python函数参数的使用"></a>一，Python函数参数的使用</h2><h2 id="1-不可变参数"><a href="#1-不可变参数" class="headerlink" title="1.不可变参数"></a>1.不可变参数</h2><h3 id="1-1-位置实参-参数顺序要一致"><a href="#1-1-位置实参-参数顺序要一致" class="headerlink" title="1.1 位置实参(参数顺序要一致)"></a>1.1 位置实参(参数顺序要一致)</h3><div class="code-wrapper"><pre><code>def describe_pet(animal_type, pet_name):
+   &quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
+   print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
+   print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
+
+describe_pet(&apos;hamster&apos;, &apos;harry&apos;)
+describe_pet(&apos;dog&apos;, &apos;willie&apos;)</code></pre></div><p>在参数的顺序上，实参与位置参数要一致，不然会出现一些无法预料到错误。</p>
+<h3 id="1-2-关键字参数"><a href="#1-2-关键字参数" class="headerlink" title="1.2 关键字参数"></a>1.2 关键字参数</h3><div class="code-wrapper"><pre><code>def describe_pet(animal_type, pet_name):
+&quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
+print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
+print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
+
+describe_pet(animal_type=&apos;hamster&apos;, pet_name=&apos;harry&apos;)
+describe_pet(animal_type=&apos;dog&apos;, pet_name=&apos;willie&apos;)</code></pre></div><p>关键字参数顺序可以改变，在没有默认值的情况下,必须提供全部的参数。</p>
+<h3 id="1-3-位置参数与关键字混用"><a href="#1-3-位置参数与关键字混用" class="headerlink" title="1.3 位置参数与关键字混用"></a>1.3 位置参数与关键字混用</h3><div class="code-wrapper"><pre><code>def describe_pet(pet_name, animal_type):
+    &quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
+    print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
+    print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
+
+describe_pet(&apos;wille&apos;,animal_type=&apos;dog&apos;)</code></pre></div><p>关键字参数必须在位置参数之后</p>
+<h2 id="2-可变参数"><a href="#2-可变参数" class="headerlink" title="2.可变参数"></a>2.可变参数</h2><h3 id="1-1使用任意数量的位置实参"><a href="#1-1使用任意数量的位置实参" class="headerlink" title="1. 1使用任意数量的位置实参"></a>1. 1使用任意数量的位置实参</h3><div class="code-wrapper"><pre><code>def make_pizza(size, *toppings):
+    &quot;&quot;&quot;概述要制作的比萨&quot;&quot;&quot;
+    print(&quot;\nMaking a &quot; + str(size) + &quot;-inch pizza with the following       toppings:&quot;)
+    for topping in toppings:
+        print(&quot;-&quot; + topping)
+
+make_pizza(16, &apos;pepperoni&apos;)
+make_pizza(12, &apos;mushrooms&apos;, &apos;green peppers&apos;, &apos;extra cheese&apos;)</code></pre></div><p> ‘*’ 是分隔符，可变参数实际上是将其组装成元组</p>
+<h3 id="1-2使用任意数量的关键字实参"><a href="#1-2使用任意数量的关键字实参" class="headerlink" title="1. 2使用任意数量的关键字实参"></a>1. 2使用任意数量的关键字实参</h3><div class="code-wrapper"><pre><code>def build_profile(first, last, **user_info):
+    &quot;&quot;&quot;创建一个字典，其中包含我们知道的有关用户的一切&quot;&quot;&quot;
+    profile = &#123;&#125;
+    profile[&apos;first_name&apos;] = first
+    profile[&apos;last_name&apos;] = last
+    for  key, value in user_info.items():
+        profile[key] = value
+    return profile
+
+user_profile = build_profile(&apos;albert&apos;, &apos;einstein&apos;,
+                            location=&apos;princeton&apos;,
+                            field=&apos;physics&apos;)
+print(user_profile)</code></pre></div><p> 参数组合在实际书写中，需要遵循一定的顺序：<br>位置参数-&gt;默认参数-&gt;边长参数-&gt;关键字参数-&gt;命名关键字参数</p>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>参数</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python关于迭代器和生成器</title>
     <url>/2020/08/24/Python%E5%85%B3%E4%BA%8E%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/</url>
     <content><![CDATA[<h2 id="1-使用迭代器实现Sentence类"><a href="#1-使用迭代器实现Sentence类" class="headerlink" title="1 - 使用迭代器实现Sentence类"></a>1 - 使用迭代器实现Sentence类</h2><h3 id="1-1-具体的实现代码"><a href="#1-1-具体的实现代码" class="headerlink" title="1.1 具体的实现代码"></a>1.1 具体的实现代码</h3><div class="code-wrapper"><pre><code>import re
@@ -4513,58 +4565,6 @@ class Sentence:
       </tags>
   </entry>
   <entry>
-    <title>函数参数的使用</title>
-    <url>/2020/07/25/Python%E5%8F%82%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="一，Python函数参数的使用"><a href="#一，Python函数参数的使用" class="headerlink" title="一，Python函数参数的使用"></a>一，Python函数参数的使用</h2><h2 id="1-不可变参数"><a href="#1-不可变参数" class="headerlink" title="1.不可变参数"></a>1.不可变参数</h2><h3 id="1-1-位置实参-参数顺序要一致"><a href="#1-1-位置实参-参数顺序要一致" class="headerlink" title="1.1 位置实参(参数顺序要一致)"></a>1.1 位置实参(参数顺序要一致)</h3><div class="code-wrapper"><pre><code>def describe_pet(animal_type, pet_name):
-   &quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
-   print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
-   print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
-
-describe_pet(&apos;hamster&apos;, &apos;harry&apos;)
-describe_pet(&apos;dog&apos;, &apos;willie&apos;)</code></pre></div><p>在参数的顺序上，实参与位置参数要一致，不然会出现一些无法预料到错误。</p>
-<h3 id="1-2-关键字参数"><a href="#1-2-关键字参数" class="headerlink" title="1.2 关键字参数"></a>1.2 关键字参数</h3><div class="code-wrapper"><pre><code>def describe_pet(animal_type, pet_name):
-&quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
-print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
-print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
-
-describe_pet(animal_type=&apos;hamster&apos;, pet_name=&apos;harry&apos;)
-describe_pet(animal_type=&apos;dog&apos;, pet_name=&apos;willie&apos;)</code></pre></div><p>关键字参数顺序可以改变，在没有默认值的情况下,必须提供全部的参数。</p>
-<h3 id="1-3-位置参数与关键字混用"><a href="#1-3-位置参数与关键字混用" class="headerlink" title="1.3 位置参数与关键字混用"></a>1.3 位置参数与关键字混用</h3><div class="code-wrapper"><pre><code>def describe_pet(pet_name, animal_type):
-    &quot;&quot;&quot;显示宠物的信息&quot;&quot;&quot;
-    print(&quot;\nI have a &quot; + animal_type + &quot;.&quot;)
-    print(&quot;My &quot; + animal_type + &quot;&apos;s name is &quot; + pet_name.title() + &quot;.&quot;)
-
-describe_pet(&apos;wille&apos;,animal_type=&apos;dog&apos;)</code></pre></div><p>关键字参数必须在位置参数之后</p>
-<h2 id="2-可变参数"><a href="#2-可变参数" class="headerlink" title="2.可变参数"></a>2.可变参数</h2><h3 id="1-1使用任意数量的位置实参"><a href="#1-1使用任意数量的位置实参" class="headerlink" title="1. 1使用任意数量的位置实参"></a>1. 1使用任意数量的位置实参</h3><div class="code-wrapper"><pre><code>def make_pizza(size, *toppings):
-    &quot;&quot;&quot;概述要制作的比萨&quot;&quot;&quot;
-    print(&quot;\nMaking a &quot; + str(size) + &quot;-inch pizza with the following       toppings:&quot;)
-    for topping in toppings:
-        print(&quot;-&quot; + topping)
-
-make_pizza(16, &apos;pepperoni&apos;)
-make_pizza(12, &apos;mushrooms&apos;, &apos;green peppers&apos;, &apos;extra cheese&apos;)</code></pre></div><p> ‘*’ 是分隔符，可变参数实际上是将其组装成元组</p>
-<h3 id="1-2使用任意数量的关键字实参"><a href="#1-2使用任意数量的关键字实参" class="headerlink" title="1. 2使用任意数量的关键字实参"></a>1. 2使用任意数量的关键字实参</h3><div class="code-wrapper"><pre><code>def build_profile(first, last, **user_info):
-    &quot;&quot;&quot;创建一个字典，其中包含我们知道的有关用户的一切&quot;&quot;&quot;
-    profile = &#123;&#125;
-    profile[&apos;first_name&apos;] = first
-    profile[&apos;last_name&apos;] = last
-    for  key, value in user_info.items():
-        profile[key] = value
-    return profile
-
-user_profile = build_profile(&apos;albert&apos;, &apos;einstein&apos;,
-                            location=&apos;princeton&apos;,
-                            field=&apos;physics&apos;)
-print(user_profile)</code></pre></div><p> 参数组合在实际书写中，需要遵循一定的顺序：<br>位置参数-&gt;默认参数-&gt;边长参数-&gt;关键字参数-&gt;命名关键字参数</p>
-]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>参数</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python多线程实现程序并发</title>
     <url>/2020/08/10/Python%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%A8%8B%E5%AE%9E%E7%8E%B0%E7%A8%8B%E5%BA%8F%E5%B9%B6%E5%8F%91/</url>
     <content><![CDATA[<h3 id="第一步·导入相应的线程模块"><a href="#第一步·导入相应的线程模块" class="headerlink" title="第一步·导入相应的线程模块"></a>第一步·导入相应的线程模块</h3><div class="code-wrapper"><pre><code>import threading
@@ -4608,6 +4608,24 @@ dance_process.start()</code></pre></div>]]></content>
       <tags>
         <tag>并发</tag>
         <tag>多进程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python操控Mysql数据库</title>
+    <url>/2020/07/22/Python%E6%93%8D%E6%8E%A7Mysql%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+    <content><![CDATA[<h2 id="1-首先导入所需要的包"><a href="#1-首先导入所需要的包" class="headerlink" title="1. 首先导入所需要的包"></a>1. 首先导入所需要的包</h2><div class="code-wrapper"><pre><code>import pymysql</code></pre></div><h2 id="2-链接mysql数据库服务"><a href="#2-链接mysql数据库服务" class="headerlink" title="2. 链接mysql数据库服务"></a>2. 链接mysql数据库服务</h2><div class="code-wrapper"><pre><code>connc = pymysql.Connect(
+# 默认只写用户名和密码以及数据库名称就足够了
+user=&apos;root&apos;,
+password=&quot;password&quot;,
+database=&apos;mydatabase&apos;,
+)</code></pre></div><h2 id="3-创建游标对象"><a href="#3-创建游标对象" class="headerlink" title="3. 创建游标对象"></a>3. 创建游标对象</h2><div class="code-wrapper"><pre><code>cur = connc.cursor()</code></pre></div><h2 id="4-编写SQL语句"><a href="#4-编写SQL语句" class="headerlink" title="4. 编写SQL语句"></a>4. 编写SQL语句</h2><div class="code-wrapper"><pre><code>sql = &apos;select * from students&apos;</code></pre></div><h2 id="5-使用游标对象去调用SQL"><a href="#5-使用游标对象去调用SQL" class="headerlink" title="5. 使用游标对象去调用SQL"></a>5. 使用游标对象去调用SQL</h2><div class="code-wrapper"><pre><code>cur.execute(sql)</code></pre></div><h2 id="6-获取查询结果并打印"><a href="#6-获取查询结果并打印" class="headerlink" title="6. 获取查询结果并打印"></a>6. 获取查询结果并打印</h2><div class="code-wrapper"><pre><code>result = cur.fetchall()
+print(result)</code></pre></div><h2 id="7-关闭游标和链接对象"><a href="#7-关闭游标和链接对象" class="headerlink" title="7. 关闭游标和链接对象"></a>7. 关闭游标和链接对象</h2><div class="code-wrapper"><pre><code>cur.close()
+connc.close()</code></pre></div>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -4671,24 +4689,6 @@ app.exec_()</code></pre></div>]]></content>
       </categories>
       <tags>
         <tag>visualization</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python操控Mysql数据库</title>
-    <url>/2020/07/22/Python%E6%93%8D%E6%8E%A7Mysql%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
-    <content><![CDATA[<h2 id="1-首先导入所需要的包"><a href="#1-首先导入所需要的包" class="headerlink" title="1. 首先导入所需要的包"></a>1. 首先导入所需要的包</h2><div class="code-wrapper"><pre><code>import pymysql</code></pre></div><h2 id="2-链接mysql数据库服务"><a href="#2-链接mysql数据库服务" class="headerlink" title="2. 链接mysql数据库服务"></a>2. 链接mysql数据库服务</h2><div class="code-wrapper"><pre><code>connc = pymysql.Connect(
-# 默认只写用户名和密码以及数据库名称就足够了
-user=&apos;root&apos;,
-password=&quot;password&quot;,
-database=&apos;mydatabase&apos;,
-)</code></pre></div><h2 id="3-创建游标对象"><a href="#3-创建游标对象" class="headerlink" title="3. 创建游标对象"></a>3. 创建游标对象</h2><div class="code-wrapper"><pre><code>cur = connc.cursor()</code></pre></div><h2 id="4-编写SQL语句"><a href="#4-编写SQL语句" class="headerlink" title="4. 编写SQL语句"></a>4. 编写SQL语句</h2><div class="code-wrapper"><pre><code>sql = &apos;select * from students&apos;</code></pre></div><h2 id="5-使用游标对象去调用SQL"><a href="#5-使用游标对象去调用SQL" class="headerlink" title="5. 使用游标对象去调用SQL"></a>5. 使用游标对象去调用SQL</h2><div class="code-wrapper"><pre><code>cur.execute(sql)</code></pre></div><h2 id="6-获取查询结果并打印"><a href="#6-获取查询结果并打印" class="headerlink" title="6. 获取查询结果并打印"></a>6. 获取查询结果并打印</h2><div class="code-wrapper"><pre><code>result = cur.fetchall()
-print(result)</code></pre></div><h2 id="7-关闭游标和链接对象"><a href="#7-关闭游标和链接对象" class="headerlink" title="7. 关闭游标和链接对象"></a>7. 关闭游标和链接对象</h2><div class="code-wrapper"><pre><code>cur.close()
-connc.close()</code></pre></div>]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -4949,6 +4949,61 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       </tags>
   </entry>
   <entry>
+    <title>Typora快捷键</title>
+    <url>/2021/04/09/Typora%E5%BF%AB%E6%8D%B7%E9%94%AE/</url>
+    <content><![CDATA[<h1 id="Typora快捷键"><a href="#Typora快捷键" class="headerlink" title="Typora快捷键"></a>Typora快捷键</h1><h2 id="windows快捷键："><a href="#windows快捷键：" class="headerlink" title="windows快捷键："></a>windows快捷键：</h2><ul>
+<li>无序列表：输入-之后输入空格</li>
+<li>有序列表：输入数字+“.”之后输入空格</li>
+<li>任务列表：-[空格]空格 文字</li>
+<li>隐藏侧边栏：ctrl+shift+L</li>
+<li>标题：ctrl+数字</li>
+<li>表格：ctrl+t</li>
+<li>生成目录：<code>[TOC]</code>按回车</li>
+<li>选中一整行：ctrl+l</li>
+<li>选中单词：ctrl+d</li>
+<li>选中相同格式的文字：ctrl+e</li>
+<li>跳转到文章开头：ctrl+home</li>
+<li>跳转到文章结尾：ctrl+end</li>
+<li>搜索：ctrl+f</li>
+<li>替换：ctrl+h</li>
+<li>引用：输入&gt;之后输入空格</li>
+<li>代码块：ctrl+alt+f</li>
+<li>加粗：ctrl+b</li>
+<li>倾斜：ctrl+i</li>
+<li>下划线：ctrl+u</li>
+<li>删除线：alt+shift+5</li>
+<li>插入图片：直接拖动到指定位置即可或者ctrl+shift+i</li>
+<li>插入链接：ctrl + k</li>
+</ul>
+<h2 id="给代码块设置快捷键"><a href="#给代码块设置快捷键" class="headerlink" title="给代码块设置快捷键:"></a>给代码块设置快捷键:</h2><p>偏好设置-&gt;打开高级设置-&gt;conf.user.json文件</p>
+<div class="code-wrapper"><pre><code class="hljs awk"> <span class="hljs-string">&quot;keyBinding&quot;</span>: &#123;
+   <span class="hljs-regexp">//</span> <span class="hljs-keyword">for</span> example: 
+   <span class="hljs-regexp">//</span> <span class="hljs-string">&quot;Always on Top&quot;</span>: <span class="hljs-string">&quot;Ctrl+Shift+P&quot;</span>
+<span class="hljs-string">&quot;Always on Top&quot;</span>: <span class="hljs-string">&quot;Ctrl+Shift+P&quot;</span>,  
+   <span class="hljs-string">&quot;Code Fences&quot;</span>: <span class="hljs-string">&quot;Ctrl+Shift+F&quot;</span>,  
+   <span class="hljs-string">&quot;Ordered List&quot;</span>:<span class="hljs-string">&quot;Ctrl+Alt+o&quot;</span>,  
+   <span class="hljs-string">&quot;Unordered List&quot;</span>: <span class="hljs-string">&quot;Ctrl+Alt+u&quot;</span>  
+ &#125;,</code></pre></div>
+
+<p>Code Fences 代码块</p>
+<p>Ordered List 数字有序列表</p>
+<p>Unordered List 无序列表</p>
+<h2 id="表情："><a href="#表情：" class="headerlink" title="表情："></a>表情：</h2><p>输出表情需要借助 <code>：</code>符号。</p>
+<p>栗子：<code>:smile</code> 显示为 😄,记住是左右两边都要冒号。</p>
+<p>使用者可以通过使用<code>ESC</code>键触发表情建议补全功能，也可在功能面板启用后自动触发此功能。同时，直接从菜单栏<code>Edit</code> -&gt; <code>Emoji &amp; Symbols</code>插入UTF8表情符号也是可以的。</p>
+<p>或者使用下面的方法</p>
+<p>访问网站 <a href="https://emojikeyboard.org/，找到需要的符号，鼠标左键单击，然后粘贴到需要的地方就行了！🆗">https://emojikeyboard.org/，找到需要的符号，鼠标左键单击，然后粘贴到需要的地方就行了！🆗</a></p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Win</category>
+      </categories>
+      <tags>
+        <tag>Typora</tag>
+        <tag>快捷键</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Spring 源码学习</title>
     <url>/2021/10/29/Spring%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<h1 id="Spring-源码学习"><a href="#Spring-源码学习" class="headerlink" title="Spring 源码学习"></a>Spring 源码学习</h1><h2 id="一、搭建阅读环境"><a href="#一、搭建阅读环境" class="headerlink" title="一、搭建阅读环境"></a>一、搭建阅读环境</h2><h3 id="1-拉取源码"><a href="#1-拉取源码" class="headerlink" title="1 拉取源码"></a>1 拉取源码</h3><p><img src="/2021/10/29/Spring%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/image-20211029215505730-16355157103411.png" alt="image-20211029215505730"></p>
@@ -5035,61 +5090,6 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
         <category>Java</category>
         <category>Spring</category>
       </categories>
-  </entry>
-  <entry>
-    <title>Typora快捷键</title>
-    <url>/2021/04/09/Typora%E5%BF%AB%E6%8D%B7%E9%94%AE/</url>
-    <content><![CDATA[<h1 id="Typora快捷键"><a href="#Typora快捷键" class="headerlink" title="Typora快捷键"></a>Typora快捷键</h1><h2 id="windows快捷键："><a href="#windows快捷键：" class="headerlink" title="windows快捷键："></a>windows快捷键：</h2><ul>
-<li>无序列表：输入-之后输入空格</li>
-<li>有序列表：输入数字+“.”之后输入空格</li>
-<li>任务列表：-[空格]空格 文字</li>
-<li>隐藏侧边栏：ctrl+shift+L</li>
-<li>标题：ctrl+数字</li>
-<li>表格：ctrl+t</li>
-<li>生成目录：<code>[TOC]</code>按回车</li>
-<li>选中一整行：ctrl+l</li>
-<li>选中单词：ctrl+d</li>
-<li>选中相同格式的文字：ctrl+e</li>
-<li>跳转到文章开头：ctrl+home</li>
-<li>跳转到文章结尾：ctrl+end</li>
-<li>搜索：ctrl+f</li>
-<li>替换：ctrl+h</li>
-<li>引用：输入&gt;之后输入空格</li>
-<li>代码块：ctrl+alt+f</li>
-<li>加粗：ctrl+b</li>
-<li>倾斜：ctrl+i</li>
-<li>下划线：ctrl+u</li>
-<li>删除线：alt+shift+5</li>
-<li>插入图片：直接拖动到指定位置即可或者ctrl+shift+i</li>
-<li>插入链接：ctrl + k</li>
-</ul>
-<h2 id="给代码块设置快捷键"><a href="#给代码块设置快捷键" class="headerlink" title="给代码块设置快捷键:"></a>给代码块设置快捷键:</h2><p>偏好设置-&gt;打开高级设置-&gt;conf.user.json文件</p>
-<div class="code-wrapper"><pre><code class="hljs awk"> <span class="hljs-string">&quot;keyBinding&quot;</span>: &#123;
-   <span class="hljs-regexp">//</span> <span class="hljs-keyword">for</span> example: 
-   <span class="hljs-regexp">//</span> <span class="hljs-string">&quot;Always on Top&quot;</span>: <span class="hljs-string">&quot;Ctrl+Shift+P&quot;</span>
-<span class="hljs-string">&quot;Always on Top&quot;</span>: <span class="hljs-string">&quot;Ctrl+Shift+P&quot;</span>,  
-   <span class="hljs-string">&quot;Code Fences&quot;</span>: <span class="hljs-string">&quot;Ctrl+Shift+F&quot;</span>,  
-   <span class="hljs-string">&quot;Ordered List&quot;</span>:<span class="hljs-string">&quot;Ctrl+Alt+o&quot;</span>,  
-   <span class="hljs-string">&quot;Unordered List&quot;</span>: <span class="hljs-string">&quot;Ctrl+Alt+u&quot;</span>  
- &#125;,</code></pre></div>
-
-<p>Code Fences 代码块</p>
-<p>Ordered List 数字有序列表</p>
-<p>Unordered List 无序列表</p>
-<h2 id="表情："><a href="#表情：" class="headerlink" title="表情："></a>表情：</h2><p>输出表情需要借助 <code>：</code>符号。</p>
-<p>栗子：<code>:smile</code> 显示为 😄,记住是左右两边都要冒号。</p>
-<p>使用者可以通过使用<code>ESC</code>键触发表情建议补全功能，也可在功能面板启用后自动触发此功能。同时，直接从菜单栏<code>Edit</code> -&gt; <code>Emoji &amp; Symbols</code>插入UTF8表情符号也是可以的。</p>
-<p>或者使用下面的方法</p>
-<p>访问网站 <a href="https://emojikeyboard.org/，找到需要的符号，鼠标左键单击，然后粘贴到需要的地方就行了！🆗">https://emojikeyboard.org/，找到需要的符号，鼠标左键单击，然后粘贴到需要的地方就行了！🆗</a></p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Win</category>
-      </categories>
-      <tags>
-        <tag>Typora</tag>
-        <tag>快捷键</tag>
-      </tags>
   </entry>
   <entry>
     <title>WSL和VM不兼容</title>
@@ -5285,32 +5285,6 @@ torch.cuda.is_available()</code></pre></div>
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2019/12/14/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo server</code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo generate</code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo deploy</code></pre></div>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Blog</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Blog</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Chocolatey Note</title>
     <url>/2021/09/05/choco-cli-Note/</url>
     <content><![CDATA[<h1 id="第1章-简介"><a href="#第1章-简介" class="headerlink" title="第1章 简介"></a>第1章 简介</h1><p><a href="https://chocolatey.org/"><a href="https://chocolatey.org/">巧克力软件|巧克力 - Windows 的包装经理 (chocolatey.org)</a></a></p>
@@ -5481,6 +5455,32 @@ choco download firefox --internalize locale=es-AR</code></pre></div>
       <tags>
         <tag>choco</tag>
         <tag>win software management</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2019/12/14/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo server</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo generate</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo deploy</code></pre></div>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Blog</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Blog</tag>
       </tags>
   </entry>
   <entry>
@@ -8212,737 +8212,6 @@ CAYENNE_OUT(<span class="hljs-number">12</span>)&#123; <span class="hljs-comment
       </tags>
   </entry>
   <entry>
-    <title>Dubbo 学习</title>
-    <url>/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="Dubbo-学习"><a href="#Dubbo-学习" class="headerlink" title="Dubbo 学习"></a>Dubbo 学习</h1><h2 id="1-分布式简要说明"><a href="#1-分布式简要说明" class="headerlink" title="1 分布式简要说明"></a>1 分布式简要说明</h2><h3 id="1-1-什么是分布式？"><a href="#1-1-什么是分布式？" class="headerlink" title="1.1 什么是分布式？"></a>1.1 什么是分布式？</h3><ul>
-<li><p>Dubbo是用于分布式系统的框架所以我们要先了解什么是分布式<br>分布式系统是若干独立 计算机的集合，这些计算机对于用户来说就像单个相关系统。</p>
-</li>
-<li><p>老式系统(单一应用架构)就是把一个系统，统一放到一个服务器当中然后每一个服务器上放一个系统，如果说要更新代码的话，每一个服务器上的系统都要重新去部署十分的麻烦。</p>
-</li>
-</ul>
-<ul>
-<li>而分布式系统就是将一个完整的系统拆分成多个不同的服务，然后在将每一个服务单独的放到一个服务器当中。(三个臭皮匠赛过诸葛亮)</li>
-</ul>
-<h3 id="1-2-RPC-简介"><a href="#1-2-RPC-简介" class="headerlink" title="1.2 RPC 简介"></a>1.2 RPC 简介</h3><ul>
-<li><p><strong>分布式应用架构(远程过程调用)</strong>：当垂直应用越来越多，应用之间交互不可避免，将核心业务抽取出来，作为独立的服务，逐渐形成稳定的服务中心，使前端应用能更快速的响应多变的市场需求。</p>
-</li>
-<li><p>什么叫RPC</p>
-<ul>
-<li>RPC [ Remote Procedure Call]是指远程过程调用，是一种进程问通信方式，他是一种技术的思想，而不是规范。它允许程序调用另一个地址空间(通常是共享网络的另一台机器上)的过程或函数，而不用程序员显式编码这个远程调用的细节。即程序员无论是调用本地的还是远程的函数，本质上编写的调用代码基本相同。</li>
-<li>RPC（Remote Procedure Call）—远程过程调用，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。也就是说两台服务器A，B，一个应用部署在A服务器上，想要调用B服务器上应用提供的方法，由于不在一个内存空间，不能直接调用，需要通过网络来表达调用的语义和传达调用的数据。</li>
-</ul>
-</li>
-<li><p><strong>RPC工作原理</strong></p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/2020061015260046.png" alt="img"></p>
-<ol>
-<li>Client像调用本地服务似的调用远程服务；</li>
-<li>Client stub接收到调用后，将方法、参数序列化</li>
-<li>客户端通过sockets将消息发送到服务端</li>
-<li>Server stub 收到消息后进行解码（将消息对象反序列化）</li>
-<li>Server stub 根据解码结果调用本地的服务</li>
-<li>本地服务执行(对于服务端来说是本地执行)并将结果返回给Server stub</li>
-<li>Server stub将返回结果打包成消息（将结果消息对象序列化）</li>
-<li>服务端通过sockets将消息发送到客户端</li>
-<li>Client stub接收到结果消息，并进行解码（将结果消息发序列化）</li>
-<li>客户端得到最终结果。</li>
-</ol>
-</li>
-<li><p><strong>RPC 调用分以下两种：</strong></p>
-<ul>
-<li><strong>同步调用</strong>：客户方等待调用执行完成并返回结果。</li>
-<li><strong>异步调用</strong>：客户方调用后不用等待执行结果返回，但依然可以通过回调通知等方式获取返回结果。若客户方不关心调用返回结果，则变成单向异步调用，单向调用不用返回结果。</li>
-</ul>
-</li>
-<li><p><strong>RPC步骤解析</strong></p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610174636250.png" alt="在这里插入图片描述"></p>
-</li>
-<li><p><strong>SOA</strong><br><strong>流动计算架构</strong>：在分布式应用架构的基础上增加了一个<strong>调度、治理中心</strong>基于访问压力实时管理集群容量、提高集群的利用率，用于提高机器利用率的 资源调度和治理中心(SOA) 是关键 <strong>(不浪费计算机资源)</strong></p>
-</li>
-</ul>
-<h2 id="2-Dubbo核心概念"><a href="#2-Dubbo核心概念" class="headerlink" title="2 Dubbo核心概念"></a>2 Dubbo核心概念</h2><p>Dubbo官网: <a href="http://dubbo.apache.org/en-us/index.html">http://dubbo.apache.org/en-us/index.html</a></p>
-<p>Dubbo 是一款高性能、轻量级的开源Java RPC框架，它提供了三大核心能力：面向接口的远程方法调用，智能容错和负载均衡，服务自动注册和发现。分布式系统是将一个系统拆分为多个不同的服务。</p>
-<h2 id="3-Dubbo特性一览"><a href="#3-Dubbo特性一览" class="headerlink" title="3 Dubbo特性一览"></a>3 Dubbo特性一览</h2><p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610170234620.png" alt="img"></p>
-<h3 id="Dubbo设计架构"><a href="#Dubbo设计架构" class="headerlink" title="Dubbo设计架构"></a>Dubbo设计架构</h3><p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610170317960.png" alt="在这里插入图片描述"></p>
-<p>该图来自Dubbo官网，描述了服务注册中心、服务提供方、服务消费方、服务监控中心之间的调用关系。</p>
-<ul>
-<li><strong>服务提供者</strong>（Provider）：暴露服务的服务提供方，服务提供者在启动时，向注册中心注册自己提供的服务。</li>
-<li><strong>服务消费者</strong>（Consumer）: 调用远程服务的服务消费方，服务消费者在启动时，向注册中心订阅自己所需的服务，服务消费者，从提供者地址列表中，基于软负载均衡算法，选一台提供者进行调用，如果调用失败，再选另一台调用。</li>
-<li><strong>注册中心</strong>（Registry）：注册中心返回服务提供者地址列表给消费者，如果有变更，注册中心将基于长连接推送变更数据给消费者。</li>
-<li><strong>监控中心</strong>（Monitor）：服务消费者和提供者，在内存中累计调用次数和调用时间，定时每分钟发送一次统计数据到监控中心。</li>
-</ul>
-<h2 id="4-Dubbo的特性解析"><a href="#4-Dubbo的特性解析" class="headerlink" title="4 Dubbo的特性解析"></a>4 Dubbo的特性解析</h2><ul>
-<li><p>服务注册中心</p>
-<ul>
-<li>相比Hessian类RPC框架，Dubbo有自己的服务中心， 写好的服务可以注册到服务中心， 客户端从服务中心寻找服务，然后再到相应的服务提供者机器获取服务。通过服务中心可以实现集群、负载均衡、高可用(容错) 等重要功能。</li>
-<li>服务中心一般使用zookeeper实现，也有redis和其他一些方式。以使用zookeeper作为服务中心为例，服务提供者启动后会在zookeeper的/dubbo节点下创建提供的服务节点，包含服务提供者ip、port等信息。服务提供者关闭时会从zookeeper中移除对应的服务。</li>
-<li>服务使用者会从注册中心zookeeper中寻找服务，同一个服务可能会有多个提供者，Dubbo会帮我们找到合适的服务提供者，也就是针对服务提供者的负载均衡。</li>
-</ul>
-</li>
-<li><p>负载均衡</p>
-<p>当同一个服务有多个提供者在提供服务时，客户端如何正确的选择提供者实 现负载均衡呢？dubbo也给我们提供了几种方案：</p>
-<ul>
-<li>random 随机选提供者，并可以给提供者设置权重</li>
-<li>roundrobin 轮询选择提供者</li>
-<li>leastactive 最少活跃调用数，相同活跃数的随机，活跃数：指调用前后计数差。使慢的提供者收到更少请求，因为越慢的提供者的调用前后计数差会越大。</li>
-<li>consistenthash 一致性hash，相同参数的请求发到同一台机器上。</li>
-</ul>
-</li>
-<li><p>简化测试，允许直连提供者<br>在开发阶段为了方便测试，通常系统客户端能指定调用某个服务提供者，那么可以在引用服务时加一个url参数去指定服务提供者。 配置如下</p>
-<div class="code-wrapper"><pre><code class="hljs dubbo">&lt;dubbo:reference id&#x3D;&quot;xxxService&quot;interface&#x3D;&quot;com.alibaba.xxx.XxxService&quot;url&#x3D;&quot;dubbo:&#x2F;&#x2F;localhost:20890&quot;&#x2F;&gt;</code></pre></div>
-</li>
-<li><p>服务版本，服务分组<br>在Dubbo配置文件中可以通过制定版本实现连接制定提供者，也就是通过服务版本可以控制服务的不兼容升级；当同一个服务有多种实现时，可以使用服务分组进行区分。</p>
-</li>
-</ul>
-<h2 id="5-Dubbo-Zookeeper"><a href="#5-Dubbo-Zookeeper" class="headerlink" title="5 Dubbo + Zookeeper"></a>5 Dubbo + Zookeeper</h2><h3 id="5-1-搭建zookeeper注册中心环境"><a href="#5-1-搭建zookeeper注册中心环境" class="headerlink" title="5.1 搭建zookeeper注册中心环境"></a>5.1 搭建zookeeper注册中心环境</h3><p>Dubbo官方文档: <a href="http://dubbo.apache.org/en-us/docs/user/quick-start.html">http://dubbo.apache.org/en-us/docs/user/quick-start.html</a><br>在zookeeper官网下载zookeeper<br><a href="http://mirror.bit.edu.cn/apache/zookeeper/zookeeper-3.4.14/">http://mirror.bit.edu.cn/apache/zookeeper/zookeeper-3.4.14/</a></p>
-<ul>
-<li>在bin文件下，启动zkServer.cmd会有报错，处理需要在condif文件中将zoo_sample.cfg文件复制一份，将名字改为zoo.cfg。<br>在zookeeper的文件夹下创建data文件夹，打开zoo.cfg，修改datadir，将dataDir数据保存为我们自定义的文件中(此步骤可省略)</li>
-</ul>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610173149263.png" alt="img"></p>
-<ul>
-<li>配置完毕后，我们再次在conf下启动zkServer.cmd，这次可以成功启动</li>
-</ul>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610173356318.png" alt="img"></p>
-<ul>
-<li>继续运行zkCli.cmd，可以连接到zookeeper的服务器。</li>
-</ul>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610173644649.png" alt="img"></p>
-<ul>
-<li>此时，我们zookeeper的注册中心及环境以及搭建完毕。</li>
-</ul>
-<h3 id="5-2-zookeeper监控中心的配置"><a href="#5-2-zookeeper监控中心的配置" class="headerlink" title="5.2 zookeeper监控中心的配置"></a>5.2 zookeeper监控中心的配置</h3><ul>
-<li><p>下载dubbo-admin</p>
-<p>dubbo-admin下载地址 ：<a href="https://github.com/apache/dubbo-admin/tree/master">https://github.com/apache/dubbo-admin/tree/master</a></p>
-</li>
-<li><p>解压后进入目录修改指定zookeeper地址<br>进入如下地址：dubbo-admin-master\dubbo-admin\src\main\resources\application.properties”<br>将zookeeper的监控中心的地址配置为本地端口</p>
-<div class="code-wrapper"><pre><code class="hljs dubbo">#注册中心的地址
-dubbo.registry.address&#x3D;zookeeper:&#x2F;&#x2F;127.0.0.1:2181</code></pre></div>
-
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610175513207.png" alt="在这里插入图片描述"></p>
-</li>
-<li><p>配置完毕后，我们在dubo-zookeeper\dubbo-admin-master\dubbo-admin文件夹下cmd打包测试下。</p>
-<div class="code-wrapper"><pre><code class="hljs dubbo">mvn clean package</code></pre></div>
-
-<p>在target文件中打包完成的jar包</p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610175909584.png" alt="img"></p>
-</li>
-</ul>
-<ul>
-<li><p>cmd命令 <code>java -jar dubbo-admin-0.0.1-SNAPSHOT.jar</code>运行打包好的jar包<br>启动成功后，可以看到一个7001的端口</p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610180201513-1620378376190.png" alt="在这里插入图片描述"></p>
-</li>
-<li><p>此时我们的zookeeper的服务都为启动状态，在浏览器中访问 localhost:7001，访问到注册中心，输入账号密码root。</p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610180358177.png" alt="img"></p>
-</li>
-</ul>
-<blockquote>
-<p>  此时，我们zookeeper监控中心的配置完成。注意，要访问到监控中心，一定要启动zookeeper注册中心的启动类</p>
-</blockquote>
-<h2 id="6-Dubbo环境搭建，创建提供者、消费者项目"><a href="#6-Dubbo环境搭建，创建提供者、消费者项目" class="headerlink" title="6 Dubbo环境搭建，创建提供者、消费者项目"></a>6 Dubbo环境搭建，创建提供者、消费者项目</h2><p>基于以下图实现服务 提供者、消费者</p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610195718980.png" alt="在这里插入图片描述"></p>
-<h3 id="6-1-Dubbo服务提供者和消费者接口搭建"><a href="#6-1-Dubbo服务提供者和消费者接口搭建" class="headerlink" title="6.1 Dubbo服务提供者和消费者接口搭建"></a>6.1 Dubbo服务提供者和消费者接口搭建</h3><p><strong>创建Maven项目=&gt; <code>user-service-provider</code> 服务提供者</strong></p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210509014131477.png" alt="image-20210509014131477"></p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210509014149815.png" alt="image-20210509014149815"></p>
-<ul>
-<li><p><strong>UserAddress</strong></p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserAddress</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Serializable</span></span>&#123;
-    <span class="hljs-keyword">private</span> Integer id;
-    <span class="hljs-keyword">private</span> String userAddress; <span class="hljs-comment">//用户地址</span>
-    <span class="hljs-keyword">private</span> String userId; <span class="hljs-comment">//用户id</span>
-    <span class="hljs-keyword">private</span> String consignee; <span class="hljs-comment">//收货人</span>
-    <span class="hljs-keyword">private</span> String phoneNum; <span class="hljs-comment">//电话号码</span>
-    <span class="hljs-keyword">private</span> String isDefault; <span class="hljs-comment">//是否为默认地址    Y-是     N-否</span>
-    <span class="hljs-comment">//get     set </span>
-    <span class="hljs-comment">//有参构造  无参构造</span>
-  &#125;</code></pre></div>
-</li>
-<li><p><strong>UserService</strong></p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//用户服务</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">UserService</span> </span>&#123;
-	<span class="hljs-comment">/**</span>
-<span class="hljs-comment">	 * 按照用户id返回所有的收货地址</span>
-<span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> userId</span>
-<span class="hljs-comment">	 * <span class="hljs-doctag">@return</span></span>
-<span class="hljs-comment">	 */</span>
-	<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;UserAddress&gt; <span class="hljs-title">getUserAddressList</span><span class="hljs-params">(String userId)</span></span>;
-&#125;</code></pre></div>
-</li>
-<li><p><strong>UserServiceImpl</strong></p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">UserService</span> </span>&#123;
-	<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;UserAddress&gt; <span class="hljs-title">getUserAddressList</span><span class="hljs-params">(String userId)</span> </span>&#123;
-
-		UserAddress address1 = <span class="hljs-keyword">new</span> UserAddress(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;河南省郑州巩义市宋陵大厦2F&quot;</span>, <span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;安然&quot;</span>, <span class="hljs-string">&quot;150360313x&quot;</span>, <span class="hljs-string">&quot;Y&quot;</span>);
-		UserAddress address2 = <span class="hljs-keyword">new</span> UserAddress(<span class="hljs-number">2</span>, <span class="hljs-string">&quot;北京市昌平区沙河镇沙阳路&quot;</span>, <span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;情话&quot;</span>, <span class="hljs-string">&quot;1766666395x&quot;</span>, <span class="hljs-string">&quot;N&quot;</span>);
-
-		<span class="hljs-keyword">return</span> Arrays.asList(address1,address2);
-	&#125;
-&#125;</code></pre></div>
-
-</li>
-</ul>
-<p><strong>创建Maven项目=&gt; <code>order-service-consumer</code> 服务消费者(订单服务)</strong></p>
-<ul>
-<li><p><strong>OrderService</strong></p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">OrderService</span> </span>&#123;
-    <span class="hljs-comment">/**</span>
-<span class="hljs-comment">     * 初始化订单</span>
-<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> userID</span>
-<span class="hljs-comment">     */</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initOrder</span><span class="hljs-params">(String userID)</span></span>;
-&#125;</code></pre></div>
-</li>
-<li><p><strong>OrderServiceImpl</strong></p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">OrderService</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initOrder</span><span class="hljs-params">(String userID)</span> </span>&#123;
-        <span class="hljs-comment">//查询用户的收货地址</span>
-
-    &#125;
-&#125;</code></pre></div>
-
-</li>
-</ul>
-<p><strong>因服务消费者要拿到提供者的方法</strong></p>
-<p>将服务提供者中的实体类及 UserService 复制到当前消费者同级文件中。</p>
-<ul>
-<li><p><strong>OrderServiceImpl</strong></p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">OrderService</span> </span>&#123;
-    <span class="hljs-keyword">public</span> UserService userService;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initOrder</span><span class="hljs-params">(String userID)</span> </span>&#123;
-        <span class="hljs-comment">//查询用户的收货地址</span>
-        List&lt;UserAddress&gt; userAddressList = userService.getUserAddressList(userID);
-        System.out.println(userAddressList);
-    &#125;
-&#125;</code></pre></div>
-
-</li>
-</ul>
-<p>此时我们调用 userservice 肯定是要报错的。这种面向接口的方式，我们这里只是调到了接口，而接口实际是在另外一个项目中，如果我们两个项目工程都创建共同的实体类，太过于麻烦了，我们可以将服务接口，服务模型等单独放在一个项目中，更为方便调用。</p>
-<p><strong>创建Maven项目=&gt; gmail-interface 用于存放共同的服务接口</strong></p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200611154037439.png" alt="在这里插入图片描述"></p>
-<p>将 提供者 和 消费者 项目中的所有实体类复制到当前相关的文件包下，删除原有的实体类包及service包，也就是将实体类及service放在了当前公共的项目中。</p>
-<p>把服务提供者和消费者项目中引入以下依赖，引入后项目不在报错.</p>
-<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.lemon.gmail<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>gmail-interface<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
-
-<h3 id="6-2-服务提供者配置及测试"><a href="#6-2-服务提供者配置及测试" class="headerlink" title="6.2 服务提供者配置及测试"></a>6.2 服务提供者配置及测试</h3><p>在 <code>user-service-provider</code> 服务提供者项目中引入依赖</p>
-<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--dubbo--&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>dubbo<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.6.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
-<span class="hljs-comment">&lt;!--注册中心是 zookeeper，引入zookeeper客户端--&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.curator<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>curator-framework<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>4.0.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
-
-<p>在<code>resource</code>文件中创建<code>provider.xml</code></p>
-<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
-<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> <span class="hljs-attr">xmlns:dubbo</span>=<span class="hljs-string">&quot;http://code.alibabatech.com/schema/dubbo&quot;</span></span>
-<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd&quot;</span>&gt;</span>
-	
-	<span class="hljs-comment">&lt;!-- 1、指定当前服务/应用的名字（同样的服务名字相同，不要和别的服务同名） --&gt;</span>
-	<span class="hljs-tag">&lt;<span class="hljs-name">dubbo:application</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;user-service-provider&quot;</span>/&gt;</span>
-	
-	<span class="hljs-comment">&lt;!-- 2、指定注册中心的位置 --&gt;</span>
-	<span class="hljs-comment">&lt;!-- &lt;dubbo:registry address=&quot;zookeeper://127.0.0.1:2181&quot;&gt;&lt;/dubbo:registry&gt; --&gt;</span>
-	<span class="hljs-tag">&lt;<span class="hljs-name">dubbo:registry</span> <span class="hljs-attr">protocol</span>=<span class="hljs-string">&quot;zookeeper&quot;</span> <span class="hljs-attr">address</span>=<span class="hljs-string">&quot;127.0.0.1:2181&quot;</span>/&gt;</span>
-	
-	<span class="hljs-comment">&lt;!-- 3、指定通信规则（通信协议？通信端口） --&gt;</span>
-	<span class="hljs-tag">&lt;<span class="hljs-name">dubbo:protocol</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;dubbo&quot;</span> <span class="hljs-attr">port</span>=<span class="hljs-string">&quot;20882&quot;</span>/&gt;</span>
-	
- <span class="hljs-comment">&lt;!--4、暴露服务 让别人调用 ref指向服务的真正实现对象--&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">dubbo:service</span> <span class="hljs-attr">interface</span>=<span class="hljs-string">&quot;com.lemon.gmail.service.UserService&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;userServiceImpl&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">dubbo:service</span>&gt;</span>
-
-    <span class="hljs-comment">&lt;!--服务的实现--&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;userServiceImpl&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.lemon.gmail.service.impl.UserServiceImpl&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
-
-<p>编写一个<code>ProviderApplication</code>启动类程序，运行测试配置</p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MailApplication</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
-        ClassPathXmlApplicationContext applicationContext= <span class="hljs-keyword">new</span> ClassPathXmlApplicationContext(<span class="hljs-string">&quot;provider.xml&quot;</span>);
-        applicationContext.start();
-        System.inread();
-    &#125;
-&#125;</code></pre></div>
-
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210509015143656.png" alt="image-20210509015143656"></p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210509015205821.png" alt="image-20210509015205821"></p>
-<h3 id="6-3-服务消费者配置及测试"><a href="#6-3-服务消费者配置及测试" class="headerlink" title="6.3 服务消费者配置及测试"></a>6.3 服务消费者配置及测试</h3><p>在 <code>order-service-consumer</code> 服务消费者项目中引入依赖</p>
-<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--dubbo--&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>dubbo<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.6.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
-<span class="hljs-comment">&lt;!--注册中心是 zookeeper，引入zookeeper客户端--&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.curator<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>curator-framework<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>4.0.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
-
-<p>创建<code>consumer.xml</code></p>
-<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
-<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
-<span class="hljs-tag">       <span class="hljs-attr">xmlns:context</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/context&quot;</span></span>
-<span class="hljs-tag">       <span class="hljs-attr">xmlns:dubbo</span>=<span class="hljs-string">&quot;http://code.alibabatech.com/schema/dubbo&quot;</span></span>
-<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd&quot;</span>&gt;</span>
-	
-	<span class="hljs-tag">&lt;<span class="hljs-name">context:component-scan</span> <span class="hljs-attr">base-package</span>=<span class="hljs-string">&quot;com.pnca.gmall&quot;</span>/&gt;</span>
-	<span class="hljs-tag">&lt;<span class="hljs-name">dubbo:application</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;order-service-consumer&quot;</span>/&gt;</span>
-	<span class="hljs-tag">&lt;<span class="hljs-name">dubbo:registry</span> <span class="hljs-attr">address</span>=<span class="hljs-string">&quot;zookeeper://127.0.0.1:2181&quot;</span>/&gt;</span>
-	<span class="hljs-tag">&lt;<span class="hljs-name">dubbo:reference</span> <span class="hljs-attr">interface</span>=<span class="hljs-string">&quot;com.pnca.gmall.service.UserService&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;userService&quot;</span>/&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
-
-<p>把当前<code>OrderServiceImpl</code>实现类中加上注解</p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">OrderService</span> </span>&#123;
-    <span class="hljs-meta">@Autowired</span>
-    <span class="hljs-keyword">public</span> UserService userService;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initOrder</span><span class="hljs-params">(String userID)</span> </span>&#123;
-        <span class="hljs-comment">//查询用户的收货地址</span>
-        List&lt;UserAddress&gt; userAddressList = userService.getUserAddressList(userID);
-        
-        <span class="hljs-comment">//为了直观的看到得到的数据，以下内容也可不写</span>
-        System.out.println(<span class="hljs-string">&quot;当前接收到的userId=&gt; &quot;</span>+userID);
-        System.out.println(<span class="hljs-string">&quot;**********&quot;</span>);
-        System.out.println(<span class="hljs-string">&quot;查询到的所有地址为：&quot;</span>);
-        <span class="hljs-keyword">for</span> (UserAddress userAddress : userAddressList) &#123;
-            <span class="hljs-comment">//打印远程服务地址的信息</span>
-            System.out.println(userAddress.getUserAddress());
-        &#125;
-        
-    &#125;
-&#125;</code></pre></div>
-
-<p>编写一个<code>ConsumerApplication</code>启动类程序，运行测试配置</p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConsumerApplication</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        ClassPathXmlApplicationContext applicationContext = <span class="hljs-keyword">new</span> ClassPathXmlApplicationContext(<span class="hljs-string">&quot;consumer.xml&quot;</span>);
-        OrderService orderService = applicationContext.getBean(OrderService.class);
-
-        <span class="hljs-comment">//调用方法查询出数据</span>
-        orderService.initOrder(<span class="hljs-string">&quot;1&quot;</span>);
-        System.out.println(<span class="hljs-string">&quot;调用完成...&quot;</span>);
-	    System.in.read();
-    &#125;
-&#125;</code></pre></div>
-
-<p>注意：消费者的运行测试需要先启动提供者。<br>启动服务提供者、消费者。及zookeeper的和dubbo-admin，查看监控信息。<br>localhost:7001</p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210512202425183.png" alt="image-20210512202425183"></p>
-<h2 id="7-dubbo-monitor-simple-简易监控中心"><a href="#7-dubbo-monitor-simple-简易监控中心" class="headerlink" title="7 dubbo-monitor-simple 简易监控中心"></a>7 dubbo-monitor-simple 简易监控中心</h2><ul>
-<li><p>进入dubbo-monitor-simple文件，执行cmd命令，mvn package打包成jar包</p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200612083732691.png" alt="在这里插入图片描述"></p>
-</li>
-</ul>
-<p><img src="https://img-blog.csdnimg.cn/20200612084630745.png" alt="在这里插入图片描述"></p>
-<ul>
-<li><p>将 <code>dubbo-monitor-simple-2.0.0-assembly.tar.gz</code> 压缩包解压至当前文件夹，解压后config文件查看properties的配置是否是本地的zookeeper。</p>
-</li>
-<li><p>打开解压后的 <code>assembly.bin</code> 文件，<code>start.bat</code> 启动<code>dubbo-monitor-simple监控中心</code></p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210512203200864.png" alt="image-20210512203200864"></p>
-<p>在浏览器 <code>localhost:8080</code> ，可以看到一个监控中心。<br>在服务提供者和消费者的xml中配置以下内容，再次启动服务提供和消费者启动类。</p>
-<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--dubbo-monitor-simple监控中心发现的配置--&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">dubbo:monitor</span> <span class="hljs-attr">protocol</span>=<span class="hljs-string">&quot;registry&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">dubbo:monitor</span>&gt;</span>
-<span class="hljs-comment">&lt;!--&lt;dubbo:monitor address=&quot;127.0.0.1:7070&quot;&gt;&lt;/dubbo:monitor&gt;--&gt;</span></code></pre></div>
-
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210512203449002.png" alt="image-20210512203449002"></p>
-</li>
-</ul>
-<h2 id="8-Dubbo-与-springboot-整合"><a href="#8-Dubbo-与-springboot-整合" class="headerlink" title="8 Dubbo 与 springboot 整合"></a>8 Dubbo 与 springboot 整合</h2><p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200612152443622.png" alt="在这里插入图片描述"></p>
-<h3 id="8-1-boot-user-service-provider-服务提供者"><a href="#8-1-boot-user-service-provider-服务提供者" class="headerlink" title="8.1 boot-user-service-provider 服务提供者"></a>8.1 boot-user-service-provider 服务提供者</h3><ul>
-<li><p><strong>创建 springboot 项目 <code>boot-user-service-provider</code></strong> 服务提供者</p>
-</li>
-<li><p>导入依赖</p>
-<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.pnca.gmall<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>gmall_interface<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>dubbo-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.2.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
-</li>
-<li><p>把 <code>user-service-provider</code> 中的 service 拿到此项目中。注意，以此方法为返回的需要更改 interface 包中的 void为 List<UserAddress></UserAddress></p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>    <span class="hljs-comment">// dubbo暴露服务</span>
-<span class="hljs-meta">@Component</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">UserService</span> </span>&#123;
-
-	<span class="hljs-meta">@Override</span>
-	<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;UserAddress&gt; <span class="hljs-title">getUserAddressList</span><span class="hljs-params">(String userId)</span> </span>&#123;
-		<span class="hljs-comment">// TODO Auto-generated method stub</span>
-		System.out.println(<span class="hljs-string">&quot;UserServiceImpl..3.....&quot;</span>);
-		UserAddress address1 = <span class="hljs-keyword">new</span> UserAddress(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;北京市昌平区宏福科技园综合楼3层&quot;</span>, <span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;李老师&quot;</span>, <span class="hljs-string">&quot;010-56253825&quot;</span>, <span class="hljs-string">&quot;Y&quot;</span>);
-		UserAddress address2 = <span class="hljs-keyword">new</span> UserAddress(<span class="hljs-number">2</span>, <span class="hljs-string">&quot;深圳市宝安区西部硅谷大厦B座3层（深圳分校）&quot;</span>, <span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;王老师&quot;</span>, <span class="hljs-string">&quot;010-56253825&quot;</span>, <span class="hljs-string">&quot;N&quot;</span>);
-		<span class="hljs-keyword">return</span> Arrays.asList(address1, address2);
-	&#125;
-
-&#125;</code></pre></div>
-</li>
-<li><p>配置 <code>application.properties</code></p>
-<div class="code-wrapper"><pre><code class="hljs properties"><span class="hljs-meta">dubbo.application.name</span>=<span class="hljs-string">boot_user_service_provider</span>
-<span class="hljs-meta">dubbo.registry.address</span>=<span class="hljs-string">127.0.0.1:2181</span>
-<span class="hljs-meta">dubbo.registry.protocol</span>=<span class="hljs-string">zookeeper</span>
-
-<span class="hljs-meta">dubbo.protocol.name</span>=<span class="hljs-string">dubbo</span>
-<span class="hljs-meta">dubbo.protocol.port</span>=<span class="hljs-string">20880</span>
-
-<span class="hljs-comment">#连接监控中心</span>
-<span class="hljs-meta">dubbo.monitor.protocol</span>=<span class="hljs-string">registry</span></code></pre></div>
-</li>
-<li><p>BootUserServiceProviderApplication启动类配置</p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@EnableDubbo</span>    <span class="hljs-comment">//开启基于注解的dubbo功能</span>
-<span class="hljs-meta">@SpringBootApplication</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BootUserServiceProviderApplication</span> </span>&#123;
-
-	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-		SpringApplication.run(BootUserServiceProviderApplication.class, args);
-	&#125;
-
-&#125;</code></pre></div>
-</li>
-<li><p>启动注册中心，启动当前服务提供者，可以在浏览器看到一个服务提供者。</p>
-</li>
-</ul>
-<h3 id="8-2-boot-order-service-consumer-服务消费者"><a href="#8-2-boot-order-service-consumer-服务消费者" class="headerlink" title="8.2 boot-order-service-consumer 服务消费者"></a>8.2 boot-order-service-consumer 服务消费者</h3><ul>
-<li><p><strong>创建springboot项目 <code>boot-order-service-consumer</code></strong> 服务消费者</p>
-</li>
-<li><p>导入依赖</p>
-<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.pnca.gmall<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>gmall_interface<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>dubbo-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.2.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
-</li>
-<li><p>把 <code>order-service-consumer</code> 中的 service 拿到此项目中。注意，以此方法为返回的需要更改 interface 包中的 void 为 List<UserAddress></UserAddress></p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">OrderService</span> </span>&#123;
-
-	<span class="hljs-comment">// @Autowired</span>
-	<span class="hljs-meta">@Reference</span>
-	UserService userService;
-
-	<span class="hljs-meta">@Override</span>
-	<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;UserAddress&gt; <span class="hljs-title">initOrder</span><span class="hljs-params">(String userId)</span> </span>&#123;
-		<span class="hljs-comment">// TODO Auto-generated method stub</span>
-		System.out.println(<span class="hljs-string">&quot;用户id：&quot;</span> + userId);
-		<span class="hljs-comment">//1、查询用户的收货地址</span>
-		List&lt;UserAddress&gt; addressList = userService.getUserAddressList(userId);
-		<span class="hljs-keyword">for</span> (UserAddress userAddress : addressList) &#123;
-			System.out.println(userAddress);
-		&#125;
-		<span class="hljs-keyword">return</span> addressList;
-	&#125;
-&#125;
-</code></pre></div>
-</li>
-<li><p>创建 OrderController 控制器</p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderController</span> </span>&#123;
-
-	<span class="hljs-meta">@Autowired</span>
-	OrderService orderService;
-
-	<span class="hljs-meta">@ResponseBody</span>
-	<span class="hljs-meta">@RequestMapping(&quot;/initOrder&quot;)</span>
-	<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;UserAddress&gt; <span class="hljs-title">initOrder</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam(&quot;uid&quot;)</span> String userId)</span> </span>&#123;
-		<span class="hljs-keyword">return</span> orderService.initOrder(userId);
-	&#125;
-&#125;</code></pre></div>
-</li>
-<li><p>配置 <code>application.properties</code></p>
-<div class="code-wrapper"><pre><code class="hljs properties"><span class="hljs-meta">server.port</span>=<span class="hljs-string">8081</span>
-
-<span class="hljs-meta">dubbo.application.name</span>=<span class="hljs-string">boot_order_service_consumer</span>
-<span class="hljs-meta">dubbo.registry.address</span>=<span class="hljs-string">zookeeper://127.0.0.1:2181</span>
-<span class="hljs-meta">dubbo.registry.protocol</span>=<span class="hljs-string">zookeeper</span>
-
-<span class="hljs-comment">#连接监控中心</span>
-<span class="hljs-meta">dubbo.monitor.protocol</span>=<span class="hljs-string">registry</span></code></pre></div>
-</li>
-<li><p>BootOrderServiceConsumerApplication启动类配置</p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@EnableDubbo</span>
-<span class="hljs-meta">@SpringBootApplication</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BootOrderServiceConsumerApplication</span> </span>&#123;
-
-	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-		SpringApplication.run(BootOrderServiceConsumerApplication.class, args);
-	&#125;
-
-&#125;</code></pre></div>
-</li>
-<li><p>配置完毕，此时启动zookeeper注册中心及监控。<br>启动springboot配置的服务提供者和消费者<br>在浏览器输入 localhost:7001 查看结果</p>
-</li>
-</ul>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210512215907361.png" alt="image-20210512215907361"></p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210512215927876.png" alt="image-20210512215927876"></p>
-<p>duboo的springboot整合配置完成。</p>
-<h2 id="9-Dubbo-配置"><a href="#9-Dubbo-配置" class="headerlink" title="9 Dubbo 配置"></a>9 Dubbo 配置</h2><p>dubbo配置官网参考：<a href="http://dubbo.apache.org/zh-cn/docs/user/references/xml/dubbo-service.html">http://dubbo.apache.org/zh-cn/docs/user/references/xml/dubbo-service.html</a></p>
-<h3 id="9-1-配置原则"><a href="#9-1-配置原则" class="headerlink" title="9.1 配置原则"></a>9.1 配置原则</h3><p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200612152343133.png" alt="在这里插入图片描述"></p>
-<ul>
-<li>JVM 启动 -D 参数优先，这样可以使用户在部署和启动时进行参数重写，比如在启动时需改变协议的端口。</li>
-<li>XML 次之，如果在 XML 中有配置，则 dubbo.properties 中的相应配置项无效。</li>
-<li>Properties 最后，相当于缺省值，只有 XML 没有配置时，dubbo.properties 的相应配置项才会生效，通常用于共享公共配置，比如应用名。</li>
-</ul>
-<h3 id="9-2-启动时检查"><a href="#9-2-启动时检查" class="headerlink" title="9.2 启动时检查"></a>9.2 启动时检查</h3><ul>
-<li>Dubbo 缺省会在启动时检查依赖的服务是否可用，不可用时会抛出异常，阻止 Spring 初始化完成，以便上线时，能及早发现问题，默认 check=“true”。</li>
-</ul>
-<ul>
-<li>可以通过 check=“false” 关闭检查，比如，测试时，有些服务不关心，或者出现了循环依赖，必须有一方先启动。</li>
-</ul>
-<ul>
-<li><p>另外，如果你的 Spring 容器是懒加载的，或者通过 API 编程延迟引用服务，请关闭 check，否则服务临时不可用时，会抛出异常，拿到 null 引用，如果 check=“false”，总是会返回引用，当服务恢复时，能自动连上。</p>
-</li>
-<li><p>以<code>order-service-consumer</code>消费者为例，在consumer.xml中添加配置</p>
-<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--配置当前消费者的统一规则,当前所有的服务都不启动时检查--&gt;</span>
- <span class="hljs-tag">&lt;<span class="hljs-name">dubbo:consumer</span> <span class="hljs-attr">check</span>=<span class="hljs-string">&quot;false&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">dubbo:consumer</span>&gt;</span></code></pre></div>
-</li>
-<li><p>添加后，即使服务提供者不启动，启动当前的消费者，也不会出现错误。</p>
-</li>
-</ul>
-<h3 id="9-3-全局超时配置"><a href="#9-3-全局超时配置" class="headerlink" title="9.3 全局超时配置"></a>9.3 全局超时配置</h3><div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--全局超时配置--&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">dubbo:provider</span> <span class="hljs-attr">timeout</span>=<span class="hljs-string">&quot;5000&quot;</span> /&gt;</span>
-
-指定接口以及特定方法超时配置
-<span class="hljs-tag">&lt;<span class="hljs-name">dubbo:provider</span> <span class="hljs-attr">interface</span>=<span class="hljs-string">&quot;com.foo.BarService&quot;</span> <span class="hljs-attr">timeout</span>=<span class="hljs-string">&quot;2000&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">dubbo:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;sayHello&quot;</span> <span class="hljs-attr">timeout</span>=<span class="hljs-string">&quot;3000&quot;</span> /&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">dubbo:provider</span>&gt;</span></code></pre></div>
-
-<p><strong>配置原则</strong></p>
-<p>dubbo推荐在Provider上尽量多配置Consumer端属性</p>
-<div class="code-wrapper"><pre><code class="hljs plain">1、作服务的提供者，比服务使用方更清楚服务性能参数，如调用的超时时间，合理的重试次数，等等
-2、在Provider配置后，Consumer不配置则会使用Provider的配置值，即Provider配置可以作为Consumer的缺省值。否则，Consumer会使用Consumer端的全局设置，这对于Provider不可控的，并且往往是不合理的</code></pre></div>
-
-<p>配置的覆盖规则：</p>
-<ul>
-<li><p>方法级配置别优于接口级别，即小Scope优先</p>
-</li>
-<li><p>Consumer端配置 优于 Provider配置 优于 全局配置，</p>
-</li>
-<li><p>最后是Dubbo Hard Code的配置值（见配置文档）</p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200612160853853.png" alt="在这里插入图片描述"></p>
-<p><a href="http://dubbo.apache.org/zh-cn/docs/user/demos/multi-versions.html">http://dubbo.apache.org/zh-cn/docs/user/demos/multi-versions.html</a><br>在服务提供者中复制多个impl。起不同的名字</p>
-</li>
-</ul>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200612163440781.png" alt="在这里插入图片描述"></p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200612163456305.png" alt="在这里插入图片描述"></p>
-<p>配置多个文件的路径及信息。<br>服务消费者调用时，可自由配置版本</p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200612163603598.png" alt="在这里插入图片描述"></p>
-<h3 id="9-4-dubbo与springboot整合的三种方式"><a href="#9-4-dubbo与springboot整合的三种方式" class="headerlink" title="9.4 dubbo与springboot整合的三种方式"></a>9.4 dubbo与springboot整合的三种方式</h3><ul>
-<li><p>将服务提供者注册到注册中心(如何暴露服务)</p>
-<ul>
-<li>导入Dubbo的依赖 和 zookeeper 客户端</li>
-</ul>
-</li>
-<li><p>让服务消费者去注册中心订阅服务提供者的服务地址<br>Springboot与Dubbo整合的三种方式</p>
-<ol>
-<li><p>导入dubbo-starter。在application.properties配置属性，使用@Service【暴露服务】，使用@Reference【引用服务】</p>
-</li>
-<li><p>保留Dubbo 相关的xml配置文件</p>
-<p> 导入dubbo-starter，使用@ImportResource导入Dubbo的xml配置文件</p>
-</li>
-<li><p>使用 注解API的方式</p>
-<p>将每一个组件手动配置到容器中,让dubbo来扫描其他的组件</p>
-</li>
-</ol>
-</li>
-</ul>
-<h2 id="10-高可用"><a href="#10-高可用" class="headerlink" title="10 高可用"></a>10 高可用</h2><p>zookeeper宕机与dubbo直连<br>现象：zookeeper注册中心宕机，还可以消费dubbo暴露的服务。<br>原因：</p>
-<p>健壮性</p>
-<ul>
-<li>监控中心宕掉不影响使用，只是丢失部分采样数据</li>
-<li>数据库宕掉后，注册中心仍能通过缓存提供服务列表查询，但不能注册新服务</li>
-<li>注册中心对等集群，任意一台宕掉后，将自动切换到另一台</li>
-<li>注册中心全部宕掉后，服务提供者和服务消费者仍能通过本地缓存通讯</li>
-<li>服务提供者无状态，任意一台宕掉后，不影响使用</li>
-<li>服务提供者全部宕掉后，服务消费者应用将无法使用，并无限次重连等待服务提供者恢复</li>
-<li>高可用：通过设计，减少系统不能提供服务的时间；</li>
-</ul>
-<h3 id="集群下dubbo负载均衡配置"><a href="#集群下dubbo负载均衡配置" class="headerlink" title="集群下dubbo负载均衡配置"></a>集群下dubbo负载均衡配置</h3><p>在集群负载均衡时，Dubbo 提供了多种均衡策略，缺省为 random 随机调用。</p>
-<p><strong>负载均衡策略如下</strong></p>
-<ul>
-<li><p><strong>Random LoadBalance 基于权重的随机负载均衡机制</strong></p>
-<p>随机，按权重设置随机概率。 在一个截面上碰撞的概率高，但调用量越大分布越均匀，而且按概率使用权重后也比较均匀，有利于动态调整提供者权重。</p>
-</li>
-</ul>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200612180908789.png" alt="在这里插入图片描述"></p>
-<ul>
-<li><p><strong>RoundRobin LoadBalance 基于权重的轮询负载均衡机制</strong></p>
-<p>轮循，按公约后的权重设置轮循比率。 存在慢的提供者累积请求的问题，比如：第二台机器很慢，但没挂，当请求调到第二台时就卡在那，久而久之，所有请求都卡在调到第二台上。</p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200612180928170.png" alt="在这里插入图片描述"></p>
-</li>
-</ul>
-<ul>
-<li><p><strong>LeastActive LoadBalance最少活跃数负载均衡机制</strong></p>
-<p>最少活跃调用数，相同活跃数的随机，活跃数指调用前后计数差。 使慢的提供者收到更少请求，因为越慢的提供者的调用前后计数差会越大。</p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200612180951468.png" alt="在这里插入图片描述"></p>
-</li>
-</ul>
-<ul>
-<li><p><strong>ConsistentHash LoadBalance一致性hash 负载均衡机制</strong></p>
-<ul>
-<li>一致性 Hash，相同参数的请求总是发到同一提供者。 当某一台提供者挂时，原本发往该提供者的请求，基于虚拟节点，平摊到其它提供者，不会引起剧烈变动。</li>
-<li>算法参见：<a href="http://en.wikipedia.org/wiki/Consistent_hashing">http://en.wikipedia.org/wiki/Consistent_hashing</a> </li>
-<li>缺省只对第一个参数 Hash，如果要修改，请配置 &lt;dubbo:parameter key=”hash.arguments” value=”0,1” /&gt; 缺省用 160 份虚拟节点，如果要修改，请配置 &lt;dubbo:parameter key=”hash.nodes” value=”320” /&gt;</li>
-</ul>
-</li>
-</ul>
-<div class="code-wrapper"><pre><code>![在这里插入图片描述](Dubbo学习/20200612181007825.png)</code></pre></div><h2 id="11-整合-hystrix-，服务熔断与降级处理"><a href="#11-整合-hystrix-，服务熔断与降级处理" class="headerlink" title="11 整合 hystrix ，服务熔断与降级处理"></a>11 整合 hystrix ，服务熔断与降级处理</h2><h3 id="11-1-服务降级"><a href="#11-1-服务降级" class="headerlink" title="11.1 服务降级"></a>11.1 服务降级</h3><p><strong>当服务器压力剧增的情况下，根据实际业务情况及流量，对一些服务和页面有策略的不处理或换种简单的方式处理，从而释放服务器资源以保证核心交易正常运作或高效运作。</strong><br>可以通过服务降级功能临时屏蔽某个出错的非关键服务，并定义降级后的返回策略。<br>向注册中心写入动态配置覆盖规则：</p>
-<div class="code-wrapper"><pre><code class="hljs java">RegistryFactory registryFactory = ExtensionLoader.getExtensionLoader(RegistryFactory.class).getAdaptiveExtension();
-Registry registry = registryFactory.getRegistry(URL.valueOf(<span class="hljs-string">&quot;zookeeper://10.20.153.10:2181&quot;</span>));
-registry.register(URL.valueOf(<span class="hljs-string">&quot;override://0.0.0.0/com.foo.BarService?category=configurators&amp;dynamic=false&amp;application=foo&amp;mock=force:return+null&quot;</span>));</code></pre></div>
-
-<p>其中：<br>mock=force:return+null 表示消费方对该服务的方法调用都直接返回 null 值，不发起远程调用。用来屏蔽不重要服务不可用时，对调用方的影响。<br>还可以改为 mock=fail:return+null 表示消费方对该服务的方法调用在失败后，再返回 null 值，不抛异常。用来容忍不重要服务不稳定时，对调用方的影响。</p>
-<h3 id="11-2-集群容错"><a href="#11-2-集群容错" class="headerlink" title="11.2 集群容错"></a>11.2 集群容错</h3><p>在集群调用失败时，Dubbo 提供了多种容错方案，缺省为 failover 重试。</p>
-<ul>
-<li><p><strong>集群容错模式</strong></p>
-<ul>
-<li><p><strong>Failover Cluster</strong><br>失败自动切换，当出现失败，重试其它服务器。通常用于读操作，但重试会带来更长延迟。可通过 retries=“2” 来设置重试次数(不含第一次)。</p>
-<p>重试次数配置如下：<br>&lt;dubbo:service retries=“2” /&gt;<br>或<br>&lt;dubbo:reference retries=“2” /&gt;<br>或<br>dubbo:reference<br>&lt;dubbo:method name=“findFoo” retries=“2” /&gt;<br></p>
-</li>
-<li><p><strong>Failfast Cluster</strong><br>快速失败，只发起一次调用，失败立即报错。通常用于非幂等性的写操作，比如新增记录。</p>
-</li>
-<li><p><strong>Failsafe Cluster</strong><br>失败安全，出现异常时，直接忽略。通常用于写入审计日志等操作。</p>
-</li>
-<li><p><strong>Failback Cluster</strong><br>失败自动恢复，后台记录失败请求，定时重发。通常用于消息通知操作。</p>
-</li>
-<li><p><strong>Forking Cluster</strong><br>并行调用多个服务器，只要一个成功即返回。通常用于实时性要求较高的读操作，但需要浪费更多服务资源。可通过 forks=“2” 来设置最大并行数。</p>
-</li>
-<li><p><strong>Broadcast Cluster</strong><br>广播调用所有提供者，逐个调用，任意一台报错则报错 [2]。通常用于通知所有提供者更新缓存或日志等本地资源信息。</p>
-</li>
-</ul>
-</li>
-<li><p><strong>集群模式配置</strong><br>按照以下示例在服务提供方和消费方配置集群模式<br>&lt;dubbo:service cluster=“failsafe” /&gt;<br>或<br>&lt;dubbo:reference cluster=“failsafe” /&gt;</p>
-</li>
-</ul>
-<h3 id="11-3-整合hystrix"><a href="#11-3-整合hystrix" class="headerlink" title="11.3 整合hystrix"></a>11.3 整合hystrix</h3><p>服务熔断错处理配置参考=&gt; <a href="https://www.cnblogs.com/xc-xinxue/p/12459861.html">https://www.cnblogs.com/xc-xinxue/p/12459861.html</a></p>
-<p>Hystrix 旨在通过控制那些访问远程系统、服务和第三方库的节点，从而对延迟和故障提供更强大的容错能力。Hystrix具备拥有回退机制和断路器功能的线程和信号隔离，请求缓存和请求打包，以及监控和配置等功能</p>
-<ul>
-<li><p><strong>配置spring-cloud-starter-netflix-hystrix</strong></p>
-</li>
-<li><p>spring boot官方提供了对<strong>hystrix</strong>的集成，直接在pom.xml里加入依赖：</p>
-<div class="code-wrapper"><pre><code class="hljs xml"> <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-     <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-hystrix<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.4.4.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
-</li>
-<li><p>然后在Application类上增加<strong>@EnableHystrix</strong>来启用hystrix starter：</p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span>
-<span class="hljs-meta">@EnableHystrix</span> <span class="hljs-comment">//开启服务容错功能</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProviderApplication</span> </span>&#123;
-	...启动方法
-&#125;</code></pre></div>
-</li>
-<li><p><strong>配置Provider端</strong></p>
-<p>在Dubbo的Provider上增加@HystrixCommand配置，这样子调用就会经过Hystrix代理。</p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>    <span class="hljs-comment">// dubbo暴露服务</span>
-<span class="hljs-meta">@Component</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">UserService</span> </span>&#123;
-
-
-	<span class="hljs-meta">@HystrixCommand</span>
-	<span class="hljs-meta">@Override</span>
-	<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;UserAddress&gt; <span class="hljs-title">getUserAddressList</span><span class="hljs-params">(String userId)</span> </span>&#123;
-		<span class="hljs-comment">// TODO Auto-generated method stub</span>
-		System.out.println(<span class="hljs-string">&quot;UserServiceImpl..3.....&quot;</span>);
-		UserAddress address1 = <span class="hljs-keyword">new</span> UserAddress(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;北京市昌平区宏福科技园综合楼3层&quot;</span>, <span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;李老师&quot;</span>, <span class="hljs-string">&quot;010-56253825&quot;</span>, <span class="hljs-string">&quot;Y&quot;</span>);
-		UserAddress address2 = <span class="hljs-keyword">new</span> UserAddress(<span class="hljs-number">2</span>, <span class="hljs-string">&quot;深圳市宝安区西部硅谷大厦B座3层（深圳分校）&quot;</span>, <span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;王老师&quot;</span>, <span class="hljs-string">&quot;010-56253825&quot;</span>, <span class="hljs-string">&quot;N&quot;</span>);
-
-		<span class="hljs-keyword">if</span> (Math.random() &gt; <span class="hljs-number">0.5</span>) &#123;
-			<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException();
-		&#125;
-		<span class="hljs-keyword">return</span> Arrays.asList(address1, address2);
-	&#125;
-
-&#125;</code></pre></div>
-</li>
-<li><p><strong>配置Consumer端</strong><br>对于Consumer端，则可以增加一层method调用，并在method上配置@HystrixCommand。当调用出错时，会走到fallbackMethod = “reliable”的调用里。</p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Reference(version = &quot;1.0.0&quot;)</span>
-    <span class="hljs-keyword">private</span> HelloService demoService;
-
-    <span class="hljs-meta">@HystrixCommand(fallbackMethod = &quot;reliable&quot;)</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">doSayHello</span><span class="hljs-params">(String name)</span> </span>&#123;
-        <span class="hljs-keyword">return</span> demoService.sayHello(name);
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">reliable</span><span class="hljs-params">(String name)</span> </span>&#123;
-        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hystrix fallback value&quot;</span>;
-    &#125;</code></pre></div>
-</li>
-<li><p>测试</p>
-<ul>
-<li><p>失败<img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210523011440767.png" alt="image-20210523011440767"></p>
-</li>
-<li><p>成功</p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210523011523532.png" alt="image-20210523011523532"></p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="12-RPC-和-netty-原理分析"><a href="#12-RPC-和-netty-原理分析" class="headerlink" title="12 RPC 和 netty 原理分析"></a>12 RPC 和 netty 原理分析</h2><h3 id="12-1-RPC-原理"><a href="#12-1-RPC-原理" class="headerlink" title="12.1 RPC 原理"></a>12.1 RPC 原理</h3><p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200613170846919.png" alt="在这里插入图片描述"></p>
-<p>一次完整的RPC调用流程（同步调用，异步另说）如下：</p>
-<ol>
-<li><strong>服务消费方（client）调用以本地调用方式调用服务；</strong></li>
-<li>client stub接收到调用后负责将方法、参数等组装成能够进行网络传输的消息体；</li>
-<li>client stub找到服务地址，并将消息发送到服务端；</li>
-<li>server stub收到消息后进行解码；</li>
-<li>server stub根据解码结果调用本地的服务；</li>
-<li>本地服务执行并将结果返回给server stub；</li>
-<li>server stub将返回结果打包成消息并发送至消费方；</li>
-<li>client stub接收到消息，并进行解码；</li>
-<li><strong>服务消费方得到最终结果。</strong></li>
-</ol>
-<p>dubbo只用了两步1和8，中间的过程是透明的看不到的。RPC框架的目标就是要2~8这些步骤都封装起来，这些细节对用户来说是透明的，不可见的。</p>
-<h3 id="12-2-netty-通信原理"><a href="#12-2-netty-通信原理" class="headerlink" title="12.2 netty 通信原理"></a>12.2 netty 通信原理</h3><p>Netty是一个异步事件驱动的网络应用程序框架， 用于快速开发可维护的高性能协议服务器和客户端。它极大地简化并简化了TCP和UDP套接字服务器等网络编程。</p>
-<p><strong>BIO：(Blocking IO)</strong></p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200613171108394.png" alt="在这里插入图片描述"></p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200613171138127.png" alt="在这里插入图片描述"></p>
-<p>Selector 一般称 为选择器 ，也可以翻译为 多路复用器，<br>Connect（连接就绪）、Accept（接受就绪）、Read（读就绪）、Write（写就绪）</p>
-<p><strong>Netty基本原理：</strong><br>netty基本原理，可参考<a href="https://www.sohu.com/a/272879207_463994">https://www.sohu.com/a/272879207_463994</a></p>
-<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200613171217369.png" alt="在这里插入图片描述"></p>
-<h2 id="12-3-dubbo-原理"><a href="#12-3-dubbo-原理" class="headerlink" title="12.3 dubbo 原理"></a>12.3 dubbo 原理</h2><h3 id="1-dubbo原理-框架设计"><a href="#1-dubbo原理-框架设计" class="headerlink" title="1. dubbo原理 - 框架设计"></a>1. dubbo原理 - 框架设计</h3><p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200613171327533.png" alt="在这里插入图片描述"></p>
-<ul>
-<li>config 配置层：对外配置接口，以 ServiceConfig, ReferenceConfig 为中心，可以直接初始化配置类，也可以通过 spring 解析配置生成配置类</li>
-<li>proxy 服务代理层：服务接口透明代理，生成服务的客户端 Stub 和服务器端 Skeleton, 以 ServiceProxy 为中心，扩展接口为 ProxyFactory</li>
-<li>registry 注册中心层：封装服务地址的注册与发现，以服务 URL 为中心，扩展接口为 RegistryFactory, Registry, RegistryService</li>
-<li>cluster 路由层：封装多个提供者的路由及负载均衡，并桥接注册中心，以 Invoker 为中心，扩展接口为 Cluster, Directory, Router, LoadBalance</li>
-<li>monitor 监控层：RPC 调用次数和调用时间监控，以 Statistics 为中心，扩展接口为 MonitorFactory, Monitor, MonitorService</li>
-<li>protocol 远程调用层：封装 RPC 调用，以 Invocation, Result 为中心，扩展接口为 Protocol, Invoker, Exporter</li>
-<li>exchange 信息交换层：封装请求响应模式，同步转异步，以 Request, Response 为中心，扩展接口为 Exchanger, ExchangeChannel, ExchangeClient, ExchangeServer</li>
-<li>transport 网络传输层：抽象 mina 和 netty 为统一接口，以 Message 为中心，扩展接口为 Channel, Transporter, Client, Server, Codec</li>
-<li>serialize 数据序列化层：可复用的一些工具，扩展接口为 Serialization, ObjectInput, ObjectOutput, ThreadPool</li>
-</ul>
-<h3 id="2-dubbo原理-启动解析、加载配置信息"><a href="#2-dubbo原理-启动解析、加载配置信息" class="headerlink" title="2.dubbo原理 - 启动解析、加载配置信息"></a>2.dubbo原理 - 启动解析、加载配置信息</h3><p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200613171545504.png" alt="在这里插入图片描述"></p>
-<h3 id="3-dubbo原理-服务暴露"><a href="#3-dubbo原理-服务暴露" class="headerlink" title="3.dubbo原理 - 服务暴露"></a>3.dubbo原理 - 服务暴露</h3><p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200613171614614.png" alt="在这里插入图片描述"></p>
-<h3 id="4-dubbo原理-服务引用"><a href="#4-dubbo原理-服务引用" class="headerlink" title="4.dubbo原理 - 服务引用"></a>4.dubbo原理 - 服务引用</h3><p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200613171741579.png" alt="在这里插入图片描述"></p>
-<h3 id="5-dubbo原理-服务调用"><a href="#5-dubbo原理-服务调用" class="headerlink" title="5.dubbo原理 - 服务调用"></a>5.dubbo原理 - 服务调用</h3><p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200613171806762.png" alt="在这里插入图片描述"></p>
-]]></content>
-      <categories>
-        <category>Technical</category>
-        <category>Distributed</category>
-      </categories>
-      <tags>
-        <tag>Dubbo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ElasticSearch 学习</title>
     <url>/2021/05/25/ElasticSearch%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h1 id="ElasticSearch-学习"><a href="#ElasticSearch-学习" class="headerlink" title="ElasticSearch 学习"></a>ElasticSearch 学习</h1><h2 id="0-聊聊DougCutting"><a href="#0-聊聊DougCutting" class="headerlink" title="0 聊聊DougCutting"></a>0 聊聊DougCutting</h2><p>为什么要讲这个人,后面要聊大数据</p>
@@ -9801,6 +9070,737 @@ res = es.get(index=<span class="hljs-string">&quot;testpy&quot;</span>, <span cl
       </categories>
       <tags>
         <tag>ElasticSearch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Dubbo 学习</title>
+    <url>/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="Dubbo-学习"><a href="#Dubbo-学习" class="headerlink" title="Dubbo 学习"></a>Dubbo 学习</h1><h2 id="1-分布式简要说明"><a href="#1-分布式简要说明" class="headerlink" title="1 分布式简要说明"></a>1 分布式简要说明</h2><h3 id="1-1-什么是分布式？"><a href="#1-1-什么是分布式？" class="headerlink" title="1.1 什么是分布式？"></a>1.1 什么是分布式？</h3><ul>
+<li><p>Dubbo是用于分布式系统的框架所以我们要先了解什么是分布式<br>分布式系统是若干独立 计算机的集合，这些计算机对于用户来说就像单个相关系统。</p>
+</li>
+<li><p>老式系统(单一应用架构)就是把一个系统，统一放到一个服务器当中然后每一个服务器上放一个系统，如果说要更新代码的话，每一个服务器上的系统都要重新去部署十分的麻烦。</p>
+</li>
+</ul>
+<ul>
+<li>而分布式系统就是将一个完整的系统拆分成多个不同的服务，然后在将每一个服务单独的放到一个服务器当中。(三个臭皮匠赛过诸葛亮)</li>
+</ul>
+<h3 id="1-2-RPC-简介"><a href="#1-2-RPC-简介" class="headerlink" title="1.2 RPC 简介"></a>1.2 RPC 简介</h3><ul>
+<li><p><strong>分布式应用架构(远程过程调用)</strong>：当垂直应用越来越多，应用之间交互不可避免，将核心业务抽取出来，作为独立的服务，逐渐形成稳定的服务中心，使前端应用能更快速的响应多变的市场需求。</p>
+</li>
+<li><p>什么叫RPC</p>
+<ul>
+<li>RPC [ Remote Procedure Call]是指远程过程调用，是一种进程问通信方式，他是一种技术的思想，而不是规范。它允许程序调用另一个地址空间(通常是共享网络的另一台机器上)的过程或函数，而不用程序员显式编码这个远程调用的细节。即程序员无论是调用本地的还是远程的函数，本质上编写的调用代码基本相同。</li>
+<li>RPC（Remote Procedure Call）—远程过程调用，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。也就是说两台服务器A，B，一个应用部署在A服务器上，想要调用B服务器上应用提供的方法，由于不在一个内存空间，不能直接调用，需要通过网络来表达调用的语义和传达调用的数据。</li>
+</ul>
+</li>
+<li><p><strong>RPC工作原理</strong></p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/2020061015260046.png" alt="img"></p>
+<ol>
+<li>Client像调用本地服务似的调用远程服务；</li>
+<li>Client stub接收到调用后，将方法、参数序列化</li>
+<li>客户端通过sockets将消息发送到服务端</li>
+<li>Server stub 收到消息后进行解码（将消息对象反序列化）</li>
+<li>Server stub 根据解码结果调用本地的服务</li>
+<li>本地服务执行(对于服务端来说是本地执行)并将结果返回给Server stub</li>
+<li>Server stub将返回结果打包成消息（将结果消息对象序列化）</li>
+<li>服务端通过sockets将消息发送到客户端</li>
+<li>Client stub接收到结果消息，并进行解码（将结果消息发序列化）</li>
+<li>客户端得到最终结果。</li>
+</ol>
+</li>
+<li><p><strong>RPC 调用分以下两种：</strong></p>
+<ul>
+<li><strong>同步调用</strong>：客户方等待调用执行完成并返回结果。</li>
+<li><strong>异步调用</strong>：客户方调用后不用等待执行结果返回，但依然可以通过回调通知等方式获取返回结果。若客户方不关心调用返回结果，则变成单向异步调用，单向调用不用返回结果。</li>
+</ul>
+</li>
+<li><p><strong>RPC步骤解析</strong></p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610174636250.png" alt="在这里插入图片描述"></p>
+</li>
+<li><p><strong>SOA</strong><br><strong>流动计算架构</strong>：在分布式应用架构的基础上增加了一个<strong>调度、治理中心</strong>基于访问压力实时管理集群容量、提高集群的利用率，用于提高机器利用率的 资源调度和治理中心(SOA) 是关键 <strong>(不浪费计算机资源)</strong></p>
+</li>
+</ul>
+<h2 id="2-Dubbo核心概念"><a href="#2-Dubbo核心概念" class="headerlink" title="2 Dubbo核心概念"></a>2 Dubbo核心概念</h2><p>Dubbo官网: <a href="http://dubbo.apache.org/en-us/index.html">http://dubbo.apache.org/en-us/index.html</a></p>
+<p>Dubbo 是一款高性能、轻量级的开源Java RPC框架，它提供了三大核心能力：面向接口的远程方法调用，智能容错和负载均衡，服务自动注册和发现。分布式系统是将一个系统拆分为多个不同的服务。</p>
+<h2 id="3-Dubbo特性一览"><a href="#3-Dubbo特性一览" class="headerlink" title="3 Dubbo特性一览"></a>3 Dubbo特性一览</h2><p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610170234620.png" alt="img"></p>
+<h3 id="Dubbo设计架构"><a href="#Dubbo设计架构" class="headerlink" title="Dubbo设计架构"></a>Dubbo设计架构</h3><p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610170317960.png" alt="在这里插入图片描述"></p>
+<p>该图来自Dubbo官网，描述了服务注册中心、服务提供方、服务消费方、服务监控中心之间的调用关系。</p>
+<ul>
+<li><strong>服务提供者</strong>（Provider）：暴露服务的服务提供方，服务提供者在启动时，向注册中心注册自己提供的服务。</li>
+<li><strong>服务消费者</strong>（Consumer）: 调用远程服务的服务消费方，服务消费者在启动时，向注册中心订阅自己所需的服务，服务消费者，从提供者地址列表中，基于软负载均衡算法，选一台提供者进行调用，如果调用失败，再选另一台调用。</li>
+<li><strong>注册中心</strong>（Registry）：注册中心返回服务提供者地址列表给消费者，如果有变更，注册中心将基于长连接推送变更数据给消费者。</li>
+<li><strong>监控中心</strong>（Monitor）：服务消费者和提供者，在内存中累计调用次数和调用时间，定时每分钟发送一次统计数据到监控中心。</li>
+</ul>
+<h2 id="4-Dubbo的特性解析"><a href="#4-Dubbo的特性解析" class="headerlink" title="4 Dubbo的特性解析"></a>4 Dubbo的特性解析</h2><ul>
+<li><p>服务注册中心</p>
+<ul>
+<li>相比Hessian类RPC框架，Dubbo有自己的服务中心， 写好的服务可以注册到服务中心， 客户端从服务中心寻找服务，然后再到相应的服务提供者机器获取服务。通过服务中心可以实现集群、负载均衡、高可用(容错) 等重要功能。</li>
+<li>服务中心一般使用zookeeper实现，也有redis和其他一些方式。以使用zookeeper作为服务中心为例，服务提供者启动后会在zookeeper的/dubbo节点下创建提供的服务节点，包含服务提供者ip、port等信息。服务提供者关闭时会从zookeeper中移除对应的服务。</li>
+<li>服务使用者会从注册中心zookeeper中寻找服务，同一个服务可能会有多个提供者，Dubbo会帮我们找到合适的服务提供者，也就是针对服务提供者的负载均衡。</li>
+</ul>
+</li>
+<li><p>负载均衡</p>
+<p>当同一个服务有多个提供者在提供服务时，客户端如何正确的选择提供者实 现负载均衡呢？dubbo也给我们提供了几种方案：</p>
+<ul>
+<li>random 随机选提供者，并可以给提供者设置权重</li>
+<li>roundrobin 轮询选择提供者</li>
+<li>leastactive 最少活跃调用数，相同活跃数的随机，活跃数：指调用前后计数差。使慢的提供者收到更少请求，因为越慢的提供者的调用前后计数差会越大。</li>
+<li>consistenthash 一致性hash，相同参数的请求发到同一台机器上。</li>
+</ul>
+</li>
+<li><p>简化测试，允许直连提供者<br>在开发阶段为了方便测试，通常系统客户端能指定调用某个服务提供者，那么可以在引用服务时加一个url参数去指定服务提供者。 配置如下</p>
+<div class="code-wrapper"><pre><code class="hljs dubbo">&lt;dubbo:reference id&#x3D;&quot;xxxService&quot;interface&#x3D;&quot;com.alibaba.xxx.XxxService&quot;url&#x3D;&quot;dubbo:&#x2F;&#x2F;localhost:20890&quot;&#x2F;&gt;</code></pre></div>
+</li>
+<li><p>服务版本，服务分组<br>在Dubbo配置文件中可以通过制定版本实现连接制定提供者，也就是通过服务版本可以控制服务的不兼容升级；当同一个服务有多种实现时，可以使用服务分组进行区分。</p>
+</li>
+</ul>
+<h2 id="5-Dubbo-Zookeeper"><a href="#5-Dubbo-Zookeeper" class="headerlink" title="5 Dubbo + Zookeeper"></a>5 Dubbo + Zookeeper</h2><h3 id="5-1-搭建zookeeper注册中心环境"><a href="#5-1-搭建zookeeper注册中心环境" class="headerlink" title="5.1 搭建zookeeper注册中心环境"></a>5.1 搭建zookeeper注册中心环境</h3><p>Dubbo官方文档: <a href="http://dubbo.apache.org/en-us/docs/user/quick-start.html">http://dubbo.apache.org/en-us/docs/user/quick-start.html</a><br>在zookeeper官网下载zookeeper<br><a href="http://mirror.bit.edu.cn/apache/zookeeper/zookeeper-3.4.14/">http://mirror.bit.edu.cn/apache/zookeeper/zookeeper-3.4.14/</a></p>
+<ul>
+<li>在bin文件下，启动zkServer.cmd会有报错，处理需要在condif文件中将zoo_sample.cfg文件复制一份，将名字改为zoo.cfg。<br>在zookeeper的文件夹下创建data文件夹，打开zoo.cfg，修改datadir，将dataDir数据保存为我们自定义的文件中(此步骤可省略)</li>
+</ul>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610173149263.png" alt="img"></p>
+<ul>
+<li>配置完毕后，我们再次在conf下启动zkServer.cmd，这次可以成功启动</li>
+</ul>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610173356318.png" alt="img"></p>
+<ul>
+<li>继续运行zkCli.cmd，可以连接到zookeeper的服务器。</li>
+</ul>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610173644649.png" alt="img"></p>
+<ul>
+<li>此时，我们zookeeper的注册中心及环境以及搭建完毕。</li>
+</ul>
+<h3 id="5-2-zookeeper监控中心的配置"><a href="#5-2-zookeeper监控中心的配置" class="headerlink" title="5.2 zookeeper监控中心的配置"></a>5.2 zookeeper监控中心的配置</h3><ul>
+<li><p>下载dubbo-admin</p>
+<p>dubbo-admin下载地址 ：<a href="https://github.com/apache/dubbo-admin/tree/master">https://github.com/apache/dubbo-admin/tree/master</a></p>
+</li>
+<li><p>解压后进入目录修改指定zookeeper地址<br>进入如下地址：dubbo-admin-master\dubbo-admin\src\main\resources\application.properties”<br>将zookeeper的监控中心的地址配置为本地端口</p>
+<div class="code-wrapper"><pre><code class="hljs dubbo">#注册中心的地址
+dubbo.registry.address&#x3D;zookeeper:&#x2F;&#x2F;127.0.0.1:2181</code></pre></div>
+
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610175513207.png" alt="在这里插入图片描述"></p>
+</li>
+<li><p>配置完毕后，我们在dubo-zookeeper\dubbo-admin-master\dubbo-admin文件夹下cmd打包测试下。</p>
+<div class="code-wrapper"><pre><code class="hljs dubbo">mvn clean package</code></pre></div>
+
+<p>在target文件中打包完成的jar包</p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610175909584.png" alt="img"></p>
+</li>
+</ul>
+<ul>
+<li><p>cmd命令 <code>java -jar dubbo-admin-0.0.1-SNAPSHOT.jar</code>运行打包好的jar包<br>启动成功后，可以看到一个7001的端口</p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610180201513-1620378376190.png" alt="在这里插入图片描述"></p>
+</li>
+<li><p>此时我们的zookeeper的服务都为启动状态，在浏览器中访问 localhost:7001，访问到注册中心，输入账号密码root。</p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610180358177.png" alt="img"></p>
+</li>
+</ul>
+<blockquote>
+<p>  此时，我们zookeeper监控中心的配置完成。注意，要访问到监控中心，一定要启动zookeeper注册中心的启动类</p>
+</blockquote>
+<h2 id="6-Dubbo环境搭建，创建提供者、消费者项目"><a href="#6-Dubbo环境搭建，创建提供者、消费者项目" class="headerlink" title="6 Dubbo环境搭建，创建提供者、消费者项目"></a>6 Dubbo环境搭建，创建提供者、消费者项目</h2><p>基于以下图实现服务 提供者、消费者</p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200610195718980.png" alt="在这里插入图片描述"></p>
+<h3 id="6-1-Dubbo服务提供者和消费者接口搭建"><a href="#6-1-Dubbo服务提供者和消费者接口搭建" class="headerlink" title="6.1 Dubbo服务提供者和消费者接口搭建"></a>6.1 Dubbo服务提供者和消费者接口搭建</h3><p><strong>创建Maven项目=&gt; <code>user-service-provider</code> 服务提供者</strong></p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210509014131477.png" alt="image-20210509014131477"></p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210509014149815.png" alt="image-20210509014149815"></p>
+<ul>
+<li><p><strong>UserAddress</strong></p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserAddress</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Serializable</span></span>&#123;
+    <span class="hljs-keyword">private</span> Integer id;
+    <span class="hljs-keyword">private</span> String userAddress; <span class="hljs-comment">//用户地址</span>
+    <span class="hljs-keyword">private</span> String userId; <span class="hljs-comment">//用户id</span>
+    <span class="hljs-keyword">private</span> String consignee; <span class="hljs-comment">//收货人</span>
+    <span class="hljs-keyword">private</span> String phoneNum; <span class="hljs-comment">//电话号码</span>
+    <span class="hljs-keyword">private</span> String isDefault; <span class="hljs-comment">//是否为默认地址    Y-是     N-否</span>
+    <span class="hljs-comment">//get     set </span>
+    <span class="hljs-comment">//有参构造  无参构造</span>
+  &#125;</code></pre></div>
+</li>
+<li><p><strong>UserService</strong></p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//用户服务</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">UserService</span> </span>&#123;
+	<span class="hljs-comment">/**</span>
+<span class="hljs-comment">	 * 按照用户id返回所有的收货地址</span>
+<span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> userId</span>
+<span class="hljs-comment">	 * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">	 */</span>
+	<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;UserAddress&gt; <span class="hljs-title">getUserAddressList</span><span class="hljs-params">(String userId)</span></span>;
+&#125;</code></pre></div>
+</li>
+<li><p><strong>UserServiceImpl</strong></p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">UserService</span> </span>&#123;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;UserAddress&gt; <span class="hljs-title">getUserAddressList</span><span class="hljs-params">(String userId)</span> </span>&#123;
+
+		UserAddress address1 = <span class="hljs-keyword">new</span> UserAddress(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;河南省郑州巩义市宋陵大厦2F&quot;</span>, <span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;安然&quot;</span>, <span class="hljs-string">&quot;150360313x&quot;</span>, <span class="hljs-string">&quot;Y&quot;</span>);
+		UserAddress address2 = <span class="hljs-keyword">new</span> UserAddress(<span class="hljs-number">2</span>, <span class="hljs-string">&quot;北京市昌平区沙河镇沙阳路&quot;</span>, <span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;情话&quot;</span>, <span class="hljs-string">&quot;1766666395x&quot;</span>, <span class="hljs-string">&quot;N&quot;</span>);
+
+		<span class="hljs-keyword">return</span> Arrays.asList(address1,address2);
+	&#125;
+&#125;</code></pre></div>
+
+</li>
+</ul>
+<p><strong>创建Maven项目=&gt; <code>order-service-consumer</code> 服务消费者(订单服务)</strong></p>
+<ul>
+<li><p><strong>OrderService</strong></p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">OrderService</span> </span>&#123;
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 初始化订单</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> userID</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initOrder</span><span class="hljs-params">(String userID)</span></span>;
+&#125;</code></pre></div>
+</li>
+<li><p><strong>OrderServiceImpl</strong></p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">OrderService</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initOrder</span><span class="hljs-params">(String userID)</span> </span>&#123;
+        <span class="hljs-comment">//查询用户的收货地址</span>
+
+    &#125;
+&#125;</code></pre></div>
+
+</li>
+</ul>
+<p><strong>因服务消费者要拿到提供者的方法</strong></p>
+<p>将服务提供者中的实体类及 UserService 复制到当前消费者同级文件中。</p>
+<ul>
+<li><p><strong>OrderServiceImpl</strong></p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">OrderService</span> </span>&#123;
+    <span class="hljs-keyword">public</span> UserService userService;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initOrder</span><span class="hljs-params">(String userID)</span> </span>&#123;
+        <span class="hljs-comment">//查询用户的收货地址</span>
+        List&lt;UserAddress&gt; userAddressList = userService.getUserAddressList(userID);
+        System.out.println(userAddressList);
+    &#125;
+&#125;</code></pre></div>
+
+</li>
+</ul>
+<p>此时我们调用 userservice 肯定是要报错的。这种面向接口的方式，我们这里只是调到了接口，而接口实际是在另外一个项目中，如果我们两个项目工程都创建共同的实体类，太过于麻烦了，我们可以将服务接口，服务模型等单独放在一个项目中，更为方便调用。</p>
+<p><strong>创建Maven项目=&gt; gmail-interface 用于存放共同的服务接口</strong></p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200611154037439.png" alt="在这里插入图片描述"></p>
+<p>将 提供者 和 消费者 项目中的所有实体类复制到当前相关的文件包下，删除原有的实体类包及service包，也就是将实体类及service放在了当前公共的项目中。</p>
+<p>把服务提供者和消费者项目中引入以下依赖，引入后项目不在报错.</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.lemon.gmail<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>gmail-interface<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<h3 id="6-2-服务提供者配置及测试"><a href="#6-2-服务提供者配置及测试" class="headerlink" title="6.2 服务提供者配置及测试"></a>6.2 服务提供者配置及测试</h3><p>在 <code>user-service-provider</code> 服务提供者项目中引入依赖</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--dubbo--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>dubbo<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.6.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-comment">&lt;!--注册中心是 zookeeper，引入zookeeper客户端--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.curator<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>curator-framework<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>4.0.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>在<code>resource</code>文件中创建<code>provider.xml</code></p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> <span class="hljs-attr">xmlns:dubbo</span>=<span class="hljs-string">&quot;http://code.alibabatech.com/schema/dubbo&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd&quot;</span>&gt;</span>
+	
+	<span class="hljs-comment">&lt;!-- 1、指定当前服务/应用的名字（同样的服务名字相同，不要和别的服务同名） --&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">dubbo:application</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;user-service-provider&quot;</span>/&gt;</span>
+	
+	<span class="hljs-comment">&lt;!-- 2、指定注册中心的位置 --&gt;</span>
+	<span class="hljs-comment">&lt;!-- &lt;dubbo:registry address=&quot;zookeeper://127.0.0.1:2181&quot;&gt;&lt;/dubbo:registry&gt; --&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">dubbo:registry</span> <span class="hljs-attr">protocol</span>=<span class="hljs-string">&quot;zookeeper&quot;</span> <span class="hljs-attr">address</span>=<span class="hljs-string">&quot;127.0.0.1:2181&quot;</span>/&gt;</span>
+	
+	<span class="hljs-comment">&lt;!-- 3、指定通信规则（通信协议？通信端口） --&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">dubbo:protocol</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;dubbo&quot;</span> <span class="hljs-attr">port</span>=<span class="hljs-string">&quot;20882&quot;</span>/&gt;</span>
+	
+ <span class="hljs-comment">&lt;!--4、暴露服务 让别人调用 ref指向服务的真正实现对象--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dubbo:service</span> <span class="hljs-attr">interface</span>=<span class="hljs-string">&quot;com.lemon.gmail.service.UserService&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;userServiceImpl&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">dubbo:service</span>&gt;</span>
+
+    <span class="hljs-comment">&lt;!--服务的实现--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;userServiceImpl&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.lemon.gmail.service.impl.UserServiceImpl&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
+
+<p>编写一个<code>ProviderApplication</code>启动类程序，运行测试配置</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MailApplication</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+        ClassPathXmlApplicationContext applicationContext= <span class="hljs-keyword">new</span> ClassPathXmlApplicationContext(<span class="hljs-string">&quot;provider.xml&quot;</span>);
+        applicationContext.start();
+        System.inread();
+    &#125;
+&#125;</code></pre></div>
+
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210509015143656.png" alt="image-20210509015143656"></p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210509015205821.png" alt="image-20210509015205821"></p>
+<h3 id="6-3-服务消费者配置及测试"><a href="#6-3-服务消费者配置及测试" class="headerlink" title="6.3 服务消费者配置及测试"></a>6.3 服务消费者配置及测试</h3><p>在 <code>order-service-consumer</code> 服务消费者项目中引入依赖</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--dubbo--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>dubbo<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.6.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-comment">&lt;!--注册中心是 zookeeper，引入zookeeper客户端--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.curator<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>curator-framework<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>4.0.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>创建<code>consumer.xml</code></p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:context</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/context&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:dubbo</span>=<span class="hljs-string">&quot;http://code.alibabatech.com/schema/dubbo&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd&quot;</span>&gt;</span>
+	
+	<span class="hljs-tag">&lt;<span class="hljs-name">context:component-scan</span> <span class="hljs-attr">base-package</span>=<span class="hljs-string">&quot;com.pnca.gmall&quot;</span>/&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">dubbo:application</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;order-service-consumer&quot;</span>/&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">dubbo:registry</span> <span class="hljs-attr">address</span>=<span class="hljs-string">&quot;zookeeper://127.0.0.1:2181&quot;</span>/&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">dubbo:reference</span> <span class="hljs-attr">interface</span>=<span class="hljs-string">&quot;com.pnca.gmall.service.UserService&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;userService&quot;</span>/&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
+
+<p>把当前<code>OrderServiceImpl</code>实现类中加上注解</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">OrderService</span> </span>&#123;
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">public</span> UserService userService;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initOrder</span><span class="hljs-params">(String userID)</span> </span>&#123;
+        <span class="hljs-comment">//查询用户的收货地址</span>
+        List&lt;UserAddress&gt; userAddressList = userService.getUserAddressList(userID);
+        
+        <span class="hljs-comment">//为了直观的看到得到的数据，以下内容也可不写</span>
+        System.out.println(<span class="hljs-string">&quot;当前接收到的userId=&gt; &quot;</span>+userID);
+        System.out.println(<span class="hljs-string">&quot;**********&quot;</span>);
+        System.out.println(<span class="hljs-string">&quot;查询到的所有地址为：&quot;</span>);
+        <span class="hljs-keyword">for</span> (UserAddress userAddress : userAddressList) &#123;
+            <span class="hljs-comment">//打印远程服务地址的信息</span>
+            System.out.println(userAddress.getUserAddress());
+        &#125;
+        
+    &#125;
+&#125;</code></pre></div>
+
+<p>编写一个<code>ConsumerApplication</code>启动类程序，运行测试配置</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConsumerApplication</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        ClassPathXmlApplicationContext applicationContext = <span class="hljs-keyword">new</span> ClassPathXmlApplicationContext(<span class="hljs-string">&quot;consumer.xml&quot;</span>);
+        OrderService orderService = applicationContext.getBean(OrderService.class);
+
+        <span class="hljs-comment">//调用方法查询出数据</span>
+        orderService.initOrder(<span class="hljs-string">&quot;1&quot;</span>);
+        System.out.println(<span class="hljs-string">&quot;调用完成...&quot;</span>);
+	    System.in.read();
+    &#125;
+&#125;</code></pre></div>
+
+<p>注意：消费者的运行测试需要先启动提供者。<br>启动服务提供者、消费者。及zookeeper的和dubbo-admin，查看监控信息。<br>localhost:7001</p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210512202425183.png" alt="image-20210512202425183"></p>
+<h2 id="7-dubbo-monitor-simple-简易监控中心"><a href="#7-dubbo-monitor-simple-简易监控中心" class="headerlink" title="7 dubbo-monitor-simple 简易监控中心"></a>7 dubbo-monitor-simple 简易监控中心</h2><ul>
+<li><p>进入dubbo-monitor-simple文件，执行cmd命令，mvn package打包成jar包</p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200612083732691.png" alt="在这里插入图片描述"></p>
+</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200612084630745.png" alt="在这里插入图片描述"></p>
+<ul>
+<li><p>将 <code>dubbo-monitor-simple-2.0.0-assembly.tar.gz</code> 压缩包解压至当前文件夹，解压后config文件查看properties的配置是否是本地的zookeeper。</p>
+</li>
+<li><p>打开解压后的 <code>assembly.bin</code> 文件，<code>start.bat</code> 启动<code>dubbo-monitor-simple监控中心</code></p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210512203200864.png" alt="image-20210512203200864"></p>
+<p>在浏览器 <code>localhost:8080</code> ，可以看到一个监控中心。<br>在服务提供者和消费者的xml中配置以下内容，再次启动服务提供和消费者启动类。</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--dubbo-monitor-simple监控中心发现的配置--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dubbo:monitor</span> <span class="hljs-attr">protocol</span>=<span class="hljs-string">&quot;registry&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">dubbo:monitor</span>&gt;</span>
+<span class="hljs-comment">&lt;!--&lt;dubbo:monitor address=&quot;127.0.0.1:7070&quot;&gt;&lt;/dubbo:monitor&gt;--&gt;</span></code></pre></div>
+
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210512203449002.png" alt="image-20210512203449002"></p>
+</li>
+</ul>
+<h2 id="8-Dubbo-与-springboot-整合"><a href="#8-Dubbo-与-springboot-整合" class="headerlink" title="8 Dubbo 与 springboot 整合"></a>8 Dubbo 与 springboot 整合</h2><p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200612152443622.png" alt="在这里插入图片描述"></p>
+<h3 id="8-1-boot-user-service-provider-服务提供者"><a href="#8-1-boot-user-service-provider-服务提供者" class="headerlink" title="8.1 boot-user-service-provider 服务提供者"></a>8.1 boot-user-service-provider 服务提供者</h3><ul>
+<li><p><strong>创建 springboot 项目 <code>boot-user-service-provider</code></strong> 服务提供者</p>
+</li>
+<li><p>导入依赖</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.pnca.gmall<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>gmall_interface<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>dubbo-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.2.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+</li>
+<li><p>把 <code>user-service-provider</code> 中的 service 拿到此项目中。注意，以此方法为返回的需要更改 interface 包中的 void为 List<UserAddress></UserAddress></p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>    <span class="hljs-comment">// dubbo暴露服务</span>
+<span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">UserService</span> </span>&#123;
+
+	<span class="hljs-meta">@Override</span>
+	<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;UserAddress&gt; <span class="hljs-title">getUserAddressList</span><span class="hljs-params">(String userId)</span> </span>&#123;
+		<span class="hljs-comment">// TODO Auto-generated method stub</span>
+		System.out.println(<span class="hljs-string">&quot;UserServiceImpl..3.....&quot;</span>);
+		UserAddress address1 = <span class="hljs-keyword">new</span> UserAddress(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;北京市昌平区宏福科技园综合楼3层&quot;</span>, <span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;李老师&quot;</span>, <span class="hljs-string">&quot;010-56253825&quot;</span>, <span class="hljs-string">&quot;Y&quot;</span>);
+		UserAddress address2 = <span class="hljs-keyword">new</span> UserAddress(<span class="hljs-number">2</span>, <span class="hljs-string">&quot;深圳市宝安区西部硅谷大厦B座3层（深圳分校）&quot;</span>, <span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;王老师&quot;</span>, <span class="hljs-string">&quot;010-56253825&quot;</span>, <span class="hljs-string">&quot;N&quot;</span>);
+		<span class="hljs-keyword">return</span> Arrays.asList(address1, address2);
+	&#125;
+
+&#125;</code></pre></div>
+</li>
+<li><p>配置 <code>application.properties</code></p>
+<div class="code-wrapper"><pre><code class="hljs properties"><span class="hljs-meta">dubbo.application.name</span>=<span class="hljs-string">boot_user_service_provider</span>
+<span class="hljs-meta">dubbo.registry.address</span>=<span class="hljs-string">127.0.0.1:2181</span>
+<span class="hljs-meta">dubbo.registry.protocol</span>=<span class="hljs-string">zookeeper</span>
+
+<span class="hljs-meta">dubbo.protocol.name</span>=<span class="hljs-string">dubbo</span>
+<span class="hljs-meta">dubbo.protocol.port</span>=<span class="hljs-string">20880</span>
+
+<span class="hljs-comment">#连接监控中心</span>
+<span class="hljs-meta">dubbo.monitor.protocol</span>=<span class="hljs-string">registry</span></code></pre></div>
+</li>
+<li><p>BootUserServiceProviderApplication启动类配置</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@EnableDubbo</span>    <span class="hljs-comment">//开启基于注解的dubbo功能</span>
+<span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BootUserServiceProviderApplication</span> </span>&#123;
+
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+		SpringApplication.run(BootUserServiceProviderApplication.class, args);
+	&#125;
+
+&#125;</code></pre></div>
+</li>
+<li><p>启动注册中心，启动当前服务提供者，可以在浏览器看到一个服务提供者。</p>
+</li>
+</ul>
+<h3 id="8-2-boot-order-service-consumer-服务消费者"><a href="#8-2-boot-order-service-consumer-服务消费者" class="headerlink" title="8.2 boot-order-service-consumer 服务消费者"></a>8.2 boot-order-service-consumer 服务消费者</h3><ul>
+<li><p><strong>创建springboot项目 <code>boot-order-service-consumer</code></strong> 服务消费者</p>
+</li>
+<li><p>导入依赖</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.pnca.gmall<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>gmall_interface<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>dubbo-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.2.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+</li>
+<li><p>把 <code>order-service-consumer</code> 中的 service 拿到此项目中。注意，以此方法为返回的需要更改 interface 包中的 void 为 List<UserAddress></UserAddress></p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">OrderService</span> </span>&#123;
+
+	<span class="hljs-comment">// @Autowired</span>
+	<span class="hljs-meta">@Reference</span>
+	UserService userService;
+
+	<span class="hljs-meta">@Override</span>
+	<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;UserAddress&gt; <span class="hljs-title">initOrder</span><span class="hljs-params">(String userId)</span> </span>&#123;
+		<span class="hljs-comment">// TODO Auto-generated method stub</span>
+		System.out.println(<span class="hljs-string">&quot;用户id：&quot;</span> + userId);
+		<span class="hljs-comment">//1、查询用户的收货地址</span>
+		List&lt;UserAddress&gt; addressList = userService.getUserAddressList(userId);
+		<span class="hljs-keyword">for</span> (UserAddress userAddress : addressList) &#123;
+			System.out.println(userAddress);
+		&#125;
+		<span class="hljs-keyword">return</span> addressList;
+	&#125;
+&#125;
+</code></pre></div>
+</li>
+<li><p>创建 OrderController 控制器</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderController</span> </span>&#123;
+
+	<span class="hljs-meta">@Autowired</span>
+	OrderService orderService;
+
+	<span class="hljs-meta">@ResponseBody</span>
+	<span class="hljs-meta">@RequestMapping(&quot;/initOrder&quot;)</span>
+	<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;UserAddress&gt; <span class="hljs-title">initOrder</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam(&quot;uid&quot;)</span> String userId)</span> </span>&#123;
+		<span class="hljs-keyword">return</span> orderService.initOrder(userId);
+	&#125;
+&#125;</code></pre></div>
+</li>
+<li><p>配置 <code>application.properties</code></p>
+<div class="code-wrapper"><pre><code class="hljs properties"><span class="hljs-meta">server.port</span>=<span class="hljs-string">8081</span>
+
+<span class="hljs-meta">dubbo.application.name</span>=<span class="hljs-string">boot_order_service_consumer</span>
+<span class="hljs-meta">dubbo.registry.address</span>=<span class="hljs-string">zookeeper://127.0.0.1:2181</span>
+<span class="hljs-meta">dubbo.registry.protocol</span>=<span class="hljs-string">zookeeper</span>
+
+<span class="hljs-comment">#连接监控中心</span>
+<span class="hljs-meta">dubbo.monitor.protocol</span>=<span class="hljs-string">registry</span></code></pre></div>
+</li>
+<li><p>BootOrderServiceConsumerApplication启动类配置</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@EnableDubbo</span>
+<span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BootOrderServiceConsumerApplication</span> </span>&#123;
+
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+		SpringApplication.run(BootOrderServiceConsumerApplication.class, args);
+	&#125;
+
+&#125;</code></pre></div>
+</li>
+<li><p>配置完毕，此时启动zookeeper注册中心及监控。<br>启动springboot配置的服务提供者和消费者<br>在浏览器输入 localhost:7001 查看结果</p>
+</li>
+</ul>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210512215907361.png" alt="image-20210512215907361"></p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210512215927876.png" alt="image-20210512215927876"></p>
+<p>duboo的springboot整合配置完成。</p>
+<h2 id="9-Dubbo-配置"><a href="#9-Dubbo-配置" class="headerlink" title="9 Dubbo 配置"></a>9 Dubbo 配置</h2><p>dubbo配置官网参考：<a href="http://dubbo.apache.org/zh-cn/docs/user/references/xml/dubbo-service.html">http://dubbo.apache.org/zh-cn/docs/user/references/xml/dubbo-service.html</a></p>
+<h3 id="9-1-配置原则"><a href="#9-1-配置原则" class="headerlink" title="9.1 配置原则"></a>9.1 配置原则</h3><p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200612152343133.png" alt="在这里插入图片描述"></p>
+<ul>
+<li>JVM 启动 -D 参数优先，这样可以使用户在部署和启动时进行参数重写，比如在启动时需改变协议的端口。</li>
+<li>XML 次之，如果在 XML 中有配置，则 dubbo.properties 中的相应配置项无效。</li>
+<li>Properties 最后，相当于缺省值，只有 XML 没有配置时，dubbo.properties 的相应配置项才会生效，通常用于共享公共配置，比如应用名。</li>
+</ul>
+<h3 id="9-2-启动时检查"><a href="#9-2-启动时检查" class="headerlink" title="9.2 启动时检查"></a>9.2 启动时检查</h3><ul>
+<li>Dubbo 缺省会在启动时检查依赖的服务是否可用，不可用时会抛出异常，阻止 Spring 初始化完成，以便上线时，能及早发现问题，默认 check=“true”。</li>
+</ul>
+<ul>
+<li>可以通过 check=“false” 关闭检查，比如，测试时，有些服务不关心，或者出现了循环依赖，必须有一方先启动。</li>
+</ul>
+<ul>
+<li><p>另外，如果你的 Spring 容器是懒加载的，或者通过 API 编程延迟引用服务，请关闭 check，否则服务临时不可用时，会抛出异常，拿到 null 引用，如果 check=“false”，总是会返回引用，当服务恢复时，能自动连上。</p>
+</li>
+<li><p>以<code>order-service-consumer</code>消费者为例，在consumer.xml中添加配置</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--配置当前消费者的统一规则,当前所有的服务都不启动时检查--&gt;</span>
+ <span class="hljs-tag">&lt;<span class="hljs-name">dubbo:consumer</span> <span class="hljs-attr">check</span>=<span class="hljs-string">&quot;false&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">dubbo:consumer</span>&gt;</span></code></pre></div>
+</li>
+<li><p>添加后，即使服务提供者不启动，启动当前的消费者，也不会出现错误。</p>
+</li>
+</ul>
+<h3 id="9-3-全局超时配置"><a href="#9-3-全局超时配置" class="headerlink" title="9.3 全局超时配置"></a>9.3 全局超时配置</h3><div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--全局超时配置--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dubbo:provider</span> <span class="hljs-attr">timeout</span>=<span class="hljs-string">&quot;5000&quot;</span> /&gt;</span>
+
+指定接口以及特定方法超时配置
+<span class="hljs-tag">&lt;<span class="hljs-name">dubbo:provider</span> <span class="hljs-attr">interface</span>=<span class="hljs-string">&quot;com.foo.BarService&quot;</span> <span class="hljs-attr">timeout</span>=<span class="hljs-string">&quot;2000&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dubbo:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;sayHello&quot;</span> <span class="hljs-attr">timeout</span>=<span class="hljs-string">&quot;3000&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dubbo:provider</span>&gt;</span></code></pre></div>
+
+<p><strong>配置原则</strong></p>
+<p>dubbo推荐在Provider上尽量多配置Consumer端属性</p>
+<div class="code-wrapper"><pre><code class="hljs plain">1、作服务的提供者，比服务使用方更清楚服务性能参数，如调用的超时时间，合理的重试次数，等等
+2、在Provider配置后，Consumer不配置则会使用Provider的配置值，即Provider配置可以作为Consumer的缺省值。否则，Consumer会使用Consumer端的全局设置，这对于Provider不可控的，并且往往是不合理的</code></pre></div>
+
+<p>配置的覆盖规则：</p>
+<ul>
+<li><p>方法级配置别优于接口级别，即小Scope优先</p>
+</li>
+<li><p>Consumer端配置 优于 Provider配置 优于 全局配置，</p>
+</li>
+<li><p>最后是Dubbo Hard Code的配置值（见配置文档）</p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200612160853853.png" alt="在这里插入图片描述"></p>
+<p><a href="http://dubbo.apache.org/zh-cn/docs/user/demos/multi-versions.html">http://dubbo.apache.org/zh-cn/docs/user/demos/multi-versions.html</a><br>在服务提供者中复制多个impl。起不同的名字</p>
+</li>
+</ul>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200612163440781.png" alt="在这里插入图片描述"></p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200612163456305.png" alt="在这里插入图片描述"></p>
+<p>配置多个文件的路径及信息。<br>服务消费者调用时，可自由配置版本</p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200612163603598.png" alt="在这里插入图片描述"></p>
+<h3 id="9-4-dubbo与springboot整合的三种方式"><a href="#9-4-dubbo与springboot整合的三种方式" class="headerlink" title="9.4 dubbo与springboot整合的三种方式"></a>9.4 dubbo与springboot整合的三种方式</h3><ul>
+<li><p>将服务提供者注册到注册中心(如何暴露服务)</p>
+<ul>
+<li>导入Dubbo的依赖 和 zookeeper 客户端</li>
+</ul>
+</li>
+<li><p>让服务消费者去注册中心订阅服务提供者的服务地址<br>Springboot与Dubbo整合的三种方式</p>
+<ol>
+<li><p>导入dubbo-starter。在application.properties配置属性，使用@Service【暴露服务】，使用@Reference【引用服务】</p>
+</li>
+<li><p>保留Dubbo 相关的xml配置文件</p>
+<p> 导入dubbo-starter，使用@ImportResource导入Dubbo的xml配置文件</p>
+</li>
+<li><p>使用 注解API的方式</p>
+<p>将每一个组件手动配置到容器中,让dubbo来扫描其他的组件</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="10-高可用"><a href="#10-高可用" class="headerlink" title="10 高可用"></a>10 高可用</h2><p>zookeeper宕机与dubbo直连<br>现象：zookeeper注册中心宕机，还可以消费dubbo暴露的服务。<br>原因：</p>
+<p>健壮性</p>
+<ul>
+<li>监控中心宕掉不影响使用，只是丢失部分采样数据</li>
+<li>数据库宕掉后，注册中心仍能通过缓存提供服务列表查询，但不能注册新服务</li>
+<li>注册中心对等集群，任意一台宕掉后，将自动切换到另一台</li>
+<li>注册中心全部宕掉后，服务提供者和服务消费者仍能通过本地缓存通讯</li>
+<li>服务提供者无状态，任意一台宕掉后，不影响使用</li>
+<li>服务提供者全部宕掉后，服务消费者应用将无法使用，并无限次重连等待服务提供者恢复</li>
+<li>高可用：通过设计，减少系统不能提供服务的时间；</li>
+</ul>
+<h3 id="集群下dubbo负载均衡配置"><a href="#集群下dubbo负载均衡配置" class="headerlink" title="集群下dubbo负载均衡配置"></a>集群下dubbo负载均衡配置</h3><p>在集群负载均衡时，Dubbo 提供了多种均衡策略，缺省为 random 随机调用。</p>
+<p><strong>负载均衡策略如下</strong></p>
+<ul>
+<li><p><strong>Random LoadBalance 基于权重的随机负载均衡机制</strong></p>
+<p>随机，按权重设置随机概率。 在一个截面上碰撞的概率高，但调用量越大分布越均匀，而且按概率使用权重后也比较均匀，有利于动态调整提供者权重。</p>
+</li>
+</ul>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200612180908789.png" alt="在这里插入图片描述"></p>
+<ul>
+<li><p><strong>RoundRobin LoadBalance 基于权重的轮询负载均衡机制</strong></p>
+<p>轮循，按公约后的权重设置轮循比率。 存在慢的提供者累积请求的问题，比如：第二台机器很慢，但没挂，当请求调到第二台时就卡在那，久而久之，所有请求都卡在调到第二台上。</p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200612180928170.png" alt="在这里插入图片描述"></p>
+</li>
+</ul>
+<ul>
+<li><p><strong>LeastActive LoadBalance最少活跃数负载均衡机制</strong></p>
+<p>最少活跃调用数，相同活跃数的随机，活跃数指调用前后计数差。 使慢的提供者收到更少请求，因为越慢的提供者的调用前后计数差会越大。</p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200612180951468.png" alt="在这里插入图片描述"></p>
+</li>
+</ul>
+<ul>
+<li><p><strong>ConsistentHash LoadBalance一致性hash 负载均衡机制</strong></p>
+<ul>
+<li>一致性 Hash，相同参数的请求总是发到同一提供者。 当某一台提供者挂时，原本发往该提供者的请求，基于虚拟节点，平摊到其它提供者，不会引起剧烈变动。</li>
+<li>算法参见：<a href="http://en.wikipedia.org/wiki/Consistent_hashing">http://en.wikipedia.org/wiki/Consistent_hashing</a> </li>
+<li>缺省只对第一个参数 Hash，如果要修改，请配置 &lt;dubbo:parameter key=”hash.arguments” value=”0,1” /&gt; 缺省用 160 份虚拟节点，如果要修改，请配置 &lt;dubbo:parameter key=”hash.nodes” value=”320” /&gt;</li>
+</ul>
+</li>
+</ul>
+<div class="code-wrapper"><pre><code>![在这里插入图片描述](Dubbo学习/20200612181007825.png)</code></pre></div><h2 id="11-整合-hystrix-，服务熔断与降级处理"><a href="#11-整合-hystrix-，服务熔断与降级处理" class="headerlink" title="11 整合 hystrix ，服务熔断与降级处理"></a>11 整合 hystrix ，服务熔断与降级处理</h2><h3 id="11-1-服务降级"><a href="#11-1-服务降级" class="headerlink" title="11.1 服务降级"></a>11.1 服务降级</h3><p><strong>当服务器压力剧增的情况下，根据实际业务情况及流量，对一些服务和页面有策略的不处理或换种简单的方式处理，从而释放服务器资源以保证核心交易正常运作或高效运作。</strong><br>可以通过服务降级功能临时屏蔽某个出错的非关键服务，并定义降级后的返回策略。<br>向注册中心写入动态配置覆盖规则：</p>
+<div class="code-wrapper"><pre><code class="hljs java">RegistryFactory registryFactory = ExtensionLoader.getExtensionLoader(RegistryFactory.class).getAdaptiveExtension();
+Registry registry = registryFactory.getRegistry(URL.valueOf(<span class="hljs-string">&quot;zookeeper://10.20.153.10:2181&quot;</span>));
+registry.register(URL.valueOf(<span class="hljs-string">&quot;override://0.0.0.0/com.foo.BarService?category=configurators&amp;dynamic=false&amp;application=foo&amp;mock=force:return+null&quot;</span>));</code></pre></div>
+
+<p>其中：<br>mock=force:return+null 表示消费方对该服务的方法调用都直接返回 null 值，不发起远程调用。用来屏蔽不重要服务不可用时，对调用方的影响。<br>还可以改为 mock=fail:return+null 表示消费方对该服务的方法调用在失败后，再返回 null 值，不抛异常。用来容忍不重要服务不稳定时，对调用方的影响。</p>
+<h3 id="11-2-集群容错"><a href="#11-2-集群容错" class="headerlink" title="11.2 集群容错"></a>11.2 集群容错</h3><p>在集群调用失败时，Dubbo 提供了多种容错方案，缺省为 failover 重试。</p>
+<ul>
+<li><p><strong>集群容错模式</strong></p>
+<ul>
+<li><p><strong>Failover Cluster</strong><br>失败自动切换，当出现失败，重试其它服务器。通常用于读操作，但重试会带来更长延迟。可通过 retries=“2” 来设置重试次数(不含第一次)。</p>
+<p>重试次数配置如下：<br>&lt;dubbo:service retries=“2” /&gt;<br>或<br>&lt;dubbo:reference retries=“2” /&gt;<br>或<br>dubbo:reference<br>&lt;dubbo:method name=“findFoo” retries=“2” /&gt;<br></p>
+</li>
+<li><p><strong>Failfast Cluster</strong><br>快速失败，只发起一次调用，失败立即报错。通常用于非幂等性的写操作，比如新增记录。</p>
+</li>
+<li><p><strong>Failsafe Cluster</strong><br>失败安全，出现异常时，直接忽略。通常用于写入审计日志等操作。</p>
+</li>
+<li><p><strong>Failback Cluster</strong><br>失败自动恢复，后台记录失败请求，定时重发。通常用于消息通知操作。</p>
+</li>
+<li><p><strong>Forking Cluster</strong><br>并行调用多个服务器，只要一个成功即返回。通常用于实时性要求较高的读操作，但需要浪费更多服务资源。可通过 forks=“2” 来设置最大并行数。</p>
+</li>
+<li><p><strong>Broadcast Cluster</strong><br>广播调用所有提供者，逐个调用，任意一台报错则报错 [2]。通常用于通知所有提供者更新缓存或日志等本地资源信息。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>集群模式配置</strong><br>按照以下示例在服务提供方和消费方配置集群模式<br>&lt;dubbo:service cluster=“failsafe” /&gt;<br>或<br>&lt;dubbo:reference cluster=“failsafe” /&gt;</p>
+</li>
+</ul>
+<h3 id="11-3-整合hystrix"><a href="#11-3-整合hystrix" class="headerlink" title="11.3 整合hystrix"></a>11.3 整合hystrix</h3><p>服务熔断错处理配置参考=&gt; <a href="https://www.cnblogs.com/xc-xinxue/p/12459861.html">https://www.cnblogs.com/xc-xinxue/p/12459861.html</a></p>
+<p>Hystrix 旨在通过控制那些访问远程系统、服务和第三方库的节点，从而对延迟和故障提供更强大的容错能力。Hystrix具备拥有回退机制和断路器功能的线程和信号隔离，请求缓存和请求打包，以及监控和配置等功能</p>
+<ul>
+<li><p><strong>配置spring-cloud-starter-netflix-hystrix</strong></p>
+</li>
+<li><p>spring boot官方提供了对<strong>hystrix</strong>的集成，直接在pom.xml里加入依赖：</p>
+<div class="code-wrapper"><pre><code class="hljs xml"> <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-hystrix<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.4.4.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+</li>
+<li><p>然后在Application类上增加<strong>@EnableHystrix</strong>来启用hystrix starter：</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-meta">@EnableHystrix</span> <span class="hljs-comment">//开启服务容错功能</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProviderApplication</span> </span>&#123;
+	...启动方法
+&#125;</code></pre></div>
+</li>
+<li><p><strong>配置Provider端</strong></p>
+<p>在Dubbo的Provider上增加@HystrixCommand配置，这样子调用就会经过Hystrix代理。</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>    <span class="hljs-comment">// dubbo暴露服务</span>
+<span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">UserService</span> </span>&#123;
+
+
+	<span class="hljs-meta">@HystrixCommand</span>
+	<span class="hljs-meta">@Override</span>
+	<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;UserAddress&gt; <span class="hljs-title">getUserAddressList</span><span class="hljs-params">(String userId)</span> </span>&#123;
+		<span class="hljs-comment">// TODO Auto-generated method stub</span>
+		System.out.println(<span class="hljs-string">&quot;UserServiceImpl..3.....&quot;</span>);
+		UserAddress address1 = <span class="hljs-keyword">new</span> UserAddress(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;北京市昌平区宏福科技园综合楼3层&quot;</span>, <span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;李老师&quot;</span>, <span class="hljs-string">&quot;010-56253825&quot;</span>, <span class="hljs-string">&quot;Y&quot;</span>);
+		UserAddress address2 = <span class="hljs-keyword">new</span> UserAddress(<span class="hljs-number">2</span>, <span class="hljs-string">&quot;深圳市宝安区西部硅谷大厦B座3层（深圳分校）&quot;</span>, <span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;王老师&quot;</span>, <span class="hljs-string">&quot;010-56253825&quot;</span>, <span class="hljs-string">&quot;N&quot;</span>);
+
+		<span class="hljs-keyword">if</span> (Math.random() &gt; <span class="hljs-number">0.5</span>) &#123;
+			<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException();
+		&#125;
+		<span class="hljs-keyword">return</span> Arrays.asList(address1, address2);
+	&#125;
+
+&#125;</code></pre></div>
+</li>
+<li><p><strong>配置Consumer端</strong><br>对于Consumer端，则可以增加一层method调用，并在method上配置@HystrixCommand。当调用出错时，会走到fallbackMethod = “reliable”的调用里。</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Reference(version = &quot;1.0.0&quot;)</span>
+    <span class="hljs-keyword">private</span> HelloService demoService;
+
+    <span class="hljs-meta">@HystrixCommand(fallbackMethod = &quot;reliable&quot;)</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">doSayHello</span><span class="hljs-params">(String name)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> demoService.sayHello(name);
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">reliable</span><span class="hljs-params">(String name)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hystrix fallback value&quot;</span>;
+    &#125;</code></pre></div>
+</li>
+<li><p>测试</p>
+<ul>
+<li><p>失败<img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210523011440767.png" alt="image-20210523011440767"></p>
+</li>
+<li><p>成功</p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/image-20210523011523532.png" alt="image-20210523011523532"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="12-RPC-和-netty-原理分析"><a href="#12-RPC-和-netty-原理分析" class="headerlink" title="12 RPC 和 netty 原理分析"></a>12 RPC 和 netty 原理分析</h2><h3 id="12-1-RPC-原理"><a href="#12-1-RPC-原理" class="headerlink" title="12.1 RPC 原理"></a>12.1 RPC 原理</h3><p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200613170846919.png" alt="在这里插入图片描述"></p>
+<p>一次完整的RPC调用流程（同步调用，异步另说）如下：</p>
+<ol>
+<li><strong>服务消费方（client）调用以本地调用方式调用服务；</strong></li>
+<li>client stub接收到调用后负责将方法、参数等组装成能够进行网络传输的消息体；</li>
+<li>client stub找到服务地址，并将消息发送到服务端；</li>
+<li>server stub收到消息后进行解码；</li>
+<li>server stub根据解码结果调用本地的服务；</li>
+<li>本地服务执行并将结果返回给server stub；</li>
+<li>server stub将返回结果打包成消息并发送至消费方；</li>
+<li>client stub接收到消息，并进行解码；</li>
+<li><strong>服务消费方得到最终结果。</strong></li>
+</ol>
+<p>dubbo只用了两步1和8，中间的过程是透明的看不到的。RPC框架的目标就是要2~8这些步骤都封装起来，这些细节对用户来说是透明的，不可见的。</p>
+<h3 id="12-2-netty-通信原理"><a href="#12-2-netty-通信原理" class="headerlink" title="12.2 netty 通信原理"></a>12.2 netty 通信原理</h3><p>Netty是一个异步事件驱动的网络应用程序框架， 用于快速开发可维护的高性能协议服务器和客户端。它极大地简化并简化了TCP和UDP套接字服务器等网络编程。</p>
+<p><strong>BIO：(Blocking IO)</strong></p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200613171108394.png" alt="在这里插入图片描述"></p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200613171138127.png" alt="在这里插入图片描述"></p>
+<p>Selector 一般称 为选择器 ，也可以翻译为 多路复用器，<br>Connect（连接就绪）、Accept（接受就绪）、Read（读就绪）、Write（写就绪）</p>
+<p><strong>Netty基本原理：</strong><br>netty基本原理，可参考<a href="https://www.sohu.com/a/272879207_463994">https://www.sohu.com/a/272879207_463994</a></p>
+<p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200613171217369.png" alt="在这里插入图片描述"></p>
+<h2 id="12-3-dubbo-原理"><a href="#12-3-dubbo-原理" class="headerlink" title="12.3 dubbo 原理"></a>12.3 dubbo 原理</h2><h3 id="1-dubbo原理-框架设计"><a href="#1-dubbo原理-框架设计" class="headerlink" title="1. dubbo原理 - 框架设计"></a>1. dubbo原理 - 框架设计</h3><p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200613171327533.png" alt="在这里插入图片描述"></p>
+<ul>
+<li>config 配置层：对外配置接口，以 ServiceConfig, ReferenceConfig 为中心，可以直接初始化配置类，也可以通过 spring 解析配置生成配置类</li>
+<li>proxy 服务代理层：服务接口透明代理，生成服务的客户端 Stub 和服务器端 Skeleton, 以 ServiceProxy 为中心，扩展接口为 ProxyFactory</li>
+<li>registry 注册中心层：封装服务地址的注册与发现，以服务 URL 为中心，扩展接口为 RegistryFactory, Registry, RegistryService</li>
+<li>cluster 路由层：封装多个提供者的路由及负载均衡，并桥接注册中心，以 Invoker 为中心，扩展接口为 Cluster, Directory, Router, LoadBalance</li>
+<li>monitor 监控层：RPC 调用次数和调用时间监控，以 Statistics 为中心，扩展接口为 MonitorFactory, Monitor, MonitorService</li>
+<li>protocol 远程调用层：封装 RPC 调用，以 Invocation, Result 为中心，扩展接口为 Protocol, Invoker, Exporter</li>
+<li>exchange 信息交换层：封装请求响应模式，同步转异步，以 Request, Response 为中心，扩展接口为 Exchanger, ExchangeChannel, ExchangeClient, ExchangeServer</li>
+<li>transport 网络传输层：抽象 mina 和 netty 为统一接口，以 Message 为中心，扩展接口为 Channel, Transporter, Client, Server, Codec</li>
+<li>serialize 数据序列化层：可复用的一些工具，扩展接口为 Serialization, ObjectInput, ObjectOutput, ThreadPool</li>
+</ul>
+<h3 id="2-dubbo原理-启动解析、加载配置信息"><a href="#2-dubbo原理-启动解析、加载配置信息" class="headerlink" title="2.dubbo原理 - 启动解析、加载配置信息"></a>2.dubbo原理 - 启动解析、加载配置信息</h3><p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200613171545504.png" alt="在这里插入图片描述"></p>
+<h3 id="3-dubbo原理-服务暴露"><a href="#3-dubbo原理-服务暴露" class="headerlink" title="3.dubbo原理 - 服务暴露"></a>3.dubbo原理 - 服务暴露</h3><p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200613171614614.png" alt="在这里插入图片描述"></p>
+<h3 id="4-dubbo原理-服务引用"><a href="#4-dubbo原理-服务引用" class="headerlink" title="4.dubbo原理 - 服务引用"></a>4.dubbo原理 - 服务引用</h3><p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200613171741579.png" alt="在这里插入图片描述"></p>
+<h3 id="5-dubbo原理-服务调用"><a href="#5-dubbo原理-服务调用" class="headerlink" title="5.dubbo原理 - 服务调用"></a>5.dubbo原理 - 服务调用</h3><p><img src="/2021/05/01/Dubbo%E5%AD%A6%E4%B9%A0/20200613171806762.png" alt="在这里插入图片描述"></p>
+]]></content>
+      <categories>
+        <category>Technical</category>
+        <category>Distributed</category>
+      </categories>
+      <tags>
+        <tag>Dubbo</tag>
       </tags>
   </entry>
   <entry>
