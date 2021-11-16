@@ -235,7 +235,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：22 分钟前
+                  本文最后更新于：2 分钟前
                 
               </p>
             
@@ -2564,13 +2564,13 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <h4 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h4><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/d5462e3b8c3a063561f5f8fc7fde327e.png" alt></p>
 <p>SpringCloud Config为微服务架构中的微服务提供集中化的外部配置支持，配置服务器为各个不同微服务应用的所有环境提供了一个中心化的外部配置。</p>
 <h4 id="怎么玩"><a href="#怎么玩" class="headerlink" title="怎么玩"></a>怎么玩</h4><ul>
-<li>SpringCloud Config分为服务端和客户端两部分。</li>
+<li>Spring Cloud Config分为服务端和客户端两部分。</li>
 </ul>
 <ul>
 <li>服务端也称为分布式配置中心，它是一个独立的微服务应用，用来连接配置服务器并为客户端提供获取配置信息，加密/解密信息等访问接口。</li>
 </ul>
 <ul>
-<li>客户端则是通过指定的配置中心来管理应用资源，以及与业务相关的配置内容，并在启动的时候从配置中心获取和加载配置信息配置服务器默认采用git来存储配置信息，这样就有助于对环境配置进行版本管理，并且可以通过git客户端工具来方便的管理和访问配置内容。</li>
+<li>客户端则是通过指定的配置中心来管理应用资源，以及与业务相关的配置内容，并在启动的时候从配置中心获取和加载配置信息配置服务器默认采用 Git 来存储配置信息，这样就有助于对环境配置进行版本管理，并且可以通过 Git 客户端工具来方便的管理和访问配置内容。</li>
 </ul>
 <h4 id="能干嘛"><a href="#能干嘛" class="headerlink" title="能干嘛"></a>能干嘛</h4><ul>
 <li><p>集中管理配置文件</p>
@@ -2585,7 +2585,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <li><p>将配置信息以REST接口的形式暴露 - post/crul访问刷新即可…</p>
 </li>
 </ul>
-<h4 id="与GitHub整合配置"><a href="#与GitHub整合配置" class="headerlink" title="与GitHub整合配置"></a><strong>与GitHub整合配置</strong></h4><p>由于SpringCloud Config默认使用Git来存储配置文件(也有其它方式,比如支持SVN和本地文件)，但最推荐的还是Git，而且使用的是http/https访问的形式。</p>
+<h4 id="与GitHub整合配置"><a href="#与GitHub整合配置" class="headerlink" title="与GitHub整合配置"></a><strong>与GitHub整合配置</strong></h4><p>由于Spring Cloud Config默认使用Git来存储配置文件(也有其它方式,比如支持SVN和本地文件)，但最推荐的还是Git，而且使用的是http/https访问的形式。</p>
 <h4 id="官网"><a href="#官网" class="headerlink" title="官网"></a><strong>官网</strong></h4><p><a target="_blank" rel="noopener" href="https://cloud.spring.io/spring-cloud-static/spring-cloud-config/2.2.1.RELEASE/reference/html/">https://cloud.spring.io/spring-cloud-static/spring-cloud-config/2.2.1.RELEASE/reference/html/</a></p>
 <h3 id="5-2-Config配置总控中心搭建"><a href="#5-2-Config配置总控中心搭建" class="headerlink" title="5.2 Config配置总控中心搭建"></a>5.2 Config配置总控中心搭建</h3><h4 id="1-初始化-Github-仓库"><a href="#1-初始化-Github-仓库" class="headerlink" title="1 初始化 Github 仓库"></a>1 初始化 Github 仓库</h4><p>用你自己的账号在GitHub上新建一个名为springcloud-config的新Repository。</p>
 <p>由上一步获得刚新建的git地址 - <code>git@github.com:abc/springcloud-config.git</code>。</p>
@@ -2969,7 +2969,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </ul>
 </li>
 </ul>
-<h2 id="5-Bus消息总线"><a href="#5-Bus消息总线" class="headerlink" title="5 Bus消息总线"></a>5 Bus消息总线</h2><h3 id="5-1-Bus消息总线是什么"><a href="#5-1-Bus消息总线是什么" class="headerlink" title="5.1 Bus消息总线是什么"></a>5.1 Bus消息总线是什么</h3><h4 id="上—讲解的加深和扩充"><a href="#上—讲解的加深和扩充" class="headerlink" title="上—讲解的加深和扩充"></a><strong>上—讲解的加深和扩充</strong></h4><p>一言以蔽之，分布式自动刷新配置功能。</p>
+<h2 id="6-Bus消息总线"><a href="#6-Bus消息总线" class="headerlink" title="6 Bus消息总线"></a>6 Bus消息总线</h2><h3 id="6-1-Bus消息总线是什么"><a href="#6-1-Bus消息总线是什么" class="headerlink" title="6.1 Bus消息总线是什么"></a>6.1 Bus消息总线是什么</h3><h4 id="上—讲解的加深和扩充"><a href="#上—讲解的加深和扩充" class="headerlink" title="上—讲解的加深和扩充"></a><strong>上—讲解的加深和扩充</strong></h4><p>一言以蔽之，分布式自动刷新配置功能。</p>
 <p>Spring Cloud Bus配合Spring Cloud Config使用可以实现配置的动态刷新。</p>
 <h4 id="是什么-1"><a href="#是什么-1" class="headerlink" title="是什么"></a>是什么</h4><p>Spring Cloud Bus 配合Spring Cloud Config 使用可以实现配置的动态刷新。</p>
 <p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/458fd679c01274ca84f785e1f75c1336.png" alt></p>
@@ -2984,7 +2984,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <p>ConfigClient 实例都监听MQ中同一个topic(默认是Spring Cloud Bus)。当一个服务刷新数据的时候，它会把这个信息放入到Topic中，这样其它监听同一Topic的服务就能得到通知，然后去更新自身的配置。</p>
 </li>
 </ul>
-<h3 id="5-2-Bus之RabbitMQ环境配置"><a href="#5-2-Bus之RabbitMQ环境配置" class="headerlink" title="5.2 Bus之RabbitMQ环境配置"></a>5.2 Bus之RabbitMQ环境配置</h3><ul>
+<h3 id="6-2-Bus之RabbitMQ环境配置"><a href="#6-2-Bus之RabbitMQ环境配置" class="headerlink" title="6.2 Bus之RabbitMQ环境配置"></a>6.2 Bus之RabbitMQ环境配置</h3><ul>
 <li>安装Erlang，下载地址：<a target="_blank" rel="noopener" href="http://erlang.org/download/otp_win64_21.3.exe">http://erlang.org/download/otp_win64_21.3.exe</a></li>
 </ul>
 <ul>
@@ -3003,7 +3003,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <li>访问地址查看是否安装成功：<a target="_blank" rel="noopener" href="http://localhost:15672/">http://localhost:15672/</a></li>
 <li>输入账号密码并登录：guest guest</li>
 </ul>
-<h3 id="5-3-Bus动态刷新全局广播的设计思想和选型"><a href="#5-3-Bus动态刷新全局广播的设计思想和选型" class="headerlink" title="5.3 Bus动态刷新全局广播的设计思想和选型"></a>5.3 Bus动态刷新全局广播的设计思想和选型</h3><p>必须先具备良好的RabbitMQ环境先</p>
+<h3 id="6-3-Bus动态刷新全局广播的设计思想和选型"><a href="#6-3-Bus动态刷新全局广播的设计思想和选型" class="headerlink" title="6.3 Bus动态刷新全局广播的设计思想和选型"></a>6.3 Bus动态刷新全局广播的设计思想和选型</h3><p>必须先具备良好的RabbitMQ环境先</p>
 <p>演示广播效果，增加复杂度，再以3355为模板再制作一个3366</p>
 <h4 id="1-新建cloud-config-client-3366"><a href="#1-新建cloud-config-client-3366" class="headerlink" title="1 新建cloud-config-client-3366"></a>1 新建cloud-config-client-3366</h4><h4 id="2-POM"><a href="#2-POM" class="headerlink" title="2 POM"></a>2 POM</h4><div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span>
@@ -3149,7 +3149,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </ul>
 </li>
 </ol>
-<h3 id="5-4-Bus动态刷新全局广播配置实现"><a href="#5-4-Bus动态刷新全局广播配置实现" class="headerlink" title="5.4 Bus动态刷新全局广播配置实现"></a>5.4 Bus动态刷新全局广播配置实现</h3><h4 id="1-服务端配置"><a href="#1-服务端配置" class="headerlink" title="1 服务端配置"></a>1 服务端配置</h4><p><strong>给cloud-config-center-3344配置中心服务端添加消息总线支持</strong></p>
+<h3 id="6-4-Bus动态刷新全局广播配置实现"><a href="#6-4-Bus动态刷新全局广播配置实现" class="headerlink" title="6.4 Bus动态刷新全局广播配置实现"></a>6.4 Bus动态刷新全局广播配置实现</h3><h4 id="1-服务端配置"><a href="#1-服务端配置" class="headerlink" title="1 服务端配置"></a>1 服务端配置</h4><p><strong>给cloud-config-center-3344配置中心服务端添加消息总线支持</strong></p>
 <h5 id="1-1-POM"><a href="#1-1-POM" class="headerlink" title="1.1 POM"></a>1.1 POM</h5><div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--添加消息总线RabbitNQ支持--&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
 	<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
@@ -3308,7 +3308,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </li>
 </ul>
 <p><strong>—次修改，广播通知，处处生效</strong></p>
-<h3 id="5-5-Bus动态刷新定点通知"><a href="#5-5-Bus动态刷新定点通知" class="headerlink" title="5.5 Bus动态刷新定点通知"></a>5.5 Bus动态刷新定点通知</h3><p>不想全部通知，只想定点通知</p>
+<h3 id="6-5-Bus动态刷新定点通知"><a href="#6-5-Bus动态刷新定点通知" class="headerlink" title="6.5 Bus动态刷新定点通知"></a>6.5 Bus动态刷新定点通知</h3><p>不想全部通知，只想定点通知</p>
 <ul>
 <li>只通知3355</li>
 <li>不通知3366</li>
