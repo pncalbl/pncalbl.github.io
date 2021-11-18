@@ -235,7 +235,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2 分钟前
+                  本文最后更新于：1 分钟前
                 
               </p>
             
@@ -2969,7 +2969,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </ul>
 </li>
 </ul>
-<h2 id="6-Bus消息总线"><a href="#6-Bus消息总线" class="headerlink" title="6 Bus消息总线"></a>6 Bus消息总线</h2><h3 id="6-1-Bus消息总线是什么"><a href="#6-1-Bus消息总线是什么" class="headerlink" title="6.1 Bus消息总线是什么"></a>6.1 Bus消息总线是什么</h3><h4 id="上—讲解的加深和扩充"><a href="#上—讲解的加深和扩充" class="headerlink" title="上—讲解的加深和扩充"></a><strong>上—讲解的加深和扩充</strong></h4><p>一言以蔽之，分布式自动刷新配置功能。</p>
+<h2 id="6-Bus-消息总线"><a href="#6-Bus-消息总线" class="headerlink" title="6 Bus 消息总线"></a>6 Bus 消息总线</h2><h3 id="6-1-Bus-消息总线是什么"><a href="#6-1-Bus-消息总线是什么" class="headerlink" title="6.1 Bus 消息总线是什么"></a>6.1 Bus 消息总线是什么</h3><h4 id="上—讲解的加深和扩充"><a href="#上—讲解的加深和扩充" class="headerlink" title="上—讲解的加深和扩充"></a><strong>上—讲解的加深和扩充</strong></h4><p>一言以蔽之，分布式自动刷新配置功能。</p>
 <p>Spring Cloud Bus配合Spring Cloud Config使用可以实现配置的动态刷新。</p>
 <h4 id="是什么-1"><a href="#是什么-1" class="headerlink" title="是什么"></a>是什么</h4><p>Spring Cloud Bus 配合Spring Cloud Config 使用可以实现配置的动态刷新。</p>
 <p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/458fd679c01274ca84f785e1f75c1336.png" alt></p>
@@ -2984,7 +2984,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <p>ConfigClient 实例都监听MQ中同一个topic(默认是Spring Cloud Bus)。当一个服务刷新数据的时候，它会把这个信息放入到Topic中，这样其它监听同一Topic的服务就能得到通知，然后去更新自身的配置。</p>
 </li>
 </ul>
-<h3 id="6-2-Bus之RabbitMQ环境配置"><a href="#6-2-Bus之RabbitMQ环境配置" class="headerlink" title="6.2 Bus之RabbitMQ环境配置"></a>6.2 Bus之RabbitMQ环境配置</h3><ul>
+<h3 id="6-2-Bus-之-RabbitMQ-环境配置"><a href="#6-2-Bus-之-RabbitMQ-环境配置" class="headerlink" title="6.2 Bus 之 RabbitMQ 环境配置"></a>6.2 Bus 之 RabbitMQ 环境配置</h3><ul>
 <li>安装Erlang，下载地址：<a target="_blank" rel="noopener" href="http://erlang.org/download/otp_win64_21.3.exe">http://erlang.org/download/otp_win64_21.3.exe</a></li>
 </ul>
 <ul>
@@ -3003,7 +3003,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <li>访问地址查看是否安装成功：<a target="_blank" rel="noopener" href="http://localhost:15672/">http://localhost:15672/</a></li>
 <li>输入账号密码并登录：guest guest</li>
 </ul>
-<h3 id="6-3-Bus动态刷新全局广播的设计思想和选型"><a href="#6-3-Bus动态刷新全局广播的设计思想和选型" class="headerlink" title="6.3 Bus动态刷新全局广播的设计思想和选型"></a>6.3 Bus动态刷新全局广播的设计思想和选型</h3><p>必须先具备良好的RabbitMQ环境先</p>
+<h3 id="6-3-Bus-动态刷新全局广播的设计思想和选型"><a href="#6-3-Bus-动态刷新全局广播的设计思想和选型" class="headerlink" title="6.3 Bus 动态刷新全局广播的设计思想和选型"></a>6.3 Bus 动态刷新全局广播的设计思想和选型</h3><p>必须先具备良好的RabbitMQ环境</p>
 <p>演示广播效果，增加复杂度，再以3355为模板再制作一个3366</p>
 <h4 id="1-新建cloud-config-client-3366"><a href="#1-新建cloud-config-client-3366" class="headerlink" title="1 新建cloud-config-client-3366"></a>1 新建cloud-config-client-3366</h4><h4 id="2-POM"><a href="#2-POM" class="headerlink" title="2 POM"></a>2 POM</h4><div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span>
@@ -3141,7 +3141,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <li><p>利用消息总线触发一个服务端ConfigServer的/bus/refresh端点，而刷新所有客户端的配置</p>
 <p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="https://img-blog.csdnimg.cn/img_convert/e2809f728b8eb3e776883e4f905b8712.png" alt></p>
 </li>
-<li><p>图二的架构显然更加适合，图—不适合的原因如下：</p>
+<li><p>图二的架构显然更加适合，图一不适合的原因如下：</p>
 <ul>
 <li>打破了微服务的职责单一性，因为微服务本身是业务模块，它本不应该承担配置刷新的职责。</li>
 <li>破坏了微服务各节点的对等性。</li>
@@ -3149,7 +3149,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </ul>
 </li>
 </ol>
-<h3 id="6-4-Bus动态刷新全局广播配置实现"><a href="#6-4-Bus动态刷新全局广播配置实现" class="headerlink" title="6.4 Bus动态刷新全局广播配置实现"></a>6.4 Bus动态刷新全局广播配置实现</h3><h4 id="1-服务端配置"><a href="#1-服务端配置" class="headerlink" title="1 服务端配置"></a>1 服务端配置</h4><p><strong>给cloud-config-center-3344配置中心服务端添加消息总线支持</strong></p>
+<h3 id="6-4-Bus-动态刷新全局广播配置实现"><a href="#6-4-Bus-动态刷新全局广播配置实现" class="headerlink" title="6.4 Bus 动态刷新全局广播配置实现"></a>6.4 Bus 动态刷新全局广播配置实现</h3><h4 id="1-服务端配置"><a href="#1-服务端配置" class="headerlink" title="1 服务端配置"></a>1 服务端配置</h4><p><strong>给cloud-config-center-3344配置中心服务端添加消息总线支持</strong></p>
 <h5 id="1-1-POM"><a href="#1-1-POM" class="headerlink" title="1.1 POM"></a>1.1 POM</h5><div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--添加消息总线RabbitNQ支持--&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
 	<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
@@ -3308,7 +3308,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </li>
 </ul>
 <p><strong>—次修改，广播通知，处处生效</strong></p>
-<h3 id="6-5-Bus动态刷新定点通知"><a href="#6-5-Bus动态刷新定点通知" class="headerlink" title="6.5 Bus动态刷新定点通知"></a>6.5 Bus动态刷新定点通知</h3><p>不想全部通知，只想定点通知</p>
+<h3 id="6-5-Bus-动态刷新定点通知"><a href="#6-5-Bus-动态刷新定点通知" class="headerlink" title="6.5 Bus 动态刷新定点通知"></a>6.5 Bus 动态刷新定点通知</h3><p>不想全部通知，只想定点通知</p>
 <ul>
 <li>只通知3355</li>
 <li>不通知3366</li>
@@ -3325,7 +3325,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </ul>
 <p>通知总结</p>
 <p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/ccd5fcc8293edec24d7e889e189d0bfe.png" alt></p>
-<h2 id="6-Stream"><a href="#6-Stream" class="headerlink" title="6 Stream"></a>6 Stream</h2><h3 id="6-1-Stream为什么被引入"><a href="#6-1-Stream为什么被引入" class="headerlink" title="6.1 Stream为什么被引入"></a>6.1 Stream为什么被引入</h3><p>常见MQ(消息中间件)：</p>
+<h2 id="7-Stream"><a href="#7-Stream" class="headerlink" title="7 Stream"></a>7 Stream</h2><h3 id="7-1-Stream为什么被引入"><a href="#7-1-Stream为什么被引入" class="headerlink" title="7.1 Stream为什么被引入"></a>7.1 Stream为什么被引入</h3><p>常见MQ(消息中间件)：</p>
 <ul>
 <li>ActiveMQ</li>
 <li>RabbitMQ</li>
@@ -3334,7 +3334,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </ul>
 <p>有没有一种新的技术诞生，让我们不再关注具体MQ的细节，我们只需要用一种适配绑定的方式，自动的给我们在各种MQ内切换。（类似于Hibernate）</p>
 <p>Cloud Stream是什么？屏蔽底层消息中间件的差异，降低切换成本，统一消息的编程模型。</p>
-<h3 id="6-2-Stream是什么及Binder介绍"><a href="#6-2-Stream是什么及Binder介绍" class="headerlink" title="6.2 Stream是什么及Binder介绍"></a>6.2 Stream是什么及Binder介绍</h3><p><a target="_blank" rel="noopener" href="https://spring.io/projects/spring-cloud-stream#overview">官方文档1</a></p>
+<h3 id="7-2-Stream是什么及Binder介绍"><a href="#7-2-Stream是什么及Binder介绍" class="headerlink" title="7.2 Stream是什么及Binder介绍"></a>7.2 Stream是什么及Binder介绍</h3><p><a target="_blank" rel="noopener" href="https://spring.io/projects/spring-cloud-stream#overview">官方文档1</a></p>
 <p><a target="_blank" rel="noopener" href="https://cloud.spring.io/spring-tloud-static/spring-cloud-stream/3.0.1.RELEASE/reference/html/Spring">官方文档2</a></p>
 <p><a target="_blank" rel="noopener" href="https://m.wang1314.com/doc/webapp/topic/20971999.html">Cloud Stream中文指导手册</a></p>
 <p><strong>什么是Spring Cloud Stream？</strong></p>
@@ -3343,7 +3343,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <p>通过我们配置来binding(绑定)，而Spring Cloud Stream 的binder对象负责与消息中间件交互。所以，我们只需要搞清楚如何与Spring Cloud Stream交互就可以方便使用消息驱动的方式。</p>
 <p>通过使用Spring Integration来连接消息代理中间件以实现消息事件驱动。<br>Spring Cloud Stream为一些供应商的消息中间件产品提供了个性化的自动化配置实现，引用了发布-订阅、消费组、分区的三个核心概念。</p>
 <p>目前仅支持RabbitMQ、 Kafka。</p>
-<h3 id="6-3-Stream的设计思想"><a href="#6-3-Stream的设计思想" class="headerlink" title="6.3 Stream的设计思想"></a>6.3 Stream的设计思想</h3><h4 id="1-标准MQ"><a href="#1-标准MQ" class="headerlink" title="1 标准MQ"></a>1 <strong>标准MQ</strong></h4><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/dd57e502418ecdae99f29991abe8bb02.png" alt></p>
+<h3 id="7-3-Stream的设计思想"><a href="#7-3-Stream的设计思想" class="headerlink" title="7.3 Stream的设计思想"></a>7.3 Stream的设计思想</h3><h4 id="1-标准MQ"><a href="#1-标准MQ" class="headerlink" title="1 标准MQ"></a>1 <strong>标准MQ</strong></h4><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/dd57e502418ecdae99f29991abe8bb02.png" alt></p>
 <ul>
 <li>生产者/消费者之间靠消息媒介传递信息内容</li>
 <li>消息必须走特定的通道 - 消息通道 Message Channel</li>
@@ -3364,7 +3364,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <li>在RabbitMQ就是Exchange</li>
 <li>在Kakfa中就是Topic</li>
 </ul>
-<h3 id="6-4-Stream编码常用注解简介"><a href="#6-4-Stream编码常用注解简介" class="headerlink" title="6.4 Stream编码常用注解简介"></a>6.4 Stream编码常用注解简介</h3><h4 id="1-Spring-Cloud-Stream标准流程套路"><a href="#1-Spring-Cloud-Stream标准流程套路" class="headerlink" title="1 Spring Cloud Stream标准流程套路"></a>1 <strong>Spring Cloud Stream标准流程套路</strong></h4><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/077a3b34aec6eed91a7019a9d5ca4e3c.png" alt></p>
+<h3 id="7-4-Stream编码常用注解简介"><a href="#7-4-Stream编码常用注解简介" class="headerlink" title="7.4 Stream编码常用注解简介"></a>7.4 Stream编码常用注解简介</h3><h4 id="1-Spring-Cloud-Stream标准流程套路"><a href="#1-Spring-Cloud-Stream标准流程套路" class="headerlink" title="1 Spring Cloud Stream标准流程套路"></a>1 <strong>Spring Cloud Stream标准流程套路</strong></h4><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/077a3b34aec6eed91a7019a9d5ca4e3c.png" alt></p>
 <p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/1ca02dd31581d92a7a610bcd137f6848.png" alt></p>
 <ul>
 <li>Binder - 很方便的连接中间件，屏蔽差异。</li>
@@ -3410,7 +3410,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <li>cloud-stream-rabbitmq-consumer8802，作为消息接收模块</li>
 <li>cloud-stream-rabbitmq-consumer8803，作为消息接收模块</li>
 </ul>
-<h3 id="6-5-Stream消息驱动之生产者"><a href="#6-5-Stream消息驱动之生产者" class="headerlink" title="6.5 Stream消息驱动之生产者"></a>6.5 Stream消息驱动之生产者</h3><ul>
+<h3 id="7-5-Stream消息驱动之生产者"><a href="#7-5-Stream消息驱动之生产者" class="headerlink" title="7.5 Stream消息驱动之生产者"></a>7.5 Stream消息驱动之生产者</h3><ul>
 <li><p>新建Module：cloud-stream-rabbitmq-provider8801</p>
 </li>
 <li><p>POM</p>
@@ -3587,7 +3587,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </ul>
 </li>
 </ul>
-<h3 id="6-6-Stream消息驱动之消费者"><a href="#6-6-Stream消息驱动之消费者" class="headerlink" title="6.6 Stream消息驱动之消费者"></a>6.6 Stream消息驱动之消费者</h3><ul>
+<h3 id="7-6-Stream消息驱动之消费者"><a href="#7-6-Stream消息驱动之消费者" class="headerlink" title="7.6 Stream消息驱动之消费者"></a>7.6 Stream消息驱动之消费者</h3><ul>
 <li><p>新建Module：cloud-stream-rabbitmq-consumer8802</p>
 </li>
 <li><p>POM</p>
@@ -3721,7 +3721,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </ul>
 </li>
 </ul>
-<h3 id="6-7-Stream之消息重复消费"><a href="#6-7-Stream之消息重复消费" class="headerlink" title="6.7 Stream之消息重复消费"></a>6.7 Stream之消息重复消费</h3><ul>
+<h3 id="7-7-Stream之消息重复消费"><a href="#7-7-Stream之消息重复消费" class="headerlink" title="7.7 Stream之消息重复消费"></a>7.7 Stream之消息重复消费</h3><ul>
 <li><p>依照8802，克隆出来一份运行8803 - cloud-stream-rabbitmq-consumer8803。</p>
 </li>
 <li><p>启动</p>
@@ -3756,7 +3756,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </ul>
 </li>
 </ul>
-<h3 id="6-8-Stream之group解决消息重复消费"><a href="#6-8-Stream之group解决消息重复消费" class="headerlink" title="6.8 Stream之group解决消息重复消费"></a>6.8 Stream之group解决消息重复消费</h3><ul>
+<h3 id="7-8-Stream之group解决消息重复消费"><a href="#7-8-Stream之group解决消息重复消费" class="headerlink" title="7.8 Stream之group解决消息重复消费"></a>7.8 Stream之group解决消息重复消费</h3><ul>
 <li><p><strong>原理</strong></p>
 <ul>
 <li>微服务应用放置于同一个group中，就能够保证消息只会被其中一个应用消费一次。</li>
@@ -3799,7 +3799,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <p>结论：同一个组的多个微服务实例，每次只会有一个拿到</p>
 </li>
 </ul>
-<h3 id="6-9-Stream之消息持久化"><a href="#6-9-Stream之消息持久化" class="headerlink" title="6.9 Stream之消息持久化"></a>6.9 Stream之消息持久化</h3><p>通过上述，解决了重复消费问题，再看看持久化。</p>
+<h3 id="7-9-Stream之消息持久化"><a href="#7-9-Stream之消息持久化" class="headerlink" title="7.9 Stream之消息持久化"></a>7.9 Stream之消息持久化</h3><p>通过上述，解决了重复消费问题，再看看持久化。</p>
 <p>停止8802/8803并去除掉8802的分组，8803的分组没有去掉。group: A_Groupgroup: A_Group</p>
 <p>8801先发送4条消息到RabbitMq。</p>
 <p>先启动8802，无分组属性配置，后台没有打出来消息。</p>
