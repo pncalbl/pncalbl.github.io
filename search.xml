@@ -286,6 +286,65 @@
       </categories>
   </entry>
   <entry>
+    <title>Java-I/O操作中管道流的使用</title>
+    <url>/2020/08/14/Java-IO%E6%93%8D%E4%BD%9C%E4%B8%AD%E7%AE%A1%E9%81%93%E6%B5%81%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="1-首先需要导入三个包"><a href="#1-首先需要导入三个包" class="headerlink" title="1-首先需要导入三个包"></a>1-首先需要导入三个包</h2><div class="code-wrapper"><pre><code>import java.io.IOException;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;</code></pre></div><h2 id="2-我们需要编写两个进行对话的线程类"><a href="#2-我们需要编写两个进行对话的线程类" class="headerlink" title="2- 我们需要编写两个进行对话的线程类"></a>2- 我们需要编写两个进行对话的线程类</h2><h3 id="2-1-发送消息的线程类-Sender"><a href="#2-1-发送消息的线程类-Sender" class="headerlink" title="2.1 - 发送消息的线程类 Sender"></a>2.1 - 发送消息的线程类 Sender</h3><div class="code-wrapper"><pre><code>class Sender extends Thread&#123;
+    private PipedOutputStream out = new PipedOutputStream();
+    public PipedOutputStream getOutputStream()&#123;return out;&#125;
+
+    @Override
+    public void run()&#123;
+        String s = new String(&quot;Receiver, 你好!&quot;);
+        try &#123;
+            out.write(s.getBytes()); // 写入(发送)
+            out.close();
+        &#125;catch (IOException e)&#123;
+            System.out.println(e.getMessage());
+        &#125;
+    &#125;
+&#125;</code></pre></div><h3 id="2-2-接收消息的线程类-Receiver"><a href="#2-2-接收消息的线程类-Receiver" class="headerlink" title="2.2 - 接收消息的线程类 Receiver"></a>2.2 - 接收消息的线程类 Receiver</h3><div class="code-wrapper"><pre><code>class Receiver extends Thread&#123;
+    private PipedInputStream in = new PipedInputStream();
+    public PipedInputStream getInputStream()&#123;return in;&#125;
+    @Override
+    public void run()&#123;
+        String s = null;
+        byte[] buf = new byte[1024];
+        try &#123;
+            int len = in.read(buf); // 读出信息
+            s = new String(buf, 0, len);
+            System.out.println(&quot;收到了以下信息: &quot; + s);
+            in.close();
+        &#125;catch (IOException e)&#123;
+            System.out.println(e.getMessage());
+        &#125;
+    &#125;
+&#125;</code></pre></div><p>声明的字节数组大小为1024原因是:类PipedInputStream运用的是一个1024字节固定大小的循环缓冲区。实际上，写入PipedOutputStream的数据保存到对应的PipedInputStream的内部缓冲区。</p>
+<h2 id="3-进行管道流测试的主类-管道流的使用"><a href="#3-进行管道流测试的主类-管道流的使用" class="headerlink" title="3 - 进行管道流测试的主类(管道流的使用)"></a>3 - 进行管道流测试的主类(管道流的使用)</h2><div class="code-wrapper"><pre><code>public class PipeStreamDemo &#123;
+    public static void main(String[] args) &#123;
+        try &#123;
+            Sender sender = new Sender();   // 创建线程对象sender
+            Receiver receiver = new Receiver(); // 创建线程对象receiver
+            PipedOutputStream out = sender.getOutputStream(); // 写入
+            PipedInputStream in = receiver.getInputStream(); // 读出
+            out.connect(in); // 将输出发送到输入
+            sender.start(); // 启动线程
+            receiver.start();
+        &#125;catch (IOException e)&#123;
+            System.out.println(e.getMessage());
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="4-输出示例"><a href="#4-输出示例" class="headerlink" title="4 - 输出示例"></a>4 - 输出示例</h2><div class="code-wrapper"><pre><code>收到了以下信息: Receiver, 你好!</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Tool</category>
+      </categories>
+      <tags>
+        <tag>IO流</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JavaAbstractFactory模式</title>
     <url>/2020/09/14/JavaAbstractFactory%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -528,65 +587,6 @@ Yahoo!
         <category>Java</category>
         <category>设计模式</category>
       </categories>
-  </entry>
-  <entry>
-    <title>Java-I/O操作中管道流的使用</title>
-    <url>/2020/08/14/Java-IO%E6%93%8D%E4%BD%9C%E4%B8%AD%E7%AE%A1%E9%81%93%E6%B5%81%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="1-首先需要导入三个包"><a href="#1-首先需要导入三个包" class="headerlink" title="1-首先需要导入三个包"></a>1-首先需要导入三个包</h2><div class="code-wrapper"><pre><code>import java.io.IOException;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;</code></pre></div><h2 id="2-我们需要编写两个进行对话的线程类"><a href="#2-我们需要编写两个进行对话的线程类" class="headerlink" title="2- 我们需要编写两个进行对话的线程类"></a>2- 我们需要编写两个进行对话的线程类</h2><h3 id="2-1-发送消息的线程类-Sender"><a href="#2-1-发送消息的线程类-Sender" class="headerlink" title="2.1 - 发送消息的线程类 Sender"></a>2.1 - 发送消息的线程类 Sender</h3><div class="code-wrapper"><pre><code>class Sender extends Thread&#123;
-    private PipedOutputStream out = new PipedOutputStream();
-    public PipedOutputStream getOutputStream()&#123;return out;&#125;
-
-    @Override
-    public void run()&#123;
-        String s = new String(&quot;Receiver, 你好!&quot;);
-        try &#123;
-            out.write(s.getBytes()); // 写入(发送)
-            out.close();
-        &#125;catch (IOException e)&#123;
-            System.out.println(e.getMessage());
-        &#125;
-    &#125;
-&#125;</code></pre></div><h3 id="2-2-接收消息的线程类-Receiver"><a href="#2-2-接收消息的线程类-Receiver" class="headerlink" title="2.2 - 接收消息的线程类 Receiver"></a>2.2 - 接收消息的线程类 Receiver</h3><div class="code-wrapper"><pre><code>class Receiver extends Thread&#123;
-    private PipedInputStream in = new PipedInputStream();
-    public PipedInputStream getInputStream()&#123;return in;&#125;
-    @Override
-    public void run()&#123;
-        String s = null;
-        byte[] buf = new byte[1024];
-        try &#123;
-            int len = in.read(buf); // 读出信息
-            s = new String(buf, 0, len);
-            System.out.println(&quot;收到了以下信息: &quot; + s);
-            in.close();
-        &#125;catch (IOException e)&#123;
-            System.out.println(e.getMessage());
-        &#125;
-    &#125;
-&#125;</code></pre></div><p>声明的字节数组大小为1024原因是:类PipedInputStream运用的是一个1024字节固定大小的循环缓冲区。实际上，写入PipedOutputStream的数据保存到对应的PipedInputStream的内部缓冲区。</p>
-<h2 id="3-进行管道流测试的主类-管道流的使用"><a href="#3-进行管道流测试的主类-管道流的使用" class="headerlink" title="3 - 进行管道流测试的主类(管道流的使用)"></a>3 - 进行管道流测试的主类(管道流的使用)</h2><div class="code-wrapper"><pre><code>public class PipeStreamDemo &#123;
-    public static void main(String[] args) &#123;
-        try &#123;
-            Sender sender = new Sender();   // 创建线程对象sender
-            Receiver receiver = new Receiver(); // 创建线程对象receiver
-            PipedOutputStream out = sender.getOutputStream(); // 写入
-            PipedInputStream in = receiver.getInputStream(); // 读出
-            out.connect(in); // 将输出发送到输入
-            sender.start(); // 启动线程
-            receiver.start();
-        &#125;catch (IOException e)&#123;
-            System.out.println(e.getMessage());
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="4-输出示例"><a href="#4-输出示例" class="headerlink" title="4 - 输出示例"></a>4 - 输出示例</h2><div class="code-wrapper"><pre><code>收到了以下信息: Receiver, 你好!</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>IO流</tag>
-      </tags>
   </entry>
   <entry>
     <title>JavaAbstractFactory模式表格化版本</title>
@@ -1459,105 +1459,6 @@ HTML文本效果图</code></pre></div><html><head><title>LinkPage</title></head>
       </categories>
   </entry>
   <entry>
-    <title>JavaFacade模式</title>
-    <url>/2020/09/25/JavaFacade%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  简单窗口</p>
-</blockquote>
-<h2 id="1-从邮件地址中获取用户名的类"><a href="#1-从邮件地址中获取用户名的类" class="headerlink" title="1- 从邮件地址中获取用户名的类"></a>1- 从邮件地址中获取用户名的类</h2><div class="code-wrapper"><pre><code>// 需要配置相应的数据库
-public class Database &#123;
-    private Database() &#123;    // 防止外部new出Database的实例,所以声明为private
-    &#125;
-
-    public static Properties getProperties(String dbname)&#123;  // 根据数据库名获取Properties
-        String filename = dbname + &quot;.txt&quot;;
-        Properties prop = new Properties();
-        try &#123;
-            prop.load(new FileInputStream(filename));
-        &#125;catch (IOException e)&#123;
-            System.out.println(&quot;Warning: &quot; + filename + &quot; is not found.&quot;);
-        &#125;
-        return prop;
-    &#125;
-&#125;</code></pre></div><h2 id="2-编写HTML文件的类"><a href="#2-编写HTML文件的类" class="headerlink" title="2 - 编写HTML文件的类"></a>2 - 编写HTML文件的类</h2><div class="code-wrapper"><pre><code>public class HtmlWriter &#123;
-    private Writer writer;
-    public HtmlWriter(Writer writer)&#123;
-        this.writer = writer;
-    &#125;
-
-    public void title(String title) throws IOException&#123;
-        writer.write(&quot;&lt;html&gt;&quot;);
-        writer.write(&quot;&lt;head&gt;&quot;);
-        writer.write(&quot;&lt;title&gt;&quot; + title + &quot;&lt;/title&gt;&quot;);
-        writer.write(&quot;&lt;/head&gt;&quot;);
-        writer.write(&quot;&lt;body&gt;\n&quot;);
-        writer.write(&quot;&lt;h1&gt;&quot; + title + &quot;&lt;/h1&gt;&quot;);
-    &#125;
-
-    public void paragraph(String msg) throws IOException&#123;
-        writer.write(&quot;&lt;p&gt;&quot; + msg + &quot;&lt;/p&gt;\n&quot;);
-    &#125;
-
-    public void link(String href, String caption) throws IOException&#123;
-        paragraph(&quot;&lt;a href=\&quot;&quot; + href + &quot;\&quot;&gt;&quot; + caption + &quot;&lt;/a&gt;&quot;);
-    &#125;
-
-    public void mailto(String mailAddr, String userName) throws IOException&#123;
-        link(&quot;mailto: &quot; + mailAddr, userName);
-    &#125;
-
-    public void close() throws IOException&#123;
-        writer.write(&quot;&lt;/body&gt;&quot;);
-        writer.write(&quot;&lt;/html&gt;&quot;);
-        writer.close();
-    &#125;
-&#125;</code></pre></div><h2 id="3-根据邮件地址编写该用户的Web页面"><a href="#3-根据邮件地址编写该用户的Web页面" class="headerlink" title="3 - 根据邮件地址编写该用户的Web页面"></a>3 - 根据邮件地址编写该用户的Web页面</h2><div class="code-wrapper"><pre><code>public class PageMaker &#123;
-    private PageMaker() &#123;    // 防止外部new出PageMaker的实例,所以声明为private
-    &#125;
-
-    public static void makeWelcomePage(String mailAddr, String filename)&#123;
-        try &#123;
-            Properties mailProp = Database.getProperties(&quot;mailData&quot;);
-            String userName = mailProp.getProperty(mailAddr);
-            HtmlWriter writer = new HtmlWriter(new FileWriter(filename));
-            writer.title(&quot;Welcome to &quot; + userName + &quot;`s page!&quot;);
-            writer.paragraph(userName + &quot;欢迎来到&quot; + userName + &quot;的主页&quot;);
-            writer.paragraph(&quot;等着你的邮件哦!&quot;);
-            writer.mailto(mailAddr, userName);
-            writer.close();
-            System.out.println(filename + &quot; is created for &quot; + mailAddr + &quot; (&quot; +
-                    userName + &quot;)&quot;);
-        &#125;catch (IOException e)&#123;
-            e.printStackTrace();
-        &#125;
-
-    &#125;
-&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        PageMaker.makeWelcomePage(&quot;hyuki@hyuki.com&quot;, &quot;welcome.html&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><html><head><title>Welcome to Hiroshi Yuki`s page!</title></head><body>
-<h1>Welcome to Hiroshi Yuki`s page!</h1><p>null欢迎来到null的主页</p>
-<p>等着你的邮件哦!</p>
-<p><a href="mailto: hyuki@hyuki.com">Hiroshi Yuki</a></p>
-</body></html>
-
-<div class="code-wrapper"><pre><code>// HTML源码
-&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to Hiroshi Yuki`s page!&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h1&gt;Welcome to Hiroshi Yuki`s page!&lt;/h1&gt;
-&lt;p&gt;null欢迎来到null的主页&lt;/p&gt;
-&lt;p&gt;等着你的邮件哦!&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;mailto: hyuki@hyuki.com&quot;&gt;Hiroshi Yuki&lt;/a&gt;&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
     <title>JavaComposite模式</title>
     <url>/2020/09/20/JavaComposite%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -1864,6 +1765,105 @@ Making user entries...
 ..##.......##.....
 ....######........
 ..................</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JavaFacade模式</title>
+    <url>/2020/09/25/JavaFacade%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  简单窗口</p>
+</blockquote>
+<h2 id="1-从邮件地址中获取用户名的类"><a href="#1-从邮件地址中获取用户名的类" class="headerlink" title="1- 从邮件地址中获取用户名的类"></a>1- 从邮件地址中获取用户名的类</h2><div class="code-wrapper"><pre><code>// 需要配置相应的数据库
+public class Database &#123;
+    private Database() &#123;    // 防止外部new出Database的实例,所以声明为private
+    &#125;
+
+    public static Properties getProperties(String dbname)&#123;  // 根据数据库名获取Properties
+        String filename = dbname + &quot;.txt&quot;;
+        Properties prop = new Properties();
+        try &#123;
+            prop.load(new FileInputStream(filename));
+        &#125;catch (IOException e)&#123;
+            System.out.println(&quot;Warning: &quot; + filename + &quot; is not found.&quot;);
+        &#125;
+        return prop;
+    &#125;
+&#125;</code></pre></div><h2 id="2-编写HTML文件的类"><a href="#2-编写HTML文件的类" class="headerlink" title="2 - 编写HTML文件的类"></a>2 - 编写HTML文件的类</h2><div class="code-wrapper"><pre><code>public class HtmlWriter &#123;
+    private Writer writer;
+    public HtmlWriter(Writer writer)&#123;
+        this.writer = writer;
+    &#125;
+
+    public void title(String title) throws IOException&#123;
+        writer.write(&quot;&lt;html&gt;&quot;);
+        writer.write(&quot;&lt;head&gt;&quot;);
+        writer.write(&quot;&lt;title&gt;&quot; + title + &quot;&lt;/title&gt;&quot;);
+        writer.write(&quot;&lt;/head&gt;&quot;);
+        writer.write(&quot;&lt;body&gt;\n&quot;);
+        writer.write(&quot;&lt;h1&gt;&quot; + title + &quot;&lt;/h1&gt;&quot;);
+    &#125;
+
+    public void paragraph(String msg) throws IOException&#123;
+        writer.write(&quot;&lt;p&gt;&quot; + msg + &quot;&lt;/p&gt;\n&quot;);
+    &#125;
+
+    public void link(String href, String caption) throws IOException&#123;
+        paragraph(&quot;&lt;a href=\&quot;&quot; + href + &quot;\&quot;&gt;&quot; + caption + &quot;&lt;/a&gt;&quot;);
+    &#125;
+
+    public void mailto(String mailAddr, String userName) throws IOException&#123;
+        link(&quot;mailto: &quot; + mailAddr, userName);
+    &#125;
+
+    public void close() throws IOException&#123;
+        writer.write(&quot;&lt;/body&gt;&quot;);
+        writer.write(&quot;&lt;/html&gt;&quot;);
+        writer.close();
+    &#125;
+&#125;</code></pre></div><h2 id="3-根据邮件地址编写该用户的Web页面"><a href="#3-根据邮件地址编写该用户的Web页面" class="headerlink" title="3 - 根据邮件地址编写该用户的Web页面"></a>3 - 根据邮件地址编写该用户的Web页面</h2><div class="code-wrapper"><pre><code>public class PageMaker &#123;
+    private PageMaker() &#123;    // 防止外部new出PageMaker的实例,所以声明为private
+    &#125;
+
+    public static void makeWelcomePage(String mailAddr, String filename)&#123;
+        try &#123;
+            Properties mailProp = Database.getProperties(&quot;mailData&quot;);
+            String userName = mailProp.getProperty(mailAddr);
+            HtmlWriter writer = new HtmlWriter(new FileWriter(filename));
+            writer.title(&quot;Welcome to &quot; + userName + &quot;`s page!&quot;);
+            writer.paragraph(userName + &quot;欢迎来到&quot; + userName + &quot;的主页&quot;);
+            writer.paragraph(&quot;等着你的邮件哦!&quot;);
+            writer.mailto(mailAddr, userName);
+            writer.close();
+            System.out.println(filename + &quot; is created for &quot; + mailAddr + &quot; (&quot; +
+                    userName + &quot;)&quot;);
+        &#125;catch (IOException e)&#123;
+            e.printStackTrace();
+        &#125;
+
+    &#125;
+&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        PageMaker.makeWelcomePage(&quot;hyuki@hyuki.com&quot;, &quot;welcome.html&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><html><head><title>Welcome to Hiroshi Yuki`s page!</title></head><body>
+<h1>Welcome to Hiroshi Yuki`s page!</h1><p>null欢迎来到null的主页</p>
+<p>等着你的邮件哦!</p>
+<p><a href="mailto: hyuki@hyuki.com">Hiroshi Yuki</a></p>
+</body></html>
+
+<div class="code-wrapper"><pre><code>// HTML源码
+&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to Hiroshi Yuki`s page!&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Welcome to Hiroshi Yuki`s page!&lt;/h1&gt;
+&lt;p&gt;null欢迎来到null的主页&lt;/p&gt;
+&lt;p&gt;等着你的邮件哦!&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;mailto: hyuki@hyuki.com&quot;&gt;Hiroshi Yuki&lt;/a&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -2971,180 +2971,6 @@ java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=使用金库,when=1601985183407,
       </categories>
   </entry>
   <entry>
-    <title>JavaVisitor模式</title>
-    <url>/2020/09/22/JavaVisitor%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  访问数据结构并处理数据</p>
-</blockquote>
-<h2 id="1-表示访问者的抽象类-它访问文件和文件夹"><a href="#1-表示访问者的抽象类-它访问文件和文件夹" class="headerlink" title="1 - 表示访问者的抽象类, 它访问文件和文件夹"></a>1 - 表示访问者的抽象类, 它访问文件和文件夹</h2><div class="code-wrapper"><pre><code>public abstract class Visitor &#123;
-    public abstract void visit(File file);
-    public abstract void visit(Directory directory);
-&#125;</code></pre></div><h2 id="2-表示数据结构的接口-它接受访问者的访问"><a href="#2-表示数据结构的接口-它接受访问者的访问" class="headerlink" title="2 - 表示数据结构的接口, 它接受访问者的访问"></a>2 - 表示数据结构的接口, 它接受访问者的访问</h2><div class="code-wrapper"><pre><code>public interface Element &#123;
-    public abstract void accept(Visitor v);
-&#125;</code></pre></div><h2 id="3-Visitor类的子类-显示文件和文件夹一览"><a href="#3-Visitor类的子类-显示文件和文件夹一览" class="headerlink" title="3 - Visitor类的子类, 显示文件和文件夹一览"></a>3 - Visitor类的子类, 显示文件和文件夹一览</h2><div class="code-wrapper"><pre><code>public class ListVisitor extends Visitor&#123;
-    private String currentDir = &quot;&quot;;
-
-    @Override
-    public void visit(File file) &#123;
-        System.out.println(currentDir + &quot;/&quot; + file);
-    &#125;
-
-    @Override
-    public void visit(Directory directory) &#123;
-        System.out.println(currentDir + &quot;/&quot; + directory);
-        String saveDir = currentDir;
-        currentDir = currentDir + &quot;/&quot; + directory.getName();
-        Iterator it = directory.iterator();
-        while (it.hasNext())&#123;
-            Entry entry = (Entry)it.next();
-            entry.accept(this);
-        &#125;
-        currentDir = saveDir;
-    &#125;
-&#125;</code></pre></div><h2 id="4-抽象类-File类和Directory类的父类-实现了Element接口"><a href="#4-抽象类-File类和Directory类的父类-实现了Element接口" class="headerlink" title="4 - 抽象类, File类和Directory类的父类, 实现了Element接口"></a>4 - 抽象类, File类和Directory类的父类, 实现了Element接口</h2><div class="code-wrapper"><pre><code>public abstract class Entry implements Element&#123;
-    public abstract String getName();   // 获取名字
-    public abstract int getSize();      // 获取大小
-    public Entry add(Entry entry) throws FileTreatMeantException &#123; // 加入条目目录
-        throw new FileTreatMeantException();
-    &#125;
-
-    public Iterator iterator() throws FileTreatMeantException &#123; // 生成Iterator
-        throw new FileTreatMeantException();
-    &#125;
-                                                        // 显示条目一览
-    @Override                                           // 显示代表类的文字
-    public String toString()&#123;
-        return getName() + &quot; (&quot; + getSize() + &quot;)&quot;;
-    &#125;
-&#125;</code></pre></div><h2 id="5-表示文件的类"><a href="#5-表示文件的类" class="headerlink" title="5 - 表示文件的类"></a>5 - 表示文件的类</h2><div class="code-wrapper"><pre><code>public class File extends Entry&#123;
-    private String name;
-    private int size;
-
-    public File(String name, int size)&#123;
-        this.name = name;
-        this.size = size;
-    &#125;
-
-    @Override
-    public String getName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public int getSize() &#123;
-        return size;
-    &#125;
-
-    @Override
-    public void accept(Visitor v) &#123;
-        v.visit(this);
-    &#125;
-&#125;</code></pre></div><h2 id="6-表示文件夹的类"><a href="#6-表示文件夹的类" class="headerlink" title="6 - 表示文件夹的类"></a>6 - 表示文件夹的类</h2><div class="code-wrapper"><pre><code>public class Directory extends Entry&#123;
-    private String name;
-    private ArrayList directory = new ArrayList();
-    public Directory(String name)&#123;
-        this.name = name;
-    &#125;
-
-    @Override
-    public String getName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public int getSize() &#123;
-        int size = 0;
-        for (Object o : directory) &#123;
-            Entry entry = (Entry) o;
-            size += entry.getSize();
-        &#125;
-        return size;
-    &#125;
-
-    public Entry add(Entry entry)&#123;
-        directory.add(entry);
-        return this;
-    &#125;
-
-    public Iterator iterator()&#123;
-        return directory.iterator();
-    &#125;
-
-    @Override
-    public void accept(Visitor v) &#123;
-        v.visit(this);
-    &#125;
-&#125;</code></pre></div><h2 id="7-表示向文件中增加Entry时发生的异常的类"><a href="#7-表示向文件中增加Entry时发生的异常的类" class="headerlink" title="7 - 表示向文件中增加Entry时发生的异常的类"></a>7 - 表示向文件中增加Entry时发生的异常的类</h2><div class="code-wrapper"><pre><code>public class FileTreatMeantException extends RuntimeException&#123;
-
-    public FileTreatMeantException()&#123;
-    &#125;
-
-    public FileTreatMeantException(String msg)&#123;
-        super(msg);
-    &#125;
-&#125;</code></pre></div><h2 id="8-测试程序行为的类"><a href="#8-测试程序行为的类" class="headerlink" title="8 - 测试程序行为的类"></a>8 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        try &#123;
-            System.out.println(&quot;Making root entries...&quot;);
-            Directory rootDir = new Directory(&quot;root&quot;);
-            Directory binDir = new Directory(&quot;bin&quot;);
-            Directory tmpDir = new Directory(&quot;tmp&quot;);
-            Directory usrDir = new Directory(&quot;usr&quot;);
-            rootDir.add(binDir);
-            rootDir.add(tmpDir);
-            rootDir.add(usrDir);
-            binDir.add(new File(&quot;vi&quot;, 10000));
-            binDir.add(new File(&quot;latex&quot;, 20000));
-            rootDir.accept(new ListVisitor());
-
-            System.out.println(&quot;&quot;);
-            System.out.println(&quot;Making user entries...&quot;);
-            Directory yuki = new Directory(&quot;yuki&quot;);
-            Directory hanako = new Directory(&quot;hanako&quot;);
-            Directory tomura = new Directory(&quot;tomura&quot;);
-            usrDir.add(yuki);
-            usrDir.add(hanako);
-            usrDir.add(tomura);
-            yuki.add(new File(&quot;diary.html&quot;, 100));
-            yuki.add(new File(&quot;Composite.java&quot;, 200));
-            hanako.add(new File(&quot;memo.tex&quot;, 300));
-            tomura.add(new File(&quot;game.doc&quot;, 400));
-            tomura.add(new File(&quot;junk.mail&quot;, 500));
-            rootDir.accept(new ListVisitor());
-
-        &#125;catch (FileTreatMeantException e)&#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="9-输出样例"><a href="#9-输出样例" class="headerlink" title="9 - 输出样例"></a>9 - 输出样例</h2><div class="code-wrapper"><pre><code>Making root entries...
-/root (30000)
-/root/bin (30000)
-/root/bin/vi (10000)
-/root/bin/latex (20000)
-/root/tmp (0)
-/root/usr (0)
-
-Making user entries...
-/root (31500)
-/root/bin (30000)
-/root/bin/vi (10000)
-/root/bin/latex (20000)
-/root/tmp (0)
-/root/usr (1500)
-/root/usr/yuki (300)
-/root/usr/yuki/diary.html (100)
-/root/usr/yuki/Composite.java (200)
-/root/usr/hanako (300)
-/root/usr/hanako/memo.tex (300)
-/root/usr/tomura (900)
-/root/usr/tomura/game.doc (400)
-/root/usr/tomura/junk.mail (500)</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
     <title>JavaStrategy模式</title>
     <url>/2020/09/19/JavaStrategy%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -3365,6 +3191,180 @@ Total result:
       </categories>
   </entry>
   <entry>
+    <title>JavaVisitor模式</title>
+    <url>/2020/09/22/JavaVisitor%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  访问数据结构并处理数据</p>
+</blockquote>
+<h2 id="1-表示访问者的抽象类-它访问文件和文件夹"><a href="#1-表示访问者的抽象类-它访问文件和文件夹" class="headerlink" title="1 - 表示访问者的抽象类, 它访问文件和文件夹"></a>1 - 表示访问者的抽象类, 它访问文件和文件夹</h2><div class="code-wrapper"><pre><code>public abstract class Visitor &#123;
+    public abstract void visit(File file);
+    public abstract void visit(Directory directory);
+&#125;</code></pre></div><h2 id="2-表示数据结构的接口-它接受访问者的访问"><a href="#2-表示数据结构的接口-它接受访问者的访问" class="headerlink" title="2 - 表示数据结构的接口, 它接受访问者的访问"></a>2 - 表示数据结构的接口, 它接受访问者的访问</h2><div class="code-wrapper"><pre><code>public interface Element &#123;
+    public abstract void accept(Visitor v);
+&#125;</code></pre></div><h2 id="3-Visitor类的子类-显示文件和文件夹一览"><a href="#3-Visitor类的子类-显示文件和文件夹一览" class="headerlink" title="3 - Visitor类的子类, 显示文件和文件夹一览"></a>3 - Visitor类的子类, 显示文件和文件夹一览</h2><div class="code-wrapper"><pre><code>public class ListVisitor extends Visitor&#123;
+    private String currentDir = &quot;&quot;;
+
+    @Override
+    public void visit(File file) &#123;
+        System.out.println(currentDir + &quot;/&quot; + file);
+    &#125;
+
+    @Override
+    public void visit(Directory directory) &#123;
+        System.out.println(currentDir + &quot;/&quot; + directory);
+        String saveDir = currentDir;
+        currentDir = currentDir + &quot;/&quot; + directory.getName();
+        Iterator it = directory.iterator();
+        while (it.hasNext())&#123;
+            Entry entry = (Entry)it.next();
+            entry.accept(this);
+        &#125;
+        currentDir = saveDir;
+    &#125;
+&#125;</code></pre></div><h2 id="4-抽象类-File类和Directory类的父类-实现了Element接口"><a href="#4-抽象类-File类和Directory类的父类-实现了Element接口" class="headerlink" title="4 - 抽象类, File类和Directory类的父类, 实现了Element接口"></a>4 - 抽象类, File类和Directory类的父类, 实现了Element接口</h2><div class="code-wrapper"><pre><code>public abstract class Entry implements Element&#123;
+    public abstract String getName();   // 获取名字
+    public abstract int getSize();      // 获取大小
+    public Entry add(Entry entry) throws FileTreatMeantException &#123; // 加入条目目录
+        throw new FileTreatMeantException();
+    &#125;
+
+    public Iterator iterator() throws FileTreatMeantException &#123; // 生成Iterator
+        throw new FileTreatMeantException();
+    &#125;
+                                                        // 显示条目一览
+    @Override                                           // 显示代表类的文字
+    public String toString()&#123;
+        return getName() + &quot; (&quot; + getSize() + &quot;)&quot;;
+    &#125;
+&#125;</code></pre></div><h2 id="5-表示文件的类"><a href="#5-表示文件的类" class="headerlink" title="5 - 表示文件的类"></a>5 - 表示文件的类</h2><div class="code-wrapper"><pre><code>public class File extends Entry&#123;
+    private String name;
+    private int size;
+
+    public File(String name, int size)&#123;
+        this.name = name;
+        this.size = size;
+    &#125;
+
+    @Override
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    @Override
+    public int getSize() &#123;
+        return size;
+    &#125;
+
+    @Override
+    public void accept(Visitor v) &#123;
+        v.visit(this);
+    &#125;
+&#125;</code></pre></div><h2 id="6-表示文件夹的类"><a href="#6-表示文件夹的类" class="headerlink" title="6 - 表示文件夹的类"></a>6 - 表示文件夹的类</h2><div class="code-wrapper"><pre><code>public class Directory extends Entry&#123;
+    private String name;
+    private ArrayList directory = new ArrayList();
+    public Directory(String name)&#123;
+        this.name = name;
+    &#125;
+
+    @Override
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    @Override
+    public int getSize() &#123;
+        int size = 0;
+        for (Object o : directory) &#123;
+            Entry entry = (Entry) o;
+            size += entry.getSize();
+        &#125;
+        return size;
+    &#125;
+
+    public Entry add(Entry entry)&#123;
+        directory.add(entry);
+        return this;
+    &#125;
+
+    public Iterator iterator()&#123;
+        return directory.iterator();
+    &#125;
+
+    @Override
+    public void accept(Visitor v) &#123;
+        v.visit(this);
+    &#125;
+&#125;</code></pre></div><h2 id="7-表示向文件中增加Entry时发生的异常的类"><a href="#7-表示向文件中增加Entry时发生的异常的类" class="headerlink" title="7 - 表示向文件中增加Entry时发生的异常的类"></a>7 - 表示向文件中增加Entry时发生的异常的类</h2><div class="code-wrapper"><pre><code>public class FileTreatMeantException extends RuntimeException&#123;
+
+    public FileTreatMeantException()&#123;
+    &#125;
+
+    public FileTreatMeantException(String msg)&#123;
+        super(msg);
+    &#125;
+&#125;</code></pre></div><h2 id="8-测试程序行为的类"><a href="#8-测试程序行为的类" class="headerlink" title="8 - 测试程序行为的类"></a>8 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        try &#123;
+            System.out.println(&quot;Making root entries...&quot;);
+            Directory rootDir = new Directory(&quot;root&quot;);
+            Directory binDir = new Directory(&quot;bin&quot;);
+            Directory tmpDir = new Directory(&quot;tmp&quot;);
+            Directory usrDir = new Directory(&quot;usr&quot;);
+            rootDir.add(binDir);
+            rootDir.add(tmpDir);
+            rootDir.add(usrDir);
+            binDir.add(new File(&quot;vi&quot;, 10000));
+            binDir.add(new File(&quot;latex&quot;, 20000));
+            rootDir.accept(new ListVisitor());
+
+            System.out.println(&quot;&quot;);
+            System.out.println(&quot;Making user entries...&quot;);
+            Directory yuki = new Directory(&quot;yuki&quot;);
+            Directory hanako = new Directory(&quot;hanako&quot;);
+            Directory tomura = new Directory(&quot;tomura&quot;);
+            usrDir.add(yuki);
+            usrDir.add(hanako);
+            usrDir.add(tomura);
+            yuki.add(new File(&quot;diary.html&quot;, 100));
+            yuki.add(new File(&quot;Composite.java&quot;, 200));
+            hanako.add(new File(&quot;memo.tex&quot;, 300));
+            tomura.add(new File(&quot;game.doc&quot;, 400));
+            tomura.add(new File(&quot;junk.mail&quot;, 500));
+            rootDir.accept(new ListVisitor());
+
+        &#125;catch (FileTreatMeantException e)&#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="9-输出样例"><a href="#9-输出样例" class="headerlink" title="9 - 输出样例"></a>9 - 输出样例</h2><div class="code-wrapper"><pre><code>Making root entries...
+/root (30000)
+/root/bin (30000)
+/root/bin/vi (10000)
+/root/bin/latex (20000)
+/root/tmp (0)
+/root/usr (0)
+
+Making user entries...
+/root (31500)
+/root/bin (30000)
+/root/bin/vi (10000)
+/root/bin/latex (20000)
+/root/tmp (0)
+/root/usr (1500)
+/root/usr/yuki (300)
+/root/usr/yuki/diary.html (100)
+/root/usr/yuki/Composite.java (200)
+/root/usr/hanako (300)
+/root/usr/hanako/memo.tex (300)
+/root/usr/tomura (900)
+/root/usr/tomura/game.doc (400)
+/root/usr/tomura/junk.mail (500)</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Java使用缓存流进行文件的复制</title>
     <url>/2020/09/08/Java%E4%BD%BF%E7%94%A8%E7%BC%93%E5%AD%98%E6%B5%81%E8%BF%9B%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84%E5%A4%8D%E5%88%B6/</url>
     <content><![CDATA[<h2 id="1-准备要复制的文件路径和复制后的路径"><a href="#1-准备要复制的文件路径和复制后的路径" class="headerlink" title="1- 准备要复制的文件路径和复制后的路径"></a>1- 准备要复制的文件路径和复制后的路径</h2><div class="code-wrapper"><pre><code>private static final String FilePath1 = &quot;D:/测试文件.txt&quot;;
@@ -3445,60 +3445,6 @@ public class BufferedStreamDemo &#123;
       </categories>
       <tags>
         <tag>文件复制</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java对象的序列化</title>
-    <url>/2020/08/16/Java%E5%AF%B9%E8%B1%A1%E5%BA%8F%E5%88%97%E5%8C%96%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h2 id="1-对象序列化"><a href="#1-对象序列化" class="headerlink" title="1 - 对象序列化"></a>1 - 对象序列化</h2><p>所谓的对象序列化（在某些书籍中也叫串行化），是指在内存之中保存的对象转化为二进制数据流的形式的一种操作。通过将对象序列化，可以方便地实现对象的传输及保存。但是在Java之中并不是所有的类的对象都可以被序列化，如果一个类对象需要被序列化，则此类一定要实现java. io.Serializable接口。但是这个接口里面也没有定义任何的方法，所以此接口依然属于标识接口，表示一种能力。</p>
-<p>以上内容,引自&lt;&lt;Java从入门到精通(第二版)&gt;&gt; 张玉宏主编 </p>
-<h2 id="2-具体代码的实现"><a href="#2-具体代码的实现" class="headerlink" title="2 - 具体代码的实现"></a>2 - 具体代码的实现</h2><h3 id="2-1-需要实现序列化的类"><a href="#2-1-需要实现序列化的类" class="headerlink" title="2.1 需要实现序列化的类"></a>2.1 需要实现序列化的类</h3><div class="code-wrapper"><pre><code>@SuppressWarnings(&quot;serial&quot;)
-class Person implements Serializable&#123;
-    private String name;
-    private int age;
-
-    public Person(String name, int age)&#123;
-        this.name = name;
-        this.age = age;
-    &#125;
-
-    @Override
-    public String toString()&#123;
-        return &quot;姓名: &quot; + this.name + &quot;, 年龄: &quot; + this.age;
-    &#125;
-&#125;;</code></pre></div><h3 id="2-2-进行序列化测试的主类"><a href="#2-2-进行序列化测试的主类" class="headerlink" title="2.2 进行序列化测试的主类"></a>2.2 进行序列化测试的主类</h3><div class="code-wrapper"><pre><code>public class SerializableDemo &#123;
-    public static void main(String[] args) throws Exception&#123;
-
-        String filePath = &quot;D:\\&quot;;
-
-        File f = new File(filePath + &quot;SerializablePerson.txt&quot;);
-        serialize(f);
-        deserialize(f);
-    &#125;
-
-    // 使用以下方法为序列化对象方法
-    public static void serialize(File f)throws Exception&#123;
-        OutputStream outputFile = new FileOutputStream(f);
-        ObjectOutputStream cout = new ObjectOutputStream(outputFile);
-        cout.writeObject(new Person(&quot;张三&quot;, 25));
-        cout.close();
-    &#125;
-
-    // 使用以下方法为反序列化对象方法
-    public static void deserialize(File f)throws Exception&#123;
-        InputStream inputStream = new FileInputStream(f);
-        ObjectInputStream cin = new ObjectInputStream(inputStream);
-        Person p = (Person)cin.readObject();
-        System.out.println(p);
-        cin.close();
-    &#125;
-&#125;</code></pre></div><h2 id="3-输出示例"><a href="#3-输出示例" class="headerlink" title="3 - 输出示例"></a>3 - 输出示例</h2><div class="code-wrapper"><pre><code>姓名: 张三, 年龄: 25</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>序列化</tag>
       </tags>
   </entry>
   <entry>
@@ -3614,6 +3560,60 @@ class TestThread implements Runnable&#123;
       </tags>
   </entry>
   <entry>
+    <title>Java对象的序列化</title>
+    <url>/2020/08/16/Java%E5%AF%B9%E8%B1%A1%E5%BA%8F%E5%88%97%E5%8C%96%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h2 id="1-对象序列化"><a href="#1-对象序列化" class="headerlink" title="1 - 对象序列化"></a>1 - 对象序列化</h2><p>所谓的对象序列化（在某些书籍中也叫串行化），是指在内存之中保存的对象转化为二进制数据流的形式的一种操作。通过将对象序列化，可以方便地实现对象的传输及保存。但是在Java之中并不是所有的类的对象都可以被序列化，如果一个类对象需要被序列化，则此类一定要实现java. io.Serializable接口。但是这个接口里面也没有定义任何的方法，所以此接口依然属于标识接口，表示一种能力。</p>
+<p>以上内容,引自&lt;&lt;Java从入门到精通(第二版)&gt;&gt; 张玉宏主编 </p>
+<h2 id="2-具体代码的实现"><a href="#2-具体代码的实现" class="headerlink" title="2 - 具体代码的实现"></a>2 - 具体代码的实现</h2><h3 id="2-1-需要实现序列化的类"><a href="#2-1-需要实现序列化的类" class="headerlink" title="2.1 需要实现序列化的类"></a>2.1 需要实现序列化的类</h3><div class="code-wrapper"><pre><code>@SuppressWarnings(&quot;serial&quot;)
+class Person implements Serializable&#123;
+    private String name;
+    private int age;
+
+    public Person(String name, int age)&#123;
+        this.name = name;
+        this.age = age;
+    &#125;
+
+    @Override
+    public String toString()&#123;
+        return &quot;姓名: &quot; + this.name + &quot;, 年龄: &quot; + this.age;
+    &#125;
+&#125;;</code></pre></div><h3 id="2-2-进行序列化测试的主类"><a href="#2-2-进行序列化测试的主类" class="headerlink" title="2.2 进行序列化测试的主类"></a>2.2 进行序列化测试的主类</h3><div class="code-wrapper"><pre><code>public class SerializableDemo &#123;
+    public static void main(String[] args) throws Exception&#123;
+
+        String filePath = &quot;D:\\&quot;;
+
+        File f = new File(filePath + &quot;SerializablePerson.txt&quot;);
+        serialize(f);
+        deserialize(f);
+    &#125;
+
+    // 使用以下方法为序列化对象方法
+    public static void serialize(File f)throws Exception&#123;
+        OutputStream outputFile = new FileOutputStream(f);
+        ObjectOutputStream cout = new ObjectOutputStream(outputFile);
+        cout.writeObject(new Person(&quot;张三&quot;, 25));
+        cout.close();
+    &#125;
+
+    // 使用以下方法为反序列化对象方法
+    public static void deserialize(File f)throws Exception&#123;
+        InputStream inputStream = new FileInputStream(f);
+        ObjectInputStream cin = new ObjectInputStream(inputStream);
+        Person p = (Person)cin.readObject();
+        System.out.println(p);
+        cin.close();
+    &#125;
+&#125;</code></pre></div><h2 id="3-输出示例"><a href="#3-输出示例" class="headerlink" title="3 - 输出示例"></a>3 - 输出示例</h2><div class="code-wrapper"><pre><code>姓名: 张三, 年龄: 25</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Tool</category>
+      </categories>
+      <tags>
+        <tag>序列化</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java操作MySQL数据库</title>
     <url>/2020/08/22/Java%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
     <content><![CDATA[<h2 id="1-首先-Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8-0-16-jar-并导入此包"><a href="#1-首先-Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8-0-16-jar-并导入此包" class="headerlink" title="1 - 首先, Java要连接MySQL数据库需要安装驱动包mysql-connector-java-8.0.16.jar, 并导入此包"></a>1 - 首先, Java要连接MySQL数据库需要安装驱动包<a href="https://static.runoob.com/download/mysql-connector-java-8.0.16.jar">mysql-connector-java-8.0.16.jar</a>, 并导入此包</h2><h2 id="2-准备相应的数据"><a href="#2-准备相应的数据" class="headerlink" title="2 - 准备相应的数据"></a>2 - 准备相应的数据</h2><div class="code-wrapper"><pre><code>static final String USER = &quot;用户名&quot;;
@@ -3708,55 +3708,6 @@ public static void main(String[] args) &#123;
       </tags>
   </entry>
   <entry>
-    <title>Java的注释接口</title>
-    <url>/2020/08/07/Java%E7%9A%84%E6%B3%A8%E9%87%8A%E6%8E%A5%E5%8F%A3/</url>
-    <content><![CDATA[<blockquote>
-</blockquote>
-<blockquote>
-<p>  注解 - 给编译器看的注释</p>
-</blockquote>
-<h2 id="1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的"><a href="#1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的" class="headerlink" title="1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的"></a>1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的</h2><div class="code-wrapper"><pre><code>class Message&#123;
-    @Override
-    public String toString()&#123;
-        return &quot;Hello world!&quot;;
-    &#125;
-&#125;</code></pre></div><p>如果改写的方法名，参数，类型有错误编译器会报错，可以给程序员提示。</p>
-<h2 id="2-Deprecated注释表示这个方法已经过时，不建议使用"><a href="#2-Deprecated注释表示这个方法已经过时，不建议使用" class="headerlink" title="2. @Deprecated注释表示这个方法已经过时，不建议使用"></a>2. @Deprecated注释表示这个方法已经过时，不建议使用</h2><div class="code-wrapper"><pre><code>class Info&#123;
-    @Deprecated
-    public String getInfo()&#123;
-        return &quot;Hello world.&quot;;
-    &#125;
-&#125;</code></pre></div><p>被注释的方法仍然可以使用，只是编译器不推荐而已</p>
-<h2 id="3-SuppressWarnings注释用来压制”某些”的警告信息"><a href="#3-SuppressWarnings注释用来压制”某些”的警告信息" class="headerlink" title="3. @SuppressWarnings注释用来压制”某些”的警告信息"></a>3. @SuppressWarnings注释用来压制”某些”的警告信息</h2><div class="code-wrapper"><pre><code>public class SuppressWarningsAnnotation &#123;
-    public static void main(String[] args) &#123;
-        // 用来压制&quot;未使用&quot;的警告信息
-        @SuppressWarnings(&quot;unused&quot;)
-        int i;
-        System.out.println(&quot;Hello world.&quot;);
-    &#125;
-&#125;</code></pre></div><p>在这个例子中我们通过往注释中添加“unused”参数，来压制变量未使用这一警告信息</p>
-<h2 id="4-实现我们自己自定义的注释，必须使用-interface接口来修饰"><a href="#4-实现我们自己自定义的注释，必须使用-interface接口来修饰" class="headerlink" title="4. 实现我们自己自定义的注释，必须使用@interface接口来修饰"></a>4. 实现我们自己自定义的注释，必须使用@interface接口来修饰</h2><div class="code-wrapper"><pre><code>@interface Anno&#123;
-    public String key();
-    public String value();
-&#125;
-
-public class TestAnno &#123;
-    @Anno(key = &quot;var1&quot;, value = &quot;test&quot;)
-    public static void main(String[] args) &#123;
-        System.out.println(&quot;Hello world!&quot;);
-    &#125;
-&#125;</code></pre></div><p>我们可以在自己实现的注释里添加属性或方法</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>注解</tag>
-        <tag>给编译器看的注释</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java简单实现多线程</title>
     <url>/2020/08/11/Java%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B/</url>
     <content><![CDATA[<h2 id="1-直接继承Thread类-来实现多线程"><a href="#1-直接继承Thread类-来实现多线程" class="headerlink" title="1- 直接继承Thread类,来实现多线程"></a>1- 直接继承Thread类,来实现多线程</h2><div class="code-wrapper"><pre><code>public class ThreadDemo &#123;
@@ -3828,6 +3779,55 @@ class TestThread implements Runnable&#123;
       </categories>
       <tags>
         <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java的注释接口</title>
+    <url>/2020/08/07/Java%E7%9A%84%E6%B3%A8%E9%87%8A%E6%8E%A5%E5%8F%A3/</url>
+    <content><![CDATA[<blockquote>
+</blockquote>
+<blockquote>
+<p>  注解 - 给编译器看的注释</p>
+</blockquote>
+<h2 id="1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的"><a href="#1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的" class="headerlink" title="1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的"></a>1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的</h2><div class="code-wrapper"><pre><code>class Message&#123;
+    @Override
+    public String toString()&#123;
+        return &quot;Hello world!&quot;;
+    &#125;
+&#125;</code></pre></div><p>如果改写的方法名，参数，类型有错误编译器会报错，可以给程序员提示。</p>
+<h2 id="2-Deprecated注释表示这个方法已经过时，不建议使用"><a href="#2-Deprecated注释表示这个方法已经过时，不建议使用" class="headerlink" title="2. @Deprecated注释表示这个方法已经过时，不建议使用"></a>2. @Deprecated注释表示这个方法已经过时，不建议使用</h2><div class="code-wrapper"><pre><code>class Info&#123;
+    @Deprecated
+    public String getInfo()&#123;
+        return &quot;Hello world.&quot;;
+    &#125;
+&#125;</code></pre></div><p>被注释的方法仍然可以使用，只是编译器不推荐而已</p>
+<h2 id="3-SuppressWarnings注释用来压制”某些”的警告信息"><a href="#3-SuppressWarnings注释用来压制”某些”的警告信息" class="headerlink" title="3. @SuppressWarnings注释用来压制”某些”的警告信息"></a>3. @SuppressWarnings注释用来压制”某些”的警告信息</h2><div class="code-wrapper"><pre><code>public class SuppressWarningsAnnotation &#123;
+    public static void main(String[] args) &#123;
+        // 用来压制&quot;未使用&quot;的警告信息
+        @SuppressWarnings(&quot;unused&quot;)
+        int i;
+        System.out.println(&quot;Hello world.&quot;);
+    &#125;
+&#125;</code></pre></div><p>在这个例子中我们通过往注释中添加“unused”参数，来压制变量未使用这一警告信息</p>
+<h2 id="4-实现我们自己自定义的注释，必须使用-interface接口来修饰"><a href="#4-实现我们自己自定义的注释，必须使用-interface接口来修饰" class="headerlink" title="4. 实现我们自己自定义的注释，必须使用@interface接口来修饰"></a>4. 实现我们自己自定义的注释，必须使用@interface接口来修饰</h2><div class="code-wrapper"><pre><code>@interface Anno&#123;
+    public String key();
+    public String value();
+&#125;
+
+public class TestAnno &#123;
+    @Anno(key = &quot;var1&quot;, value = &quot;test&quot;)
+    public static void main(String[] args) &#123;
+        System.out.println(&quot;Hello world!&quot;);
+    &#125;
+&#125;</code></pre></div><p>我们可以在自己实现的注释里添加属性或方法</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Tool</category>
+      </categories>
+      <tags>
+        <tag>注解</tag>
+        <tag>给编译器看的注释</tag>
       </tags>
   </entry>
   <entry>
@@ -4203,6 +4203,18 @@ Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide sh
       </tags>
   </entry>
   <entry>
+    <title>MongoDB 学习</title>
+    <url>/2021/05/01/MongoDB%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="MongoDB-学习"><a href="#MongoDB-学习" class="headerlink" title="MongoDB 学习"></a>MongoDB 学习</h1>]]></content>
+      <categories>
+        <category>Technical</category>
+        <category>DB</category>
+      </categories>
+      <tags>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Node.js的安装和环境变量的配置</title>
     <url>/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h2 id="1-下载安装包"><a href="#1-下载安装包" class="headerlink" title="1, 下载安装包"></a>1, 下载安装包</h2><p>去 <a href="https://nodejs.org/en/">nodejs官网</a> 下载 找到 <a href="https://nodejs.org/dist/latest-v12.x/">node-v12</a> 的下载清单，找到 node-v12.22.1-x64.msi，下载即可。</p>
@@ -4351,6 +4363,69 @@ def run(self, end_time):
       </tags>
   </entry>
   <entry>
+    <title>Python使用覆盖型描述符</title>
+    <url>/2020/09/10/Python%E4%BD%BF%E7%94%A8%E8%A6%86%E7%9B%96%E5%9E%8B%E6%8F%8F%E8%BF%B0%E7%AC%A6/</url>
+    <content><![CDATA[<h2 id="1-导入模块"><a href="#1-导入模块" class="headerlink" title="1- 导入模块"></a>1- 导入模块</h2><div class="code-wrapper"><pre><code>import abc</code></pre></div><h2 id="2-主要的几个基础类"><a href="#2-主要的几个基础类" class="headerlink" title="2 - 主要的几个基础类"></a>2 - 主要的几个基础类</h2><div class="code-wrapper"><pre><code>class AutoStorage:
+    __counter = 0
+    def __init__(self, ):
+        cls = self.__class__
+        prefix = cls.__name__
+        index = cls.__counter
+        self.storage_name = &apos;_&#123;&#125;#&#123;&#125;&apos;.format(prefix, index)
+        cls.__counter += 1
+
+    def __get__(self, instance, owner):
+        if instance is None:
+            return self
+        else:
+            return getattr(instance, self.storage_name)
+
+    def __set__(self, instance, value):
+        if value &gt; 0:
+            setattr(instance, self.storage_name, value)
+        else:
+            raise ValueError(&apos;value must be &gt; 0&apos;)
+
+
+class Validated(abc.ABC, AutoStorage):
+    def __set__(self, instance, value):
+        value = self.validate(instance, value)
+        super().__set__(instance, value)
+    @abc.abstractmethod
+    def validate(self, instance, value):
+        &quot;&quot;&quot;return validated value or raise ValueError&quot;&quot;&quot;
+
+class Quantity(Validated):
+    &quot;&quot;&quot;a number greater than zero&quot;&quot;&quot;
+    def validate(self, instance, value):
+        if value &lt;= 0:
+            raise ValueError(&apos;value must be &gt; 0&apos;)
+        return value
+
+class NonBlank(Validated):
+&quot;&quot;&quot;a string with at least one non-space character&quot;&quot;&quot;
+def validate(self, instance, value):
+    value = value.strip()
+    if len(value) == 0:
+        raise ValueError(&apos;value cannot be empty or blank&apos;)
+    return value</code></pre></div><p>AutoStorage自动管理储存属性的描述符类。Validated扩展AutoStorage类的抽象子类，覆盖<strong>set</strong>方法，调用必须由子类实现的validate方法。</p>
+<h2 id="3-主要实现的类"><a href="#3-主要实现的类" class="headerlink" title="3 - 主要实现的类"></a>3 - 主要实现的类</h2><div class="code-wrapper"><pre><code>class LineItem:
+    description = NonBlank()
+    weight = Quantity()
+    price = Quantity()
+
+    def __init__(self, description, weight, price):
+        self.description = description
+        self.weight = weight
+        self.price = price
+
+    def subtotal(self):
+        return self.weight * self.price</code></pre></div>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Python关于迭代器和生成器</title>
     <url>/2020/08/24/Python%E5%85%B3%E4%BA%8E%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/</url>
     <content><![CDATA[<h2 id="1-使用迭代器实现Sentence类"><a href="#1-使用迭代器实现Sentence类" class="headerlink" title="1 - 使用迭代器实现Sentence类"></a>1 - 使用迭代器实现Sentence类</h2><h3 id="1-1-具体的实现代码"><a href="#1-1-具体的实现代码" class="headerlink" title="1.1 具体的实现代码"></a>1.1 具体的实现代码</h3><div class="code-wrapper"><pre><code>import re
@@ -4436,69 +4511,6 @@ class Sentence:
         <tag>迭代器</tag>
         <tag>生成器</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Python使用覆盖型描述符</title>
-    <url>/2020/09/10/Python%E4%BD%BF%E7%94%A8%E8%A6%86%E7%9B%96%E5%9E%8B%E6%8F%8F%E8%BF%B0%E7%AC%A6/</url>
-    <content><![CDATA[<h2 id="1-导入模块"><a href="#1-导入模块" class="headerlink" title="1- 导入模块"></a>1- 导入模块</h2><div class="code-wrapper"><pre><code>import abc</code></pre></div><h2 id="2-主要的几个基础类"><a href="#2-主要的几个基础类" class="headerlink" title="2 - 主要的几个基础类"></a>2 - 主要的几个基础类</h2><div class="code-wrapper"><pre><code>class AutoStorage:
-    __counter = 0
-    def __init__(self, ):
-        cls = self.__class__
-        prefix = cls.__name__
-        index = cls.__counter
-        self.storage_name = &apos;_&#123;&#125;#&#123;&#125;&apos;.format(prefix, index)
-        cls.__counter += 1
-
-    def __get__(self, instance, owner):
-        if instance is None:
-            return self
-        else:
-            return getattr(instance, self.storage_name)
-
-    def __set__(self, instance, value):
-        if value &gt; 0:
-            setattr(instance, self.storage_name, value)
-        else:
-            raise ValueError(&apos;value must be &gt; 0&apos;)
-
-
-class Validated(abc.ABC, AutoStorage):
-    def __set__(self, instance, value):
-        value = self.validate(instance, value)
-        super().__set__(instance, value)
-    @abc.abstractmethod
-    def validate(self, instance, value):
-        &quot;&quot;&quot;return validated value or raise ValueError&quot;&quot;&quot;
-
-class Quantity(Validated):
-    &quot;&quot;&quot;a number greater than zero&quot;&quot;&quot;
-    def validate(self, instance, value):
-        if value &lt;= 0:
-            raise ValueError(&apos;value must be &gt; 0&apos;)
-        return value
-
-class NonBlank(Validated):
-&quot;&quot;&quot;a string with at least one non-space character&quot;&quot;&quot;
-def validate(self, instance, value):
-    value = value.strip()
-    if len(value) == 0:
-        raise ValueError(&apos;value cannot be empty or blank&apos;)
-    return value</code></pre></div><p>AutoStorage自动管理储存属性的描述符类。Validated扩展AutoStorage类的抽象子类，覆盖<strong>set</strong>方法，调用必须由子类实现的validate方法。</p>
-<h2 id="3-主要实现的类"><a href="#3-主要实现的类" class="headerlink" title="3 - 主要实现的类"></a>3 - 主要实现的类</h2><div class="code-wrapper"><pre><code>class LineItem:
-    description = NonBlank()
-    weight = Quantity()
-    price = Quantity()
-
-    def __init__(self, description, weight, price):
-        self.description = description
-        self.weight = weight
-        self.price = price
-
-    def subtotal(self):
-        return self.weight * self.price</code></pre></div>]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
   </entry>
   <entry>
     <title>函数参数的使用</title>
@@ -4599,24 +4611,6 @@ dance_process.start()</code></pre></div>]]></content>
       </tags>
   </entry>
   <entry>
-    <title>Python操控Mysql数据库</title>
-    <url>/2020/07/22/Python%E6%93%8D%E6%8E%A7Mysql%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
-    <content><![CDATA[<h2 id="1-首先导入所需要的包"><a href="#1-首先导入所需要的包" class="headerlink" title="1. 首先导入所需要的包"></a>1. 首先导入所需要的包</h2><div class="code-wrapper"><pre><code>import pymysql</code></pre></div><h2 id="2-链接mysql数据库服务"><a href="#2-链接mysql数据库服务" class="headerlink" title="2. 链接mysql数据库服务"></a>2. 链接mysql数据库服务</h2><div class="code-wrapper"><pre><code>connc = pymysql.Connect(
-# 默认只写用户名和密码以及数据库名称就足够了
-user=&apos;root&apos;,
-password=&quot;password&quot;,
-database=&apos;mydatabase&apos;,
-)</code></pre></div><h2 id="3-创建游标对象"><a href="#3-创建游标对象" class="headerlink" title="3. 创建游标对象"></a>3. 创建游标对象</h2><div class="code-wrapper"><pre><code>cur = connc.cursor()</code></pre></div><h2 id="4-编写SQL语句"><a href="#4-编写SQL语句" class="headerlink" title="4. 编写SQL语句"></a>4. 编写SQL语句</h2><div class="code-wrapper"><pre><code>sql = &apos;select * from students&apos;</code></pre></div><h2 id="5-使用游标对象去调用SQL"><a href="#5-使用游标对象去调用SQL" class="headerlink" title="5. 使用游标对象去调用SQL"></a>5. 使用游标对象去调用SQL</h2><div class="code-wrapper"><pre><code>cur.execute(sql)</code></pre></div><h2 id="6-获取查询结果并打印"><a href="#6-获取查询结果并打印" class="headerlink" title="6. 获取查询结果并打印"></a>6. 获取查询结果并打印</h2><div class="code-wrapper"><pre><code>result = cur.fetchall()
-print(result)</code></pre></div><h2 id="7-关闭游标和链接对象"><a href="#7-关闭游标和链接对象" class="headerlink" title="7. 关闭游标和链接对象"></a>7. 关闭游标和链接对象</h2><div class="code-wrapper"><pre><code>cur.close()
-connc.close()</code></pre></div>]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python实现实时动态曲线</title>
     <url>/2021/04/09/Python%E5%AE%9E%E7%8E%B0%E5%AE%9E%E6%97%B6%E5%8A%A8%E6%80%81%E6%9B%B2%E7%BA%BF/</url>
     <content><![CDATA[<h2 id="1-效果展示"><a href="#1-效果展示" class="headerlink" title="1, 效果展示"></a>1, 效果展示</h2><p><img src="/2021/04/09/Python%E5%AE%9E%E7%8E%B0%E5%AE%9E%E6%97%B6%E5%8A%A8%E6%80%81%E6%9B%B2%E7%BA%BF/image-20210409214308795.png" alt="image-20210409214308795"></p>
@@ -4677,6 +4671,24 @@ app.exec_()</code></pre></div>]]></content>
       </categories>
       <tags>
         <tag>visualization</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python操控Mysql数据库</title>
+    <url>/2020/07/22/Python%E6%93%8D%E6%8E%A7Mysql%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+    <content><![CDATA[<h2 id="1-首先导入所需要的包"><a href="#1-首先导入所需要的包" class="headerlink" title="1. 首先导入所需要的包"></a>1. 首先导入所需要的包</h2><div class="code-wrapper"><pre><code>import pymysql</code></pre></div><h2 id="2-链接mysql数据库服务"><a href="#2-链接mysql数据库服务" class="headerlink" title="2. 链接mysql数据库服务"></a>2. 链接mysql数据库服务</h2><div class="code-wrapper"><pre><code>connc = pymysql.Connect(
+# 默认只写用户名和密码以及数据库名称就足够了
+user=&apos;root&apos;,
+password=&quot;password&quot;,
+database=&apos;mydatabase&apos;,
+)</code></pre></div><h2 id="3-创建游标对象"><a href="#3-创建游标对象" class="headerlink" title="3. 创建游标对象"></a>3. 创建游标对象</h2><div class="code-wrapper"><pre><code>cur = connc.cursor()</code></pre></div><h2 id="4-编写SQL语句"><a href="#4-编写SQL语句" class="headerlink" title="4. 编写SQL语句"></a>4. 编写SQL语句</h2><div class="code-wrapper"><pre><code>sql = &apos;select * from students&apos;</code></pre></div><h2 id="5-使用游标对象去调用SQL"><a href="#5-使用游标对象去调用SQL" class="headerlink" title="5. 使用游标对象去调用SQL"></a>5. 使用游标对象去调用SQL</h2><div class="code-wrapper"><pre><code>cur.execute(sql)</code></pre></div><h2 id="6-获取查询结果并打印"><a href="#6-获取查询结果并打印" class="headerlink" title="6. 获取查询结果并打印"></a>6. 获取查询结果并打印</h2><div class="code-wrapper"><pre><code>result = cur.fetchall()
+print(result)</code></pre></div><h2 id="7-关闭游标和链接对象"><a href="#7-关闭游标和链接对象" class="headerlink" title="7. 关闭游标和链接对象"></a>7. 关闭游标和链接对象</h2><div class="code-wrapper"><pre><code>cur.close()
+connc.close()</code></pre></div>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -4782,18 +4794,6 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       <tags>
         <tag>爬虫</tag>
         <tag>豆瓣 250</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MongoDB 学习</title>
-    <url>/2021/05/01/MongoDB%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="MongoDB-学习"><a href="#MongoDB-学习" class="headerlink" title="MongoDB 学习"></a>MongoDB 学习</h1>]]></content>
-      <categories>
-        <category>Technical</category>
-        <category>DB</category>
-      </categories>
-      <tags>
-        <tag>MongoDB</tag>
       </tags>
   </entry>
   <entry>
@@ -5092,169 +5092,6 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       </tags>
   </entry>
   <entry>
-    <title>Win10 搭建 PyTorch 环境</title>
-    <url>/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<h1 id="Win10-搭建-PyTorch-环境"><a href="#Win10-搭建-PyTorch-环境" class="headerlink" title="Win10 搭建 PyTorch 环境"></a>Win10 搭建 PyTorch 环境</h1><h2 id="0-说明"><a href="#0-说明" class="headerlink" title="0 说明"></a>0 说明</h2><p>为了进行深度学习，需要电脑上安装相应的软件，pytorch 就是其中一种。至于 pytorch 是什么的科普，建议去网上搜索。</p>
-<p>而为了安装好 pytorch，需要安装众多软件，网上一搜一大把流程。但事实上随着技术的更新，很多流程都会变得过时，就像我现在这篇，因此我也特意标注了时间。</p>
-<p>本流程的目的是：在 win 10 上安装 pytorch 且能调用 GPU（你需要英伟达的显卡）。</p>
-<p>本流程涉及的程序有：conda，CUDA，cuDNN，pytorch。注意一定要按流程来，如果跳过了 cuDNN 安装 pytorch，是不会成功调用 GPU 的。</p>
-<h2 id="1-Miniconda3"><a href="#1-Miniconda3" class="headerlink" title="1 Miniconda3"></a>1 Miniconda3</h2><p>清华源镜像已经没有维护 miniconda，所以我们使用北外源。</p>
-<ul>
-<li><p><strong>下载地址</strong></p>
-<p><a href="https://mirrors.bfsu.edu.cn/anaconda/miniconda/">Index of /anaconda/miniconda</a></p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521111325301.png" alt="image-20210521111325301"></p>
-</li>
-<li><p><strong>配置环境变量</strong></p>
-<p>一般来说，安装程序会自动把四个 path 变量，写入系统变量的path变量中，但是会写入第一行，我们可以手动下移位置。</p>
-<ul>
-<li><p>打开 cmd（win+R，输入 cmd 后回车），输入 conda info，如果正确无误的话，会显示 conda 的信息。</p>
-</li>
-<li><p>为了 conda 的下载速度，需要添加国内的北外源，输入：</p>
-<div class="code-wrapper"><pre><code class="hljs shell">conda config --set show_channel_urls yes</code></pre></div>
-
-<p>创建配置文件 .condarc，该文件位于：C:\Users\你的用户名\ 下。</p>
-<p>用文本编辑器打开它，然后复制以下内容完全覆盖已有内容：</p>
-<div class="code-wrapper"><pre><code class="hljs shell">channels:
-  - defaults
-show_channel_urls: true
-default_channels:
-  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/main
-  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/r
-  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/msys2
-custom_channels:
-  conda-forge: https://mirrors.bfsu.edu.cn/anaconda/cloud
-  msys2: https://mirrors.bfsu.edu.cn/anaconda/cloud
-  bioconda: https://mirrors.bfsu.edu.cn/anaconda/cloud
-  menpo: https://mirrors.bfsu.edu.cn/anaconda/cloud
-  pytorch: https://mirrors.bfsu.edu.cn/anaconda/cloud
-  simpleitk: https://mirrors.bfsu.edu.cn/anaconda/cloud</code></pre></div>
-</li>
-</ul>
-</li>
-<li><p><strong>生成并进入环境</strong></p>
-<ul>
-<li><p>使用命令创建环境：</p>
-<div class="code-wrapper"><pre><code class="hljs shell">conda create --name py37 python=3.7</code></pre></div>
-</li>
-<li><p>即创建了名为 py37 的环境，你可以自定义名字，python 设定用的版本。</p>
-<p>随后进入环境</p>
-<div class="code-wrapper"><pre><code class="hljs shell">conda activate py37</code></pre></div>
-</li>
-<li><p><strong>避坑：操作需要在 cmd 里做，而不是 powershell，不知道原理，但会报错。</strong></p>
-<p>如果在 powershell 里运行的话，会报错：</p>
-<div class="code-wrapper"><pre><code class="hljs powershell">CommandNotFoundError: Your shell has not been properly configured to use <span class="hljs-string">&#x27;conda activate&#x27;</span>.</code></pre></div>
-
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/v2-e641b91a6a360410b575d83c3030daf4_1440w.jpg" alt="img"></p>
-</li>
-</ul>
-</li>
-<li><p><strong>安装 ipython</strong></p>
-<ul>
-<li><p>ipython 的操作比 python 用起来舒服多了，具体介绍搜索网上</p>
-<div class="code-wrapper"><pre><code class="hljs shell">conda install ipython</code></pre></div>
-</li>
-<li><p>之后输入 ipython 进入 python。</p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="2-CUDA"><a href="#2-CUDA" class="headerlink" title="2 CUDA"></a>2 CUDA</h2><ul>
-<li><p>下载</p>
-<p>链接：<a href="https://developer.nvidia.com/cuda-10.2-download-archive">https://developer.nvidia.com/cuda-downloads</a></p>
-<p>依次选择：Windows -&gt; x86_64 -&gt; 10 -&gt; exe(local)，点击 Download。下载的为适合PyTorch的 <em>cuda_10.2.89_441.22_win10.exe</em></p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521112724889.png" alt="image-20210521112724889"></p>
-<p><strong>避坑：复制下载链接后用迅雷下载，比直接下载快数倍。</strong></p>
-</li>
-<li><p>安装</p>
-<ul>
-<li><p>注意，不要修改安装路径，因为改了没有用，安装程序还是会安装在 C盘下的 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA</p>
-</li>
-<li><p>必须手动添加环境变量。一般来说，CUDA_PATH，安装程序会自动写入。</p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521113202277.png" alt="image-20210521113202277"></p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521113121745.png" alt="image-20210521113121745"></p>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p><strong>测试</strong></p>
-<ul>
-<li><p>如果安装成功，在 cmd 里输入：</p>
-<div class="code-wrapper"><pre><code class="hljs shell">nvcc -V</code></pre></div>
-
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521113321717.png" alt="image-20210521113321717"></p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="3-cuDNN"><a href="#3-cuDNN" class="headerlink" title="3 cuDNN"></a>3 cuDNN</h2><ul>
-<li><p><strong>下载</strong></p>
-<p><strong>避坑：建议在翻墙的情况下操作，注册时的验证码是谷歌的。</strong></p>
-<p>你需要注册账号后才能继续。现在可以<strong>微信登录</strong>，方便了不少。</p>
-<p>链接：<a href="/compute/machine-learning/cudnn/secure/8.0.2.39/10.2_20200724/cudnn-10.2-windows10-x64-v8.0.2.39.zip">https://developer.nvidia.com</a></p>
-</li>
-<li><p><strong>安装</strong></p>
-<p>说是安装，其实是复制文件。</p>
-<p>下载后是一个压缩文件夹，解压文件夹，将里面的 3 个文件夹：bin，include，lib 里面的内容分别放入 CUDA 安装位置的对应文件夹。</p>
-<p>CUDA 安装的位置在：</p>
-<p>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.0</p>
-<p>不会出现覆盖的警告，因为是新增的文件。</p>
-</li>
-</ul>
-<h2 id="4-PyTorch"><a href="#4-PyTorch" class="headerlink" title="4 PyTorch"></a>4 PyTorch</h2><ul>
-<li><p><strong>1. 下载与安装</strong></p>
-<p><strong>避坑：务必在完成以上步骤后才进行。</strong></p>
-<p>网址：<a href="https://link.zhihu.com/?target=https%3A//pytorch.org/get-started/locally/">https://pytorch.org/get-started/locally/</a>，根据实际情况选择。</p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114119171.png" alt="image-20210521114119171"></p>
-<p>得到下载安装的命令：</p>
-<div class="code-wrapper"><pre><code class="hljs shell">conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch</code></pre></div>
-
-<p>使用 cmd 进入了我们之前设置的环境 py37 后，输入以上命令，开始安装 pytorch，如下图：</p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/v2-58b3d7c11020aca95ab177253cf5d1b0_1440w.jpg" alt="img"></p>
-<p><strong>避坑：很多教程里说，去掉 -c pytorch 后，可以加速下载。可以加速没错，但下载的东西却不是我们要的 gpu 版本，而是 cpu 版本，这也是很多人照着教程做，最终都无法使用 gpu 的，却百思不得其解。</strong></p>
-</li>
-<li><p><strong>2. 测试</strong></p>
-<ul>
-<li><p>等待安装完成后，输入 ipython 进入 python，输入：</p>
-<div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch
-torch.cuda.is_available()</code></pre></div>
-
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/v2-6acee085f9449a931afaee3cdd36336a_1440w.jpg" alt="img"></p>
-</li>
-<li><p>显示 True 即表明启用了 pytorch 的 gpu，到此安装结束。</p>
-</li>
-<li><p>如果 torch.cuda.isavailable() 是 False，你可能需要看看前面哪个步骤不对。</p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="5-Pycharm"><a href="#5-Pycharm" class="headerlink" title="5 Pycharm"></a>5 Pycharm</h2><ul>
-<li><p>创建一个项目 PyTorchTest</p>
-</li>
-<li><p>打开设置 Ctrl + Alt + s</p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114808829.png" alt="image-20210521114808829"></p>
-</li>
-<li><p>引入 py37 </p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114859777.png" alt="image-20210521114859777"></p>
-</li>
-<li><p>切换环境为 py37</p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114957218.png" alt="image-20210521114957218"></p>
-</li>
-<li><p>重启 Pycharm</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Win</category>
-      </categories>
-      <tags>
-        <tag>PyTorch</tag>
-        <tag>Win10</tag>
-        <tag>Deep learning</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>WSL和VM不兼容</title>
     <url>/2021/05/01/WSL%E5%92%8CVM/</url>
     <content><![CDATA[<h3 id="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"><a href="#WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭" class="headerlink" title="WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭"></a>WSL依赖于hyper-v必须开启，而VMware不依赖这个，必须关闭</h3><ul>
@@ -5481,6 +5318,169 @@ choco download firefox --internalize locale=es-AR</code></pre></div>
       <tags>
         <tag>choco</tag>
         <tag>win software management</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Win10 搭建 PyTorch 环境</title>
+    <url>/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<h1 id="Win10-搭建-PyTorch-环境"><a href="#Win10-搭建-PyTorch-环境" class="headerlink" title="Win10 搭建 PyTorch 环境"></a>Win10 搭建 PyTorch 环境</h1><h2 id="0-说明"><a href="#0-说明" class="headerlink" title="0 说明"></a>0 说明</h2><p>为了进行深度学习，需要电脑上安装相应的软件，pytorch 就是其中一种。至于 pytorch 是什么的科普，建议去网上搜索。</p>
+<p>而为了安装好 pytorch，需要安装众多软件，网上一搜一大把流程。但事实上随着技术的更新，很多流程都会变得过时，就像我现在这篇，因此我也特意标注了时间。</p>
+<p>本流程的目的是：在 win 10 上安装 pytorch 且能调用 GPU（你需要英伟达的显卡）。</p>
+<p>本流程涉及的程序有：conda，CUDA，cuDNN，pytorch。注意一定要按流程来，如果跳过了 cuDNN 安装 pytorch，是不会成功调用 GPU 的。</p>
+<h2 id="1-Miniconda3"><a href="#1-Miniconda3" class="headerlink" title="1 Miniconda3"></a>1 Miniconda3</h2><p>清华源镜像已经没有维护 miniconda，所以我们使用北外源。</p>
+<ul>
+<li><p><strong>下载地址</strong></p>
+<p><a href="https://mirrors.bfsu.edu.cn/anaconda/miniconda/">Index of /anaconda/miniconda</a></p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521111325301.png" alt="image-20210521111325301"></p>
+</li>
+<li><p><strong>配置环境变量</strong></p>
+<p>一般来说，安装程序会自动把四个 path 变量，写入系统变量的path变量中，但是会写入第一行，我们可以手动下移位置。</p>
+<ul>
+<li><p>打开 cmd（win+R，输入 cmd 后回车），输入 conda info，如果正确无误的话，会显示 conda 的信息。</p>
+</li>
+<li><p>为了 conda 的下载速度，需要添加国内的北外源，输入：</p>
+<div class="code-wrapper"><pre><code class="hljs shell">conda config --set show_channel_urls yes</code></pre></div>
+
+<p>创建配置文件 .condarc，该文件位于：C:\Users\你的用户名\ 下。</p>
+<p>用文本编辑器打开它，然后复制以下内容完全覆盖已有内容：</p>
+<div class="code-wrapper"><pre><code class="hljs shell">channels:
+  - defaults
+show_channel_urls: true
+default_channels:
+  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/main
+  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/r
+  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/msys2
+custom_channels:
+  conda-forge: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  msys2: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  bioconda: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  menpo: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  pytorch: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  simpleitk: https://mirrors.bfsu.edu.cn/anaconda/cloud</code></pre></div>
+</li>
+</ul>
+</li>
+<li><p><strong>生成并进入环境</strong></p>
+<ul>
+<li><p>使用命令创建环境：</p>
+<div class="code-wrapper"><pre><code class="hljs shell">conda create --name py37 python=3.7</code></pre></div>
+</li>
+<li><p>即创建了名为 py37 的环境，你可以自定义名字，python 设定用的版本。</p>
+<p>随后进入环境</p>
+<div class="code-wrapper"><pre><code class="hljs shell">conda activate py37</code></pre></div>
+</li>
+<li><p><strong>避坑：操作需要在 cmd 里做，而不是 powershell，不知道原理，但会报错。</strong></p>
+<p>如果在 powershell 里运行的话，会报错：</p>
+<div class="code-wrapper"><pre><code class="hljs powershell">CommandNotFoundError: Your shell has not been properly configured to use <span class="hljs-string">&#x27;conda activate&#x27;</span>.</code></pre></div>
+
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/v2-e641b91a6a360410b575d83c3030daf4_1440w.jpg" alt="img"></p>
+</li>
+</ul>
+</li>
+<li><p><strong>安装 ipython</strong></p>
+<ul>
+<li><p>ipython 的操作比 python 用起来舒服多了，具体介绍搜索网上</p>
+<div class="code-wrapper"><pre><code class="hljs shell">conda install ipython</code></pre></div>
+</li>
+<li><p>之后输入 ipython 进入 python。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-CUDA"><a href="#2-CUDA" class="headerlink" title="2 CUDA"></a>2 CUDA</h2><ul>
+<li><p>下载</p>
+<p>链接：<a href="https://developer.nvidia.com/cuda-10.2-download-archive">https://developer.nvidia.com/cuda-downloads</a></p>
+<p>依次选择：Windows -&gt; x86_64 -&gt; 10 -&gt; exe(local)，点击 Download。下载的为适合PyTorch的 <em>cuda_10.2.89_441.22_win10.exe</em></p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521112724889.png" alt="image-20210521112724889"></p>
+<p><strong>避坑：复制下载链接后用迅雷下载，比直接下载快数倍。</strong></p>
+</li>
+<li><p>安装</p>
+<ul>
+<li><p>注意，不要修改安装路径，因为改了没有用，安装程序还是会安装在 C盘下的 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA</p>
+</li>
+<li><p>必须手动添加环境变量。一般来说，CUDA_PATH，安装程序会自动写入。</p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521113202277.png" alt="image-20210521113202277"></p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521113121745.png" alt="image-20210521113121745"></p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>测试</strong></p>
+<ul>
+<li><p>如果安装成功，在 cmd 里输入：</p>
+<div class="code-wrapper"><pre><code class="hljs shell">nvcc -V</code></pre></div>
+
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521113321717.png" alt="image-20210521113321717"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-cuDNN"><a href="#3-cuDNN" class="headerlink" title="3 cuDNN"></a>3 cuDNN</h2><ul>
+<li><p><strong>下载</strong></p>
+<p><strong>避坑：建议在翻墙的情况下操作，注册时的验证码是谷歌的。</strong></p>
+<p>你需要注册账号后才能继续。现在可以<strong>微信登录</strong>，方便了不少。</p>
+<p>链接：<a href="/compute/machine-learning/cudnn/secure/8.0.2.39/10.2_20200724/cudnn-10.2-windows10-x64-v8.0.2.39.zip">https://developer.nvidia.com</a></p>
+</li>
+<li><p><strong>安装</strong></p>
+<p>说是安装，其实是复制文件。</p>
+<p>下载后是一个压缩文件夹，解压文件夹，将里面的 3 个文件夹：bin，include，lib 里面的内容分别放入 CUDA 安装位置的对应文件夹。</p>
+<p>CUDA 安装的位置在：</p>
+<p>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.0</p>
+<p>不会出现覆盖的警告，因为是新增的文件。</p>
+</li>
+</ul>
+<h2 id="4-PyTorch"><a href="#4-PyTorch" class="headerlink" title="4 PyTorch"></a>4 PyTorch</h2><ul>
+<li><p><strong>1. 下载与安装</strong></p>
+<p><strong>避坑：务必在完成以上步骤后才进行。</strong></p>
+<p>网址：<a href="https://link.zhihu.com/?target=https%3A//pytorch.org/get-started/locally/">https://pytorch.org/get-started/locally/</a>，根据实际情况选择。</p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114119171.png" alt="image-20210521114119171"></p>
+<p>得到下载安装的命令：</p>
+<div class="code-wrapper"><pre><code class="hljs shell">conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch</code></pre></div>
+
+<p>使用 cmd 进入了我们之前设置的环境 py37 后，输入以上命令，开始安装 pytorch，如下图：</p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/v2-58b3d7c11020aca95ab177253cf5d1b0_1440w.jpg" alt="img"></p>
+<p><strong>避坑：很多教程里说，去掉 -c pytorch 后，可以加速下载。可以加速没错，但下载的东西却不是我们要的 gpu 版本，而是 cpu 版本，这也是很多人照着教程做，最终都无法使用 gpu 的，却百思不得其解。</strong></p>
+</li>
+<li><p><strong>2. 测试</strong></p>
+<ul>
+<li><p>等待安装完成后，输入 ipython 进入 python，输入：</p>
+<div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch
+torch.cuda.is_available()</code></pre></div>
+
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/v2-6acee085f9449a931afaee3cdd36336a_1440w.jpg" alt="img"></p>
+</li>
+<li><p>显示 True 即表明启用了 pytorch 的 gpu，到此安装结束。</p>
+</li>
+<li><p>如果 torch.cuda.isavailable() 是 False，你可能需要看看前面哪个步骤不对。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="5-Pycharm"><a href="#5-Pycharm" class="headerlink" title="5 Pycharm"></a>5 Pycharm</h2><ul>
+<li><p>创建一个项目 PyTorchTest</p>
+</li>
+<li><p>打开设置 Ctrl + Alt + s</p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114808829.png" alt="image-20210521114808829"></p>
+</li>
+<li><p>引入 py37 </p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114859777.png" alt="image-20210521114859777"></p>
+</li>
+<li><p>切换环境为 py37</p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114957218.png" alt="image-20210521114957218"></p>
+</li>
+<li><p>重启 Pycharm</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Win</category>
+      </categories>
+      <tags>
+        <tag>PyTorch</tag>
+        <tag>Win10</tag>
+        <tag>Deep learning</tag>
       </tags>
   </entry>
   <entry>
@@ -5978,6 +5978,36 @@ c.NotebookApp.port = <span class="hljs-number">8888</span>（端口设置）</co
       </tags>
   </entry>
   <entry>
+    <title>覆写Python的内置方法</title>
+    <url>/2020/08/06/%E8%A6%86%E5%86%99Python%E7%9A%84%E5%86%85%E7%BD%AE%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="1-我们可以通过覆写类的内置方法str，来控制print-函数的打印格式"><a href="#1-我们可以通过覆写类的内置方法str，来控制print-函数的打印格式" class="headerlink" title="1.我们可以通过覆写类的内置方法str，来控制print()函数的打印格式"></a>1.我们可以通过覆写类的内置方法<strong>str</strong>，来控制print()函数的打印格式</h2><div class="code-wrapper"><pre><code>class Point:
+&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
+def __init__(self, x=0, y=0):
+    self.x = x
+    self.y = y
+def __str__(self):
+    return &quot;&lt;&#123;&#125;,&#123;&#125;&gt;&quot;.format(self.x, self.y)
+
+    if __name__ == &apos;__main__&apos;:
+point = Point(1, 1)
+print(point)</code></pre></div><h3 id="1-1-没有覆写内置方法str时，print-函数的打印结果："><a href="#1-1-没有覆写内置方法str时，print-函数的打印结果：" class="headerlink" title="1.1 没有覆写内置方法str时，print()函数的打印结果："></a>1.1 没有覆写内置方法<strong>str</strong>时，print()函数的打印结果：</h3><div class="code-wrapper"><pre><code>&lt;__main__.Point object at 0x000001D7FD4EB610&gt;
+仅仅只会显示类Point的实例对象point的地址</code></pre></div><h3 id="1-2-覆写内置方法str时，print-函数的打印结果："><a href="#1-2-覆写内置方法str时，print-函数的打印结果：" class="headerlink" title="1.2 覆写内置方法str时，print()函数的打印结果："></a>1.2 覆写内置方法<strong>str</strong>时，print()函数的打印结果：</h3><div class="code-wrapper"><pre><code>&lt;1,1&gt;
+就会打印出我们预想的结果</code></pre></div><h2 id="2-我们可以通过覆写类内置方法init，来获得类似于C-Java的访问限制"><a href="#2-我们可以通过覆写类内置方法init，来获得类似于C-Java的访问限制" class="headerlink" title="2.我们可以通过覆写类内置方法init，来获得类似于C++/Java的访问限制"></a>2.我们可以通过覆写类内置方法<strong>init</strong>，来获得类似于C++/Java的访问限制</h2><h3 id="2-1-私有属性的设置"><a href="#2-1-私有属性的设置" class="headerlink" title="2.1 私有属性的设置"></a>2.1 私有属性的设置</h3><div class="code-wrapper"><pre><code>class Point:
+&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
+def __init__(self, x=0, y=0):
+    self.__x = x
+    self.__y = y</code></pre></div><p> 前面加两个下划线，表示该属性只能直接在类里面直接访问，或者由类自己的方法来直接访问，类以外的不可以直接访问，但是我们同样可以向C++/Java那样书写Set和Get方法来间接的访问类的私有属性。</p>
+<h3 id="2-2-受保护属性的设置"><a href="#2-2-受保护属性的设置" class="headerlink" title="2.2 受保护属性的设置"></a>2.2 受保护属性的设置</h3><div class="code-wrapper"><pre><code>class Point:
+&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
+def __init__(self, x=0, y=0):
+    self._x = x
+    self._y = y</code></pre></div><p>受保护属性前面只用加一个下划线，其他的和私有属性基本一致</p>
+<h3 id="2-3-以上设置，均属于程序员自己的自我约束-规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。"><a href="#2-3-以上设置，均属于程序员自己的自我约束-规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。" class="headerlink" title="2.3 以上设置，均属于程序员自己的自我约束/规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。"></a>2.3 以上设置，均属于程序员自己的自我约束/规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。</h3>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+  </entry>
+  <entry>
     <title>链表之创建空链表</title>
     <url>/2019/12/14/%E9%93%BE%E8%A1%A8%E4%B9%8B%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%93%BE%E8%A1%A8/</url>
     <content><![CDATA[<h3 id="链表之创建空链表"><a href="#链表之创建空链表" class="headerlink" title="链表之创建空链表"></a>链表之创建空链表</h3><span id="more"></span>
@@ -6009,36 +6039,6 @@ struct node *next;
       <categories>
         <category>Technical</category>
         <category>C/C++</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>覆写Python的内置方法</title>
-    <url>/2020/08/06/%E8%A6%86%E5%86%99Python%E7%9A%84%E5%86%85%E7%BD%AE%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="1-我们可以通过覆写类的内置方法str，来控制print-函数的打印格式"><a href="#1-我们可以通过覆写类的内置方法str，来控制print-函数的打印格式" class="headerlink" title="1.我们可以通过覆写类的内置方法str，来控制print()函数的打印格式"></a>1.我们可以通过覆写类的内置方法<strong>str</strong>，来控制print()函数的打印格式</h2><div class="code-wrapper"><pre><code>class Point:
-&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
-def __init__(self, x=0, y=0):
-    self.x = x
-    self.y = y
-def __str__(self):
-    return &quot;&lt;&#123;&#125;,&#123;&#125;&gt;&quot;.format(self.x, self.y)
-
-    if __name__ == &apos;__main__&apos;:
-point = Point(1, 1)
-print(point)</code></pre></div><h3 id="1-1-没有覆写内置方法str时，print-函数的打印结果："><a href="#1-1-没有覆写内置方法str时，print-函数的打印结果：" class="headerlink" title="1.1 没有覆写内置方法str时，print()函数的打印结果："></a>1.1 没有覆写内置方法<strong>str</strong>时，print()函数的打印结果：</h3><div class="code-wrapper"><pre><code>&lt;__main__.Point object at 0x000001D7FD4EB610&gt;
-仅仅只会显示类Point的实例对象point的地址</code></pre></div><h3 id="1-2-覆写内置方法str时，print-函数的打印结果："><a href="#1-2-覆写内置方法str时，print-函数的打印结果：" class="headerlink" title="1.2 覆写内置方法str时，print()函数的打印结果："></a>1.2 覆写内置方法<strong>str</strong>时，print()函数的打印结果：</h3><div class="code-wrapper"><pre><code>&lt;1,1&gt;
-就会打印出我们预想的结果</code></pre></div><h2 id="2-我们可以通过覆写类内置方法init，来获得类似于C-Java的访问限制"><a href="#2-我们可以通过覆写类内置方法init，来获得类似于C-Java的访问限制" class="headerlink" title="2.我们可以通过覆写类内置方法init，来获得类似于C++/Java的访问限制"></a>2.我们可以通过覆写类内置方法<strong>init</strong>，来获得类似于C++/Java的访问限制</h2><h3 id="2-1-私有属性的设置"><a href="#2-1-私有属性的设置" class="headerlink" title="2.1 私有属性的设置"></a>2.1 私有属性的设置</h3><div class="code-wrapper"><pre><code>class Point:
-&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
-def __init__(self, x=0, y=0):
-    self.__x = x
-    self.__y = y</code></pre></div><p> 前面加两个下划线，表示该属性只能直接在类里面直接访问，或者由类自己的方法来直接访问，类以外的不可以直接访问，但是我们同样可以向C++/Java那样书写Set和Get方法来间接的访问类的私有属性。</p>
-<h3 id="2-2-受保护属性的设置"><a href="#2-2-受保护属性的设置" class="headerlink" title="2.2 受保护属性的设置"></a>2.2 受保护属性的设置</h3><div class="code-wrapper"><pre><code>class Point:
-&quot;&quot;&quot;简单的坐标类&quot;&quot;&quot;
-def __init__(self, x=0, y=0):
-    self._x = x
-    self._y = y</code></pre></div><p>受保护属性前面只用加一个下划线，其他的和私有属性基本一致</p>
-<h3 id="2-3-以上设置，均属于程序员自己的自我约束-规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。"><a href="#2-3-以上设置，均属于程序员自己的自我约束-规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。" class="headerlink" title="2.3 以上设置，均属于程序员自己的自我约束/规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。"></a>2.3 以上设置，均属于程序员自己的自我约束/规定，Python并没有强制要求这样书写，但大多数Python程序员都遵守此约定，所以我推荐各位也按照这样来书写，方便以后的阅读。</h3>]]></content>
-      <categories>
-        <category>Python</category>
       </categories>
   </entry>
   <entry>
@@ -40884,13 +40884,13 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </ul>
 <p>有没有一种新的技术诞生，让我们不再关注具体MQ的细节，我们只需要用一种适配绑定的方式，自动的给我们在各种MQ内切换。（类似于Hibernate）</p>
 <p>Cloud Stream是什么？屏蔽底层消息中间件的差异，降低切换成本，统一消息的编程模型。</p>
-<h3 id="7-2-Stream是什么及Binder介绍"><a href="#7-2-Stream是什么及Binder介绍" class="headerlink" title="7.2 Stream是什么及Binder介绍"></a>7.2 Stream是什么及Binder介绍</h3><p><a href="https://spring.io/projects/spring-cloud-stream#overview">官方文档1</a></p>
+<h3 id="7-2-Stream-是什么及-Binder-介绍"><a href="#7-2-Stream-是什么及-Binder-介绍" class="headerlink" title="7.2 Stream 是什么及 Binder 介绍"></a>7.2 Stream 是什么及 Binder 介绍</h3><p><a href="https://spring.io/projects/spring-cloud-stream#overview">官方文档1</a></p>
 <p><a href="https://cloud.spring.io/spring-tloud-static/spring-cloud-stream/3.0.1.RELEASE/reference/html/Spring">官方文档2</a></p>
 <p><a href="https://m.wang1314.com/doc/webapp/topic/20971999.html">Cloud Stream中文指导手册</a></p>
 <p><strong>什么是Spring Cloud Stream？</strong></p>
-<p>官方定义Spring Cloud Stream是一个构建消息驱动微服务的框架。</p>
+<p>官方定义 Spring Cloud Stream 是一个构建消息驱动微服务的框架。</p>
 <p>应用程序通过inputs或者 outputs 来与Spring Cloud Stream中binder对象交互。</p>
-<p>通过我们配置来binding(绑定)，而Spring Cloud Stream 的binder对象负责与消息中间件交互。所以，我们只需要搞清楚如何与Spring Cloud Stream交互就可以方便使用消息驱动的方式。</p>
+<p>通过我们配置来binding(绑定)，而 Spring Cloud Stream 的binder对象负责与消息中间件交互。所以，我们只需要搞清楚如何与Spring Cloud Stream 交互，就可以方便使用消息驱动的方式。</p>
 <p>通过使用Spring Integration来连接消息代理中间件以实现消息事件驱动。<br>Spring Cloud Stream为一些供应商的消息中间件产品提供了个性化的自动化配置实现，引用了发布-订阅、消费组、分区的三个核心概念。</p>
 <p>目前仅支持RabbitMQ、 Kafka。</p>
 <h3 id="7-3-Stream的设计思想"><a href="#7-3-Stream的设计思想" class="headerlink" title="7.3 Stream的设计思想"></a>7.3 Stream的设计思想</h3><h4 id="1-标准MQ"><a href="#1-标准MQ" class="headerlink" title="1 标准MQ"></a>1 <strong>标准MQ</strong></h4><p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/dd57e502418ecdae99f29991abe8bb02.png" alt></p>
@@ -40902,7 +40902,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <h4 id="2-为什么用Cloud-Stream？"><a href="#2-为什么用Cloud-Stream？" class="headerlink" title="2 为什么用Cloud Stream？"></a>2 <strong>为什么用Cloud Stream？</strong></h4><p>比方说我们用到了RabbitMQ和Kafka，由于这两个消息中间件的架构上的不同，像RabbitMQ有exchange，kafka有Topic和Partitions分区。</p>
 <p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/5587b05def1c26b8c9d9874c78f80b28.png" alt></p>
 <p>这些中间件的差异性导致我们实际项目开发给我们造成了一定的困扰，我们如果用了两个消息队列的其中一种，后面的业务需求，我想往另外一种消息队列进行迁移，这时候无疑就是一个灾难性的，一大堆东西都要重新推倒重新做，因为它跟我们的系统耦合了，这时候Spring Cloud Stream给我们提供了—种解耦合的方式。</p>
-<h4 id="3-Stream凭什么可以统一底层差异？"><a href="#3-Stream凭什么可以统一底层差异？" class="headerlink" title="3 Stream凭什么可以统一底层差异？"></a>3 <strong>Stream凭什么可以统一底层差异？</strong></h4><p>在没有绑定器这个概念的情况下，我们的SpringBoot应用要直接与消息中间件进行信息交互的时候，由于各消息中间件构建的初衷不同，它们的实现细节上会有较大的差异性通过定义绑定器作为中间层，完美地实现了应用程序与消息中间件细节之间的隔离。通过向应用程序暴露统一的Channel通道，使得应用程序不需要再考虑各种不同的消息中间件实现。</p>
+<h4 id="3-Stream凭什么可以统一底层差异？"><a href="#3-Stream凭什么可以统一底层差异？" class="headerlink" title="3 Stream凭什么可以统一底层差异？"></a>3 <strong>Stream凭什么可以统一底层差异？</strong></h4><p>在没有绑定器这个概念的情况下，我们的 SpringBoot 应用要直接与消息中间件进行信息交互的时候，由于各消息中间件构建的初衷不同，它们的实现细节上会有较大的差异性通过定义<strong>绑定器</strong>作为中间层，完美地实现了应用程序与消息中间件细节之间的隔离。通过向应用程序暴露统一的Channel通道，使得应用程序不需要再考虑各种不同的消息中间件实现。</p>
 <h4 id="4-通过定义绑定器Binder作为中间层，实现了应用程序与消息中间件细节之间的隔离。"><a href="#4-通过定义绑定器Binder作为中间层，实现了应用程序与消息中间件细节之间的隔离。" class="headerlink" title="4 通过定义绑定器Binder作为中间层，实现了应用程序与消息中间件细节之间的隔离。"></a>4 <strong>通过定义绑定器Binder作为中间层，实现了应用程序与消息中间件细节之间的隔离</strong>。</h4><p><strong>Binder</strong>：</p>
 <ul>
 <li>INPUT对应于消费者</li>
@@ -40914,7 +40914,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <li>在RabbitMQ就是Exchange</li>
 <li>在Kakfa中就是Topic</li>
 </ul>
-<h3 id="7-4-Stream编码常用注解简介"><a href="#7-4-Stream编码常用注解简介" class="headerlink" title="7.4 Stream编码常用注解简介"></a>7.4 Stream编码常用注解简介</h3><h4 id="1-Spring-Cloud-Stream标准流程套路"><a href="#1-Spring-Cloud-Stream标准流程套路" class="headerlink" title="1 Spring Cloud Stream标准流程套路"></a>1 <strong>Spring Cloud Stream标准流程套路</strong></h4><p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/077a3b34aec6eed91a7019a9d5ca4e3c.png" alt></p>
+<h3 id="7-4-Stream编码常用注解简介"><a href="#7-4-Stream编码常用注解简介" class="headerlink" title="7.4 Stream编码常用注解简介"></a>7.4 Stream编码常用注解简介</h3><h4 id="1-Spring-Cloud-Stream-标准流程套路"><a href="#1-Spring-Cloud-Stream-标准流程套路" class="headerlink" title="1 Spring Cloud Stream 标准流程套路"></a>1 <strong>Spring Cloud Stream 标准流程套路</strong></h4><p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/077a3b34aec6eed91a7019a9d5ca4e3c.png" alt></p>
 <p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/1ca02dd31581d92a7a610bcd137f6848.png" alt></p>
 <ul>
 <li>Binder - 很方便的连接中间件，屏蔽差异。</li>
@@ -40938,7 +40938,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </tr>
 <tr>
 <td>@Input</td>
-<td>注解标识输入通道，通过该输乎通道接收到的消息进入应用程序</td>
+<td>注解标识输入通道，通过该输入通道接收到的消息进入应用程序</td>
 </tr>
 <tr>
 <td>@Output</td>
@@ -41069,7 +41069,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 &#125;</code></pre></div>
 </li>
 <li><p>发送消息接口实现类</p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.lun.springcloud.service.IMessageProvider;
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.pnca.springcloud.service.IMessageProvider;
 <span class="hljs-keyword">import</span> org.springframework.cloud.stream.annotation.EnableBinding;
 <span class="hljs-keyword">import</span> org.springframework.cloud.stream.messaging.Source;
 <span class="hljs-keyword">import</span> org.springframework.integration.support.MessageBuilder;
@@ -41096,7 +41096,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 &#125;</code></pre></div>
 </li>
 <li><p>Controller</p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.lun.springcloud.service.IMessageProvider;
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.pnca.springcloud.service.IMessageProvider;
 <span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.GetMapping;
 <span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RestController;
 
@@ -41121,7 +41121,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <ul>
 <li><p>启动 7001eureka</p>
 </li>
-<li><p>启动 RabpitMq</p>
+<li><p>启动 RabbitMq</p>
 <ul>
 <li>rabbitmq-plugins enable rabbitmq_management</li>
 <li><a href="http://localhost:15672/">http://localhost:15672/</a></li>
@@ -41354,8 +41354,8 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <p>8801先发送4条消息到RabbitMq。</p>
 <p>先启动8802，无分组属性配置，后台没有打出来消息。</p>
 <p>再启动8803，有分组属性配置，后台打出来了MQ上的消息。(消息持久化体现)</p>
-<h2 id="7-Sleuth"><a href="#7-Sleuth" class="headerlink" title="7 Sleuth"></a>7 Sleuth</h2><p>服务追踪</p>
-<h3 id="7-1-Sleuth是什么"><a href="#7-1-Sleuth是什么" class="headerlink" title="7.1 Sleuth是什么"></a>7.1 Sleuth是什么</h3><p><strong>为什么会出现这个技术？要解决哪些问题？</strong></p>
+<h2 id="8-Sleuth"><a href="#8-Sleuth" class="headerlink" title="8 Sleuth"></a>8 Sleuth</h2><p>服务追踪</p>
+<h3 id="8-1-Sleuth是什么"><a href="#8-1-Sleuth是什么" class="headerlink" title="8.1 Sleuth是什么"></a>8.1 Sleuth是什么</h3><p><strong>为什么会出现这个技术？要解决哪些问题？</strong></p>
 <p>在微服务框架中，一个由客户端发起的请求在后端系统中会经过多个不同的的服务节点调用来协同产生最后的请求结果，每一个前段请求都会形成一条复杂的分布式服务调用链路，链路中的任何一环出现高延时或错误都会引起整个请求最后的失败。</p>
 <p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/b40478e2b2c83d7181b9c71cdcae05ea.png" alt></p>
 <p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/f97d15b5686264d45b46f6f188e99873.png" alt></p>
@@ -41370,7 +41370,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <blockquote>
 <p>  sleuth<br>  英 [sluːθ] 美 [sluːθ]<br>  n. 侦探</p>
 </blockquote>
-<h3 id="7-2-Sleuth之zipkin搭建安装"><a href="#7-2-Sleuth之zipkin搭建安装" class="headerlink" title="7.2 Sleuth之zipkin搭建安装"></a>7.2 Sleuth之zipkin搭建安装</h3><p><strong>下载</strong></p>
+<h3 id="8-2-Sleuth之zipkin搭建安装"><a href="#8-2-Sleuth之zipkin搭建安装" class="headerlink" title="8.2 Sleuth之zipkin搭建安装"></a>8.2 Sleuth之zipkin搭建安装</h3><p><strong>下载</strong></p>
 <ul>
 <li>SpringCloud从F版起已不需要自己构建Zipkin Server了，只需调用jar包即可</li>
 <li><a href="https://dl.bintray.com/openzipkin/maven/io/zipkin/java/zipkin-server/">https://dl.bintray.com/openzipkin/maven/io/zipkin/java/zipkin-server/</a></li>
@@ -41394,7 +41394,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <li>Trace：类似于树结构的Span集合，表示一条调用链路，存在唯一标识</li>
 <li>span：表示调用链路来源，通俗的理解span就是一次请求信息</li>
 </ul>
-<h3 id="7-3-Sleuth链路监控展现"><a href="#7-3-Sleuth链路监控展现" class="headerlink" title="7.3 Sleuth链路监控展现"></a>7.3 Sleuth链路监控展现</h3><p>服务提供者</p>
+<h3 id="8-3-Sleuth链路监控展现"><a href="#8-3-Sleuth链路监控展现" class="headerlink" title="8.3 Sleuth链路监控展现"></a>8.3 Sleuth链路监控展现</h3><p>服务提供者</p>
 <p>cloud-provider-payment8001</p>
 <p><strong>POM</strong></p>
 <div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--包含了sleuth+zipkin--&gt;</span>
@@ -41459,12 +41459,12 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <p>依次启动eureka7001/8001/80 - 80调用8001几次测试下</p>
 <p>打开浏览器访问: <a href="http://localhost:9411">http://localhost:9411</a></p>
 <p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/733ad2e18037059045ec80cb59d8d2a3.png" alt></p>
-<h2 id="8-Cloud-Alibaba简介"><a href="#8-Cloud-Alibaba简介" class="headerlink" title="8 Cloud Alibaba简介"></a>8 Cloud Alibaba简介</h2><h3 id="8-1-为什么会出现SpringCloud-alibaba"><a href="#8-1-为什么会出现SpringCloud-alibaba" class="headerlink" title="8.1 为什么会出现SpringCloud alibaba"></a>8.1 为什么会出现SpringCloud alibaba</h3><p>Spring Cloud Netflix项目进入维护模式</p>
+<h2 id="9-Cloud-Alibaba简介"><a href="#9-Cloud-Alibaba简介" class="headerlink" title="9 Cloud Alibaba简介"></a>9 Cloud Alibaba简介</h2><h3 id="9-1-为什么会出现SpringCloud-alibaba"><a href="#9-1-为什么会出现SpringCloud-alibaba" class="headerlink" title="9.1 为什么会出现SpringCloud alibaba"></a>9.1 为什么会出现SpringCloud alibaba</h3><p>Spring Cloud Netflix项目进入维护模式</p>
 <p><a href="https://spring.io/blog/2018/12/12/spring-cloud-greenwich-rc1-available-now">https://spring.io/blog/2018/12/12/spring-cloud-greenwich-rc1-available-now</a></p>
 <p>什么是维护模式？</p>
 <p>将模块置于维护模式，意味着Spring Cloud团队将不会再向模块添加新功能。</p>
 <p>他们将修复block级别的 bug 以及安全问题，他们也会考虑并审查社区的小型pull request。</p>
-<h3 id="8-2-SpringCloud-alibaba带来了什么"><a href="#8-2-SpringCloud-alibaba带来了什么" class="headerlink" title="8.2 SpringCloud alibaba带来了什么"></a>8.2 SpringCloud alibaba带来了什么</h3><h4 id="是什么-2"><a href="#是什么-2" class="headerlink" title="是什么"></a><strong>是什么</strong></h4><p><a href="https://github.com/alibaba/spring-cloud-alibaba/blob/master/README-zh.md">官网 (github.com)</a></p>
+<h3 id="9-2-SpringCloud-alibaba带来了什么"><a href="#9-2-SpringCloud-alibaba带来了什么" class="headerlink" title="9.2 SpringCloud alibaba带来了什么"></a>9.2 SpringCloud alibaba带来了什么</h3><h4 id="是什么-2"><a href="#是什么-2" class="headerlink" title="是什么"></a><strong>是什么</strong></h4><p><a href="https://github.com/alibaba/spring-cloud-alibaba/blob/master/README-zh.md">官网 (github.com)</a></p>
 <p>Spring Cloud Alibaba 致力于提供微服务开发的一站式解决方案。此项目包含开发分布式应用微服务的必需组件，方便开发者通过 Spring Cloud 编程模型轻松使用这些组件来开发分布式应用服务。</p>
 <p>依托 Spring Cloud Alibaba，您只需要添加一些注解和少量配置，就可以将 Spring Cloud 应用接入阿里微服务解决方案，通过阿里中间件来迅速搭建分布式应用系统。</p>
 <p>诞生：2018.10.31，Spring Cloud Alibaba 正式入驻了Spring Cloud官方孵化器，并在Maven 中央库发布了第一个版本。</p>
@@ -41510,7 +41510,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <li><p><strong><a href="https://www.aliyun.com/product/sms">Alibaba Cloud SMS</a></strong>: 覆盖全球的短信服务，友好、高效、智能的互联化通讯能力，帮助企业迅速搭建客户触达通道。</p>
 </li>
 </ul>
-<h3 id="8-3-Spring-Cloud-Alibaba学习资料获取"><a href="#8-3-Spring-Cloud-Alibaba学习资料获取" class="headerlink" title="8.3 Spring Cloud Alibaba学习资料获取"></a>8.3 Spring Cloud Alibaba学习资料获取</h3><ul>
+<h3 id="9-3-Spring-Cloud-Alibaba学习资料获取"><a href="#9-3-Spring-Cloud-Alibaba学习资料获取" class="headerlink" title="9.3 Spring Cloud Alibaba学习资料获取"></a>9.3 Spring Cloud Alibaba学习资料获取</h3><ul>
 <li><p>官网</p>
 <ul>
 <li><a href="https://spring.io/projects/spring-cloud-alibaba#overview">https://spring.io/projects/spring-cloud-alibaba#overview</a></li>

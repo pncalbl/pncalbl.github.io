@@ -235,7 +235,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 天前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -3334,13 +3334,13 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </ul>
 <p>有没有一种新的技术诞生，让我们不再关注具体MQ的细节，我们只需要用一种适配绑定的方式，自动的给我们在各种MQ内切换。（类似于Hibernate）</p>
 <p>Cloud Stream是什么？屏蔽底层消息中间件的差异，降低切换成本，统一消息的编程模型。</p>
-<h3 id="7-2-Stream是什么及Binder介绍"><a href="#7-2-Stream是什么及Binder介绍" class="headerlink" title="7.2 Stream是什么及Binder介绍"></a>7.2 Stream是什么及Binder介绍</h3><p><a target="_blank" rel="noopener" href="https://spring.io/projects/spring-cloud-stream#overview">官方文档1</a></p>
+<h3 id="7-2-Stream-是什么及-Binder-介绍"><a href="#7-2-Stream-是什么及-Binder-介绍" class="headerlink" title="7.2 Stream 是什么及 Binder 介绍"></a>7.2 Stream 是什么及 Binder 介绍</h3><p><a target="_blank" rel="noopener" href="https://spring.io/projects/spring-cloud-stream#overview">官方文档1</a></p>
 <p><a target="_blank" rel="noopener" href="https://cloud.spring.io/spring-tloud-static/spring-cloud-stream/3.0.1.RELEASE/reference/html/Spring">官方文档2</a></p>
 <p><a target="_blank" rel="noopener" href="https://m.wang1314.com/doc/webapp/topic/20971999.html">Cloud Stream中文指导手册</a></p>
 <p><strong>什么是Spring Cloud Stream？</strong></p>
-<p>官方定义Spring Cloud Stream是一个构建消息驱动微服务的框架。</p>
+<p>官方定义 Spring Cloud Stream 是一个构建消息驱动微服务的框架。</p>
 <p>应用程序通过inputs或者 outputs 来与Spring Cloud Stream中binder对象交互。</p>
-<p>通过我们配置来binding(绑定)，而Spring Cloud Stream 的binder对象负责与消息中间件交互。所以，我们只需要搞清楚如何与Spring Cloud Stream交互就可以方便使用消息驱动的方式。</p>
+<p>通过我们配置来binding(绑定)，而 Spring Cloud Stream 的binder对象负责与消息中间件交互。所以，我们只需要搞清楚如何与Spring Cloud Stream 交互，就可以方便使用消息驱动的方式。</p>
 <p>通过使用Spring Integration来连接消息代理中间件以实现消息事件驱动。<br>Spring Cloud Stream为一些供应商的消息中间件产品提供了个性化的自动化配置实现，引用了发布-订阅、消费组、分区的三个核心概念。</p>
 <p>目前仅支持RabbitMQ、 Kafka。</p>
 <h3 id="7-3-Stream的设计思想"><a href="#7-3-Stream的设计思想" class="headerlink" title="7.3 Stream的设计思想"></a>7.3 Stream的设计思想</h3><h4 id="1-标准MQ"><a href="#1-标准MQ" class="headerlink" title="1 标准MQ"></a>1 <strong>标准MQ</strong></h4><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/dd57e502418ecdae99f29991abe8bb02.png" alt></p>
@@ -3352,7 +3352,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <h4 id="2-为什么用Cloud-Stream？"><a href="#2-为什么用Cloud-Stream？" class="headerlink" title="2 为什么用Cloud Stream？"></a>2 <strong>为什么用Cloud Stream？</strong></h4><p>比方说我们用到了RabbitMQ和Kafka，由于这两个消息中间件的架构上的不同，像RabbitMQ有exchange，kafka有Topic和Partitions分区。</p>
 <p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/5587b05def1c26b8c9d9874c78f80b28.png" alt></p>
 <p>这些中间件的差异性导致我们实际项目开发给我们造成了一定的困扰，我们如果用了两个消息队列的其中一种，后面的业务需求，我想往另外一种消息队列进行迁移，这时候无疑就是一个灾难性的，一大堆东西都要重新推倒重新做，因为它跟我们的系统耦合了，这时候Spring Cloud Stream给我们提供了—种解耦合的方式。</p>
-<h4 id="3-Stream凭什么可以统一底层差异？"><a href="#3-Stream凭什么可以统一底层差异？" class="headerlink" title="3 Stream凭什么可以统一底层差异？"></a>3 <strong>Stream凭什么可以统一底层差异？</strong></h4><p>在没有绑定器这个概念的情况下，我们的SpringBoot应用要直接与消息中间件进行信息交互的时候，由于各消息中间件构建的初衷不同，它们的实现细节上会有较大的差异性通过定义绑定器作为中间层，完美地实现了应用程序与消息中间件细节之间的隔离。通过向应用程序暴露统一的Channel通道，使得应用程序不需要再考虑各种不同的消息中间件实现。</p>
+<h4 id="3-Stream凭什么可以统一底层差异？"><a href="#3-Stream凭什么可以统一底层差异？" class="headerlink" title="3 Stream凭什么可以统一底层差异？"></a>3 <strong>Stream凭什么可以统一底层差异？</strong></h4><p>在没有绑定器这个概念的情况下，我们的 SpringBoot 应用要直接与消息中间件进行信息交互的时候，由于各消息中间件构建的初衷不同，它们的实现细节上会有较大的差异性通过定义<strong>绑定器</strong>作为中间层，完美地实现了应用程序与消息中间件细节之间的隔离。通过向应用程序暴露统一的Channel通道，使得应用程序不需要再考虑各种不同的消息中间件实现。</p>
 <h4 id="4-通过定义绑定器Binder作为中间层，实现了应用程序与消息中间件细节之间的隔离。"><a href="#4-通过定义绑定器Binder作为中间层，实现了应用程序与消息中间件细节之间的隔离。" class="headerlink" title="4 通过定义绑定器Binder作为中间层，实现了应用程序与消息中间件细节之间的隔离。"></a>4 <strong>通过定义绑定器Binder作为中间层，实现了应用程序与消息中间件细节之间的隔离</strong>。</h4><p><strong>Binder</strong>：</p>
 <ul>
 <li>INPUT对应于消费者</li>
@@ -3364,7 +3364,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <li>在RabbitMQ就是Exchange</li>
 <li>在Kakfa中就是Topic</li>
 </ul>
-<h3 id="7-4-Stream编码常用注解简介"><a href="#7-4-Stream编码常用注解简介" class="headerlink" title="7.4 Stream编码常用注解简介"></a>7.4 Stream编码常用注解简介</h3><h4 id="1-Spring-Cloud-Stream标准流程套路"><a href="#1-Spring-Cloud-Stream标准流程套路" class="headerlink" title="1 Spring Cloud Stream标准流程套路"></a>1 <strong>Spring Cloud Stream标准流程套路</strong></h4><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/077a3b34aec6eed91a7019a9d5ca4e3c.png" alt></p>
+<h3 id="7-4-Stream编码常用注解简介"><a href="#7-4-Stream编码常用注解简介" class="headerlink" title="7.4 Stream编码常用注解简介"></a>7.4 Stream编码常用注解简介</h3><h4 id="1-Spring-Cloud-Stream-标准流程套路"><a href="#1-Spring-Cloud-Stream-标准流程套路" class="headerlink" title="1 Spring Cloud Stream 标准流程套路"></a>1 <strong>Spring Cloud Stream 标准流程套路</strong></h4><p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/077a3b34aec6eed91a7019a9d5ca4e3c.png" alt></p>
 <p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/1ca02dd31581d92a7a610bcd137f6848.png" alt></p>
 <ul>
 <li>Binder - 很方便的连接中间件，屏蔽差异。</li>
@@ -3388,7 +3388,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </tr>
 <tr>
 <td>@Input</td>
-<td>注解标识输入通道，通过该输乎通道接收到的消息进入应用程序</td>
+<td>注解标识输入通道，通过该输入通道接收到的消息进入应用程序</td>
 </tr>
 <tr>
 <td>@Output</td>
@@ -3519,7 +3519,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 &#125;</code></pre></div>
 </li>
 <li><p>发送消息接口实现类</p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.lun.springcloud.service.IMessageProvider;
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.pnca.springcloud.service.IMessageProvider;
 <span class="hljs-keyword">import</span> org.springframework.cloud.stream.annotation.EnableBinding;
 <span class="hljs-keyword">import</span> org.springframework.cloud.stream.messaging.Source;
 <span class="hljs-keyword">import</span> org.springframework.integration.support.MessageBuilder;
@@ -3546,7 +3546,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 &#125;</code></pre></div>
 </li>
 <li><p>Controller</p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.lun.springcloud.service.IMessageProvider;
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.pnca.springcloud.service.IMessageProvider;
 <span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.GetMapping;
 <span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RestController;
 
@@ -3571,7 +3571,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <ul>
 <li><p>启动 7001eureka</p>
 </li>
-<li><p>启动 RabpitMq</p>
+<li><p>启动 RabbitMq</p>
 <ul>
 <li>rabbitmq-plugins enable rabbitmq_management</li>
 <li><a target="_blank" rel="noopener" href="http://localhost:15672/">http://localhost:15672/</a></li>
@@ -3804,8 +3804,8 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <p>8801先发送4条消息到RabbitMq。</p>
 <p>先启动8802，无分组属性配置，后台没有打出来消息。</p>
 <p>再启动8803，有分组属性配置，后台打出来了MQ上的消息。(消息持久化体现)</p>
-<h2 id="7-Sleuth"><a href="#7-Sleuth" class="headerlink" title="7 Sleuth"></a>7 Sleuth</h2><p>服务追踪</p>
-<h3 id="7-1-Sleuth是什么"><a href="#7-1-Sleuth是什么" class="headerlink" title="7.1 Sleuth是什么"></a>7.1 Sleuth是什么</h3><p><strong>为什么会出现这个技术？要解决哪些问题？</strong></p>
+<h2 id="8-Sleuth"><a href="#8-Sleuth" class="headerlink" title="8 Sleuth"></a>8 Sleuth</h2><p>服务追踪</p>
+<h3 id="8-1-Sleuth是什么"><a href="#8-1-Sleuth是什么" class="headerlink" title="8.1 Sleuth是什么"></a>8.1 Sleuth是什么</h3><p><strong>为什么会出现这个技术？要解决哪些问题？</strong></p>
 <p>在微服务框架中，一个由客户端发起的请求在后端系统中会经过多个不同的的服务节点调用来协同产生最后的请求结果，每一个前段请求都会形成一条复杂的分布式服务调用链路，链路中的任何一环出现高延时或错误都会引起整个请求最后的失败。</p>
 <p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/b40478e2b2c83d7181b9c71cdcae05ea.png" alt></p>
 <p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/f97d15b5686264d45b46f6f188e99873.png" alt></p>
@@ -3820,7 +3820,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <blockquote>
 <p>  sleuth<br>  英 [sluːθ] 美 [sluːθ]<br>  n. 侦探</p>
 </blockquote>
-<h3 id="7-2-Sleuth之zipkin搭建安装"><a href="#7-2-Sleuth之zipkin搭建安装" class="headerlink" title="7.2 Sleuth之zipkin搭建安装"></a>7.2 Sleuth之zipkin搭建安装</h3><p><strong>下载</strong></p>
+<h3 id="8-2-Sleuth之zipkin搭建安装"><a href="#8-2-Sleuth之zipkin搭建安装" class="headerlink" title="8.2 Sleuth之zipkin搭建安装"></a>8.2 Sleuth之zipkin搭建安装</h3><p><strong>下载</strong></p>
 <ul>
 <li>SpringCloud从F版起已不需要自己构建Zipkin Server了，只需调用jar包即可</li>
 <li><a target="_blank" rel="noopener" href="https://dl.bintray.com/openzipkin/maven/io/zipkin/java/zipkin-server/">https://dl.bintray.com/openzipkin/maven/io/zipkin/java/zipkin-server/</a></li>
@@ -3844,7 +3844,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <li>Trace：类似于树结构的Span集合，表示一条调用链路，存在唯一标识</li>
 <li>span：表示调用链路来源，通俗的理解span就是一次请求信息</li>
 </ul>
-<h3 id="7-3-Sleuth链路监控展现"><a href="#7-3-Sleuth链路监控展现" class="headerlink" title="7.3 Sleuth链路监控展现"></a>7.3 Sleuth链路监控展现</h3><p>服务提供者</p>
+<h3 id="8-3-Sleuth链路监控展现"><a href="#8-3-Sleuth链路监控展现" class="headerlink" title="8.3 Sleuth链路监控展现"></a>8.3 Sleuth链路监控展现</h3><p>服务提供者</p>
 <p>cloud-provider-payment8001</p>
 <p><strong>POM</strong></p>
 <div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--包含了sleuth+zipkin--&gt;</span>
@@ -3909,12 +3909,12 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <p>依次启动eureka7001/8001/80 - 80调用8001几次测试下</p>
 <p>打开浏览器访问: <a target="_blank" rel="noopener" href="http://localhost:9411">http://localhost:9411</a></p>
 <p><img src="/uploads/loading.jpg" srcset="/img/loading.gif" lazyload data-original="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/733ad2e18037059045ec80cb59d8d2a3.png" alt></p>
-<h2 id="8-Cloud-Alibaba简介"><a href="#8-Cloud-Alibaba简介" class="headerlink" title="8 Cloud Alibaba简介"></a>8 Cloud Alibaba简介</h2><h3 id="8-1-为什么会出现SpringCloud-alibaba"><a href="#8-1-为什么会出现SpringCloud-alibaba" class="headerlink" title="8.1 为什么会出现SpringCloud alibaba"></a>8.1 为什么会出现SpringCloud alibaba</h3><p>Spring Cloud Netflix项目进入维护模式</p>
+<h2 id="9-Cloud-Alibaba简介"><a href="#9-Cloud-Alibaba简介" class="headerlink" title="9 Cloud Alibaba简介"></a>9 Cloud Alibaba简介</h2><h3 id="9-1-为什么会出现SpringCloud-alibaba"><a href="#9-1-为什么会出现SpringCloud-alibaba" class="headerlink" title="9.1 为什么会出现SpringCloud alibaba"></a>9.1 为什么会出现SpringCloud alibaba</h3><p>Spring Cloud Netflix项目进入维护模式</p>
 <p><a target="_blank" rel="noopener" href="https://spring.io/blog/2018/12/12/spring-cloud-greenwich-rc1-available-now">https://spring.io/blog/2018/12/12/spring-cloud-greenwich-rc1-available-now</a></p>
 <p>什么是维护模式？</p>
 <p>将模块置于维护模式，意味着Spring Cloud团队将不会再向模块添加新功能。</p>
 <p>他们将修复block级别的 bug 以及安全问题，他们也会考虑并审查社区的小型pull request。</p>
-<h3 id="8-2-SpringCloud-alibaba带来了什么"><a href="#8-2-SpringCloud-alibaba带来了什么" class="headerlink" title="8.2 SpringCloud alibaba带来了什么"></a>8.2 SpringCloud alibaba带来了什么</h3><h4 id="是什么-2"><a href="#是什么-2" class="headerlink" title="是什么"></a><strong>是什么</strong></h4><p><a target="_blank" rel="noopener" href="https://github.com/alibaba/spring-cloud-alibaba/blob/master/README-zh.md">官网 (github.com)</a></p>
+<h3 id="9-2-SpringCloud-alibaba带来了什么"><a href="#9-2-SpringCloud-alibaba带来了什么" class="headerlink" title="9.2 SpringCloud alibaba带来了什么"></a>9.2 SpringCloud alibaba带来了什么</h3><h4 id="是什么-2"><a href="#是什么-2" class="headerlink" title="是什么"></a><strong>是什么</strong></h4><p><a target="_blank" rel="noopener" href="https://github.com/alibaba/spring-cloud-alibaba/blob/master/README-zh.md">官网 (github.com)</a></p>
 <p>Spring Cloud Alibaba 致力于提供微服务开发的一站式解决方案。此项目包含开发分布式应用微服务的必需组件，方便开发者通过 Spring Cloud 编程模型轻松使用这些组件来开发分布式应用服务。</p>
 <p>依托 Spring Cloud Alibaba，您只需要添加一些注解和少量配置，就可以将 Spring Cloud 应用接入阿里微服务解决方案，通过阿里中间件来迅速搭建分布式应用系统。</p>
 <p>诞生：2018.10.31，Spring Cloud Alibaba 正式入驻了Spring Cloud官方孵化器，并在Maven 中央库发布了第一个版本。</p>
@@ -3960,7 +3960,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <li><p><strong><a target="_blank" rel="noopener" href="https://www.aliyun.com/product/sms">Alibaba Cloud SMS</a></strong>: 覆盖全球的短信服务，友好、高效、智能的互联化通讯能力，帮助企业迅速搭建客户触达通道。</p>
 </li>
 </ul>
-<h3 id="8-3-Spring-Cloud-Alibaba学习资料获取"><a href="#8-3-Spring-Cloud-Alibaba学习资料获取" class="headerlink" title="8.3 Spring Cloud Alibaba学习资料获取"></a>8.3 Spring Cloud Alibaba学习资料获取</h3><ul>
+<h3 id="9-3-Spring-Cloud-Alibaba学习资料获取"><a href="#9-3-Spring-Cloud-Alibaba学习资料获取" class="headerlink" title="9.3 Spring Cloud Alibaba学习资料获取"></a>9.3 Spring Cloud Alibaba学习资料获取</h3><ul>
 <li><p>官网</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://spring.io/projects/spring-cloud-alibaba#overview">https://spring.io/projects/spring-cloud-alibaba#overview</a></li>
