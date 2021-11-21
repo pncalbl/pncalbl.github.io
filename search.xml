@@ -22,27 +22,6 @@
       </categories>
   </entry>
   <entry>
-    <title>2021大三第一学期第7周总结</title>
-    <url>/2021/10/17/2021%E5%A4%A7%E4%B8%89%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%AC%AC7%E5%91%A8%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h1 id="2021大三第一学期-第7周总结"><a href="#2021大三第一学期-第7周总结" class="headerlink" title="2021大三第一学期 第7周总结"></a>2021大三第一学期 第7周总结</h1><h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><ul>
-<li>计算机英语的进一步学习，Verilog-FPGA 的实验和控制逻辑。</li>
-<li>嵌入式系统的进一步学习，数据库的 SQL 语句的学习。</li>
-</ul>
-<h2 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h2><ul>
-<li>继续完善 coin-exchange 货币交易平台，完成主体项目搭建，完成公共模块和网关与授权等基础服务的搭建。</li>
-<li>完善我的博客项目，进一步丰富博客的内容生态。</li>
-</ul>
-<h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><ul>
-<li>阅读 《垃圾回收的算法与实现》，《Effective Debugging》，《Jenkins 2.x实践指南》，《Go语言高级编程》，《软技能2：软件开发者职业生涯指南》，《剑指Offer》。</li>
-<li>阅读《基督山伯爵（全集）》，《安娜·卡列尼娜（经典译林）》，《战争与和平（全集）》，《小王子（英文版）》，《格列佛游记:Gulliver’s Travels（英文版）》。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Technical</category>
-        <category>Weekly</category>
-      </categories>
-  </entry>
-  <entry>
     <title>2021大三第一学期第11周总结</title>
     <url>/2021/11/14/2021%E5%A4%A7%E4%B8%89%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%AC%AC11%E5%91%A8%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h1 id="2021大三第一学期-第11周总结"><a href="#2021大三第一学期-第11周总结" class="headerlink" title="2021大三第一学期 第11周总结"></a>2021大三第一学期 第11周总结</h1><h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><ul>
@@ -102,6 +81,27 @@
 <h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><ul>
 <li>阅读《软技能2：软件开发者职业生涯指南》，《 Spark 编程基础》，《Spring 源码深度解析》。</li>
 <li>阅读《太阳照常升起）》，《80天环游地球》，《安娜·卡列尼娜》。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Technical</category>
+        <category>Weekly</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>2021大三第一学期第7周总结</title>
+    <url>/2021/10/17/2021%E5%A4%A7%E4%B8%89%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%AC%AC7%E5%91%A8%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h1 id="2021大三第一学期-第7周总结"><a href="#2021大三第一学期-第7周总结" class="headerlink" title="2021大三第一学期 第7周总结"></a>2021大三第一学期 第7周总结</h1><h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><ul>
+<li>计算机英语的进一步学习，Verilog-FPGA 的实验和控制逻辑。</li>
+<li>嵌入式系统的进一步学习，数据库的 SQL 语句的学习。</li>
+</ul>
+<h2 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h2><ul>
+<li>继续完善 coin-exchange 货币交易平台，完成主体项目搭建，完成公共模块和网关与授权等基础服务的搭建。</li>
+<li>完善我的博客项目，进一步丰富博客的内容生态。</li>
+</ul>
+<h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><ul>
+<li>阅读 《垃圾回收的算法与实现》，《Effective Debugging》，《Jenkins 2.x实践指南》，《Go语言高级编程》，《软技能2：软件开发者职业生涯指南》，《剑指Offer》。</li>
+<li>阅读《基督山伯爵（全集）》，《安娜·卡列尼娜（经典译林）》，《战争与和平（全集）》，《小王子（英文版）》，《格列佛游记:Gulliver’s Travels（英文版）》。</li>
 </ul>
 ]]></content>
       <categories>
@@ -345,241 +345,6 @@ import java.io.PipedOutputStream;</code></pre></div><h2 id="2-我们需要编写
       </tags>
   </entry>
   <entry>
-    <title>JavaAbstractFactory模式表格化版本</title>
-    <url>/2020/09/17/JavaAbstractFactory%E6%A8%A1%E5%BC%8F%E8%A1%A8%E6%A0%BC%E5%8C%96%E7%89%88%E6%9C%AC/</url>
-    <content><![CDATA[<blockquote>
-<p>  将关联零件组装成产品</p>
-</blockquote>
-<h2 id="1-方便统一处理Link和Tray的类"><a href="#1-方便统一处理Link和Tray的类" class="headerlink" title="1 - 方便统一处理Link和Tray的类"></a>1 - 方便统一处理Link和Tray的类</h2><div class="code-wrapper"><pre><code>public abstract class Item &#123;
-    protected String caption;
-
-    public Item(String caption)&#123;
-        this.caption = caption;
-    &#125;
-
-    public abstract String makeHTML();
-&#125;</code></pre></div><h2 id="2-抽象零件-表示HTML的链接的类"><a href="#2-抽象零件-表示HTML的链接的类" class="headerlink" title="2 - 抽象零件: 表示HTML的链接的类"></a>2 - 抽象零件: 表示HTML的链接的类</h2><div class="code-wrapper"><pre><code>public abstract class Link extends Item&#123;
-    protected String url;
-
-    public Link(String caption, String url) &#123;
-        super(caption);
-        this.url = url;
-    &#125;
-&#125;</code></pre></div><h2 id="3-抽象零件-表示含有Link和Tray的类"><a href="#3-抽象零件-表示含有Link和Tray的类" class="headerlink" title="3 - 抽象零件: 表示含有Link和Tray的类"></a>3 - 抽象零件: 表示含有Link和Tray的类</h2><div class="code-wrapper"><pre><code>public abstract class Tray extends Item&#123;
-
-    protected ArrayList tray = new ArrayList();
-
-    public Tray(String caption) &#123;
-        super(caption);
-    &#125;
-
-    public void add(Item item)&#123;
-        tray.add(item);
-    &#125;
-&#125;</code></pre></div><h2 id="4-抽象零件-表示含有HTML页面的类"><a href="#4-抽象零件-表示含有HTML页面的类" class="headerlink" title="4 - 抽象零件: 表示含有HTML页面的类"></a>4 - 抽象零件: 表示含有HTML页面的类</h2><div class="code-wrapper"><pre><code>public abstract class Page &#123;
-    protected String title;
-    protected String author;
-    protected ArrayList content = new ArrayList();
-
-    public Page(String title, String author)&#123;
-        this.title = title;
-        this.author = author;
-    &#125;
-
-    public void add(Item item)&#123;
-        content.add(item);
-    &#125;
-
-    public void output()&#123;
-        try &#123;
-            String filename = title + &quot;.html&quot;;
-            Writer writer = new FileWriter(filename);
-            writer.write(this.makeHTML());
-            writer.close();
-            System.out.println(filename + &quot;编写完成&quot;);
-        &#125;catch (IOException e)&#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-
-    public abstract String makeHTML();
-&#125;</code></pre></div><h2 id="5-表示抽象工厂的类-制作Link-Tray-Page"><a href="#5-表示抽象工厂的类-制作Link-Tray-Page" class="headerlink" title="5 - 表示抽象工厂的类(制作Link, Tray, Page)"></a>5 - 表示抽象工厂的类(制作Link, Tray, Page)</h2><div class="code-wrapper"><pre><code>public abstract class Factory &#123;
-    public static Factory getFactory(String classname)&#123;
-        Factory factory = null;
-        try &#123;
-            factory = (Factory)Class.forName(classname).newInstance();
-        &#125;catch (ClassNotFoundException e)&#123;
-            e.printStackTrace();
-            System.out.println(&quot;没有找到 &quot; + classname + &quot;类&quot;);
-        &#125;catch (Exception e)&#123;
-            e.printStackTrace();
-        &#125;
-
-        return factory;
-    &#125;
-
-    public abstract Link createLink(String caption, String url);
-    public abstract Tray createTray(String caption, String url);
-    public abstract Page createPage(String title, String auto);
-&#125;</code></pre></div><h2 id="6-具体的工厂-TableFactory-制作TableLink-TableTray-TablePage"><a href="#6-具体的工厂-TableFactory-制作TableLink-TableTray-TablePage" class="headerlink" title="6 - 具体的工厂: TableFactory(制作TableLink, TableTray, TablePage)"></a>6 - 具体的工厂: TableFactory(制作TableLink, TableTray, TablePage)</h2><div class="code-wrapper"><pre><code>public class TableFactory extends Factory &#123;
-    @Override
-    public Link createLink(String caption, String url) &#123;
-        return new TableLink(caption, url);
-    &#125;
-
-    @Override
-    public Tray createTray(String caption) &#123;
-        return new TableTray(caption);
-    &#125;
-
-    @Override
-    public Page createPage(String title, String auto) &#123;
-        return new TablePage(title, auto);
-    &#125;
-&#125;</code></pre></div><h2 id="7-具体零件-表示HTML的链接的类"><a href="#7-具体零件-表示HTML的链接的类" class="headerlink" title="7 - 具体零件: 表示HTML的链接的类"></a>7 - 具体零件: 表示HTML的链接的类</h2><div class="code-wrapper"><pre><code>public class TableLink extends Link&#123;
-    public TableLink(String caption, String url) &#123;
-        super(caption, url);
-    &#125;
-
-    @Override
-    public String makeHTML() &#123;
-        return &quot;  &lt;td&gt;&lt;a href=\&quot;&quot; + url + &quot;\&quot;&gt;&quot; + caption + &quot;&lt;/a&gt;&lt;/td&gt;\n&quot;;
-    &#125;
-&#125;</code></pre></div><h2 id="8-具体零件-表示含有Link和Tray的类"><a href="#8-具体零件-表示含有Link和Tray的类" class="headerlink" title="8 - 具体零件: 表示含有Link和Tray的类"></a>8 - 具体零件: 表示含有Link和Tray的类</h2><div class="code-wrapper"><pre><code>public class TableTray extends Tray &#123;
-
-public TableTray(String caption) &#123;
-    super(caption);
-&#125;
-
-    @Override
-    public String makeHTML() &#123;
-        StringBuilder buffer = new StringBuilder();
-        buffer.append(&quot;&lt;td&gt;&quot;);
-        buffer.append(&quot;&lt;table width=\&quot;100%\&quot; border=\&quot;1\&quot;&gt;&lt;tr&gt;&quot;);
-        buffer.append(&quot;&lt;td bgcolor=\&quot;#cccccc\&quot; align=\&quot;center\&quot; colspan=\&quot;&quot;).append(tray.size()).append(&quot;\&quot;&gt;&lt;b&gt;&quot;).append(caption).append(&quot;&lt;/b&gt;&lt;/td&gt;&quot;);
-        buffer.append(&quot;&lt;/tr&gt;\n&quot;);
-        buffer.append(&quot;&lt;tr&gt;\n&quot;);
-
-        for (Item item : tray) &#123;
-            buffer.append(item.makeHTML());
-        &#125;
-
-        buffer.append(&quot;&lt;/tr&gt;&lt;/table&gt;&quot;);
-        buffer.append(&quot;&lt;/td&gt;\n&quot;);
-        return buffer.toString();
-    &#125;
-&#125;</code></pre></div><h2 id="9-具体零件-表示HTML页面的类"><a href="#9-具体零件-表示HTML页面的类" class="headerlink" title="9 - 具体零件: 表示HTML页面的类"></a>9 - 具体零件: 表示HTML页面的类</h2><div class="code-wrapper"><pre><code>public class TablePage extends Page&#123;
-
-    public TablePage(String title, String author) &#123;
-        super(title, author);
-    &#125;
-
-    @Override
-    public String makeHTML() &#123;
-        StringBuilder buffer = new StringBuilder();
-        buffer.append(&quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;&quot;).append(title).append(&quot;&lt;/title&gt;&lt;/head&gt;\n&quot;);
-        buffer.append(&quot;&lt;body&gt;\n&quot;);
-        buffer.append(&quot;&lt;h1&gt;&quot;).append(title).append(&quot;&lt;/h1&gt;\n&quot;);
-        buffer.append(&quot;&lt;table width=\&quot;80%\&quot; border=\&quot;3\&quot;&gt;\n&quot;);
-        for (Item item : content) &#123;
-            buffer.append(&quot;&lt;tr&gt;&quot;).append(item.makeHTML()).append(&quot;&lt;/tr&gt;&quot;);
-        &#125;
-        buffer.append(&quot;&lt;/table&gt;\n&quot;);
-        buffer.append(&quot;&lt;hr&gt;&lt;address&gt;&quot;).append(author).append(&quot;&lt;/address&gt;&quot;);
-        buffer.append(&quot;&lt;/body&gt;&lt;/html&gt;\n&quot;);
-        return buffer.toString();
-    &#125;
-&#125;</code></pre></div><h2 id="10-测试程序行为的类"><a href="#10-测试程序行为的类" class="headerlink" title="10 - 测试程序行为的类"></a>10 - 测试程序行为的类</h2><p>需要设置参数args[] = tablefactory.TableFactory</p>
-<div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        if (args.length != 1)&#123;
-            System.out.println(&quot;Usage: java Main class.name.of.ConcreteFactory&quot;);
-            System.out.println(&quot;Example 1: java Main listFactory.ListFactory&quot;);
-            System.out.println(&quot;Example 2: java Main tableFactory.TableFactory&quot;);
-            System.exit(0);
-        &#125;
-
-        Factory factory = Factory.getFactory(args[0]);
-
-        Link people = factory.createLink(&quot;人民日报&quot;, &quot;http://www.people.com.cn/&quot;);
-        Link gmw = factory.createLink(&quot;光明日报&quot;, &quot;http://www.gmw.cn/&quot;);
-
-        Link us_yahoo = factory.createLink(&quot;Yahoo!&quot;, &quot;http://www.yahoo.com/&quot;);
-        Link jp_yahoo = factory.createLink(&quot;Yahoo!Japan!&quot;, &quot;http://www.yahoo.co.jp&quot;);
-        Link excite = factory.createLink(&quot;Excite&quot;, &quot;http://www.excite.com/&quot;);
-        Link google = factory.createLink(&quot;Google&quot;, &quot;http://www.google.com/&quot;);
-
-        Tray trayNews = factory.createTray(&quot;日报&quot;);
-        trayNews.add(people);
-        trayNews.add(gmw);
-
-        Tray trayYahoo = factory.createTray(&quot;Yahoo!&quot;);
-        trayYahoo.add(us_yahoo);
-        trayYahoo.add(jp_yahoo);
-
-        Tray traySearch = factory.createTray(&quot;检索引擎&quot;);
-        traySearch.add(trayYahoo);
-        traySearch.add(excite);
-        traySearch.add(google);
-
-        Page page = factory.createPage(&quot;LinkPage&quot;, &quot;杨文轩&quot;);
-        page.add(trayNews);
-        page.add(traySearch);
-        page.output();
-
-    &#125;
-&#125;</code></pre></div><h2 id="11-输出示例"><a href="#11-输出示例" class="headerlink" title="11 - 输出示例"></a>11 - 输出示例</h2><div class="code-wrapper"><pre><code>LinkPage.html编写完成
-
-HTML文本效果图</code></pre></div><html><head><title>LinkPage</title></head>
-<body>
-<h1>LinkPage</h1>
-<table width="80%" border="3">
-<tr><td><table width="100%" border="1"><tr><td bgcolor="#cccccc" align="center" colspan="2"><b>日报</b></td></tr>
-<tr>
-  <td><a href="http://www.people.com.cn/">人民日报</a></td>
-  <td><a href="http://www.gmw.cn/">光明日报</a></td>
-</tr></table></td>
-</tr><tr><td><table width="100%" border="1"><tr><td bgcolor="#cccccc" align="center" colspan="3"><b>检索引擎</b></td></tr>
-<tr>
-<td><table width="100%" border="1"><tr><td bgcolor="#cccccc" align="center" colspan="2"><b>Yahoo!</b></td></tr>
-<tr>
-  <td><a href="http://www.yahoo.com/">Yahoo!</a></td>
-  <td><a href="http://www.yahoo.co.jp">Yahoo!Japan!</a></td>
-</tr></table></td>
-  <td><a href="http://www.excite.com/">Excite</a></td>
-  <td><a href="http://www.google.com/">Google</a></td>
-</tr></table></td>
-</tr></table>
-<hr><address>杨文轩</address></body></html>
-
-<div class="code-wrapper"><pre><code>具体源码
-&lt;html&gt;&lt;head&gt;&lt;title&gt;LinkPage&lt;/title&gt;&lt;/head&gt;
-&lt;body&gt;
-&lt;h1&gt;LinkPage&lt;/h1&gt;
-&lt;table width=&quot;80%&quot; border=&quot;3&quot;&gt;
-&lt;tr&gt;&lt;td&gt;&lt;table width=&quot;100%&quot; border=&quot;1&quot;&gt;&lt;tr&gt;&lt;td bgcolor=&quot;#cccccc&quot; align=&quot;center&quot; colspan=&quot;2&quot;&gt;&lt;b&gt;日报&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;a href=&quot;http://www.people.com.cn/&quot;&gt;人民日报&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&quot;http://www.gmw.cn/&quot;&gt;光明日报&lt;/a&gt;&lt;/td&gt;
-&lt;/tr&gt;&lt;/table&gt;&lt;/td&gt;
-&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;table width=&quot;100%&quot; border=&quot;1&quot;&gt;&lt;tr&gt;&lt;td bgcolor=&quot;#cccccc&quot; align=&quot;center&quot; colspan=&quot;3&quot;&gt;&lt;b&gt;检索引擎&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;table width=&quot;100%&quot; border=&quot;1&quot;&gt;&lt;tr&gt;&lt;td bgcolor=&quot;#cccccc&quot; align=&quot;center&quot; colspan=&quot;2&quot;&gt;&lt;b&gt;Yahoo!&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;a href=&quot;http://www.yahoo.com/&quot;&gt;Yahoo!&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&quot;http://www.yahoo.co.jp&quot;&gt;Yahoo!Japan!&lt;/a&gt;&lt;/td&gt;
-&lt;/tr&gt;&lt;/table&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&quot;http://www.excite.com/&quot;&gt;Excite&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&quot;http://www.google.com/&quot;&gt;Google&lt;/a&gt;&lt;/td&gt;
-&lt;/tr&gt;&lt;/table&gt;&lt;/td&gt;
-&lt;/tr&gt;&lt;/table&gt;
-&lt;hr&gt;&lt;address&gt;杨文轩&lt;/address&gt;&lt;/body&gt;&lt;/html&gt;</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
     <title>JavaAbstractFactory模式</title>
     <url>/2020/09/14/JavaAbstractFactory%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -817,6 +582,241 @@ Yahoo!
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
+&lt;hr&gt;&lt;address&gt;杨文轩&lt;/address&gt;&lt;/body&gt;&lt;/html&gt;</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JavaAbstractFactory模式表格化版本</title>
+    <url>/2020/09/17/JavaAbstractFactory%E6%A8%A1%E5%BC%8F%E8%A1%A8%E6%A0%BC%E5%8C%96%E7%89%88%E6%9C%AC/</url>
+    <content><![CDATA[<blockquote>
+<p>  将关联零件组装成产品</p>
+</blockquote>
+<h2 id="1-方便统一处理Link和Tray的类"><a href="#1-方便统一处理Link和Tray的类" class="headerlink" title="1 - 方便统一处理Link和Tray的类"></a>1 - 方便统一处理Link和Tray的类</h2><div class="code-wrapper"><pre><code>public abstract class Item &#123;
+    protected String caption;
+
+    public Item(String caption)&#123;
+        this.caption = caption;
+    &#125;
+
+    public abstract String makeHTML();
+&#125;</code></pre></div><h2 id="2-抽象零件-表示HTML的链接的类"><a href="#2-抽象零件-表示HTML的链接的类" class="headerlink" title="2 - 抽象零件: 表示HTML的链接的类"></a>2 - 抽象零件: 表示HTML的链接的类</h2><div class="code-wrapper"><pre><code>public abstract class Link extends Item&#123;
+    protected String url;
+
+    public Link(String caption, String url) &#123;
+        super(caption);
+        this.url = url;
+    &#125;
+&#125;</code></pre></div><h2 id="3-抽象零件-表示含有Link和Tray的类"><a href="#3-抽象零件-表示含有Link和Tray的类" class="headerlink" title="3 - 抽象零件: 表示含有Link和Tray的类"></a>3 - 抽象零件: 表示含有Link和Tray的类</h2><div class="code-wrapper"><pre><code>public abstract class Tray extends Item&#123;
+
+    protected ArrayList tray = new ArrayList();
+
+    public Tray(String caption) &#123;
+        super(caption);
+    &#125;
+
+    public void add(Item item)&#123;
+        tray.add(item);
+    &#125;
+&#125;</code></pre></div><h2 id="4-抽象零件-表示含有HTML页面的类"><a href="#4-抽象零件-表示含有HTML页面的类" class="headerlink" title="4 - 抽象零件: 表示含有HTML页面的类"></a>4 - 抽象零件: 表示含有HTML页面的类</h2><div class="code-wrapper"><pre><code>public abstract class Page &#123;
+    protected String title;
+    protected String author;
+    protected ArrayList content = new ArrayList();
+
+    public Page(String title, String author)&#123;
+        this.title = title;
+        this.author = author;
+    &#125;
+
+    public void add(Item item)&#123;
+        content.add(item);
+    &#125;
+
+    public void output()&#123;
+        try &#123;
+            String filename = title + &quot;.html&quot;;
+            Writer writer = new FileWriter(filename);
+            writer.write(this.makeHTML());
+            writer.close();
+            System.out.println(filename + &quot;编写完成&quot;);
+        &#125;catch (IOException e)&#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+    public abstract String makeHTML();
+&#125;</code></pre></div><h2 id="5-表示抽象工厂的类-制作Link-Tray-Page"><a href="#5-表示抽象工厂的类-制作Link-Tray-Page" class="headerlink" title="5 - 表示抽象工厂的类(制作Link, Tray, Page)"></a>5 - 表示抽象工厂的类(制作Link, Tray, Page)</h2><div class="code-wrapper"><pre><code>public abstract class Factory &#123;
+    public static Factory getFactory(String classname)&#123;
+        Factory factory = null;
+        try &#123;
+            factory = (Factory)Class.forName(classname).newInstance();
+        &#125;catch (ClassNotFoundException e)&#123;
+            e.printStackTrace();
+            System.out.println(&quot;没有找到 &quot; + classname + &quot;类&quot;);
+        &#125;catch (Exception e)&#123;
+            e.printStackTrace();
+        &#125;
+
+        return factory;
+    &#125;
+
+    public abstract Link createLink(String caption, String url);
+    public abstract Tray createTray(String caption, String url);
+    public abstract Page createPage(String title, String auto);
+&#125;</code></pre></div><h2 id="6-具体的工厂-TableFactory-制作TableLink-TableTray-TablePage"><a href="#6-具体的工厂-TableFactory-制作TableLink-TableTray-TablePage" class="headerlink" title="6 - 具体的工厂: TableFactory(制作TableLink, TableTray, TablePage)"></a>6 - 具体的工厂: TableFactory(制作TableLink, TableTray, TablePage)</h2><div class="code-wrapper"><pre><code>public class TableFactory extends Factory &#123;
+    @Override
+    public Link createLink(String caption, String url) &#123;
+        return new TableLink(caption, url);
+    &#125;
+
+    @Override
+    public Tray createTray(String caption) &#123;
+        return new TableTray(caption);
+    &#125;
+
+    @Override
+    public Page createPage(String title, String auto) &#123;
+        return new TablePage(title, auto);
+    &#125;
+&#125;</code></pre></div><h2 id="7-具体零件-表示HTML的链接的类"><a href="#7-具体零件-表示HTML的链接的类" class="headerlink" title="7 - 具体零件: 表示HTML的链接的类"></a>7 - 具体零件: 表示HTML的链接的类</h2><div class="code-wrapper"><pre><code>public class TableLink extends Link&#123;
+    public TableLink(String caption, String url) &#123;
+        super(caption, url);
+    &#125;
+
+    @Override
+    public String makeHTML() &#123;
+        return &quot;  &lt;td&gt;&lt;a href=\&quot;&quot; + url + &quot;\&quot;&gt;&quot; + caption + &quot;&lt;/a&gt;&lt;/td&gt;\n&quot;;
+    &#125;
+&#125;</code></pre></div><h2 id="8-具体零件-表示含有Link和Tray的类"><a href="#8-具体零件-表示含有Link和Tray的类" class="headerlink" title="8 - 具体零件: 表示含有Link和Tray的类"></a>8 - 具体零件: 表示含有Link和Tray的类</h2><div class="code-wrapper"><pre><code>public class TableTray extends Tray &#123;
+
+public TableTray(String caption) &#123;
+    super(caption);
+&#125;
+
+    @Override
+    public String makeHTML() &#123;
+        StringBuilder buffer = new StringBuilder();
+        buffer.append(&quot;&lt;td&gt;&quot;);
+        buffer.append(&quot;&lt;table width=\&quot;100%\&quot; border=\&quot;1\&quot;&gt;&lt;tr&gt;&quot;);
+        buffer.append(&quot;&lt;td bgcolor=\&quot;#cccccc\&quot; align=\&quot;center\&quot; colspan=\&quot;&quot;).append(tray.size()).append(&quot;\&quot;&gt;&lt;b&gt;&quot;).append(caption).append(&quot;&lt;/b&gt;&lt;/td&gt;&quot;);
+        buffer.append(&quot;&lt;/tr&gt;\n&quot;);
+        buffer.append(&quot;&lt;tr&gt;\n&quot;);
+
+        for (Item item : tray) &#123;
+            buffer.append(item.makeHTML());
+        &#125;
+
+        buffer.append(&quot;&lt;/tr&gt;&lt;/table&gt;&quot;);
+        buffer.append(&quot;&lt;/td&gt;\n&quot;);
+        return buffer.toString();
+    &#125;
+&#125;</code></pre></div><h2 id="9-具体零件-表示HTML页面的类"><a href="#9-具体零件-表示HTML页面的类" class="headerlink" title="9 - 具体零件: 表示HTML页面的类"></a>9 - 具体零件: 表示HTML页面的类</h2><div class="code-wrapper"><pre><code>public class TablePage extends Page&#123;
+
+    public TablePage(String title, String author) &#123;
+        super(title, author);
+    &#125;
+
+    @Override
+    public String makeHTML() &#123;
+        StringBuilder buffer = new StringBuilder();
+        buffer.append(&quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;&quot;).append(title).append(&quot;&lt;/title&gt;&lt;/head&gt;\n&quot;);
+        buffer.append(&quot;&lt;body&gt;\n&quot;);
+        buffer.append(&quot;&lt;h1&gt;&quot;).append(title).append(&quot;&lt;/h1&gt;\n&quot;);
+        buffer.append(&quot;&lt;table width=\&quot;80%\&quot; border=\&quot;3\&quot;&gt;\n&quot;);
+        for (Item item : content) &#123;
+            buffer.append(&quot;&lt;tr&gt;&quot;).append(item.makeHTML()).append(&quot;&lt;/tr&gt;&quot;);
+        &#125;
+        buffer.append(&quot;&lt;/table&gt;\n&quot;);
+        buffer.append(&quot;&lt;hr&gt;&lt;address&gt;&quot;).append(author).append(&quot;&lt;/address&gt;&quot;);
+        buffer.append(&quot;&lt;/body&gt;&lt;/html&gt;\n&quot;);
+        return buffer.toString();
+    &#125;
+&#125;</code></pre></div><h2 id="10-测试程序行为的类"><a href="#10-测试程序行为的类" class="headerlink" title="10 - 测试程序行为的类"></a>10 - 测试程序行为的类</h2><p>需要设置参数args[] = tablefactory.TableFactory</p>
+<div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        if (args.length != 1)&#123;
+            System.out.println(&quot;Usage: java Main class.name.of.ConcreteFactory&quot;);
+            System.out.println(&quot;Example 1: java Main listFactory.ListFactory&quot;);
+            System.out.println(&quot;Example 2: java Main tableFactory.TableFactory&quot;);
+            System.exit(0);
+        &#125;
+
+        Factory factory = Factory.getFactory(args[0]);
+
+        Link people = factory.createLink(&quot;人民日报&quot;, &quot;http://www.people.com.cn/&quot;);
+        Link gmw = factory.createLink(&quot;光明日报&quot;, &quot;http://www.gmw.cn/&quot;);
+
+        Link us_yahoo = factory.createLink(&quot;Yahoo!&quot;, &quot;http://www.yahoo.com/&quot;);
+        Link jp_yahoo = factory.createLink(&quot;Yahoo!Japan!&quot;, &quot;http://www.yahoo.co.jp&quot;);
+        Link excite = factory.createLink(&quot;Excite&quot;, &quot;http://www.excite.com/&quot;);
+        Link google = factory.createLink(&quot;Google&quot;, &quot;http://www.google.com/&quot;);
+
+        Tray trayNews = factory.createTray(&quot;日报&quot;);
+        trayNews.add(people);
+        trayNews.add(gmw);
+
+        Tray trayYahoo = factory.createTray(&quot;Yahoo!&quot;);
+        trayYahoo.add(us_yahoo);
+        trayYahoo.add(jp_yahoo);
+
+        Tray traySearch = factory.createTray(&quot;检索引擎&quot;);
+        traySearch.add(trayYahoo);
+        traySearch.add(excite);
+        traySearch.add(google);
+
+        Page page = factory.createPage(&quot;LinkPage&quot;, &quot;杨文轩&quot;);
+        page.add(trayNews);
+        page.add(traySearch);
+        page.output();
+
+    &#125;
+&#125;</code></pre></div><h2 id="11-输出示例"><a href="#11-输出示例" class="headerlink" title="11 - 输出示例"></a>11 - 输出示例</h2><div class="code-wrapper"><pre><code>LinkPage.html编写完成
+
+HTML文本效果图</code></pre></div><html><head><title>LinkPage</title></head>
+<body>
+<h1>LinkPage</h1>
+<table width="80%" border="3">
+<tr><td><table width="100%" border="1"><tr><td bgcolor="#cccccc" align="center" colspan="2"><b>日报</b></td></tr>
+<tr>
+  <td><a href="http://www.people.com.cn/">人民日报</a></td>
+  <td><a href="http://www.gmw.cn/">光明日报</a></td>
+</tr></table></td>
+</tr><tr><td><table width="100%" border="1"><tr><td bgcolor="#cccccc" align="center" colspan="3"><b>检索引擎</b></td></tr>
+<tr>
+<td><table width="100%" border="1"><tr><td bgcolor="#cccccc" align="center" colspan="2"><b>Yahoo!</b></td></tr>
+<tr>
+  <td><a href="http://www.yahoo.com/">Yahoo!</a></td>
+  <td><a href="http://www.yahoo.co.jp">Yahoo!Japan!</a></td>
+</tr></table></td>
+  <td><a href="http://www.excite.com/">Excite</a></td>
+  <td><a href="http://www.google.com/">Google</a></td>
+</tr></table></td>
+</tr></table>
+<hr><address>杨文轩</address></body></html>
+
+<div class="code-wrapper"><pre><code>具体源码
+&lt;html&gt;&lt;head&gt;&lt;title&gt;LinkPage&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;LinkPage&lt;/h1&gt;
+&lt;table width=&quot;80%&quot; border=&quot;3&quot;&gt;
+&lt;tr&gt;&lt;td&gt;&lt;table width=&quot;100%&quot; border=&quot;1&quot;&gt;&lt;tr&gt;&lt;td bgcolor=&quot;#cccccc&quot; align=&quot;center&quot; colspan=&quot;2&quot;&gt;&lt;b&gt;日报&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;http://www.people.com.cn/&quot;&gt;人民日报&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&quot;http://www.gmw.cn/&quot;&gt;光明日报&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;table width=&quot;100%&quot; border=&quot;1&quot;&gt;&lt;tr&gt;&lt;td bgcolor=&quot;#cccccc&quot; align=&quot;center&quot; colspan=&quot;3&quot;&gt;&lt;b&gt;检索引擎&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;table width=&quot;100%&quot; border=&quot;1&quot;&gt;&lt;tr&gt;&lt;td bgcolor=&quot;#cccccc&quot; align=&quot;center&quot; colspan=&quot;2&quot;&gt;&lt;b&gt;Yahoo!&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;http://www.yahoo.com/&quot;&gt;Yahoo!&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&quot;http://www.yahoo.co.jp&quot;&gt;Yahoo!Japan!&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&quot;http://www.excite.com/&quot;&gt;Excite&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&quot;http://www.google.com/&quot;&gt;Google&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
 &lt;hr&gt;&lt;address&gt;杨文轩&lt;/address&gt;&lt;/body&gt;&lt;/html&gt;</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
@@ -2664,6 +2664,103 @@ public class Manager &#123;
       </categories>
   </entry>
   <entry>
+    <title>JavaProxy模式</title>
+    <url>/2020/10/11/JavaProxy%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="1-Printer和PrinterProxy的共同接口"><a href="#1-Printer和PrinterProxy的共同接口" class="headerlink" title="1 - Printer和PrinterProxy的共同接口"></a>1 - Printer和PrinterProxy的共同接口</h2><div class="code-wrapper"><pre><code>public interface Printable &#123;
+    public abstract void setPrinterName(String name);
+    public abstract String getPrinterName();
+    public abstract void print(String string);
+&#125;</code></pre></div><h2 id="2-表示带名字的打印机类-本人"><a href="#2-表示带名字的打印机类-本人" class="headerlink" title="2 - 表示带名字的打印机类(本人)"></a>2 - 表示带名字的打印机类(本人)</h2><div class="code-wrapper"><pre><code>public class Printer implements Printable &#123;
+    private String name;
+    public Printer() &#123;
+        heavyJob(&quot;正在生成Printer的实例&quot;);
+    &#125;
+
+    public Printer(String name) &#123;
+        this.name = name;
+        heavyJob(&quot;正在生成Printer的实例(&quot; + name + &quot;)&quot;);
+    &#125;
+
+    @Override
+    public void setPrinterName(String name) &#123;
+        this.name = name;
+    &#125;
+
+    @Override
+    public String getPrinterName() &#123;
+        return name;
+    &#125;
+
+    @Override
+    public void print(String string) &#123;
+        System.out.println(&quot;===&quot; + name + &quot;===&quot;);
+        System.out.println(string);
+    &#125;
+
+    private void heavyJob(String msg) &#123;
+        System.out.print(msg);
+        for (int i = 0; i &lt; 5; i++) &#123;
+            try &#123;
+                Thread.sleep(1000);
+            &#125;catch (InterruptedException ignored) &#123;
+            &#125;
+            System.out.print(&apos;.&apos;);
+        &#125;
+        System.out.println(&quot;结束!&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="3-表示带名字的打印机类-代理人"><a href="#3-表示带名字的打印机类-代理人" class="headerlink" title="3 - 表示带名字的打印机类(代理人)"></a>3 - 表示带名字的打印机类(代理人)</h2><div class="code-wrapper"><pre><code>public class PrinterProxy implements Printable&#123;
+    private String name;
+    private Printer real;
+
+    public PrinterProxy()&#123;&#125;
+
+    public PrinterProxy(String name) &#123;
+        this.name = name;
+    &#125;
+
+    @Override
+    public synchronized void setPrinterName(String name) &#123;
+        if (real != null) &#123;
+            real.setPrinterName(name);
+        &#125;
+        this.name = name;
+    &#125;
+
+    @Override
+    public String getPrinterName() &#123;
+        return name;
+    &#125;
+
+    @Override
+    public void print(String string) &#123;
+        realize();
+        real.print(string);
+    &#125;
+
+    private synchronized void realize() &#123;
+        if (real == null) &#123;
+            real = new Printer(name);
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        Printable p = new PrinterProxy(&quot;Alice&quot;);
+        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
+        p.setPrinterName(&quot;Bob&quot;);
+        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
+        p.print(&quot;Hello, world.&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>现在名字是Alice.
+现在名字是Bob.
+正在生成Printer的实例(Bob).....结束!
+===Bob===
+Hello, world.</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
     <title>JavaState模式</title>
     <url>/2020/10/06/JavaState%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -2868,103 +2965,6 @@ java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=按下警铃,when=1601985182892,
 java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=使用金库,when=1601985183407,modifiers=] on button2
 现在时间是05:00
 现在时间是06:00</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>JavaProxy模式</title>
-    <url>/2020/10/11/JavaProxy%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="1-Printer和PrinterProxy的共同接口"><a href="#1-Printer和PrinterProxy的共同接口" class="headerlink" title="1 - Printer和PrinterProxy的共同接口"></a>1 - Printer和PrinterProxy的共同接口</h2><div class="code-wrapper"><pre><code>public interface Printable &#123;
-    public abstract void setPrinterName(String name);
-    public abstract String getPrinterName();
-    public abstract void print(String string);
-&#125;</code></pre></div><h2 id="2-表示带名字的打印机类-本人"><a href="#2-表示带名字的打印机类-本人" class="headerlink" title="2 - 表示带名字的打印机类(本人)"></a>2 - 表示带名字的打印机类(本人)</h2><div class="code-wrapper"><pre><code>public class Printer implements Printable &#123;
-    private String name;
-    public Printer() &#123;
-        heavyJob(&quot;正在生成Printer的实例&quot;);
-    &#125;
-
-    public Printer(String name) &#123;
-        this.name = name;
-        heavyJob(&quot;正在生成Printer的实例(&quot; + name + &quot;)&quot;);
-    &#125;
-
-    @Override
-    public void setPrinterName(String name) &#123;
-        this.name = name;
-    &#125;
-
-    @Override
-    public String getPrinterName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public void print(String string) &#123;
-        System.out.println(&quot;===&quot; + name + &quot;===&quot;);
-        System.out.println(string);
-    &#125;
-
-    private void heavyJob(String msg) &#123;
-        System.out.print(msg);
-        for (int i = 0; i &lt; 5; i++) &#123;
-            try &#123;
-                Thread.sleep(1000);
-            &#125;catch (InterruptedException ignored) &#123;
-            &#125;
-            System.out.print(&apos;.&apos;);
-        &#125;
-        System.out.println(&quot;结束!&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="3-表示带名字的打印机类-代理人"><a href="#3-表示带名字的打印机类-代理人" class="headerlink" title="3 - 表示带名字的打印机类(代理人)"></a>3 - 表示带名字的打印机类(代理人)</h2><div class="code-wrapper"><pre><code>public class PrinterProxy implements Printable&#123;
-    private String name;
-    private Printer real;
-
-    public PrinterProxy()&#123;&#125;
-
-    public PrinterProxy(String name) &#123;
-        this.name = name;
-    &#125;
-
-    @Override
-    public synchronized void setPrinterName(String name) &#123;
-        if (real != null) &#123;
-            real.setPrinterName(name);
-        &#125;
-        this.name = name;
-    &#125;
-
-    @Override
-    public String getPrinterName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public void print(String string) &#123;
-        realize();
-        real.print(string);
-    &#125;
-
-    private synchronized void realize() &#123;
-        if (real == null) &#123;
-            real = new Printer(name);
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        Printable p = new PrinterProxy(&quot;Alice&quot;);
-        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
-        p.setPrinterName(&quot;Bob&quot;);
-        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
-        p.print(&quot;Hello, world.&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>现在名字是Alice.
-现在名字是Bob.
-正在生成Printer的实例(Bob).....结束!
-===Bob===
-Hello, world.</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -3365,6 +3365,84 @@ Making user entries...
       </categories>
   </entry>
   <entry>
+    <title>Java多线程的同步问题</title>
+    <url>/2020/08/12/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="1-synchronized关键字对代码块的同步"><a href="#1-synchronized关键字对代码块的同步" class="headerlink" title="1 - synchronized关键字对代码块的同步"></a>1 - synchronized关键字对代码块的同步</h2><div class="code-wrapper"><pre><code>public class ThreadSynchronization &#123;
+    public static void main(String[] args) &#123;
+        TestThread  t = new TestThread();
+        // 启动四个线程,并实现资源共享
+
+        new Thread(t).start();
+        new Thread(t).start();
+        new Thread(t).start();
+        new Thread(t).start();
+    &#125;
+&#125;
+
+class TestThread implements Runnable&#123;
+    private int tickets = 5;
+    @Override
+    public void run()&#123;
+        while (true) &#123;
+            // 利用synchronized关键字对这一代码块进行同步,避免共享资源的随意访问
+            synchronized (this) &#123;
+                if (tickets &lt;= 0) break;
+                try &#123;
+                    Thread.sleep(1000);
+                &#125; catch (Exception e) &#123;
+                    e.printStackTrace();
+                &#125;
+
+                System.out.println(Thread.currentThread().getName()
+                 + &quot;出售票&quot; + tickets);
+                tickets -= 1;
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="2-synchronized关键字对方法的同步"><a href="#2-synchronized关键字对方法的同步" class="headerlink" title="2 - synchronized关键字对方法的同步"></a>2 - synchronized关键字对方法的同步</h2><div class="code-wrapper"><pre><code>public class ThreadSynchronization &#123;
+    public static void main(String[] args) &#123;
+        TestThread  t = new TestThread();
+        // 启动四个线程,并实现资源共享
+
+        new Thread(t).start();
+        new Thread(t).start();
+        new Thread(t).start();
+        new Thread(t).start();
+    &#125;
+&#125;
+
+class TestThread implements Runnable&#123;
+    private int tickets = 5;
+    @Override
+    public void run()&#123;
+        while (tickets &gt; 0)&#123;
+            sale();
+        &#125;
+    &#125;
+    // 利用synchronized关键字对这本方法进行同步,避免共享资源的随意访问
+    public synchronized void sale() &#123;
+        if (tickets &gt; 0) &#123;
+            try &#123;
+                Thread.sleep(1000);
+            &#125; catch (Exception e) &#123;
+                e.printStackTrace();
+            &#125;
+
+            System.out.println(Thread.currentThread().getName() + &quot;出售票&quot; + tickets);
+            tickets -= 1;
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="3-在Java中-synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1-5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java-util-concurrent-locks包中"><a href="#3-在Java中-synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1-5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java-util-concurrent-locks包中" class="headerlink" title="3 - 在Java中,synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1.5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java.util.concurrent.locks包中"></a>3 - 在Java中,synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1.5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java.util.concurrent.locks包中</h2><h2 id="4-当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用-synchronized-解决问题。若对性能要求较高的情况下，可考虑使用-ReadWriteLock-接口及其-ReentrantReadWriteLock-实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用-Lock-接口及其-ReentrantLock-实现类来替换以前的-synchronized-方法或代码块"><a href="#4-当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用-synchronized-解决问题。若对性能要求较高的情况下，可考虑使用-ReadWriteLock-接口及其-ReentrantReadWriteLock-实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用-Lock-接口及其-ReentrantLock-实现类来替换以前的-synchronized-方法或代码块" class="headerlink" title="4 - 当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用 synchronized 解决问题。若对性能要求较高的情况下，可考虑使用 ReadWriteLock 接口及其 ReentrantReadWriteLock 实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用 Lock 接口及其 ReentrantLock 实现类来替换以前的 synchronized 方法或代码块"></a>4 - 当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用 synchronized 解决问题。若对性能要求较高的情况下，可考虑使用 ReadWriteLock 接口及其 ReentrantReadWriteLock 实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用 Lock 接口及其 ReentrantLock 实现类来替换以前的 synchronized 方法或代码块</h2><p>以上, 3-4段内容,均引自&lt;&lt;Java从入门到精通(第二版)&gt;&gt; 张玉宏主编 </p>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Tool</category>
+      </categories>
+      <tags>
+        <tag>多线程同步</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java使用缓存流进行文件的复制</title>
     <url>/2020/09/08/Java%E4%BD%BF%E7%94%A8%E7%BC%93%E5%AD%98%E6%B5%81%E8%BF%9B%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84%E5%A4%8D%E5%88%B6/</url>
     <content><![CDATA[<h2 id="1-准备要复制的文件路径和复制后的路径"><a href="#1-准备要复制的文件路径和复制后的路径" class="headerlink" title="1- 准备要复制的文件路径和复制后的路径"></a>1- 准备要复制的文件路径和复制后的路径</h2><div class="code-wrapper"><pre><code>private static final String FilePath1 = &quot;D:/测试文件.txt&quot;;
@@ -3533,84 +3611,6 @@ class Person implements Serializable&#123;
       </categories>
       <tags>
         <tag>序列化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java多线程的同步问题</title>
-    <url>/2020/08/12/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h2 id="1-synchronized关键字对代码块的同步"><a href="#1-synchronized关键字对代码块的同步" class="headerlink" title="1 - synchronized关键字对代码块的同步"></a>1 - synchronized关键字对代码块的同步</h2><div class="code-wrapper"><pre><code>public class ThreadSynchronization &#123;
-    public static void main(String[] args) &#123;
-        TestThread  t = new TestThread();
-        // 启动四个线程,并实现资源共享
-
-        new Thread(t).start();
-        new Thread(t).start();
-        new Thread(t).start();
-        new Thread(t).start();
-    &#125;
-&#125;
-
-class TestThread implements Runnable&#123;
-    private int tickets = 5;
-    @Override
-    public void run()&#123;
-        while (true) &#123;
-            // 利用synchronized关键字对这一代码块进行同步,避免共享资源的随意访问
-            synchronized (this) &#123;
-                if (tickets &lt;= 0) break;
-                try &#123;
-                    Thread.sleep(1000);
-                &#125; catch (Exception e) &#123;
-                    e.printStackTrace();
-                &#125;
-
-                System.out.println(Thread.currentThread().getName()
-                 + &quot;出售票&quot; + tickets);
-                tickets -= 1;
-            &#125;
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="2-synchronized关键字对方法的同步"><a href="#2-synchronized关键字对方法的同步" class="headerlink" title="2 - synchronized关键字对方法的同步"></a>2 - synchronized关键字对方法的同步</h2><div class="code-wrapper"><pre><code>public class ThreadSynchronization &#123;
-    public static void main(String[] args) &#123;
-        TestThread  t = new TestThread();
-        // 启动四个线程,并实现资源共享
-
-        new Thread(t).start();
-        new Thread(t).start();
-        new Thread(t).start();
-        new Thread(t).start();
-    &#125;
-&#125;
-
-class TestThread implements Runnable&#123;
-    private int tickets = 5;
-    @Override
-    public void run()&#123;
-        while (tickets &gt; 0)&#123;
-            sale();
-        &#125;
-    &#125;
-    // 利用synchronized关键字对这本方法进行同步,避免共享资源的随意访问
-    public synchronized void sale() &#123;
-        if (tickets &gt; 0) &#123;
-            try &#123;
-                Thread.sleep(1000);
-            &#125; catch (Exception e) &#123;
-                e.printStackTrace();
-            &#125;
-
-            System.out.println(Thread.currentThread().getName() + &quot;出售票&quot; + tickets);
-            tickets -= 1;
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="3-在Java中-synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1-5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java-util-concurrent-locks包中"><a href="#3-在Java中-synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1-5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java-util-concurrent-locks包中" class="headerlink" title="3 - 在Java中,synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1.5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java.util.concurrent.locks包中"></a>3 - 在Java中,synchronized方法在同一时刻只能被一个线程调用，因此性能很差，从JDK1.5开始Java的API中引入了另一个锁的机制，这种锁机制包含在java.util.concurrent.locks包中</h2><h2 id="4-当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用-synchronized-解决问题。若对性能要求较高的情况下，可考虑使用-ReadWriteLock-接口及其-ReentrantReadWriteLock-实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用-Lock-接口及其-ReentrantLock-实现类来替换以前的-synchronized-方法或代码块"><a href="#4-当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用-synchronized-解决问题。若对性能要求较高的情况下，可考虑使用-ReadWriteLock-接口及其-ReentrantReadWriteLock-实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用-Lock-接口及其-ReentrantLock-实现类来替换以前的-synchronized-方法或代码块" class="headerlink" title="4 - 当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用 synchronized 解决问题。若对性能要求较高的情况下，可考虑使用 ReadWriteLock 接口及其 ReentrantReadWriteLock 实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用 Lock 接口及其 ReentrantLock 实现类来替换以前的 synchronized 方法或代码块"></a>4 - 当系统中出现不同的读、写线程同时访问某一资源时，需要考虑共享互斥问题，可使用 synchronized 解决问题。若对性能要求较高的情况下，可考虑使用 ReadWriteLock 接口及其 ReentrantReadWriteLock 实现类。此外，为了在高并发情况下获取较高的吞吐率，建议使用 Lock 接口及其 ReentrantLock 实现类来替换以前的 synchronized 方法或代码块</h2><p>以上, 3-4段内容,均引自&lt;&lt;Java从入门到精通(第二版)&gt;&gt; 张玉宏主编 </p>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>多线程同步</tag>
       </tags>
   </entry>
   <entry>
@@ -4215,6 +4215,59 @@ Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide sh
       </tags>
   </entry>
   <entry>
+    <title>Node.js的安装和环境变量的配置</title>
+    <url>/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="1-下载安装包"><a href="#1-下载安装包" class="headerlink" title="1, 下载安装包"></a>1, 下载安装包</h2><p>去 <a href="https://nodejs.org/en/">nodejs官网</a> 下载 找到 <a href="https://nodejs.org/dist/latest-v12.x/">node-v12</a> 的下载清单，找到 node-v12.22.1-x64.msi，下载即可。</p>
+<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413131804825.png" alt="image-20210413131804825"></p>
+<h2 id="2，安装"><a href="#2，安装" class="headerlink" title="2，安装"></a>2，安装</h2><p>除了要修改安装路径之外， 其他一切默认即可。</p>
+<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/20200224001033440.png" alt="img"></p>
+<h2 id="3，环境配置"><a href="#3，环境配置" class="headerlink" title="3，环境配置"></a>3，环境配置</h2><ul>
+<li>一般默认安装，都会将路径添加系统变量的path里，所以可以通过，node -v 和 npm -v 查看版本号。</li>
+</ul>
+<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413132613848.png" alt="image-20210413132613848"></p>
+<ul>
+<li><p>一般开始安装的npm 都是6.x 版本， 我们之后可以通过 npm install -g npm 来做npm的全局升级。</p>
+</li>
+<li><p>之后我们需要在 D:\PNCA\environment\nodejs\node-v12.22.0\ 新建两个包</p>
+<ul>
+<li><strong>node_cache</strong></li>
+<li><strong>node_global</strong></li>
+<li>因为开始默认是在 C:\Users\Administrator\AppData\Roaming\npm\node_modules 下，安装全局包的，所以我们修改到D盘下。</li>
+<li>可以通过 <strong>npm root -g</strong> 来查看全局包的路径</li>
+</ul>
+</li>
+<li><p>然后在命令行里运行两条命令</p>
+<ul>
+<li>npm config set prefix “D:\PNCA\environment\nodejs\node-v12.22.0\node_global”</li>
+<li>npm config set cache “D:\PNCA\environment\nodejs\node-v12.22.0\node_cache”</li>
+</ul>
+</li>
+<li><p>找到 D:\PNCA\environment\nodejs\node-v12.22.0\node_modules\npm\ 下的 .npmrc。</p>
+<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413133432356.png" alt="image-20210413133432356"></p>
+<ul>
+<li>修改其内容为：</li>
+<li>prefix=D:\PNCA\environment\nodejs\node-v12.22.0\node_global</li>
+<li>cache=D:\PNCA\environment\nodejs\node-v12.22.0\node_cache</li>
+</ul>
+</li>
+<li><p>修改用户变量</p>
+<p>D:\PNCA\environment\nodejs\node-v12.22.0\node_global</p>
+</li>
+<li><p>在系统变量里</p>
+<p>添加 NODE_HOME: D:\PNCA\environment\nodejs\node-v12.22.0\node_modules\</p>
+</li>
+</ul>
+<h2 id="4，测试"><a href="#4，测试" class="headerlink" title="4，测试"></a>4，测试</h2><p>npm install express -g</p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Win</category>
+      </categories>
+      <tags>
+        <tag>Node</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python使用协程做离散事件仿真</title>
     <url>/2020/08/28/Python%E4%BD%BF%E7%94%A8%E5%8D%8F%E7%A8%8B%E5%81%9A%E7%A6%BB%E6%95%A3%E4%BA%8B%E4%BB%B6%E4%BB%BF%E7%9C%9F/</url>
     <content><![CDATA[<h2 id="1-需要导入的库"><a href="#1-需要导入的库" class="headerlink" title="1 - 需要导入的库"></a>1 - 需要导入的库</h2><div class="code-wrapper"><pre><code>import collections
@@ -4275,59 +4328,6 @@ def run(self, end_time):
       </categories>
       <tags>
         <tag>出租车队运营仿真</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Node.js的安装和环境变量的配置</title>
-    <url>/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h2 id="1-下载安装包"><a href="#1-下载安装包" class="headerlink" title="1, 下载安装包"></a>1, 下载安装包</h2><p>去 <a href="https://nodejs.org/en/">nodejs官网</a> 下载 找到 <a href="https://nodejs.org/dist/latest-v12.x/">node-v12</a> 的下载清单，找到 node-v12.22.1-x64.msi，下载即可。</p>
-<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413131804825.png" alt="image-20210413131804825"></p>
-<h2 id="2，安装"><a href="#2，安装" class="headerlink" title="2，安装"></a>2，安装</h2><p>除了要修改安装路径之外， 其他一切默认即可。</p>
-<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/20200224001033440.png" alt="img"></p>
-<h2 id="3，环境配置"><a href="#3，环境配置" class="headerlink" title="3，环境配置"></a>3，环境配置</h2><ul>
-<li>一般默认安装，都会将路径添加系统变量的path里，所以可以通过，node -v 和 npm -v 查看版本号。</li>
-</ul>
-<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413132613848.png" alt="image-20210413132613848"></p>
-<ul>
-<li><p>一般开始安装的npm 都是6.x 版本， 我们之后可以通过 npm install -g npm 来做npm的全局升级。</p>
-</li>
-<li><p>之后我们需要在 D:\PNCA\environment\nodejs\node-v12.22.0\ 新建两个包</p>
-<ul>
-<li><strong>node_cache</strong></li>
-<li><strong>node_global</strong></li>
-<li>因为开始默认是在 C:\Users\Administrator\AppData\Roaming\npm\node_modules 下，安装全局包的，所以我们修改到D盘下。</li>
-<li>可以通过 <strong>npm root -g</strong> 来查看全局包的路径</li>
-</ul>
-</li>
-<li><p>然后在命令行里运行两条命令</p>
-<ul>
-<li>npm config set prefix “D:\PNCA\environment\nodejs\node-v12.22.0\node_global”</li>
-<li>npm config set cache “D:\PNCA\environment\nodejs\node-v12.22.0\node_cache”</li>
-</ul>
-</li>
-<li><p>找到 D:\PNCA\environment\nodejs\node-v12.22.0\node_modules\npm\ 下的 .npmrc。</p>
-<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413133432356.png" alt="image-20210413133432356"></p>
-<ul>
-<li>修改其内容为：</li>
-<li>prefix=D:\PNCA\environment\nodejs\node-v12.22.0\node_global</li>
-<li>cache=D:\PNCA\environment\nodejs\node-v12.22.0\node_cache</li>
-</ul>
-</li>
-<li><p>修改用户变量</p>
-<p>D:\PNCA\environment\nodejs\node-v12.22.0\node_global</p>
-</li>
-<li><p>在系统变量里</p>
-<p>添加 NODE_HOME: D:\PNCA\environment\nodejs\node-v12.22.0\node_modules\</p>
-</li>
-</ul>
-<h2 id="4，测试"><a href="#4，测试" class="headerlink" title="4，测试"></a>4，测试</h2><p>npm install express -g</p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Win</category>
-      </categories>
-      <tags>
-        <tag>Node</tag>
       </tags>
   </entry>
   <entry>
@@ -5689,19 +5689,6 @@ source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
       </tags>
   </entry>
   <entry>
-    <title>我的第一篇博客文章</title>
-    <url>/2019/12/15/%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/</url>
-    <content><![CDATA[<p>“list” 是给这个结构体起的别名，</p>
-<span id="more"></span>
-<p>为了使用方便。</p>
-<p>其次，这个结构体中的date是数值域，next是指针域。</p>
-<p>在这里我使用了递归定义。</p>
-<!-- more -->]]></content>
-      <tags>
-        <tag>博客</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>常见的压缩文件压缩和解压缩</title>
     <url>/2021/04/23/%E5%B8%B8%E8%A7%81%E7%9A%84%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E5%92%8C%E8%A7%A3%E5%8E%8B%E7%BC%A9/</url>
     <content><![CDATA[<h2 id="常见的压缩文件压缩和解压缩"><a href="#常见的压缩文件压缩和解压缩" class="headerlink" title="常见的压缩文件压缩和解压缩"></a>常见的压缩文件压缩和解压缩</h2><table>
@@ -5779,6 +5766,19 @@ source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
         <category>Help</category>
         <category>Linux</category>
       </categories>
+  </entry>
+  <entry>
+    <title>我的第一篇博客文章</title>
+    <url>/2019/12/15/%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/</url>
+    <content><![CDATA[<p>“list” 是给这个结构体起的别名，</p>
+<span id="more"></span>
+<p>为了使用方便。</p>
+<p>其次，这个结构体中的date是数值域，next是指针域。</p>
+<p>在这里我使用了递归定义。</p>
+<!-- more -->]]></content>
+      <tags>
+        <tag>博客</tag>
+      </tags>
   </entry>
   <entry>
     <title>虚拟机 Ubuntu 安装 Tensorflow</title>
