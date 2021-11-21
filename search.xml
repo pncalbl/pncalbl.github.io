@@ -22,6 +22,27 @@
       </categories>
   </entry>
   <entry>
+    <title>2021大三第一学期第7周总结</title>
+    <url>/2021/10/17/2021%E5%A4%A7%E4%B8%89%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%AC%AC7%E5%91%A8%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h1 id="2021大三第一学期-第7周总结"><a href="#2021大三第一学期-第7周总结" class="headerlink" title="2021大三第一学期 第7周总结"></a>2021大三第一学期 第7周总结</h1><h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><ul>
+<li>计算机英语的进一步学习，Verilog-FPGA 的实验和控制逻辑。</li>
+<li>嵌入式系统的进一步学习，数据库的 SQL 语句的学习。</li>
+</ul>
+<h2 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h2><ul>
+<li>继续完善 coin-exchange 货币交易平台，完成主体项目搭建，完成公共模块和网关与授权等基础服务的搭建。</li>
+<li>完善我的博客项目，进一步丰富博客的内容生态。</li>
+</ul>
+<h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><ul>
+<li>阅读 《垃圾回收的算法与实现》，《Effective Debugging》，《Jenkins 2.x实践指南》，《Go语言高级编程》，《软技能2：软件开发者职业生涯指南》，《剑指Offer》。</li>
+<li>阅读《基督山伯爵（全集）》，《安娜·卡列尼娜（经典译林）》，《战争与和平（全集）》，《小王子（英文版）》，《格列佛游记:Gulliver’s Travels（英文版）》。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Technical</category>
+        <category>Weekly</category>
+      </categories>
+  </entry>
+  <entry>
     <title>2021大三第一学期第11周总结</title>
     <url>/2021/11/14/2021%E5%A4%A7%E4%B8%89%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%AC%AC11%E5%91%A8%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h1 id="2021大三第一学期-第11周总结"><a href="#2021大三第一学期-第11周总结" class="headerlink" title="2021大三第一学期 第11周总结"></a>2021大三第一学期 第11周总结</h1><h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><ul>
@@ -37,27 +58,6 @@
 <h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><ul>
 <li>阅读《软技能2：软件开发者职业生涯指南》，《 Spark 编程基础》，《Spring 源码深度解析》。</li>
 <li>阅读《太阳照常升起）》，《80天环游地球》，《安娜·卡列尼娜》。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Technical</category>
-        <category>Weekly</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>2021大三第一学期第7周总结</title>
-    <url>/2021/10/17/2021%E5%A4%A7%E4%B8%89%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%AC%AC7%E5%91%A8%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h1 id="2021大三第一学期-第7周总结"><a href="#2021大三第一学期-第7周总结" class="headerlink" title="2021大三第一学期 第7周总结"></a>2021大三第一学期 第7周总结</h1><h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><ul>
-<li>计算机英语的进一步学习，Verilog-FPGA 的实验和控制逻辑。</li>
-<li>嵌入式系统的进一步学习，数据库的 SQL 语句的学习。</li>
-</ul>
-<h2 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h2><ul>
-<li>继续完善 coin-exchange 货币交易平台，完成主体项目搭建，完成公共模块和网关与授权等基础服务的搭建。</li>
-<li>完善我的博客项目，进一步丰富博客的内容生态。</li>
-</ul>
-<h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><ul>
-<li>阅读 《垃圾回收的算法与实现》，《Effective Debugging》，《Jenkins 2.x实践指南》，《Go语言高级编程》，《软技能2：软件开发者职业生涯指南》，《剑指Offer》。</li>
-<li>阅读《基督山伯爵（全集）》，《安娜·卡列尼娜（经典译林）》，《战争与和平（全集）》，《小王子（英文版）》，《格列佛游记:Gulliver’s Travels（英文版）》。</li>
 </ul>
 ]]></content>
       <categories>
@@ -345,6 +345,241 @@ import java.io.PipedOutputStream;</code></pre></div><h2 id="2-我们需要编写
       </tags>
   </entry>
   <entry>
+    <title>JavaAbstractFactory模式表格化版本</title>
+    <url>/2020/09/17/JavaAbstractFactory%E6%A8%A1%E5%BC%8F%E8%A1%A8%E6%A0%BC%E5%8C%96%E7%89%88%E6%9C%AC/</url>
+    <content><![CDATA[<blockquote>
+<p>  将关联零件组装成产品</p>
+</blockquote>
+<h2 id="1-方便统一处理Link和Tray的类"><a href="#1-方便统一处理Link和Tray的类" class="headerlink" title="1 - 方便统一处理Link和Tray的类"></a>1 - 方便统一处理Link和Tray的类</h2><div class="code-wrapper"><pre><code>public abstract class Item &#123;
+    protected String caption;
+
+    public Item(String caption)&#123;
+        this.caption = caption;
+    &#125;
+
+    public abstract String makeHTML();
+&#125;</code></pre></div><h2 id="2-抽象零件-表示HTML的链接的类"><a href="#2-抽象零件-表示HTML的链接的类" class="headerlink" title="2 - 抽象零件: 表示HTML的链接的类"></a>2 - 抽象零件: 表示HTML的链接的类</h2><div class="code-wrapper"><pre><code>public abstract class Link extends Item&#123;
+    protected String url;
+
+    public Link(String caption, String url) &#123;
+        super(caption);
+        this.url = url;
+    &#125;
+&#125;</code></pre></div><h2 id="3-抽象零件-表示含有Link和Tray的类"><a href="#3-抽象零件-表示含有Link和Tray的类" class="headerlink" title="3 - 抽象零件: 表示含有Link和Tray的类"></a>3 - 抽象零件: 表示含有Link和Tray的类</h2><div class="code-wrapper"><pre><code>public abstract class Tray extends Item&#123;
+
+    protected ArrayList tray = new ArrayList();
+
+    public Tray(String caption) &#123;
+        super(caption);
+    &#125;
+
+    public void add(Item item)&#123;
+        tray.add(item);
+    &#125;
+&#125;</code></pre></div><h2 id="4-抽象零件-表示含有HTML页面的类"><a href="#4-抽象零件-表示含有HTML页面的类" class="headerlink" title="4 - 抽象零件: 表示含有HTML页面的类"></a>4 - 抽象零件: 表示含有HTML页面的类</h2><div class="code-wrapper"><pre><code>public abstract class Page &#123;
+    protected String title;
+    protected String author;
+    protected ArrayList content = new ArrayList();
+
+    public Page(String title, String author)&#123;
+        this.title = title;
+        this.author = author;
+    &#125;
+
+    public void add(Item item)&#123;
+        content.add(item);
+    &#125;
+
+    public void output()&#123;
+        try &#123;
+            String filename = title + &quot;.html&quot;;
+            Writer writer = new FileWriter(filename);
+            writer.write(this.makeHTML());
+            writer.close();
+            System.out.println(filename + &quot;编写完成&quot;);
+        &#125;catch (IOException e)&#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+    public abstract String makeHTML();
+&#125;</code></pre></div><h2 id="5-表示抽象工厂的类-制作Link-Tray-Page"><a href="#5-表示抽象工厂的类-制作Link-Tray-Page" class="headerlink" title="5 - 表示抽象工厂的类(制作Link, Tray, Page)"></a>5 - 表示抽象工厂的类(制作Link, Tray, Page)</h2><div class="code-wrapper"><pre><code>public abstract class Factory &#123;
+    public static Factory getFactory(String classname)&#123;
+        Factory factory = null;
+        try &#123;
+            factory = (Factory)Class.forName(classname).newInstance();
+        &#125;catch (ClassNotFoundException e)&#123;
+            e.printStackTrace();
+            System.out.println(&quot;没有找到 &quot; + classname + &quot;类&quot;);
+        &#125;catch (Exception e)&#123;
+            e.printStackTrace();
+        &#125;
+
+        return factory;
+    &#125;
+
+    public abstract Link createLink(String caption, String url);
+    public abstract Tray createTray(String caption, String url);
+    public abstract Page createPage(String title, String auto);
+&#125;</code></pre></div><h2 id="6-具体的工厂-TableFactory-制作TableLink-TableTray-TablePage"><a href="#6-具体的工厂-TableFactory-制作TableLink-TableTray-TablePage" class="headerlink" title="6 - 具体的工厂: TableFactory(制作TableLink, TableTray, TablePage)"></a>6 - 具体的工厂: TableFactory(制作TableLink, TableTray, TablePage)</h2><div class="code-wrapper"><pre><code>public class TableFactory extends Factory &#123;
+    @Override
+    public Link createLink(String caption, String url) &#123;
+        return new TableLink(caption, url);
+    &#125;
+
+    @Override
+    public Tray createTray(String caption) &#123;
+        return new TableTray(caption);
+    &#125;
+
+    @Override
+    public Page createPage(String title, String auto) &#123;
+        return new TablePage(title, auto);
+    &#125;
+&#125;</code></pre></div><h2 id="7-具体零件-表示HTML的链接的类"><a href="#7-具体零件-表示HTML的链接的类" class="headerlink" title="7 - 具体零件: 表示HTML的链接的类"></a>7 - 具体零件: 表示HTML的链接的类</h2><div class="code-wrapper"><pre><code>public class TableLink extends Link&#123;
+    public TableLink(String caption, String url) &#123;
+        super(caption, url);
+    &#125;
+
+    @Override
+    public String makeHTML() &#123;
+        return &quot;  &lt;td&gt;&lt;a href=\&quot;&quot; + url + &quot;\&quot;&gt;&quot; + caption + &quot;&lt;/a&gt;&lt;/td&gt;\n&quot;;
+    &#125;
+&#125;</code></pre></div><h2 id="8-具体零件-表示含有Link和Tray的类"><a href="#8-具体零件-表示含有Link和Tray的类" class="headerlink" title="8 - 具体零件: 表示含有Link和Tray的类"></a>8 - 具体零件: 表示含有Link和Tray的类</h2><div class="code-wrapper"><pre><code>public class TableTray extends Tray &#123;
+
+public TableTray(String caption) &#123;
+    super(caption);
+&#125;
+
+    @Override
+    public String makeHTML() &#123;
+        StringBuilder buffer = new StringBuilder();
+        buffer.append(&quot;&lt;td&gt;&quot;);
+        buffer.append(&quot;&lt;table width=\&quot;100%\&quot; border=\&quot;1\&quot;&gt;&lt;tr&gt;&quot;);
+        buffer.append(&quot;&lt;td bgcolor=\&quot;#cccccc\&quot; align=\&quot;center\&quot; colspan=\&quot;&quot;).append(tray.size()).append(&quot;\&quot;&gt;&lt;b&gt;&quot;).append(caption).append(&quot;&lt;/b&gt;&lt;/td&gt;&quot;);
+        buffer.append(&quot;&lt;/tr&gt;\n&quot;);
+        buffer.append(&quot;&lt;tr&gt;\n&quot;);
+
+        for (Item item : tray) &#123;
+            buffer.append(item.makeHTML());
+        &#125;
+
+        buffer.append(&quot;&lt;/tr&gt;&lt;/table&gt;&quot;);
+        buffer.append(&quot;&lt;/td&gt;\n&quot;);
+        return buffer.toString();
+    &#125;
+&#125;</code></pre></div><h2 id="9-具体零件-表示HTML页面的类"><a href="#9-具体零件-表示HTML页面的类" class="headerlink" title="9 - 具体零件: 表示HTML页面的类"></a>9 - 具体零件: 表示HTML页面的类</h2><div class="code-wrapper"><pre><code>public class TablePage extends Page&#123;
+
+    public TablePage(String title, String author) &#123;
+        super(title, author);
+    &#125;
+
+    @Override
+    public String makeHTML() &#123;
+        StringBuilder buffer = new StringBuilder();
+        buffer.append(&quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;&quot;).append(title).append(&quot;&lt;/title&gt;&lt;/head&gt;\n&quot;);
+        buffer.append(&quot;&lt;body&gt;\n&quot;);
+        buffer.append(&quot;&lt;h1&gt;&quot;).append(title).append(&quot;&lt;/h1&gt;\n&quot;);
+        buffer.append(&quot;&lt;table width=\&quot;80%\&quot; border=\&quot;3\&quot;&gt;\n&quot;);
+        for (Item item : content) &#123;
+            buffer.append(&quot;&lt;tr&gt;&quot;).append(item.makeHTML()).append(&quot;&lt;/tr&gt;&quot;);
+        &#125;
+        buffer.append(&quot;&lt;/table&gt;\n&quot;);
+        buffer.append(&quot;&lt;hr&gt;&lt;address&gt;&quot;).append(author).append(&quot;&lt;/address&gt;&quot;);
+        buffer.append(&quot;&lt;/body&gt;&lt;/html&gt;\n&quot;);
+        return buffer.toString();
+    &#125;
+&#125;</code></pre></div><h2 id="10-测试程序行为的类"><a href="#10-测试程序行为的类" class="headerlink" title="10 - 测试程序行为的类"></a>10 - 测试程序行为的类</h2><p>需要设置参数args[] = tablefactory.TableFactory</p>
+<div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        if (args.length != 1)&#123;
+            System.out.println(&quot;Usage: java Main class.name.of.ConcreteFactory&quot;);
+            System.out.println(&quot;Example 1: java Main listFactory.ListFactory&quot;);
+            System.out.println(&quot;Example 2: java Main tableFactory.TableFactory&quot;);
+            System.exit(0);
+        &#125;
+
+        Factory factory = Factory.getFactory(args[0]);
+
+        Link people = factory.createLink(&quot;人民日报&quot;, &quot;http://www.people.com.cn/&quot;);
+        Link gmw = factory.createLink(&quot;光明日报&quot;, &quot;http://www.gmw.cn/&quot;);
+
+        Link us_yahoo = factory.createLink(&quot;Yahoo!&quot;, &quot;http://www.yahoo.com/&quot;);
+        Link jp_yahoo = factory.createLink(&quot;Yahoo!Japan!&quot;, &quot;http://www.yahoo.co.jp&quot;);
+        Link excite = factory.createLink(&quot;Excite&quot;, &quot;http://www.excite.com/&quot;);
+        Link google = factory.createLink(&quot;Google&quot;, &quot;http://www.google.com/&quot;);
+
+        Tray trayNews = factory.createTray(&quot;日报&quot;);
+        trayNews.add(people);
+        trayNews.add(gmw);
+
+        Tray trayYahoo = factory.createTray(&quot;Yahoo!&quot;);
+        trayYahoo.add(us_yahoo);
+        trayYahoo.add(jp_yahoo);
+
+        Tray traySearch = factory.createTray(&quot;检索引擎&quot;);
+        traySearch.add(trayYahoo);
+        traySearch.add(excite);
+        traySearch.add(google);
+
+        Page page = factory.createPage(&quot;LinkPage&quot;, &quot;杨文轩&quot;);
+        page.add(trayNews);
+        page.add(traySearch);
+        page.output();
+
+    &#125;
+&#125;</code></pre></div><h2 id="11-输出示例"><a href="#11-输出示例" class="headerlink" title="11 - 输出示例"></a>11 - 输出示例</h2><div class="code-wrapper"><pre><code>LinkPage.html编写完成
+
+HTML文本效果图</code></pre></div><html><head><title>LinkPage</title></head>
+<body>
+<h1>LinkPage</h1>
+<table width="80%" border="3">
+<tr><td><table width="100%" border="1"><tr><td bgcolor="#cccccc" align="center" colspan="2"><b>日报</b></td></tr>
+<tr>
+  <td><a href="http://www.people.com.cn/">人民日报</a></td>
+  <td><a href="http://www.gmw.cn/">光明日报</a></td>
+</tr></table></td>
+</tr><tr><td><table width="100%" border="1"><tr><td bgcolor="#cccccc" align="center" colspan="3"><b>检索引擎</b></td></tr>
+<tr>
+<td><table width="100%" border="1"><tr><td bgcolor="#cccccc" align="center" colspan="2"><b>Yahoo!</b></td></tr>
+<tr>
+  <td><a href="http://www.yahoo.com/">Yahoo!</a></td>
+  <td><a href="http://www.yahoo.co.jp">Yahoo!Japan!</a></td>
+</tr></table></td>
+  <td><a href="http://www.excite.com/">Excite</a></td>
+  <td><a href="http://www.google.com/">Google</a></td>
+</tr></table></td>
+</tr></table>
+<hr><address>杨文轩</address></body></html>
+
+<div class="code-wrapper"><pre><code>具体源码
+&lt;html&gt;&lt;head&gt;&lt;title&gt;LinkPage&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;LinkPage&lt;/h1&gt;
+&lt;table width=&quot;80%&quot; border=&quot;3&quot;&gt;
+&lt;tr&gt;&lt;td&gt;&lt;table width=&quot;100%&quot; border=&quot;1&quot;&gt;&lt;tr&gt;&lt;td bgcolor=&quot;#cccccc&quot; align=&quot;center&quot; colspan=&quot;2&quot;&gt;&lt;b&gt;日报&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;http://www.people.com.cn/&quot;&gt;人民日报&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&quot;http://www.gmw.cn/&quot;&gt;光明日报&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;table width=&quot;100%&quot; border=&quot;1&quot;&gt;&lt;tr&gt;&lt;td bgcolor=&quot;#cccccc&quot; align=&quot;center&quot; colspan=&quot;3&quot;&gt;&lt;b&gt;检索引擎&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;table width=&quot;100%&quot; border=&quot;1&quot;&gt;&lt;tr&gt;&lt;td bgcolor=&quot;#cccccc&quot; align=&quot;center&quot; colspan=&quot;2&quot;&gt;&lt;b&gt;Yahoo!&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;http://www.yahoo.com/&quot;&gt;Yahoo!&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&quot;http://www.yahoo.co.jp&quot;&gt;Yahoo!Japan!&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&quot;http://www.excite.com/&quot;&gt;Excite&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&quot;http://www.google.com/&quot;&gt;Google&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/table&gt;
+&lt;hr&gt;&lt;address&gt;杨文轩&lt;/address&gt;&lt;/body&gt;&lt;/html&gt;</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
     <title>JavaAbstractFactory模式</title>
     <url>/2020/09/14/JavaAbstractFactory%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -582,241 +817,6 @@ Yahoo!
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;hr&gt;&lt;address&gt;杨文轩&lt;/address&gt;&lt;/body&gt;&lt;/html&gt;</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>JavaAbstractFactory模式表格化版本</title>
-    <url>/2020/09/17/JavaAbstractFactory%E6%A8%A1%E5%BC%8F%E8%A1%A8%E6%A0%BC%E5%8C%96%E7%89%88%E6%9C%AC/</url>
-    <content><![CDATA[<blockquote>
-<p>  将关联零件组装成产品</p>
-</blockquote>
-<h2 id="1-方便统一处理Link和Tray的类"><a href="#1-方便统一处理Link和Tray的类" class="headerlink" title="1 - 方便统一处理Link和Tray的类"></a>1 - 方便统一处理Link和Tray的类</h2><div class="code-wrapper"><pre><code>public abstract class Item &#123;
-    protected String caption;
-
-    public Item(String caption)&#123;
-        this.caption = caption;
-    &#125;
-
-    public abstract String makeHTML();
-&#125;</code></pre></div><h2 id="2-抽象零件-表示HTML的链接的类"><a href="#2-抽象零件-表示HTML的链接的类" class="headerlink" title="2 - 抽象零件: 表示HTML的链接的类"></a>2 - 抽象零件: 表示HTML的链接的类</h2><div class="code-wrapper"><pre><code>public abstract class Link extends Item&#123;
-    protected String url;
-
-    public Link(String caption, String url) &#123;
-        super(caption);
-        this.url = url;
-    &#125;
-&#125;</code></pre></div><h2 id="3-抽象零件-表示含有Link和Tray的类"><a href="#3-抽象零件-表示含有Link和Tray的类" class="headerlink" title="3 - 抽象零件: 表示含有Link和Tray的类"></a>3 - 抽象零件: 表示含有Link和Tray的类</h2><div class="code-wrapper"><pre><code>public abstract class Tray extends Item&#123;
-
-    protected ArrayList tray = new ArrayList();
-
-    public Tray(String caption) &#123;
-        super(caption);
-    &#125;
-
-    public void add(Item item)&#123;
-        tray.add(item);
-    &#125;
-&#125;</code></pre></div><h2 id="4-抽象零件-表示含有HTML页面的类"><a href="#4-抽象零件-表示含有HTML页面的类" class="headerlink" title="4 - 抽象零件: 表示含有HTML页面的类"></a>4 - 抽象零件: 表示含有HTML页面的类</h2><div class="code-wrapper"><pre><code>public abstract class Page &#123;
-    protected String title;
-    protected String author;
-    protected ArrayList content = new ArrayList();
-
-    public Page(String title, String author)&#123;
-        this.title = title;
-        this.author = author;
-    &#125;
-
-    public void add(Item item)&#123;
-        content.add(item);
-    &#125;
-
-    public void output()&#123;
-        try &#123;
-            String filename = title + &quot;.html&quot;;
-            Writer writer = new FileWriter(filename);
-            writer.write(this.makeHTML());
-            writer.close();
-            System.out.println(filename + &quot;编写完成&quot;);
-        &#125;catch (IOException e)&#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-
-    public abstract String makeHTML();
-&#125;</code></pre></div><h2 id="5-表示抽象工厂的类-制作Link-Tray-Page"><a href="#5-表示抽象工厂的类-制作Link-Tray-Page" class="headerlink" title="5 - 表示抽象工厂的类(制作Link, Tray, Page)"></a>5 - 表示抽象工厂的类(制作Link, Tray, Page)</h2><div class="code-wrapper"><pre><code>public abstract class Factory &#123;
-    public static Factory getFactory(String classname)&#123;
-        Factory factory = null;
-        try &#123;
-            factory = (Factory)Class.forName(classname).newInstance();
-        &#125;catch (ClassNotFoundException e)&#123;
-            e.printStackTrace();
-            System.out.println(&quot;没有找到 &quot; + classname + &quot;类&quot;);
-        &#125;catch (Exception e)&#123;
-            e.printStackTrace();
-        &#125;
-
-        return factory;
-    &#125;
-
-    public abstract Link createLink(String caption, String url);
-    public abstract Tray createTray(String caption, String url);
-    public abstract Page createPage(String title, String auto);
-&#125;</code></pre></div><h2 id="6-具体的工厂-TableFactory-制作TableLink-TableTray-TablePage"><a href="#6-具体的工厂-TableFactory-制作TableLink-TableTray-TablePage" class="headerlink" title="6 - 具体的工厂: TableFactory(制作TableLink, TableTray, TablePage)"></a>6 - 具体的工厂: TableFactory(制作TableLink, TableTray, TablePage)</h2><div class="code-wrapper"><pre><code>public class TableFactory extends Factory &#123;
-    @Override
-    public Link createLink(String caption, String url) &#123;
-        return new TableLink(caption, url);
-    &#125;
-
-    @Override
-    public Tray createTray(String caption) &#123;
-        return new TableTray(caption);
-    &#125;
-
-    @Override
-    public Page createPage(String title, String auto) &#123;
-        return new TablePage(title, auto);
-    &#125;
-&#125;</code></pre></div><h2 id="7-具体零件-表示HTML的链接的类"><a href="#7-具体零件-表示HTML的链接的类" class="headerlink" title="7 - 具体零件: 表示HTML的链接的类"></a>7 - 具体零件: 表示HTML的链接的类</h2><div class="code-wrapper"><pre><code>public class TableLink extends Link&#123;
-    public TableLink(String caption, String url) &#123;
-        super(caption, url);
-    &#125;
-
-    @Override
-    public String makeHTML() &#123;
-        return &quot;  &lt;td&gt;&lt;a href=\&quot;&quot; + url + &quot;\&quot;&gt;&quot; + caption + &quot;&lt;/a&gt;&lt;/td&gt;\n&quot;;
-    &#125;
-&#125;</code></pre></div><h2 id="8-具体零件-表示含有Link和Tray的类"><a href="#8-具体零件-表示含有Link和Tray的类" class="headerlink" title="8 - 具体零件: 表示含有Link和Tray的类"></a>8 - 具体零件: 表示含有Link和Tray的类</h2><div class="code-wrapper"><pre><code>public class TableTray extends Tray &#123;
-
-public TableTray(String caption) &#123;
-    super(caption);
-&#125;
-
-    @Override
-    public String makeHTML() &#123;
-        StringBuilder buffer = new StringBuilder();
-        buffer.append(&quot;&lt;td&gt;&quot;);
-        buffer.append(&quot;&lt;table width=\&quot;100%\&quot; border=\&quot;1\&quot;&gt;&lt;tr&gt;&quot;);
-        buffer.append(&quot;&lt;td bgcolor=\&quot;#cccccc\&quot; align=\&quot;center\&quot; colspan=\&quot;&quot;).append(tray.size()).append(&quot;\&quot;&gt;&lt;b&gt;&quot;).append(caption).append(&quot;&lt;/b&gt;&lt;/td&gt;&quot;);
-        buffer.append(&quot;&lt;/tr&gt;\n&quot;);
-        buffer.append(&quot;&lt;tr&gt;\n&quot;);
-
-        for (Item item : tray) &#123;
-            buffer.append(item.makeHTML());
-        &#125;
-
-        buffer.append(&quot;&lt;/tr&gt;&lt;/table&gt;&quot;);
-        buffer.append(&quot;&lt;/td&gt;\n&quot;);
-        return buffer.toString();
-    &#125;
-&#125;</code></pre></div><h2 id="9-具体零件-表示HTML页面的类"><a href="#9-具体零件-表示HTML页面的类" class="headerlink" title="9 - 具体零件: 表示HTML页面的类"></a>9 - 具体零件: 表示HTML页面的类</h2><div class="code-wrapper"><pre><code>public class TablePage extends Page&#123;
-
-    public TablePage(String title, String author) &#123;
-        super(title, author);
-    &#125;
-
-    @Override
-    public String makeHTML() &#123;
-        StringBuilder buffer = new StringBuilder();
-        buffer.append(&quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;&quot;).append(title).append(&quot;&lt;/title&gt;&lt;/head&gt;\n&quot;);
-        buffer.append(&quot;&lt;body&gt;\n&quot;);
-        buffer.append(&quot;&lt;h1&gt;&quot;).append(title).append(&quot;&lt;/h1&gt;\n&quot;);
-        buffer.append(&quot;&lt;table width=\&quot;80%\&quot; border=\&quot;3\&quot;&gt;\n&quot;);
-        for (Item item : content) &#123;
-            buffer.append(&quot;&lt;tr&gt;&quot;).append(item.makeHTML()).append(&quot;&lt;/tr&gt;&quot;);
-        &#125;
-        buffer.append(&quot;&lt;/table&gt;\n&quot;);
-        buffer.append(&quot;&lt;hr&gt;&lt;address&gt;&quot;).append(author).append(&quot;&lt;/address&gt;&quot;);
-        buffer.append(&quot;&lt;/body&gt;&lt;/html&gt;\n&quot;);
-        return buffer.toString();
-    &#125;
-&#125;</code></pre></div><h2 id="10-测试程序行为的类"><a href="#10-测试程序行为的类" class="headerlink" title="10 - 测试程序行为的类"></a>10 - 测试程序行为的类</h2><p>需要设置参数args[] = tablefactory.TableFactory</p>
-<div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        if (args.length != 1)&#123;
-            System.out.println(&quot;Usage: java Main class.name.of.ConcreteFactory&quot;);
-            System.out.println(&quot;Example 1: java Main listFactory.ListFactory&quot;);
-            System.out.println(&quot;Example 2: java Main tableFactory.TableFactory&quot;);
-            System.exit(0);
-        &#125;
-
-        Factory factory = Factory.getFactory(args[0]);
-
-        Link people = factory.createLink(&quot;人民日报&quot;, &quot;http://www.people.com.cn/&quot;);
-        Link gmw = factory.createLink(&quot;光明日报&quot;, &quot;http://www.gmw.cn/&quot;);
-
-        Link us_yahoo = factory.createLink(&quot;Yahoo!&quot;, &quot;http://www.yahoo.com/&quot;);
-        Link jp_yahoo = factory.createLink(&quot;Yahoo!Japan!&quot;, &quot;http://www.yahoo.co.jp&quot;);
-        Link excite = factory.createLink(&quot;Excite&quot;, &quot;http://www.excite.com/&quot;);
-        Link google = factory.createLink(&quot;Google&quot;, &quot;http://www.google.com/&quot;);
-
-        Tray trayNews = factory.createTray(&quot;日报&quot;);
-        trayNews.add(people);
-        trayNews.add(gmw);
-
-        Tray trayYahoo = factory.createTray(&quot;Yahoo!&quot;);
-        trayYahoo.add(us_yahoo);
-        trayYahoo.add(jp_yahoo);
-
-        Tray traySearch = factory.createTray(&quot;检索引擎&quot;);
-        traySearch.add(trayYahoo);
-        traySearch.add(excite);
-        traySearch.add(google);
-
-        Page page = factory.createPage(&quot;LinkPage&quot;, &quot;杨文轩&quot;);
-        page.add(trayNews);
-        page.add(traySearch);
-        page.output();
-
-    &#125;
-&#125;</code></pre></div><h2 id="11-输出示例"><a href="#11-输出示例" class="headerlink" title="11 - 输出示例"></a>11 - 输出示例</h2><div class="code-wrapper"><pre><code>LinkPage.html编写完成
-
-HTML文本效果图</code></pre></div><html><head><title>LinkPage</title></head>
-<body>
-<h1>LinkPage</h1>
-<table width="80%" border="3">
-<tr><td><table width="100%" border="1"><tr><td bgcolor="#cccccc" align="center" colspan="2"><b>日报</b></td></tr>
-<tr>
-  <td><a href="http://www.people.com.cn/">人民日报</a></td>
-  <td><a href="http://www.gmw.cn/">光明日报</a></td>
-</tr></table></td>
-</tr><tr><td><table width="100%" border="1"><tr><td bgcolor="#cccccc" align="center" colspan="3"><b>检索引擎</b></td></tr>
-<tr>
-<td><table width="100%" border="1"><tr><td bgcolor="#cccccc" align="center" colspan="2"><b>Yahoo!</b></td></tr>
-<tr>
-  <td><a href="http://www.yahoo.com/">Yahoo!</a></td>
-  <td><a href="http://www.yahoo.co.jp">Yahoo!Japan!</a></td>
-</tr></table></td>
-  <td><a href="http://www.excite.com/">Excite</a></td>
-  <td><a href="http://www.google.com/">Google</a></td>
-</tr></table></td>
-</tr></table>
-<hr><address>杨文轩</address></body></html>
-
-<div class="code-wrapper"><pre><code>具体源码
-&lt;html&gt;&lt;head&gt;&lt;title&gt;LinkPage&lt;/title&gt;&lt;/head&gt;
-&lt;body&gt;
-&lt;h1&gt;LinkPage&lt;/h1&gt;
-&lt;table width=&quot;80%&quot; border=&quot;3&quot;&gt;
-&lt;tr&gt;&lt;td&gt;&lt;table width=&quot;100%&quot; border=&quot;1&quot;&gt;&lt;tr&gt;&lt;td bgcolor=&quot;#cccccc&quot; align=&quot;center&quot; colspan=&quot;2&quot;&gt;&lt;b&gt;日报&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;a href=&quot;http://www.people.com.cn/&quot;&gt;人民日报&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&quot;http://www.gmw.cn/&quot;&gt;光明日报&lt;/a&gt;&lt;/td&gt;
-&lt;/tr&gt;&lt;/table&gt;&lt;/td&gt;
-&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;table width=&quot;100%&quot; border=&quot;1&quot;&gt;&lt;tr&gt;&lt;td bgcolor=&quot;#cccccc&quot; align=&quot;center&quot; colspan=&quot;3&quot;&gt;&lt;b&gt;检索引擎&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;table width=&quot;100%&quot; border=&quot;1&quot;&gt;&lt;tr&gt;&lt;td bgcolor=&quot;#cccccc&quot; align=&quot;center&quot; colspan=&quot;2&quot;&gt;&lt;b&gt;Yahoo!&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;a href=&quot;http://www.yahoo.com/&quot;&gt;Yahoo!&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&quot;http://www.yahoo.co.jp&quot;&gt;Yahoo!Japan!&lt;/a&gt;&lt;/td&gt;
-&lt;/tr&gt;&lt;/table&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&quot;http://www.excite.com/&quot;&gt;Excite&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&quot;http://www.google.com/&quot;&gt;Google&lt;/a&gt;&lt;/td&gt;
-&lt;/tr&gt;&lt;/table&gt;&lt;/td&gt;
-&lt;/tr&gt;&lt;/table&gt;
 &lt;hr&gt;&lt;address&gt;杨文轩&lt;/address&gt;&lt;/body&gt;&lt;/html&gt;</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
@@ -1611,6 +1611,105 @@ Making user entries...
       </categories>
   </entry>
   <entry>
+    <title>JavaFacade模式</title>
+    <url>/2020/09/25/JavaFacade%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>  简单窗口</p>
+</blockquote>
+<h2 id="1-从邮件地址中获取用户名的类"><a href="#1-从邮件地址中获取用户名的类" class="headerlink" title="1- 从邮件地址中获取用户名的类"></a>1- 从邮件地址中获取用户名的类</h2><div class="code-wrapper"><pre><code>// 需要配置相应的数据库
+public class Database &#123;
+    private Database() &#123;    // 防止外部new出Database的实例,所以声明为private
+    &#125;
+
+    public static Properties getProperties(String dbname)&#123;  // 根据数据库名获取Properties
+        String filename = dbname + &quot;.txt&quot;;
+        Properties prop = new Properties();
+        try &#123;
+            prop.load(new FileInputStream(filename));
+        &#125;catch (IOException e)&#123;
+            System.out.println(&quot;Warning: &quot; + filename + &quot; is not found.&quot;);
+        &#125;
+        return prop;
+    &#125;
+&#125;</code></pre></div><h2 id="2-编写HTML文件的类"><a href="#2-编写HTML文件的类" class="headerlink" title="2 - 编写HTML文件的类"></a>2 - 编写HTML文件的类</h2><div class="code-wrapper"><pre><code>public class HtmlWriter &#123;
+    private Writer writer;
+    public HtmlWriter(Writer writer)&#123;
+        this.writer = writer;
+    &#125;
+
+    public void title(String title) throws IOException&#123;
+        writer.write(&quot;&lt;html&gt;&quot;);
+        writer.write(&quot;&lt;head&gt;&quot;);
+        writer.write(&quot;&lt;title&gt;&quot; + title + &quot;&lt;/title&gt;&quot;);
+        writer.write(&quot;&lt;/head&gt;&quot;);
+        writer.write(&quot;&lt;body&gt;\n&quot;);
+        writer.write(&quot;&lt;h1&gt;&quot; + title + &quot;&lt;/h1&gt;&quot;);
+    &#125;
+
+    public void paragraph(String msg) throws IOException&#123;
+        writer.write(&quot;&lt;p&gt;&quot; + msg + &quot;&lt;/p&gt;\n&quot;);
+    &#125;
+
+    public void link(String href, String caption) throws IOException&#123;
+        paragraph(&quot;&lt;a href=\&quot;&quot; + href + &quot;\&quot;&gt;&quot; + caption + &quot;&lt;/a&gt;&quot;);
+    &#125;
+
+    public void mailto(String mailAddr, String userName) throws IOException&#123;
+        link(&quot;mailto: &quot; + mailAddr, userName);
+    &#125;
+
+    public void close() throws IOException&#123;
+        writer.write(&quot;&lt;/body&gt;&quot;);
+        writer.write(&quot;&lt;/html&gt;&quot;);
+        writer.close();
+    &#125;
+&#125;</code></pre></div><h2 id="3-根据邮件地址编写该用户的Web页面"><a href="#3-根据邮件地址编写该用户的Web页面" class="headerlink" title="3 - 根据邮件地址编写该用户的Web页面"></a>3 - 根据邮件地址编写该用户的Web页面</h2><div class="code-wrapper"><pre><code>public class PageMaker &#123;
+    private PageMaker() &#123;    // 防止外部new出PageMaker的实例,所以声明为private
+    &#125;
+
+    public static void makeWelcomePage(String mailAddr, String filename)&#123;
+        try &#123;
+            Properties mailProp = Database.getProperties(&quot;mailData&quot;);
+            String userName = mailProp.getProperty(mailAddr);
+            HtmlWriter writer = new HtmlWriter(new FileWriter(filename));
+            writer.title(&quot;Welcome to &quot; + userName + &quot;`s page!&quot;);
+            writer.paragraph(userName + &quot;欢迎来到&quot; + userName + &quot;的主页&quot;);
+            writer.paragraph(&quot;等着你的邮件哦!&quot;);
+            writer.mailto(mailAddr, userName);
+            writer.close();
+            System.out.println(filename + &quot; is created for &quot; + mailAddr + &quot; (&quot; +
+                    userName + &quot;)&quot;);
+        &#125;catch (IOException e)&#123;
+            e.printStackTrace();
+        &#125;
+
+    &#125;
+&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        PageMaker.makeWelcomePage(&quot;hyuki@hyuki.com&quot;, &quot;welcome.html&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><html><head><title>Welcome to Hiroshi Yuki`s page!</title></head><body>
+<h1>Welcome to Hiroshi Yuki`s page!</h1><p>null欢迎来到null的主页</p>
+<p>等着你的邮件哦!</p>
+<p><a href="mailto: hyuki@hyuki.com">Hiroshi Yuki</a></p>
+</body></html>
+
+<div class="code-wrapper"><pre><code>// HTML源码
+&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to Hiroshi Yuki`s page!&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Welcome to Hiroshi Yuki`s page!&lt;/h1&gt;
+&lt;p&gt;null欢迎来到null的主页&lt;/p&gt;
+&lt;p&gt;等着你的邮件哦!&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;mailto: hyuki@hyuki.com&quot;&gt;Hiroshi Yuki&lt;/a&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
     <title>JavaFlyweight模式</title>
     <url>/2020/10/08/JavaFlyweight%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -1765,105 +1864,6 @@ Making user entries...
 ..##.......##.....
 ....######........
 ..................</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>JavaFacade模式</title>
-    <url>/2020/09/25/JavaFacade%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>  简单窗口</p>
-</blockquote>
-<h2 id="1-从邮件地址中获取用户名的类"><a href="#1-从邮件地址中获取用户名的类" class="headerlink" title="1- 从邮件地址中获取用户名的类"></a>1- 从邮件地址中获取用户名的类</h2><div class="code-wrapper"><pre><code>// 需要配置相应的数据库
-public class Database &#123;
-    private Database() &#123;    // 防止外部new出Database的实例,所以声明为private
-    &#125;
-
-    public static Properties getProperties(String dbname)&#123;  // 根据数据库名获取Properties
-        String filename = dbname + &quot;.txt&quot;;
-        Properties prop = new Properties();
-        try &#123;
-            prop.load(new FileInputStream(filename));
-        &#125;catch (IOException e)&#123;
-            System.out.println(&quot;Warning: &quot; + filename + &quot; is not found.&quot;);
-        &#125;
-        return prop;
-    &#125;
-&#125;</code></pre></div><h2 id="2-编写HTML文件的类"><a href="#2-编写HTML文件的类" class="headerlink" title="2 - 编写HTML文件的类"></a>2 - 编写HTML文件的类</h2><div class="code-wrapper"><pre><code>public class HtmlWriter &#123;
-    private Writer writer;
-    public HtmlWriter(Writer writer)&#123;
-        this.writer = writer;
-    &#125;
-
-    public void title(String title) throws IOException&#123;
-        writer.write(&quot;&lt;html&gt;&quot;);
-        writer.write(&quot;&lt;head&gt;&quot;);
-        writer.write(&quot;&lt;title&gt;&quot; + title + &quot;&lt;/title&gt;&quot;);
-        writer.write(&quot;&lt;/head&gt;&quot;);
-        writer.write(&quot;&lt;body&gt;\n&quot;);
-        writer.write(&quot;&lt;h1&gt;&quot; + title + &quot;&lt;/h1&gt;&quot;);
-    &#125;
-
-    public void paragraph(String msg) throws IOException&#123;
-        writer.write(&quot;&lt;p&gt;&quot; + msg + &quot;&lt;/p&gt;\n&quot;);
-    &#125;
-
-    public void link(String href, String caption) throws IOException&#123;
-        paragraph(&quot;&lt;a href=\&quot;&quot; + href + &quot;\&quot;&gt;&quot; + caption + &quot;&lt;/a&gt;&quot;);
-    &#125;
-
-    public void mailto(String mailAddr, String userName) throws IOException&#123;
-        link(&quot;mailto: &quot; + mailAddr, userName);
-    &#125;
-
-    public void close() throws IOException&#123;
-        writer.write(&quot;&lt;/body&gt;&quot;);
-        writer.write(&quot;&lt;/html&gt;&quot;);
-        writer.close();
-    &#125;
-&#125;</code></pre></div><h2 id="3-根据邮件地址编写该用户的Web页面"><a href="#3-根据邮件地址编写该用户的Web页面" class="headerlink" title="3 - 根据邮件地址编写该用户的Web页面"></a>3 - 根据邮件地址编写该用户的Web页面</h2><div class="code-wrapper"><pre><code>public class PageMaker &#123;
-    private PageMaker() &#123;    // 防止外部new出PageMaker的实例,所以声明为private
-    &#125;
-
-    public static void makeWelcomePage(String mailAddr, String filename)&#123;
-        try &#123;
-            Properties mailProp = Database.getProperties(&quot;mailData&quot;);
-            String userName = mailProp.getProperty(mailAddr);
-            HtmlWriter writer = new HtmlWriter(new FileWriter(filename));
-            writer.title(&quot;Welcome to &quot; + userName + &quot;`s page!&quot;);
-            writer.paragraph(userName + &quot;欢迎来到&quot; + userName + &quot;的主页&quot;);
-            writer.paragraph(&quot;等着你的邮件哦!&quot;);
-            writer.mailto(mailAddr, userName);
-            writer.close();
-            System.out.println(filename + &quot; is created for &quot; + mailAddr + &quot; (&quot; +
-                    userName + &quot;)&quot;);
-        &#125;catch (IOException e)&#123;
-            e.printStackTrace();
-        &#125;
-
-    &#125;
-&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        PageMaker.makeWelcomePage(&quot;hyuki@hyuki.com&quot;, &quot;welcome.html&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><html><head><title>Welcome to Hiroshi Yuki`s page!</title></head><body>
-<h1>Welcome to Hiroshi Yuki`s page!</h1><p>null欢迎来到null的主页</p>
-<p>等着你的邮件哦!</p>
-<p><a href="mailto: hyuki@hyuki.com">Hiroshi Yuki</a></p>
-</body></html>
-
-<div class="code-wrapper"><pre><code>// HTML源码
-&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to Hiroshi Yuki`s page!&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h1&gt;Welcome to Hiroshi Yuki`s page!&lt;/h1&gt;
-&lt;p&gt;null欢迎来到null的主页&lt;/p&gt;
-&lt;p&gt;等着你的邮件哦!&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;mailto: hyuki@hyuki.com&quot;&gt;Hiroshi Yuki&lt;/a&gt;&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -2664,103 +2664,6 @@ public class Manager &#123;
       </categories>
   </entry>
   <entry>
-    <title>JavaProxy模式</title>
-    <url>/2020/10/11/JavaProxy%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="1-Printer和PrinterProxy的共同接口"><a href="#1-Printer和PrinterProxy的共同接口" class="headerlink" title="1 - Printer和PrinterProxy的共同接口"></a>1 - Printer和PrinterProxy的共同接口</h2><div class="code-wrapper"><pre><code>public interface Printable &#123;
-    public abstract void setPrinterName(String name);
-    public abstract String getPrinterName();
-    public abstract void print(String string);
-&#125;</code></pre></div><h2 id="2-表示带名字的打印机类-本人"><a href="#2-表示带名字的打印机类-本人" class="headerlink" title="2 - 表示带名字的打印机类(本人)"></a>2 - 表示带名字的打印机类(本人)</h2><div class="code-wrapper"><pre><code>public class Printer implements Printable &#123;
-    private String name;
-    public Printer() &#123;
-        heavyJob(&quot;正在生成Printer的实例&quot;);
-    &#125;
-
-    public Printer(String name) &#123;
-        this.name = name;
-        heavyJob(&quot;正在生成Printer的实例(&quot; + name + &quot;)&quot;);
-    &#125;
-
-    @Override
-    public void setPrinterName(String name) &#123;
-        this.name = name;
-    &#125;
-
-    @Override
-    public String getPrinterName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public void print(String string) &#123;
-        System.out.println(&quot;===&quot; + name + &quot;===&quot;);
-        System.out.println(string);
-    &#125;
-
-    private void heavyJob(String msg) &#123;
-        System.out.print(msg);
-        for (int i = 0; i &lt; 5; i++) &#123;
-            try &#123;
-                Thread.sleep(1000);
-            &#125;catch (InterruptedException ignored) &#123;
-            &#125;
-            System.out.print(&apos;.&apos;);
-        &#125;
-        System.out.println(&quot;结束!&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="3-表示带名字的打印机类-代理人"><a href="#3-表示带名字的打印机类-代理人" class="headerlink" title="3 - 表示带名字的打印机类(代理人)"></a>3 - 表示带名字的打印机类(代理人)</h2><div class="code-wrapper"><pre><code>public class PrinterProxy implements Printable&#123;
-    private String name;
-    private Printer real;
-
-    public PrinterProxy()&#123;&#125;
-
-    public PrinterProxy(String name) &#123;
-        this.name = name;
-    &#125;
-
-    @Override
-    public synchronized void setPrinterName(String name) &#123;
-        if (real != null) &#123;
-            real.setPrinterName(name);
-        &#125;
-        this.name = name;
-    &#125;
-
-    @Override
-    public String getPrinterName() &#123;
-        return name;
-    &#125;
-
-    @Override
-    public void print(String string) &#123;
-        realize();
-        real.print(string);
-    &#125;
-
-    private synchronized void realize() &#123;
-        if (real == null) &#123;
-            real = new Printer(name);
-        &#125;
-    &#125;
-&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
-    public static void main(String[] args) &#123;
-        Printable p = new PrinterProxy(&quot;Alice&quot;);
-        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
-        p.setPrinterName(&quot;Bob&quot;);
-        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
-        p.print(&quot;Hello, world.&quot;);
-    &#125;
-&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>现在名字是Alice.
-现在名字是Bob.
-正在生成Printer的实例(Bob).....结束!
-===Bob===
-Hello, world.</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>设计模式</category>
-      </categories>
-  </entry>
-  <entry>
     <title>JavaState模式</title>
     <url>/2020/10/06/JavaState%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<blockquote>
@@ -2965,6 +2868,103 @@ java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=按下警铃,when=1601985182892,
 java.awt.event.ActionEvent[ACTION_PERFORMED,cmd=使用金库,when=1601985183407,modifiers=] on button2
 现在时间是05:00
 现在时间是06:00</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>设计模式</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JavaProxy模式</title>
+    <url>/2020/10/11/JavaProxy%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="1-Printer和PrinterProxy的共同接口"><a href="#1-Printer和PrinterProxy的共同接口" class="headerlink" title="1 - Printer和PrinterProxy的共同接口"></a>1 - Printer和PrinterProxy的共同接口</h2><div class="code-wrapper"><pre><code>public interface Printable &#123;
+    public abstract void setPrinterName(String name);
+    public abstract String getPrinterName();
+    public abstract void print(String string);
+&#125;</code></pre></div><h2 id="2-表示带名字的打印机类-本人"><a href="#2-表示带名字的打印机类-本人" class="headerlink" title="2 - 表示带名字的打印机类(本人)"></a>2 - 表示带名字的打印机类(本人)</h2><div class="code-wrapper"><pre><code>public class Printer implements Printable &#123;
+    private String name;
+    public Printer() &#123;
+        heavyJob(&quot;正在生成Printer的实例&quot;);
+    &#125;
+
+    public Printer(String name) &#123;
+        this.name = name;
+        heavyJob(&quot;正在生成Printer的实例(&quot; + name + &quot;)&quot;);
+    &#125;
+
+    @Override
+    public void setPrinterName(String name) &#123;
+        this.name = name;
+    &#125;
+
+    @Override
+    public String getPrinterName() &#123;
+        return name;
+    &#125;
+
+    @Override
+    public void print(String string) &#123;
+        System.out.println(&quot;===&quot; + name + &quot;===&quot;);
+        System.out.println(string);
+    &#125;
+
+    private void heavyJob(String msg) &#123;
+        System.out.print(msg);
+        for (int i = 0; i &lt; 5; i++) &#123;
+            try &#123;
+                Thread.sleep(1000);
+            &#125;catch (InterruptedException ignored) &#123;
+            &#125;
+            System.out.print(&apos;.&apos;);
+        &#125;
+        System.out.println(&quot;结束!&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="3-表示带名字的打印机类-代理人"><a href="#3-表示带名字的打印机类-代理人" class="headerlink" title="3 - 表示带名字的打印机类(代理人)"></a>3 - 表示带名字的打印机类(代理人)</h2><div class="code-wrapper"><pre><code>public class PrinterProxy implements Printable&#123;
+    private String name;
+    private Printer real;
+
+    public PrinterProxy()&#123;&#125;
+
+    public PrinterProxy(String name) &#123;
+        this.name = name;
+    &#125;
+
+    @Override
+    public synchronized void setPrinterName(String name) &#123;
+        if (real != null) &#123;
+            real.setPrinterName(name);
+        &#125;
+        this.name = name;
+    &#125;
+
+    @Override
+    public String getPrinterName() &#123;
+        return name;
+    &#125;
+
+    @Override
+    public void print(String string) &#123;
+        realize();
+        real.print(string);
+    &#125;
+
+    private synchronized void realize() &#123;
+        if (real == null) &#123;
+            real = new Printer(name);
+        &#125;
+    &#125;
+&#125;</code></pre></div><h2 id="4-测试程序行为的类"><a href="#4-测试程序行为的类" class="headerlink" title="4 - 测试程序行为的类"></a>4 - 测试程序行为的类</h2><div class="code-wrapper"><pre><code>public class Main &#123;
+    public static void main(String[] args) &#123;
+        Printable p = new PrinterProxy(&quot;Alice&quot;);
+        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
+        p.setPrinterName(&quot;Bob&quot;);
+        System.out.println(&quot;现在名字是&quot; + p.getPrinterName() + &quot;.&quot;);
+        p.print(&quot;Hello, world.&quot;);
+    &#125;
+&#125;</code></pre></div><h2 id="5-输出示例"><a href="#5-输出示例" class="headerlink" title="5 - 输出示例"></a>5 - 输出示例</h2><div class="code-wrapper"><pre><code>现在名字是Alice.
+现在名字是Bob.
+正在生成Printer的实例(Bob).....结束!
+===Bob===
+Hello, world.</code></pre></div>]]></content>
       <categories>
         <category>Java</category>
         <category>设计模式</category>
@@ -3482,6 +3482,60 @@ End.</code></pre></div>]]></content>
       </categories>
   </entry>
   <entry>
+    <title>Java对象的序列化</title>
+    <url>/2020/08/16/Java%E5%AF%B9%E8%B1%A1%E5%BA%8F%E5%88%97%E5%8C%96%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h2 id="1-对象序列化"><a href="#1-对象序列化" class="headerlink" title="1 - 对象序列化"></a>1 - 对象序列化</h2><p>所谓的对象序列化（在某些书籍中也叫串行化），是指在内存之中保存的对象转化为二进制数据流的形式的一种操作。通过将对象序列化，可以方便地实现对象的传输及保存。但是在Java之中并不是所有的类的对象都可以被序列化，如果一个类对象需要被序列化，则此类一定要实现java. io.Serializable接口。但是这个接口里面也没有定义任何的方法，所以此接口依然属于标识接口，表示一种能力。</p>
+<p>以上内容,引自&lt;&lt;Java从入门到精通(第二版)&gt;&gt; 张玉宏主编 </p>
+<h2 id="2-具体代码的实现"><a href="#2-具体代码的实现" class="headerlink" title="2 - 具体代码的实现"></a>2 - 具体代码的实现</h2><h3 id="2-1-需要实现序列化的类"><a href="#2-1-需要实现序列化的类" class="headerlink" title="2.1 需要实现序列化的类"></a>2.1 需要实现序列化的类</h3><div class="code-wrapper"><pre><code>@SuppressWarnings(&quot;serial&quot;)
+class Person implements Serializable&#123;
+    private String name;
+    private int age;
+
+    public Person(String name, int age)&#123;
+        this.name = name;
+        this.age = age;
+    &#125;
+
+    @Override
+    public String toString()&#123;
+        return &quot;姓名: &quot; + this.name + &quot;, 年龄: &quot; + this.age;
+    &#125;
+&#125;;</code></pre></div><h3 id="2-2-进行序列化测试的主类"><a href="#2-2-进行序列化测试的主类" class="headerlink" title="2.2 进行序列化测试的主类"></a>2.2 进行序列化测试的主类</h3><div class="code-wrapper"><pre><code>public class SerializableDemo &#123;
+    public static void main(String[] args) throws Exception&#123;
+
+        String filePath = &quot;D:\\&quot;;
+
+        File f = new File(filePath + &quot;SerializablePerson.txt&quot;);
+        serialize(f);
+        deserialize(f);
+    &#125;
+
+    // 使用以下方法为序列化对象方法
+    public static void serialize(File f)throws Exception&#123;
+        OutputStream outputFile = new FileOutputStream(f);
+        ObjectOutputStream cout = new ObjectOutputStream(outputFile);
+        cout.writeObject(new Person(&quot;张三&quot;, 25));
+        cout.close();
+    &#125;
+
+    // 使用以下方法为反序列化对象方法
+    public static void deserialize(File f)throws Exception&#123;
+        InputStream inputStream = new FileInputStream(f);
+        ObjectInputStream cin = new ObjectInputStream(inputStream);
+        Person p = (Person)cin.readObject();
+        System.out.println(p);
+        cin.close();
+    &#125;
+&#125;</code></pre></div><h2 id="3-输出示例"><a href="#3-输出示例" class="headerlink" title="3 - 输出示例"></a>3 - 输出示例</h2><div class="code-wrapper"><pre><code>姓名: 张三, 年龄: 25</code></pre></div>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Tool</category>
+      </categories>
+      <tags>
+        <tag>序列化</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java多线程的同步问题</title>
     <url>/2020/08/12/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h2 id="1-synchronized关键字对代码块的同步"><a href="#1-synchronized关键字对代码块的同步" class="headerlink" title="1 - synchronized关键字对代码块的同步"></a>1 - synchronized关键字对代码块的同步</h2><div class="code-wrapper"><pre><code>public class ThreadSynchronization &#123;
@@ -3557,60 +3611,6 @@ class TestThread implements Runnable&#123;
       </categories>
       <tags>
         <tag>多线程同步</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java对象的序列化</title>
-    <url>/2020/08/16/Java%E5%AF%B9%E8%B1%A1%E5%BA%8F%E5%88%97%E5%8C%96%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h2 id="1-对象序列化"><a href="#1-对象序列化" class="headerlink" title="1 - 对象序列化"></a>1 - 对象序列化</h2><p>所谓的对象序列化（在某些书籍中也叫串行化），是指在内存之中保存的对象转化为二进制数据流的形式的一种操作。通过将对象序列化，可以方便地实现对象的传输及保存。但是在Java之中并不是所有的类的对象都可以被序列化，如果一个类对象需要被序列化，则此类一定要实现java. io.Serializable接口。但是这个接口里面也没有定义任何的方法，所以此接口依然属于标识接口，表示一种能力。</p>
-<p>以上内容,引自&lt;&lt;Java从入门到精通(第二版)&gt;&gt; 张玉宏主编 </p>
-<h2 id="2-具体代码的实现"><a href="#2-具体代码的实现" class="headerlink" title="2 - 具体代码的实现"></a>2 - 具体代码的实现</h2><h3 id="2-1-需要实现序列化的类"><a href="#2-1-需要实现序列化的类" class="headerlink" title="2.1 需要实现序列化的类"></a>2.1 需要实现序列化的类</h3><div class="code-wrapper"><pre><code>@SuppressWarnings(&quot;serial&quot;)
-class Person implements Serializable&#123;
-    private String name;
-    private int age;
-
-    public Person(String name, int age)&#123;
-        this.name = name;
-        this.age = age;
-    &#125;
-
-    @Override
-    public String toString()&#123;
-        return &quot;姓名: &quot; + this.name + &quot;, 年龄: &quot; + this.age;
-    &#125;
-&#125;;</code></pre></div><h3 id="2-2-进行序列化测试的主类"><a href="#2-2-进行序列化测试的主类" class="headerlink" title="2.2 进行序列化测试的主类"></a>2.2 进行序列化测试的主类</h3><div class="code-wrapper"><pre><code>public class SerializableDemo &#123;
-    public static void main(String[] args) throws Exception&#123;
-
-        String filePath = &quot;D:\\&quot;;
-
-        File f = new File(filePath + &quot;SerializablePerson.txt&quot;);
-        serialize(f);
-        deserialize(f);
-    &#125;
-
-    // 使用以下方法为序列化对象方法
-    public static void serialize(File f)throws Exception&#123;
-        OutputStream outputFile = new FileOutputStream(f);
-        ObjectOutputStream cout = new ObjectOutputStream(outputFile);
-        cout.writeObject(new Person(&quot;张三&quot;, 25));
-        cout.close();
-    &#125;
-
-    // 使用以下方法为反序列化对象方法
-    public static void deserialize(File f)throws Exception&#123;
-        InputStream inputStream = new FileInputStream(f);
-        ObjectInputStream cin = new ObjectInputStream(inputStream);
-        Person p = (Person)cin.readObject();
-        System.out.println(p);
-        cin.close();
-    &#125;
-&#125;</code></pre></div><h2 id="3-输出示例"><a href="#3-输出示例" class="headerlink" title="3 - 输出示例"></a>3 - 输出示例</h2><div class="code-wrapper"><pre><code>姓名: 张三, 年龄: 25</code></pre></div>]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>序列化</tag>
       </tags>
   </entry>
   <entry>
@@ -3708,6 +3708,55 @@ public static void main(String[] args) &#123;
       </tags>
   </entry>
   <entry>
+    <title>Java的注释接口</title>
+    <url>/2020/08/07/Java%E7%9A%84%E6%B3%A8%E9%87%8A%E6%8E%A5%E5%8F%A3/</url>
+    <content><![CDATA[<blockquote>
+</blockquote>
+<blockquote>
+<p>  注解 - 给编译器看的注释</p>
+</blockquote>
+<h2 id="1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的"><a href="#1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的" class="headerlink" title="1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的"></a>1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的</h2><div class="code-wrapper"><pre><code>class Message&#123;
+    @Override
+    public String toString()&#123;
+        return &quot;Hello world!&quot;;
+    &#125;
+&#125;</code></pre></div><p>如果改写的方法名，参数，类型有错误编译器会报错，可以给程序员提示。</p>
+<h2 id="2-Deprecated注释表示这个方法已经过时，不建议使用"><a href="#2-Deprecated注释表示这个方法已经过时，不建议使用" class="headerlink" title="2. @Deprecated注释表示这个方法已经过时，不建议使用"></a>2. @Deprecated注释表示这个方法已经过时，不建议使用</h2><div class="code-wrapper"><pre><code>class Info&#123;
+    @Deprecated
+    public String getInfo()&#123;
+        return &quot;Hello world.&quot;;
+    &#125;
+&#125;</code></pre></div><p>被注释的方法仍然可以使用，只是编译器不推荐而已</p>
+<h2 id="3-SuppressWarnings注释用来压制”某些”的警告信息"><a href="#3-SuppressWarnings注释用来压制”某些”的警告信息" class="headerlink" title="3. @SuppressWarnings注释用来压制”某些”的警告信息"></a>3. @SuppressWarnings注释用来压制”某些”的警告信息</h2><div class="code-wrapper"><pre><code>public class SuppressWarningsAnnotation &#123;
+    public static void main(String[] args) &#123;
+        // 用来压制&quot;未使用&quot;的警告信息
+        @SuppressWarnings(&quot;unused&quot;)
+        int i;
+        System.out.println(&quot;Hello world.&quot;);
+    &#125;
+&#125;</code></pre></div><p>在这个例子中我们通过往注释中添加“unused”参数，来压制变量未使用这一警告信息</p>
+<h2 id="4-实现我们自己自定义的注释，必须使用-interface接口来修饰"><a href="#4-实现我们自己自定义的注释，必须使用-interface接口来修饰" class="headerlink" title="4. 实现我们自己自定义的注释，必须使用@interface接口来修饰"></a>4. 实现我们自己自定义的注释，必须使用@interface接口来修饰</h2><div class="code-wrapper"><pre><code>@interface Anno&#123;
+    public String key();
+    public String value();
+&#125;
+
+public class TestAnno &#123;
+    @Anno(key = &quot;var1&quot;, value = &quot;test&quot;)
+    public static void main(String[] args) &#123;
+        System.out.println(&quot;Hello world!&quot;);
+    &#125;
+&#125;</code></pre></div><p>我们可以在自己实现的注释里添加属性或方法</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Tool</category>
+      </categories>
+      <tags>
+        <tag>注解</tag>
+        <tag>给编译器看的注释</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java简单实现多线程</title>
     <url>/2020/08/11/Java%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B/</url>
     <content><![CDATA[<h2 id="1-直接继承Thread类-来实现多线程"><a href="#1-直接继承Thread类-来实现多线程" class="headerlink" title="1- 直接继承Thread类,来实现多线程"></a>1- 直接继承Thread类,来实现多线程</h2><div class="code-wrapper"><pre><code>public class ThreadDemo &#123;
@@ -3779,55 +3828,6 @@ class TestThread implements Runnable&#123;
       </categories>
       <tags>
         <tag>多线程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java的注释接口</title>
-    <url>/2020/08/07/Java%E7%9A%84%E6%B3%A8%E9%87%8A%E6%8E%A5%E5%8F%A3/</url>
-    <content><![CDATA[<blockquote>
-</blockquote>
-<blockquote>
-<p>  注解 - 给编译器看的注释</p>
-</blockquote>
-<h2 id="1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的"><a href="#1-Override注释用来告诉编译器这个方法是用来改写父类对应方法的" class="headerlink" title="1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的"></a>1. @Override注释用来告诉编译器这个方法是用来改写父类对应方法的</h2><div class="code-wrapper"><pre><code>class Message&#123;
-    @Override
-    public String toString()&#123;
-        return &quot;Hello world!&quot;;
-    &#125;
-&#125;</code></pre></div><p>如果改写的方法名，参数，类型有错误编译器会报错，可以给程序员提示。</p>
-<h2 id="2-Deprecated注释表示这个方法已经过时，不建议使用"><a href="#2-Deprecated注释表示这个方法已经过时，不建议使用" class="headerlink" title="2. @Deprecated注释表示这个方法已经过时，不建议使用"></a>2. @Deprecated注释表示这个方法已经过时，不建议使用</h2><div class="code-wrapper"><pre><code>class Info&#123;
-    @Deprecated
-    public String getInfo()&#123;
-        return &quot;Hello world.&quot;;
-    &#125;
-&#125;</code></pre></div><p>被注释的方法仍然可以使用，只是编译器不推荐而已</p>
-<h2 id="3-SuppressWarnings注释用来压制”某些”的警告信息"><a href="#3-SuppressWarnings注释用来压制”某些”的警告信息" class="headerlink" title="3. @SuppressWarnings注释用来压制”某些”的警告信息"></a>3. @SuppressWarnings注释用来压制”某些”的警告信息</h2><div class="code-wrapper"><pre><code>public class SuppressWarningsAnnotation &#123;
-    public static void main(String[] args) &#123;
-        // 用来压制&quot;未使用&quot;的警告信息
-        @SuppressWarnings(&quot;unused&quot;)
-        int i;
-        System.out.println(&quot;Hello world.&quot;);
-    &#125;
-&#125;</code></pre></div><p>在这个例子中我们通过往注释中添加“unused”参数，来压制变量未使用这一警告信息</p>
-<h2 id="4-实现我们自己自定义的注释，必须使用-interface接口来修饰"><a href="#4-实现我们自己自定义的注释，必须使用-interface接口来修饰" class="headerlink" title="4. 实现我们自己自定义的注释，必须使用@interface接口来修饰"></a>4. 实现我们自己自定义的注释，必须使用@interface接口来修饰</h2><div class="code-wrapper"><pre><code>@interface Anno&#123;
-    public String key();
-    public String value();
-&#125;
-
-public class TestAnno &#123;
-    @Anno(key = &quot;var1&quot;, value = &quot;test&quot;)
-    public static void main(String[] args) &#123;
-        System.out.println(&quot;Hello world!&quot;);
-    &#125;
-&#125;</code></pre></div><p>我们可以在自己实现的注释里添加属性或方法</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Tool</category>
-      </categories>
-      <tags>
-        <tag>注解</tag>
-        <tag>给编译器看的注释</tag>
       </tags>
   </entry>
   <entry>
@@ -4215,59 +4215,6 @@ Hi megoc! You&#x27;ve successfully authenticated, but GitHub does not provide sh
       </tags>
   </entry>
   <entry>
-    <title>Node.js的安装和环境变量的配置</title>
-    <url>/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h2 id="1-下载安装包"><a href="#1-下载安装包" class="headerlink" title="1, 下载安装包"></a>1, 下载安装包</h2><p>去 <a href="https://nodejs.org/en/">nodejs官网</a> 下载 找到 <a href="https://nodejs.org/dist/latest-v12.x/">node-v12</a> 的下载清单，找到 node-v12.22.1-x64.msi，下载即可。</p>
-<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413131804825.png" alt="image-20210413131804825"></p>
-<h2 id="2，安装"><a href="#2，安装" class="headerlink" title="2，安装"></a>2，安装</h2><p>除了要修改安装路径之外， 其他一切默认即可。</p>
-<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/20200224001033440.png" alt="img"></p>
-<h2 id="3，环境配置"><a href="#3，环境配置" class="headerlink" title="3，环境配置"></a>3，环境配置</h2><ul>
-<li>一般默认安装，都会将路径添加系统变量的path里，所以可以通过，node -v 和 npm -v 查看版本号。</li>
-</ul>
-<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413132613848.png" alt="image-20210413132613848"></p>
-<ul>
-<li><p>一般开始安装的npm 都是6.x 版本， 我们之后可以通过 npm install -g npm 来做npm的全局升级。</p>
-</li>
-<li><p>之后我们需要在 D:\PNCA\environment\nodejs\node-v12.22.0\ 新建两个包</p>
-<ul>
-<li><strong>node_cache</strong></li>
-<li><strong>node_global</strong></li>
-<li>因为开始默认是在 C:\Users\Administrator\AppData\Roaming\npm\node_modules 下，安装全局包的，所以我们修改到D盘下。</li>
-<li>可以通过 <strong>npm root -g</strong> 来查看全局包的路径</li>
-</ul>
-</li>
-<li><p>然后在命令行里运行两条命令</p>
-<ul>
-<li>npm config set prefix “D:\PNCA\environment\nodejs\node-v12.22.0\node_global”</li>
-<li>npm config set cache “D:\PNCA\environment\nodejs\node-v12.22.0\node_cache”</li>
-</ul>
-</li>
-<li><p>找到 D:\PNCA\environment\nodejs\node-v12.22.0\node_modules\npm\ 下的 .npmrc。</p>
-<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413133432356.png" alt="image-20210413133432356"></p>
-<ul>
-<li>修改其内容为：</li>
-<li>prefix=D:\PNCA\environment\nodejs\node-v12.22.0\node_global</li>
-<li>cache=D:\PNCA\environment\nodejs\node-v12.22.0\node_cache</li>
-</ul>
-</li>
-<li><p>修改用户变量</p>
-<p>D:\PNCA\environment\nodejs\node-v12.22.0\node_global</p>
-</li>
-<li><p>在系统变量里</p>
-<p>添加 NODE_HOME: D:\PNCA\environment\nodejs\node-v12.22.0\node_modules\</p>
-</li>
-</ul>
-<h2 id="4，测试"><a href="#4，测试" class="headerlink" title="4，测试"></a>4，测试</h2><p>npm install express -g</p>
-]]></content>
-      <categories>
-        <category>Help</category>
-        <category>Win</category>
-      </categories>
-      <tags>
-        <tag>Node</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python使用协程做离散事件仿真</title>
     <url>/2020/08/28/Python%E4%BD%BF%E7%94%A8%E5%8D%8F%E7%A8%8B%E5%81%9A%E7%A6%BB%E6%95%A3%E4%BA%8B%E4%BB%B6%E4%BB%BF%E7%9C%9F/</url>
     <content><![CDATA[<h2 id="1-需要导入的库"><a href="#1-需要导入的库" class="headerlink" title="1 - 需要导入的库"></a>1 - 需要导入的库</h2><div class="code-wrapper"><pre><code>import collections
@@ -4328,6 +4275,59 @@ def run(self, end_time):
       </categories>
       <tags>
         <tag>出租车队运营仿真</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Node.js的安装和环境变量的配置</title>
+    <url>/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="1-下载安装包"><a href="#1-下载安装包" class="headerlink" title="1, 下载安装包"></a>1, 下载安装包</h2><p>去 <a href="https://nodejs.org/en/">nodejs官网</a> 下载 找到 <a href="https://nodejs.org/dist/latest-v12.x/">node-v12</a> 的下载清单，找到 node-v12.22.1-x64.msi，下载即可。</p>
+<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413131804825.png" alt="image-20210413131804825"></p>
+<h2 id="2，安装"><a href="#2，安装" class="headerlink" title="2，安装"></a>2，安装</h2><p>除了要修改安装路径之外， 其他一切默认即可。</p>
+<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/20200224001033440.png" alt="img"></p>
+<h2 id="3，环境配置"><a href="#3，环境配置" class="headerlink" title="3，环境配置"></a>3，环境配置</h2><ul>
+<li>一般默认安装，都会将路径添加系统变量的path里，所以可以通过，node -v 和 npm -v 查看版本号。</li>
+</ul>
+<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413132613848.png" alt="image-20210413132613848"></p>
+<ul>
+<li><p>一般开始安装的npm 都是6.x 版本， 我们之后可以通过 npm install -g npm 来做npm的全局升级。</p>
+</li>
+<li><p>之后我们需要在 D:\PNCA\environment\nodejs\node-v12.22.0\ 新建两个包</p>
+<ul>
+<li><strong>node_cache</strong></li>
+<li><strong>node_global</strong></li>
+<li>因为开始默认是在 C:\Users\Administrator\AppData\Roaming\npm\node_modules 下，安装全局包的，所以我们修改到D盘下。</li>
+<li>可以通过 <strong>npm root -g</strong> 来查看全局包的路径</li>
+</ul>
+</li>
+<li><p>然后在命令行里运行两条命令</p>
+<ul>
+<li>npm config set prefix “D:\PNCA\environment\nodejs\node-v12.22.0\node_global”</li>
+<li>npm config set cache “D:\PNCA\environment\nodejs\node-v12.22.0\node_cache”</li>
+</ul>
+</li>
+<li><p>找到 D:\PNCA\environment\nodejs\node-v12.22.0\node_modules\npm\ 下的 .npmrc。</p>
+<p><img src="/2021/04/13/NodeJs%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E9%85%8D%E7%BD%AE/image-20210413133432356.png" alt="image-20210413133432356"></p>
+<ul>
+<li>修改其内容为：</li>
+<li>prefix=D:\PNCA\environment\nodejs\node-v12.22.0\node_global</li>
+<li>cache=D:\PNCA\environment\nodejs\node-v12.22.0\node_cache</li>
+</ul>
+</li>
+<li><p>修改用户变量</p>
+<p>D:\PNCA\environment\nodejs\node-v12.22.0\node_global</p>
+</li>
+<li><p>在系统变量里</p>
+<p>添加 NODE_HOME: D:\PNCA\environment\nodejs\node-v12.22.0\node_modules\</p>
+</li>
+</ul>
+<h2 id="4，测试"><a href="#4，测试" class="headerlink" title="4，测试"></a>4，测试</h2><p>npm install express -g</p>
+]]></content>
+      <categories>
+        <category>Help</category>
+        <category>Win</category>
+      </categories>
+      <tags>
+        <tag>Node</tag>
       </tags>
   </entry>
   <entry>
@@ -5122,29 +5122,166 @@ return response.text</code></pre></div><h2 id="2-2-主函数"><a href="#2-2-主�
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2019/12/14/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre></div>
+    <title>Win10 搭建 PyTorch 环境</title>
+    <url>/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<h1 id="Win10-搭建-PyTorch-环境"><a href="#Win10-搭建-PyTorch-环境" class="headerlink" title="Win10 搭建 PyTorch 环境"></a>Win10 搭建 PyTorch 环境</h1><h2 id="0-说明"><a href="#0-说明" class="headerlink" title="0 说明"></a>0 说明</h2><p>为了进行深度学习，需要电脑上安装相应的软件，pytorch 就是其中一种。至于 pytorch 是什么的科普，建议去网上搜索。</p>
+<p>而为了安装好 pytorch，需要安装众多软件，网上一搜一大把流程。但事实上随着技术的更新，很多流程都会变得过时，就像我现在这篇，因此我也特意标注了时间。</p>
+<p>本流程的目的是：在 win 10 上安装 pytorch 且能调用 GPU（你需要英伟达的显卡）。</p>
+<p>本流程涉及的程序有：conda，CUDA，cuDNN，pytorch。注意一定要按流程来，如果跳过了 cuDNN 安装 pytorch，是不会成功调用 GPU 的。</p>
+<h2 id="1-Miniconda3"><a href="#1-Miniconda3" class="headerlink" title="1 Miniconda3"></a>1 Miniconda3</h2><p>清华源镜像已经没有维护 miniconda，所以我们使用北外源。</p>
+<ul>
+<li><p><strong>下载地址</strong></p>
+<p><a href="https://mirrors.bfsu.edu.cn/anaconda/miniconda/">Index of /anaconda/miniconda</a></p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521111325301.png" alt="image-20210521111325301"></p>
+</li>
+<li><p><strong>配置环境变量</strong></p>
+<p>一般来说，安装程序会自动把四个 path 变量，写入系统变量的path变量中，但是会写入第一行，我们可以手动下移位置。</p>
+<ul>
+<li><p>打开 cmd（win+R，输入 cmd 后回车），输入 conda info，如果正确无误的话，会显示 conda 的信息。</p>
+</li>
+<li><p>为了 conda 的下载速度，需要添加国内的北外源，输入：</p>
+<div class="code-wrapper"><pre><code class="hljs shell">conda config --set show_channel_urls yes</code></pre></div>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo server</code></pre></div>
+<p>创建配置文件 .condarc，该文件位于：C:\Users\你的用户名\ 下。</p>
+<p>用文本编辑器打开它，然后复制以下内容完全覆盖已有内容：</p>
+<div class="code-wrapper"><pre><code class="hljs shell">channels:
+  - defaults
+show_channel_urls: true
+default_channels:
+  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/main
+  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/r
+  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/msys2
+custom_channels:
+  conda-forge: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  msys2: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  bioconda: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  menpo: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  pytorch: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  simpleitk: https://mirrors.bfsu.edu.cn/anaconda/cloud</code></pre></div>
+</li>
+</ul>
+</li>
+<li><p><strong>生成并进入环境</strong></p>
+<ul>
+<li><p>使用命令创建环境：</p>
+<div class="code-wrapper"><pre><code class="hljs shell">conda create --name py37 python=3.7</code></pre></div>
+</li>
+<li><p>即创建了名为 py37 的环境，你可以自定义名字，python 设定用的版本。</p>
+<p>随后进入环境</p>
+<div class="code-wrapper"><pre><code class="hljs shell">conda activate py37</code></pre></div>
+</li>
+<li><p><strong>避坑：操作需要在 cmd 里做，而不是 powershell，不知道原理，但会报错。</strong></p>
+<p>如果在 powershell 里运行的话，会报错：</p>
+<div class="code-wrapper"><pre><code class="hljs powershell">CommandNotFoundError: Your shell has not been properly configured to use <span class="hljs-string">&#x27;conda activate&#x27;</span>.</code></pre></div>
 
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo generate</code></pre></div>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/v2-e641b91a6a360410b575d83c3030daf4_1440w.jpg" alt="img"></p>
+</li>
+</ul>
+</li>
+<li><p><strong>安装 ipython</strong></p>
+<ul>
+<li><p>ipython 的操作比 python 用起来舒服多了，具体介绍搜索网上</p>
+<div class="code-wrapper"><pre><code class="hljs shell">conda install ipython</code></pre></div>
+</li>
+<li><p>之后输入 ipython 进入 python。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-CUDA"><a href="#2-CUDA" class="headerlink" title="2 CUDA"></a>2 CUDA</h2><ul>
+<li><p>下载</p>
+<p>链接：<a href="https://developer.nvidia.com/cuda-10.2-download-archive">https://developer.nvidia.com/cuda-downloads</a></p>
+<p>依次选择：Windows -&gt; x86_64 -&gt; 10 -&gt; exe(local)，点击 Download。下载的为适合PyTorch的 <em>cuda_10.2.89_441.22_win10.exe</em></p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521112724889.png" alt="image-20210521112724889"></p>
+<p><strong>避坑：复制下载链接后用迅雷下载，比直接下载快数倍。</strong></p>
+</li>
+<li><p>安装</p>
+<ul>
+<li><p>注意，不要修改安装路径，因为改了没有用，安装程序还是会安装在 C盘下的 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA</p>
+</li>
+<li><p>必须手动添加环境变量。一般来说，CUDA_PATH，安装程序会自动写入。</p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521113202277.png" alt="image-20210521113202277"></p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521113121745.png" alt="image-20210521113121745"></p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>测试</strong></p>
+<ul>
+<li><p>如果安装成功，在 cmd 里输入：</p>
+<div class="code-wrapper"><pre><code class="hljs shell">nvcc -V</code></pre></div>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo deploy</code></pre></div>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521113321717.png" alt="image-20210521113321717"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-cuDNN"><a href="#3-cuDNN" class="headerlink" title="3 cuDNN"></a>3 cuDNN</h2><ul>
+<li><p><strong>下载</strong></p>
+<p><strong>避坑：建议在翻墙的情况下操作，注册时的验证码是谷歌的。</strong></p>
+<p>你需要注册账号后才能继续。现在可以<strong>微信登录</strong>，方便了不少。</p>
+<p>链接：<a href="/compute/machine-learning/cudnn/secure/8.0.2.39/10.2_20200724/cudnn-10.2-windows10-x64-v8.0.2.39.zip">https://developer.nvidia.com</a></p>
+</li>
+<li><p><strong>安装</strong></p>
+<p>说是安装，其实是复制文件。</p>
+<p>下载后是一个压缩文件夹，解压文件夹，将里面的 3 个文件夹：bin，include，lib 里面的内容分别放入 CUDA 安装位置的对应文件夹。</p>
+<p>CUDA 安装的位置在：</p>
+<p>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.0</p>
+<p>不会出现覆盖的警告，因为是新增的文件。</p>
+</li>
+</ul>
+<h2 id="4-PyTorch"><a href="#4-PyTorch" class="headerlink" title="4 PyTorch"></a>4 PyTorch</h2><ul>
+<li><p><strong>1. 下载与安装</strong></p>
+<p><strong>避坑：务必在完成以上步骤后才进行。</strong></p>
+<p>网址：<a href="https://link.zhihu.com/?target=https%3A//pytorch.org/get-started/locally/">https://pytorch.org/get-started/locally/</a>，根据实际情况选择。</p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114119171.png" alt="image-20210521114119171"></p>
+<p>得到下载安装的命令：</p>
+<div class="code-wrapper"><pre><code class="hljs shell">conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch</code></pre></div>
 
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>使用 cmd 进入了我们之前设置的环境 py37 后，输入以上命令，开始安装 pytorch，如下图：</p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/v2-58b3d7c11020aca95ab177253cf5d1b0_1440w.jpg" alt="img"></p>
+<p><strong>避坑：很多教程里说，去掉 -c pytorch 后，可以加速下载。可以加速没错，但下载的东西却不是我们要的 gpu 版本，而是 cpu 版本，这也是很多人照着教程做，最终都无法使用 gpu 的，却百思不得其解。</strong></p>
+</li>
+<li><p><strong>2. 测试</strong></p>
+<ul>
+<li><p>等待安装完成后，输入 ipython 进入 python，输入：</p>
+<div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch
+torch.cuda.is_available()</code></pre></div>
+
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/v2-6acee085f9449a931afaee3cdd36336a_1440w.jpg" alt="img"></p>
+</li>
+<li><p>显示 True 即表明启用了 pytorch 的 gpu，到此安装结束。</p>
+</li>
+<li><p>如果 torch.cuda.isavailable() 是 False，你可能需要看看前面哪个步骤不对。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="5-Pycharm"><a href="#5-Pycharm" class="headerlink" title="5 Pycharm"></a>5 Pycharm</h2><ul>
+<li><p>创建一个项目 PyTorchTest</p>
+</li>
+<li><p>打开设置 Ctrl + Alt + s</p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114808829.png" alt="image-20210521114808829"></p>
+</li>
+<li><p>引入 py37 </p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114859777.png" alt="image-20210521114859777"></p>
+</li>
+<li><p>切换环境为 py37</p>
+<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114957218.png" alt="image-20210521114957218"></p>
+</li>
+<li><p>重启 Pycharm</p>
+</li>
+</ul>
 ]]></content>
       <categories>
         <category>Help</category>
-        <category>Blog</category>
+        <category>Win</category>
       </categories>
       <tags>
-        <tag>Hexo</tag>
-        <tag>Blog</tag>
+        <tag>PyTorch</tag>
+        <tag>Win10</tag>
+        <tag>Deep learning</tag>
       </tags>
   </entry>
   <entry>
@@ -5321,166 +5458,29 @@ choco download firefox --internalize locale=es-AR</code></pre></div>
       </tags>
   </entry>
   <entry>
-    <title>Win10 搭建 PyTorch 环境</title>
-    <url>/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<h1 id="Win10-搭建-PyTorch-环境"><a href="#Win10-搭建-PyTorch-环境" class="headerlink" title="Win10 搭建 PyTorch 环境"></a>Win10 搭建 PyTorch 环境</h1><h2 id="0-说明"><a href="#0-说明" class="headerlink" title="0 说明"></a>0 说明</h2><p>为了进行深度学习，需要电脑上安装相应的软件，pytorch 就是其中一种。至于 pytorch 是什么的科普，建议去网上搜索。</p>
-<p>而为了安装好 pytorch，需要安装众多软件，网上一搜一大把流程。但事实上随着技术的更新，很多流程都会变得过时，就像我现在这篇，因此我也特意标注了时间。</p>
-<p>本流程的目的是：在 win 10 上安装 pytorch 且能调用 GPU（你需要英伟达的显卡）。</p>
-<p>本流程涉及的程序有：conda，CUDA，cuDNN，pytorch。注意一定要按流程来，如果跳过了 cuDNN 安装 pytorch，是不会成功调用 GPU 的。</p>
-<h2 id="1-Miniconda3"><a href="#1-Miniconda3" class="headerlink" title="1 Miniconda3"></a>1 Miniconda3</h2><p>清华源镜像已经没有维护 miniconda，所以我们使用北外源。</p>
-<ul>
-<li><p><strong>下载地址</strong></p>
-<p><a href="https://mirrors.bfsu.edu.cn/anaconda/miniconda/">Index of /anaconda/miniconda</a></p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521111325301.png" alt="image-20210521111325301"></p>
-</li>
-<li><p><strong>配置环境变量</strong></p>
-<p>一般来说，安装程序会自动把四个 path 变量，写入系统变量的path变量中，但是会写入第一行，我们可以手动下移位置。</p>
-<ul>
-<li><p>打开 cmd（win+R，输入 cmd 后回车），输入 conda info，如果正确无误的话，会显示 conda 的信息。</p>
-</li>
-<li><p>为了 conda 的下载速度，需要添加国内的北外源，输入：</p>
-<div class="code-wrapper"><pre><code class="hljs shell">conda config --set show_channel_urls yes</code></pre></div>
+    <title>Hello World</title>
+    <url>/2019/12/14/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre></div>
 
-<p>创建配置文件 .condarc，该文件位于：C:\Users\你的用户名\ 下。</p>
-<p>用文本编辑器打开它，然后复制以下内容完全覆盖已有内容：</p>
-<div class="code-wrapper"><pre><code class="hljs shell">channels:
-  - defaults
-show_channel_urls: true
-default_channels:
-  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/main
-  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/r
-  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/msys2
-custom_channels:
-  conda-forge: https://mirrors.bfsu.edu.cn/anaconda/cloud
-  msys2: https://mirrors.bfsu.edu.cn/anaconda/cloud
-  bioconda: https://mirrors.bfsu.edu.cn/anaconda/cloud
-  menpo: https://mirrors.bfsu.edu.cn/anaconda/cloud
-  pytorch: https://mirrors.bfsu.edu.cn/anaconda/cloud
-  simpleitk: https://mirrors.bfsu.edu.cn/anaconda/cloud</code></pre></div>
-</li>
-</ul>
-</li>
-<li><p><strong>生成并进入环境</strong></p>
-<ul>
-<li><p>使用命令创建环境：</p>
-<div class="code-wrapper"><pre><code class="hljs shell">conda create --name py37 python=3.7</code></pre></div>
-</li>
-<li><p>即创建了名为 py37 的环境，你可以自定义名字，python 设定用的版本。</p>
-<p>随后进入环境</p>
-<div class="code-wrapper"><pre><code class="hljs shell">conda activate py37</code></pre></div>
-</li>
-<li><p><strong>避坑：操作需要在 cmd 里做，而不是 powershell，不知道原理，但会报错。</strong></p>
-<p>如果在 powershell 里运行的话，会报错：</p>
-<div class="code-wrapper"><pre><code class="hljs powershell">CommandNotFoundError: Your shell has not been properly configured to use <span class="hljs-string">&#x27;conda activate&#x27;</span>.</code></pre></div>
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo server</code></pre></div>
 
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/v2-e641b91a6a360410b575d83c3030daf4_1440w.jpg" alt="img"></p>
-</li>
-</ul>
-</li>
-<li><p><strong>安装 ipython</strong></p>
-<ul>
-<li><p>ipython 的操作比 python 用起来舒服多了，具体介绍搜索网上</p>
-<div class="code-wrapper"><pre><code class="hljs shell">conda install ipython</code></pre></div>
-</li>
-<li><p>之后输入 ipython 进入 python。</p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="2-CUDA"><a href="#2-CUDA" class="headerlink" title="2 CUDA"></a>2 CUDA</h2><ul>
-<li><p>下载</p>
-<p>链接：<a href="https://developer.nvidia.com/cuda-10.2-download-archive">https://developer.nvidia.com/cuda-downloads</a></p>
-<p>依次选择：Windows -&gt; x86_64 -&gt; 10 -&gt; exe(local)，点击 Download。下载的为适合PyTorch的 <em>cuda_10.2.89_441.22_win10.exe</em></p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521112724889.png" alt="image-20210521112724889"></p>
-<p><strong>避坑：复制下载链接后用迅雷下载，比直接下载快数倍。</strong></p>
-</li>
-<li><p>安装</p>
-<ul>
-<li><p>注意，不要修改安装路径，因为改了没有用，安装程序还是会安装在 C盘下的 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA</p>
-</li>
-<li><p>必须手动添加环境变量。一般来说，CUDA_PATH，安装程序会自动写入。</p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521113202277.png" alt="image-20210521113202277"></p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521113121745.png" alt="image-20210521113121745"></p>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p><strong>测试</strong></p>
-<ul>
-<li><p>如果安装成功，在 cmd 里输入：</p>
-<div class="code-wrapper"><pre><code class="hljs shell">nvcc -V</code></pre></div>
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo generate</code></pre></div>
 
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521113321717.png" alt="image-20210521113321717"></p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="3-cuDNN"><a href="#3-cuDNN" class="headerlink" title="3 cuDNN"></a>3 cuDNN</h2><ul>
-<li><p><strong>下载</strong></p>
-<p><strong>避坑：建议在翻墙的情况下操作，注册时的验证码是谷歌的。</strong></p>
-<p>你需要注册账号后才能继续。现在可以<strong>微信登录</strong>，方便了不少。</p>
-<p>链接：<a href="/compute/machine-learning/cudnn/secure/8.0.2.39/10.2_20200724/cudnn-10.2-windows10-x64-v8.0.2.39.zip">https://developer.nvidia.com</a></p>
-</li>
-<li><p><strong>安装</strong></p>
-<p>说是安装，其实是复制文件。</p>
-<p>下载后是一个压缩文件夹，解压文件夹，将里面的 3 个文件夹：bin，include，lib 里面的内容分别放入 CUDA 安装位置的对应文件夹。</p>
-<p>CUDA 安装的位置在：</p>
-<p>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.0</p>
-<p>不会出现覆盖的警告，因为是新增的文件。</p>
-</li>
-</ul>
-<h2 id="4-PyTorch"><a href="#4-PyTorch" class="headerlink" title="4 PyTorch"></a>4 PyTorch</h2><ul>
-<li><p><strong>1. 下载与安装</strong></p>
-<p><strong>避坑：务必在完成以上步骤后才进行。</strong></p>
-<p>网址：<a href="https://link.zhihu.com/?target=https%3A//pytorch.org/get-started/locally/">https://pytorch.org/get-started/locally/</a>，根据实际情况选择。</p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114119171.png" alt="image-20210521114119171"></p>
-<p>得到下载安装的命令：</p>
-<div class="code-wrapper"><pre><code class="hljs shell">conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch</code></pre></div>
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="code-wrapper"><pre><code class="hljs bash">$ hexo deploy</code></pre></div>
 
-<p>使用 cmd 进入了我们之前设置的环境 py37 后，输入以上命令，开始安装 pytorch，如下图：</p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/v2-58b3d7c11020aca95ab177253cf5d1b0_1440w.jpg" alt="img"></p>
-<p><strong>避坑：很多教程里说，去掉 -c pytorch 后，可以加速下载。可以加速没错，但下载的东西却不是我们要的 gpu 版本，而是 cpu 版本，这也是很多人照着教程做，最终都无法使用 gpu 的，却百思不得其解。</strong></p>
-</li>
-<li><p><strong>2. 测试</strong></p>
-<ul>
-<li><p>等待安装完成后，输入 ipython 进入 python，输入：</p>
-<div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch
-torch.cuda.is_available()</code></pre></div>
-
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/v2-6acee085f9449a931afaee3cdd36336a_1440w.jpg" alt="img"></p>
-</li>
-<li><p>显示 True 即表明启用了 pytorch 的 gpu，到此安装结束。</p>
-</li>
-<li><p>如果 torch.cuda.isavailable() 是 False，你可能需要看看前面哪个步骤不对。</p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="5-Pycharm"><a href="#5-Pycharm" class="headerlink" title="5 Pycharm"></a>5 Pycharm</h2><ul>
-<li><p>创建一个项目 PyTorchTest</p>
-</li>
-<li><p>打开设置 Ctrl + Alt + s</p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114808829.png" alt="image-20210521114808829"></p>
-</li>
-<li><p>引入 py37 </p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114859777.png" alt="image-20210521114859777"></p>
-</li>
-<li><p>切换环境为 py37</p>
-<p><img src="/2021/05/20/Win10%E6%90%AD%E5%BB%BAPyTorch%E7%8E%AF%E5%A2%83/image-20210521114957218.png" alt="image-20210521114957218"></p>
-</li>
-<li><p>重启 Pycharm</p>
-</li>
-</ul>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
       <categories>
         <category>Help</category>
-        <category>Win</category>
+        <category>Blog</category>
       </categories>
       <tags>
-        <tag>PyTorch</tag>
-        <tag>Win10</tag>
-        <tag>Deep learning</tag>
+        <tag>Hexo</tag>
+        <tag>Blog</tag>
       </tags>
   </entry>
   <entry>
@@ -5689,6 +5689,19 @@ source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
       </tags>
   </entry>
   <entry>
+    <title>我的第一篇博客文章</title>
+    <url>/2019/12/15/%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/</url>
+    <content><![CDATA[<p>“list” 是给这个结构体起的别名，</p>
+<span id="more"></span>
+<p>为了使用方便。</p>
+<p>其次，这个结构体中的date是数值域，next是指针域。</p>
+<p>在这里我使用了递归定义。</p>
+<!-- more -->]]></content>
+      <tags>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>常见的压缩文件压缩和解压缩</title>
     <url>/2021/04/23/%E5%B8%B8%E8%A7%81%E7%9A%84%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E5%92%8C%E8%A7%A3%E5%8E%8B%E7%BC%A9/</url>
     <content><![CDATA[<h2 id="常见的压缩文件压缩和解压缩"><a href="#常见的压缩文件压缩和解压缩" class="headerlink" title="常见的压缩文件压缩和解压缩"></a>常见的压缩文件压缩和解压缩</h2><table>
@@ -5766,19 +5779,6 @@ source [<span class="hljs-builtin-name">find</span> target/stm32f1x.cfg]
         <category>Help</category>
         <category>Linux</category>
       </categories>
-  </entry>
-  <entry>
-    <title>我的第一篇博客文章</title>
-    <url>/2019/12/15/%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/</url>
-    <content><![CDATA[<p>“list” 是给这个结构体起的别名，</p>
-<span id="more"></span>
-<p>为了使用方便。</p>
-<p>其次，这个结构体中的date是数值域，next是指针域。</p>
-<p>在这里我使用了递归定义。</p>
-<!-- more -->]]></content>
-      <tags>
-        <tag>博客</tag>
-      </tags>
   </entry>
   <entry>
     <title>虚拟机 Ubuntu 安装 Tensorflow</title>
@@ -41459,7 +41459,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <p>依次启动eureka7001/8001/80 - 80调用8001几次测试下</p>
 <p>打开浏览器访问: <a href="http://localhost:9411">http://localhost:9411</a></p>
 <p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/733ad2e18037059045ec80cb59d8d2a3.png" alt></p>
-<h2 id="9-Cloud-Alibaba简介"><a href="#9-Cloud-Alibaba简介" class="headerlink" title="9 Cloud Alibaba简介"></a>9 Cloud Alibaba简介</h2><h3 id="9-1-为什么会出现SpringCloud-alibaba"><a href="#9-1-为什么会出现SpringCloud-alibaba" class="headerlink" title="9.1 为什么会出现SpringCloud alibaba"></a>9.1 为什么会出现SpringCloud alibaba</h3><p>Spring Cloud Netflix项目进入维护模式</p>
+<h2 id="9-Cloud-Alibaba简介"><a href="#9-Cloud-Alibaba简介" class="headerlink" title="9 Cloud Alibaba简介"></a>9 Cloud Alibaba简介</h2><h3 id="9-1-为什么会出现-Spring-Cloud-Alibaba"><a href="#9-1-为什么会出现-Spring-Cloud-Alibaba" class="headerlink" title="9.1 为什么会出现 Spring Cloud Alibaba"></a>9.1 为什么会出现 Spring Cloud Alibaba</h3><p>Spring Cloud Netflix项目进入维护模式</p>
 <p><a href="https://spring.io/blog/2018/12/12/spring-cloud-greenwich-rc1-available-now">https://spring.io/blog/2018/12/12/spring-cloud-greenwich-rc1-available-now</a></p>
 <p>什么是维护模式？</p>
 <p>将模块置于维护模式，意味着Spring Cloud团队将不会再向模块添加新功能。</p>
@@ -41528,7 +41528,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </ul>
 </li>
 </ul>
-<h2 id="9-Nacos"><a href="#9-Nacos" class="headerlink" title="9 Nacos"></a>9 Nacos</h2><h3 id="9-1-Nacos简介和下载"><a href="#9-1-Nacos简介和下载" class="headerlink" title="9.1 Nacos简介和下载"></a>9.1 Nacos简介和下载</h3><p><strong>为什么叫Nacos</strong></p>
+<h2 id="10-Nacos"><a href="#10-Nacos" class="headerlink" title="10 Nacos"></a>10 Nacos</h2><h3 id="10-1-Nacos简介和下载"><a href="#10-1-Nacos简介和下载" class="headerlink" title="10.1 Nacos简介和下载"></a>10.1 Nacos简介和下载</h3><p><strong>为什么叫Nacos</strong></p>
 <ul>
 <li>前四个字母分别为Naming和Configuration的前两个字母，最后的s为Service。</li>
 </ul>
@@ -41584,7 +41584,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </tr>
 </tbody></table>
 <p>据说Nacos在阿里巴巴内部有超过10万的实例运行，已经过了类似双十一等各种大型流量的考验。</p>
-<h3 id="9-2-Nacos安装"><a href="#9-2-Nacos安装" class="headerlink" title="9.2 Nacos安装"></a>9.2 Nacos安装</h3><ul>
+<h3 id="10-2-Nacos安装"><a href="#10-2-Nacos安装" class="headerlink" title="10.2 Nacos安装"></a>10.2 Nacos安装</h3><ul>
 <li><p>本地Java8+Maven环境已经OK先</p>
 </li>
 <li><p>从<a href="https://github.com/alibaba/nacos/releases">官网</a>下载Nacos</p>
@@ -41598,7 +41598,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </li>
 </ul>
 <p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/image-20210608215624077.png" alt></p>
-<h3 id="9-3-Nacos之服务提供者注册"><a href="#9-3-Nacos之服务提供者注册" class="headerlink" title="9.3 Nacos之服务提供者注册"></a>9.3 Nacos之服务提供者注册</h3><p><a href="https://spring-cloud-alibaba-group.github.io/github-pages/greenwich/spring-cloud-alibaba.html#_spring_cloud_alibaba_nacos_discovery">官方文档</a></p>
+<h3 id="10-3-Nacos之服务提供者注册"><a href="#10-3-Nacos之服务提供者注册" class="headerlink" title="10.3 Nacos之服务提供者注册"></a>10.3 Nacos之服务提供者注册</h3><p><a href="https://spring-cloud-alibaba-group.github.io/github-pages/greenwich/spring-cloud-alibaba.html#_spring_cloud_alibaba_nacos_discovery">官方文档</a></p>
 <p>新建Module - cloudalibaba-provider-payment9001</p>
 <p>POM</p>
 <p>父POM</p>
@@ -41725,7 +41725,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <li>或者<strong>取巧</strong>不想新建重复体力劳动，可以利用IDEA功能，直接拷贝虚拟端口映射</li>
 </ul>
 <p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/2bef79cd8f72b8f23b815b49f4ba07ce.png" alt></p>
-<h3 id="9-4-Nacos之服务消费者注册和负载"><a href="#9-4-Nacos之服务消费者注册和负载" class="headerlink" title="9.4 Nacos之服务消费者注册和负载"></a>9.4 Nacos之服务消费者注册和负载</h3><p>新建Module - cloudalibaba-consumer-nacos-order83</p>
+<h3 id="10-4-Nacos之服务消费者注册和负载"><a href="#10-4-Nacos之服务消费者注册和负载" class="headerlink" title="10.4 Nacos之服务消费者注册和负载"></a>10.4 Nacos之服务消费者注册和负载</h3><p>新建Module - cloudalibaba-consumer-nacos-order83</p>
 <p>POM</p>
 <div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span>
@@ -41869,7 +41869,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </ul>
 </li>
 </ul>
-<h3 id="9-5-Nacos服务注册中心对比提升"><a href="#9-5-Nacos服务注册中心对比提升" class="headerlink" title="9.5 Nacos服务注册中心对比提升"></a>9.5 Nacos服务注册中心对比提升</h3><p><strong>Nacos全景图</strong></p>
+<h3 id="10-5-Nacos服务注册中心对比提升"><a href="#10-5-Nacos服务注册中心对比提升" class="headerlink" title="10.5 Nacos服务注册中心对比提升"></a>10.5 Nacos服务注册中心对比提升</h3><p><strong>Nacos全景图</strong></p>
 <p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/a9c35ea022a95aa76bfec990d6b73d8a.png" alt></p>
 <p><strong>Nacos和CAP</strong></p>
 <p>Nacos与其他注册中心特性对比</p>
@@ -41883,7 +41883,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <p>如果需要在服务级别编辑或者存储配置信息，那么CP是必须，K8S服务和DNS服务则适用于CP模式。CP模式下则支持注册持久化实例，此时则是以Raft协议为集群运行模式，该模式下注册实例之前必须先注册服务，如果服务不存在，则会返回错误。</p>
 <p>切换命令：</p>
 <p>curl -X PUT ‘$NACOS_SERVER:8848/nacos/v1/ns/operator/switches?entry=serverMode&amp;value=CP</p>
-<h3 id="9-6-Nacos之服务配置中心"><a href="#9-6-Nacos之服务配置中心" class="headerlink" title="9.6 Nacos之服务配置中心"></a>9.6 Nacos之服务配置中心</h3><p>基础配置</p>
+<h3 id="10-6-Nacos之服务配置中心"><a href="#10-6-Nacos之服务配置中心" class="headerlink" title="10.6 Nacos之服务配置中心"></a>10.6 Nacos之服务配置中心</h3><p>基础配置</p>
 <p>cloudalibaba-config-nacos-client3377</p>
 <p>POM</p>
 <div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
@@ -42037,7 +42037,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </ul>
 <p><strong>自带动态刷新</strong></p>
 <p>修改下Nacos中的yaml配置文件，再次调用查看配置的接口，就会发现配置已经刷新。</p>
-<h3 id="9-7-Nacos之命名空间分组和DataID三者关系"><a href="#9-7-Nacos之命名空间分组和DataID三者关系" class="headerlink" title="9.7 Nacos之命名空间分组和DataID三者关系"></a>9.7 Nacos之命名空间分组和DataID三者关系</h3><p><strong>问题 - 多环境多项目管理</strong></p>
+<h3 id="10-7-Nacos之命名空间分组和DataID三者关系"><a href="#10-7-Nacos之命名空间分组和DataID三者关系" class="headerlink" title="10.7 Nacos之命名空间分组和DataID三者关系"></a>10.7 Nacos之命名空间分组和DataID三者关系</h3><p><strong>问题 - 多环境多项目管理</strong></p>
 <p>问题1:</p>
 <p>实际开发中，通常一个系统会准备</p>
 <ol>
@@ -42073,7 +42073,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </li>
 <li>最后是Instance，就是微服务的实例。</li>
 </ul>
-<h3 id="9-8-Nacos之DataID配置"><a href="#9-8-Nacos之DataID配置" class="headerlink" title="9.8 Nacos之DataID配置"></a>9.8 Nacos之DataID配置</h3><p>指定spring.profile.active和配置文件的DatalD来使不同环境下读取不同的配置</p>
+<h3 id="10-8-Nacos之DataID配置"><a href="#10-8-Nacos之DataID配置" class="headerlink" title="10.8 Nacos之DataID配置"></a>10.8 Nacos之DataID配置</h3><p>指定spring.profile.active和配置文件的DatalD来使不同环境下读取不同的配置</p>
 <p>默认空间+默认分组+新建dev和test两个DatalD</p>
 <ul>
 <li><p>新建dev配置DatalD</p>
@@ -42090,14 +42090,14 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <li><a href="http://localhost:3377/config/info">http://localhost:3377/config/info</a></li>
 <li>配置是什么就加载什么 test/dev</li>
 </ul>
-<h3 id="9-9-Nacos之Group分组方案"><a href="#9-9-Nacos之Group分组方案" class="headerlink" title="9.9 Nacos之Group分组方案"></a>9.9 Nacos之Group分组方案</h3><p>通过Group实现环境区分 - 新建Group</p>
+<h3 id="10-9-Nacos之Group分组方案"><a href="#10-9-Nacos之Group分组方案" class="headerlink" title="10.9 Nacos之Group分组方案"></a>10.9 Nacos之Group分组方案</h3><p>通过Group实现环境区分 - 新建Group</p>
 <p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/bdf592aa566fe50f7f454118a70ca03c.png" alt></p>
 <p>在nacos图形界面控制台上面新建配置文件DatalD</p>
 <p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/28aee2b45901bbb9a6776d5c4398a6bb.png" alt></p>
 <p>bootstrap+application</p>
 <p>在config下增加一条group的配置即可。可配置为DEV_GROUP或TEST GROUP</p>
 <p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/342a167a8bd948d8ba5cbfd760cf66a6.png" alt></p>
-<h3 id="9-8-Nacos之Namespace空间方案"><a href="#9-8-Nacos之Namespace空间方案" class="headerlink" title="9.8 Nacos之Namespace空间方案"></a>9.8 Nacos之Namespace空间方案</h3><p>新建dev/test的Namespace</p>
+<h3 id="10-10-Nacos之Namespace空间方案"><a href="#10-10-Nacos之Namespace空间方案" class="headerlink" title="10.10 Nacos之Namespace空间方案"></a>10.10 Nacos之Namespace空间方案</h3><p>新建dev/test的Namespace</p>
 <p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/a10c71978c75c214aca5fa7057bb2834.png" alt></p>
 <p>回到服务管理-服务列表查看</p>
 <p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/2a9f3fa415f5cead0219d404a47131a0.png" alt></p>
@@ -42127,7 +42127,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 
 <span class="hljs-comment"># nacos-config-client-test.yaml   ----&gt; config.info</span></code></pre></div>
 
-<h3 id="9-9-Nacos集群-架构说明"><a href="#9-9-Nacos集群-架构说明" class="headerlink" title="9.9 Nacos集群_架构说明"></a>9.9 Nacos集群_架构说明</h3><blockquote>
+<h3 id="10-11-Nacos集群-架构说明"><a href="#10-11-Nacos集群-架构说明" class="headerlink" title="10.11 Nacos集群_架构说明"></a>10.11 Nacos集群_架构说明</h3><blockquote>
 <p>  <a href="https://nacos.io/zh-cn/docs/cluster-mode-quick-start.html">官方文档</a></p>
 <p>  <strong>官网架构图</strong></p>
 <p>  集群部署架构图</p>
@@ -42170,7 +42170,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 </li>
 </ol>
 </blockquote>
-<h3 id="9-10-Nacos持久化切换配置"><a href="#9-10-Nacos持久化切换配置" class="headerlink" title="9.10 Nacos持久化切换配置"></a>9.10 Nacos持久化切换配置</h3><p>Nacos默认自带的是嵌入式数据库derby，<a href="https://blog.csdn.net/u011863024/article/details/github.com/alibaba/nacos/blob/develop/config/pom.xml">nacos的pom.xml</a>中可以看出。</p>
+<h3 id="10-12-Nacos持久化切换配置"><a href="#10-12-Nacos持久化切换配置" class="headerlink" title="10.12 Nacos持久化切换配置"></a>10.12 Nacos持久化切换配置</h3><p>Nacos默认自带的是嵌入式数据库derby，<a href="https://blog.csdn.net/u011863024/article/details/github.com/alibaba/nacos/blob/develop/config/pom.xml">nacos的pom.xml</a>中可以看出。</p>
 <p>derby到mysql切换配置步骤：</p>
 <ol>
 <li>nacos-server-1.1.4\nacos\conf录下找到nacos-mysql.sql文件，执行脚本。</li>
@@ -42188,7 +42188,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <span class="hljs-meta">db.password.0</span>=<span class="hljs-string">root</span></code></pre></div>
 
 <p>启动Nacos，可以看到是个全新的空记录界面，以前是记录进derby。</p>
-<h3 id="9-11-Nacos之Linux版本安装"><a href="#9-11-Nacos之Linux版本安装" class="headerlink" title="9.11 Nacos之Linux版本安装"></a>9.11 Nacos之Linux版本安装</h3><p>预计需要，1个Nginx+3个nacos注册中心+1个mysql</p>
+<h3 id="10-13-Nacos之Linux版本安装"><a href="#10-13-Nacos之Linux版本安装" class="headerlink" title="10.13 Nacos之Linux版本安装"></a>10.13 Nacos之Linux版本安装</h3><p>预计需要，1个Nginx+3个nacos注册中心+1个mysql</p>
 <blockquote>
 <p>  请确保是在环境中安装使用:</p>
 <ol>
@@ -42206,7 +42206,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <p>Nacos下载Linux版</p>
 <p><a href="https://github.com/alibaba/nacos/releases/tag/1.1.4">https://github.com/alibaba/nacos/releases/tag/1.1.4</a></p>
 <p>nacos-server-1.1.4.tar.gz 解压后安装</p>
-<h3 id="9-12-Nacos集群配置-上"><a href="#9-12-Nacos集群配置-上" class="headerlink" title="9.12 Nacos集群配置(上)"></a>9.12 Nacos集群配置(上)</h3><p>集群配置步骤(重点)</p>
+<h3 id="10-14-Nacos集群配置-上"><a href="#10-14-Nacos集群配置-上" class="headerlink" title="10.14 Nacos集群配置(上)"></a>10.14 Nacos集群配置(上)</h3><p>集群配置步骤(重点)</p>
 <p><strong>1.Linux服务器上mysql数据库配置</strong></p>
 <p>SQL脚本在哪里 - 目录nacos/conf/nacos-mysql.sql</p>
 <p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/e845f90f1003384a9db91bc34dfdd248.png" alt></p>
@@ -42248,7 +42248,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/9a3b1d043e5d55236216a46f296e8606.png" alt></p>
 <p>执行方式 - <code>startup.sh - p 端口号</code></p>
 <p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/c68aec0dbcc1ed3d61b7e482718f9270.png" alt></p>
-<h3 id="9-13-Nacos集群配置-下"><a href="#9-13-Nacos集群配置-下" class="headerlink" title="9.13 Nacos集群配置(下)"></a>9.13 Nacos集群配置(下)</h3><p><strong>5.Nginx的配置，由它作为负载均衡器</strong></p>
+<h3 id="10-15-Nacos集群配置-下"><a href="#10-15-Nacos集群配置-下" class="headerlink" title="10.15 Nacos集群配置(下)"></a>10.15 Nacos集群配置(下)</h3><p><strong>5.Nginx的配置，由它作为负载均衡器</strong></p>
 <p>修改nginx的配置文件 - nginx.conf</p>
 <p><img src="/2021/04/04/SpringCloud%E5%AD%A6%E4%B9%A0/700b800ca2e5a3dc01d0312cbeacda38.png" alt></p>
 <p>修改内容</p>
