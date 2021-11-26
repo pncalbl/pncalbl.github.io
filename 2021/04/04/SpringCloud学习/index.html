@@ -235,7 +235,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 分钟前
+                  本文最后更新于：3 天前
                 
               </p>
             
@@ -5401,7 +5401,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 <h3 id="11-17-SentinelResource配置-上"><a href="#11-17-SentinelResource配置-上" class="headerlink" title="11.17 SentinelResource配置(上)"></a>11.17 SentinelResource配置(上)</h3><p><em>按资源名称限流 + 后续处理</em></p>
 <p><strong>启动Nacos成功</strong></p>
 <p><strong>启动Sentinel成功</strong></p>
-<p><strong>Module - cloudalibaba-sentinel-service8401**</strong>配置流控规则**</p>
+<p><strong>Module - cloudalibaba-sentinel-service8401配置流控规则</strong></p>
 <p>配置步骤</p>
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.alibaba.csp.sentinel.annotation.SentinelResource;
 <span class="hljs-keyword">import</span> com.alibaba.csp.sentinel.slots.block.BlockException;
@@ -5436,7 +5436,7 @@ curl http://localhost:9527/payment/lb -H &quot;X-Request-Id:123&quot;</code></pr
 
 <p><strong>额外问题</strong></p>
 <p>此时关闭问服务8401 -&gt; Sentinel控制台，流控规则消失了</p>
-<p><em>按照Url地址限流 + 后续处理</em></p>
+<p><strong>按照Url地址限流 + 后续处理</strong></p>
 <p><strong>通过访问的URL来限流，会返回Sentinel自带默认的限流处理信息</strong></p>
 <p><strong>业务类RateLimitController</strong></p>
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span>
